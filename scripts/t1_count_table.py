@@ -52,7 +52,7 @@ def csv_member(archive: zipfile.ZipFile) -> str:
 def box_name_of_row(row: dict[str, str]) -> str:
     try:
         box = box_of(float(row["decimalLatitude"]), float(row["decimalLongitude"]))
-    except KeyError, ValueError:
+    except (KeyError, ValueError):
         return "unknown"
     return box.name if box is not None else "outside"
 

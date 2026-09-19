@@ -102,8 +102,9 @@ def submit_download_request(
     url: str = DOWNLOAD_REQUEST_URL,
     opener: Callable = urlopen,
 ) -> str:
-    """POST the request with HTTP basic auth and return GBIF's download key. Not run in T1: no
-    credentials existed on the machine (T1 completion report, "Owner items")."""
+    """POST the request with HTTP basic auth and return GBIF's download key. First run against
+    the real endpoint on 2026-09-19 UTC, returning key 0005709-260916113435855 on the first
+    call (T1 credentialed run report); before that, no credentials existed on the machine."""
     body = json.dumps(build_download_request(credentials, predicate)).encode("utf-8")
     token = base64.b64encode(f"{credentials.user}:{credentials.password}".encode()).decode()
     request = Request(
