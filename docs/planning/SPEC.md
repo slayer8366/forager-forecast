@@ -47,6 +47,10 @@ An implementer must not revisit these without a new row in DECISIONS.md.
   not match.
 - Tiles stop at zoom 9. At 45 N that is about 216 m per pixel, which matches 250 m cells.
 - Groups are modelled at genus level and the species name is stored. Names do not hold continent-wide.
+- Every Open-Meteo archive request also pins the two cell-keeping parameters named in the T1 report (D25). Bulk weather for training comes from the Copernicus Climate Data Store, which is the same ERA5-Land and ERA5 product by a second route. An equivalence test against Open-Meteo requests pinned per D19 and D25 must match within rounding before any model is fit, and a paid Open-Meteo plan is the fallback (D24).
+- Every duplicate key includes taxon, meaning the record's accepted GBIF taxon key at whatever rank it was identified (D27). The observer-duplicate key is taxon, observer, cell, day, for audit counts. The event key is taxon, cell, day, for modelling tables. Reports give both counts.
+- T1's evaluation is fixed before any fit (D33). All years train. The headline is one Brier skill per box, pooled over every held-out cell-week from all leave-one-year-out folds, with the bootstrap clustered by cell. A per-fold table sits beside it, and any fold with fewer than 30 positive cell-weeks is marked uninformative. One sensitivity run uses a 5,000 m coordinate-uncertainty limit, and the 1,000 m run stays the headline. If the Pacific Northwest interval includes zero, the verdict there is "not shown".
+- The production seed is 20260918 for every real draw. The tuning budget is 20 random configurations from a grid written into the repo first, the same for the calendar model and the full model, chosen by inner leave-one-year-out Brier score on training years only (D31).
 
 ## Requirements
 
@@ -79,6 +83,8 @@ An implementer must not revisit these without a new row in DECISIONS.md.
   counts and spot checks only.
 - No statistics are computed in tile space, because Mercator inflates northern cells.
 - This plan does not touch the Cloudflare setup.
+- A layer whose licence is not stated at source is blocked from use. POLARIS and BIGMAP are in that state (D31).
+- Licence gate (D29): before any record is used, the download's dataset list, with each dataset's licence and record count, and the by-licence counts table are filed next to each DOI, and the Data register's GBIF row points at them. The primary analysis uses all licences. A secondary analysis on CC0 and CC BY records only is reported beside it. Both are fixed in advance and neither is dropped after results are seen. Nothing derived from CC BY-NC records is published or shipped until the owner rules on commercial use (D22).
 
 ## Acceptance
 
@@ -99,6 +105,9 @@ Phase 1 is done when all four hold.
   chanterelle and jack-o'-lantern are the likely contaminants.
 - Whether 11 km weather carries enough signal in the Cascades, where a valley and a ridge share one cell.
 - No codebase has been read by the author.
+- Update 2026-09-18: T3 checked MTBS, NBAC, NALCMS, USGS 3DEP, POLARIS, CEC ecoregions and the ESRI:102008 parameters at source. DATA_REGISTER.md carries the results.
+- Update 2026-09-18: radar blockage in the mountain West is covered in the T3 report (docs/audits/2026-09-18-t3-verify-data-layers-completion-report.md).
+- Update 2026-09-18: this repository is the codebase. The line above was written before it existed.
 
 ## Open questions
 
@@ -107,3 +116,4 @@ Phase 1 is done when all four hold.
 - Is the tool commercial? The answer decides FABDEM and the terms of the Open-Meteo free tier, which is
   for non-commercial use.
 - Who supplies true absences, and when does find logging enter scope?
+- Update 2026-09-18 on the commercial question: it also decides whether anything derived from CC BY-NC GBIF records can ship (D29). Bulk training weather no longer hangs on it, since the Copernicus route is CC BY 4.0 (D24). Serving weather still does, because D19 serves from Open-Meteo.
