@@ -17,3 +17,4 @@ the session log in docs/planning/START_HERE.md. Append a row. Never rewrite the 
 | 2026-09-18 | T0 completion report: the planning pack landed on the zynergy-site branch and was checked on a Pages preview; what T0 left undone and why | `2026-09-18-t0-planning-pack-landing-report.md` |
 | 2026-09-18 | Pulse answer: what the Forager repo is and whether it could host the forecast model work, eight questions answered with file-and-line evidence against Forager main 175b050 | `2026-09-18-forager-repo-pulse.md` |
 | 2026-09-18 | Dispatch T0b: bootstrap the dedicated forecast repo, as received | `../dispatch/2026-09-18-t0b-forecast-repo-bootstrap.md` |
+| 2026-09-18 | T0b completion report: the dedicated repo bootstrapped, with sha256, guard, CI and live-check evidence; findings for the owner: GDAL bindings under pip, no precipitation under models=era5_land, D14 to D18 missing from DECISIONS.md | `2026-09-18-t0b-completion-report.md` |
