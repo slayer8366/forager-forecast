@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Runs before every commit once a clone has run:  git config core.hooksPath .githooks
+# Refuses the commit when a staged file is over 1 MB. CI runs the same script with --all.
+exec "$(git rev-parse --show-toplevel)/scripts/check-large-files.sh" --staged

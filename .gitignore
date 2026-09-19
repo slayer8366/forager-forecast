@@ -1,0 +1,86 @@
+# Data never enters this repository (T0b, docs/dispatch/2026-09-18-t0b-forecast-repo-bootstrap.md,
+# and the pack's rule "Docs hold decisions and pointers, never bulk data. Data stays out of git").
+# The guard in scripts/check-large-files.sh is the backstop for anything this file misses.
+
+# Data, downloads, caches, models, tiles: whole folders
+data/
+downloads/
+cache/
+.cache/
+models/
+tiles/
+outbox/          # the nightly job's output folder named in docs/planning/TASKS.md, T10
+
+# Raster, tile, weather and columnar formats, wherever they land
+*.pmtiles
+*.mbtiles
+*.tif
+*.tiff
+*.vrt
+*.nc
+*.grib
+*.grib2
+*.h5
+*.hdf5
+*.zarr/
+*.parquet
+*.feather
+*.gpkg
+*.shp
+*.shx
+*.dbf
+*.prj
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+
+# Model artifacts
+*.pkl
+*.pickle
+*.joblib
+*.onnx
+*.pt
+*.ubj
+
+# Outputs the pack's own count scripts write into the working directory. The kept copy is
+# docs/planning/evidence/inat_counts_2026-09-18.json.
+/ids.json
+/counts.json
+
+# Python: environments, bytecode, tool caches, build output
+.venv/
+venv/
+env/
+.pixi/
+.conda/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+dist/
+build/
+
+# Notebooks: checkpoints only. A notebook itself is a decision to make on its own.
+.ipynb_checkpoints/
+
+# Secrets and local configuration
+.env
+.env.*
+*.pem
+*.key
+*.token
+secrets/
+credentials*.json
+
+# Editors, OS, agent session state
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+.claude/
+*.log
