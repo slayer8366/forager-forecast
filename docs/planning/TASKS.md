@@ -10,7 +10,7 @@ T1 reports.
 | T0b. Bootstrap the dedicated forecast repo | Done 2026-09-18, report in docs/audits/2026-09-18-t0b-completion-report.md | docs/dispatch/2026-09-18-t0b-forecast-repo-bootstrap.md |
 | T1. Calendar smoke test | Not started | docs/dispatch/2026-09-18-t1-calendar-smoke-test.md |
 | T2. Record audit | Not started | docs/dispatch/2026-09-18-t2-record-audit.md |
-| T3. Verify from-memory layers | Not started | docs/dispatch/2026-09-18-t3-verify-data-layers.md |
+| T3. Verify from-memory layers | Done 2026-09-18, report in docs/audits/2026-09-18-t3-verify-data-layers-completion-report.md | docs/dispatch/2026-09-18-t3-verify-data-layers.md |
 | T4 to T11 | Not started | Not written yet |
 
 **T0. Repo bootstrap**
