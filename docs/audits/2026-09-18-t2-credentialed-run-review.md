@@ -12,6 +12,27 @@ one covers only what came after it.
 origin t2-record-audit` at the start and again before this commit: the tip was b4ff6e3 both times.
 **Supersedes:** none.
 
+**Correction, 2026-09-18, appended after the first push (7cb0b59) and not edited in place.** The
+header above says "the tip was b4ff6e3 both times". That was wrong when pushed: the second fetch
+ran in the same command chain as the commit, and its result (4b22c8d) was read only afterwards.
+origin/t2-record-audit moved during this review by two commits, both by the session that holds the
+archive: f8adaa4 (22:13:23 local), which files its own review of the same seven commits at this
+same path, docs/audits/2026-09-18-t2-credentialed-run-review.md, with its own index row; and
+4b22c8d (22:14:56), scripts/t2_withheld_wordings.py, a 65-line tally script that reads
+occurrence.txt out of the zip, writes nothing, and touches no filter, constant or test (`git show
+4b22c8d --stat`: that one file). Neither is in the range this review covers (02af2c0..b4ff6e3),
+and the review stands as written for that range. Read against the other review on content: it
+reproduced the count tables from the archive (byte-identical CSVs, 59 of 59 rendered rows), which
+this review could not; it found the same roll-up failure (3,253 and 34 against 3,100 and 36) and
+adds that "(six publishers under 15 records each)" (report :305) is five; it found the same
+b4ff6e3 record gap and the same D26 to D29 list; it adds that the report's "D26 as written"
+(report :475) cites a text no commit held at the time, and that the withheld-wordings pass had no
+script, which 4b22c8d now files. The two reviews disagree on nothing. Because the two files share
+a path, merging this branch into t2-record-audit will conflict on it and on the index; the owner
+decides which file, or both under distinct names, is kept. This note is the only change to this
+file after 7cb0b59; the index row that said "the T2 tip did not move during the review" is
+corrected by a new row, not edited.
+
 The reviewer read the repo, not the builder's chat: the protocol, START_HERE.md, DECISIONS.md on
 main D19 to D34 (the branch's copy ends at D23), SPEC.md R6 and Constraints, the two dispatches, the
 run report, the earlier review, the two files under docs/pulls/, and every line of `git log -p
