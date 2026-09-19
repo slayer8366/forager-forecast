@@ -1,0 +1,51 @@
+name: CI
+
+# Lint and tests only. Nothing here downloads data, and nothing here may start to: the pipeline's
+# data pulls belong to their own tasks, off CI (T0b, docs/dispatch/2026-09-18-t0b-forecast-repo-bootstrap.md).
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  check:
+    name: Large-file guard, lint, tests
+    # Runner image and every action pinned to a fixed version or commit, so a change of
+    # toolchain is a change somebody chose (same rule as the Forager repo's ci.yml).
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Refuse any tracked file over 1 MB
+        # The same script the pre-commit hook runs, over the whole tree, so a commit made with
+        # --no-verify or from a clone without core.hooksPath is still caught here.
+        run: ./scripts/check-large-files.sh --all
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+        with:
+          version: "0.12.17"
+
+      - name: Install the pinned Python and the locked environment
+        # --locked fails if uv.lock does not match pyproject.toml, rather than re-resolving.
+        run: uv sync --locked --all-groups
+
+      - name: Lint
+        run: uv run ruff check .
+
+      - name: Format check
+        run: uv run ruff format --check .
+
+      - name: Tests
+        run: uv run pytest -q

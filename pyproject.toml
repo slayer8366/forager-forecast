@@ -1,0 +1,40 @@
+[project]
+name = "forager-forecast"
+version = "0.0.1"
+description = "Mushroom fruiting forecast: sighting chance per forager group, weather cell and week. Start at docs/planning/START_HERE.md."
+readme = "README.md"
+# Pinned to one minor. 3.14.4 is the interpreter on the machine T0b ran on, and rasterio 1.5.1 and
+# pyproj 3.8.0 were shown to install and import on it from wheels (T0b report). uv installs a
+# matching interpreter in CI from .python-version.
+requires-python = "==3.14.*"
+# Exact pins on purpose (CLAUDE.md in the Forager repo: pin versions so a build is reproducible).
+# uv.lock pins everything transitive. The GDAL Python bindings (package "GDAL") are not listed:
+# they need the system GDAL library and headers and did not build on the T0b machine. rasterio
+# bundles GDAL 3.12.4 in its wheel, which is what these two provide today.
+dependencies = [
+    "rasterio==1.5.1",
+    "pyproj==3.8.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==9.1.1",
+    "ruff==0.16.8",
+]
+
+[build-system]
+requires = ["uv_build==0.12.17"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py314"
+# The pack's two count scripts are part of the exported record and stay as exported (T0:
+# "commit the planning pack with its content unchanged"). They are not linted or formatted.
+exclude = ["scripts/inat_counts.py", "scripts/inat_taxon_ids.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
