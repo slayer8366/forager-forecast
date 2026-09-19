@@ -51,6 +51,10 @@ An implementer must not revisit these without a new row in DECISIONS.md.
 - Every duplicate key includes taxon, meaning the record's accepted GBIF taxon key at whatever rank it was identified (D27). The observer-duplicate key is taxon, observer, cell, day, for audit counts. The event key is taxon, cell, day, for modelling tables. Reports give both counts.
 - T1's evaluation is fixed before any fit (D33). All years train. The headline is one Brier skill per box, pooled over every held-out cell-week from all leave-one-year-out folds, with the bootstrap clustered by cell. A per-fold table sits beside it, and any fold with fewer than 30 positive cell-weeks is marked uninformative. One sensitivity run uses a 5,000 m coordinate-uncertainty limit, and the 1,000 m run stays the headline. If the Pacific Northwest interval includes zero, the verdict there is "not shown".
 - The production seed is 20260918 for every real draw. The tuning budget is 20 random configurations from a grid written into the repo first, the same for the calendar model and the full model, chosen by inner leave-one-year-out Brier score on training years only (D31).
+- Update 2026-09-19 to the weather bullet above: the product is Open-Meteo's archive with
+  models=era5_seamless pinned by name in every request, for training and for serving. Temperature and
+  soil variables come from ERA5-Land at 0.1 degree and precipitation from ERA5 at 0.25 degree. The
+  endpoint default is never used (D19, accepted in D21).
 
 ## Requirements
 
@@ -108,6 +112,9 @@ Phase 1 is done when all four hold.
 - Update 2026-09-18: T3 checked MTBS, NBAC, NALCMS, USGS 3DEP, POLARIS, CEC ecoregions and the ESRI:102008 parameters at source. DATA_REGISTER.md carries the results.
 - Update 2026-09-18: radar blockage in the mountain West is covered in the T3 report (docs/audits/2026-09-18-t3-verify-data-layers-completion-report.md).
 - Update 2026-09-18: this repository is the codebase. The line above was written before it existed.
+- Correction 2026-09-19 to the radar bullet above: "covered" overstates it. The T3 report addresses radar
+  blockage at lines 92 to 96, and its Cascades-specific evaluation was found by title only, so that part
+  stays unverified.
 
 ## Open questions
 
@@ -117,3 +124,13 @@ Phase 1 is done when all four hold.
   for non-commercial use.
 - Who supplies true absences, and when does find logging enter scope?
 - Update 2026-09-18 on the commercial question: it also decides whether anything derived from CC BY-NC GBIF records can ship (D29). Bulk training weather no longer hangs on it, since the Copernicus route is CC BY 4.0 (D24). Serving weather still does, because D19 serves from Open-Meteo.
+- Correction 2026-09-19 to the bullet above that reads "the Copernicus route is CC BY 4.0 (D24)": D24
+  does not establish that. It records the licence from memory and lists "licence at source" under verify
+  first. The citation was wrong. What the source check found, in cds-credentials-report.md of 2026-09-19:
+  the Licence field reads "CC-BY licence" on all four dataset entries, naming no version, and the
+  licence pop-up on reanalysis-era5-land links to the CC BY 4.0 legal code and its SPDX identifier. So
+  4.0 is observed on ERA5-Land and inferred for reanalysis-era5-single-levels,
+  derived-era5-land-daily-statistics and derived-era5-single-levels-daily-statistics, which carry the
+  same label. CC-BY is accepted on all four. Attribution is required in anything that ships, and the
+  wording under "Citation and attribution" on each dataset page has not been copied yet. This repo still
+  holds no register row for the store.
