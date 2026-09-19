@@ -77,3 +77,21 @@ None from the dispatch. Item A was skipped because step 3 found the Alaska line,
 - The zynergy-site repository.
 
 Conventions: index rows at README.md lines 19, 21, 23 and 24 and the commit shapes bbd6dba, 0f860c2, d9b69fe and 8437497 were read; the form found was dispatch-as-received with a `cmp` check and a `../dispatch/` index row, report with a Date, Type, Base, Supersedes header; both were followed.
+
+## Amendment 1 (version 2), applied 2026-09-19
+
+**Base for this section:** branch spec-sync-d24-d34 at bc7e8bf, main 0931757, review at 7836465 on spec-sync-d24-d34-review; fetched 2026-09-19T07:59:05Z, none of the three had moved. Commit 08a20c0 carries the dispatch-file append and the SPEC.md bullets; this section and its index row follow in the next commit.
+
+**Filing.** The amendment (version 2; version 1 was never filed) is appended to docs/dispatch/2026-09-18-spec-sync-d24-d34.md as a blockquote after the original text, the form the T1 amendments used (docs/dispatch/2026-09-18-t1-calendar-smoke-test.md lines 95 and 103). Stripping the quote prefix from the appended block reproduces the upload byte for byte (`diff` exit 0, observed).
+
+**Verify first, as answered.**
+1. T3 report lines 92 to 96 at 0931757, read: "Radar coverage gaps in the mountain West. NOAA 2019, 'Study: Gaps in NEXRAD Radar Coverage', https://repository.library.noaa.gov/view/noaa/25911/noaa_25911_DS1.pdf. Verified. Figure B.1 maps coverage at 4, 6 and 10 kft AGL: 'most of the radar coverage gaps are in the intermountain western US'; Appendix K: 'both central and coastal Oregon have limited to no radar coverage below 10,000 ft AGL'." In one line: T3 opened the NOAA 2019 study and quoted it; the Cascades-specific evaluation (lines 144 to 148) names McRoberts and Nielsen-Gammon 2017 as applied to the central and eastern US only and Kucera et al. 2005 as "found by title and not opened". The reviewer's reading holds, so the Unverified bullet was added.
+2. SPEC.md at bc7e8bf, read: lines 40 to 41 are the ERA5-Land weather bullet with no product name and no D19 or D21; line 119 is the Open questions bullet containing "the Copernicus route is CC BY 4.0 (D24)". Both read as the review describes.
+
+**What landed in SPEC.md** (commit 08a20c0): three bullets, 17 lines added, 0 deleted (`git diff --numstat bc7e8bf 08a20c0 -- docs/planning/SPEC.md`, observed). Placement, by first line: Decisions bullet at line 54 (after the D31 seed bullet), Unverified bullet at line 115 (after the codebase update), Open questions bullet at line 127 (after the CC BY 4.0 bullet it corrects). Every added line equals the amendment's lines 41 to 44, 59 to 61 and 47 to 56 (`diff` on the added lines, content identical, observed). Removing the 17 added lines gives a file byte-identical to bc7e8bf (observed). No em dashes added. Line 119 and the radar bullet were not edited or deleted; each correction sits beneath its target.
+
+**Not done, per the amendment's scope:** no register row for the Copernicus store; the precipitation accumulation convention and UTC day boundaries under D24 stay open; the equivalence test stays open and remains a gate before any fit.
+
+**Not checked:** cds-credentials-report.md, which the amendment quotes and which is outside this repository; the store's licence at source; CI on the branch.
+
+The reviewer re-checks the drift item only, as the amendment asks.
