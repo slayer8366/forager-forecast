@@ -6,7 +6,8 @@ T1 reports.
 
 | Task | Status | Dispatch |
 | --- | --- | --- |
-| T0. Repo bootstrap | Partly done 2026-09-18, see the START_HERE.md session log | docs/dispatch/2026-09-18-t0-repo-bootstrap.md |
+| T0. Repo bootstrap | Superseded by T0b on 2026-09-18. What T0 landed stands, see the START_HERE.md session log | docs/dispatch/2026-09-18-t0-repo-bootstrap.md |
+| T0b. Bootstrap the dedicated forecast repo | Done 2026-09-18, report in docs/audits/2026-09-18-t0b-completion-report.md | docs/dispatch/2026-09-18-t0b-forecast-repo-bootstrap.md |
 | T1. Calendar smoke test | Not started | docs/dispatch/2026-09-18-t1-calendar-smoke-test.md |
 | T2. Record audit | Not started | docs/dispatch/2026-09-18-t2-record-audit.md |
 | T3. Verify from-memory layers | Not started | docs/dispatch/2026-09-18-t3-verify-data-layers.md |
@@ -16,6 +17,12 @@ T1 reports.
 - Depends on: none
 - Does: report the repo's state and conventions, commit this pack to match them, propose a minimal project layout. Builds nothing else.
 - Verify: commit hash, tree listing, a conventions line.
+- Device-only: no
+
+**T0b. Bootstrap the dedicated forecast repo**
+- Depends on: T0 (what it landed)
+- Does: stand up the private repo forager-forecast, copy the pack in unchanged, add docs/audits, .gitignore, a 1 MB large-file guard, the Python skeleton with lint-and-test CI, and the two verify scripts copied from Forager with the four T1 variables checked.
+- Verify: commit hashes, tree listing, sha256 result, the guard failing then passing, the CI run, the verify-script output.
 - Device-only: no
 
 **T1. Calendar smoke test for chanterelles**

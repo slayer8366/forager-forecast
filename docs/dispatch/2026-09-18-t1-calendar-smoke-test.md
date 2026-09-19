@@ -91,3 +91,11 @@ next question.
 ## Device-only
 
 None.
+
+> Amendment, 2026-09-18. Adds to "Verify first" item 2 and changes nothing else. Forager already has
+> live checks for the Open-Meteo archive with backoff on 429 and for iNaturalist access (copied into
+> scripts/ from Forager at 175b050). Start from those. Known from the Forager pulse: the app's archive
+> client requests daily precipitation only, so soil variables on the archive endpoint are still
+> unconfirmed until T0b reports. Forager's rule-of-thumb lag window is 7 to 21 days
+> (domain/FruitingPatternAssumptions.kt:54). T1's fixed window list already spans it. In the report,
+> say whether the top weather features fall inside or outside 7 to 21 days. Do not change the window list.

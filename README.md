@@ -28,3 +28,17 @@ Reference: `DATA_REGISTER.md`, `EVIDENCE.md`, `RESEARCH_LOG.md`, `IDEAS.md`, and
   See Fixed terms.
 - Flag every fact as verified, abstract only, or from memory. Do not upgrade an assumption to a fact.
 - State plainly what you did not check.
+
+## What else is in this repo, since T0b (2026-09-18)
+
+- `docs/audits/` holds dated reports, pulse answers and rulings, indexed in `docs/audits/README.md`.
+  A later entry supersedes an earlier one. Rows are appended, never edited.
+- `docs/dispatch/` holds every dispatch as received, T0b onward included.
+- `scripts/verify-*.sh` are live checks against the data sources, copied from the Forager repo at
+  175b050 and extended for T1. `scripts/check-large-files.sh` refuses any file over 1 MB: run
+  `git config core.hooksPath .githooks` once per clone so it runs before every commit, and CI runs
+  it on the whole tree.
+- `pyproject.toml`, `uv.lock` and `.python-version` pin the Python toolchain. `src/` and `tests/`
+  are the code skeleton. `uv sync` builds the environment; CI runs `uv run ruff check .`,
+  `uv run ruff format --check .` and `uv run pytest`.
+- Data, downloads, models and tiles are listed in `.gitignore` and never committed.
