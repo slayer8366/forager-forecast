@@ -8,7 +8,7 @@ T1 reports.
 | --- | --- | --- |
 | T0. Repo bootstrap | Superseded by T0b on 2026-09-18. What T0 landed stands, see the START_HERE.md session log | docs/dispatch/2026-09-18-t0-repo-bootstrap.md |
 | T0b. Bootstrap the dedicated forecast repo | Done 2026-09-18, report in docs/audits/2026-09-18-t0b-completion-report.md | docs/dispatch/2026-09-18-t0b-forecast-repo-bootstrap.md |
-| T1. Calendar smoke test | Not started | docs/dispatch/2026-09-18-t1-calendar-smoke-test.md |
+| T1. Calendar smoke test | Blocked on GBIF credentials and a weather-pull ruling, verify-first reported in docs/audits/2026-09-18-t1-calendar-smoke-test-completion-report.md | docs/dispatch/2026-09-18-t1-calendar-smoke-test.md |
 | T2. Record audit | Not started | docs/dispatch/2026-09-18-t2-record-audit.md |
 | T3. Verify from-memory layers | Not started | docs/dispatch/2026-09-18-t3-verify-data-layers.md |
 | T4 to T11 | Not started | Not written yet |
