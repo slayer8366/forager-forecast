@@ -27,6 +27,7 @@ import math
 from collections.abc import Callable, Iterable, Iterator, Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import TextIO
 
 Record = Mapping[str, str]
 
@@ -205,14 +206,20 @@ class Pipeline:
                 yield record
 
 
-def read_occurrence_table(path: Path) -> Iterator[Record]:
-    """Stream the rows of a GBIF Darwin Core Archive occurrence.txt (or verbatim.txt).
+def read_occurrence_rows(handle: TextIO) -> Iterator[Record]:
+    """Stream the rows of an open GBIF Darwin Core Archive occurrence.txt (or verbatim.txt).
 
     Tab separated, one header row, no quoting: GBIF writes these tables with QUOTE_NONE and
     escapes tabs and newlines inside values, so a reader that honoured quotes would mis-split on a
-    stray double quote in a remark. Opened read-only and never written back.
+    stray double quote in a remark. Takes an open text handle so the table can be streamed
+    straight out of the download zip without extracting it (T2 run report, 2026-09-19).
     """
+    reader = csv.DictReader(handle, delimiter="\t", quoting=csv.QUOTE_NONE)
+    for row in reader:
+        yield {key: (value if value is not None else "") for key, value in row.items()}
+
+
+def read_occurrence_table(path: Path) -> Iterator[Record]:
+    """Stream the rows of an occurrence.txt on disk. Opened read-only and never written back."""
     with path.open("r", encoding="utf-8", newline="") as handle:
-        reader = csv.DictReader(handle, delimiter="\t", quoting=csv.QUOTE_NONE)
-        for row in reader:
-            yield {key: (value if value is not None else "") for key, value in row.items()}
+        yield from read_occurrence_rows(handle)
