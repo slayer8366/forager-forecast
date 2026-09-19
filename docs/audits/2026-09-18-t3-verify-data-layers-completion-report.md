@@ -387,3 +387,5 @@ report shape from the T0b completion report. Not followed: none known.
   the taxa endpoint; the help article describes only that route.
 - The three PDFs read from /tmp were deleted with the temporary directory; nothing from them
   is in the tree except the quotations above.
+
+> Correction appended 2026-09-18 under D31, from the T3 review (docs/audits/2026-09-18-t3-review.md, check 7). The inference above that NBAC has no size floor "from that year" (2016) is narrower than the source. The metadata lineage's next entry, dated December 22, 2016, reads: "Ingested all agency fire polygons less than 10 ha for years 2004 to current". So the small burns are present from fire year 2004 onward, and 2016 is the release year of that change. The register cell and the research-log row quote the source and stand; only this report's reading is corrected. Nothing above is edited.

@@ -27,6 +27,7 @@ by decision D12.
 - Matsutake, hen of the woods, oysters and lobster until phase 1 results are in.
 - Mexico and the Arctic in phase 1. No verified tree layer covers them, so they stay masked.
 - User accounts and find logging. Both sit in IDEAS.md for now.
+- Alaska in phase 1, added 2026-09-18 under D31. BIGMAP covers the coterminous US only (T3), so no verified host-tree layer covers it and it stays masked with Mexico and the Arctic.
 
 ## Decisions
 
