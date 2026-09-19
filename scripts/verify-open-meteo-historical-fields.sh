@@ -3,11 +3,15 @@
 # commit 175b050a0a507afb74686285c87fb36f72b9b548 (Forager origin/main, 2026-09-12), per T0b
 # (docs/dispatch/2026-09-18-t0b-forecast-repo-bootstrap.md).
 #
-# What changed from the original: section 4 at the end is new. It requests the four variables T1
-# needs (docs/dispatch/2026-09-18-t1-calendar-smoke-test.md, "Verify first" item 2) at one point
-# inside each T1 box, from the ERA5-Land model explicitly (models=era5_land, D7). Sections 1 to 3
-# and the retry loop are the original, unchanged; their comments name Forager classes
-# (OpenMeteoHistoricalWeatherProvider, GetSeasonalPatternUseCase) and describe that app.
+# What changed from the original: sections 4 and 5 at the end are new. Section 4 requests the four
+# variables T1 needs (docs/dispatch/2026-09-18-t1-calendar-smoke-test.md, "Verify first" item 2)
+# at one point inside each T1 box, from the ERA5-Land model explicitly (models=era5_land, D7).
+# Section 5 was added the same day, after section 4 first ran and found precipitation null under
+# era5_land: it requests the same variables under each model setting so the products can be told
+# apart. Sections 1 to 3 and the retry loop are the original, unchanged; their comments name
+# Forager classes (OpenMeteoHistoricalWeatherProvider, GetSeasonalPatternUseCase) and describe
+# that app. Note that sections 1 to 3 send no models= parameter, so they exercise Open-Meteo's
+# default best_match product, which section 5 shows is not ERA5-Land.
 #
 # Verifies against the live Open-Meteo historical archive API that the fields the seasonal
 # fruiting-lag visualizer relies on actually exist and actually return data.
@@ -163,6 +167,10 @@ fi
 # D7 fixed, rather than Open-Meteo's default blend. Boxes, from the T1 dispatch:
 #   Pacific Northwest 42.0 to 49.5 N, 125.0 to 121.0 W  ->  point 47.0 N, 123.0 W
 #   East              38.0 to 46.0 N,  84.0 to  70.0 W  ->  point 42.0 N,  77.0 W
+# Finding, 2026-09-18: under models=era5_land, temperature and both soil variables are fully
+# populated, and daily and hourly precipitation are null at every step, in both boxes, in a
+# September and a January window. This section therefore fails on precipitation until the
+# owner decides the product (D7). Section 5 shows where precipitation is served.
 T1_DAILY="temperature_2m_mean,precipitation_sum"
 T1_HOURLY="soil_temperature_0_to_7cm,soil_moisture_0_to_7cm"
 for point in "pnw 47.0 -123.0" "east 42.0 -77.0"; do
@@ -203,6 +211,39 @@ if problems:
     sys.exit(1)
 print("  OK: all four T1 variables present and fully populated at this point")
 ' || fail=1
+done
+
+# --- 5. the T1 variables by model, so the products can be told apart (added by T0b) ---------
+# Same request as section 4, PNW point only, under each model setting the archive API offers for
+# this region. Prints non-null counts and the period sum per variable. What T0b observed:
+#   era5_land      temperature and soil served; precipitation absent, every value null
+#   era5           everything served, on ERA5's coarser grid, so different values
+#   era5_seamless  temperature and soil identical to era5_land, precipitation identical to era5
+#   best_match     a third set of values, Open-Meteo's default when models= is omitted
+# So "ERA5-Land" on this API means models=era5_seamless once precipitation is needed, with the
+# precipitation then coming from ERA5. This section reports and does not pass or fail: which
+# product T1 trains on is the owner's decision (D7, "thresholds belong to their product").
+printf '\n%s\n' "--- T1 variables by model, PNW point (47.0, -123.0), 2024-09-01 to 2024-09-10 ---"
+for model in era5_land era5 era5_seamless best_match; do
+  m_url="$API?latitude=47.0&longitude=-123.0&start_date=2024-09-01&end_date=2024-09-10&daily=$T1_DAILY&hourly=$T1_HOURLY&models=$model&timezone=auto"
+  m_body=$(fetch_with_backoff "$m_url") || true
+  printf '%s' "$m_body" | python3 -c '
+import json, sys
+model = sys.argv[1]
+d = json.load(sys.stdin)
+if d.get("error"):
+    print("  %-14s could not fetch: %s" % (model, d.get("reason")))
+    sys.exit()
+parts = []
+for block in ("daily", "hourly"):
+    for k, v in d.get(block, {}).items():
+        if k == "time":
+            continue
+        nn = [x for x in v if x is not None]
+        parts.append("%s %d/%d sum=%s" % (k, len(nn), len(v), round(sum(nn), 1) if nn else "-"))
+print("  %-14s %s" % (model, "; ".join(parts)))
+' "$model"
+  sleep 1
 done
 
 printf '\n'
