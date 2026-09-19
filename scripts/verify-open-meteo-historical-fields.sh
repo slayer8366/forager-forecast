@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
+#
+# T0b-era record, kept unchanged under D30 (DECISIONS.md, 2026-09-18). This script is the
+# reproducible evidence behind D19: it sends the endpoint default (sections 1 to 3) and
+# models=era5_land (section 4) on purpose, which is how the null-precipitation finding was made.
+# Under D21 those requests are not made by any data path, feature, test or CI step, so this
+# script is never run as a check and is not wired anywhere. Live checks use the separate script
+# pinned to models=era5_seamless and the D25 parameters. Only this header was added; the body
+# below is as T0b left it.
 # Copied, not imported, from the Forager repo: scripts/verify-open-meteo-historical-fields.sh at
 # commit 175b050a0a507afb74686285c87fb36f72b9b548 (Forager origin/main, 2026-09-12), per T0b
 # (docs/dispatch/2026-09-18-t0b-forecast-repo-bootstrap.md).
