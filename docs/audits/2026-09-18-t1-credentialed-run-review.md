@@ -16,6 +16,25 @@ and again before this commit: the tip was 691bef3 both times; it did not move. o
 during the review from 218a7df to ef6c82a (the D30 header and D31 corrections folded in); that
 touches no file this review compares against.
 
+**Header amendment, 2026-09-18, after this review's first commit (466bb1a) was pushed.** The
+sentence above, "the tip was 691bef3 both times; it did not move", was true at both fetches and
+false by the time the push ran: `git status` after the commit showed this branch behind
+origin/t1-calendar-smoke-test by three, and a fetch after the push gave the tip as 9f6c132.
+691bef3 is an ancestor of 9f6c132 (`git merge-base --is-ancestor`, no rewrite). The three
+commits, not reviewed here: 2c540e2 (22:11:57), a second review of the same five commits under
+the standing protocol by another session, at this same path,
+docs/audits/2026-09-18-t1-credentialed-run-review.md, with its own index row, whose row says it
+re-ran the count script; 64146f7 (22:12:58), which parenthesises the except clause at
+scripts/t1_count_table.py:55 (the line check 10 below names as unverified on Python 3.12) and
+rewrites the docstring of `submit_download_request` in src/forager_forecast/gbif_download.py;
+9f6c132 (22:13:08), ruff format after that edit. For the owner: one path now holds two different
+reviews on two branches, so merging both conflicts at that file and at docs/audits/README.md;
+every index row is kept, and which file keeps the name is the owner's call. The two reviews were
+written in parallel, neither read the other, and they differ on check 4 (that one: holds; this
+one: gap, the username at report line 52) and on check 5 (that one: three form items; this one:
+the filed dispatch is not on main). This review's scope stays 34933e8..691bef3; 64146f7 is a
+code change after that base and is not covered by either review as written.
+
 The reviewer is a separate agent session from the builder and read the repo, not the builder's
 chat. The reviewer holds no GBIF credentials and did not enter the worktree that holds the
 download zip, so nothing was re-run on the file itself; check 9 says what was re-derived instead.
