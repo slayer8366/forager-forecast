@@ -1,0 +1,63 @@
+{
+  "purpose": "T2 record audit, the download named in docs/dispatch/2026-09-18-t2-record-audit.md (shared with T1 by predicate, requested as its own download because T1's SIMPLE_CSV lacks informationWithheld and genusKey)",
+  "status": "provisional",
+  "why_provisional": "Requested under the test account described in the owner's GBIF credentials report (2026-09-18). The business account will redo this exact request; the new DOI is then added as a superseding entry here and this one stays.",
+  "doi": "10.15468/dl.k3mwnn",
+  "download_key": "0005714-260916113435855",
+  "created_utc": "2026-09-19T04:11:37Z",
+  "succeeded_utc": "2026-09-19T04:40:18Z",
+  "total_records": 2549508,
+  "size_bytes": 1475785280,
+  "sha256_of_zip": "d0e8e7cd813580a4a3c53d95196fb81e34c494cf78cce947be570bf30b0ecaaf",
+  "members_of_interest": {
+    "occurrence.txt": 3561013686,
+    "verbatim.txt": 2077868784,
+    "multimedia.txt": 1395088270
+  },
+  "number_of_datasets": 41,
+  "gbif_license_of_download": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+  "request": {
+    "format": "DWCA",
+    "checklistKey": "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c",
+    "sendNotification": true,
+    "predicate": {
+      "type": "and",
+      "predicates": [
+        {
+          "type": "equals",
+          "key": "TAXON_KEY",
+          "value": "5"
+        },
+        {
+          "type": "equals",
+          "key": "BASIS_OF_RECORD",
+          "value": "HUMAN_OBSERVATION"
+        },
+        {
+          "type": "greaterThanOrEquals",
+          "key": "YEAR",
+          "value": "2015"
+        },
+        {
+          "type": "lessThanOrEquals",
+          "key": "YEAR",
+          "value": "2025"
+        },
+        {
+          "type": "equals",
+          "key": "HAS_COORDINATE",
+          "value": "true"
+        },
+        {
+          "type": "equals",
+          "key": "CONTINENT",
+          "value": "NORTH_AMERICA"
+        }
+      ]
+    }
+  },
+  "predicate_source": "docs/pulls/gbif-fungi-north-america-2015-2025.json, unchanged since 4e247d5; the request stored by GBIF (format, checklistKey, predicate) was compared with this file after the run and is equal",
+  "submitted_with": "request_body() from forager_forecast.records.gbif_download, POSTed with HTTP basic auth from Python's urllib (not curl_argv, which would put the password in a process argument list); credentials from GBIF_USER, GBIF_PWD, GBIF_EMAIL; the notification address is the account's and is not recorded here",
+  "local_copy": "data/t2/downloads/ on the machine that ran it, gitignored; the DOI is the citation",
+  "superseded_by": null
+}
