@@ -6,7 +6,7 @@ layer is used.
 
 | Layer | Role | Coverage | Resolution | Latency | License | Flag |
 | --- | --- | --- | --- | --- | --- | --- |
-| [ERA5-Land via Open-Meteo](https://open-meteo.com/en/docs/historical-weather-api) | Weather for training and serving, incl. soil temperature and moisture | Global | 0.1 degree, about 11 km, hourly, from 1950 | 5 days | Free tier is non-commercial. Terms to confirm | Verified |
+| [ERA5-Land via Open-Meteo](https://open-meteo.com/en/docs/historical-weather-api) | Weather for training and serving, incl. soil temperature and moisture | Global | 0.1 degree, about 11 km, hourly, from 1950 | 5 days | Free tier is non-commercial. Terms to confirm | Verified. Correction 2026-09-18: under models=era5_land the archive returns no precipitation. Rain comes from ERA5 at 0.25 degree through models=era5_seamless (T0b finding, consistent with Open-Meteo's documentation). See D19. |
 | [Daymet V4](https://daac.ornl.gov/DAYMET/guides/Daymet_V4_Daily_MonthlyLatency.html) | Training-only test of 1 km weather in the Cascades | Continental North America, Hawaii, Puerto Rico | 1 km, daily, from 1980 | Monthly, provisional | Public domain | Verified |
 | [MRMS rain](https://www.roc.noaa.gov/WSR88d/PublicDocs/TAC/2016/MRMS_TAC_Howard.pdf) | Rain upgrade to test against gauges | 20 to 55 N, 130 to 60 W | 0.01 degree, about 1 km | Minutes | Not checked | Verified specs, access path not checked |
 | [CaPA HRDPA](https://open.canada.ca/data/dataset/eff69d42-ce81-4672-867f-cc3baaf4157a) | Rain upgrade for Canada | Canada | 2.5 km, 6 h and 24 h totals, from Feb 2018 | Preliminary 1 h after valid time | To confirm | Verified |
