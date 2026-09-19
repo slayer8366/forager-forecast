@@ -183,3 +183,97 @@ line and Not checked; followed here, with the index row appended.
   read from its remote ref only.
 - scripts/verify-open-meteo-historical-fields.sh was not run (D30).
 - CI on the branch: documents only, and ci.yml runs on pushes to main and pull requests.
+
+## Re-check 2026-09-19, drift item only
+
+**Reviewed:** branch spec-sync-d24-d34 at 7db25c5, two commits over bc7e8bf (08a20c0, dispatch append
+and SPEC.md; 7db25c5, report section and index row), main 0931757, review branch tip b1d2bcf, which
+merges 7db25c5 into 7836465. `git fetch origin spec-sync-d24-d34 main` at the start: FETCH_HEAD
+7db25c5 and 0931757, and `git ls-remote` agrees. Fetched again before this commit; see the line at the
+end of this section. The worktree's SPEC.md is byte-identical to 7db25c5 (`cmp`, observed). Only the
+drift item from check 2 is re-checked, with the two smaller notes and the form, as the amendment asks
+(dispatch file line 174). Read means the file was opened; observed means a command was run here. The
+first attempt at this re-check was cut off after confirming the tips and wrote nothing; this is a fresh
+reading.
+
+**Drift item. Holds.** The check 2 finding is closed by correction under the rules the record uses.
+
+- The wrong line stands. SPEC.md:126 at 7db25c5 (it was :119 at bc7e8bf; the Decisions and Unverified
+  bullets added above it moved it by seven lines) still reads "since the Copernicus route is CC BY 4.0
+  (D24)". Observed: `git diff --numstat bc7e8bf 7db25c5 -- docs/planning/SPEC.md` is `17 0`; deleting
+  lines 54 to 57, 115 to 117 and 127 to 136 from the file at 7db25c5 gives a file byte-identical to
+  bc7e8bf (`cmp`). No earlier line was edited.
+- The correction sits beneath it, the last bullet under Open questions, SPEC.md:127 to 136.
+- It says the citation was wrong: "D24 does not establish that", "The citation was wrong" (:127 to 129).
+  Checked against DECISIONS.md:18, read: D24's reason cell says "from memory its licence allows
+  commercial use, which T3-style verification must confirm", and its decision cell lists "dataset names
+  and licence at source" under verify first. D24 never names CC BY at all. The bullet's account of D24
+  is accurate.
+- Observed and inferred are kept apart: "4.0 is observed on ERA5-Land and inferred for" the three other
+  datasets, "which carry the same label" (:131 to 134). The observation is specific: the Licence field
+  reads "CC-BY licence" on all four entries with no version, and the pop-up on reanalysis-era5-land
+  links to the CC BY 4.0 legal code and its SPDX identifier (:130 to 131).
+- What is still missing is stated: the wording under "Citation and attribution" has not been copied
+  (:134 to 135), and the repo holds no register row for the store (:135 to 136). The second is confirmed:
+  `git grep -iE 'copernicus|climate data store' 7db25c5 -- docs/planning/DATA_REGISTER.md` hits line 9
+  (the Open-Meteo row, which points to the store under D24) and line 17 (Copernicus GLO-30, a terrain
+  layer). No row for the store.
+- The source is outside this repository. The bullet cites cds-credentials-report.md. Observed:
+  `git ls-files` has no path matching `cds`; `git grep cds-credentials-report 7db25c5` finds only the
+  amendment's two mentions (dispatch :105 and :142), the SPEC.md bullet (:129), and the report's Not
+  checked (:95), which says the file is outside this repository. I could not open it, so the observed
+  and inferred claims in the bullet are checked for form, not against their source. The bullet flags
+  its source by file name and date ("in cds-credentials-report.md of 2026-09-19"), so a reader knows
+  where the claim lives and when it was made. It does not say the file is outside the repo; the report
+  does, at :95. Noted, not counted as a gap in the bullet: the flag the record asks for is the named
+  source, and it is there.
+- Word for word. Observed: SPEC.md:127 to 136 at 7db25c5, and dispatch lines 140 to 149 with the `> `
+  prefix stripped, each split on whitespace and compared with `diff`: zero words differ. The same for
+  the other two bullets (SPEC.md:54 to 57 against dispatch :134 to 137; :115 to 117 against :152 to
+  154): zero words differ. All 17 added lines, sorted, equal the 17 blockquote body lines, sorted. A
+  byte grep for U+2014 and U+2013 over the added lines returns 0 and 0.
+
+The licence itself is still not recorded in this repository. The bullet says so, and the amendment puts
+the register row out of scope (dispatch :165 to 166). That is an open item, not drift.
+
+**Two smaller notes, one line each.**
+
+- Radar. SPEC.md:115 to 117 match the T3 report: lines 92 to 96 open the NOAA 2019 study, marked
+  Verified, quoting Figure B.1 and Appendix K, so "addresses radar blockage at lines 92 to 96" holds;
+  lines 144 to 148 name Kucera et al. 2005 as "found by title and not opened" and tick the item on the
+  NOAA coverage map "with this gap stated", so "Cascades-specific evaluation was found by title only"
+  holds. Holds.
+- Weather. SPEC.md:54 to 57 match D19 (DECISIONS.md:23) and D21 (:21): models=era5_seamless pinned by
+  name in every request for training and serving, temperature and soil from ERA5-Land at 0.1 degree,
+  precipitation from ERA5 at 0.25 degree, the endpoint default never used, D21 accepting D19. It omits
+  D19's open T10 bridging item, an omission and not a contradiction. The stale line at :40 to 41 stands
+  unedited above it. Holds.
+
+**Form. Holds.** Observed: the amendment is appended to docs/dispatch/2026-09-18-spec-sync-d24-d34.md
+at lines 94 to 174, 81 lines, every one prefixed with `>`, after the original text that ends at line
+92. The T1 amendments at docs/dispatch/2026-09-18-t1-calendar-smoke-test.md:95 and :103 use the same
+prefix; each is one paragraph, where this one carries headings and runs longer. `git diff --stat
+bc7e8bf 7db25c5`: four files, 118 insertions, 0 deletions: the report 18, README.md 1, the dispatch
+file 82, SPEC.md 17. `git show --stat`: 08a20c0 touches the dispatch file and SPEC.md; 7db25c5 the
+report and README.md. SPEC.md:126 (the CC BY 4.0 line) and :113 (the radar bullet) are unedited, by the
+`cmp` above. The report gained one section, "Amendment 1 (version 2), applied 2026-09-19", at :81 to 97;
+README.md gained one row, :33. Nothing else changed. One line in the report section cannot be confirmed
+from the repo, as with the original filing: :85, "reproduces the upload byte for byte (`diff` exit
+0)". The upload is not in the repo.
+
+### What the reviewer changed
+
+This section and one index row in docs/audits/README.md. Nothing else. No earlier text in this file
+was edited; the section is appended.
+
+### Not checked
+
+- The other nine checks were not re-run.
+- cds-credentials-report.md: not in this repo, not opened. The store's licence at source: no network
+  beyond git. The bullet's observed and inferred claims are checked for form only.
+- The amendment's upload: not in the repo, so the report's byte-identity claim at :85 was not tested.
+- scripts/verify-open-meteo-historical-fields.sh was not run (D30). CI on the branch.
+- No other worktree under the parent directory was entered; the branches were read from remote refs.
+
+Fetched again before this commit: spec-sync-d24-d34 still 7db25c5, main still 0931757, review branch
+b1d2bcf (`git ls-remote`, observed).
