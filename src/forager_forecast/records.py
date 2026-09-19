@@ -5,7 +5,7 @@ and after every step can be reported, as "Verify first" item 1 asks. Nothing her
 the GBIF download that would feed this has not been requested (T1 completion report).
 """
 
-from collections.abc import Iterable, Sequence
+from collections.abc import Callable, Iterable, Sequence
 from dataclasses import dataclass
 from datetime import date, time
 
@@ -30,6 +30,9 @@ class Record:
     event_date: date
     event_time: time | None
     coordinate_uncertainty_m: float | None
+    # The GBIF license column, kept for the count table by license (T1 run report,
+    # 2026-09-19). Empty when a row loader does not carry it, as the synthetic tests do not.
+    license: str = ""
 
 
 @dataclass(frozen=True)
@@ -97,18 +100,37 @@ def keep_one_per_taxon_cell_day(records: Iterable[Record]) -> list[Record]:
     return sorted(kept.values(), key=lambda r: r.gbif_id)
 
 
-def apply_t1_filters(records: Sequence[Record]) -> Filtered:
-    """The dispatch's filters, in order, with a count after each."""
+SOURCE_STAGE = "source"
+
+# The dispatch's filters, in order. One tuple so that the counted run and the observed run below
+# cannot disagree about the steps.
+T1_FILTER_STEPS: tuple[tuple[str, Callable[[Iterable[Record]], list[Record]]], ...] = (
+    ("inside a T1 box", keep_inside_boxes),
+    ("year 2015 to 2025", keep_years),
+    ("coordinate uncertainty present and at most 1,000 m", drop_uncertain_coordinates),
+    ("not a default date (first of month at 00:00:00)", drop_default_dates),
+    ("one record per taxon, cell and day", keep_one_per_taxon_cell_day),
+)
+
+
+def apply_t1_filters_observed(
+    records: Sequence[Record], observe: Callable[[str, list[Record]], None]
+) -> Filtered:
+    """The dispatch's filters, in order, calling observe(stage, survivors) once for the source
+    (stage "source", every record) and once after each step with that step's name. The count
+    tables by year and by license (T1 run report) hook in here; the survivors passed to observe
+    are the same list the next step reads and must not be modified."""
     steps: list[FilterStep] = []
     current = list(records)
-    for name, step in (
-        ("inside a T1 box", keep_inside_boxes),
-        ("year 2015 to 2025", keep_years),
-        ("coordinate uncertainty present and at most 1,000 m", drop_uncertain_coordinates),
-        ("not a default date (first of month at 00:00:00)", drop_default_dates),
-        ("one record per taxon, cell and day", keep_one_per_taxon_cell_day),
-    ):
+    observe(SOURCE_STAGE, current)
+    for name, step in T1_FILTER_STEPS:
         before = len(current)
         current = step(current)
         steps.append(FilterStep(name=name, before=before, after=len(current)))
+        observe(name, current)
     return Filtered(records=tuple(current), steps=tuple(steps))
+
+
+def apply_t1_filters(records: Sequence[Record]) -> Filtered:
+    """The dispatch's filters, in order, with a count after each."""
+    return apply_t1_filters_observed(records, lambda _stage, _survivors: None)
