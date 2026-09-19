@@ -59,5 +59,7 @@
   "predicate_source": "docs/pulls/gbif-fungi-north-america-2015-2025.json, unchanged since 4e247d5; the request stored by GBIF (format, checklistKey, predicate) was compared with this file after the run and is equal",
   "submitted_with": "request_body() from forager_forecast.records.gbif_download, POSTed with HTTP basic auth from Python's urllib (not curl_argv, which would put the password in a process argument list); credentials from GBIF_USER, GBIF_PWD, GBIF_EMAIL; the notification address is the account's and is not recorded here",
   "local_copy": "data/t2/downloads/ on the machine that ran it, gitignored; the DOI is the citation",
-  "superseded_by": null
+  "superseded_by": null,
+  "integrity_check_2026-09-18": "GBIF publishes no checksum for a download: the download record has no hash field and the download link's ETag is not a content hash. What was checked: the local zip's byte size equals the record's size field, and `unzip -t` reports no errors in the compressed data (every member's CRC). The sha256 above is this machine's own, for detecting later corruption, not GBIF's.",
+  "gbif_erases_after": "2027-03-19 (eraseAfter in the download record)"
 }
