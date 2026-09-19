@@ -63,5 +63,7 @@
   "predicate_source": "src/forager_forecast/gbif/t1_fungi_two_boxes_2015_2025.json, unchanged since ac12f55; the request stored by GBIF was compared with this file after the run and is equal",
   "submitted_with": "forager_forecast.gbif_download.submit_download_request, credentials from GBIF_USER, GBIF_PWD, GBIF_EMAIL; creator and notification address are the account's and are not recorded here",
   "local_copy": "data/t1/downloads/ on the machine that ran it, gitignored; the DOI is the citation",
-  "superseded_by": null
+  "superseded_by": null,
+  "integrity_check_2026-09-18": "GBIF publishes no checksum for a download: the download record has no hash field and the download link's ETag is not a content hash. What was checked: the local zip's byte size equals the record's size field, and `unzip -t` reports no errors in the compressed data (every member's CRC). The sha256 above is this machine's own, for detecting later corruption, not GBIF's.",
+  "gbif_erases_after": "2027-03-19 (eraseAfter in the download record)"
 }
