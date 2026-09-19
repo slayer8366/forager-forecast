@@ -99,3 +99,13 @@ None.
 > unconfirmed until T0b reports. Forager's rule-of-thumb lag window is 7 to 21 days
 > (domain/FruitingPatternAssumptions.kt:54). T1's fixed window list already spans it. In the report,
 > say whether the top weather features fall inside or outside 7 to 21 days. Do not change the window list.
+
+> Amendment 2, 2026-09-18. Follows rulings D19 and D21 and changes nothing else. "Verify first" item 2
+> is settled for the product question: T0b showed that models=era5_land returns no precipitation, and
+> the owner ruled that every request pins models=era5_seamless. Use that model name in every archive
+> call and record it in the report. Do not use the endpoint default anywhere, including in tests.
+> Rate limits and terms of use are still yours to check and report. Precipitation now arrives on a
+> 0.25 degree grid while temperature and soil arrive at 0.1 degree. Keep the 0.1 degree cell as the unit
+> and say in the report how many 0.1 degree cells share each rain value. Under D20, confirm the
+> gradient-boosting library you choose has a wheel for the pinned Python before writing code, and report
+> which library and version you used.
