@@ -127,6 +127,35 @@ This cell is corrected in place rather than by a new decision row, on the owner'
 never been on main, so this is review before merge and not a rewrite of the record. The branch history
 keeps both versions, at dcc3a76 and at this commit.
 
+## Correction 2026-09-20: D39's Reason cell, the unpinned citation
+
+The cell cited a path that resolves to two different documents. Old wording:
+
+> the review of record does that at line 182 of docs/audits/2026-09-18-t1-credentialed-run-review.md
+
+New wording:
+
+> the review of record does that at line 182 of docs/audits/2026-09-18-t1-credentialed-run-review.md on
+> t1-credentialed-run-review at e9fbdf5
+
+Why. That path is the D35 collision. On t1-credentialed-run-review it holds the independent review, the
+review of record; on t1-calendar-smoke-test it holds the builder self-check. The two blobs differ
+(57ccdf97 against e5b7de51), and line 182 of the self-check is not the line D39 means. An unpinned path
+in a citable row is the same ambiguity that broke stage 1's Part B, where a file named without a branch
+sent an instruction at a review of record the do-not-touch list protects. Pinning the branch and commit
+makes the citation resolve to one document.
+
+Confirmed before the edit, read at 2026-09-20 02:36 PDT: line 182 of that path at e9fbdf5 reads "naming
+the test account and the redo, `superseded_by: null`, the full request stored beside", inside the bullet
+at line 181 about the DOI record marking the download provisional. It names the test account, carries no
+credential value, and e9fbdf5 is the branch tip.
+
+D38 was not touched. Part 1 of the dispatch asked whether D35 supports D38's opening clause; it does, at
+line 10 of docs/planning/DECISIONS.md on main 3625a55: "The session holding the GBIF credentials owns the
+T1 and T2 branches through the D32 merge pass, because it holds the archive and can re-run the count
+scripts." D38's Reason says "assigned" where D35 says "owns", which is a fair reading of a ruling that
+confers ownership, so no edit was proposed.
+
 ## Not checked
 
 - CI on this branch (documents only).
