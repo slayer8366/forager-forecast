@@ -322,6 +322,19 @@ keys only, not resolved here.
 | all_fungi | last step | CC_BY_NC_4_0 | d714382d Mushroom Observer | 1,942 |
 | all_fungi | last step | (11 publishers) | | 561 |
 
+**Correction 2026-09-20 to the `all_fungi` source roll-up row above.** That row reads "(34 publishers
+under 1,000 records each) 3,253". It over-counts by 153 records. The corrected figure is **3,100**, and
+the corrected publisher count is **36**, not 34. Source: the independent T2 review on branch
+t2-credentialed-run-review at 9491ace, which found the same failure ("3,253 and 34 against 3,100 and
+36"). The original row is left exactly as filed.
+
+The record figure is derivable from this file and does not rest on the review alone: the download total
+is 2,549,508 (stated at lines 27, 83 and 165), the seven named `all_fungi` source rows above sum to
+2,546,408, and the remainder is 3,100. The over-count is 3,253 minus 3,100, which is 153. The publisher
+count of 36 is **not** derivable from this file, which carries no constituent dataset list, so that half
+of the correction rests on the review and is marked here as such. Nothing was recomputed from the
+archive.
+
 Three licences and no empty licence value appear in the file. After all four steps, iNaturalist
 holds 4,562 of the 4,589 Cantharellus records and 19,761 of the 19,786 Laetiporus records; the
 New Jersey dataset contributes 672 Cantharellus records at the source and none at the end (its
