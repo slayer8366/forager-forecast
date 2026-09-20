@@ -87,13 +87,45 @@ itself is still uncorrected wherever it lives, and that is an owner item below.
 - Correction 2026-09-19 to the line above: "asked three times" is wrong. It came from planner chat,
   not from a count on record. The only count on record is the prior planning handoff's "asked twice and
   never answered". The planning session listed the question as an owner item but never put it to the
-  owner, so it added no ask. The question is still open.
+  owner, so it added no ask. The question is still open. The handoff carrying that "asked twice and never answered"
+  figure is filed at docs/planning/handoffs/2026-09-19-planner-handoff.md, so the count can be
+  checked.
 - Stage 1 of the D32 merge pass is now unblocked and needs rewriting: with D38 and D39 filed, Part A
   runs, Part B drops out, and Part C runs. Not started here.
 - The line-58 cite error inside the T1 review of record
   (docs/audits/2026-09-18-t1-credentialed-run-review.md, which says "Report line 52 reads" then "never
   edit line 58", where the value has been at line 52 in all eight commits holding it). The review of
   record stays untouched, so this is a planning-document note only.
+
+## Correction 2026-09-20: D39's Alternatives considered cell, before merge
+
+The cell overstated the check behind it. Old wording, as filed at dcc3a76:
+
+> no secret is committed anywhere
+
+New wording:
+
+> no GBIF or Copernicus secret is committed on any remote ref, per checks read at 2026-09-19 22:37 PDT
+> and at 2026-09-20 01:40 PDT
+
+Why. The 22:37 PDT check compared the values of GBIF_USER, GBIF_PWD and GBIF_EMAIL against tracked files
+and commits reachable from remote refs. It never covered the Copernicus credentials, so "no secret is
+committed anywhere" claimed a repository-wide clearance nobody had established. That clause is
+load-bearing: it is the first reason given for not amending D36's account-swap timing, so if a Copernicus
+secret were committed the reason would be false and the timing question would reopen.
+
+The Copernicus check was then run, read at 2026-09-20 01:40 PDT, and found nothing. Method: the values in
+~/.cdsapirc were held in memory and compared against every blob reachable from every remote ref, 179
+distinct blob objects out of 412 named objects. The scanner was given a positive control on the same
+object set, using the GBIF values, and returned the three known GBIF_USER blob-line hits, so it was shown
+able to report a hit before its negative result was accepted. `key` is a 36-character token and is a
+secret under D36; `url` is a public endpoint and is neither a secret nor an account identifier. Neither
+appears in any tracked file on any remote ref. Files read for the check, values never written anywhere:
+~/Labs/cds-credentials.sh and ~/.cdsapirc.
+
+This cell is corrected in place rather than by a new decision row, on the owner's instruction: D39 has
+never been on main, so this is review before merge and not a rewrite of the record. The branch history
+keeps both versions, at dcc3a76 and at this commit.
 
 ## Not checked
 
