@@ -84,6 +84,10 @@ itself is still uncorrected wherever it lives, and that is an owner item below.
 
 - The handoff's D36 summary is still wrong wherever it lives. This report cannot reach it.
 - Whether the Copernicus account is a test account. Asked three times, still unanswered.
+- Correction 2026-09-19 to the line above: "asked three times" is wrong. It came from planner chat,
+  not from a count on record. The only count on record is the prior planning handoff's "asked twice and
+  never answered". The planning session listed the question as an owner item but never put it to the
+  owner, so it added no ask. The question is still open.
 - Stage 1 of the D32 merge pass is now unblocked and needs rewriting: with D38 and D39 filed, Part A
   runs, Part B drops out, and Part C runs. Not started here.
 - The line-58 cite error inside the T1 review of record
