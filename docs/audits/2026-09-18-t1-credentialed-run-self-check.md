@@ -392,3 +392,5 @@ check 1's description of the search. No em dashes.
 - The uncertainty step's drops by cause (missing, obscured, above 1,000 m); the report says the
   T2 run report has a split at 250 m, not re-read here.
 - The Python 3.12 fallback beyond parsing one file; no test was run under 3.12.
+
+Renamed 2026-09-20 under D35. This document is a builder self-check, not a review under D18. The review of record is at docs/audits/2026-09-18-t1-credentialed-run-review.md.
