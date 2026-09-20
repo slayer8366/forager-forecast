@@ -319,3 +319,5 @@ appears in this file only inside that check.
 - What `identifications=most_agree` means on the iNaturalist API (carried from both earlier
   reports).
 - Any photo, and the misidentification rate. Person-only.
+
+Renamed 2026-09-20 under D35. This document is a builder self-check, not a review under D18. The review of record is at docs/audits/2026-09-18-t2-credentialed-run-review.md.
