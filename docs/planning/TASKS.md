@@ -11,6 +11,7 @@ T1 reports.
 | T1. Calendar smoke test | Download done and counts reported in docs/audits/2026-09-18-t1-credentialed-run-report.md (premise holds, thin PNW early years); modelling waits on the owner's reading and the weather-pull ruling | docs/dispatch/2026-09-18-t1-calendar-smoke-test.md |
 | T2. Record audit | Download done and count tables reported in docs/audits/2026-09-18-t2-credentialed-run-report.md; hand-check CSV waits on the iNaturalist-pull ruling; duplicate key ruled by D27, taxon folded in under D44 | docs/dispatch/2026-09-18-t2-record-audit.md |
 | T3. Verify from-memory layers | Done 2026-09-18, report in docs/audits/2026-09-18-t3-verify-data-layers-completion-report.md | docs/dispatch/2026-09-18-t3-verify-data-layers.md |
+| D32 merge pass | Done 2026-09-20: T2 merged at bc7863a, T1 at 42f0743, the move review at 47204f7; report in docs/audits/2026-09-20-d32-stage-2b-report.md. The follow-up task that unifies the two filter pipelines is not written yet | docs/dispatch/2026-09-20-d32-merge-pass-stage-2b.md |
 | T4 to T11 | Not started | Not written yet |
 
 **T0. Repo bootstrap**
