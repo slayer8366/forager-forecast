@@ -1,0 +1,39 @@
+{
+  "format": "DWCA",
+  "checklistKey": "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c",
+  "predicate": {
+    "type": "and",
+    "predicates": [
+      {
+        "type": "equals",
+        "key": "TAXON_KEY",
+        "value": "5"
+      },
+      {
+        "type": "equals",
+        "key": "BASIS_OF_RECORD",
+        "value": "HUMAN_OBSERVATION"
+      },
+      {
+        "type": "greaterThanOrEquals",
+        "key": "YEAR",
+        "value": "2015"
+      },
+      {
+        "type": "lessThanOrEquals",
+        "key": "YEAR",
+        "value": "2025"
+      },
+      {
+        "type": "equals",
+        "key": "HAS_COORDINATE",
+        "value": "true"
+      },
+      {
+        "type": "equals",
+        "key": "CONTINENT",
+        "value": "NORTH_AMERICA"
+      }
+    ]
+  }
+}

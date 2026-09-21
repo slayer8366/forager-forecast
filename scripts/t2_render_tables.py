@@ -1,0 +1,106 @@
+"""Render the T2 count tables as Markdown for the run report, from scripts/t2_count_table.py output.
+
+Usage: uv run python scripts/t2_render_tables.py <output directory>
+
+For each group (cantharellus, laetiporus, all_fungi): a table of stage by region, summed over
+years; and a table of year by region at the source stage and after the last step. Then the
+license table by group, license and publisher at the source stage and after the last step, and
+the summary's step counts, eventDate shapes and withheld texts.
+"""
+
+import csv
+import json
+import sys
+from collections import defaultdict
+from pathlib import Path
+
+from forager_forecast.records.counts import ALL_FUNGI, REST_OF_NORTH_AMERICA, T1_BOXES
+from forager_forecast.records.filters import default_steps
+
+GROUPS = ("cantharellus", "laetiporus", ALL_FUNGI)
+REGIONS = (*[box.name for box in T1_BOXES], REST_OF_NORTH_AMERICA)
+STAGES = ("source", *[step.name for step in default_steps()])
+FINAL = STAGES[-1]
+
+
+def main(out_dir: Path) -> None:
+    counts: dict[tuple[str, str, str, str], int] = defaultdict(int)
+    years: set[str] = set()
+    with (out_dir / "counts_by_stage_group_region_year.csv").open(encoding="utf-8") as handle:
+        for row in csv.DictReader(handle):
+            key = (row["stage"], row["group"], row["region"], row["year"])
+            counts[key] += int(row["records"])
+            years.add(row["year"])
+    year_list = sorted(years)
+    summary = json.loads((out_dir / "summary.json").read_text(encoding="utf-8"))
+
+    print(f"Source rows: {summary['source_count']:,}; survivors: {summary['survivors']:,}.\n")
+    print("| Step | Before | Dropped | After |\n|---|---|---|---|")
+    for step in summary["steps"]:
+        print(f"| {step['step']} | {step['before']:,} | {step['dropped']:,} | {step['after']:,} |")
+    print()
+
+    regions_seen = sorted({key[2] for key in counts})
+    extra_regions = [r for r in regions_seen if r not in REGIONS]
+    region_columns = (*REGIONS, *extra_regions)
+
+    for group in GROUPS:
+        print(f"### {group}: stage by region, all years\n")
+        print("| Stage | " + " | ".join(region_columns) + " | Total |")
+        print("|---|" + "---|" * (len(region_columns) + 1))
+        for stage in STAGES:
+            cells = [
+                sum(counts[(stage, group, region, y)] for y in year_list)
+                for region in region_columns
+            ]
+            print(f"| {stage} | " + " | ".join(f"{c:,}" for c in cells) + f" | {sum(cells):,} |")
+        print()
+        print(f"### {group}: year by region, at the source stage and after the last step\n")
+        header = [f"{region} {label}" for region in REGIONS for label in ("source", "final")]
+        print("| Year | " + " | ".join(header) + " |")
+        print("|---|" + "---|" * len(header))
+        for year in year_list:
+            cells = []
+            for region in REGIONS:
+                cells.append(counts[("source", group, region, year)])
+                cells.append(counts[(FINAL, group, region, year)])
+            print(f"| {year} | " + " | ".join(f"{c:,}" for c in cells) + " |")
+        print()
+
+    licenses: dict[tuple[str, str], dict[tuple[str, str], int]] = defaultdict(dict)
+    with (out_dir / "counts_by_license.csv").open(encoding="utf-8") as handle:
+        for row in csv.DictReader(handle):
+            licenses[(row["stage"], row["group"])][(row["license"], row["datasetKey"])] = int(
+                row["records"]
+            )
+    print("### By license and publisher, at the source stage and after the last step\n")
+    print("| Group | Stage | License | Publisher (datasetKey) | Records |\n|---|---|---|---|---|")
+    for group in GROUPS:
+        for stage in ("source", FINAL):
+            table = licenses.get((stage, group), {})
+            for (license_text, dataset_key), n in sorted(table.items(), key=lambda item: -item[1]):
+                print(f"| {group} | {stage} | {license_text} | {dataset_key} | {n:,} |")
+    print()
+
+    print("### eventDate shapes at the source stage\n")
+    print("| Shape | Rows |\n|---|---|")
+    for shape, n in summary["event_date_shapes_at_source"].items():
+        print(f"| {shape} | {n:,} |")
+    print()
+    print("### informationWithheld texts at the source stage (first 40 characters)\n")
+    print(f"Distinct prefixes: {summary['information_withheld_distinct_prefixes']}\n")
+    print("| Prefix | Rows |\n|---|---|")
+    for prefix, n in summary["information_withheld_prefixes_at_source"].items():
+        print(f"| {prefix} | {n:,} |")
+    print()
+    print("### dataGeneralizations texts at the source stage (first 40 characters)\n")
+    print(f"Distinct prefixes: {summary['data_generalizations_distinct_prefixes']}\n")
+    print("| Prefix | Rows |\n|---|---|")
+    for prefix, n in summary["data_generalizations_prefixes_at_source"].items():
+        print(f"| {prefix} | {n:,} |")
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        raise SystemExit(__doc__)
+    main(Path(sys.argv[1]))
