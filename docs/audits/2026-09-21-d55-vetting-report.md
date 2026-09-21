@@ -124,3 +124,54 @@ in the worktree at 89f53a4 (2026-09-21):
   Forager yet. They are obligations the integration carries over, not facts about Forager today.
   The iNaturalist ancestry climb assumes Forager's species carry iNaturalist ids, which was not
   read here.
+
+## Owner's instruction, 2026-09-21: the forbidden terms never reach the Forager repo
+
+Owner's words: "Check the Forager repo for any forbidden terms or phrases and add a note to
+instruct any agent to be sure none of them reach the Forager repo." Recorded as D58 and as a
+standing rule in `docs/planning/START_HERE.md` under "How we work".
+
+**The list.** R8 (`docs/planning/SPEC.md:78-80`) requires zero hits for "fruiting probability" in
+every output string, and D12 says no output may call the number fruiting probability. Forager-app's
+copy test adds two more: `FORBIDDEN_FORECAST_TERMS` in
+`presentation/src/main/kotlin/com/zynergy/forager/presentation/SightingChance.kt` at ecfcbde is
+`"fruiting probability"`, `"probability of finding"`, `"chance of finding"`, searched by
+`SightingChancePresenterTest` over every line, reference class, date string and notice the
+presenter can produce. The three together are the list of record.
+
+**The check, 2026-09-21, read-only.** `git grep -i -c` over the whole tree of slayer8366/Forager
+at origin/main 89f53a4, confirmed as the GitHub tip of main the same minute:
+
+| Phrase | Hits |
+| --- | --- |
+| fruiting probability | 0 |
+| probability of finding | 0 |
+| chance of finding | 0 |
+| probability of fruiting, fruiting chance, chance of fruiting, fruiting likelihood, likelihood of fruiting, forecast probability, fruiting odds, will fruit, are fruiting, sighting chance, sighting probability | 0 each |
+| fruiting forecast | 2 |
+| is fruiting | 1 |
+
+The two "fruiting forecast" hits are `docs/plans/forager-navigator-plan.md:336` (in the
+"Deferred indefinitely" list: "fruiting forecasts from uncalibrated weather and observation
+counts") and `:415` ("Refusing to build an identifier or a fruiting forecast"). Both describe
+what the app refuses to build, name no number, and are the plan's words rather than user copy; D17
+records that the owner will supersede that stance when the layer ships. The "is fruiting" hit is a
+test name in `ComputeFruitingLagDistributionUseCaseTest.kt:193` ("is flagged as the fruiting-lag
+rule") and is not the phrase. No user-facing string in `app/src/main` carries any listed term:
+`res/values/strings.xml` has no match for fruiting, likely, chance, probab or forecast, and the
+Kotlin string literals that mention fruiting are the rain-to-fruiting-lag guidance.
+
+**Adjacent vocabulary to keep apart, not violations.** Forager's availability screen already
+shows a `relativeLikelihood` (`AvailabilityForecast.kt:21`, an observation-count ratio where 1.0
+is the most-observed species, drawn as a progress bar at `AvailabilityResultsUi.kt:662`) and a
+section headed "Does rain predict fruiting?" (`AvailabilityResultsUi.kt:311`). The sighting chance
+will land beside these. The integration keeps the two quantities visibly distinct, since a reader
+who sees "likelihood" and "chance" on one screen will take them for the same thing.
+
+**What the rule asks of any agent.** Do not commit any listed term to slayer8366/Forager in code,
+resources, docs or commit messages, except inside a rule or test that names it as forbidden. Carry
+Forager-app's terms test into Forager with the presenter. Before forecast copy lands in Forager,
+rerun the table above and report the counts. A count is the evidence; "I checked" is not.
+
+**Not checked.** Git history of Forager (only the tip was searched). Screenshots and images.
+Branches other than main.

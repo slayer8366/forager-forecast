@@ -57,6 +57,10 @@ needs one of them to mean something else, the sentence is wrong.
   Anything that changes scope, cost, licenses or what users are told goes to the owner as a proposed row
   and waits for a yes.
 - Every session ends the same way: update task status, add a session log row, say what was not checked.
+- The forbidden terms never reach the Forager repo (D58). "fruiting probability", "probability of finding"
+  and "chance of finding" are not committed to slayer8366/Forager in code, strings, docs or commit
+  messages, other than inside a rule or test that names them as forbidden. Before any forecast copy
+  lands there, rerun the check in docs/audits/2026-09-21-d55-vetting-report.md and report the counts.
 
 ## Session log
 
@@ -72,3 +76,4 @@ needs one of them to mean something else, the sentence is wrong.
 | 2026-09-18 | T1 credentialed run: GBIF credentials proven, download DOI 10.15468/dl.hdkjmn (provisional, test account) requested with the fixed predicate, count tables by box, year, filter step and license produced, premise holds under its literal reading in both boxes and is thin in the PNW for 2015 to 2018 (docs/audits/2026-09-18-t1-credentialed-run-report.md). | Owner reads the premise table and rules on the default-date rule; modelling waits. T2 download running. |
 | 2026-09-21 | Forager-app's proposed D55, the artifact contract, copied into docs/audits byte-identical to Forager-app ecfcbde (blob 86e54c5) and vetted against main 82f28b6 and MapLibre Native at tag android-v13.6.1: all six of its premises hold, two sentences in its Reason column are corrected. Filed as D55 and accepted with those two edits as D56 on the owner's delegation of 2026-09-21. Branch d55-artifact-contract. Nothing built; the app built its own "no forecast published yet" source on its side (Forager-app 16246bf). | Owner merges d55-artifact-contract, or overturns D56 with a new row. T11's dispatch, when written, cites D55 and D56. The commercial-use ruling (D29, open) still gates any forecast layer in the app. |
 | 2026-09-21 | Owner named the target of the artifact contract: the existing Forager app is the product and Forager-app is the research bench (D57, quoting the owner). Forager's map stack re-read at 89f53a4: MapLibre 13.5.0, same offline download source, PR #4290 contained, so D55's offline argument transfers. Appended to the vetting report; same branch d55-artifact-contract. | Owner merges the branch. A T11 dispatch checks D55's client assumptions against Forager, not Forager-app. |
+| 2026-09-21 | Forager checked for the forbidden terms at origin/main 89f53a4: zero hits for "fruiting probability", "probability of finding", "chance of finding" and thirteen adjacent phrasings; two plan lines list a fruiting forecast as refused, none names a number. Standing rule added above and recorded as D58, quoting the owner. Report section appended; same branch d55-artifact-contract. | Owner merges the branch. Any agent about to put forecast copy into Forager reruns the check first. |
