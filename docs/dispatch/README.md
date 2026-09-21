@@ -14,7 +14,8 @@ new file, never an edit.
   `cmp` against the source, and the report that files it records the byte count. Nothing is reflowed,
   retitled or tidied.
 - **Naming: `YYYY-MM-DD-<slug>.md`**, dated the day the dispatch was written, not the day it was filed.
-  Where those differ, the filing report says so.
+  Where those differ, the filing report says so. A dispatch is filed under the name its writer gave
+  it, and a suffix added by the upload or relay, such as `-1`, is dropped and noted in the index row.
 - **Corrections and amendments are separate files**, filed beside the dispatch they change, named for
   it. `2026-09-20-file-cowork-reports-item-5-correction.md` corrects
   `2026-09-20-file-cowork-credential-reports.md`; `2026-09-20-d32-merge-pass-stage-1-amendment-rev2.md`
@@ -25,8 +26,7 @@ new file, never an edit.
   dated note is appended to the file saying why, so a reader does not take an unexecuted instruction
   for an executed one. `2026-09-20-stage-1-step-1-unblock.md` is the example. **A dispatch that was
   acted on stays byte-identical**, and the commentary lives in its index row or in the report that
-  answers it. This split was the owner's ruling of 2026-09-20; the decision row for it is still to be
-  written.
+  answers it. This split is ruled in D41.
 - **Every dispatch gets one row in `../audits/README.md`**, not an index here. That file is already the
   single index for dated records, and a second index would duplicate rows and drift out of step with
   the first. The cost is that the one index conflicts whenever two branches append to it, which is

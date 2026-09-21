@@ -12,7 +12,7 @@ already carries two such sections, both appended by later sessions, neither edit
 
 ## Rules
 
-- **Filed as received, byte-identical**, like a dispatch, and verified the same way.
+- **Filed as received.** The file is byte-identical to what was received at the moment it is filed, verified with `cmp`, and afterwards changes only by appended corrections.
 - **Naming: `YYYY-MM-DD-planner-handoff.md`**, dated when it was written.
 - **Corrections are appended to the file, never edited in.** Each correction section is dated, says who
   appended it, and says how its facts were known. Nothing above it changes.
