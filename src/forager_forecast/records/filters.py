@@ -50,6 +50,7 @@ def is_user_obscured(record: Record) -> bool:
     Darwin Core defines it for exactly this purpose and other publishers in the pull may use it.
     Any non-empty text in either counts, so a taxon-geoprivacy obscuring, should one ever appear,
     lands here too rather than passing as open.
+    The 26 to 29 km is the sample's most common range, not its span: values run past 67 km (D31).
     """
     return bool(record.get("informationWithheld", "").strip()) or bool(
         record.get("dataGeneralizations", "").strip()
