@@ -63,3 +63,5 @@ branches, t1-calendar-smoke-test and t2-record-audit, byte-identical on both (bl
 filed at docs/dispatch/2026-09-18-t1-t2-credentialed-run.md on branch d32-stage-1-records, by commit
 84edf09, with its index row. That branch is pending the owner's merge, so the dispatch is not yet on
 main. Nothing in this file is edited.
+
+**Correction 2026-09-20 to the note above.** The sentence "That branch is pending the owner's merge, so the dispatch is not yet on main" is superseded. Branch d32-stage-1-records was merged into main by 1d27f08, so this dispatch is now filed on main at docs/dispatch/2026-09-18-t1-t2-credentialed-run.md. The note above is left exactly as written.
