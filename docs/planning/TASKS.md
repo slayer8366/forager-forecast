@@ -89,6 +89,6 @@ T1 reports.
 
 **T11. Vector companion and map client**
 - Depends on: T10
-- Does: write weather-cell polygons with sighting chance, uncertainty, top drivers and data dates to a second archive, and build the MapLibre page with tap to query.
+- Does: write weather-cell polygons with sighting chance, uncertainty, top drivers and data dates to a second archive, and build the MapLibre page with tap to query. The second archive's per-block GeoJSON form, cell properties and manifest fields are named in D55 (proposed 2026-09-20, accepted with edits in D56 on 2026-09-21).
 - Verify: a tapped cell shows the same numbers as the scoring table for that cell and date.
 - Device-only: yes. Tap targets and tile loading need a check on a real phone.
