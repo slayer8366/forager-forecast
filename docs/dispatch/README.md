@@ -15,7 +15,8 @@ new file, never an edit.
   retitled or tidied.
 - **Naming: `YYYY-MM-DD-<slug>.md`**, dated the day the dispatch was written, not the day it was filed.
   Where those differ, the filing report says so. A dispatch is filed under the name its writer gave
-  it, and a suffix added by the upload or relay, such as `-1`, is dropped and noted in the index row.
+  it. The eight-character hex prefix the relay adds is dropped without a note. A suffix such as `-1`
+  or `-2` is dropped and noted in the index row, since it can signal a duplicate upload.
 - **Corrections and amendments are separate files**, filed beside the dispatch they change, named for
   it. `2026-09-20-file-cowork-reports-item-5-correction.md` corrects
   `2026-09-20-file-cowork-credential-reports.md`; `2026-09-20-d32-merge-pass-stage-1-amendment-rev2.md`

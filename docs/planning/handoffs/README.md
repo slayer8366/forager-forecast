@@ -13,7 +13,10 @@ already carries two such sections, both appended by later sessions, neither edit
 ## Rules
 
 - **Filed as received.** The file is byte-identical to what was received at the moment it is filed, verified with `cmp`, and afterwards changes only by appended corrections.
-- **Naming: `YYYY-MM-DD-planner-handoff.md`**, dated when it was written.
+- **Naming: `YYYY-MM-DD-planner-handoff.md`**, dated when it was written. A handoff is filed under the
+  name its writer gave it. The eight-character hex prefix the relay adds is dropped without a note. A
+  suffix such as `-1` or `-2` is dropped and noted in the index row, since it can signal a duplicate
+  upload.
 - **Corrections are appended to the file, never edited in.** Each correction section is dated, says who
   appended it, and says how its facts were known. Nothing above it changes.
 - **Every claim about the repository is a claim about the past.** A handoff is written by a session
