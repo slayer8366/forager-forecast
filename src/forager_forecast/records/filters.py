@@ -121,7 +121,7 @@ def duplicate_key(record: Record) -> str:
         cell_text = f"{cell[0]},{cell[1]}"
     except KeyError, ValueError:
         cell_text = "no-cell"
-    return f"{observer}|{cell_text}|{observation_day(record)}"
+    return f"{record.get('acceptedTaxonKey', '')}|{observer}|{cell_text}|{observation_day(record)}"
 
 
 class DuplicateObserverCellDay:
