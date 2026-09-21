@@ -127,3 +127,28 @@ All filed on main at `docs/audits/2026-09-20-d32-stage-1-part-d-report.md` unles
 - Whether any Open-Meteo equivalence test exists. That is item 8 of the next dispatch.
 - The Copernicus register row is not written. Most of its content is in
   `docs/planning/evidence/cds-credentials-report.md`; the "Citation and attribution" wording is not.
+
+## Correction 2026-09-20, appended by the coder session that wrote this file
+
+**This file's location is provisional. Designating its home is your first task.** The owner's words, given
+in chat at about 21:15 PDT and relayed to this session, not read from any file: "That's fine. Have the
+next coder designate a new spot for it. This is your workspace so I'll allow you to choose the most
+convenient pathway."
+
+What prompted it: this is a coder-to-coder handoff, and `docs/planning/handoffs/README.md` and D41 cover
+planning handoffs, written planner to planner. The owner has delegated the choice of a home for coder
+handoffs to the coders.
+
+What that means for you:
+
+- Choose the home. The owner's delegation is the authority; quote it when you record the choice.
+- Move this file there with `git mv`, so its history follows, and give it a README or a sentence in an
+  existing one saying what lives there, in the style of the two README homes.
+- Record the move with a new row in `docs/audits/README.md`. Keep every existing row. Whether the old row
+  is repointed, as the stage 1 self-check renames were, is your call; say which you did.
+- Nothing above this correction changes.
+
+A suggestion, not a choice: `docs/planning/handoffs/coder/`. It keeps every handoff under one folder that
+the existing README can cover with one added sentence, and a later reader looking for handoffs finds both
+kinds in one place. A top-level `docs/handoffs/` is the alternative if coder handoffs should sit apart
+from planning.
