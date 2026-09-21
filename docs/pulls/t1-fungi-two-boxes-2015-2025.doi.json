@@ -1,0 +1,69 @@
+{
+  "purpose": "T1 calendar smoke test, the download named in docs/dispatch/2026-09-18-t1-calendar-smoke-test.md, Verify first item 1",
+  "status": "provisional",
+  "why_provisional": "Requested under the test account described in the owner's GBIF credentials report (2026-09-18). The business account will redo this exact request; the new DOI is then added as a superseding entry here and this one stays.",
+  "doi": "10.15468/dl.hdkjmn",
+  "download_key": "0005709-260916113435855",
+  "created_utc": "2026-09-19T03:57:12Z",
+  "succeeded_utc": "2026-09-19T04:10:34Z",
+  "total_records": 1195034,
+  "size_bytes": 163662303,
+  "sha256_of_zip": "6468a43137d4f1da0379d0e6e5574d0cc5d3ab8e72d2ae50b140cac464a41683",
+  "member": "0005709-260916113435855.csv",
+  "member_bytes": 734590434,
+  "number_of_datasets": 15,
+  "gbif_license_of_download": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+  "request": {
+    "format": "SIMPLE_CSV",
+    "sendNotification": true,
+    "predicate": {
+      "type": "and",
+      "predicates": [
+        {
+          "type": "equals",
+          "key": "TAXON_KEY",
+          "value": "5"
+        },
+        {
+          "type": "equals",
+          "key": "BASIS_OF_RECORD",
+          "value": "HUMAN_OBSERVATION"
+        },
+        {
+          "type": "greaterThanOrEquals",
+          "key": "YEAR",
+          "value": "2015"
+        },
+        {
+          "type": "lessThanOrEquals",
+          "key": "YEAR",
+          "value": "2025"
+        },
+        {
+          "type": "equals",
+          "key": "HAS_COORDINATE",
+          "value": "true"
+        },
+        {
+          "type": "or",
+          "predicates": [
+            {
+              "type": "within",
+              "geometry": "POLYGON((-125.0 42.0,-121.0 42.0,-121.0 49.5,-125.0 49.5,-125.0 42.0))"
+            },
+            {
+              "type": "within",
+              "geometry": "POLYGON((-84.0 38.0,-70.0 38.0,-70.0 46.0,-84.0 46.0,-84.0 38.0))"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "predicate_source": "src/forager_forecast/gbif/t1_fungi_two_boxes_2015_2025.json, unchanged since ac12f55; the request stored by GBIF was compared with this file after the run and is equal",
+  "submitted_with": "forager_forecast.gbif_download.submit_download_request, credentials from GBIF_USER, GBIF_PWD, GBIF_EMAIL; creator and notification address are the account's and are not recorded here",
+  "local_copy": "data/t1/downloads/ on the machine that ran it, gitignored; the DOI is the citation",
+  "superseded_by": null,
+  "integrity_check_2026-09-18": "GBIF publishes no checksum for a download: the download record has no hash field and the download link's ETag is not a content hash. What was checked: the local zip's byte size equals the record's size field, and `unzip -t` reports no errors in the compressed data (every member's CRC). The sha256 above is this machine's own, for detecting later corruption, not GBIF's.",
+  "gbif_erases_after": "2027-03-19 (eraseAfter in the download record)"
+}

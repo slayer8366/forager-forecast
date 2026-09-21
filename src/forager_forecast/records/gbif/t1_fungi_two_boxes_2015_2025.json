@@ -1,0 +1,17 @@
+{
+  "type": "and",
+  "predicates": [
+    {"type": "equals", "key": "TAXON_KEY", "value": "5"},
+    {"type": "equals", "key": "BASIS_OF_RECORD", "value": "HUMAN_OBSERVATION"},
+    {"type": "greaterThanOrEquals", "key": "YEAR", "value": "2015"},
+    {"type": "lessThanOrEquals", "key": "YEAR", "value": "2025"},
+    {"type": "equals", "key": "HAS_COORDINATE", "value": "true"},
+    {
+      "type": "or",
+      "predicates": [
+        {"type": "within", "geometry": "POLYGON((-125.0 42.0,-121.0 42.0,-121.0 49.5,-125.0 49.5,-125.0 42.0))"},
+        {"type": "within", "geometry": "POLYGON((-84.0 38.0,-70.0 38.0,-70.0 46.0,-84.0 46.0,-84.0 38.0))"}
+      ]
+    }
+  ]
+}
