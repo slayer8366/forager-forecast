@@ -2,7 +2,7 @@
 
 from datetime import date, time
 
-from forager_forecast.records import (
+from forager_forecast.records.t1_record import (
     SOURCE_STAGE,
     T1_FILTER_STEPS,
     Record,

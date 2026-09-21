@@ -22,13 +22,13 @@ import zipfile
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from forager_forecast.records import (
+from forager_forecast.records.t1_record import (
     SOURCE_STAGE,
     T1_FILTER_STEPS,
     Record,
     apply_t1_filters_observed,
 )
-from forager_forecast.simple_csv import (
+from forager_forecast.records.t1_simple_csv import (
     UnloadableRow,
     is_cantharellus,
     missing_columns,

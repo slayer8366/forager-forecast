@@ -10,7 +10,7 @@ from forager_forecast.cell_weeks import (
     positive_units,
 )
 from forager_forecast.cells import Cell, IsoWeek
-from forager_forecast.records import Record
+from forager_forecast.records.t1_record import Record
 from forager_forecast.t1_design import CANTHARELLUS_GENUS_KEY
 
 OTHER_GENUS = 2534945  # any other fungal genus key; only inequality matters here

@@ -23,7 +23,7 @@ from collections.abc import Iterator, Mapping
 from datetime import date, time
 from typing import TextIO
 
-from forager_forecast.records import Record
+from forager_forecast.records.t1_record import Record
 from forager_forecast.t1_design import CANTHARELLUS_GENUS_KEY
 
 FUNGI_KINGDOM_NAME = "Fungi"

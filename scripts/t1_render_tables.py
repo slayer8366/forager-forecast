@@ -16,7 +16,7 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
-from forager_forecast.records import SOURCE_STAGE, T1_FILTER_STEPS
+from forager_forecast.records.t1_record import SOURCE_STAGE, T1_FILTER_STEPS
 from forager_forecast.t1_design import BOXES, FIRST_YEAR, LAST_YEAR
 
 STAGES = (SOURCE_STAGE, *[name for name, _ in T1_FILTER_STEPS])

@@ -1,6 +1,6 @@
 from datetime import date, time
 
-from forager_forecast.records import (
+from forager_forecast.records.t1_record import (
     Record,
     apply_t1_filters,
     drop_default_dates,

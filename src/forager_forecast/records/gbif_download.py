@@ -1,124 +1,150 @@
-"""The GBIF occurrence download that T2 shares with T1.
+"""The GBIF occurrence download T1 needs, prepared and not yet requested.
 
-Prepared, not run. A download request needs a GBIF.org account, authenticated with the username
-(not the email) and password, and returns a key that resolves to a DOI once the download is ready
-(https://techdocs.gbif.org/en/data-use/api-downloads, opened 2026-09-18). This machine has no
-such credentials (T2 completion report, "Owner items"), so this module builds the exact request
-and a test holds it still; nothing here opens a connection.
+SPEC.md, Constraints: "Bulk record pulls go through GBIF downloads, which give a citable DOI."
+The predicate in gbif/t1_fungi_two_boxes_2015_2025.json is the dispatch's "Verify first" item 1
+as a GBIF predicate: kingdom Fungi (backbone key 5), human observations, years 2015 to 2025,
+records with coordinates, inside the two T1 boxes. On 2026-09-18 the same predicate posted to
+https://api.gbif.org/v1/occurrence/search/predicate with limit 0 counted 1,195,034 records
+(T1 completion report).
 
-Why format DWCA and not SIMPLE_CSV: the SIMPLE_CSV column list on
-https://techdocs.gbif.org/en/data-use/download-formats (opened 2026-09-18) has
-coordinateUncertaintyInMeters and identifiedBy but neither informationWithheld nor
-dataGeneralizations, and informationWithheld is the field that marks a user-obscured
-iNaturalist record on GBIF (T2 report, verify-first item 1). The DWCA occurrence.txt carries all
-four.
+Requesting a download needs a GBIF account. The request endpoint answered 403 without
+credentials and 401 with wrong ones on 2026-09-18. This module reads GBIF_USER, GBIF_PWD and
+GBIF_EMAIL from the environment and refuses, naming what is missing, rather than trying anyway.
 """
 
-from __future__ import annotations
-
+import base64
 import json
-from collections.abc import Mapping
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
+from urllib.request import Request, urlopen
 
+from forager_forecast.t1_design import BOXES, FIRST_YEAR, FUNGI_KINGDOM_KEY, LAST_YEAR
+
+PREDICATE_PATH = Path(__file__).parent / "gbif" / "t1_fungi_two_boxes_2015_2025.json"
 DOWNLOAD_REQUEST_URL = "https://api.gbif.org/v1/occurrence/download/request"
+DOWNLOAD_FORMAT = "SIMPLE_CSV"
 
+# Carried over from T2's records/gbif_download.py under D42 and D45, with request_template below.
 # GBIF Backbone Taxonomy. TAXON_KEY 5 is Fungi in this checklist
 # (https://api.gbif.org/v1/species/5 -> "Fungi", rank KINGDOM, opened 2026-09-18). Named
 # explicitly because the API-downloads documentation's examples carry a checklistKey, and the one
 # they carry is the Catalogue of Life, in which key 5 means something else.
 GBIF_BACKBONE_CHECKLIST_KEY = "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c"
-FUNGI_TAXON_KEY = 5
 
-FIRST_YEAR = 2015
-LAST_YEAR = 2025
-
-# Environment variables read for credentials. The names follow rgbif and pygbif, so an owner who
-# has used either already has them set. Nothing else is read: no ~/.netrc, no config file.
-ENV_USER = "GBIF_USER"
-ENV_PASSWORD = "GBIF_PWD"
-ENV_EMAIL = "GBIF_EMAIL"
+USER_VARIABLE = "GBIF_USER"
+PASSWORD_VARIABLE = "GBIF_PWD"
+EMAIL_VARIABLE = "GBIF_EMAIL"
 
 
-def predicate() -> dict[str, Any]:
-    """Kingdom Fungi, human observations, 2015 to 2025, with coordinates, North America.
-
-    The five terms of the dispatch, and nothing added. Key names are in the upper-case form the
-    download API requires (API-downloads page, "Occurrence search parameters"). No credential-free
-    endpoint validates a predicate (GET /occurrence/download/request/predicate returned 404 on
-    2026-09-18), so the names rest on that page until a submission accepts them.
-    """
-    return {
-        "type": "and",
-        "predicates": [
-            {"type": "equals", "key": "TAXON_KEY", "value": str(FUNGI_TAXON_KEY)},
-            {"type": "equals", "key": "BASIS_OF_RECORD", "value": "HUMAN_OBSERVATION"},
-            {"type": "greaterThanOrEquals", "key": "YEAR", "value": str(FIRST_YEAR)},
-            {"type": "lessThanOrEquals", "key": "YEAR", "value": str(LAST_YEAR)},
-            {"type": "equals", "key": "HAS_COORDINATE", "value": "true"},
-            {"type": "equals", "key": "CONTINENT", "value": "NORTH_AMERICA"},
-        ],
-    }
-
-
-def request_template() -> dict[str, Any]:
-    """The request body without the fields that belong to a person: no email, no notification."""
-    return {
-        "format": "DWCA",
-        "checklistKey": GBIF_BACKBONE_CHECKLIST_KEY,
-        "predicate": predicate(),
-    }
-
-
-def request_template_json() -> str:
-    """The committed form of the template, docs/pulls/gbif-fungi-north-america-2015-2025.json."""
-    return json.dumps(request_template(), indent=2) + "\n"
+class MissingGbifCredentials(RuntimeError):
+    """One or more of GBIF_USER, GBIF_PWD, GBIF_EMAIL is not set."""
 
 
 @dataclass(frozen=True)
-class Credentials:
+class GbifCredentials:
     user: str
     password: str
     email: str
 
 
-class MissingCredentials(LookupError):
-    """Raised with the names of every variable that is unset. There is no fallback."""
-
-    def __init__(self, missing: list[str]):
-        self.missing = missing
-        super().__init__(f"GBIF credentials not set: {', '.join(missing)}")
-
-
-def credentials_from_env(environ: Mapping[str, str]) -> Credentials:
-    missing = [name for name in (ENV_USER, ENV_PASSWORD, ENV_EMAIL) if not environ.get(name)]
-    if missing:
-        raise MissingCredentials(missing)
-    return Credentials(environ[ENV_USER], environ[ENV_PASSWORD], environ[ENV_EMAIL])
-
-
-def request_body(credentials: Credentials) -> dict[str, Any]:
-    """The template plus the notification address, as the download API wants it."""
-    body = request_template()
-    body["notificationAddresses"] = [credentials.email]
-    body["sendNotification"] = True
-    return body
-
-
-def curl_argv(credentials: Credentials, body_path: str) -> list[str]:
-    """The submission as the API-downloads page shows it, with the body read from a file.
-
-    The password sits in the argument list, as in GBIF's own example. Run it from a shell whose
-    history is off, or replace "--user" with "--netrc" and a ~/.netrc entry for api.gbif.org.
-    """
-    return [
-        "curl",
-        "--include",
-        "--user",
-        f"{credentials.user}:{credentials.password}",
-        "--header",
-        "Content-Type: application/json",
-        "--data",
-        f"@{body_path}",
-        DOWNLOAD_REQUEST_URL,
+def credentials_from_env(env: Mapping[str, str]) -> GbifCredentials:
+    """Read the three variables, or raise naming every one that is missing or empty."""
+    missing = [
+        name
+        for name in (USER_VARIABLE, PASSWORD_VARIABLE, EMAIL_VARIABLE)
+        if not env.get(name, "").strip()
     ]
+    if missing:
+        raise MissingGbifCredentials(
+            "GBIF download requests need "
+            + ", ".join((USER_VARIABLE, PASSWORD_VARIABLE, EMAIL_VARIABLE))
+            + "; not set: "
+            + ", ".join(missing)
+        )
+    return GbifCredentials(
+        user=env[USER_VARIABLE].strip(),
+        password=env[PASSWORD_VARIABLE].strip(),
+        email=env[EMAIL_VARIABLE].strip(),
+    )
+
+
+def load_t1_predicate() -> dict:
+    with PREDICATE_PATH.open(encoding="utf-8") as handle:
+        return json.load(handle)
+
+
+def expected_t1_predicate() -> dict:
+    """The predicate rebuilt from t1_design, so a test can hold the JSON file to the dispatch."""
+    return {
+        "type": "and",
+        "predicates": [
+            {"type": "equals", "key": "TAXON_KEY", "value": str(FUNGI_KINGDOM_KEY)},
+            {"type": "equals", "key": "BASIS_OF_RECORD", "value": "HUMAN_OBSERVATION"},
+            {"type": "greaterThanOrEquals", "key": "YEAR", "value": str(FIRST_YEAR)},
+            {"type": "lessThanOrEquals", "key": "YEAR", "value": str(LAST_YEAR)},
+            {"type": "equals", "key": "HAS_COORDINATE", "value": "true"},
+            {
+                "type": "or",
+                "predicates": [{"type": "within", "geometry": box.wkt_polygon()} for box in BOXES],
+            },
+        ],
+    }
+
+
+def build_download_request(credentials: GbifCredentials, predicate: dict) -> dict:
+    """The JSON body GBIF's download request endpoint takes."""
+    return {
+        "creator": credentials.user,
+        "notificationAddresses": [credentials.email],
+        "sendNotification": True,
+        "format": DOWNLOAD_FORMAT,
+        "predicate": predicate,
+    }
+
+
+def request_template(predicate: dict[str, Any]) -> dict[str, Any]:
+    """The request body without the fields that belong to a person: no email, no notification.
+
+    Carried over from T2 under D42 and D45. T2's took no argument and filled in its own continent
+    predicate, which D26 forbids; the predicate is now the caller's, so D26's geometry predicate is
+    passed in. Why DWCA and not SIMPLE_CSV, from T2's module docstring: the SIMPLE_CSV column list
+    on https://techdocs.gbif.org/en/data-use/download-formats (opened 2026-09-18) has neither
+    informationWithheld nor dataGeneralizations, and informationWithheld is the field that marks a
+    user-obscured iNaturalist record on GBIF. The DWCA occurrence.txt carries both.
+    """
+    return {
+        "format": "DWCA",
+        "checklistKey": GBIF_BACKBONE_CHECKLIST_KEY,
+        "predicate": predicate,
+    }
+
+
+def submit_download_request(
+    credentials: GbifCredentials,
+    predicate: dict,
+    url: str = DOWNLOAD_REQUEST_URL,
+    opener: Callable = urlopen,
+) -> str:
+    """POST the request with HTTP basic auth and return GBIF's download key. First run against
+    the real endpoint on 2026-09-19 UTC, returning key 0005709-260916113435855 on the first
+    call (T1 credentialed run report); before that, no credentials existed on the machine."""
+    body = json.dumps(build_download_request(credentials, predicate)).encode("utf-8")
+    token = base64.b64encode(f"{credentials.user}:{credentials.password}".encode()).decode()
+    request = Request(
+        url,
+        data=body,
+        method="POST",
+        headers={
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": f"Basic {token}",
+        },
+    )
+    with opener(request, timeout=60) as response:
+        status = getattr(response, "status", None)
+        key = response.read().decode("utf-8").strip()
+    if status not in (200, 201) or not key:
+        raise RuntimeError(f"download request answered HTTP {status} with body {key!r}")
+    return key

@@ -5,8 +5,8 @@ from datetime import date, time
 
 import pytest
 
-from forager_forecast.records import Record
-from forager_forecast.simple_csv import (
+from forager_forecast.records.t1_record import Record
+from forager_forecast.records.t1_simple_csv import (
     COLUMNS_READ,
     UnloadableRow,
     is_cantharellus,
