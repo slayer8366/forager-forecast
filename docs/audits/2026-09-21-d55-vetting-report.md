@@ -175,3 +175,13 @@ rerun the table above and report the counts. A count is the evidence; "I checked
 
 **Not checked.** Git history of Forager (only the tip was searched). Screenshots and images.
 Branches other than main.
+
+## Owner's ruling, 2026-09-21: Forager's rules are out of scope here
+
+Owner's words: "We are changing the forager app rules to fit the integration, they will be
+redone after the fact so match what is changed. Those rules are out of scope for this project."
+Recorded as D59. Read the two sections above accordingly: the navigator plan's refusals, the
+availability screen's vocabulary and which tests Forager carries are Forager's to settle after the
+integration. What stands from this project's side is the count table and the rule that its agents
+commit none of the listed terms to Forager. The sentences above that say what Forager should keep
+apart or carry over are observations left in place, not instructions.
