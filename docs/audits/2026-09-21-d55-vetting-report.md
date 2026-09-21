@@ -94,3 +94,33 @@ and D56 quotes them. The owner overturns it, if at all, with a new row; D55 and 
 - The commercial-use ruling (D29) is open and still gates any forecast layer in the app.
 - This branch is not merged. Under D40 a merge needs the owner's written authorisation naming
   the branch.
+
+## Owner's note, 2026-09-21: the target is the existing Forager app
+
+Added after the report above was filed, at the owner's instruction, recorded as D57. Owner's
+words: "Forager-app is a placeholder app for researching advanced methods, such as this project
+here, to integrate into the already existing Forager app as the ultimate end result. So prepare
+for actual Forager integration as you plan the forager-app."
+
+What this changes for D55 and D56: the contract is with the existing Forager app
+(slayer8366/Forager). Forager-app is the bench where it is tried first. Every assumption D55
+makes about the client is a claim about Forager, so it was re-read against Forager, read-only,
+in the worktree at 89f53a4 (2026-09-21):
+
+- **Map stack transfers.** Forager also renders with MapLibre, pinned at 13.5.0
+  (`gradle/libs.versions.toml:32`, with the osmdroid migration recorded complete at lines 27 to
+  28). The offline download source at tag `android-v13.5.0` lives under `mbgl/` rather than
+  `mln/` and is otherwise identical to the 13.6.1 file up to that rename (`diff` after
+  substituting the namespace printed nothing); it names no PMTiles path. PR #4290 is contained in
+  13.5.0 as well (GitHub compare of the tag against its merge commit: 0 ahead, 85 behind). So the
+  offline argument behind D55 holds for the existing app exactly as for the bench.
+- **Offline is already a product feature there.** Forager serves its own offline style from the
+  Cloudflare PMTiles worker (`app/src/main/java/com/zynergylabs/forager/app/map/OfflineStyle.kt:18`)
+  and keeps offline regions in Room (`app/src/main/java/com/zynergylabs/forager/app/data/local/OfflineRegionEntity.kt`).
+  D55's per-block cell files are the data the app stores itself; where Forager stores them is a
+  Forager decision, not part of this contract.
+- **Not re-checked against Forager:** the app's promises in D55 (the forbidden-terms unit test,
+  the reference-class display, the legend text) were built in Forager-app and do not exist in
+  Forager yet. They are obligations the integration carries over, not facts about Forager today.
+  The iNaturalist ancestry climb assumes Forager's species carry iNaturalist ids, which was not
+  read here.
