@@ -1,0 +1,425 @@
+{
+  "account": "no account (Open-Meteo is keyless)",
+  "requests": [
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=47.049&longitude=-123.049&start_date=2024-06-01&end_date=2024-06-01&daily=precipitation_sum,temperature_2m_mean&models=era5_land&elevation=nan&cell_selection=nearest&timezone=UTC",
+      "requested_at_utc": "2026-09-23T04:39:03+00:00",
+      "http_status": 200,
+      "response": {
+        "latitude": 47.0,
+        "longitude": -123.0,
+        "generationtime_ms": 0.2491474151611328,
+        "utc_offset_seconds": 0,
+        "timezone": "GMT",
+        "timezone_abbreviation": "GMT",
+        "elevation": 151.0,
+        "daily_units": {
+          "time": "iso8601",
+          "precipitation_sum": "mm",
+          "temperature_2m_mean": "\u00b0C"
+        },
+        "daily": {
+          "time": [
+            "2024-06-01"
+          ],
+          "precipitation_sum": [
+            null
+          ],
+          "temperature_2m_mean": [
+            14.1
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=47.05&longitude=-123.05&start_date=2024-06-01&end_date=2024-06-01&daily=precipitation_sum,temperature_2m_mean&models=era5_land&elevation=nan&cell_selection=nearest&timezone=UTC",
+      "requested_at_utc": "2026-09-23T04:39:05+00:00",
+      "http_status": 200,
+      "response": {
+        "latitude": 47.100006,
+        "longitude": -123.1,
+        "generationtime_ms": 0.5429983139038086,
+        "utc_offset_seconds": 0,
+        "timezone": "GMT",
+        "timezone_abbreviation": "GMT",
+        "elevation": 165.0,
+        "daily_units": {
+          "time": "iso8601",
+          "precipitation_sum": "mm",
+          "temperature_2m_mean": "\u00b0C"
+        },
+        "daily": {
+          "time": [
+            "2024-06-01"
+          ],
+          "precipitation_sum": [
+            null
+          ],
+          "temperature_2m_mean": [
+            14.1
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=47.051&longitude=-123.051&start_date=2024-06-01&end_date=2024-06-01&daily=precipitation_sum,temperature_2m_mean&models=era5_land&elevation=nan&cell_selection=nearest&timezone=UTC",
+      "requested_at_utc": "2026-09-23T04:39:06+00:00",
+      "http_status": 200,
+      "response": {
+        "latitude": 47.100006,
+        "longitude": -123.1,
+        "generationtime_ms": 0.05435943603515625,
+        "utc_offset_seconds": 0,
+        "timezone": "GMT",
+        "timezone_abbreviation": "GMT",
+        "elevation": 165.0,
+        "daily_units": {
+          "time": "iso8601",
+          "precipitation_sum": "mm",
+          "temperature_2m_mean": "\u00b0C"
+        },
+        "daily": {
+          "time": [
+            "2024-06-01"
+          ],
+          "precipitation_sum": [
+            null
+          ],
+          "temperature_2m_mean": [
+            14.1
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=47.125&longitude=-123.125&start_date=2024-06-01&end_date=2024-06-01&daily=precipitation_sum,temperature_2m_mean&models=era5_land&elevation=nan&cell_selection=nearest&timezone=UTC",
+      "requested_at_utc": "2026-09-23T04:39:08+00:00",
+      "http_status": 200,
+      "response": {
+        "latitude": 47.100006,
+        "longitude": -123.1,
+        "generationtime_ms": 0.05698204040527344,
+        "utc_offset_seconds": 0,
+        "timezone": "GMT",
+        "timezone_abbreviation": "GMT",
+        "elevation": 165.0,
+        "daily_units": {
+          "time": "iso8601",
+          "precipitation_sum": "mm",
+          "temperature_2m_mean": "\u00b0C"
+        },
+        "daily": {
+          "time": [
+            "2024-06-01"
+          ],
+          "precipitation_sum": [
+            null
+          ],
+          "temperature_2m_mean": [
+            14.1
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=47.12&longitude=-123.13&start_date=2024-06-01&end_date=2024-06-01&daily=precipitation_sum,temperature_2m_mean&models=era5_land&elevation=nan&cell_selection=nearest&timezone=UTC",
+      "requested_at_utc": "2026-09-23T04:39:09+00:00",
+      "http_status": 200,
+      "response": {
+        "latitude": 47.100006,
+        "longitude": -123.1,
+        "generationtime_ms": 0.045180320739746094,
+        "utc_offset_seconds": 0,
+        "timezone": "GMT",
+        "timezone_abbreviation": "GMT",
+        "elevation": 165.0,
+        "daily_units": {
+          "time": "iso8601",
+          "precipitation_sum": "mm",
+          "temperature_2m_mean": "\u00b0C"
+        },
+        "daily": {
+          "time": [
+            "2024-06-01"
+          ],
+          "precipitation_sum": [
+            null
+          ],
+          "temperature_2m_mean": [
+            14.1
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=47.13&longitude=-123.12&start_date=2024-06-01&end_date=2024-06-01&daily=precipitation_sum,temperature_2m_mean&models=era5_land&elevation=nan&cell_selection=nearest&timezone=UTC",
+      "requested_at_utc": "2026-09-23T04:39:10+00:00",
+      "http_status": 200,
+      "response": {
+        "latitude": 47.100006,
+        "longitude": -123.1,
+        "generationtime_ms": 0.06628036499023438,
+        "utc_offset_seconds": 0,
+        "timezone": "GMT",
+        "timezone_abbreviation": "GMT",
+        "elevation": 165.0,
+        "daily_units": {
+          "time": "iso8601",
+          "precipitation_sum": "mm",
+          "temperature_2m_mean": "\u00b0C"
+        },
+        "daily": {
+          "time": [
+            "2024-06-01"
+          ],
+          "precipitation_sum": [
+            null
+          ],
+          "temperature_2m_mean": [
+            14.1
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=47.2&longitude=-123.2&start_date=2024-06-01&end_date=2024-06-01&daily=precipitation_sum,temperature_2m_mean&models=era5_land&elevation=nan&cell_selection=nearest&timezone=UTC",
+      "requested_at_utc": "2026-09-23T04:39:11+00:00",
+      "http_status": 200,
+      "response": {
+        "latitude": 47.199997,
+        "longitude": -123.2,
+        "generationtime_ms": 0.44286251068115234,
+        "utc_offset_seconds": 0,
+        "timezone": "GMT",
+        "timezone_abbreviation": "GMT",
+        "elevation": 120.0,
+        "daily_units": {
+          "time": "iso8601",
+          "precipitation_sum": "mm",
+          "temperature_2m_mean": "\u00b0C"
+        },
+        "daily": {
+          "time": [
+            "2024-06-01"
+          ],
+          "precipitation_sum": [
+            null
+          ],
+          "temperature_2m_mean": [
+            14.3
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=47.049&longitude=-123.049&start_date=2024-06-01&end_date=2024-06-01&daily=precipitation_sum,temperature_2m_mean&models=era5&elevation=nan&cell_selection=nearest&timezone=UTC",
+      "requested_at_utc": "2026-09-23T04:39:13+00:00",
+      "http_status": 200,
+      "response": {
+        "latitude": 47.0,
+        "longitude": -123.0,
+        "generationtime_ms": 0.13518333435058594,
+        "utc_offset_seconds": 0,
+        "timezone": "GMT",
+        "timezone_abbreviation": "GMT",
+        "elevation": 117.0,
+        "daily_units": {
+          "time": "iso8601",
+          "precipitation_sum": "mm",
+          "temperature_2m_mean": "\u00b0C"
+        },
+        "daily": {
+          "time": [
+            "2024-06-01"
+          ],
+          "precipitation_sum": [
+            0.4
+          ],
+          "temperature_2m_mean": [
+            15.5
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=47.05&longitude=-123.05&start_date=2024-06-01&end_date=2024-06-01&daily=precipitation_sum,temperature_2m_mean&models=era5&elevation=nan&cell_selection=nearest&timezone=UTC",
+      "requested_at_utc": "2026-09-23T04:39:14+00:00",
+      "http_status": 200,
+      "response": {
+        "latitude": 47.0,
+        "longitude": -123.0,
+        "generationtime_ms": 0.1093149185180664,
+        "utc_offset_seconds": 0,
+        "timezone": "GMT",
+        "timezone_abbreviation": "GMT",
+        "elevation": 117.0,
+        "daily_units": {
+          "time": "iso8601",
+          "precipitation_sum": "mm",
+          "temperature_2m_mean": "\u00b0C"
+        },
+        "daily": {
+          "time": [
+            "2024-06-01"
+          ],
+          "precipitation_sum": [
+            0.4
+          ],
+          "temperature_2m_mean": [
+            15.5
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=47.051&longitude=-123.051&start_date=2024-06-01&end_date=2024-06-01&daily=precipitation_sum,temperature_2m_mean&models=era5&elevation=nan&cell_selection=nearest&timezone=UTC",
+      "requested_at_utc": "2026-09-23T04:39:15+00:00",
+      "http_status": 200,
+      "response": {
+        "latitude": 47.0,
+        "longitude": -123.0,
+        "generationtime_ms": 0.061511993408203125,
+        "utc_offset_seconds": 0,
+        "timezone": "GMT",
+        "timezone_abbreviation": "GMT",
+        "elevation": 117.0,
+        "daily_units": {
+          "time": "iso8601",
+          "precipitation_sum": "mm",
+          "temperature_2m_mean": "\u00b0C"
+        },
+        "daily": {
+          "time": [
+            "2024-06-01"
+          ],
+          "precipitation_sum": [
+            0.4
+          ],
+          "temperature_2m_mean": [
+            15.5
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=47.125&longitude=-123.125&start_date=2024-06-01&end_date=2024-06-01&daily=precipitation_sum,temperature_2m_mean&models=era5&elevation=nan&cell_selection=nearest&timezone=UTC",
+      "requested_at_utc": "2026-09-23T04:39:16+00:00",
+      "http_status": 200,
+      "response": {
+        "latitude": 47.25,
+        "longitude": -123.0,
+        "generationtime_ms": 0.33354759216308594,
+        "utc_offset_seconds": 0,
+        "timezone": "GMT",
+        "timezone_abbreviation": "GMT",
+        "elevation": 160.0,
+        "daily_units": {
+          "time": "iso8601",
+          "precipitation_sum": "mm",
+          "temperature_2m_mean": "\u00b0C"
+        },
+        "daily": {
+          "time": [
+            "2024-06-01"
+          ],
+          "precipitation_sum": [
+            1.0
+          ],
+          "temperature_2m_mean": [
+            15.7
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=47.12&longitude=-123.13&start_date=2024-06-01&end_date=2024-06-01&daily=precipitation_sum,temperature_2m_mean&models=era5&elevation=nan&cell_selection=nearest&timezone=UTC",
+      "requested_at_utc": "2026-09-23T04:39:18+00:00",
+      "http_status": 200,
+      "response": {
+        "latitude": 47.0,
+        "longitude": -123.25,
+        "generationtime_ms": 0.1131296157836914,
+        "utc_offset_seconds": 0,
+        "timezone": "GMT",
+        "timezone_abbreviation": "GMT",
+        "elevation": 146.0,
+        "daily_units": {
+          "time": "iso8601",
+          "precipitation_sum": "mm",
+          "temperature_2m_mean": "\u00b0C"
+        },
+        "daily": {
+          "time": [
+            "2024-06-01"
+          ],
+          "precipitation_sum": [
+            0.7
+          ],
+          "temperature_2m_mean": [
+            15.1
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=47.13&longitude=-123.12&start_date=2024-06-01&end_date=2024-06-01&daily=precipitation_sum,temperature_2m_mean&models=era5&elevation=nan&cell_selection=nearest&timezone=UTC",
+      "requested_at_utc": "2026-09-23T04:39:20+00:00",
+      "http_status": 200,
+      "response": {
+        "latitude": 47.25,
+        "longitude": -123.0,
+        "generationtime_ms": 0.11777877807617188,
+        "utc_offset_seconds": 0,
+        "timezone": "GMT",
+        "timezone_abbreviation": "GMT",
+        "elevation": 160.0,
+        "daily_units": {
+          "time": "iso8601",
+          "precipitation_sum": "mm",
+          "temperature_2m_mean": "\u00b0C"
+        },
+        "daily": {
+          "time": [
+            "2024-06-01"
+          ],
+          "precipitation_sum": [
+            1.0
+          ],
+          "temperature_2m_mean": [
+            15.7
+          ]
+        }
+      }
+    },
+    {
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=47.2&longitude=-123.2&start_date=2024-06-01&end_date=2024-06-01&daily=precipitation_sum,temperature_2m_mean&models=era5&elevation=nan&cell_selection=nearest&timezone=UTC",
+      "requested_at_utc": "2026-09-23T04:39:21+00:00",
+      "http_status": 200,
+      "response": {
+        "latitude": 47.25,
+        "longitude": -123.25,
+        "generationtime_ms": 0.24056434631347656,
+        "utc_offset_seconds": 0,
+        "timezone": "GMT",
+        "timezone_abbreviation": "GMT",
+        "elevation": 212.0,
+        "daily_units": {
+          "time": "iso8601",
+          "precipitation_sum": "mm",
+          "temperature_2m_mean": "\u00b0C"
+        },
+        "daily": {
+          "time": [
+            "2024-06-01"
+          ],
+          "precipitation_sum": [
+            1.3
+          ],
+          "temperature_2m_mean": [
+            15.1
+          ]
+        }
+      }
+    }
+  ]
+}
