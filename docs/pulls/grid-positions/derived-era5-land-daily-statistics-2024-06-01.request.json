@@ -1,0 +1,25 @@
+{
+  "dataset": "derived-era5-land-daily-statistics",
+  "request": {
+    "variable": [
+      "2m_temperature"
+    ],
+    "year": "2024",
+    "month": "06",
+    "day": [
+      "01"
+    ],
+    "daily_statistic": "daily_mean",
+    "time_zone": "utc+00:00",
+    "frequency": "1_hourly",
+    "area": [
+      47.5,
+      -123.5,
+      46.5,
+      -122.5
+    ]
+  },
+  "requested_at_utc": "2026-09-23T04:41:07+00:00",
+  "account": "the CDS test account (D43): the ECMWF login recorded at docs/planning/evidence/cds-credentials-report.md:37; key read by cdsapi from ~/.cdsapirc and not recorded",
+  "client": "cdsapi==0.7.7 via uv run --no-project --with"
+}
