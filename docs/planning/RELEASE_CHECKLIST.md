@@ -30,6 +30,10 @@ report already sets, and names that source.
    2026-10-01: D62 rules that the repository is to become public. Claude's reading in D62, open to
    correction: this check runs before the visibility changes, since that is when every commit on every
    ref becomes readable.
+   2026-10-01, later: the owner made the repository public at about 19:04 PDT. The check was run after
+   that, for the test accounts' values, on all 26 remote refs: no secret found, positive control found
+   (docs/audits/2026-10-01-decisions-d61-d62-report.md, appended section). Not ticked: the business
+   accounts' values do not exist yet.
 
 4. **Copy the "Citation and attribution" wording** for each of the four Copernicus datasets into what
    ships, since CC BY requires attribution, and confirm the licence version on the three datasets where

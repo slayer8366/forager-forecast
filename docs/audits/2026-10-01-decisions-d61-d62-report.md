@@ -94,3 +94,43 @@ branch records-noncommercial-ruling at 85b12b5), not ruled here.
 Whether a free app that takes donations or research grants stays non-commercial under CC BY-NC 4.0, and
 under Open-Meteo's free terms, was not checked with anyone able to answer it. D61 says so in its own
 Decision cell.
+
+## Appended 2026-10-01, 19:15 PDT: the repository is public, the history check, and the merge
+
+Appended by the session that wrote this report, before the merge. Nothing above this line is changed.
+
+**The owner's words,** given to this session at 19:04 PDT on 2026-10-01 (02:04 UTC on 2026-10-02):
+"Merge decisions-d61-d62 into main. Repo is now public". The first sentence is the written
+authorisation D40 requires, naming the branch. The second reports that the owner made the repository
+public themselves.
+
+**Visibility.** Observed at 19:05 PDT with `gh repo view`: slayer8366/forager-forecast is PUBLIC, with
+no licence. So D62 is carried out, by the owner. D62's own sentences "the repository is still private"
+and "making it public waits for the owner's instruction" were true when written, about two hours
+earlier, and are not edited. This report's "What was not done" lines on visibility and on the history
+check describe the same earlier moment.
+
+**The history check, run after the visibility change, not before it.** Observed, 19:06 to 19:12 PDT.
+- **Scope:** every ref on the remote, 26 in all including `pull/1/head`, 123 commits reachable.
+- **Method:** for each value, the commits that add or remove it (`git log -S`), the files holding it
+  on every ref's tip (`git grep -F`), and every commit message. Values were read from the credential
+  files on this machine and never printed; only counts were.
+- **Secrets, both zero on all three counts:** the GBIF password, and the Climate Data Store key.
+- **Positive control:** the GBIF username, which is known to be in filed reports, was found (3
+  commits, 31 files across the ref tips). So the scan can find a value that is there.
+- **Patterns:** no file that looks like a credential file was ever committed. Four added lines match a
+  password-or-token assignment pattern; all four were read and are code or variable names
+  (`ENV_PASSWORD = "GBIF_PWD"`, two lines building a request header from credentials held in memory,
+  and a report line printing unset variables).
+- **Limits.** This covers the test accounts' values only; no business account exists yet, so release
+  checklist item 3 is not ticked. It covers what is on the remote, not GitHub's own caches or any
+  copy taken while the repository was public.
+
+**What is readable by anyone now.** These are identifiers, which D36 allows; they were written while
+the repository was private. Told to the owner with this merge.
+- The GBIF account username: 3 files on main's tip.
+- The account email address: docs/planning/evidence/cds-credentials-report.md line 37.
+- One commit author address, not a noreply address, on every commit.
+
+**The merge.** Run by this session on the authorisation above: decisions-d61-d62 into main with a
+merge commit, main at 876156b before it.
