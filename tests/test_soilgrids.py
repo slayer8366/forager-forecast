@@ -149,3 +149,20 @@ def test_attribution_is_isrics_citation_and_licence_verbatim():
         "quantified spatial uncertainty, SOIL, 7, 217–240, 2021" in ATTRIBUTION
     )
     assert "CC BY 4.0" in ATTRIBUTION
+
+
+def test_isric_checksums_are_parsed_and_a_mismatch_raises(tmp_path):
+    from forager_forecast.soilgrids import parse_checksums, verify_sha256
+
+    f = tmp_path / "phh2o_0-5cm_mean.vrt"
+    f.write_bytes(b"<VRTDataset/>")
+    good = hashlib.sha256(b"<VRTDataset/>").hexdigest()
+    text = f"{good}  phh2o_0-5cm_mean.vrt\n{'0' * 64}  phh2o_5-15cm_mean.vrt\n"
+    sums = parse_checksums(text)
+    assert sums == {"phh2o_0-5cm_mean.vrt": good, "phh2o_5-15cm_mean.vrt": "0" * 64}
+    assert verify_sha256(f, sums, "phh2o_0-5cm_mean.vrt")["verdict"] == "match"
+    with pytest.raises(ValueError, match="does not match"):
+        verify_sha256(f, sums, "phh2o_5-15cm_mean.vrt")
+    assert verify_sha256(f, sums, "other.vrt")["verdict"] == "no published checksum"
+    with pytest.raises(ValueError):
+        parse_checksums("nothex  a.vrt")

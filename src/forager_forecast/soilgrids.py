@@ -191,3 +191,36 @@ def write_request(records: list[dict], extra: dict, path: Path) -> None:
     body = {**extra, "attribution": ATTRIBUTION, "layers": records}
     Path(path).parent.mkdir(parents=True, exist_ok=True)
     Path(path).write_text(json.dumps(body, indent=2, ensure_ascii=False) + "\n")
+
+
+def parse_checksums(text: str) -> dict[str, str]:
+    """ISRIC's checksum.sha256.txt (``<sha256>  <file name>`` per line) as {name: sha256}."""
+    out = {}
+    for line in text.splitlines():
+        if not line.strip():
+            continue
+        digest, name = line.split(maxsplit=1)
+        if len(digest) != 64 or any(c not in "0123456789abcdef" for c in digest.lower()):
+            raise ValueError(f"not a sha256 line: {line!r}")
+        out[name.strip()] = digest.lower()
+    return out
+
+
+def verify_sha256(path: Path, checksums: Mapping[str, str], name: str) -> dict:
+    """Compare a downloaded file with ISRIC's published sha256. Raises on a mismatch.
+
+    ISRIC publishes checksums for the VRT and OVR files only, not for the GeoTIFF tiles the
+    window is read from; a name with no published checksum is reported as such, never as a pass.
+    """
+    actual = hashlib.sha256(Path(path).read_bytes()).hexdigest()
+    expected = checksums.get(name)
+    if expected is None:
+        return {
+            "file": name,
+            "sha256": actual,
+            "published": None,
+            "verdict": "no published checksum",
+        }
+    if actual != expected:
+        raise ValueError(f"{name}: sha256 {actual} does not match ISRIC's {expected}")
+    return {"file": name, "sha256": actual, "published": expected, "verdict": "match"}
