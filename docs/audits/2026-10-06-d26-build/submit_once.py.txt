@@ -1,0 +1,27 @@
+"""D26: submit the one download. Prints the key only. Refuses if a key was already recorded."""
+
+import sys
+from pathlib import Path
+
+from forager_forecast.records.gbif_download import (
+    credentials_from_env,
+    d26_predicate,
+    request_template,
+    submit_download_request,
+)
+
+KEY_FILE = Path("/tmp/claude-1000/d26/download_key.txt")
+if KEY_FILE.exists():
+    sys.exit(f"refusing: a download was already requested ({KEY_FILE.read_text().strip()})")
+
+env = {}
+for line in (Path.home() / ".config/forager-forecast/gbif.env").read_text().splitlines():
+    name, sep, value = line.strip().partition("=")
+    if sep and not name.startswith("#"):
+        env[name.removeprefix("export ").strip()] = value.strip().strip("'\"")
+credentials = credentials_from_env(env)
+print("request body without personal fields:", request_template(d26_predicate()))
+KEY_FILE.write_text("pending\n")
+key = submit_download_request(credentials, d26_predicate())
+KEY_FILE.write_text(key + "\n")
+print("download key:", key)

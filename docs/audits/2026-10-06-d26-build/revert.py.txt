@@ -1,0 +1,90 @@
+"""D26 revert checks: one edit per behaviour, restored from a saved copy, never from git.
+
+For each check: save a byte copy, apply exactly one string replacement (refusing if the old text is
+not found exactly once), delete the previous JUnit XML, run the named test file, refuse to cite a
+run whose exit code is not 0 or 1 or whose XML reports errors (collection or import), restore from
+the saved copy, and confirm the restored file is byte-identical to the copy (the forward change is
+present). Prints one JSON line per check.
+"""
+
+import json
+import subprocess
+import sys
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+ROOT = Path.home() / "Zynergy" / "forager-forecast-d26"
+GD = "src/forager_forecast/records/gbif_download.py"
+COUNTS = "src/forager_forecast/records/counts.py"
+TGD = "tests/test_records_gbif_download.py"
+TC = "tests/test_records_counts.py"
+XML = Path("/tmp/claude-1000/d26/revert-junit.xml")
+
+CHECKS = [
+    ("no fallback: country branch loses its isNull guard", GD,
+     '{"type": "isNull", "parameter": "GADM_LEVEL_0_GID"},', "", TGD),
+    ("continent filter added", GD,
+     'return {"type": "and", "predicates": [*t1_filters, area]}',
+     'return {"type": "and", "predicates": [*t1_filters, area, '
+     '{"type": "equals", "key": "CONTINENT", "value": "NORTH_AMERICA"}]}', TGD),
+    ("licence filter added", GD,
+     'return {"type": "and", "predicates": [*t1_filters, area]}',
+     'return {"type": "and", "predicates": [*t1_filters, area, '
+     '{"type": "equals", "key": "LICENSE", "value": "CC_BY_4_0"}]}', TGD),
+    ("T1 filters changed: one dropped", GD,
+     't1_filters = expected_t1_predicate()["predicates"][:5]',
+     't1_filters = expected_t1_predicate()["predicates"][:4]', TGD),
+    ("fetch: size check removed", GD,
+     "if size != expected_size:", "if False:", TGD),
+    ("fetch: fetch-once guard removed", GD,
+     "if target.exists():", "if False:", TGD),
+    ("fetch: partial file not removed", GD,
+     "partial.unlink(missing_ok=True)", "pass", TGD),
+    ("status: wrong URL", GD,
+     'DOWNLOAD_STATUS_URL = "https://api.gbif.org/v1/occurrence/download/{key}"',
+     'DOWNLOAD_STATUS_URL = "https://api.gbif.org/v1/occurrence/{key}"', TGD),
+    ("region: old label back", COUNTS,
+     'OUTSIDE_T1_BOXES = "outside_t1_boxes"', 'OUTSIDE_T1_BOXES = "rest_of_north_america"', TC),
+]
+
+
+def run(name, rel, old, new, test):
+    path = ROOT / rel
+    saved = path.read_bytes()
+    text = saved.decode("utf-8")
+    if text.count(old) != 1:
+        return {"check": name, "refused": f"old text found {text.count(old)} times"}
+    try:
+        path.write_text(text.replace(old, new), encoding="utf-8")
+        XML.unlink(missing_ok=True)
+        proc = subprocess.run(
+            ["uv", "run", "pytest", "-q", "-p", "no:cacheprovider", f"--junitxml={XML}", test],
+            cwd=ROOT, capture_output=True, text=True,
+        )
+    finally:
+        path.write_bytes(saved)
+    restored = path.read_bytes() == saved
+    result = {"check": name, "exit": proc.returncode, "restored_from_copy": restored}
+    if proc.returncode not in (0, 1) or not XML.exists():
+        result["refused"] = "exit not 0/1 or no XML: not cited"
+        result["tail"] = proc.stdout[-800:]
+        return result
+    suite = ET.parse(XML).getroot()
+    suite = suite if suite.tag == "testsuite" else suite.find("testsuite")
+    errors = int(suite.get("errors", 0))
+    result.update(tests=int(suite.get("tests")), failures=int(suite.get("failures")), errors=errors)
+    if errors:
+        result["refused"] = "collection or import errors: not cited"
+        return result
+    result["failed"] = [
+        (case.get("name"), (case.find("failure").get("message") or "")[:160])
+        for case in suite.iter("testcase")
+        if case.find("failure") is not None
+    ]
+    return result
+
+
+if __name__ == "__main__":
+    for check in CHECKS:
+        print(json.dumps(run(*check)), flush=True)
+    sys.exit(0)

@@ -1,0 +1,10 @@
+=========================== short test summary info ============================
+FAILED tests/test_records_counts.py::test_region_assignment - AttributeError:...
+FAILED tests/test_records_counts.py::test_count_table_through_the_loader_and_pipeline
+FAILED tests/test_records_gbif_download.py::test_d26_request_is_the_t1_filters_plus_tag_else_country
+FAILED tests/test_records_gbif_download.py::test_d26_predicate_has_no_continent_and_no_licence_filter
+FAILED tests/test_records_gbif_download.py::test_d26_predicate_keeps_the_t1_template_filters_unchanged
+FAILED tests/test_records_gbif_download.py::test_download_status_reads_gbifs_record_without_credentials
+FAILED tests/test_records_gbif_download.py::test_fetch_download_writes_once_and_returns_size_and_sha256
+FAILED tests/test_records_gbif_download.py::test_fetch_download_refuses_a_size_that_disagrees_with_gbif
+8 failed, 211 passed in 0.76s
