@@ -19,6 +19,7 @@ T1 reports.
 | T6 to T11 | Not started | Not written yet |
 | T6b. Continental soil and host-tree layers | Not started; added 2026-10-06 by the owner (D100), to run before T7 | Not written yet |
 | D27 to D29 data-quality tables | Built 2026-10-06 on branch dq-tables-d27-d29, unmerged, waiting for the independent review (D18): both duplicate keys per list and region (D27); the day-of-month table by dataset with the test fixed before counts (D95), no clear excess in any dataset, one small excess that is a survey date; the date rule waits on the owner (D28); dataset and licence lists beside all three DOIs (D29, D96); the D26 review's minor items; report in docs/audits/2026-10-06-d27-d29-completion-report.md | docs/dispatch/2026-10-06-d27-d29-data-quality-tables.md |
+| D28 final date rule | Built 2026-10-06 on branch d28-date-rule, unmerged, waiting for the independent review (D18): midnight count by dataset (not special to the 1st for any source); owner's rulings D97 (keep the 1st) and D98 (drop the midnight check) applied to the shared date step in both lists, which now keeps every dated record; over D26's download T1 591,783 and R6 1,249,718 survivors; report in docs/audits/2026-10-06-d28-date-rule-completion-report.md | docs/dispatch/2026-10-06-d28-date-rule.md |
 
 **T0. Repo bootstrap**
 - Depends on: none
