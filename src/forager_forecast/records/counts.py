@@ -1,8 +1,10 @@
 """The count table: records by pipeline stage, forager group, region and year.
 
-Regions are the two T1 boxes plus "rest of North America"
-(docs/dispatch/2026-09-18-t2-record-audit.md, "Then build"; box limits from
-docs/dispatch/2026-09-18-t1-calendar-smoke-test.md, "Boxes, for T1 only"). Groups are the two
+Regions are the two T1 boxes plus "outside_t1_boxes", the rest of whatever area the download covers:
+the continent for T2's 0005714, the United States and Canada for D26's download (D47). The region
+was named "rest_of_north_america" until the D26 task; the rename changes no count, and T2's filed
+tables keep the old label (docs/dispatch/2026-09-18-t2-record-audit.md, "Then build"; box limits
+from docs/dispatch/2026-09-18-t1-calendar-smoke-test.md, "Boxes, for T1 only"). Groups are the two
 phase 1 forager groups at genus level (D9, D12; SPEC.md Scope), told apart by GBIF genusKey, with
 every record also counted under "all_fungi" so the table shows the denominator the observation
 layer (T6) will need.
@@ -41,7 +43,7 @@ T1_BOXES = (
     Box("pnw", 42.0, 49.5, -125.0, -121.0),
     Box("east", 38.0, 46.0, -84.0, -70.0),
 )
-REST_OF_NORTH_AMERICA = "rest_of_north_america"
+OUTSIDE_T1_BOXES = "outside_t1_boxes"
 
 # GBIF Backbone genus keys, resolved with /v1/species/match on 2026-09-18:
 # Cantharellus Adans. ex Fr., 1821 -> 9623860 (EXACT, ACCEPTED);
@@ -60,7 +62,7 @@ def region_of(record: Record, boxes: Iterable[Box] = T1_BOXES) -> str:
     for box in boxes:
         if box.contains(record.latitude, record.longitude):
             return box.name
-    return REST_OF_NORTH_AMERICA
+    return OUTSIDE_T1_BOXES
 
 
 def group_of(record: Record) -> str | None:

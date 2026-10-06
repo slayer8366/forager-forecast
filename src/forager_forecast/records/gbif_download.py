@@ -9,8 +9,12 @@ evidence (records/t1_simple_csv.py, D67).
 
 The predicate in gbif/t1_fungi_two_boxes_2015_2025.json is T1's dispatch "Verify first" item 1 as
 a GBIF predicate: kingdom Fungi (backbone key 5), human observations, years 2015 to 2025, records
-with coordinates, inside the two T1 boxes. D26's download needs a geometry predicate of its own,
-which is D26's work, passed to request_template by its caller.
+with coordinates, inside the two T1 boxes. D26's download keeps those filters and replaces the boxes
+with the United States and Canada (D47) by GBIF's GADM country tag, else GBIF's country field where
+a record has no tag (D71, D72): d26_predicate below, passed to request_template.
+
+Waiting for and fetching a finished download: download_status and fetch_download, which need no
+credentials, since a finished download is public at its key.
 
 Requesting a download needs a GBIF account. The request endpoint answered 403 without credentials
 and 401 with wrong ones on 2026-09-18. This module reads GBIF_USER, GBIF_PWD and GBIF_EMAIL from
@@ -18,6 +22,7 @@ the environment and refuses, naming what is missing, rather than trying anyway.
 """
 
 import base64
+import hashlib
 import json
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass
@@ -29,6 +34,15 @@ from forager_forecast.t1_design import BOXES, FIRST_YEAR, FUNGI_KINGDOM_KEY, LAS
 
 PREDICATE_PATH = Path(__file__).parent / "gbif" / "t1_fungi_two_boxes_2015_2025.json"
 DOWNLOAD_REQUEST_URL = "https://api.gbif.org/v1/occurrence/download/request"
+DOWNLOAD_STATUS_URL = "https://api.gbif.org/v1/occurrence/download/{key}"
+DOWNLOAD_FILE_URL = "https://api.gbif.org/v1/occurrence/download/request/{key}.zip"
+
+# D47, D71, D72. GADM_LEVEL_0_GID is the download key of the search parameter gadmLevel0Gid
+# (https://techdocs.gbif.org/openapi/occurrence.json, read 2026-10-06), as GBIF's own converter
+# /v1/occurrence/download/request/predicate returned it for gadmLevel0Gid=USA&gadmLevel0Gid=CAN.
+# GADM codes are ISO 3166-1 alpha-3, the country field's are alpha-2.
+D26_GADM_COUNTRIES = ("USA", "CAN")
+D26_COUNTRY_CODES = ("US", "CA")
 
 # Carried over from T2's records/gbif_download.py under D42 and D45, with request_template below.
 # GBIF Backbone Taxonomy. TAXON_KEY 5 is Fungi in this checklist
@@ -97,6 +111,32 @@ def expected_t1_predicate() -> dict:
     }
 
 
+def d26_predicate() -> dict:
+    """D26's area: the T1 template's five filters, and the US and Canada in place of the boxes.
+
+    A record is in when its GADM country tag is USA or CAN, or when it has no GADM tag and its
+    country field is US or CA (D72). A record tagged as another country stays out. No CONTINENT
+    (D26) and no licence filter (D61). On GBIF's predicate search at 06:49 UTC on 2026-10-06 this
+    counted 2,493,578 records, and every record in both T1 boxes
+    (docs/audits/2026-10-06-d26-verify/combined.json).
+    """
+    t1_filters = expected_t1_predicate()["predicates"][:5]
+    area = {
+        "type": "or",
+        "predicates": [
+            {"type": "in", "key": "GADM_LEVEL_0_GID", "values": list(D26_GADM_COUNTRIES)},
+            {
+                "type": "and",
+                "predicates": [
+                    {"type": "isNull", "parameter": "GADM_LEVEL_0_GID"},
+                    {"type": "in", "key": "COUNTRY", "values": list(D26_COUNTRY_CODES)},
+                ],
+            },
+        ],
+    }
+    return {"type": "and", "predicates": [*t1_filters, area]}
+
+
 def request_template(predicate: dict[str, Any]) -> dict[str, Any]:
     """The request body without the fields that belong to a person: no email, no notification.
 
@@ -151,3 +191,47 @@ def submit_download_request(
     if status not in (200, 201) or not key:
         raise RuntimeError(f"download request answered HTTP {status} with body {key!r}")
     return key
+
+
+def download_status(key: str, opener: Callable = urlopen) -> dict[str, Any]:
+    """GBIF's record of one download: status, size, totalRecords, doi, eraseAfter. No login."""
+    request = Request(
+        DOWNLOAD_STATUS_URL.format(key=key), method="GET", headers={"Accept": "application/json"}
+    )
+    with opener(request, timeout=60) as response:
+        return json.loads(response.read().decode("utf-8"))
+
+
+def fetch_download(
+    key: str,
+    directory: Path,
+    expected_size: int,
+    opener: Callable = urlopen,
+    chunk_bytes: int = 1 << 20,
+) -> dict[str, Any]:
+    """Fetch a finished download's zip once, into directory, and return its size and sha256.
+
+    Refuses to overwrite an existing file, so a second fetch is an error, not a silent redo. GBIF
+    publishes no checksum for a download, so the check is the byte size against GBIF's record;
+    the sha256 is this machine's own. A size that disagrees removes the partial file and raises.
+    """
+    target = Path(directory) / f"{key}.zip"
+    if target.exists():
+        raise FileExistsError(f"{target} exists; a download is fetched once")
+    partial = target.with_name(target.name + ".part")
+    digest = hashlib.sha256()
+    size = 0
+    request = Request(DOWNLOAD_FILE_URL.format(key=key), method="GET")
+    try:
+        with opener(request, timeout=600) as response, partial.open("xb") as out:
+            while chunk := response.read(chunk_bytes):
+                out.write(chunk)
+                digest.update(chunk)
+                size += len(chunk)
+        if size != expected_size:
+            raise RuntimeError(f"fetched {size} bytes, GBIF's record says {expected_size}")
+    except BaseException:
+        partial.unlink(missing_ok=True)
+        raise
+    partial.rename(target)
+    return {"path": str(target), "size_bytes": size, "sha256": digest.hexdigest()}
