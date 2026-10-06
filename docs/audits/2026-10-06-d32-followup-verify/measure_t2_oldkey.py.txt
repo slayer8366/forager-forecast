@@ -1,0 +1,36 @@
+"""Re-run T2's four steps with the pre-D44 key (observer|floor cell|day), as at 6560b2d^."""
+import io
+import json
+import sys
+import zipfile
+
+import forager_forecast.records.filters as f
+
+
+def old_key(r):
+    observer = r.get("recordedBy", "").strip()
+    try:
+        cell = f.weather_cell(float(r["decimalLatitude"]), float(r["decimalLongitude"]))
+        cell_text = f"{cell[0]},{cell[1]}"
+    except (KeyError, ValueError):
+        cell_text = "no-cell"
+    return f"{observer}|{cell_text}|{f.observation_day(r)}"
+
+
+class OldDup(f.DuplicateObserverCellDay):
+    def __call__(self, r):
+        import hashlib
+
+        d = hashlib.blake2b(old_key(r).encode("utf-8"), digest_size=16).digest()
+        if d in self._seen:
+            return True
+        self._seen.add(d)
+        return False
+
+
+steps = f.default_steps()[:3] + [f.FilterStep("duplicate_observer_cell_day_pre_d44", OldDup())]
+p = f.Pipeline(steps=steps)
+with zipfile.ZipFile(sys.argv[1]).open("occurrence.txt") as raw:
+    n = sum(1 for _ in p.run(f.read_occurrence_rows(io.TextIOWrapper(raw, encoding="utf-8", newline=""))))
+print(json.dumps({"source": p.source_count, "survivors": n,
+                  "steps": [{"step": c.step, "before": c.before, "dropped": c.dropped} for c in p.counts]}, indent=1))

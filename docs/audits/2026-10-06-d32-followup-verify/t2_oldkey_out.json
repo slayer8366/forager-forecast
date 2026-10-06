@@ -1,0 +1,26 @@
+{
+ "source": 2549508,
+ "survivors": 828498,
+ "steps": [
+  {
+   "step": "user_obscured",
+   "before": 2549508,
+   "dropped": 156543
+  },
+  {
+   "step": "coordinate_uncertainty",
+   "before": 2392965,
+   "dropped": 1024875
+  },
+  {
+   "step": "default_first_of_month_date",
+   "before": 1368090,
+   "dropped": 799
+  },
+  {
+   "step": "duplicate_observer_cell_day_pre_d44",
+   "before": 1367291,
+   "dropped": 538793
+  }
+ ]
+}
