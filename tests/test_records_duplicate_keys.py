@@ -91,7 +91,7 @@ def test_t1_list_tallies_only_what_reaches_its_duplicate_step():
     steps = f.t1_steps()
     tally = KeyTally.for_steps(steps)
     f.Pipeline(steps, on_pass=tally.add).run(RECORDS)
-    assert tally.at_stage == "not a default date (first of month at 00:00:00)"
+    assert tally.at_stage == "date kept as given (D97, D98)"
     assert tally.entered == 8
     assert tally.survivors("event") == 4
     assert tally.survivors("observer") == 6

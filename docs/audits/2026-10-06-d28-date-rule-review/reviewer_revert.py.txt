@@ -1,0 +1,150 @@
+"""Reviewer's strict revert runner (D18 review of D28). Run from the worktree root:
+uv run python docs/audits/2026-10-06-d28-date-rule-review/reviewer_revert.py.txt <results.jsonl>
+
+Per check: save the target file's bytes; make one edit (the old text must occur exactly once);
+clear every __pycache__ outside .venv; PYTHONDONTWRITEBYTECODE=1 for every child; confirm a fresh
+interpreter reads the edited bytes (a module by import and its __file__, a script by the same
+spec_from_file_location load the tests use, then sha256 of the source the loader returns); run the
+named test files with a fresh JUnit XML; refuse on a missing XML, any error (a collection error
+included), an exit other than 1, or fewer test cases than the unedited run collected; restore from
+the saved bytes, never from git; confirm byte-identical. After all checks, confirm every target's
+sha256 equals its sha256 before the run (the forward state, including uncommitted edits, is intact).
+"""
+
+import hashlib
+import json
+import os
+import pathlib
+import shutil
+import subprocess
+import sys
+import xml.etree.ElementTree as ET
+
+ROOT = pathlib.Path.cwd()
+XML = ROOT / ".reviewer_revert_junit.xml"
+FILTERS = "src/forager_forecast/records/filters.py"
+RENDER = "scripts/t2_render_tables.py"
+TESTS = [
+    "tests/test_records_filters.py",
+    "tests/test_records_date_quality.py",
+    "tests/test_records_midnight.py",
+    "tests/test_records_duplicate_keys.py",
+    "tests/test_t2_render_tables.py",
+]
+CHECKS = [
+    (
+        "R1 date step drops every record on the 1st (any time)",
+        FILTERS,
+        'a rule.\n    """\n    return False\n',
+        'a rule.\n    """\n    return record.event_date.day == 1\n',
+    ),
+    (
+        "R2 renderer's unknown-stage refusal disabled",
+        RENDER,
+        "    if unknown_stages:\n",
+        "    if unknown_stages and False:\n",
+    ),
+    (
+        "R3 is_default_date loses its day-1 test (drops midnight and date-only on any day)",
+        FILTERS,
+        "    if record.event_date.day != 1:\n        return False\n    return record.event_time is None",
+        "    return record.event_time is None",
+    ),
+]
+
+SEE = {
+    FILTERS: (
+        "import hashlib,inspect,forager_forecast.records.filters as m;"
+        "print(m.__file__);print(hashlib.sha256(open(m.__file__,'rb').read()).hexdigest())"
+    ),
+    RENDER: (
+        "import hashlib,importlib.util as u;p='{p}';s=u.spec_from_file_location('r',p);"
+        "print(p);print(hashlib.sha256(s.loader.get_source('r').encode()).hexdigest())"
+    ),
+}
+
+
+def clear_cache():
+    for d in ROOT.rglob("__pycache__"):
+        if ".venv" not in d.parts:
+            shutil.rmtree(d)
+
+
+def run_tests(env):
+    if XML.exists():
+        XML.unlink()
+    r = subprocess.run(
+        [sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider", *TESTS, f"--junitxml={XML}"],
+        capture_output=True,
+        text=True,
+        env=env,
+    )
+    if not XML.exists():
+        raise SystemExit(f"no XML, refusing\n{r.stdout[-2000:]}")
+    root = ET.parse(XML).getroot()
+    suite = root.find("testsuite") if root.find("testsuite") is not None else root
+    return r, suite
+
+
+env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1")
+out = open(sys.argv[1], "w")
+targets = {t for _, t, _, _ in CHECKS}
+before = {t: hashlib.sha256((ROOT / t).read_bytes()).hexdigest() for t in targets}
+
+clear_cache()
+r, suite = run_tests(env)
+baseline_cases = int(suite.get("tests"))
+if r.returncode != 0 or int(suite.get("errors")) or int(suite.get("failures")):
+    raise SystemExit(f"unedited run is not green, refusing\n{r.stdout[-2000:]}")
+print("unedited:", baseline_cases, "cases, all pass", flush=True)
+out.write(json.dumps({"unedited_cases": baseline_cases, "exit": r.returncode}) + "\n")
+
+for name, target, old, new in CHECKS:
+    path = ROOT / target
+    saved = path.read_bytes()
+    text = saved.decode()
+    if text.count(old) != 1:
+        raise SystemExit(f"{name}: old text occurs {text.count(old)} times, refusing")
+    edited = text.replace(old, new).encode()
+    try:
+        path.write_bytes(edited)
+        clear_cache()
+        seen = subprocess.run(
+            [sys.executable, "-c", SEE[target].format(p=str(path))],
+            capture_output=True,
+            text=True,
+            env=env,
+        ).stdout.split()
+        if seen[0] != str(path) or seen[1] != hashlib.sha256(edited).hexdigest():
+            raise SystemExit(f"{name}: interpreter does not see the edit {seen}, refusing")
+        r, suite = run_tests(env)
+        errors, failures, cases = (int(suite.get(k)) for k in ("errors", "failures", "tests"))
+        if r.returncode != 1 or errors or cases < baseline_cases:
+            raise SystemExit(
+                f"{name}: exit {r.returncode}, errors {errors}, cases {cases}, refusing\n"
+                f"{r.stdout[-2000:]}"
+            )
+        failed = [
+            {"test": c.get("name"), "message": (c.find("failure").get("message") or "")[:300]}
+            for c in suite.iter("testcase")
+            if c.find("failure") is not None
+        ]
+        rec = {"check": name, "file": target, "exit": r.returncode, "errors": errors,
+               "cases": cases, "failures": failures, "failed": failed}
+    finally:
+        path.write_bytes(saved)
+        clear_cache()
+    if path.read_bytes() != saved:
+        raise SystemExit(f"{name}: restore not identical")
+    rec["restored_identical"] = True
+    print(json.dumps(rec), flush=True)
+    out.write(json.dumps(rec) + "\n")
+    out.flush()
+
+if XML.exists():
+    XML.unlink()
+after = {t: hashlib.sha256((ROOT / t).read_bytes()).hexdigest() for t in targets}
+if after != before:
+    raise SystemExit(f"forward state changed: {before} -> {after}")
+print("forward state intact:", after, flush=True)
+out.write(json.dumps({"forward_state_intact": after}) + "\n")

@@ -1,0 +1,11 @@
+| Dataset | Timed records | Midnight, any day | Midnight share | Midnight on the 1st | Midnight, days 2-31 | Share on the 1st | x expected | Own calendar share | 95% range | p-value | Verdict | Reach date step (T1 / R6) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| iNaturalist Research-grade Observations | 2,123,100 | 657 | 0.0003 | 30 | 627 | 0.0457 | 1.39 | 0.0343 | 0.0310 to 0.0645 | 0.047 | midnight is common on every day | 5 / 10 |
+| NABU\|naturgucker | 18 | 18 | 1.0000 | 0 | 18 | 0.0000 | 0.00 |  | 0.0000 to 0.1853 | 1.000 | too few to test | 0 / 0 |
+| Earth Guardians Weekly Feed | 1,141 | 0 | 0.0000 | 0 | 0 |  |  | 0.0228 |  |  | too few to test | 0 / 0 |
+| Marc Kummel Photography | 467 | 0 | 0.0000 | 0 | 0 |  |  | 0.0514 |  |  | too few to test | 0 / 0 |
+| Baie de Mille-Vaches marsh - Characterization of important coastal habitats on the north shore of the St.Lawrence maritime Estuary \| Le marais de la baie de Mille-Vaches - Caractérisation des habitats littoraux d’importance de la rive nord de l’estuaire maritime du Saint-Laurent | 23 | 0 | 0.0000 | 0 | 0 |  |  | 0.0000 |  |  | too few to test | 0 / 0 |
+| The Portneuf-sur-Mer Salt Marsh - Characterization of Important Coastal Habitats on the North Shore of the St. Lawrence Estuary \| Le marais salé de Portneuf-sur-Mer - Caractérisation des habitats littoraux d’importance de la rive nord de l’estuaire maritime du Saint-Laurent | 20 | 0 | 0.0000 | 0 | 0 |  |  | 0.0000 |  |  | too few to test | 0 / 0 |
+| The Pointe des Fortin Marsh - Characterization of Important Coastal Habitats on the North Shore of the St. Lawrence Estuary \| Le marais de la pointe des Fortin - Caractérisation des habitats littoraux d’importance de la rive nord de l’estuaire maritime du Saint-Laurent | 20 | 0 | 0.0000 | 0 | 0 |  |  | 0.0000 |  |  | too few to test | 0 / 0 |
+| Monitoring of Invasive Plant Species in the Wetlands of the St. Lawrence River \| Suivi des espèces végétales envahissantes dans les milieux humides du fleuve Saint-Laurent | 4 | 0 | 0.0000 | 0 | 0 |  |  | 0.0000 |  |  | too few to test | 0 / 0 |
+| All datasets | 2,124,793 | 675 | 0.0003 | 30 | 645 | 0.0444 | 1.35 | 0.0343 | 0.0302 to 0.0628 | 0.062 | (not a verdict) | 5 / 10 |

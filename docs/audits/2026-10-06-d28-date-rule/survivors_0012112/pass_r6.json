@@ -1,0 +1,72 @@
+{
+ "list": "r6",
+ "step_names": [
+  "user_obscured",
+  "coordinate_uncertainty",
+  "date_kept_as_given",
+  "duplicate_taxon_observer_cell_day"
+ ],
+ "rows_read": 2493578,
+ "unloadable": {
+  "eventDate does not name a calendar day": 9604,
+  "eventDate spans more than one day": 23
+ },
+ "source": 2483951,
+ "steps": [
+  {
+   "step": "user_obscured",
+   "before": 2483951,
+   "dropped": 155988,
+   "after": 2327963
+  },
+  {
+   "step": "coordinate_uncertainty",
+   "before": 2327963,
+   "dropped": 986105,
+   "after": 1341858
+  },
+  {
+   "step": "date_kept_as_given",
+   "before": 1341858,
+   "dropped": 0,
+   "after": 1341858
+  },
+  {
+   "step": "duplicate_taxon_observer_cell_day",
+   "before": 1341858,
+   "dropped": 92140,
+   "after": 1249718
+  }
+ ],
+ "duplicate_step_reads": {
+  "stage": "date_kept_as_given",
+  "records": 1341858,
+  "by_region": {
+   "east": 439449,
+   "outside_t1_boxes": 756267,
+   "pnw": 146142
+  },
+  "records_with_empty_recordedBy": 467
+ },
+ "survivors": {
+  "event": {
+   "total": 1207287,
+   "by_region": {
+    "east": 401218,
+    "outside_t1_boxes": 677401,
+    "pnw": 128668
+   }
+  },
+  "observer": {
+   "total": 1249718,
+   "by_region": {
+    "east": 413518,
+    "outside_t1_boxes": 702712,
+    "pnw": 133488
+   }
+  }
+ },
+ "list_own_key": "observer",
+ "seconds": 202.1,
+ "peak_rss_mb_so_far": 1111.4
+}

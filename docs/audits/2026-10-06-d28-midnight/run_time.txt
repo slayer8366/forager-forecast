@@ -1,0 +1,24 @@
+{"started_utc": "2026-10-06T19:28:18+00:00", "ended_utc": "2026-10-06T19:30:48+00:00", "seconds": 149.2, "peak_rss_mb": 27.8}
+	Command being timed: "uv run python scripts/d28_midnight_table.py /home/zynergy-labs/Zynergy/forager-forecast-d26/data/d26/downloads/0012112-260928105237408.zip c0d5f6a1a775ddb902f73ca2c1978946c056a4f326beb7e13349677c0f72b26c docs/pulls/gbif-fungi-us-canada-2015-2025.datasets.json docs/audits/2026-10-06-d28-midnight"
+	User time (seconds): 148.80
+	System time (seconds): 0.34
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 2:29.25
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 28976
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 6404
+	Voluntary context switches: 19
+	Involuntary context switches: 7692
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 224
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

@@ -58,3 +58,14 @@ def test_known_regions_render_with_their_counts_in_the_year_table(tmp_path, caps
     _render_module().main(tmp_path)
     out = capsys.readouterr().out
     assert "| 2020 | 3 | 0 | 0 | 0 | 5 | 0 |" in out
+
+
+def test_a_stage_the_renderer_does_not_know_is_refused_by_name(tmp_path, capsys):
+    # D97, D98 renamed R6's date step (default_first_of_month_date -> date_kept_as_given). A CSV
+    # written before would otherwise print 0 for the renamed stage, silently.
+    _write_output(tmp_path, "outside_t1_boxes")
+    with (tmp_path / "counts_by_stage_group_region_year.csv").open("a", encoding="utf-8") as h:
+        h.write("default_first_of_month_date,all_fungi,pnw,2020,3\n")
+    with pytest.raises(SystemExit, match="default_first_of_month_date"):
+        _render_module().main(tmp_path)
+    assert capsys.readouterr().out == "", "nothing is printed before the refusal"
