@@ -503,3 +503,11 @@ def test_written_surface_reads_back_and_refuses_outside_the_frame(tmp_path):
         stored.effort(Cell(0, 0), week)
     with pytest.raises(ef.NoEffortValue):
         stored.effort(cell, IsoWeek(2026, 1))
+
+
+def test_a_resample_without_a_band_still_fits():
+    counts, _mu, rate = synthetic(seed=12)
+    weights = np.where(counts.cell_band == 1, 0.0, 2.0)
+    surface = ef.fit(counts, ef.YEARS, ef.Config(0.1, 3), cell_weights=weights)
+    assert np.all(np.isfinite(surface.season)) and np.all(np.isfinite(surface.cell_level))
+    assert surface.weekend_ratio == pytest.approx(rate[0] / rate[1], rel=1e-6)

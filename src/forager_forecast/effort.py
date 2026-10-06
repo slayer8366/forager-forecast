@@ -385,7 +385,13 @@ def fit(
             numerator = circular_window_sum(obs_season, config.smoothing)
             denominator = circular_window_sum(exposure, config.smoothing)
             average = _band_average(obs_season.sum(axis=1), exposure.sum(axis=1))
-            season = (numerator + q * average[:, None] * denominator) / (denominator * (1.0 + q))
+            # A band with no weighted cells (dropped by a bootstrap resample) has no season to
+            # estimate; it keeps the value it had, which no expected value then uses.
+            with np.errstate(divide="ignore", invalid="ignore"):
+                updated = (numerator + q * average[:, None] * denominator) / (
+                    denominator * (1.0 + q)
+                )
+            season = np.where(denominator > 0, updated, season)
         if "day" in terms:
             band_mass = np.bincount(band, weights=weights * cell_level, minlength=nb)
             per_slot = (weeks * year_level[:, None]).sum(axis=0)
