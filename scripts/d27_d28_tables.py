@@ -116,9 +116,13 @@ def main(zip_path: Path, datasets_path: Path, out_dir: Path) -> None:
     }
     runs = {"zip": str(zip_path), "started_utc": datetime.now(UTC).isoformat(timespec="seconds")}
 
-    # Pass 1: T1 as it stands, with the day-of-month table at the source stage.
+    # Pass 1: T1 under the provisional rule, with the day-of-month table at the source stage.
+    # D97 and D98 retired that rule from t1_steps(), so it is put back here explicitly; this keeps
+    # the script reproducing what it measured (run 2026-10-06, docs/audits/2026-10-06-d27-d29/).
     table = dq.DayOfMonthTable()
-    first = run_pass(zip_path, t1_steps(), "event", extra_sinks=(table.add,))
+    first = run_pass(
+        zip_path, dq.with_date_rule(t1_steps(), dq.DROP_ALL), "event", extra_sinks=(table.add,)
+    )
     write_json(out_dir / "pass_t1_drop_all.json", {"rule": "drop_all", **first})
 
     rows = sorted(table.datasets().values(), key=lambda r: -r.loaded)
