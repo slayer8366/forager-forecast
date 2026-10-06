@@ -201,3 +201,19 @@ Section 4 is left as written above. These notes supersede the parts they name.
    rule fires on at most 8% of no-step draws. V_US, V_CA, the 95th percentiles and the bootstrap
    interval are still reported, as section 4 promised. No real transect value had been computed
    when this change was made: the master raster did not exist yet.
+
+## 8. Appended 2026-10-06, after the T5 review (F5): page numbers in section 3
+
+Section 3 is left as written above. In section 3 the Pilz et al. 2003 PDF page numbers are wrong;
+the printed page, 19, is right. I re-checked them on the copy read at 11:16:35 UTC (sha256
+`250a2951…9123`) with `pdftotext`, one page at a time:
+
+| Quote | Section 3 says | Correct PDF page |
+| --- | --- | --- |
+| "In the Pacific Northwest, chanterelles generally associate with Douglas-fir, hemlock, spruce, fir, and pine" (printed p. 19) | PDF page 25 | **PDF page 24** |
+| The Pacific golden chanterelle, "under hemlock, Douglas-fir, and spruce" | "PDF page 39 area" | **PDF page 38** |
+
+- **Where the errors came from.** Page 25 holds the next sentence, "Chanterelles have a very broad
+  host range", which is where my first search landed. Page 39 holds the white chanterelle's
+  "mycorrhizal with Douglas-fir and hemlocks".
+- **The review agrees.** Its pages (24 and 38) match this copy.
