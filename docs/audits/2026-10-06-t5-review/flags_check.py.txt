@@ -1,0 +1,29 @@
+"""T5 review (D18): the not-available flags (code 3) and shares on the real built layers (D85, D89).
+Run: PYTHONDONTWRITEBYTECODE=1 uv run --frozen python <this file>. Reads the flash drive only."""
+import json
+from pathlib import Path
+import numpy as np
+import rasterio
+D = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t5")
+out = {}
+for build in ("master_treemap_canopy_scale_1.0", "master_tree_list_scale_1.0"):
+    with rasterio.open(D / build / "host_trees_strip.tif") as m:
+        B = {n: m.read(i + 1) for i, n in enumerate(m.descriptions)}
+        tags = m.tags()
+    with rasterio.open(D / build / "host_trees_strip_flags.tif") as f:
+        F = {n: f.read(i + 1) for i, n in enumerate(f.descriptions)}
+    ca = B["source"] == 2
+    us = B["source"] == 1
+    r = {"canada_cells": int(ca.sum()), "us_cells": int(us.sum()), "tags_rulings": tags.get("rulings"),
+         "tags_not_available": tags.get("not_available_in_scanfi"), "us_total_tag": tags.get("us_total", "")[:40]}
+    for g in ("Tsuga", "Quercus", "Pinus", "Picea", "Abies", "Pseudotsuga", "conifer", "broadleaf"):
+        fl, sh = F[f"flag_{g}"], B[f"share_{g}"]
+        r[g] = {
+            "ca_flag_values": {int(k): int(v) for k, v in zip(*np.unique(fl[ca], return_counts=True))},
+            "ca_finite_shares": int(np.isfinite(sh[ca]).sum()),
+            "us_flag_values": {int(k): int(v) for k, v in zip(*np.unique(fl[us], return_counts=True))},
+            "us_finite_shares": int(np.isfinite(sh[us]).sum()),
+            "flag_matches_finite_share_on_us": bool(((fl[us] == 1) == np.isfinite(sh[us])).all()),
+        }
+    out[build] = r
+print(json.dumps(out, indent=1))
