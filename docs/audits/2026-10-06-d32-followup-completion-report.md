@@ -221,3 +221,17 @@ That was 2,549,508 rows read, with the same 9,627 unloadable, and 1,354,698 outs
   against the dispatch's limits. That copy predates this task and is out of its scope.
 - Records with an empty `recordedBy` share an observer key, as they did under T2's code. No row rules
   on it, and it is unchanged.
+
+## Correction, 2026-10-06, appended by the D26 coder session
+
+Appended under D41 by the coder session on branch `d26-shared-download`, as the first records commit
+its dispatch asks for (`docs/dispatch/2026-10-06-d26-shared-download.md`, "First commits", item 2).
+Nothing above this section is edited.
+
+The "Suite after" line above says 109 test functions. The branch has **117**, as the independent review
+found (`2026-10-06-d32-followup-review.md`, finding 1). Re-counted by this session on `ad64fef`, whose
+tree carries `abac2b2`: `git grep -c -E '^def test_' ad64fef -- tests`, summed, gives 117 (observed).
+The item count, 213, was right. The same wrong figure stands at `docs/planning/START_HERE.md:84`
+("Tests 97 to 109 functions", read as 97 to 117) and at `docs/audits/README.md:103` ("109 test
+functions", read as 117). Those two lines are not edited; the index row filed with this correction
+points here.
