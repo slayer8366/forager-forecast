@@ -184,6 +184,26 @@ def r6_audit_steps() -> Steps:
     )
 
 
+# T6's effort list (D102): the cell is all T6 needs from a coordinate, so the limit is T1's
+# 1,000 m (D33's headline) rather than R6's 250 m, and the observer-duplicate key keeps every
+# outing (it never removes an observer's last record for a cell and day).
+T6_MAX_COORDINATE_UNCERTAINTY_M = 1000.0
+
+
+def t6_effort_steps() -> Steps:
+    return Steps(
+        filters=(
+            FilterStep("not user-obscured", is_user_obscured),
+            FilterStep(
+                "coordinate uncertainty present and at most 1,000 m",
+                UncertaintyAbove(T6_MAX_COORDINATE_UNCERTAINTY_M),
+            ),
+            FilterStep("date kept as given (D97, D98)", drops_no_dated_record),
+        ),
+        duplicate=DuplicateStep("one record per taxon, observer, cell and day", observer_key),
+    )
+
+
 def date_step_position(steps: Steps) -> int:
     """Where a step list's date step is: the one filter applying the ruled rule (D97, D98)."""
     positions = [i for i, step in enumerate(steps.filters) if step.drops is drops_no_dated_record]
