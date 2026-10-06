@@ -1,8 +1,9 @@
 """T5 end to end on real data: SCANFI window fetch, TreeMap cut, master grid, transects.
 
 Usage (from the repository root, data/t5 pointing at the flash drive):
-    uv run --frozen python scripts/t5_build.py STEP [STEP ...]
-STEP is fetch-scanfi, cut-treemap, build, or transects. Inputs and outputs live under data/t5;
+    uv run --frozen python scripts/t5_build.py STEP [US_TOTAL]
+STEP is fetch-scanfi, cut-treemap, build, or transects; US_TOTAL is treemap_canopy (default, D88)
+or tree_list (the first build, D87). Inputs and outputs live under data/t5;
 request records are copied to docs/pulls/ by hand after a fetch.
 """
 
@@ -27,11 +28,20 @@ TREEMAP = DATA / "treemap2023"
 TESTED = ["share_Pseudotsuga", "share_conifer", "share_broadleaf", "total_cover_pct"]
 
 
+# D88: TreeMap's own canopy is the US total. "tree_list" reproduces the first build (D87).
+US_TOTAL = (
+    sys.argv[2]
+    if len(sys.argv) > 2 and sys.argv[2] in ("tree_list", "treemap_canopy")
+    else "treemap_canopy"
+)
+
+
 def out_dir(scale: float) -> Path:
-    return DATA / f"master_scale_{scale}"
+    return DATA / f"master_{US_TOTAL}_scale_{scale}"
 
 
 def main(steps: list[str]) -> None:
+    steps = [s for s in steps if s not in ("tree_list", "treemap_canopy")]
     if not DATA.resolve().is_dir():
         raise SystemExit(f"{DATA} does not resolve to a directory (is the flash drive mounted?)")
     for step in steps:
@@ -46,7 +56,9 @@ def main(steps: list[str]) -> None:
             )
         elif step == "build":
             for scale in SURROGATE_SCALES:
-                summary = build_master(NATIVE, out_dir(scale), STRIP, surrogate_width_scale=scale)
+                summary = build_master(
+                    NATIVE, out_dir(scale), STRIP, surrogate_width_scale=scale, us_total=US_TOTAL
+                )
                 print(scale, json.dumps(summary["cells_with_share"]))
         elif step == "transects":
             results = {}
@@ -58,7 +70,7 @@ def main(steps: list[str]) -> None:
                 for b in BANDS
                 if b not in ("Pseudotsuga", "conifer", "broadleaf")
             }
-            (DATA / "transects.json").write_text(json.dumps(results, indent=2) + "\n")
+            (DATA / f"transects_{US_TOTAL}.json").write_text(json.dumps(results, indent=2) + "\n")
             for band, r in results["1.0"].items():
                 print(band, {k: r[k] for k in ("n_transects", "border_median_abs", "threshold",
                                                 "ratio", "artifact")})  # fmt: skip

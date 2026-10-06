@@ -22,6 +22,7 @@ import hashlib
 import io
 import json
 import math
+import struct
 import zipfile
 from dataclasses import asdict
 from pathlib import Path
@@ -216,6 +217,49 @@ def _cut_window(source: Path, bounds, dest: Path) -> dict:
     return record
 
 
+US_TOTALS = ("treemap_canopy", "tree_list")
+US_TOTAL_TAGS = {
+    "treemap_canopy": "treemap_canopy (D88): TreeMap CANOPYPCT, live canopy cover (percent) from "
+    "the Forest Vegetation Simulator; genus cover = CANOPYPCT x the tree-list genus share (D87)",
+    "tree_list": "tree_list (D87 as first built): Crookston and Stage cover from Bechtold 2004 "
+    "crown widths, trees of 5.0 in and up",
+}
+
+
+def read_dbf_columns(path: Path, names: tuple[str, ...]) -> dict[str, list[str]]:
+    """Named columns of a dBase III table (a raster attribute table), as stripped strings."""
+    with open(path, "rb") as f:
+        head = f.read(32)
+        count, header_len, record_len = struct.unpack("<IHH", head[4:12])
+        fields = []
+        while True:
+            d = f.read(32)
+            if not d or d[0] == 0x0D:
+                break
+            fields.append((d[:11].split(b"\0")[0].decode("ascii"), d[16]))
+        missing = [n for n in names if n not in {name for name, _ in fields}]
+        if missing:
+            raise ValueError(f"{path.name} has no field {missing}")
+        f.seek(header_len)
+        out: dict[str, list[str]] = {n: [] for n in names}
+        for _ in range(count):
+            record = f.read(record_len)
+            pos = 1
+            for name, size in fields:
+                if name in out:
+                    out[name].append(record[pos : pos + size].decode("ascii").strip())
+                pos += size
+    return out
+
+
+def read_canopy_pct(vat_path: Path) -> dict[int, float]:
+    """TreeMap's CANOPYPCT by raster value (TM_ID), from the raster attribute table (D88)."""
+    cols = read_dbf_columns(Path(vat_path), ("Value", "CANOPYPCT"))
+    return {
+        int(float(v)): float(c) for v, c in zip(cols["Value"], cols["CANOPYPCT"], strict=True) if c
+    }
+
+
 def cut_treemap(
     native_dir: Path,
     box: LonLatBox,
@@ -248,16 +292,27 @@ def cut_treemap(
                         live=row["STATUSCD"] == "1",
                     )
                 )
+    vat_path = Path(str(treemap_tif) + ".vat.dbf")
+    canopy = read_canopy_pct(vat_path)
+    lacking = sorted(i for i in ids if i not in canopy)
+    if lacking:
+        raise ValueError(
+            f"{len(lacking)} plots in the window have no CANOPYPCT, e.g. {lacking[:5]}"
+        )
     surrogates: dict[int, int] = {}
     surrogate_trees = 0
+    without_split = 0
     with open(native_dir / "treemap_plot_covers.csv", "w", newline="") as f:
         w = csv.writer(f)
-        w.writerow(["TM_ID", "surrogate_width_scale", "total", *BANDS])
+        w.writerow(["TM_ID", "surrogate_width_scale", "total", *BANDS, "treemap_canopy_pct"])
         for tm in sorted(trees):
             for scale in SURROGATE_SCALES:
                 c = plot_cover(trees[tm], surrogate_width_scale=scale)
-                w.writerow([tm, scale, repr(c.total), *(repr(c.by_band[b]) for b in BANDS)])
+                w.writerow(
+                    [tm, scale, repr(c.total), *(repr(c.by_band[b]) for b in BANDS), canopy[tm]]
+                )
                 if scale == 1.0:
+                    without_split += c.total == 0
                     surrogates.update(c.surrogate_species)
                     surrogate_trees += c.surrogate_trees
     sidecar = Path(str(tree_zip) + ".sha256")
@@ -273,6 +328,9 @@ def cut_treemap(
         "raster_window": record,
         "plots_in_window": len(ids),
         "plots_without_tree_rows": sum(1 for t in trees.values() if not t),
+        "plots_without_split": int(without_split),
+        "attribute_table": vat_path.name,
+        "attribute_table_sha256": hashlib.sha256(vat_path.read_bytes()).hexdigest(),
         "surrogate_trees": surrogate_trees,
         "surrogate_species": {str(k): v for k, v in sorted(surrogates.items())},
         "extent": asdict(box),
@@ -319,12 +377,27 @@ def _plot_cover_table(native_dir: Path, scale: float) -> tuple[np.ndarray, np.nd
         for row in csv.DictReader(f):
             if float(row["surrogate_width_scale"]) == scale:
                 ids.append(int(row["TM_ID"]))
-                values.append([float(row["total"]), *(float(row[b]) for b in BANDS)])
+                values.append(
+                    [
+                        float(row["total"]),
+                        *(float(row[b]) for b in BANDS),
+                        float(row["treemap_canopy_pct"]),
+                    ]
+                )
     order = np.argsort(ids)
     return np.asarray(ids)[order], np.asarray(values)[order]
 
 
-def _treemap_layers(native_dir: Path, scale: float):
+def _treemap_layers(native_dir: Path, scale: float, us_total: str):
+    """(cover layers, split layers). Cover gives the cell's total; split gives the shares.
+
+    ``tree_list``: both are the tree-list cover (D87 as first built). ``treemap_canopy`` (D88):
+    the cover is TreeMap's CANOPYPCT; a genus's cover is CANOPYPCT x its tree-list share, and a
+    plot whose tree list has no crown (only trees under 5 in) has canopy but no split, so its
+    pixels are left out of the shares rather than counted as no genus.
+    """
+    if us_total not in US_TOTALS:
+        raise ValueError(f"us_total must be one of {US_TOTALS}")
     ids, table = _plot_cover_table(native_dir, scale)
     with rasterio.open(native_dir / "treemap_plots.tif") as ds:
         _require_crs(ds.crs, TREEMAP_CRS, "treemap_plots.tif")
@@ -337,11 +410,29 @@ def _treemap_layers(native_dir: Path, scale: float):
     pos = np.searchsorted(ids, plots[forest])
     if (pos >= len(ids)).any() or (ids[np.minimum(pos, len(ids) - 1)] != plots[forest]).any():
         raise ValueError("a TreeMap plot in the window has no row in the plot cover table")
-    for k, name in enumerate(("total", *BANDS)):
+    rows = table[pos]
+    tree_total = rows[:, 0]
+    if us_total == "tree_list":
+        cover = tree_total
+        split = {name: rows[:, k] for k, name in enumerate(("total", *BANDS))}
+    else:
+        canopy = rows[:, -1]
+        cover = canopy
+        has_split = tree_total > 0
+        with np.errstate(invalid="ignore", divide="ignore"):
+            split = {"total": np.where(has_split, canopy, np.nan)}
+            for k, name in enumerate(BANDS, start=1):
+                split[name] = np.where(has_split, canopy * rows[:, k] / tree_total, np.nan)
+
+    def layer_of(values):
         layer = np.zeros(plots.shape)
-        layer[forest] = table[pos, k]
+        layer[forest] = values
         layer[~own_side | outside] = np.nan
-        yield name, layer, transform
+        return layer
+
+    cover_layers = [("total", layer_of(cover), transform)]
+    split_layers = [(name, layer_of(v), transform) for name, v in split.items()]
+    return cover_layers, split_layers
 
 
 def _scanfi_layers(native_dir: Path):
@@ -388,18 +479,24 @@ def _regrid(layers, crs, window):
 
 
 def build_master(
-    native_dir: Path, out_dir: Path, box: LonLatBox, surrogate_width_scale: float = 1.0
+    native_dir: Path,
+    out_dir: Path,
+    box: LonLatBox,
+    surrogate_width_scale: float = 1.0,
+    us_total: str = "treemap_canopy",
 ) -> dict:
     native_dir, out_dir = Path(native_dir), Path(out_dir)
     window = master_window(box)
     in_box = box_mask(window, box)
     canada = _cell_latitudes(window) >= BORDER_LATITUDE
 
-    us, us_frac = _regrid(_treemap_layers(native_dir, surrogate_width_scale), TREEMAP_CRS, window)
+    cover_layers, split_layers = _treemap_layers(native_dir, surrogate_width_scale, us_total)
+    us_cover, us_frac = _regrid(cover_layers, TREEMAP_CRS, window)
+    us, _ = _regrid(split_layers, TREEMAP_CRS, window)
     ca, ca_frac = _regrid(_scanfi_layers(native_dir), SCANFI_CRS_WKT, window)
 
     fraction = np.where(canada, ca_frac, us_frac)
-    total = np.where(canada, ca["total"], us["total"])
+    total = np.where(canada, ca["total"], us_cover["total"])
     valid = in_box & (fraction >= MIN_VALID_FRACTION)
     defined = valid & (total >= MIN_TOTAL_COVER_PCT)
     side_flag = np.where(canada, FLAG_SCANFI, FLAG_TREEMAP)
@@ -415,15 +512,15 @@ def build_master(
             us_share = us[band] / us["total"]
             if band in SCANFI_BAND_CLASSES:
                 share = np.where(canada, ca[band] / ca["total"], us_share)
-                flag = np.where(defined, side_flag, FLAG_NONE)
             else:
                 share = np.where(canada, np.nan, us_share)
-                flag = np.where(
-                    in_box & canada,
-                    FLAG_NOT_AVAILABLE,
-                    np.where(defined, FLAG_TREEMAP, FLAG_NONE),
-                )
-            bands[f"share_{band}"] = np.where(defined, share, np.nan)
+            # A cell with cover but no split (D88: canopy from plots whose tree list has no crown)
+            # has no share and no source flag.
+            has_share = defined & np.isfinite(share)
+            flag = np.where(has_share, side_flag, FLAG_NONE)
+            if band not in SCANFI_BAND_CLASSES:
+                flag = np.where(in_box & canada, FLAG_NOT_AVAILABLE, flag)
+            bands[f"share_{band}"] = np.where(has_share, share, np.nan)
             flags[f"flag_{band}"] = flag.astype("uint8")
 
     with open(native_dir / "treemap_request.json") as f:
@@ -441,6 +538,7 @@ def build_master(
         "surrogate_width_scale": str(surrogate_width_scale),
         "scanfi_year": str(sc_request["year"]),
         "share_definition": "genus crown cover / total crown cover on the cell's own side (D87)",
+        "us_total": US_TOTAL_TAGS[us_total],
     }
     out_dir.mkdir(parents=True, exist_ok=True)
     transform = from_origin(window.left, window.top, CELL_SIZE_M, CELL_SIZE_M)
@@ -484,6 +582,8 @@ def build_master(
         "surrogate_trees": tm_request["surrogate_trees"],
         "plots_in_window": tm_request["plots_in_window"],
         "plots_without_tree_rows": tm_request["plots_without_tree_rows"],
+        "plots_without_split": tm_request["plots_without_split"],
+        "us_total": us_total,
         "scanfi_year": sc_request["year"],
         "mean_share_where_defined": {
             band: {

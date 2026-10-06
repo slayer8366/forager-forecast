@@ -4,7 +4,9 @@ import csv
 import io
 import json
 import math
+import struct
 import zipfile
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -44,8 +46,12 @@ TREES = {
         ("815", "Oregon white oak", "Quercus garryana", 10.0, 30.0),
         ("542", "Oregon ash", "Fraxinus latifolia", 12.0, 10.0),
     ],
+    # Only trees under 5 in: TreeMap publishes canopy for it, but the tree list cannot split it.
+    3: [("263", "western hemlock", "Tsuga heterophylla", 3.0, 300.0)],
     9: [("202", "Douglas-fir", "Pseudotsuga menziesii", 20.0, 60.0)],  # not in the raster
 }
+# TreeMap's own CANOPYPCT per plot (D88), as the raster attribute table carries it.
+CANOPY = {1: 70.0, 2: 55.0, 3: 30.0, 9: 80.0}
 SCANFI_VALUES = {"douglasFir": 30, "otherConiferous": 30, "broadleaf": 20}
 
 
@@ -84,12 +90,34 @@ def _write_treemap(path, top_lat=49.015):
     lon, lat = _grid_lonlat(transform, width, height, TREEMAP_CRS)
     plots = np.where(lon < -121.90, 1, 2).astype("int32")
     plots[lat >= 49.0] = 2  # north of the border: a different plot, which no cell may read
+    plots[(lat >= 48.975) & (lat < 48.985) & (lon < -121.915)] = 3
     plots[lat < 48.975] = TREEMAP_NODATA  # non-forest on the US side
     with rasterio.open(
         path, "w", driver="GTiff", width=width, height=height, count=1, dtype="int32",
         crs=TREEMAP_CRS, transform=transform, nodata=TREEMAP_NODATA,
     ) as dst:  # fmt: skip
         dst.write(plots, 1)
+    _write_vat(Path(str(path) + ".vat.dbf"), {k: v for k, v in CANOPY.items() if k != 9})
+
+
+def _write_vat(path, canopy):
+    """A dBase III attribute table shaped like TreeMap's: numeric Value and CANOPYPCT fields."""
+    fields = [("Value", 20, 11), ("Count", 20, 0), ("CANOPYPCT", 19, 14)]
+    rlen = 1 + sum(f[1] for f in fields)
+    hlen = 32 + 32 * len(fields) + 1
+    out = bytearray(struct.pack("<B3BIHH20x", 3, 126, 10, 6, len(canopy), hlen, rlen))
+    for name, size, dec in fields:
+        out += struct.pack("<11sc4xBB14x", name.encode(), b"N", size, dec)
+    out += b"\r"
+    for value, pct in canopy.items():
+        out += (
+            b" "
+            + f"{value:.11f}".rjust(20).encode()
+            + b"1".rjust(20)
+            + f"{pct:.14f}".rjust(19).encode()
+        )
+    out += b"\x1a"
+    path.write_bytes(bytes(out))
 
 
 def _write_tree_zip(path):
@@ -182,8 +210,10 @@ def built(tmp_path_factory):
     out = root / "out"
     summary = build_master(native, out, SMALL)
     build_master(native, root / "wider", SMALL, surrogate_width_scale=1.3)
+    build_master(native, root / "tree_list", SMALL, us_total="tree_list")
     return {
         "native": native, "out": out, "summary": summary, "wider": root / "wider",
+        "tree_list": root / "tree_list",
         "tm_request": tm_request, "sc_request": sc_request,
     }  # fmt: skip
 
@@ -212,7 +242,7 @@ def test_us_cells_carry_treemap_crown_shares(built):
     flags, _, _ = _read(built["out"] / "host_trees_strip_flags.tif")
     west = _at(bands, transform, -121.93, 48.99)
     assert west["source"] == FLAG_TREEMAP
-    assert west["total_cover_pct"] == pytest.approx(_covers(1).total, rel=1e-5)
+    assert west["total_cover_pct"] == pytest.approx(CANOPY[1])  # TreeMap's own canopy (D88)
     assert west["share_Pseudotsuga"] == pytest.approx(1.0)
     assert west["share_conifer"] == pytest.approx(1.0)
     assert west["share_Tsuga"] == pytest.approx(0.0)
@@ -222,6 +252,46 @@ def test_us_cells_carry_treemap_crown_shares(built):
         assert east[f"share_{band}"] == pytest.approx(c.by_band[band] / c.total, rel=1e-5)
     f = _at(flags, transform, -121.87, 48.99)
     assert all(f[f"flag_{b}"] == FLAG_TREEMAP for b in BANDS)
+
+
+def test_us_total_cover_is_treemaps_canopy_and_genus_cover_is_canopy_times_the_split(built):
+    bands, tags, transform = _read(built["out"] / "host_trees_strip.tif")
+    east = _at(bands, transform, -121.87, 48.99)
+    assert east["total_cover_pct"] == pytest.approx(CANOPY[2])
+    c = _covers(2)
+    # The shares are the tree-list split, unchanged by the new total.
+    assert east["share_Tsuga"] == pytest.approx(c.by_band["Tsuga"] / c.total, rel=1e-5)
+    assert tags["us_total"].startswith("treemap_canopy")
+
+
+def test_the_first_builds_tree_list_total_is_still_reproducible(built):
+    bands, tags, transform = _read(built["tree_list"] / "host_trees_strip.tif")
+    west = _at(bands, transform, -121.93, 48.99)
+    assert west["total_cover_pct"] == pytest.approx(_covers(1).total, rel=1e-5)
+    assert west["share_Pseudotsuga"] == pytest.approx(1.0)
+    assert tags["us_total"].startswith("tree_list")
+
+
+def test_canopy_the_tree_list_cannot_split_counts_as_cover_but_gives_no_share(built):
+    bands, _, transform = _read(built["out"] / "host_trees_strip.tif")
+    flags, _, _ = _read(built["out"] / "host_trees_strip_flags.tif")
+    cell = _at(bands, transform, -121.935, 48.98)
+    assert cell["total_cover_pct"] == pytest.approx(CANOPY[3])
+    for band in BANDS:
+        assert np.isnan(cell[f"share_{band}"])
+    assert _at(flags, transform, -121.935, 48.98)["flag_Tsuga"] == FLAG_NONE
+    assert built["summary"]["plots_without_split"] == 1
+
+
+def test_a_plot_missing_from_the_attribute_table_is_an_error(tmp_path):
+    _write_treemap(tmp_path / "TreeMap2023_CONUS.tif")
+    _write_vat(Path(str(tmp_path / "TreeMap2023_CONUS.tif") + ".vat.dbf"), {1: 70.0})
+    _write_tree_zip(tmp_path / "RDS-2026-0038.zip")
+    with pytest.raises(ValueError, match="CANOPYPCT"):
+        cut_treemap(
+            tmp_path / "native", SMALL, tmp_path / "TreeMap2023_CONUS.tif",
+            tmp_path / "RDS-2026-0038.zip",
+        )  # fmt: skip
 
 
 def test_canadian_cells_carry_scanfi_shares_and_flag_what_it_cannot_supply(built):
@@ -333,7 +403,7 @@ def test_the_treemap_raster_may_end_north_of_the_border_but_not_south_of_it(buil
 def test_plot_covers_are_computed_only_for_plots_in_the_window(built):
     with open(built["native"] / "treemap_plot_covers.csv") as f:
         ids = {row["TM_ID"] for row in csv.DictReader(f)}
-    assert ids == {"1", "2"}
+    assert ids == {"1", "2", "3"}
 
 
 def test_request_records_carry_the_sources_terms_and_attribution(built):
