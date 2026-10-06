@@ -34,7 +34,7 @@ CHECKS = [
      '    "broadleaf": ("broadleaf",),\n    "Pinus": ("jackPine", "lodgepolePine", "ponderosaPine", "whiteRedPine"),\n}',
      ["tests/test_t5_layer.py"]),
     ("t5: not-available flag dropped", "src/forager_forecast/t5_layer.py",
-     "                    FLAG_NOT_AVAILABLE,\n", "                    FLAG_NONE,\n", ["tests/test_t5_layer.py"]),
+     "flag = np.where(in_box & canada, FLAG_NOT_AVAILABLE, flag)", "flag = flag", ["tests/test_t5_layer.py"]),
     ("t5: SCANFI no data read as 255 percent", "src/forager_forecast/t5_layer.py",
      "data[ds.read(1) == ds.nodata] = 0.0", "pass", ["tests/test_t5_layer.py"]),
     ("t5: half-area rule not applied (expected NOT to bite: under the centre rule a cell's own side holds about half its area or more)", "src/forager_forecast/t5_layer.py",
