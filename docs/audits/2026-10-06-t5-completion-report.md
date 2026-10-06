@@ -398,3 +398,52 @@ them.
   session only confirmed, by revert, that each test fails without its change.
 - The capped and non-positive counts at scales 0.7 and 1.3 (see above).
 - Spatial correlation's effect on the matched null's false-alarm rate (the review's caveat stands).
+
+## Correction, 2026-10-06, appended by the D27 to D29 coder session (review notes A1 to A3)
+
+Appended under D41 by the coder session on branch `dq-tables-d27-d29`, on the Forager planner's
+instruction to fold in the T5 Amendment 3 review's record findings A1 to A3
+(`2026-10-06-t5-amendment-3-review.md`, "Findings"). Nothing above this section is edited. Each figure
+below was read in this session from the committed files named; none is copied from the review alone.
+
+**A1. The first build's *Pseudotsuga* B is 0.087, not 0.088.** The value in
+`2026-10-06-t5-amendment-3/transects_tree_list_d90.json` (scale 1.0, `border_median_abs`) is
+0.08747893772670068. Rounded to three places that is 0.087. Section 9 gives 0.088 in its table (the
+first build's "old" and "D90" rows, lines 330 and 331) and in the Reading bullet (line 351), which also
+disagrees with the section's own sensitivity bullet (0.0875, line 362). Section 8's table (line 219)
+has the same slip. No verdict changes: 0.087 is above the old threshold 0.072 (artifact under the old
+null) and below the D90 threshold 0.120 (no step), as with 0.088.
+
+**A2. The two F5 slips that had no note.** The T5 review (`2026-10-06-t5-review.md`, F5) named five.
+The Pilz page numbers and the rulings tag were corrected before; 0.088 is A1 above. The other two:
+- **Line 204, "2,219 of 4,969,059 forest pixels".** That count is the whole cut, including 8,347
+  forest pixels north of 49 N. South of 49 N it is **2,209 of 4,960,712**, as the review observed
+  (`2026-10-06-t5-review.md:151-153`). Not re-measured in this session; the strip is on the flash
+  drive, which this session did not read.
+- **Register timing.** The TreeMap register row (`DATA_REGISTER.md:27`, commit `88760cd`, 05:19:54
+  local) landed after TreeMap was first used: probed at 04:46 and built by 05:18. The licence itself
+  was recorded in D84 at 04:18, before the download finished, so no data was used without a recorded
+  licence. Only the register row came late. Times as the review gives them
+  (`2026-10-06-t5-review.md:159-162`); the commit time of `88760cd`, 2026-10-06 05:19:54 −0700, was re-read here and matches.
+
+**A3. The interval does depend on the null, a little.** Line 346-347 says "the CI does not depend on
+the null, and is the old row's above it". `seam.py:108-109` draws the bootstrap from the same
+generator after the null's draws, so a null over a different number of rows leaves the generator in
+a different state and moves the interval. The earlier D90 rows' intervals, read from the committed
+files (scale 1.0, `border_mean_signed_ci95`):
+
+| Variable | Build | Old null [95% CI] (section 9) | D90 null [95% CI] |
+| --- | --- | --- | --- |
+| *Pseudotsuga* share | first (tree list) | [−0.021, +0.197] | [−0.0196, +0.1939] |
+| *Pseudotsuga* share | Amendment 2 (CANOPYPCT) | [−0.014, +0.192] | [−0.0121, +0.1889] |
+| Conifer share | first | [−0.017, +0.081] | [−0.0174, +0.0815] |
+| Conifer share | Amendment 2 | [−0.018, +0.079] | [−0.0179, +0.0787] |
+| Broadleaf share | first | [−0.081, +0.017] | [−0.0815, +0.0174] |
+| Broadleaf share | Amendment 2 | [−0.079, +0.018] | [−0.0787, +0.0179] |
+| Total cover (pts) | first | [−6.8, +7.8] | [−6.76, +7.82] |
+| Total cover (pts) | Amendment 2 | [−14.1, +1.8] | [−14.13, +1.77] |
+
+Files: `transects_tree_list_d90.json` (first build) and `transects_treemap_canopy_d90.json`
+(Amendment 2), both in `2026-10-06-t5-amendment-3/`. Total cover's null was already over the same 25
+transects as B, so D90 does not change its interval. The interval is not part of any verdict, so no
+verdict changes.

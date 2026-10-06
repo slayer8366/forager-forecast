@@ -1,0 +1,134 @@
+"""Reviewer's copy of the D27 to D29 strict revert runner (docs/audits/2026-10-06-d27-d29/revert.py.txt), CHECKS replaced and the XML path moved; nothing else changed.
+Strict revert runner for the D27 to D29 task. Run from the repository root:
+
+    PYTHONDONTWRITEBYTECODE=1 .venv/bin/python <this file> <results .jsonl>
+
+For each check: save the file's bytes; make one edit (the old text must occur exactly once); delete
+every __pycache__ under src, tests and scripts; probe in a fresh interpreter that the edited source
+is what Python sees; run the named tests with a JUnit XML; refuse the run (and stop) when pytest's
+exit code is not 1, the XML is missing or older than the run, or the XML reports errors (collection
+or import errors land there); restore from the saved bytes, never from git; check the restore is
+byte-identical; probe again that Python sees the forward source. The tree must be clean (git status)
+before the first check and is checked again after the last.
+"""
+
+import hashlib
+import json
+import os
+import shutil
+import subprocess
+import sys
+import time
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+REPO = Path.cwd()
+PY = str(REPO / ".venv" / "bin" / "python")
+ENV = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
+XML = Path("/tmp/claude-1000/-home-zynergy-labs-Zynergy-Forager/594b88a0-2597-556f-be1b-255b2b0f226b/scratchpad/rev/review_revert_junit.xml")
+
+CHECKS = [
+    ("V6", "scripts/t2_render_tables.py",
+     "    if unknown:\n", "    if unknown:\n        print(\"Rows read: printed before the refusal\")\n",
+     ["tests/test_t2_render_tables.py"], "the renderer prints before it refuses"),
+]
+
+
+def clear_pycache() -> None:
+    for top in ("src", "tests", "scripts"):
+        for path in (REPO / top).rglob("__pycache__"):
+            shutil.rmtree(path)
+
+
+def probe(path: str, expected: bytes) -> bool:
+    """A fresh interpreter imports the module the way the tests do and reports the file it loaded
+    and the sha256 of the source its loader read, with no bytecode cache in play."""
+    if path.startswith("src/"):
+        name = path.removeprefix("src/").removesuffix(".py").replace("/", ".")
+        load = f"m=importlib.import_module({name!r})\n"
+    else:
+        load = (
+            f"spec=importlib.util.spec_from_file_location('probe_mod', {str(REPO / path)!r})\n"
+            "m=importlib.util.module_from_spec(spec); spec.loader.exec_module(m)\n"
+        )
+    code = (
+        "import hashlib,importlib,importlib.util,json,os,sys\n" + load
+        + "src=m.__spec__.loader.get_data(m.__file__)\n"
+        "cached=getattr(m,'__cached__',None)\n"
+        "print(json.dumps({'file':m.__file__,'sha':hashlib.sha256(src).hexdigest(),"
+        "'cache_exists':bool(cached and os.path.exists(cached))}))\n"
+    )
+    done = subprocess.run([PY, "-c", code], cwd=REPO, env=ENV, capture_output=True, text=True)
+    if done.returncode != 0:
+        raise SystemExit(f"probe failed for {path}: {done.stderr[-1000:]}")
+    seen = json.loads(done.stdout.strip().splitlines()[-1])
+    return (
+        Path(seen["file"]).resolve() == (REPO / path).resolve()
+        and seen["sha"] == hashlib.sha256(expected).hexdigest()
+        and not seen["cache_exists"]
+    )
+
+
+def failures(xml: Path) -> tuple[int, int, list[dict]]:
+    root = ET.parse(xml).getroot()
+    suite = root if root.tag == "testsuite" else root.find("testsuite")
+    out = []
+    for case in suite.iter("testcase"):
+        for kind in ("failure", "error"):
+            el = case.find(kind)
+            if el is not None:
+                out.append(
+                    {"test": case.get("name"), "kind": kind, "message": (el.get("message") or "")[:300]}
+                )
+    return int(suite.get("errors")), int(suite.get("failures")), out
+
+
+def main(results: Path) -> None:
+    if subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True).stdout.strip():
+        raise SystemExit("tree not clean; commit first")
+    with results.open("w", encoding="utf-8") as out:
+        for cid, path, old, new, tests, what in CHECKS:
+            target = REPO / path
+            saved = target.read_bytes()
+            text = saved.decode("utf-8")
+            if text.count(old) != 1:
+                raise SystemExit(f"{cid}: old text occurs {text.count(old)} times in {path}")
+            record = {"id": cid, "file": path, "what": what, "tests": tests}
+            try:
+                target.write_text(text.replace(old, new), encoding="utf-8")
+                clear_pycache()
+                if not probe(path, target.read_bytes()):
+                    raise SystemExit(f"{cid}: the interpreter does not see the edit")
+                XML.unlink(missing_ok=True)
+                started = time.time()
+                run = subprocess.run(
+                    [PY, "-m", "pytest", "-q", "-p", "no:cacheprovider", f"--junitxml={XML}", *tests],
+                    cwd=REPO, env=ENV, capture_output=True, text=True,
+                )
+                if not XML.exists() or XML.stat().st_mtime < started:
+                    raise SystemExit(f"{cid}: no fresh JUnit XML; refusing")
+                errors, failed, cases = failures(XML)
+                if run.returncode != 1 or errors:
+                    raise SystemExit(
+                        f"{cid}: exit {run.returncode}, {errors} errors; refusing\n{run.stdout[-2000:]}"
+                    )
+                record.update({"exit": run.returncode, "errors": errors, "failed": failed,
+                               "failures": cases, "edit_seen_by_interpreter": True})
+            finally:
+                target.write_bytes(saved)
+                clear_pycache()
+            if target.read_bytes() != saved:
+                raise SystemExit(f"{cid}: restore is not byte-identical")
+            if not probe(path, saved):
+                raise SystemExit(f"{cid}: after restore the interpreter does not see the forward code")
+            record["restored_byte_identical"] = True
+            out.write(json.dumps(record) + "\n")
+            out.flush()
+            print(cid, record["failed"], "failed:", [c["test"] for c in record["failures"]], flush=True)
+    if subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True).stdout.strip():
+        raise SystemExit("tree not clean after the checks")
+    print("all checks ran; tree clean", flush=True)
+
+
+if __name__ == "__main__":
+    main(Path(sys.argv[1]))

@@ -1,0 +1,214 @@
+"""Reviewer's independent recount over D26's download, one pass, one process (D18 review of D27 to D29).
+
+Usage: uv run python reviewer_recount.py.txt <0012112 zip> <output json>
+
+Independent of the builder's new code: it does not import records/date_quality.py,
+records/duplicate_keys.py, records/dataset_list.py or any script of the task. It uses only code
+that was on main before the task and that the task did not change (git diff aa05c1f..5bd0286 on
+records/occurrence.py, records/filters.py and records/counts.py is empty): the loader
+(record_from_row), the non-date filter predicates, region_of and the two key functions. The date
+rules, the duplicate counting, the regions of survivors and the day-of-month tally are written here.
+
+One pass over occurrence.txt read out of the zip (never extracted). For each step list it keeps,
+per key, the lowest gbifID among records clearing every filter under the provisional rule
+("drop all"), and it keeps the few records that clear every non-date filter and are date-only on
+the 1st (the only records "keep all" adds). Keep-all and the per-dataset variants are then exact
+unions over those, worked out after the pass.
+"""
+
+import hashlib
+import io
+import json
+import os
+import sys
+import zipfile
+from collections import Counter, defaultdict
+from datetime import time
+
+from forager_forecast.records.counts import region_of
+from forager_forecast.records.filters import (
+    R6_MAX_COORDINATE_UNCERTAINTY_M,
+    event_key,
+    is_user_obscured,
+    observer_key,
+    outside_t1_boxes,
+    outside_t1_years,
+)
+from forager_forecast.records.occurrence import UnloadableRow, read_occurrence_rows, record_from_row
+from forager_forecast.t1_design import MAX_COORDINATE_UNCERTAINTY_M
+
+MIDNIGHT = time(0, 0, 0)
+LIMIT = int(os.environ.get("RECOUNT_LIMIT", "0"))  # smoke tests only
+REGIONS = {}
+
+
+def rcode(name):
+    return REGIONS.setdefault(name, len(REGIONS))
+
+
+def digest(key):
+    return int.from_bytes(hashlib.blake2b(repr(key).encode(), digest_size=8).digest(), "big")
+
+
+def unc_above(record, limit):
+    v = record.coordinate_uncertainty_m
+    return v is None or v > limit
+
+
+def t1_first_failing(r):
+    if outside_t1_boxes(r):
+        return "box"
+    if outside_t1_years(r):
+        return "years"
+    if is_user_obscured(r):
+        return "obscured"
+    if unc_above(r, MAX_COORDINATE_UNCERTAINTY_M):
+        return "uncertainty"
+    return None
+
+
+def r6_first_failing(r):
+    if is_user_obscured(r):
+        return "obscured"
+    if unc_above(r, R6_MAX_COORDINATE_UNCERTAINTY_M):
+        return "uncertainty"
+    return None
+
+
+LISTS = {"t1": t1_first_failing, "r6": r6_first_failing}
+KEYS = {"event": event_key, "observer": observer_key}
+
+
+def main(zip_path, out_path):
+    rows_by_dataset = Counter()
+    rows_by_license = Counter()
+    rows_by_dataset_license = Counter()
+    unloadable = Counter()
+    rows = 0
+    loaded_by_dataset = Counter()
+    date_only_by_dataset_day = defaultdict(Counter)
+    midnight_first_clock = Counter()
+    raw_vs_loader_mismatch = 0
+    # drop-all survivors: list -> key -> digest -> gbif*8 + region code
+    lowest = {L: {k: {} for k in KEYS} for L in LISTS}
+    entered = {L: Counter() for L in LISTS}
+    entered_empty_observer = Counter()
+    dropped_at_date_step = Counter()
+    # date-only on the 1st, clearing every non-date filter: the records keep-all adds
+    extra = {L: [] for L in LISTS}
+    # where date-only-on-the-1st records leave each list, by dataset
+    first_fail_date_only_1st = {L: defaultdict(Counter) for L in LISTS}
+
+    with zipfile.ZipFile(zip_path).open("occurrence.txt") as raw:
+        handle = io.TextIOWrapper(raw, encoding="utf-8", newline="")
+        for row in read_occurrence_rows(handle):
+            rows += 1
+            ds = row.get("datasetKey", "").strip()
+            lic = row.get("license", "").strip()
+            rows_by_dataset[ds] += 1
+            rows_by_license[lic] += 1
+            rows_by_dataset_license[(ds, lic)] += 1
+            try:
+                r = record_from_row(row)
+            except UnloadableRow as e:
+                unloadable[e.reason] += 1
+                continue
+            loaded_by_dataset[ds] += 1
+            date_only = r.event_time is None
+            if date_only != ("T" not in row.get("eventDate", "")):
+                raw_vs_loader_mismatch += 1
+            first = r.event_date.day == 1
+            if date_only:
+                date_only_by_dataset_day[ds][r.event_date.day] += 1
+            elif first and r.event_time == MIDNIGHT:
+                midnight_first_clock[ds] += 1
+            region = region_of(r)
+            for L, fails in LISTS.items():
+                f = fails(r)
+                if first and date_only:
+                    first_fail_date_only_1st[L][ds][f or "reaches the date step"] += 1
+                if f is not None:
+                    continue
+                if first and (date_only or r.event_time == MIDNIGHT):
+                    dropped_at_date_step[L] += 1
+                    if date_only:
+                        extra[L].append(
+                            (r.gbif_id, ds, region, digest(event_key(r)), digest(observer_key(r)))
+                        )
+                    continue
+                entered[L][region] += 1
+                if L == "t1" and not r.recorded_by.strip():
+                    entered_empty_observer["t1"] += 1
+                if L == "r6" and not r.recorded_by.strip():
+                    entered_empty_observer["r6"] += 1
+                val = r.gbif_id * 8 + rcode(region)
+                for kname, kfn in KEYS.items():
+                    table = lowest[L][kname]
+                    d = digest(kfn(r))
+                    cur = table.get(d)
+                    if cur is None or val < cur:
+                        table[d] = val
+            if rows % 500_000 == 0:
+                print(rows, flush=True)
+            if LIMIT and rows >= LIMIT:
+                break
+
+    names = {v: k for k, v in REGIONS.items()}
+
+    def summarise(table):
+        by = Counter(names[v & 7] for v in table.values())
+        return {"total": len(table), "by_region": dict(sorted(by.items()))}
+
+    def with_extras(L, kname, datasets_allowed):
+        """Survivors when date-only-on-the-1st records of these datasets are kept too."""
+        table = dict(lowest[L][kname])
+        idx = 3 if kname == "event" else 4
+        added = 0
+        for rec in extra[L]:
+            if datasets_allowed is not None and rec[1] not in datasets_allowed:
+                continue
+            added += 1
+            val = rec[0] * 8 + rcode(rec[2])
+            cur = table.get(rec[idx])
+            if cur is None or val < cur:
+                table[rec[idx]] = val
+        return added, summarise(table)
+
+    out = {
+        "rows": rows,
+        "unloadable": dict(unloadable),
+        "rows_by_dataset": dict(rows_by_dataset),
+        "rows_by_license": dict(rows_by_license),
+        "rows_by_dataset_license": [[d, l, n] for (d, l), n in sorted(rows_by_dataset_license.items())],
+        "loaded_by_dataset": dict(loaded_by_dataset),
+        "date_only_by_dataset_day": {d: dict(c) for d, c in date_only_by_dataset_day.items()},
+        "midnight_first_clock_by_dataset": dict(midnight_first_clock),
+        "raw_T_vs_loader_date_only_mismatch": raw_vs_loader_mismatch,
+        "dropped_at_date_step_drop_all": dict(dropped_at_date_step),
+        "entered_duplicate_step_drop_all": {L: dict(c) for L, c in entered.items()},
+        "entered_empty_recordedBy_drop_all": dict(entered_empty_observer),
+        "first_failing_step_of_date_only_on_1st": {
+            L: {d: dict(c) for d, c in v.items()} for L, v in first_fail_date_only_1st.items()
+        },
+        "extra_records_keep_all": {L: len(v) for L, v in extra.items()},
+        "extra_by_dataset": {L: dict(Counter(e[1] for e in v)) for L, v in extra.items()},
+        "drop_all": {L: {k: summarise(lowest[L][k]) for k in KEYS} for L in LISTS},
+        "keep_all": {L: {k: with_extras(L, k, None)[1] for k in KEYS} for L in LISTS},
+    }
+    # Datasets for the too-few variant: keep all, except date-only on the 1st in datasets with
+    # fewer than 300 date-only records.
+    too_few = {d for d, c in date_only_by_dataset_day.items() if sum(c.values()) < 300}
+    keep_sets = set(rows_by_dataset) - too_few
+    out["too_few_datasets"] = sorted(too_few)
+    out["keep_all_but_too_few"] = {
+        L: {k: with_extras(L, k, keep_sets)[1] for k in KEYS} for L in LISTS
+    }
+    with open(out_path, "w") as h:
+        json.dump(out, h, indent=1)
+    import resource
+
+    print("peak MB", resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024, flush=True)
+
+
+if __name__ == "__main__":
+    main(sys.argv[1], sys.argv[2])

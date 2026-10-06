@@ -1,0 +1,25 @@
+peak MB 469.84375
+	Command being timed: "uv run --offline python docs/audits/2026-10-06-d27-d29-review/reviewer_recount.py.txt /home/zynergy-labs/Zynergy/forager-forecast-d26/data/d26/downloads/0012112-260928105237408.zip /tmp/claude-1000/-home-zynergy-labs-Zynergy-Forager/594b88a0-2597-556f-be1b-255b2b0f226b/scratchpad/rev/recount_0012112.json"
+	User time (seconds): 212.84
+	System time (seconds): 0.56
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 3:33.63
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 481120
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 170743
+	Voluntary context switches: 19
+	Involuntary context switches: 13213
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+started 2026-10-06T18:57:18Z finished 2026-10-06T19:00:51Z

@@ -31,6 +31,12 @@ def main(out_dir: Path) -> None:
             key = (row["stage"], row["group"], row["region"], row["year"])
             counts[key] += int(row["records"])
             years.add(row["year"])
+    unknown = sorted({key[2] for key in counts} - set(REGIONS))
+    if unknown:
+        # The year tables below loop over REGIONS only, so an unknown label (for example
+        # rest_of_north_america, written before the D26 rename) would print as 0 there, silently
+        # (D26 review, finding 4). Refused before anything is printed.
+        raise SystemExit(f"regions not known to this renderer: {unknown}; known: {list(REGIONS)}")
     year_list = sorted(years)
     summary = json.loads((out_dir / "summary.json").read_text(encoding="utf-8"))
 
@@ -47,9 +53,7 @@ def main(out_dir: Path) -> None:
         print(f"| {step['step']} | {step['before']:,} | {step['dropped']:,} | {step['after']:,} |")
     print()
 
-    regions_seen = sorted({key[2] for key in counts})
-    extra_regions = [r for r in regions_seen if r not in REGIONS]
-    region_columns = (*REGIONS, *extra_regions)
+    region_columns = REGIONS
 
     for group in GROUPS:
         print(f"### {group}: stage by region, all years\n")

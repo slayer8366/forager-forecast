@@ -1,0 +1,40 @@
+"""Reviewer's own p-values and Clopper-Pearson bounds from the committed day-of-month CSV.
+scipy.stats (not the builder's incomplete-beta code); and an exact-fraction check of the small one.
+Usage: uv run python reviewer_stats.py.txt <day_of_month_by_dataset.csv> [<assessment.json>]"""
+import csv, json, sys
+from fractions import Fraction
+from math import comb
+from scipy.stats import binomtest, beta
+
+rows = list(csv.DictReader(open(sys.argv[1])))
+tested = [r for r in rows if int(r["date_only"]) >= 300]
+m = len(tested)
+level_each = 0.01 / m
+builder = {}
+if len(sys.argv) > 2:
+    builder = {d["datasetKey"]: d for d in json.load(open(sys.argv[2]))["datasets"]}
+print(f"datasets {len(rows)}, tested (n>=300) {m}, level each {level_each:.6g}")
+for r in rows:
+    n = int(r["date_only"]); k = int(r["day_1"])
+    if sum(int(r[f"day_{d}"]) for d in range(1, 32)) != n:
+        print("ROW SUM MISMATCH", r["datasetKey"])
+    if n == 0:
+        continue
+    p = binomtest(k, n, 1/30, alternative="greater").pvalue
+    lo = 0.0 if k == 0 else beta.ppf(0.025, k, n - k + 1)
+    hi = 1.0 if k == n else beta.ppf(0.975, k + 1, n - k)
+    if n < 300: v = "too few to test"
+    elif p >= level_each: v = "close to 1 in 30"
+    elif lo >= 2/30: v = "clear excess"
+    else: v = "small excess"
+    b = builder.get(r["datasetKey"], {})
+    bp = b.get("p_value_one_sided"); bi = b.get("interval_95")
+    dp = abs(bp - p) if bp is not None else None
+    di = max(abs(bi[0]-lo), abs(bi[1]-hi)) if bi else None
+    print(f"{r['title'][:45]:45} n={n:7} k={k:5} share={k/n:.4f} p={p:.4g} CI=({lo:.4f},{hi:.4f}) {v:17} | builder v={b.get('verdict')} |dp|={dp} |dCI|={di}")
+# exact fraction tail for the small-excess dataset
+for r in rows:
+    if r["title"].startswith("Survey of saproxylic"):
+        n = int(r["date_only"]); k = int(r["day_1"]); q = Fraction(1, 30)
+        tail = sum(comb(n, i) * q**i * (1-q)**(n-i) for i in range(k, n+1))
+        print("saproxylic exact tail", float(tail))

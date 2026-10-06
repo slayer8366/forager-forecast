@@ -1,0 +1,21 @@
+datasets 26, tested (n>=300) 6, level each 0.00166667
+iNaturalist Research-grade Observations       n=  46032 k= 1577 share=0.0343 p=0.1373 CI=(0.0326,0.0360) close to 1 in 30  | builder v=close to 1 in 30 |dp|=7.897932308154054e-12 |dCI|=2.0296264668928643e-14
+Mushroom Observer                             n= 162546 k= 5063 share=0.0311 p=1 CI=(0.0303,0.0320) close to 1 in 30  | builder v=close to 1 in 30 |dp|=0.0 |dCI|=4.284073096272323e-14
+Fungi of parks, forests and reserves of New J n= 147414 k= 3732 share=0.0253 p=1 CI=(0.0245,0.0261) close to 1 in 30  | builder v=close to 1 in 30 |dp|=0.0 |dCI|=7.871828189287555e-14
+Fungi of parks, forests and reserves of New J n=   1603 k=    0 share=0.0000 p=1 CI=(0.0000,0.0023) close to 1 in 30  | builder v=close to 1 in 30 |dp|=0.0 |dCI|=1.0148132334464322e-16
+Survey of saproxylic fungi across parks of Ne n=    738 k=   43 share=0.0583 p=0.0003834 CI=(0.0425,0.0777) small excess      | builder v=small excess |dp|=2.26706674266719e-16 |dCI|=4.232725281383409e-15
+MARINe/PISCO: Intertidal: MARINe Coastal Biod n=    318 k=    6 share=0.0189 p=0.9551 CI=(0.0070,0.0406) close to 1 in 30  | builder v=close to 1 in 30 |dp|=8.881784197001252e-15 |dCI|=1.8388068845354155e-15
+Mycoblitz 2017 - IRBV et Cercle des Mycologue n=    132 k=    0 share=0.0000 p=1 CI=(0.0000,0.0276) too few to test   | builder v=too few to test |dp|=0.0 |dCI|=5.689893001203927e-16
+Danish Mycological Society, fungal records da n=    102 k=    3 share=0.0294 p=0.6648 CI=(0.0061,0.0836) too few to test   | builder v=too few to test |dp|=2.55351295663786e-15 |dCI|=5.689893001203927e-16
+Mohonk Preserve Forest Health Monitoring Data n=     78 k=    2 share=0.0256 p=0.7378 CI=(0.0031,0.0896) too few to test   | builder v=too few to test |dp|=1.765254609153999e-14 |dCI|=9.43689570931383e-16
+Ontario BioBlitz Species Records              n=     60 k=    0 share=0.0000 p=1 CI=(0.0000,0.0596) too few to test   | builder v=too few to test |dp|=0.0 |dCI|=6.869504964868156e-16
+Kenai National Wildlife Refuge, Alaska (KNWR) n=     45 k=    3 share=0.0667 p=0.189 CI=(0.0140,0.1827) too few to test   | builder v=too few to test |dp|=5.551115123125783e-16 |dCI|=2.7755575615628914e-16
+Observation.org, Nature data from around the  n=     33 k=    1 share=0.0303 p=0.6733 CI=(0.0008,0.1576) too few to test   | builder v=too few to test |dp|=4.6629367034256575e-15 |dCI|=5.551115123125783e-17
+Kenai National Wildlife Refuge: Dall sheep re n=     19 k=    0 share=0.0000 p=1 CI=(0.0000,0.1765) too few to test   | builder v=too few to test |dp|=0.0 |dCI|=2.7755575615628914e-17
+Biodiversity4all Research-Grade Observations  n=     15 k=    0 share=0.0000 p=1 CI=(0.0000,0.2180) too few to test   | builder v=too few to test |dp|=0.0 |dCI|=2.498001805406602e-16
+University of North Carolina at Chapel Hill H n=     15 k=    0 share=0.0000 p=1 CI=(0.0000,0.2180) too few to test   | builder v=too few to test |dp|=0.0 |dCI|=2.498001805406602e-16
+Arizona State University Lichen Herbarium     n=      3 k=    0 share=0.0000 p=1 CI=(0.0000,0.7076) too few to test   | builder v=too few to test |dp|=0.0 |dCI|=0.0
+CDA - California Department of Food and Agric n=      3 k=    0 share=0.0000 p=1 CI=(0.0000,0.7076) too few to test   | builder v=too few to test |dp|=0.0 |dCI|=0.0
+NatureShare                                   n=      1 k=    0 share=0.0000 p=1 CI=(0.0000,0.9750) too few to test   | builder v=too few to test |dp|=0.0 |dCI|=1.1102230246251565e-16
+Estonian Naturalists’ Society                 n=      1 k=    1 share=1.0000 p=0.03333 CI=(0.0250,1.0000) too few to test   | builder v=too few to test |dp|=6.938893903907228e-18 |dCI|=2.0816681711721685e-17
+saproxylic exact tail 0.0003833787348591344

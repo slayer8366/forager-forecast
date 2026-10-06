@@ -1,0 +1,6 @@
+==================================== ERRORS ====================================
+_____________ ERROR collecting tests/test_records_date_quality.py ______________
+ImportError while importing test module '/home/zynergy-labs/Zynergy/forager-forecast-dq/tests/test_records_date_quality.py'.
+E   ImportError: cannot import name 'date_quality' from 'forager_forecast.records' (/home/zynergy-labs/Zynergy/forager-forecast-dq/src/forager_forecast/records/__init__.py)
+____________ ERROR collecting tests/test_records_duplicate_keys.py _____________
+ImportError while importing test module '/home/zynergy-labs/Zynergy/forager-forecast-dq/tests/test_records_duplicate_keys.py'.

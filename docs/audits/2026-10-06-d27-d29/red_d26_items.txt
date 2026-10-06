@@ -1,0 +1,8 @@
+E       Failed: DID NOT RAISE SystemExit
+E       AssertionError: the earlier run's partial file was deleted
+E       assert False
+E        +  where False = exists()
+E        +    where exists = PosixPath('/tmp/pytest-of-zynergy-labs/pytest-241/test_fetch_download_leaves_a_p0/0000001-261006000000000.zip.part').exists
+FAILED tests/test_t2_render_tables.py::test_a_region_the_renderer_does_not_know_is_refused_by_name
+FAILED tests/test_records_gbif_download.py::test_fetch_download_leaves_a_partial_file_it_did_not_create
+2 failed, 15 passed in 0.08s
