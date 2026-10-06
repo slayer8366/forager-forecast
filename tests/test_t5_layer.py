@@ -26,6 +26,7 @@ from forager_forecast.t5_layer import (
     SCANFI_CLASSES,
     SCANFI_CRS_WKT,
     SCANFI_NOT_AVAILABLE,
+    SCANFI_TOTAL_LAYER,
     STRIP,
     TREEMAP_CITATION,
     TREEMAP_CRS,
@@ -182,11 +183,16 @@ def _write_scanfi(directory):
     width, height = int((right - left) // 30) + 1, int((top - bottom) // 30) + 1
     transform = from_origin(left, top, 30, 30)
     lon, lat = _grid_lonlat(transform, width, height, SCANFI_CRS_WKT)
-    for cls in SCANFI_CLASSES:
-        data = np.full((height, width), SCANFI_VALUES.get(cls, 0), dtype="uint8")
+    # SCANFI's own total crown closure (D92) reads 85 where the ten classes sum to 80, and 40
+    # in a northern band where every class reads 0 (closure the split cannot apportion).
+    values = {**SCANFI_VALUES, "att_closure": 85}
+    for cls in (*SCANFI_CLASSES, SCANFI_TOTAL_LAYER):
+        data = np.full((height, width), values.get(cls, 0), dtype="uint8")
         data[(lat > 49.03) & (lon > -121.87)] = 255  # no data in one Canadian corner
-        low = {"douglasFir": 3, "otherConiferous": 2, "broadleaf": 1}.get(cls, 0)
+        low = {"douglasFir": 3, "otherConiferous": 2, "broadleaf": 1, "att_closure": 6}.get(cls, 0)
         data[(lat > 49.03) & (lon < -121.93)] = low  # 6% cover in the opposite corner
+        band = (lat > 49.03) & (lon > -121.915) & (lon < -121.885)
+        data[band] = 40 if cls == SCANFI_TOTAL_LAYER else 0
         with rasterio.open(
             directory / f"{cls}.tif", "w", driver="GTiff", width=width, height=height, count=1,
             dtype="uint8", crs=SCANFI_CRS_WKT, transform=transform, nodata=255,
@@ -294,13 +300,24 @@ def test_a_plot_missing_from_the_attribute_table_is_an_error(tmp_path):
         )  # fmt: skip
 
 
+def test_scanfi_closure_the_classes_cannot_split_counts_as_cover_but_gives_no_share(built):
+    bands, _, transform = _read(built["out"] / "host_trees_strip.tif")
+    flags, _, _ = _read(built["out"] / "host_trees_strip_flags.tif")
+    cell = _at(bands, transform, -121.90, 49.037)
+    assert cell["total_cover_pct"] == pytest.approx(40.0)
+    for band in ("Pseudotsuga", "conifer", "broadleaf"):
+        assert np.isnan(cell[f"share_{band}"])
+        assert _at(flags, transform, -121.90, 49.037)[f"flag_{band}"] == FLAG_NONE
+
+
 def test_canadian_cells_carry_scanfi_shares_and_flag_what_it_cannot_supply(built):
     bands, _, transform = _read(built["out"] / "host_trees_strip.tif")
     flags, _, _ = _read(built["out"] / "host_trees_strip_flags.tif")
     # TreeMap has plot 1 (pure Douglas-fir) here too; the Canadian side must not read it.
     cell = _at(bands, transform, -121.93, 49.02)
     assert cell["source"] == FLAG_SCANFI
-    assert cell["total_cover_pct"] == pytest.approx(80.0)
+    assert cell["total_cover_pct"] == pytest.approx(85.0)  # SCANFI's own total (D92)
+    # The shares keep the ten-layer split.
     assert cell["share_Pseudotsuga"] == pytest.approx(30 / 80)
     assert cell["share_conifer"] == pytest.approx(60 / 80)
     assert cell["share_broadleaf"] == pytest.approx(20 / 80)
@@ -415,12 +432,16 @@ def test_request_records_carry_the_sources_terms_and_attribution(built):
     sc = json.loads(built["sc_request"].read_text())
     assert sc["licence"] == "Open Government Licence - Canada"
     assert sc["year"] == 2025
-    assert len(sc["layers"]) == len(SCANFI_CLASSES) == 10
+    assert len(sc["layers"]) == len(SCANFI_CLASSES) + 1 == 11
+    assert sc["layers"][-1]["file"] == f"scanfi_{SCANFI_TOTAL_LAYER}.tif"
     _, tags, _ = _read(built["out"] / "host_trees_strip.tif")
     assert TREEMAP_CITATION in tags["attribution"]
     assert "SCANFI" in tags["attribution"]
     assert "Derived data, not the original" in tags["derived_notice"]
-    assert tags["rulings"].split(",") == ["D83", "D84", "D85", "D86", "D87", "D74"]
+    assert tags["rulings"].split(",") == [
+        "D83", "D84", "D85", "D86", "D87", "D88", "D89", "D90", "D91", "D92", "D74"
+    ]  # fmt: skip
+    assert tags["ca_total"].startswith("scanfi_att_closure")
 
 
 def test_a_cell_mixing_split_and_unsplit_canopy_takes_its_share_from_the_split_part(built):
@@ -437,3 +458,18 @@ def test_a_cell_mixing_split_and_unsplit_canopy_takes_its_share_from_the_split_p
     mixed = region & np.isfinite(share) & (total > CANOPY[3] + 1) & (total < CANOPY[1] - 1)
     assert mixed.any()  # the sample includes the cells that could fail
     assert np.allclose(share[mixed], 1.0)
+
+
+def test_scanfis_total_can_be_fetched_alone_with_its_own_request(tmp_path):
+    src = tmp_path / "sources"
+    src.mkdir()
+    _write_scanfi(src)
+    path = fetch_scanfi(
+        tmp_path / "native", SMALL, source_for=lambda cls, year: str(src / f"{cls}.tif"),
+        layers=(SCANFI_TOTAL_LAYER,), request_name="scanfi_total_request.json",
+    )  # fmt: skip
+    record = json.loads(path.read_text())
+    assert [layer["file"] for layer in record["layers"]] == ["scanfi_att_closure.tif"]
+    assert sorted(p.name for p in (tmp_path / "native").iterdir()) == [
+        "scanfi_att_closure.tif", "scanfi_total_request.json"
+    ]  # fmt: skip

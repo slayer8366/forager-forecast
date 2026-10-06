@@ -96,6 +96,19 @@ BECHTOLD_2004_N: dict[int, int] = {
     814: 248, 815: 126, 818: 239, 821: 29, 839: 79, 981: 28,
 }  # fmt: skip
 
+# Largest stem diameter (in) each Table 3 model was fitted to, Bechtold 2004 Table 1. A larger D
+# takes the width at this diameter (D91): Equation 3's quadratic turns down past its peak and, for
+# western redcedar, crosses zero near 74 in.
+BECHTOLD_2004_DMAX: dict[int, float] = {
+    11: 35.8, 15: 62.6, 17: 43.9, 18: 18.3, 19: 27.4, 20: 52.3, 21: 40.1, 22: 46.0, 41: 13.4,
+    62: 42.6, 64: 45.3, 65: 29.7, 66: 38.1, 69: 36.5, 73: 23.1, 81: 42.0, 93: 35.9, 98: 39.2,
+    101: 24.2, 102: 18.9, 106: 25.5, 108: 62.2, 113: 20.7, 116: 48.1, 117: 44.9, 119: 38.4, 122:
+    41.3, 127: 34.8, 133: 22.7, 202: 68.7, 211: 35.6, 242: 62.0, 263: 63.5, 264: 32.4, 312:
+    34.1, 321: 26.2, 322: 14.7, 351: 28.3, 352: 18.1, 361: 29.7, 475: 24.0, 631: 31.0, 746:
+    19.9, 749: 16.6, 801: 40.6, 805: 53.2, 807: 29.4, 814: 15.4, 815: 22.4, 818: 40.3, 821:
+    21.3, 839: 19.5, 981: 18.7,
+}  # fmt: skip
+
 # Woodland species, marked (w) in the paper: D is diameter at root collar, not d.b.h.
 WOODLAND = frozenset({62, 64, 65, 66, 69, 106, 133, 321, 322, 475, 814})
 
@@ -168,10 +181,18 @@ def surrogate_for(spcd: int, genus: str) -> int:
 
 
 def crown_width_for(spcd: int, genus: str, dbh_in: float) -> tuple[float, int]:
-    """(largest crown width in ft, the Table 3 species whose coefficients were used)."""
+    """(largest crown width in ft, the Table 3 species whose coefficients were used).
+
+    D is capped at the largest diameter that species' model was fitted to (D91).
+    """
     used = surrogate_for(spcd, genus)
     b0, b1, b2 = BECHTOLD_2004_EQ3[used]
-    return b0 + b1 * dbh_in + b2 * dbh_in * dbh_in, used
+    d = min(dbh_in, BECHTOLD_2004_DMAX[used])
+    return b0 + b1 * d + b2 * d * d, used
+
+
+def is_capped(spcd: int, genus: str, dbh_in: float) -> bool:
+    return dbh_in > BECHTOLD_2004_DMAX[surrogate_for(spcd, genus)]
 
 
 @dataclass(frozen=True)
@@ -191,6 +212,8 @@ class PlotCover:
     by_band: dict[str, float]
     surrogate_trees: int = 0
     surrogate_species: dict[int, int] = field(default_factory=dict)
+    capped_trees: int = 0
+    nonpositive_width_trees: int = 0
 
 
 def plot_cover(trees: Iterable[Tree], surrogate_width_scale: float = 1.0) -> PlotCover:
@@ -198,15 +221,19 @@ def plot_cover(trees: Iterable[Tree], surrogate_width_scale: float = 1.0) -> Plo
     total_pa = 0.0
     surrogate_trees = 0
     surrogate_species: dict[int, int] = {}
+    capped_trees = 0
+    nonpositive = 0
     for t in trees:
         if not t.live or not (t.dbh_in >= MIN_DBH_IN) or not (t.tpa > 0):
             continue
         width, used = crown_width_for(t.spcd, t.genus, t.dbh_in)
+        capped_trees += is_capped(t.spcd, t.genus, t.dbh_in)
         if used != t.spcd:
             surrogate_trees += 1
             surrogate_species[t.spcd] = used
             width *= surrogate_width_scale
         if width <= 0:
+            nonpositive += 1  # counted, never dropped silently (D91)
             continue
         pa = t.tpa * math.pi * (width / 2.0) ** 2
         total_pa += pa
@@ -219,4 +246,4 @@ def plot_cover(trees: Iterable[Tree], surrogate_width_scale: float = 1.0) -> Plo
         by_band = {band: total * crown[band] / total_pa for band in BANDS}
     else:
         by_band = dict.fromkeys(BANDS, 0.0)
-    return PlotCover(total, by_band, surrogate_trees, surrogate_species)
+    return PlotCover(total, by_band, surrogate_trees, surrogate_species, capped_trees, nonpositive)

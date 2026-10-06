@@ -1,9 +1,12 @@
 """T5 end to end on real data: SCANFI window fetch, TreeMap cut, master grid, transects.
 
 Usage (from the repository root, data/t5 pointing at the flash drive):
-    uv run --frozen python scripts/t5_build.py STEP [US_TOTAL]
-STEP is fetch-scanfi, cut-treemap, build, or transects; US_TOTAL is treemap_canopy (default, D88)
-or tree_list (the first build, D87). Inputs and outputs live under data/t5;
+    uv run --frozen python scripts/t5_build.py STEP [BUILD]
+STEP is fetch-scanfi, fetch-scanfi-total, cut-treemap, build, or transects. BUILD names the
+build: d92 (default: TreeMap canopy, SCANFI's own total, D88 and D92), treemap_canopy (D88 with
+the ten-class Canadian total) or tree_list (the first build). Transects always use the current
+verdict rule (D90); the build's layers are read from its own folder. Inputs and outputs live
+under data/t5;
 request records are copied to docs/pulls/ by hand after a fetch.
 """
 
@@ -15,6 +18,7 @@ from pathlib import Path
 from forager_forecast.crown_cover import BANDS
 from forager_forecast.seam import run_transects
 from forager_forecast.t5_layer import (
+    SCANFI_TOTAL_LAYER,
     STRIP,
     SURROGATE_SCALES,
     build_master,
@@ -28,26 +32,34 @@ TREEMAP = DATA / "treemap2023"
 TESTED = ["share_Pseudotsuga", "share_conifer", "share_broadleaf", "total_cover_pct"]
 
 
-# D88: TreeMap's own canopy is the US total. "tree_list" reproduces the first build (D87).
-US_TOTAL = (
-    sys.argv[2]
-    if len(sys.argv) > 2 and sys.argv[2] in ("tree_list", "treemap_canopy")
-    else "treemap_canopy"
-)
+BUILDS = {
+    "d92": ("treemap_canopy", "scanfi_att_closure"),
+    "treemap_canopy": ("treemap_canopy", "ten_class_sum"),
+    "tree_list": ("tree_list", "ten_class_sum"),
+}
+BUILD = sys.argv[2] if len(sys.argv) > 2 and sys.argv[2] in BUILDS else "d92"
+US_TOTAL, CA_TOTAL = BUILDS[BUILD]
 
 
 def out_dir(scale: float) -> Path:
-    return DATA / f"master_{US_TOTAL}_scale_{scale}"
+    return DATA / f"master_{BUILD}_scale_{scale}"
 
 
 def main(steps: list[str]) -> None:
-    steps = [s for s in steps if s not in ("tree_list", "treemap_canopy")]
+    steps = [s for s in steps if s not in BUILDS]
     if not DATA.resolve().is_dir():
         raise SystemExit(f"{DATA} does not resolve to a directory (is the flash drive mounted?)")
     for step in steps:
         started = time.perf_counter()
         if step == "fetch-scanfi":
             print(fetch_scanfi(NATIVE, STRIP))
+        elif step == "fetch-scanfi-total":
+            print(
+                fetch_scanfi(
+                    NATIVE, STRIP, layers=(SCANFI_TOTAL_LAYER,),
+                    request_name="scanfi_total_request.json",
+                )
+            )  # fmt: skip
         elif step == "cut-treemap":
             print(
                 cut_treemap(
@@ -57,7 +69,12 @@ def main(steps: list[str]) -> None:
         elif step == "build":
             for scale in SURROGATE_SCALES:
                 summary = build_master(
-                    NATIVE, out_dir(scale), STRIP, surrogate_width_scale=scale, us_total=US_TOTAL
+                    NATIVE,
+                    out_dir(scale),
+                    STRIP,
+                    surrogate_width_scale=scale,
+                    us_total=US_TOTAL,
+                    ca_total=CA_TOTAL,
                 )
                 print(scale, json.dumps(summary["cells_with_share"]))
         elif step == "transects":
@@ -70,7 +87,7 @@ def main(steps: list[str]) -> None:
                 for b in BANDS
                 if b not in ("Pseudotsuga", "conifer", "broadleaf")
             }
-            (DATA / f"transects_{US_TOTAL}.json").write_text(json.dumps(results, indent=2) + "\n")
+            (DATA / f"transects_{BUILD}_d90.json").write_text(json.dumps(results, indent=2) + "\n")
             for band, r in results["1.0"].items():
                 print(band, {k: r[k] for k in ("n_transects", "border_median_abs", "threshold",
                                                 "ratio", "artifact")})  # fmt: skip

@@ -11,8 +11,9 @@ section 4, with the verdict rule as amended in section 7 of that report):
   k = 0..18, on each side.
 - Verdict: B = median over transects of |border step|. The null for each side is the median over
   the same transects (those with a border step, D90) of one |within step| per transect, drawn at
-  random (seed 20260918, D31); the threshold is the larger side's 95th percentile. B above it is a step larger than the variation inside each
-  country, and is written up as a known artifact.
+  random (seed 20260918, D31); the threshold is the larger side's 95th percentile. B above it is
+  a step larger than the variation inside each country, and is written up as a known artifact.
+  Before D90 the null used every transect with a within-country step.
 """
 
 import math

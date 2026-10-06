@@ -129,3 +129,42 @@ def test_surrogates_are_counted_and_their_widths_can_be_scaled():
     # Only the ash's crown changes, so the broadleaf share moves with the scale.
     assert narrower.by_band["broadleaf"] / narrower.total < base.by_band["broadleaf"] / base.total
     assert wider.by_band["broadleaf"] / wider.total > base.by_band["broadleaf"] / base.total
+
+
+def test_a_diameter_beyond_the_fitted_range_takes_the_width_at_the_largest_fitted_diameter():
+    # D91 (Amendment 3, F2 of the T5 review). Western redcedar's quadratic crosses zero near 74 in,
+    # and the strip held 28 redcedars beyond that, which the first build dropped. Bechtold's
+    # Table 1 fitted redcedar up to 62.0 in.
+    capped, used = crown_width_for(242, "Thuja", 80.0)
+    at_max, _ = crown_width_for(242, "Thuja", 62.0)
+    assert used == 242
+    assert capped == pytest.approx(at_max)
+    assert capped > 0
+    cover = plot_cover([tree(242, "Thuja", 80.0, tpa=6.0)])
+    assert cover.total > 0
+    assert cover.capped_trees == 1
+    assert cover.nonpositive_width_trees == 0
+    # Douglas-fir was fitted to 68.7 in.
+    assert crown_width_for(202, "Pseudotsuga", 120.0)[0] == pytest.approx(
+        crown_width_for(202, "Pseudotsuga", 68.7)[0]
+    )
+    # Inside the range nothing changes, and nothing is counted.
+    inside = plot_cover([tree(242, "Thuja", 40.0)])
+    assert inside.capped_trees == 0
+
+
+def test_a_surrogate_is_capped_at_its_coefficients_species_range():
+    # Oregon ash takes quaking aspen's coefficients, fitted to 19.9 in.
+    assert crown_width_for(542, "Fraxinus", 30.0)[0] == pytest.approx(
+        crown_width_for(746, "Populus", 19.9)[0]
+    )
+
+
+def test_a_non_positive_width_is_counted_not_dropped_silently(monkeypatch):
+    from forager_forecast import crown_cover
+
+    monkeypatch.setitem(crown_cover.BECHTOLD_2004_EQ3, 202, (-50.0, 0.0, 0.0))
+    cover = plot_cover([tree(202, "Pseudotsuga", 20.0), tree(263, "Tsuga", 20.0)])
+    assert cover.nonpositive_width_trees == 1
+    assert cover.by_band["Pseudotsuga"] == 0.0
+    assert cover.by_band["Tsuga"] == pytest.approx(cover.total)

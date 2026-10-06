@@ -109,10 +109,22 @@ SCANFI_BAND_CLASSES = {
 }
 SCANFI_NOT_AVAILABLE = tuple(b for b in BANDS if b not in SCANFI_BAND_CLASSES)
 
-RULINGS = ("D83", "D84", "D85", "D86", "D87", "D74")
+RULINGS = ("D83", "D84", "D85", "D86", "D87", "D88", "D89", "D90", "D91", "D92", "D74")
+
+
+# SCANFI's own total crown closure (D92), "Total crown closure (%)" in the v2 readme.
+SCANFI_TOTAL_LAYER = "att_closure"
+CA_TOTALS = ("scanfi_att_closure", "ten_class_sum")
+CA_TOTAL_TAGS = {
+    "scanfi_att_closure": "scanfi_att_closure (D92): SCANFI v2 total crown closure; genus share "
+    "from the ten species-class layers",
+    "ten_class_sum": "ten_class_sum (first build): the sum of SCANFI's ten species-class layers",
+}
 
 
 def scanfi_url(cls: str, year: int, base: str = SCANFI_BASE_URL) -> str:
+    if cls == SCANFI_TOTAL_LAYER:
+        return f"{base}/SCANFI_att_closure_{year}_v2_20260119.tif"
     return f"{base}/SCANFI_spsCC_{cls}_{year}_v2_20260119.tif"
 
 
@@ -301,6 +313,8 @@ def cut_treemap(
         )
     surrogates: dict[int, int] = {}
     surrogate_trees = 0
+    capped_trees = 0
+    nonpositive_trees = 0
     without_split = 0
     with open(native_dir / "treemap_plot_covers.csv", "w", newline="") as f:
         w = csv.writer(f)
@@ -315,6 +329,8 @@ def cut_treemap(
                     without_split += c.total == 0
                     surrogates.update(c.surrogate_species)
                     surrogate_trees += c.surrogate_trees
+                    capped_trees += c.capped_trees
+                    nonpositive_trees += c.nonpositive_width_trees
     sidecar = Path(str(tree_zip) + ".sha256")
     zip_sha = sidecar.read_text().split()[0] if sidecar.exists() else None
     request = {
@@ -332,6 +348,8 @@ def cut_treemap(
         "attribute_table": vat_path.name,
         "attribute_table_sha256": hashlib.sha256(vat_path.read_bytes()).hexdigest(),
         "surrogate_trees": surrogate_trees,
+        "capped_trees": capped_trees,
+        "nonpositive_width_trees": nonpositive_trees,
         "surrogate_species": {str(k): v for k, v in sorted(surrogates.items())},
         "extent": asdict(box),
         "master_window": asdict(window),
@@ -342,14 +360,24 @@ def cut_treemap(
     return path
 
 
-def fetch_scanfi(native_dir: Path, box: LonLatBox, year: int = SCANFI_YEAR, source_for=scanfi_url):
-    """One windowed read per SCANFI class. Returns the request record's path."""
+def fetch_scanfi(
+    native_dir: Path,
+    box: LonLatBox,
+    year: int = SCANFI_YEAR,
+    source_for=scanfi_url,
+    layers: tuple[str, ...] = (*SCANFI_CLASSES, SCANFI_TOTAL_LAYER),
+    request_name: str = "scanfi_request.json",
+):
+    """One windowed read per SCANFI layer. Returns the request record's path.
+
+    ``layers`` lets a later fetch add one layer (D92's total) without refetching the others.
+    """
     native_dir = Path(native_dir)
     window = master_window(box)
     bounds = native_bounds(window, SCANFI_CRS_WKT)
     records = [
         fetch_layer(source_for(cls, year), bounds, native_dir / f"scanfi_{cls}.tif")
-        for cls in SCANFI_CLASSES
+        for cls in layers
     ]
     request = {
         "dataset": "SCANFI v2, species crown closure (%)",
@@ -358,13 +386,14 @@ def fetch_scanfi(native_dir: Path, box: LonLatBox, year: int = SCANFI_YEAR, sour
         "licence_source": "https://open.canada.ca/data/en/dataset/07653869-f303-46c2-a04e-9ab479b73cbf",
         "year": year,
         "classes": list(SCANFI_CLASSES),
+        "total_layer": SCANFI_TOTAL_LAYER,
         "extent": asdict(box),
         "master_window": asdict(window),
         "native_bounds": list(bounds),
         "layers": records,
         "rulings": list(RULINGS),
     }
-    path = native_dir / "scanfi_request.json"
+    path = native_dir / request_name
     path.write_text(json.dumps(request, indent=2, ensure_ascii=False) + "\n")
     return path
 
@@ -435,10 +464,23 @@ def _treemap_layers(native_dir: Path, scale: float, us_total: str):
     return cover_layers, split_layers
 
 
-def _scanfi_layers(native_dir: Path):
+def _scanfi_layers(native_dir: Path, ca_total: str = "scanfi_att_closure"):
+    """(cover layers, split layers) for the Canadian side, as _treemap_layers for the US.
+
+    ``scanfi_att_closure`` (D92): cover is SCANFI's own total crown closure; shares come from the
+    ten class layers against their sum, so a pixel with closure but no class cover is left out of
+    the shares. ``ten_class_sum``: the first build, cover is the sum of the ten classes.
+    """
+    if ca_total not in CA_TOTALS:
+        raise ValueError(f"ca_total must be one of {CA_TOTALS}")
+    names = (
+        (*SCANFI_CLASSES, SCANFI_TOTAL_LAYER)
+        if ca_total == "scanfi_att_closure"
+        else SCANFI_CLASSES
+    )
     arrays = {}
     grid = None
-    for cls in SCANFI_CLASSES:
+    for cls in names:
         with rasterio.open(native_dir / f"scanfi_{cls}.tif") as ds:
             this = (tuple(ds.transform)[:6], ds.width, ds.height)
             if grid is None:
@@ -453,14 +495,19 @@ def _scanfi_layers(native_dir: Path):
             arrays[cls] = data
     shape = arrays[SCANFI_CLASSES[0]].shape
     own_side = _pixel_latitudes(transform, shape[1], shape[0], crs) >= BORDER_LATITUDE
-    total = sum(arrays.values())
-    layers = {"total": total}
+    split = {"total": sum(arrays[c] for c in SCANFI_CLASSES)}
     for band, classes in SCANFI_BAND_CLASSES.items():
-        layers[band] = sum(arrays[c] for c in classes)
-    for name, layer in layers.items():
+        split[band] = sum(arrays[c] for c in classes)
+    cover = arrays[SCANFI_TOTAL_LAYER] if ca_total == "scanfi_att_closure" else split["total"]
+
+    def own(layer):
         layer = layer.copy()
         layer[~own_side] = np.nan
-        yield name, layer, transform
+        return layer
+
+    return [("total", own(cover), transform)], [
+        (name, own(layer), transform) for name, layer in split.items()
+    ]
 
 
 def _regrid(layers, crs, window):
@@ -484,6 +531,7 @@ def build_master(
     box: LonLatBox,
     surrogate_width_scale: float = 1.0,
     us_total: str = "treemap_canopy",
+    ca_total: str = "scanfi_att_closure",
 ) -> dict:
     native_dir, out_dir = Path(native_dir), Path(out_dir)
     window = master_window(box)
@@ -493,10 +541,12 @@ def build_master(
     cover_layers, split_layers = _treemap_layers(native_dir, surrogate_width_scale, us_total)
     us_cover, us_frac = _regrid(cover_layers, TREEMAP_CRS, window)
     us, _ = _regrid(split_layers, TREEMAP_CRS, window)
-    ca, ca_frac = _regrid(_scanfi_layers(native_dir), SCANFI_CRS_WKT, window)
+    ca_cover_layers, ca_split_layers = _scanfi_layers(native_dir, ca_total)
+    ca_cover, ca_frac = _regrid(ca_cover_layers, SCANFI_CRS_WKT, window)
+    ca, _ = _regrid(ca_split_layers, SCANFI_CRS_WKT, window)
 
     fraction = np.where(canada, ca_frac, us_frac)
-    total = np.where(canada, ca["total"], us_cover["total"])
+    total = np.where(canada, ca_cover["total"], us_cover["total"])
     valid = in_box & (fraction >= MIN_VALID_FRACTION)
     defined = valid & (total >= MIN_TOTAL_COVER_PCT)
     side_flag = np.where(canada, FLAG_SCANFI, FLAG_TREEMAP)
@@ -539,6 +589,7 @@ def build_master(
         "scanfi_year": str(sc_request["year"]),
         "share_definition": "genus crown cover / total crown cover on the cell's own side (D87)",
         "us_total": US_TOTAL_TAGS[us_total],
+        "ca_total": CA_TOTAL_TAGS[ca_total],
     }
     out_dir.mkdir(parents=True, exist_ok=True)
     transform = from_origin(window.left, window.top, CELL_SIZE_M, CELL_SIZE_M)
@@ -580,6 +631,9 @@ def build_master(
         "surrogate_width_scale": surrogate_width_scale,
         "surrogate_species": tm_request["surrogate_species"],
         "surrogate_trees": tm_request["surrogate_trees"],
+        "capped_trees": tm_request["capped_trees"],
+        "nonpositive_width_trees": tm_request["nonpositive_width_trees"],
+        "ca_total": ca_total,
         "plots_in_window": tm_request["plots_in_window"],
         "plots_without_tree_rows": tm_request["plots_without_tree_rows"],
         "plots_without_split": tm_request["plots_without_split"],
