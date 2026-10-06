@@ -1,0 +1,41 @@
+{
+  "zip": "/home/zynergy-labs/Zynergy/forager-forecast-d26/data/d26/downloads/0012112-260928105237408.zip",
+  "rows_read": 2493578,
+  "unloadable": {
+    "eventDate spans more than one day": 23,
+    "eventDate does not name a calendar day": 9604
+  },
+  "loaded": 2483951,
+  "steps": {
+    "not user-obscured": {
+      "before": 2483951,
+      "dropped": 155988
+    },
+    "coordinate uncertainty present and at most 1,000 m": {
+      "before": 2327963,
+      "dropped": 845666
+    },
+    "date kept as given (D97, D98)": {
+      "before": 1482297,
+      "dropped": 0
+    }
+  },
+  "survivors_observer_key": 1379859,
+  "survivors_event_key": 1331020,
+  "observer_key_survivors_outside_whole_weeks": 1846,
+  "observer_key_survivors_in_whole_weeks": 1378013,
+  "distinct_cells_with_any_observer_day": 43035,
+  "distinct_cell_weeks_with_any_observer_day": 588097,
+  "distinct_observer_days": 879576,
+  "benchmark_class_key": "180",
+  "benchmark_rows_in_download": 321965,
+  "benchmark_class_names": {
+    "Lecanoromycetes": 321965
+  },
+  "benchmark_observer_key_survivors": 190132,
+  "benchmark_distinct_observer_days_in_whole_weeks": 131301,
+  "frame_rows_if_built_in_full": 49318110,
+  "seconds": 206.7,
+  "peak_rss_kb_watchdog": 841748,
+  "after_filters": 1482297
+}
