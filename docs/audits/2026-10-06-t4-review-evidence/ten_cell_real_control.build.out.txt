@@ -1,0 +1,1 @@
+{'cells': 2973360, 'cells_in_extent': 1884904, 'cells_with_mean': 1301966, 'cells_below_min_valid_fraction': 43706, 'regrid_seconds': 107.20629236999957, 'window': {'left': -2099250, 'bottom': 890750, 'right': -1709250, 'top': 1367250}}

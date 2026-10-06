@@ -1,0 +1,17 @@
+header: {'version': 3, 'root_offset': 127, 'root_length': 270, 'metadata_offset': 397, 'metadata_length': 760, 'leaf_directory_offset': 1157, 'leaf_directory_length': 0, 'tile_data_offset': 1157, 'tile_data_length': 890231, 'addressed_tiles_count': 78, 'tile_entries_count': 78, 'tile_contents_count': 78, 'clustered': True, 'internal_compression': 'GZIP', 'tile_compression': 'NONE', 'tile_type': 'PNG', 'min_zoom': 5, 'max_zoom': 9, 'min_lon_e7': -1272656250, 'min_lat_e7': 445904671, 'max_lon_e7': -1195312500, 'max_lat_e7': 498379824, 'center_zoom': 5, 'center_lon_e7': -1233984375, 'center_lat_e7': 472142247}
+tiles per zoom: {5: 4, 6: 4, 7: 6, 8: 15, 9: 49}
+z9 counts: {'tiles_z9': 49, 'pixels': 3211264, 'valid_expected': 1888810, 'valid_match': 1888810, 'nodata_expected': 1322454, 'nodata_match': 1322454, 'mismatch': 0, 'round_half_even_would_differ': 2065}
+mismatch examples: []
+metadata keys: ['attribution', 'bounds', 'description', 'forager_forecast_encoding', 'forager_forecast_extent', 'forager_forecast_master_grid', 'forager_forecast_min_valid_fraction', 'forager_forecast_range_bands', 'format', 'maxzoom', 'minzoom', 'name', 'type', 'version']
+metadata contains 'fruiting probability': False
+metadata contains 'probability of finding': False
+metadata contains 'chance of finding': False
+metadata contains 'probability': False
+metadata contains 'chance': False
+metadata contains '%': False
+metadata contains 'percent': False
+metadata contains 'calibrated': False
+metadata contains 'approximate': True
+metadata contains 'q0.05': True
+metadata contains 'q0.95': True
+metadata numbers followed by %: []

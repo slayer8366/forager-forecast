@@ -1,0 +1,22 @@
+fraction bands identical across statistics: True
+cells with some valid soil (fraction > 0): 1345672
+cells carrying a mean (fraction >= 0.5): 1301966
+cells blanked by the 0.5 threshold (0 < fraction < 0.5): 43706
+cells at exactly fraction 0.5: 0
+threshold 0.0: cells with a value 1345672, change vs 0.5: +43706
+threshold 0.25: cells with a value 1319875, change vs 0.5: +17909
+threshold 0.5: cells with a value 1301966, change vs 0.5: +0
+threshold 0.75: cells with a value 1283438, change vs 0.5: -18528
+threshold 0.9: cells with a value 1270181, change vs 0.5: -31785
+threshold 0.999999: cells with a value 1253431, change vs 0.5: -48535
+  fraction [0.00, 0.10): 13840
+  fraction [0.10, 0.20): 8277
+  fraction [0.20, 0.30): 7307
+  fraction [0.30, 0.40): 7094
+  fraction [0.40, 0.50): 7188
+  fraction [0.50, 0.60): 7254
+  fraction [0.60, 0.70): 7415
+  fraction [0.70, 0.80): 7866
+  fraction [0.80, 0.90): 9250
+  fraction [0.90, 1.00): 16750
+  fraction [1.00, 1.00): 1253431
