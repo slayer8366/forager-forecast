@@ -1,0 +1,18 @@
+"""Scratch measurement helpers for the D32 follow-up verify step. Not repo code."""
+from decimal import Decimal, ROUND_FLOOR
+from fractions import Fraction
+import math
+
+def idx_plus_inf(v: float, step: str) -> int:
+    """Nearest grid index, decimal value of repr(v), exact halves toward +inf (D63 read on decimal text)."""
+    q = Decimal(repr(v)) / Decimal(step) + Decimal("0.5")
+    return int(q.to_integral_value(rounding=ROUND_FLOOR))
+
+def idx_binary_nearest(v: float, step: str) -> int:
+    """Nearest grid index on the exact binary value of the double, halves toward +inf."""
+    q = Fraction(v) / Fraction(step) + Fraction(1, 2)
+    return math.floor(q)
+
+def is_decimal_tie(v: float, step: str) -> bool:
+    q = Decimal(repr(v)) / Decimal(step)
+    return q - q.to_integral_value(rounding=ROUND_FLOOR) == Decimal("0.5")

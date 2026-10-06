@@ -1,0 +1,21 @@
+{
+ "D63 decimal differs from binary-nearest": 27,
+ "at date step: T1 says default=True, T2 says False": 12,
+ "cell changes floor -> D63": 1015747,
+ "decimal lat tie 0.1": 124,
+ "decimal lat tie 0.25": 22,
+ "decimal lon tie 0.1": 46,
+ "decimal lon tie 0.25": 21,
+ "drop coordinate_uncertainty": 1024875,
+ "drop dedup (D63)": 94082,
+ "drop dedup (floor)": 94247,
+ "drop default_first_of_month_date": 799,
+ "drop user_obscured": 156543,
+ "entering dedup": 1367291,
+ "source": 2549508,
+ "src: T1 loader would reject: eventDate does not name a calendar day": 9604,
+ "src: T1 loader would reject: eventDate spans more than one day": 23,
+ "src: obscured with uncertainty <= 1000 m": 23,
+ "src: obscured with uncertainty <= 250 m": 22,
+ "src: taxonKey != acceptedTaxonKey": 246510
+}
