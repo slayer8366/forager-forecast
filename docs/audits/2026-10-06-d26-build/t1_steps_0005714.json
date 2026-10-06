@@ -1,0 +1,65 @@
+{
+ "zip": "/home/zynergy-labs/Zynergy/forecast-data/gbif/0005714-260916113435855.zip",
+ "rows_read": 2549508,
+ "unloadable": {
+  "eventDate does not name a calendar day": 9604,
+  "eventDate spans more than one day": 23
+ },
+ "source": 2539881,
+ "steps": [
+  [
+   "inside a T1 box",
+   2539881,
+   1354698,
+   1185183
+  ],
+  [
+   "year 2015 to 2025",
+   1185183,
+   0,
+   1185183
+  ],
+  [
+   "not user-obscured",
+   1185183,
+   68562,
+   1116621
+  ],
+  [
+   "coordinate uncertainty present and at most 1,000 m",
+   1116621,
+   463592,
+   653029
+  ],
+  [
+   "not a default date (first of month at 00:00:00)",
+   653029,
+   567,
+   652462
+  ],
+  [
+   "one record per taxon, cell and day",
+   652462,
+   63592,
+   588870
+  ]
+ ],
+ "survivors": 588870,
+ "by_stage_box": {
+  "coordinate uncertainty present and at most 1,000 m|east": 490908,
+  "coordinate uncertainty present and at most 1,000 m|pnw": 162121,
+  "inside a T1 box|east": 935018,
+  "inside a T1 box|pnw": 250165,
+  "not a default date (first of month at 00:00:00)|east": 490505,
+  "not a default date (first of month at 00:00:00)|pnw": 161957,
+  "not user-obscured|east": 883150,
+  "not user-obscured|pnw": 233471,
+  "one record per taxon, cell and day|east": 446832,
+  "one record per taxon, cell and day|pnw": 142038,
+  "source|east": 935018,
+  "source|outside": 1354698,
+  "source|pnw": 250165,
+  "year 2015 to 2025|east": 935018,
+  "year 2015 to 2025|pnw": 250165
+ }
+}
