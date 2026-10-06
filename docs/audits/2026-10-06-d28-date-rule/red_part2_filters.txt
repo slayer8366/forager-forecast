@@ -1,0 +1,50 @@
+E       AssertionError: assert ('inside a T1...cell and day') == ('inside a T1...cell and day')
+E         
+E         At index 4 diff: 'not a default date (first of month at 00:00:00)' != 'date kept as given (D97, D98)'
+E         Use -v to get more diff
+E       AssertionError: assert ('user_obscur...ver_cell_day') == ('user_obscur...ver_cell_day')
+E         
+E         At index 2 diff: 'default_first_of_month_date' != 'date_kept_as_given'
+E         Use -v to get more diff
+E       assert 0 == 1
+E        +  where 0 = len([])
+E       assert 0 == 1
+E        +  where 0 = len([])
+E       assert 0 == 1
+E        +  where 0 = len([])
+E       assert 0 == 1
+E        +  where 0 = len([])
+E       assert [4] == [1, 2, 3, 4]
+E         
+E         At index 0 diff: 4 != 1
+E         Right contains 3 more items, first extra item: 2
+E         Use -v to get more diff
+E       assert [4] == [1, 2, 3, 4]
+E         
+E         At index 0 diff: 4 != 1
+E         Right contains 3 more items, first extra item: 2
+E         Use -v to get more diff
+E       assert [1, 7] == [1, 5, 7]
+E         
+E         At index 1 diff: 7 != 5
+E         Right contains one more item: 7
+E         Use -v to get more diff
+E       assert [1] == [1, 5]
+E         
+E         Right contains one more item: 5
+E         Use -v to get more diff
+E       AssertionError: assert [('source', 9...red', 3), ...] == [('source', 9...red', 3), ...]
+E         
+E         At index 3 diff: ('default_first_of_month_date', 9) != ('date_kept_as_given', 9)
+E         Use -v to get more diff
+FAILED tests/test_records_filters.py::test_t1_step_list_is_the_t1_dispatch_order_with_the_obscured_step_added
+FAILED tests/test_records_filters.py::test_r6_audit_step_list_is_the_t2_dispatch_order_with_the_d44_key_name
+FAILED tests/test_records_filters.py::test_the_date_step_keeps_every_dated_record[day0-None-t1]
+FAILED tests/test_records_filters.py::test_the_date_step_keeps_every_dated_record[day0-None-r6]
+FAILED tests/test_records_filters.py::test_the_date_step_keeps_every_dated_record[day1-clock1-t1]
+FAILED tests/test_records_filters.py::test_the_date_step_keeps_every_dated_record[day1-clock1-r6]
+FAILED tests/test_records_filters.py::test_the_date_step_is_the_last_filter_and_drops_nothing_in_a_mixed_run[t1]
+FAILED tests/test_records_filters.py::test_the_date_step_is_the_last_filter_and_drops_nothing_in_a_mixed_run[r6]
+FAILED tests/test_records_filters.py::test_pipeline_counts_every_step_and_the_counts_chain
+FAILED tests/test_records_filters.py::test_t1_list_over_the_same_records - as...
+FAILED tests/test_records_filters.py::test_on_pass_sees_source_then_each_cleared_stage_and_the_duplicate_stage_last

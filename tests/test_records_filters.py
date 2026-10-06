@@ -57,7 +57,7 @@ def test_t1_step_list_is_the_t1_dispatch_order_with_the_obscured_step_added():
         "year 2015 to 2025",
         "not user-obscured",
         "coordinate uncertainty present and at most 1,000 m",
-        "not a default date (first of month at 00:00:00)",
+        "date kept as given (D97, D98)",
         "one record per taxon, cell and day",
     )
 
@@ -66,7 +66,7 @@ def test_r6_audit_step_list_is_the_t2_dispatch_order_with_the_d44_key_name():
     assert f.r6_audit_steps().names() == (
         "user_obscured",
         "coordinate_uncertainty",
-        "default_first_of_month_date",
+        "date_kept_as_given",
         "duplicate_taxon_observer_cell_day",
     )
 
@@ -139,23 +139,43 @@ def test_r6_uncertainty_limit_is_250_m(uncertainty, dropped):
     assert (step == "coordinate_uncertainty") is dropped
 
 
-# Default first-of-month date: T1's rule on the parsed date and time, both lists (D65)
+# The date step (D97, D98): every dated record is kept. The owner's rulings, Forager RECORD -601
+# "Keep the 1st (Recommended)" and RECORD -605 "Drop the check, keep them (Recommended)", retire the
+# provisional first-of-month rule (D28, D65) in both lists: neither a date-only record on the 1st
+# nor one stamped 00:00:00 on the 1st is dropped.
 
 
 @BOTH
 @pytest.mark.parametrize(
-    ("day", "clock", "dropped"),
+    ("day", "clock"),
     [
-        (date(2024, 9, 1), None, True),
-        (date(2024, 9, 1), time(0, 0), True),
-        (date(2024, 9, 1), time(13, 24, 27), False),
-        (date(2024, 9, 14), None, False),
-        (date(2024, 9, 14), time(0, 0), False),
+        (date(2024, 9, 1), None),
+        (date(2024, 9, 1), time(0, 0)),
+        (date(2024, 9, 1), time(13, 24, 27)),
+        (date(2024, 9, 14), None),
+        (date(2024, 9, 14), time(0, 0)),
     ],
 )
-def test_first_of_month_without_a_real_time_is_dropped(steps, day, clock, dropped):
-    step = dropped_by(steps, rec(event_date=day, event_time=clock))
-    assert (step == steps.names()[-2]) is dropped
+def test_the_date_step_keeps_every_dated_record(steps, day, clock):
+    pipeline, kept = run(steps, [rec(event_date=day, event_time=clock)])
+    assert len(kept) == 1
+    date_step = pipeline.counts[-2]
+    assert date_step.step == steps.names()[-2]
+    assert (date_step.before, date_step.dropped) == (1, 0)
+
+
+@BOTH
+def test_the_date_step_is_the_last_filter_and_drops_nothing_in_a_mixed_run(steps):
+    records = [
+        rec(gbif_id=1, event_date=date(2024, 9, 1), event_time=None),
+        rec(gbif_id=2, event_date=date(2024, 10, 1), event_time=time(0, 0)),
+        rec(gbif_id=3, event_date=date(2024, 11, 1), event_time=time(0, 0, 0)),
+        rec(gbif_id=4, event_date=date(2024, 9, 14), event_time=None),
+    ]
+    pipeline, kept = run(steps, records)
+    assert [r.gbif_id for r in kept] == [1, 2, 3, 4]
+    assert steps.filters[-1].drops is f.drops_no_dated_record
+    assert pipeline.counts[-2].dropped == 0
 
 
 # Duplicates: two keys (D27), the D46/D63 cell, the lowest gbifID survives (D65)
@@ -228,13 +248,13 @@ def fixture() -> list[Record]:
 
 def test_pipeline_counts_every_step_and_the_counts_chain():
     pipeline, kept = run(f.r6_audit_steps(), fixture())
-    assert [r.gbif_id for r in kept] == [1, 7]
+    assert [r.gbif_id for r in kept] == [1, 5, 7]
     assert pipeline.source_count == 7
     assert [(c.step, c.before, c.dropped) for c in pipeline.counts] == [
         ("user_obscured", 7, 1),
         ("coordinate_uncertainty", 6, 2),
-        ("default_first_of_month_date", 4, 1),
-        ("duplicate_taxon_observer_cell_day", 3, 1),
+        ("date_kept_as_given", 4, 0),
+        ("duplicate_taxon_observer_cell_day", 4, 1),
     ]
     for earlier, later in zip(pipeline.counts[:-1], pipeline.counts[1:], strict=True):
         assert later.before == earlier.after
@@ -243,8 +263,8 @@ def test_pipeline_counts_every_step_and_the_counts_chain():
 
 def test_t1_list_over_the_same_records():
     pipeline, kept = run(f.t1_steps(), fixture())
-    assert [r.gbif_id for r in kept] == [1]
-    assert [c.dropped for c in pipeline.counts] == [0, 0, 1, 1, 1, 3]
+    assert [r.gbif_id for r in kept] == [1, 5]
+    assert [c.dropped for c in pipeline.counts] == [0, 0, 1, 1, 0, 3]
 
 
 def test_a_record_is_counted_under_the_first_step_that_drops_it():
@@ -267,13 +287,13 @@ def test_on_pass_sees_source_then_each_cleared_stage_and_the_duplicate_stage_las
         ("source", 9),
         ("user_obscured", 9),
         ("coordinate_uncertainty", 9),
-        ("default_first_of_month_date", 9),
+        ("date_kept_as_given", 9),
         ("source", 3),
         ("user_obscured", 3),
         ("source", 4),
         ("user_obscured", 4),
         ("coordinate_uncertainty", 4),
-        ("default_first_of_month_date", 4),
+        ("date_kept_as_given", 4),
         # Only once every record is seen is the lowest gbifID per key known.
         ("duplicate_taxon_observer_cell_day", 4),
     ]

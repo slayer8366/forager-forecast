@@ -5,10 +5,11 @@ D32 asked for one module in place of T1's list filters (records/t1_record.py) an
 implementation; the two step lists differ only where the documents that fix them differ:
 
 - t1_steps(): T1's calendar design. Inside a T1 box, years 2015 to 2025, not user-obscured,
-  coordinate uncertainty at most 1,000 m (T1 dispatch; D33's headline), not a default date, one
-  record per taxon, cell and day (D27's event key).
+  coordinate uncertainty at most 1,000 m (T1 dispatch; D33's headline), the date kept as given
+  (D97, D98), one record per taxon, cell and day (D27's event key).
 - r6_audit_steps(): T2's audit of SPEC.md R6. Not user-obscured, uncertainty at most 250 m (R6),
-  not a default date, one record per taxon, observer, cell and day (D27's observer-duplicate key).
+  the date kept as given (D97, D98), one record per taxon, observer, cell and day (D27's
+  observer-duplicate key).
 
 Decided by D65: the user-obscured step is in both lists (T1's SIMPLE_CSV download could not carry
 it), the default-date rule is T1's on the parsed date and time, and the record that survives a
@@ -77,12 +78,28 @@ class UncertaintyAbove:
         return value is None or value > self.limit_m
 
 
+def drops_no_dated_record(record: Record) -> bool:
+    """The date step under D97 and D98: every record the loader could date is kept.
+
+    The owner ruled on D28's final rule in the Forager planner session: "Keep the 1st
+    (Recommended)" (Forager RECORD -601; D97), so a date-only record on the 1st is kept like any
+    other day, and, after the midnight count (docs/audits/2026-10-06-d28-midnight/, commit
+    394c6c1), "Drop the check, keep them (Recommended)" (RECORD -605; D98), so a record stamped
+    00:00:00 on the 1st is kept too. Records whose eventDate names no single day never get this
+    far: the loader counts them as unloadable (D66). The step stays in both lists, dropping
+    nothing, so every run's step counts show the ruling, and so the D28 tools can still swap a
+    candidate rule into this position (date_step_position). Rejected: removing the step, which
+    would hide the ruling from the counts and leave those tools without a place to put a rule.
+    """
+    return False
+
+
 def is_default_date(record: Record) -> bool:
     """The first of a month at 00:00:00, or on the first with no time at all.
 
-    A date-only value on the first is what a defaulted date looks like once the clock part has
-    been dropped, so it is treated the same way (T1 completion report; D28 keeps this stricter
-    rule provisionally; D65 makes it the rule for both lists).
+    The provisional rule (T1 completion report; D28 kept it provisionally; D65 made it the rule for
+    both lists), retired from both lists by D97 and D98 (drops_no_dated_record). Kept as the
+    "drop all" candidate rule the D28 tables measured (records/date_quality.py, DROP_ALL).
     """
     if record.event_date.day != 1:
         return False
@@ -150,7 +167,7 @@ def t1_steps() -> Steps:
                 "coordinate uncertainty present and at most 1,000 m",
                 UncertaintyAbove(MAX_COORDINATE_UNCERTAINTY_M),
             ),
-            FilterStep("not a default date (first of month at 00:00:00)", is_default_date),
+            FilterStep("date kept as given (D97, D98)", drops_no_dated_record),
         ),
         duplicate=DuplicateStep("one record per taxon, cell and day", event_key),
     )
@@ -161,10 +178,18 @@ def r6_audit_steps() -> Steps:
         filters=(
             FilterStep("user_obscured", is_user_obscured),
             FilterStep("coordinate_uncertainty", UncertaintyAbove(R6_MAX_COORDINATE_UNCERTAINTY_M)),
-            FilterStep("default_first_of_month_date", is_default_date),
+            FilterStep("date_kept_as_given", drops_no_dated_record),
         ),
         duplicate=DuplicateStep("duplicate_taxon_observer_cell_day", observer_key),
     )
+
+
+def date_step_position(steps: Steps) -> int:
+    """Where a step list's date step is: the one filter applying the ruled rule (D97, D98)."""
+    positions = [i for i, step in enumerate(steps.filters) if step.drops is drops_no_dated_record]
+    if len(positions) != 1:
+        raise ValueError(f"no default-date step to replace (found {len(positions)})")
+    return positions[0]
 
 
 @dataclass

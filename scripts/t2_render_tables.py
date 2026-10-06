@@ -37,6 +37,13 @@ def main(out_dir: Path) -> None:
         # rest_of_north_america, written before the D26 rename) would print as 0 there, silently
         # (D26 review, finding 4). Refused before anything is printed.
         raise SystemExit(f"regions not known to this renderer: {unknown}; known: {list(REGIONS)}")
+    unknown_stages = sorted({key[0] for key in counts} - set(STAGES))
+    if unknown_stages:
+        # D97 and D98 renamed R6's date step; the stage tables loop over STAGES only, so a CSV
+        # written under the old name would print 0 for the renamed stage, silently.
+        raise SystemExit(
+            f"stages not known to this renderer: {unknown_stages}; known: {list(STAGES)}"
+        )
     year_list = sorted(years)
     summary = json.loads((out_dir / "summary.json").read_text(encoding="utf-8"))
 
