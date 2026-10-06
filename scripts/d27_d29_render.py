@@ -21,6 +21,11 @@ RULES = (
 )
 
 
+def cell(text: str | None) -> str:
+    """A table cell: a "|" inside a title would split the Markdown row."""
+    return (text or "").replace("|", "\\|")
+
+
 def fmt_p(value: float | None) -> str:
     if value is None:
         return "n/a"
@@ -57,7 +62,7 @@ def d28(tables: Path) -> None:
         else:
             share = r30 = rcal = interval = "n/a"
         print(
-            f"| {d['title']} | {d['loaded']:,} | {d['date_only']:,} "
+            f"| {cell(d['title'])} | {d['loaded']:,} | {d['date_only']:,} "
             f"| {d['date_only_on_the_1st']:,} "
             f"| {share} | {r30} | {rcal} | {interval} | {fmt_p(d['p_value_one_sided'])} "
             f"| {d['excess_on_the_1st']:+,.1f} | {d['verdict']} |"
@@ -123,7 +128,7 @@ def d29(paths: list[Path]) -> None:
         for x in d["datasets"]:
             split = ", ".join(f"{k} {v:,}" for k, v in x["records_by_own_license_field"].items())
             print(
-                f"| {x['title']} | {x['license_per_gbif_api']} "
+                f"| {cell(x['title'])} | {x['license_per_gbif_api']} "
                 f"| {x.get('license_in_zip') or 'n/a'} "
                 f"| {x['records_counted_in_download']:,} | {x['records_per_gbif_download_list']:,} "
                 f"| {split} |"
