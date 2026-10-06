@@ -1,0 +1,27 @@
+"""Does dropping the 12 date-rule records explain one fewer duplicate drop? Read-only."""
+import io, json, sys, zipfile, hashlib
+from collections import Counter
+from forager_forecast.records.filters import is_default_date, is_user_obscured, UncertaintyAbove, observer_key
+from forager_forecast.records.occurrence import OccurrenceLoader, read_occurrence_rows
+import forager_forecast.records.filters as f
+unc = UncertaintyAbove(250.0)
+counts = Counter(); twelve = []
+loader = OccurrenceLoader()
+with zipfile.ZipFile(sys.argv[1]).open("occurrence.txt") as raw:
+    for row in read_occurrence_rows(io.TextIOWrapper(raw, encoding="utf-8", newline="")):
+        recs = list(loader.load([row]))
+        if not recs: continue
+        r = recs[0]
+        if is_user_obscured(r) or unc(r): continue
+        old_t2_default = f.__dict__.get("_x") is None and False  # placeholder, not used
+        k = hashlib.blake2b(repr(observer_key(r)).encode(), digest_size=16).digest()
+        if not is_default_date(r): counts[k] += 1  # only records that pass the date step under the new rule
+        if is_default_date(r):
+            # the T2 text rule never called these default except the 799 it shared; the 12 are those
+            # T1's rule adds. Identify them by text: T2 rule = no time or time text starting 00:00:00, no range
+            t = row["eventDate"].strip()
+            day, _, tp = t.partition("T")
+            t2 = ("/" not in t) and (tp == "" or tp.startswith("00:00:00"))
+            if not t2: twelve.append((k, r.gbif_id, t))
+# drops among non-default entrants before vs after removing the twelve
+print(json.dumps({"twelve": len(twelve), "twelve_sharing_a_key_with_a_surviving_entrant": sum(1 for k,_,_ in twelve if counts[k] >= 1), "dates": [t for _,_,t in twelve]}, indent=1))
