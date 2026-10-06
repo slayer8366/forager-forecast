@@ -118,6 +118,7 @@ unloadable = Counter()
 dropped = Counter()
 licences = Counter()
 class_names_180 = Counter()
+anonymous_by_dataset = Counter()  # filtered records with an empty recordedBy
 # Observer key -> survivor, packed. Key: taxon, observer id, lat, lon, day offset.
 # Value: gbifID << 20 | dataset id << 2 | cc << 1 | lichen.
 kept = {}
@@ -201,6 +202,8 @@ with zipfile.ZipFile(ZIP) as archive, archive.open("occurrence.txt") as raw:
         lic = lic.strip()
         licences[lic] += 1
         by = by.strip()
+        if not by:
+            anonymous_by_dataset[ds.strip()] += 1
         obs = observer_id.setdefault(by, len(observer_id))
         d = dataset_id.setdefault(ds.strip(), len(dataset_id))
         try:
@@ -244,6 +247,11 @@ summary = {
     "datasets_after_filters": len(dataset_id),
 }
 del event_keys
+# Could the two CC counts differ here at all? Keys where a CC record exists but the all-licence
+# survivor is not CC; and anonymous keys held by more than one dataset.
+summary["anonymous_records_after_filters_by_dataset"] = dict(anonymous_by_dataset)
+summary["observer_keys_whose_survivor_is_not_cc_but_hold_a_cc_record"] = sum(
+    1 for key in kept_cc if not (kept[key] >> 1) & 1)
 
 
 def outings_from(survivors):
