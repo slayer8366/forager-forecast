@@ -410,7 +410,7 @@ below was read in this session from the committed files named; none is copied fr
 `2026-10-06-t5-amendment-3/transects_tree_list_d90.json` (scale 1.0, `border_median_abs`) is
 0.08747893772670068. Rounded to three places that is 0.087. Section 9 gives 0.088 in its table (the
 first build's "old" and "D90" rows, lines 330 and 331) and in the Reading bullet (line 351), which also
-disagrees with the section's own sensitivity bullet (0.0875, line 360). Section 8's table (line 219)
+disagrees with the section's own sensitivity bullet (0.0875, line 362). Section 8's table (line 219)
 has the same slip. No verdict changes: 0.087 is above the old threshold 0.072 (artifact under the old
 null) and below the D90 threshold 0.120 (no step), as with 0.088.
 
@@ -424,7 +424,7 @@ The Pilz page numbers and the rulings tag were corrected before; 0.088 is A1 abo
   local) landed after TreeMap was first used: probed at 04:46 and built by 05:18. The licence itself
   was recorded in D84 at 04:18, before the download finished, so no data was used without a recorded
   licence. Only the register row came late. Times as the review gives them
-  (`2026-10-06-t5-review.md:159-162`); the commit time of `88760cd` was not re-read here.
+  (`2026-10-06-t5-review.md:159-162`); the commit time of `88760cd`, 2026-10-06 05:19:54 −0700, was re-read here and matches.
 
 **A3. The interval does depend on the null, a little.** Line 346-347 says "the CI does not depend on
 the null, and is the old row's above it". `seam.py:108-109` draws the bootstrap from the same
