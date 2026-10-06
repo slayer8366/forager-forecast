@@ -1,0 +1,72 @@
+"""Strict revert runner for records/midnight.py (D28 Part 1). Run from the worktree root:
+uv run python docs/audits/2026-10-06-d28-midnight-revert.py.txt <results.jsonl>
+
+Per check: save the file's bytes; make one edit (must match exactly once); clear __pycache__;
+confirm a fresh interpreter sees the edited source (sha256); run the test file with a fresh JUnit
+XML; refuse on any exit other than 1, any error, or a missing XML; restore from the saved bytes,
+never from git; confirm byte-identical and that git diff is empty for the file afterwards.
+"""
+import hashlib, json, os, pathlib, shutil, subprocess, sys, xml.etree.ElementTree as ET
+
+ROOT = pathlib.Path.cwd()
+SRC = ROOT / "src/forager_forecast/records/midnight.py"
+TESTS = "tests/test_records_midnight.py"
+XML = ROOT / ".revert_junit.xml"
+CHECKS = [
+    ("V1 expected share 1/30", "EXPECTED_SHARE = CALENDAR_SHARE", "EXPECTED_SHARE = REFERENCE_SHARE"),
+    ("V2 midnight ignores seconds", "return record.event_time == MIDNIGHT",
+     "return record.event_time is not None and record.event_time.replace(second=0, microsecond=0) == MIDNIGHT"),
+    ("V3 Bonferroni over every dataset", "tested = [row for row in rows if row.m >= MIN_MIDNIGHT]", "tested = rows"),
+    ("V4 clear judged on the share", "elif interval[0] >= CLEAR_FACTOR * EXPECTED_SHARE:",
+     "elif k / m >= CLEAR_FACTOR * EXPECTED_SHARE:"),
+    ("V5 reach ignores the filters", "if not any(step.drops(record) for step in before):", "if True:"),
+    ("V6 date-only counted as timed", "if stage != SOURCE_STAGE or record.event_time is None:", "if stage != SOURCE_STAGE:"),
+    ("V7 two-sided-ish: tail from k+1", "p_value = binomial_upper_tail(k, m, EXPECTED_SHARE) if m else None",
+     "p_value = binomial_upper_tail(k + 1, m, EXPECTED_SHARE) if m else None"),
+]
+
+def clear_cache():
+    for d in ROOT.rglob("__pycache__"):
+        if ".venv" not in d.parts:
+            shutil.rmtree(d)
+
+out = open(sys.argv[1], "w")
+env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1")
+saved = SRC.read_bytes()
+for name, old, new in CHECKS:
+    text = saved.decode()
+    assert text.count(old) == 1, (name, text.count(old))
+    edited = text.replace(old, new).encode()
+    try:
+        SRC.write_bytes(edited)
+        clear_cache()
+        seen = subprocess.run([sys.executable, "-c",
+            "import hashlib,forager_forecast.records.midnight as m;print(m.__file__);print(hashlib.sha256(open(m.__file__,'rb').read()).hexdigest())"],
+            capture_output=True, text=True, env=env).stdout.split()
+        assert seen[0] == str(SRC) and seen[1] == hashlib.sha256(edited).hexdigest(), seen
+        if XML.exists():
+            XML.unlink()
+        r = subprocess.run([sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider", TESTS, f"--junitxml={XML}"],
+                           capture_output=True, text=True, env=env)
+        if not XML.exists():
+            raise SystemExit(f"{name}: no XML, refusing\n{r.stdout[-2000:]}")
+        suite = ET.parse(XML).getroot().find("testsuite") or ET.parse(XML).getroot()
+        errors, failures = int(suite.get("errors")), int(suite.get("failures"))
+        if r.returncode != 1 or errors:
+            raise SystemExit(f"{name}: exit {r.returncode}, errors {errors}, refusing\n{r.stdout[-2000:]}")
+        failed = []
+        for case in suite.iter("testcase"):
+            f = case.find("failure")
+            if f is not None:
+                failed.append({"test": case.get("name"), "message": (f.get("message") or "")[:300]})
+        rec = {"check": name, "exit": r.returncode, "errors": errors, "failures": failures, "failed": failed}
+    finally:
+        SRC.write_bytes(saved)
+        clear_cache()
+    assert SRC.read_bytes() == saved
+    rec["restored_identical"] = True
+    print(json.dumps(rec)); out.write(json.dumps(rec) + "\n"); out.flush()
+if XML.exists():
+    XML.unlink()
+d = subprocess.run(["git", "diff", "--stat", "--", str(SRC)], capture_output=True, text=True).stdout
+print("git diff on the file after all checks:", repr(d))
