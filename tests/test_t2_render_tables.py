@@ -48,7 +48,9 @@ def test_a_region_the_renderer_does_not_know_is_refused_by_name(tmp_path, capsys
     _write_output(tmp_path, "rest_of_north_america")
     with pytest.raises(SystemExit, match="rest_of_north_america"):
         _render_module().main(tmp_path)
-    assert "| Year |" not in capsys.readouterr().out, "nothing is rendered before the refusal"
+    # Reviewer (D18), 2026-10-06: was a check for "| Year |" only, which still passed when a line
+    # was printed before the refusal (docs/audits/2026-10-06-d27-d29-review.md, revert check V6).
+    assert capsys.readouterr().out == "", "nothing is printed before the refusal"
 
 
 def test_known_regions_render_with_their_counts_in_the_year_table(tmp_path, capsys):
