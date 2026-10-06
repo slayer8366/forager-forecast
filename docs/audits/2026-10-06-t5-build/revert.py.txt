@@ -12,7 +12,7 @@ from pathlib import Path
 
 CHECKS = [
     ("crown: quadratic term dropped", "src/forager_forecast/crown_cover.py",
-     "return b0 + b1 * dbh_in + b2 * dbh_in * dbh_in, used", "return b0 + b1 * dbh_in, used",
+     "return b0 + b1 * d + b2 * d * d, used", "return b0 + b1 * d, used",
      ["tests/test_crown_cover.py"]),
     ("crown: no overlap correction", "src/forager_forecast/crown_cover.py",
      "total = 100.0 * (1.0 - math.exp(-0.01 * c_prime))", "total = c_prime", ["tests/test_crown_cover.py"]),
