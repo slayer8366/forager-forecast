@@ -252,3 +252,23 @@ def test_fetch_download_refuses_a_size_that_disagrees_with_gbif(tmp_path):
         gd.fetch_download("0000001-261006000000000", tmp_path, 9, opener=opener)
     assert not (tmp_path / "0000001-261006000000000.zip").exists()
     assert not list(tmp_path.iterdir()), "no partial file is left behind"
+
+
+def test_fetch_download_leaves_a_partial_file_it_did_not_create(tmp_path):
+    """D26 review, finding 3: a .part already on disk (an earlier run killed past its cleanup) is
+    not this call's to delete. The fetch refuses, names the partial file, and leaves it in place."""
+    called = []
+
+    def opener(request, timeout):
+        called.append(request.full_url)
+        return FakeStream(200, [b"new bytes"])
+
+    partial = tmp_path / "0000001-261006000000000.zip.part"
+    partial.write_bytes(b"left by an earlier run")
+    with pytest.raises(FileExistsError) as refused:
+        gd.fetch_download("0000001-261006000000000", tmp_path, 9, opener=opener)
+    assert partial.exists(), "the earlier run's partial file was deleted"
+    assert partial.read_bytes() == b"left by an earlier run"
+    assert "0000001-261006000000000.zip.part exists" in str(refused.value)
+    assert not (tmp_path / "0000001-261006000000000.zip").exists()
+    assert called == [], "nothing is requested while a partial file is in the way"
