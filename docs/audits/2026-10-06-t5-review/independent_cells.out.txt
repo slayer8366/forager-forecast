@@ -1,0 +1,226 @@
+{
+ "facts": {
+  "plots_in_window": 1512,
+  "plots_with_canopy_but_no_tree_of_5in": 22,
+  "plots_with_no_tree_of_5in_any_canopy": 22,
+  "forest_pixels_in_cut": 4969059,
+  "forest_pixels_in_cut_south_of_49": 4960712,
+  "no_split_pixels_in_cut": 2219,
+  "no_split_pixels_south_of_49": 2209,
+  "trees_with_zero_or_negative_width_dropped": 29,
+  "trees_beyond_table1_max_d_listed_species": 1500,
+  "canopypct_of_no_split_plots": {
+   "794": 20.0,
+   "1425": 48.0,
+   "6945": 30.0,
+   "9352": 25.0,
+   "9487": 11.0,
+   "10569": 12.0,
+   "11355": 29.0,
+   "11377": 30.0,
+   "14019": 38.0,
+   "24169": 17.0,
+   "27039": 44.0,
+   "27364": 19.0,
+   "27399": 19.0,
+   "32471": 11.0,
+   "37720": 25.0,
+   "41622": 41.0,
+   "41648": 12.0,
+   "47800": 28.0,
+   "54252": 35.0,
+   "54940": 12.0,
+   "61560": 19.0,
+   "70011": 21.0
+  },
+  "scanfi_native_hashes_match_request_record": true,
+  "spcd_common_names_for_table3_species_used": {
+   "11": "Pacific silver fir",
+   "15": "white fir",
+   "17": "grand fir",
+   "19": "subalpine fir",
+   "20": "California red fir",
+   "21": "Shasta red fir",
+   "22": "noble fir",
+   "41": "Port-Orford-cedar",
+   "64": "western juniper",
+   "73": "western larch",
+   "81": "incense-cedar",
+   "93": "Engelmann spruce",
+   "98": "Sitka spruce",
+   "101": "whitebark pine",
+   "108": "lodgepole pine",
+   "116": "Jeffrey pine",
+   "117": "sugar pine",
+   "119": "western white pine",
+   "122": "ponderosa pine",
+   "127": "gray or California foothill pine",
+   "202": "Douglas-fir",
+   "242": "western redcedar",
+   "263": "western hemlock",
+   "264": "mountain hemlock",
+   "312": "bigleaf maple",
+   "321": "Rocky Mountain maple",
+   "351": "red alder",
+   "361": "Pacific madrone",
+   "631": "tanoak",
+   "746": "quaking aspen",
+   "805": "canyon live oak",
+   "807": "blue oak",
+   "815": "Oregon white oak",
+   "818": "California black oak",
+   "839": "interior live oak",
+   "981": "California laurel"
+  }
+ },
+ "us": [
+  {
+   "row": 314,
+   "col": 173,
+   "own_side_samples": 2500,
+   "independent": {
+    "total_cover_pct": 71.3992,
+    "share_Pseudotsuga": 0.08635367618892535,
+    "share_Tsuga": 0.18005941896163297,
+    "share_Abies": 0.0,
+    "share_conifer": 0.3885732688512056,
+    "share_broadleaf": 0.6114267311488019
+   },
+   "built": {
+    "total_cover_pct": 71.3792495727539,
+    "share_Pseudotsuga": 0.08661530911922455,
+    "share_Tsuga": 0.17956463992595673,
+    "share_Abies": 0.0,
+    "share_conifer": 0.39032551646232605,
+    "share_broadleaf": 0.6096744537353516
+   },
+   "max_abs_diff_share": 0.0017522774134502983,
+   "abs_diff_cover": 0.019950427246087088
+  },
+  {
+   "row": 330,
+   "col": 344,
+   "own_side_samples": 2500,
+   "independent": {
+    "total_cover_pct": 60.5168,
+    "share_Pseudotsuga": 0.20413167812668365,
+    "share_Tsuga": 0.3925112196030301,
+    "share_Abies": 0.3332368839714634,
+    "share_conifer": 0.9964862657474028,
+    "share_broadleaf": 0.0035137342525955045
+   },
+   "built": {
+    "total_cover_pct": 60.49174499511719,
+    "share_Pseudotsuga": 0.20181968808174133,
+    "share_Tsuga": 0.39560025930404663,
+    "share_Abies": 0.33265945315361023,
+    "share_conifer": 0.9964179992675781,
+    "share_broadleaf": 0.0035820205230265856
+   },
+   "max_abs_diff_share": 0.0030890397010165382,
+   "abs_diff_cover": 0.02505500488281598
+  },
+  {
+   "row": 253,
+   "col": 442,
+   "own_side_samples": 2500,
+   "independent": {
+    "total_cover_pct": 72.848,
+    "share_Pseudotsuga": 0.10934109021768942,
+    "share_Tsuga": 0.2781837250906078,
+    "share_Abies": 0.582097504984062,
+    "share_conifer": 1.0,
+    "share_broadleaf": 0.0
+   },
+   "built": {
+    "total_cover_pct": 72.99237060546875,
+    "share_Pseudotsuga": 0.10954849421977997,
+    "share_Tsuga": 0.27874502539634705,
+    "share_Abies": 0.5807051658630371,
+    "share_conifer": 1.0,
+    "share_broadleaf": 0.0
+   },
+   "max_abs_diff_share": 0.001392339121024877,
+   "abs_diff_cover": 0.14437060546875102
+  },
+  {
+   "row": 262,
+   "col": 109,
+   "own_side_samples": 2500,
+   "independent": {
+    "total_cover_pct": 16.7152,
+    "share_Pseudotsuga": 0.23415546064622858,
+    "share_Tsuga": 0.02616334164199855,
+    "share_Abies": 0.004326140020898307,
+    "share_conifer": 0.3997227276781702,
+    "share_broadleaf": 0.6002772723218325
+   },
+   "built": {
+    "total_cover_pct": 16.769956588745117,
+    "share_Pseudotsuga": 0.2252235859632492,
+    "share_Tsuga": 0.030098099261522293,
+    "share_Abies": 0.005174417048692703,
+    "share_conifer": 0.3940795958042145,
+    "share_broadleaf": 0.6059203743934631
+   },
+   "max_abs_diff_share": 0.008931874682979374,
+   "abs_diff_cover": 0.054756588745117796
+  }
+ ],
+ "canada": [
+  {
+   "row": 229,
+   "col": 487,
+   "independent": {
+    "total_cover_pct": 30.5672,
+    "share_Pseudotsuga": 0.33486874820068574,
+    "share_broadleaf": 0.0,
+    "share_conifer": 1.0
+   },
+   "built": {
+    "total_cover_pct": 30.48418426513672,
+    "share_Pseudotsuga": 0.33419084548950195,
+    "share_broadleaf": 0.0,
+    "share_conifer": 1.0
+   },
+   "max_abs_diff_share": 0.0006779027111837865,
+   "abs_diff_cover": 0.08301573486328095
+  },
+  {
+   "row": 143,
+   "col": 482,
+   "independent": {
+    "total_cover_pct": 43.5644,
+    "share_Pseudotsuga": 0.23240994940823242,
+    "share_broadleaf": 0.0020383615980020383,
+    "share_conifer": 0.997961638401998
+   },
+   "built": {
+    "total_cover_pct": 43.530921936035156,
+    "share_Pseudotsuga": 0.23309969902038574,
+    "share_broadleaf": 0.0021008700132369995,
+    "share_conifer": 0.9978991150856018
+   },
+   "max_abs_diff_share": 0.0006897496121533175,
+   "abs_diff_cover": 0.033478063964842875
+  },
+  {
+   "row": 85,
+   "col": 251,
+   "independent": {
+    "total_cover_pct": 55.2608,
+    "share_Pseudotsuga": 0.22053969540795645,
+    "share_broadleaf": 0.00046325786090682723,
+    "share_conifer": 0.9995367421390933
+   },
+   "built": {
+    "total_cover_pct": 55.216033935546875,
+    "share_Pseudotsuga": 0.22031380236148834,
+    "share_broadleaf": 0.00047311640810221434,
+    "share_conifer": 0.999526858329773
+   },
+   "max_abs_diff_share": 0.00022589304646811192,
+   "abs_diff_cover": 0.04476606445312825
+  }
+ ]
+}

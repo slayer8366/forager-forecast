@@ -1,0 +1,79 @@
+[
+ {
+  "check": "review: crown width used as radius (area 4x)",
+  "file": "src/forager_forecast/crown_cover.py",
+  "tests": [
+   "tests/test_crown_cover.py",
+   "tests/test_t5_layer.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_plot_cover_follows_crookston_and_stage_equations_1_and_2: assert 20.02996307552388 == 5.4346957584819 \u00b1 5.4e-06"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 22 passed in 8.53s"
+ },
+ {
+  "check": "review: null threshold at the median, not the 95th percentile",
+  "file": "src/forager_forecast/seam.py",
+  "tests": [
+   "tests/test_seam.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_with_no_step_the_verdict_fires_about_one_time_in_twenty_or_less: assert (81 / 200) <= 0.08"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 8 passed in 14.08s"
+ },
+ {
+  "check": "review: US share against the cover total, not the split total (D88)",
+  "file": "src/forager_forecast/t5_layer.py",
+  "tests": [
+   "tests/test_t5_layer.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 0,
+  "failures": [],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "13 passed in 8.50s"
+ },
+ {
+  "check": "review: seed changed (expected NOT to bite: no test pins the seed)",
+  "file": "src/forager_forecast/seam.py",
+  "tests": [
+   "tests/test_seam.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 0,
+  "failures": [],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "9 passed in 13.71s"
+ },
+ {
+  "check": "review: SCANFI share against 100, not the SCANFI class sum",
+  "file": "src/forager_forecast/t5_layer.py",
+  "tests": [
+   "tests/test_t5_layer.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_canadian_cells_carry_scanfi_shares_and_flag_what_it_cannot_supply: assert np.float32(0.3) == 0.375 \u00b1 3.8e-07"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 12 passed in 8.52s"
+ }
+]

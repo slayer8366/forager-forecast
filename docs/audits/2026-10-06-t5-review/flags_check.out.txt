@@ -1,0 +1,214 @@
+{
+ "master_treemap_canopy_scale_1.0": {
+  "canada_cells": 72040,
+  "us_cells": 72479,
+  "tags_rulings": "D83,D84,D85,D86,D87,D74",
+  "tags_not_available": "Tsuga,Picea,Abies,Pinus,Quercus",
+  "us_total_tag": "treemap_canopy (D88): TreeMap CANOPYPCT,",
+  "Tsuga": {
+   "ca_flag_values": {
+    "3": 72040
+   },
+   "ca_finite_shares": 0,
+   "us_flag_values": {
+    "0": 23055,
+    "1": 49424
+   },
+   "us_finite_shares": 49424,
+   "flag_matches_finite_share_on_us": true
+  },
+  "Quercus": {
+   "ca_flag_values": {
+    "3": 72040
+   },
+   "ca_finite_shares": 0,
+   "us_flag_values": {
+    "0": 23055,
+    "1": 49424
+   },
+   "us_finite_shares": 49424,
+   "flag_matches_finite_share_on_us": true
+  },
+  "Pinus": {
+   "ca_flag_values": {
+    "3": 72040
+   },
+   "ca_finite_shares": 0,
+   "us_flag_values": {
+    "0": 23055,
+    "1": 49424
+   },
+   "us_finite_shares": 49424,
+   "flag_matches_finite_share_on_us": true
+  },
+  "Picea": {
+   "ca_flag_values": {
+    "3": 72040
+   },
+   "ca_finite_shares": 0,
+   "us_flag_values": {
+    "0": 23055,
+    "1": 49424
+   },
+   "us_finite_shares": 49424,
+   "flag_matches_finite_share_on_us": true
+  },
+  "Abies": {
+   "ca_flag_values": {
+    "3": 72040
+   },
+   "ca_finite_shares": 0,
+   "us_flag_values": {
+    "0": 23055,
+    "1": 49424
+   },
+   "us_finite_shares": 49424,
+   "flag_matches_finite_share_on_us": true
+  },
+  "Pseudotsuga": {
+   "ca_flag_values": {
+    "0": 15734,
+    "2": 56306
+   },
+   "ca_finite_shares": 56306,
+   "us_flag_values": {
+    "0": 23055,
+    "1": 49424
+   },
+   "us_finite_shares": 49424,
+   "flag_matches_finite_share_on_us": true
+  },
+  "conifer": {
+   "ca_flag_values": {
+    "0": 15734,
+    "2": 56306
+   },
+   "ca_finite_shares": 56306,
+   "us_flag_values": {
+    "0": 23055,
+    "1": 49424
+   },
+   "us_finite_shares": 49424,
+   "flag_matches_finite_share_on_us": true
+  },
+  "broadleaf": {
+   "ca_flag_values": {
+    "0": 15734,
+    "2": 56306
+   },
+   "ca_finite_shares": 56306,
+   "us_flag_values": {
+    "0": 23055,
+    "1": 49424
+   },
+   "us_finite_shares": 49424,
+   "flag_matches_finite_share_on_us": true
+  }
+ },
+ "master_tree_list_scale_1.0": {
+  "canada_cells": 72040,
+  "us_cells": 72479,
+  "tags_rulings": "D83,D84,D85,D86,D87,D74",
+  "tags_not_available": "Tsuga,Picea,Abies,Pinus,Quercus",
+  "us_total_tag": "",
+  "Tsuga": {
+   "ca_flag_values": {
+    "3": 72040
+   },
+   "ca_finite_shares": 0,
+   "us_flag_values": {
+    "0": 25319,
+    "1": 47160
+   },
+   "us_finite_shares": 47160,
+   "flag_matches_finite_share_on_us": true
+  },
+  "Quercus": {
+   "ca_flag_values": {
+    "3": 72040
+   },
+   "ca_finite_shares": 0,
+   "us_flag_values": {
+    "0": 25319,
+    "1": 47160
+   },
+   "us_finite_shares": 47160,
+   "flag_matches_finite_share_on_us": true
+  },
+  "Pinus": {
+   "ca_flag_values": {
+    "3": 72040
+   },
+   "ca_finite_shares": 0,
+   "us_flag_values": {
+    "0": 25319,
+    "1": 47160
+   },
+   "us_finite_shares": 47160,
+   "flag_matches_finite_share_on_us": true
+  },
+  "Picea": {
+   "ca_flag_values": {
+    "3": 72040
+   },
+   "ca_finite_shares": 0,
+   "us_flag_values": {
+    "0": 25319,
+    "1": 47160
+   },
+   "us_finite_shares": 47160,
+   "flag_matches_finite_share_on_us": true
+  },
+  "Abies": {
+   "ca_flag_values": {
+    "3": 72040
+   },
+   "ca_finite_shares": 0,
+   "us_flag_values": {
+    "0": 25319,
+    "1": 47160
+   },
+   "us_finite_shares": 47160,
+   "flag_matches_finite_share_on_us": true
+  },
+  "Pseudotsuga": {
+   "ca_flag_values": {
+    "0": 15734,
+    "2": 56306
+   },
+   "ca_finite_shares": 56306,
+   "us_flag_values": {
+    "0": 25319,
+    "1": 47160
+   },
+   "us_finite_shares": 47160,
+   "flag_matches_finite_share_on_us": true
+  },
+  "conifer": {
+   "ca_flag_values": {
+    "0": 15734,
+    "2": 56306
+   },
+   "ca_finite_shares": 56306,
+   "us_flag_values": {
+    "0": 25319,
+    "1": 47160
+   },
+   "us_finite_shares": 47160,
+   "flag_matches_finite_share_on_us": true
+  },
+  "broadleaf": {
+   "ca_flag_values": {
+    "0": 15734,
+    "2": 56306
+   },
+   "ca_finite_shares": 56306,
+   "us_flag_values": {
+    "0": 25319,
+    "1": 47160
+   },
+   "us_finite_shares": 47160,
+   "flag_matches_finite_share_on_us": true
+  }
+ }
+}

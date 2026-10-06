@@ -1,0 +1,68 @@
+"""T5 review (D18), check 9: re-run the transects from the stored built layers and compare.
+
+Run from the review worktree:  PYTHONDONTWRITEBYTECODE=1 uv run --frozen python <this file>
+Reads the flash drive only. Writes nothing there. Also captures the within-step arrays the
+verdict saw, to count how many transects feed each side's null against how many feed B.
+"""
+
+import json
+import math
+import sys
+from pathlib import Path
+
+import numpy as np
+
+import forager_forecast.seam as seam
+
+D = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t5")
+REPO = Path(__file__).resolve().parents[3] if "__file__" in dir() else Path(".")
+EVID = Path("docs/audits/2026-10-06-t5-build")
+TESTED = ["share_Pseudotsuga", "share_conifer", "share_broadleaf", "total_cover_pct"]
+
+captured = {}
+_orig = seam.verdict
+
+
+def spy(border, within_us, within_ca, resamples=10000):
+    captured.setdefault("calls", []).append((np.array(border), np.array(within_us), np.array(within_ca)))
+    return _orig(border, within_us, within_ca, resamples)
+
+
+seam.verdict = spy
+
+out = {}
+for us_total, committed in (("tree_list", "transects.json"), ("treemap_canopy", "transects_treemap_canopy.json")):
+    ref = json.loads((EVID / committed).read_text())
+    drive = json.loads((D / f"transects_{us_total}.json").read_text())
+    for scale in ("0.7", "1.0", "1.3"):
+        bands = TESTED if scale == "1.0" else TESTED[:3]
+        captured.clear()
+        res = seam.run_transects(D / f"master_{us_total}_scale_{scale}" / "host_trees_strip.tif", bands)
+        for i, band in enumerate(bands):
+            r = res[band]
+            for k, v in r.items():
+                a, b, c = v, ref[scale][band][k], drive[scale][band][k]
+                same = json.dumps(a) == json.dumps(b) == json.dumps(c)
+                if not same:
+                    print("MISMATCH", us_total, scale, band, k, a, b, c)
+            border, wus, wca = captured["calls"][i]
+            rows_us = int(np.isfinite(wus).any(axis=1).sum())
+            rows_ca = int(np.isfinite(wca).any(axis=1).sum())
+            both = np.isfinite(border)
+            out[f"{us_total}|{scale}|{band}"] = {
+                "n_border": int(both.sum()),
+                "null_rows_us": rows_us,
+                "null_rows_ca": rows_ca,
+                "B": r["border_median_abs"],
+                "threshold": r["threshold"],
+                "artifact": r["artifact"],
+            }
+            if scale == "1.0":
+                # Reviewer's sensitivity, not a re-tuning: the same null, restricted to the
+                # transects that have a border step, so the null median is over the same n as B.
+                rng = np.random.default_rng(seam.SEED)
+                t_us = seam._null_threshold(np.abs(wus[both]), rng, 10000)
+                t_ca = seam._null_threshold(np.abs(wca[both]), rng, 10000)
+                out[f"{us_total}|{scale}|{band}"]["matched_n_threshold"] = max(t_us, t_ca)
+                out[f"{us_total}|{scale}|{band}"]["matched_n_artifact"] = bool(r["border_median_abs"] > max(t_us, t_ca))
+print(json.dumps(out, indent=1))

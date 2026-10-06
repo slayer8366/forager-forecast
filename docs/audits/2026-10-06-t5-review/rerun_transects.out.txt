@@ -1,0 +1,178 @@
+{
+ "tree_list|0.7|share_Pseudotsuga": {
+  "n_border": 7,
+  "null_rows_us": 23,
+  "null_rows_ca": 24,
+  "B": 0.0893763063068036,
+  "threshold": 0.0717781491111964,
+  "artifact": true
+ },
+ "tree_list|0.7|share_conifer": {
+  "n_border": 7,
+  "null_rows_us": 23,
+  "null_rows_ca": 24,
+  "B": 0.020270943641662598,
+  "threshold": 0.05898432806134224,
+  "artifact": false
+ },
+ "tree_list|0.7|share_broadleaf": {
+  "n_border": 7,
+  "null_rows_us": 23,
+  "null_rows_ca": 24,
+  "B": 0.02027093969809357,
+  "threshold": 0.05898433178663254,
+  "artifact": false
+ },
+ "tree_list|1.0|share_Pseudotsuga": {
+  "n_border": 7,
+  "null_rows_us": 23,
+  "null_rows_ca": 24,
+  "B": 0.08747893772670068,
+  "threshold": 0.0717781491111964,
+  "artifact": true,
+  "matched_n_threshold": 0.11985186394304037,
+  "matched_n_artifact": false
+ },
+ "tree_list|1.0|share_conifer": {
+  "n_border": 7,
+  "null_rows_us": 23,
+  "null_rows_ca": 24,
+  "B": 0.020174965262413025,
+  "threshold": 0.05898432806134224,
+  "artifact": false,
+  "matched_n_threshold": 0.06612692028284073,
+  "matched_n_artifact": false
+ },
+ "tree_list|1.0|share_broadleaf": {
+  "n_border": 7,
+  "null_rows_us": 23,
+  "null_rows_ca": 24,
+  "B": 0.02017496363259852,
+  "threshold": 0.05898433178663254,
+  "artifact": false,
+  "matched_n_threshold": 0.06612691283226013,
+  "matched_n_artifact": false
+ },
+ "tree_list|1.0|total_cover_pct": {
+  "n_border": 25,
+  "null_rows_us": 25,
+  "null_rows_ca": 25,
+  "B": 14.375155925750732,
+  "threshold": 12.62264633178711,
+  "artifact": true,
+  "matched_n_threshold": 12.62264633178711,
+  "matched_n_artifact": true
+ },
+ "tree_list|1.3|share_Pseudotsuga": {
+  "n_border": 7,
+  "null_rows_us": 23,
+  "null_rows_ca": 24,
+  "B": 0.08529506545164622,
+  "threshold": 0.07205940410494804,
+  "artifact": true
+ },
+ "tree_list|1.3|share_conifer": {
+  "n_border": 7,
+  "null_rows_us": 23,
+  "null_rows_ca": 24,
+  "B": 0.020011693239212036,
+  "threshold": 0.05898432806134224,
+  "artifact": false
+ },
+ "tree_list|1.3|share_broadleaf": {
+  "n_border": 7,
+  "null_rows_us": 23,
+  "null_rows_ca": 24,
+  "B": 0.02001169987488538,
+  "threshold": 0.05898433178663254,
+  "artifact": false
+ },
+ "treemap_canopy|0.7|share_Pseudotsuga": {
+  "n_border": 7,
+  "null_rows_us": 23,
+  "null_rows_ca": 24,
+  "B": 0.08313479468779406,
+  "threshold": 0.0717781491111964,
+  "artifact": true
+ },
+ "treemap_canopy|0.7|share_conifer": {
+  "n_border": 7,
+  "null_rows_us": 23,
+  "null_rows_ca": 24,
+  "B": 0.017338484525680542,
+  "threshold": 0.05898432806134224,
+  "artifact": false
+ },
+ "treemap_canopy|0.7|share_broadleaf": {
+  "n_border": 7,
+  "null_rows_us": 23,
+  "null_rows_ca": 24,
+  "B": 0.01733847614377737,
+  "threshold": 0.05898433178663254,
+  "artifact": false
+ },
+ "treemap_canopy|1.0|share_Pseudotsuga": {
+  "n_border": 7,
+  "null_rows_us": 23,
+  "null_rows_ca": 24,
+  "B": 0.08313479468779406,
+  "threshold": 0.0717781491111964,
+  "artifact": true,
+  "matched_n_threshold": 0.11985186394304037,
+  "matched_n_artifact": false
+ },
+ "treemap_canopy|1.0|share_conifer": {
+  "n_border": 7,
+  "null_rows_us": 23,
+  "null_rows_ca": 24,
+  "B": 0.017415732145309448,
+  "threshold": 0.05898432806134224,
+  "artifact": false,
+  "matched_n_threshold": 0.06612692028284073,
+  "matched_n_artifact": false
+ },
+ "treemap_canopy|1.0|share_broadleaf": {
+  "n_border": 7,
+  "null_rows_us": 23,
+  "null_rows_ca": 24,
+  "B": 0.017415742855519056,
+  "threshold": 0.05898433178663254,
+  "artifact": false,
+  "matched_n_threshold": 0.06612691283226013,
+  "matched_n_artifact": false
+ },
+ "treemap_canopy|1.0|total_cover_pct": {
+  "n_border": 25,
+  "null_rows_us": 25,
+  "null_rows_ca": 25,
+  "B": 14.97117006778717,
+  "threshold": 14.158846855163574,
+  "artifact": true,
+  "matched_n_threshold": 14.158846855163574,
+  "matched_n_artifact": true
+ },
+ "treemap_canopy|1.3|share_Pseudotsuga": {
+  "n_border": 7,
+  "null_rows_us": 23,
+  "null_rows_ca": 24,
+  "B": 0.08313479468779406,
+  "threshold": 0.0717781491111964,
+  "artifact": true
+ },
+ "treemap_canopy|1.3|share_conifer": {
+  "n_border": 7,
+  "null_rows_us": 23,
+  "null_rows_ca": 24,
+  "B": 0.017566800117492676,
+  "threshold": 0.05898432806134224,
+  "artifact": false
+ },
+ "treemap_canopy|1.3|share_broadleaf": {
+  "n_border": 7,
+  "null_rows_us": 23,
+  "null_rows_ca": 24,
+  "B": 0.01756681175902486,
+  "threshold": 0.05898433178663254,
+  "artifact": false
+ }
+}

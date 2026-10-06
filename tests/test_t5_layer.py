@@ -421,3 +421,19 @@ def test_request_records_carry_the_sources_terms_and_attribution(built):
     assert "SCANFI" in tags["attribution"]
     assert "Derived data, not the original" in tags["derived_notice"]
     assert tags["rulings"].split(",") == ["D83", "D84", "D85", "D86", "D87", "D74"]
+
+
+def test_a_cell_mixing_split_and_unsplit_canopy_takes_its_share_from_the_split_part(built):
+    # Added by the T5 review (D18). D88: canopy from a plot whose tree list has no crown is left
+    # out of the shares, never counted as no genus. A cell mixing plot 1 (pure Douglas-fir) with
+    # plot 3 (canopy, no split) must therefore still read a Douglas-fir share of 1, not a share
+    # diluted by plot 3's canopy.
+    bands, _, transform = _read(built["out"] / "host_trees_strip.tif")
+    lon = _cell_lon(bands["source"].shape, transform)
+    lat = _cell_lat(bands["source"].shape, transform)
+    region = (lon < -121.92) & (lon > -121.945) & (lat > 48.976) & (lat < 48.99)
+    share = bands["share_Pseudotsuga"]
+    total = bands["total_cover_pct"]
+    mixed = region & np.isfinite(share) & (total > CANOPY[3] + 1) & (total < CANOPY[1] - 1)
+    assert mixed.any()  # the sample includes the cells that could fail
+    assert np.allclose(share[mixed], 1.0)
