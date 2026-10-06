@@ -1,0 +1,81 @@
+{
+ "key": "0012112-260928105237408",
+ "doi": "10.15468/dl.8jxmeb",
+ "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+ "request": {
+  "predicate": {
+   "type": "and",
+   "predicates": [
+    {
+     "type": "equals",
+     "key": "TAXON_KEY",
+     "value": "5"
+    },
+    {
+     "type": "equals",
+     "key": "BASIS_OF_RECORD",
+     "value": "HUMAN_OBSERVATION"
+    },
+    {
+     "type": "greaterThanOrEquals",
+     "key": "YEAR",
+     "value": "2015"
+    },
+    {
+     "type": "lessThanOrEquals",
+     "key": "YEAR",
+     "value": "2025"
+    },
+    {
+     "type": "equals",
+     "key": "HAS_COORDINATE",
+     "value": "true"
+    },
+    {
+     "type": "or",
+     "predicates": [
+      {
+       "type": "in",
+       "key": "GADM_LEVEL_0_GID",
+       "values": [
+        "USA",
+        "CAN"
+       ]
+      },
+      {
+       "type": "and",
+       "predicates": [
+        {
+         "type": "isNull",
+         "parameter": "GADM_LEVEL_0_GID"
+        },
+        {
+         "type": "in",
+         "key": "COUNTRY",
+         "values": [
+          "US",
+          "CA"
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "sendNotification": true,
+  "format": "DWCA",
+  "type": "OCCURRENCE",
+  "verbatimExtensions": [],
+  "interpretedExtensions": [],
+  "checklistKey": "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c"
+ },
+ "created": "2026-10-06T06:52:19.304+00:00",
+ "modified": "2026-10-06T07:39:31.247+00:00",
+ "eraseAfter": "2027-04-06T06:52:19.225+00:00",
+ "status": "SUCCEEDED",
+ "downloadLink": "https://api.gbif.org/v1/occurrence/download/request/0012112-260928105237408.zip",
+ "size": 1434032123,
+ "totalRecords": 2493578,
+ "numberDatasets": 26
+}

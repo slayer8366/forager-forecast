@@ -1,0 +1,11 @@
+{
+ "null_gadm_usca": 61508,
+ "null_gadm_usca_taxon_id_not_found": 61234,
+ "null_gadm_usca_inat": 56271,
+ "null_gadm_usca_interpreted_since_2026_09_29": 56272,
+ "usca_taxon_id_not_found": 2327074,
+ "usca_interpreted_since_2026_09_29": 2169528,
+ "notnull_gadm_usca_interpreted_since_2026_09_29": 2113256,
+ "null_gadm_all_countries": 315648,
+ "null_gadm_all_interpreted_since_2026_09_29": 177343
+}

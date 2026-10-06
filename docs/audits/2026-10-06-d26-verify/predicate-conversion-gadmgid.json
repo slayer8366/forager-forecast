@@ -1,0 +1,2 @@
+{"predicate":{"type":"in","key":"GADM_GID","values":["CAN","USA"],"matchCase":false},"notificationAddresses":[],"sendNotification":false,"format":"DWCA","type":"OCCURRENCE","verbatimExtensions":[],"interpretedExtensions":[]}
+HTTP 200

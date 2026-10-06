@@ -1,0 +1,19 @@
+"""D26 verify item 4, fifth pass: untagged box records split by uncertainty >= 20 km or not."""
+
+import json
+
+from tag_test import BASE, BOXES, box, post
+
+NULL_GADM = {"type": "isNull", "parameter": "GADM_LEVEL_0_GID"}
+BIG = {"type": "greaterThanOrEquals", "key": "COORDINATE_UNCERTAINTY_IN_METERS", "value": "20000"}
+
+
+def count(*extra):
+    return post({"predicate": {"type": "and", "predicates": BASE + list(extra)}, "limit": 0})["count"]
+
+
+out = {}
+for b in BOXES:
+    out[f"null_gadm_{b.name}"] = count(NULL_GADM, box(b))
+    out[f"null_gadm_{b.name}_uncertainty_ge_20km"] = count(NULL_GADM, box(b), BIG)
+print(json.dumps(out, indent=1))

@@ -1,0 +1,80 @@
+"""D26 acceptance check: look up each 0005709 key the new box subset lacks, on GBIF's public API.
+
+Usage: uv run python explain_missing.py <acceptance json> <output json> [max lookups]
+
+GET https://api.gbif.org/v1/occurrence/{key}, no credentials. 404 means GBIF no longer holds the
+record. Otherwise the record's current fields are compared with the D26 predicate's filters and the
+T1 boxes, and each key gets the first reason that applies.
+"""
+
+import json
+import sys
+import time
+from collections import Counter
+from urllib.error import HTTPError
+from urllib.request import urlopen
+
+from forager_forecast.t1_design import box_of
+
+
+def fetch(key):
+    for attempt in range(4):
+        try:
+            with urlopen(f"https://api.gbif.org/v1/occurrence/{key}", timeout=60) as r:
+                return json.load(r)
+        except HTTPError as exc:
+            if exc.code == 404:
+                return None
+            time.sleep(3 * (attempt + 1))
+        except Exception:
+            time.sleep(3 * (attempt + 1))
+    raise RuntimeError(f"lookup of {key} failed four times")
+
+
+def reason(rec):
+    if rec is None:
+        return "no longer on GBIF (404)"
+    if rec.get("basisOfRecord") != "HUMAN_OBSERVATION":
+        return f"basisOfRecord now {rec.get('basisOfRecord')}"
+    if rec.get("kingdomKey") != 5:
+        return f"kingdomKey now {rec.get('kingdomKey')} (re-identified outside Fungi)"
+    year = rec.get("year")
+    if year is None or not 2015 <= year <= 2025:
+        return f"year now {year}"
+    lat, lon = rec.get("decimalLatitude"), rec.get("decimalLongitude")
+    if lat is None or lon is None:
+        return "coordinates now missing"
+    gadm = (rec.get("gadm") or {}).get("level0", {}).get("gid")
+    if gadm and gadm not in ("USA", "CAN"):
+        return f"GADM tag now {gadm}"
+    if not gadm and rec.get("countryCode") not in ("US", "CA"):
+        return f"no GADM tag and countryCode {rec.get('countryCode')}"
+    if box_of(lat, lon) is None:
+        return "coordinates now outside both boxes"
+    return "matches every filter today (unexplained)"
+
+
+def main(acceptance_path, out_path, limit=None):
+    acceptance = json.load(open(acceptance_path))
+    keys = sorted(int(k) for k in acceptance["absent"]) + sorted(
+        int(k) for k in acceptance["moved_outside"]
+    )
+    looked = keys if limit is None else keys[: int(limit)]
+    rows = {}
+    for key in looked:
+        rec = fetch(key)
+        rows[key] = {
+            "reason": reason(rec),
+            "now": None if rec is None else {f: rec.get(f) for f in (
+                "decimalLatitude", "decimalLongitude", "countryCode", "year", "kingdomKey",
+                "basisOfRecord", "gadm", "lastInterpreted", "taxonKey")},
+        }
+    grouped = Counter(v["reason"] for v in rows.values())
+    out = {"looked_up": len(looked), "of": len(keys), "reasons": dict(grouped.most_common()),
+           "rows": {str(k): v for k, v in rows.items()}}
+    json.dump(out, open(out_path, "w"), indent=1)
+    print(json.dumps({k: out[k] for k in ("looked_up", "of", "reasons")}, indent=1))
+
+
+if __name__ == "__main__":
+    main(*sys.argv[1:])

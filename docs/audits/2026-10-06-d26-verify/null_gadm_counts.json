@@ -1,0 +1,12 @@
+{
+ "all_base": 14548380,
+ "null_gadm": 315648,
+ "notnull_gadm": 14232732,
+ "null_gadm_country_US_CA": 61508,
+ "null_gadm_box_pnw": 9211,
+ "null_gadm_box_east": 20693,
+ "notnull_gadm_box_pnw": 243611,
+ "notnull_gadm_box_east": 924793,
+ "notnull_not_USACAN_box_pnw": 0,
+ "notnull_not_USACAN_box_east": 0
+}

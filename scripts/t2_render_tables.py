@@ -14,11 +14,11 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
-from forager_forecast.records.counts import ALL_FUNGI, REST_OF_NORTH_AMERICA, T1_BOXES
+from forager_forecast.records.counts import ALL_FUNGI, OUTSIDE_T1_BOXES, T1_BOXES
 from forager_forecast.records.filters import r6_audit_steps
 
 GROUPS = ("cantharellus", "laetiporus", ALL_FUNGI)
-REGIONS = (*[box.name for box in T1_BOXES], REST_OF_NORTH_AMERICA)
+REGIONS = (*[box.name for box in T1_BOXES], OUTSIDE_T1_BOXES)
 STAGES = ("source", *r6_audit_steps().names())
 FINAL = STAGES[-1]
 

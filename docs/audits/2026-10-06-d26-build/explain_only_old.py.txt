@@ -1,0 +1,17 @@
+"""The first 60 US/CA keys (by country or GADM tag) of 0005714 that the D26 download lacks,
+looked up on GBIF's public API with explain_missing.reason."""
+
+import json
+import sys
+from collections import Counter
+
+sys.path.insert(0, "/tmp/claude-1000/d26")
+from explain_missing import fetch, reason  # noqa: E402
+
+keys = json.load(open(sys.argv[1]))["only_0005714_us_ca_sample_keys"]
+rows = {}
+for key in keys:
+    rec = fetch(key)
+    rows[str(key)] = reason(rec)
+print(json.dumps({"looked_up": len(keys), "reasons": dict(Counter(rows.values()).most_common()),
+                  "rows": rows}, indent=1))

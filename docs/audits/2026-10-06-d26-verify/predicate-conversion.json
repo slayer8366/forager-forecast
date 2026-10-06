@@ -1,0 +1,2 @@
+{"predicate":{"type":"and","predicates":[{"type":"in","key":"GADM_LEVEL_0_GID","values":["CAN","USA"],"matchCase":false},{"type":"equals","key":"TAXON_KEY","value":"5","matchCase":false}]},"notificationAddresses":[],"sendNotification":false,"format":"DWCA","type":"OCCURRENCE","verbatimExtensions":[],"interpretedExtensions":[]}
+HTTP 200

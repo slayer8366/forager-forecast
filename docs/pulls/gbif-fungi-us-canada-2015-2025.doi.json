@@ -1,0 +1,92 @@
+{
+  "purpose": "D26's shared download for T1 and T2: all US and Canada fungi human observations 2015 to 2025 with coordinates, one DWCA, selected by GBIF's GADM country tag, else the country field where the tag is missing (D26, D47, D71, D72). Dispatch: docs/dispatch/2026-10-06-d26-shared-download.md",
+  "status": "provisional",
+  "why_provisional": "Requested under the test account described in the owner's GBIF credentials report (2026-09-18). The business account will redo this exact request; the new DOI is then added as a superseding entry here and this one stays.",
+  "doi": "10.15468/dl.8jxmeb",
+  "download_key": "0012112-260928105237408",
+  "created_utc": "2026-10-06T06:52:19.304+00:00",
+  "succeeded_utc": "2026-10-06T07:39:31.247+00:00",
+  "total_records": 2493578,
+  "size_bytes": 1434032123,
+  "sha256_of_zip": "c0d5f6a1a775ddb902f73ca2c1978946c056a4f326beb7e13349677c0f72b26c",
+  "members_of_interest": {
+    "occurrence.txt": 3398020752,
+    "verbatim.txt": 2031723255,
+    "multimedia.txt": 1361560562
+  },
+  "number_of_datasets": 26,
+  "gbif_license_of_download": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+  "request": {
+    "format": "DWCA",
+    "checklistKey": "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c",
+    "sendNotification": true,
+    "predicate": {
+      "type": "and",
+      "predicates": [
+        {
+          "type": "equals",
+          "key": "TAXON_KEY",
+          "value": "5"
+        },
+        {
+          "type": "equals",
+          "key": "BASIS_OF_RECORD",
+          "value": "HUMAN_OBSERVATION"
+        },
+        {
+          "type": "greaterThanOrEquals",
+          "key": "YEAR",
+          "value": "2015"
+        },
+        {
+          "type": "lessThanOrEquals",
+          "key": "YEAR",
+          "value": "2025"
+        },
+        {
+          "type": "equals",
+          "key": "HAS_COORDINATE",
+          "value": "true"
+        },
+        {
+          "type": "or",
+          "predicates": [
+            {
+              "type": "in",
+              "key": "GADM_LEVEL_0_GID",
+              "values": [
+                "USA",
+                "CAN"
+              ]
+            },
+            {
+              "type": "and",
+              "predicates": [
+                {
+                  "type": "isNull",
+                  "parameter": "GADM_LEVEL_0_GID"
+                },
+                {
+                  "type": "in",
+                  "key": "COUNTRY",
+                  "values": [
+                    "US",
+                    "CA"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "predicate_source": "forager_forecast.records.gbif_download.d26_predicate() at commit 49efa99, passed to request_template; the request stored by GBIF (format, checklistKey, predicate) was compared with d26_predicate() after the run and is equal. GBIF also stores type OCCURRENCE and empty verbatimExtensions and interpretedExtensions, its defaults.",
+  "submitted_with": "submit_download_request from forager_forecast.records.gbif_download, run once by docs/audits/2026-10-06-d26-build/submit_once.py.txt at 2026-10-06T06:52Z, POSTed with HTTP basic auth from Python's urllib (no curl); credentials from ~/.config/forager-forecast/gbif.env via credentials_from_env; creator and notification address are the account's and are not recorded here",
+  "count_check_before_request": "GBIF's predicate search counted 2,493,578 for this predicate at 06:49 UTC on 2026-10-06 (docs/audits/2026-10-06-d26-verify/combined.json); GBIF's download record gives the same total.",
+  "local_copy": "data/d26/downloads/ on the machine that ran it, gitignored; fetched once with fetch_download; the DOI is the citation",
+  "superseded_by": null,
+  "supersedes_note": "Supersedes as provisional the T1 download 0005709 and is the D26 shared download for T2's audit in place of 0005714; those records are not edited (D26, D41).",
+  "integrity_check_2026-10-06": "GBIF publishes no checksum for a download. What was checked: the fetched zip's byte size equals the record's size field (fetch_download refuses otherwise), and `unzip -t` reports no errors in the compressed data. The sha256 above is this machine's own, for detecting later corruption, not GBIF's.",
+  "gbif_erases_after": "2027-04-06 (eraseAfter in the download record)"
+}

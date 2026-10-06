@@ -1,0 +1,3092 @@
+{
+ "t1_rows_0005709": 1195034,
+ "t1_distinct_keys": 1195034,
+ "new_rows": 2493578,
+ "new_box_subset_rows": {
+  "east": 945486,
+  "pnw": 252822
+ },
+ "new_box_subset_total": 1198308,
+ "new_box_rows_not_in_0005709": {
+  "pnw": 2642,
+  "east": 937
+ },
+ "classes_of_0005709_keys": {
+  "in_box_subset": 1194729,
+  "absent": 305
+ },
+ "level0Gid_in_new_download_of_0005709_keys": {
+  "USA": 954473,
+  "CAN": 210464,
+  "(none)": 29792
+ },
+ "level0Gid_countryCode_of_new_box_rows": {
+  "east|(none)|CA": 9576,
+  "east|(none)|US": 11117,
+  "east|CAN|CA": 142595,
+  "east|CAN|US": 22,
+  "east|USA|CA": 181,
+  "east|USA|US": 781994,
+  "east|USA|ZZ": 1,
+  "pnw|(none)|CA": 2769,
+  "pnw|(none)|US": 6442,
+  "pnw|CAN|CA": 70067,
+  "pnw|CAN|US": 5,
+  "pnw|USA|CA": 8,
+  "pnw|USA|TW": 1,
+  "pnw|USA|US": 173530
+ },
+ "moved_outside": {},
+ "absent": {
+  "1143539195": {
+   "decimalLatitude": "39.758355",
+   "decimalLongitude": "-78.688435",
+   "countryCode": "US",
+   "year": "2015",
+   "taxonKey": "5261393",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:05:54.178Z"
+  },
+  "1143543924": {
+   "decimalLatitude": "41.209935",
+   "decimalLongitude": "-78.202276",
+   "countryCode": "US",
+   "year": "2015",
+   "taxonKey": "2605850",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:26:05.074Z"
+  },
+  "1211975863": {
+   "decimalLatitude": "40.574728",
+   "decimalLongitude": "-80.167772",
+   "countryCode": "US",
+   "year": "2015",
+   "taxonKey": "5248551",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:49:51.394Z"
+  },
+  "1211980105": {
+   "decimalLatitude": "41.451525",
+   "decimalLongitude": "-77.539328",
+   "countryCode": "US",
+   "year": "2015",
+   "taxonKey": "11011338",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:07:40.692Z"
+  },
+  "1257409046": {
+   "decimalLatitude": "40.532441",
+   "decimalLongitude": "-80.113393",
+   "countryCode": "US",
+   "year": "2016",
+   "taxonKey": "2605255",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:38:21.205Z"
+  },
+  "1265585493": {
+   "decimalLatitude": "39.762547",
+   "decimalLongitude": "-78.358952",
+   "countryCode": "US",
+   "year": "2016",
+   "taxonKey": "2605926",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:40:43.850Z"
+  },
+  "1322995834": {
+   "decimalLatitude": "39.82533",
+   "decimalLongitude": "-78.540084",
+   "countryCode": "US",
+   "year": "2016",
+   "taxonKey": "8332598",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:38:30.437Z"
+  },
+  "1322995836": {
+   "decimalLatitude": "39.813937",
+   "decimalLongitude": "-78.546634",
+   "countryCode": "US",
+   "year": "2016",
+   "taxonKey": "2600703",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:59:36.443Z"
+  },
+  "1453081899": {
+   "decimalLatitude": "40.430095",
+   "decimalLongitude": "-78.022735",
+   "countryCode": "US",
+   "year": "2016",
+   "taxonKey": "3408377",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:07:51.352Z"
+  },
+  "1562935283": {
+   "decimalLatitude": "40.583311",
+   "decimalLongitude": "-79.96307",
+   "countryCode": "US",
+   "year": "2017",
+   "taxonKey": "6014366",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:05:39.517Z"
+  },
+  "1562935394": {
+   "decimalLatitude": "40.585024",
+   "decimalLongitude": "-79.962278",
+   "countryCode": "US",
+   "year": "2017",
+   "taxonKey": "2547092",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:05:36.040Z"
+  },
+  "1562935416": {
+   "decimalLatitude": "40.585093",
+   "decimalLongitude": "-79.962374",
+   "countryCode": "US",
+   "year": "2017",
+   "taxonKey": "7241318",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:53:58.854Z"
+  },
+  "1572362531": {
+   "decimalLatitude": "40.564854",
+   "decimalLongitude": "-80.148687",
+   "countryCode": "US",
+   "year": "2017",
+   "taxonKey": "2550493",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:40:42.510Z"
+  },
+  "1584417085": {
+   "decimalLatitude": "42.945662",
+   "decimalLongitude": "-72.891681",
+   "countryCode": "US",
+   "year": "2017",
+   "taxonKey": "5249599",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:54:53.091Z"
+  },
+  "1586927653": {
+   "decimalLatitude": "41.980695",
+   "decimalLongitude": "-79.54986",
+   "countryCode": "US",
+   "year": "2017",
+   "taxonKey": "5452051",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:49:55.215Z"
+  },
+  "1586951250": {
+   "decimalLatitude": "41.337645",
+   "decimalLongitude": "-76.262857",
+   "countryCode": "US",
+   "year": "2017",
+   "taxonKey": "2606550",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:08:03.636Z"
+  },
+  "1586951282": {
+   "decimalLatitude": "41.337561",
+   "decimalLongitude": "-76.262689",
+   "countryCode": "US",
+   "year": "2017",
+   "taxonKey": "3346825",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:26:01.235Z"
+  },
+  "1621800344": {
+   "decimalLatitude": "41.220184",
+   "decimalLongitude": "-77.78641",
+   "countryCode": "US",
+   "year": "2017",
+   "taxonKey": "3481120",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:24:41.327Z"
+  },
+  "1802745073": {
+   "decimalLatitude": "41.297604",
+   "decimalLongitude": "-77.448326",
+   "countryCode": "US",
+   "year": "2017",
+   "taxonKey": "11945016",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:59:52.153Z"
+  },
+  "1838352121": {
+   "decimalLatitude": "39.629746",
+   "decimalLongitude": "-79.799252",
+   "countryCode": "US",
+   "year": "2018",
+   "taxonKey": "2600703",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:59:53.658Z"
+  },
+  "1841203416": {
+   "decimalLatitude": "39.867965",
+   "decimalLongitude": "-79.494673",
+   "countryCode": "US",
+   "year": "2018",
+   "taxonKey": "8732724",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:38:31.805Z"
+  },
+  "1848779325": {
+   "decimalLatitude": "38.993737",
+   "decimalLongitude": "-77.244522",
+   "countryCode": "US",
+   "year": "2018",
+   "taxonKey": "5249599",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:06:04.805Z"
+  },
+  "1883511668": {
+   "decimalLatitude": "41.313877",
+   "decimalLongitude": "-75.53819",
+   "countryCode": "US",
+   "year": "2018",
+   "taxonKey": "2605255",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:50:09.809Z"
+  },
+  "1913678557": {
+   "decimalLatitude": "40.288872",
+   "decimalLongitude": "-79.372173",
+   "countryCode": "US",
+   "year": "2018",
+   "taxonKey": "2549834",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:50:08.613Z"
+  },
+  "1913678644": {
+   "decimalLatitude": "40.16825",
+   "decimalLongitude": "-79.231935",
+   "countryCode": "US",
+   "year": "2018",
+   "taxonKey": "8023186",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:08:30.615Z"
+  },
+  "1913678654": {
+   "decimalLatitude": "40.166834",
+   "decimalLongitude": "-79.229601",
+   "countryCode": "US",
+   "year": "2018",
+   "taxonKey": "2550242",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:54:52.432Z"
+  },
+  "1913678699": {
+   "decimalLatitude": "40.168276",
+   "decimalLongitude": "-79.231792",
+   "countryCode": "US",
+   "year": "2018",
+   "taxonKey": "2551150",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:38:33.917Z"
+  },
+  "1913678708": {
+   "decimalLatitude": "40.167185",
+   "decimalLongitude": "-79.23095",
+   "countryCode": "US",
+   "year": "2018",
+   "taxonKey": "5239982",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:50:01.297Z"
+  },
+  "1913678730": {
+   "decimalLatitude": "40.288872",
+   "decimalLongitude": "-79.372173",
+   "countryCode": "US",
+   "year": "2018",
+   "taxonKey": "8270988",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:55:11.143Z"
+  },
+  "1932308977": {
+   "decimalLatitude": "42.858437",
+   "decimalLongitude": "-71.429287",
+   "countryCode": "US",
+   "year": "2018",
+   "taxonKey": "2540800",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:59:47.955Z"
+  },
+  "1933545401": {
+   "decimalLatitude": "42.868884",
+   "decimalLongitude": "-71.455724",
+   "countryCode": "US",
+   "year": "2018",
+   "taxonKey": "3350173",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:24:51.254Z"
+  },
+  "1990512365": {
+   "decimalLatitude": "41.226557",
+   "decimalLongitude": "-74.994648",
+   "countryCode": "US",
+   "year": "2018",
+   "taxonKey": "3409371",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:08:42.543Z"
+  },
+  "2236927476": {
+   "decimalLatitude": "40.428218",
+   "decimalLongitude": "-78.018798",
+   "countryCode": "US",
+   "year": "2016",
+   "taxonKey": "7819032",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:55:09.937Z"
+  },
+  "2282996670": {
+   "decimalLatitude": "42.480371",
+   "decimalLongitude": "-83.992082",
+   "countryCode": "US",
+   "year": "2018",
+   "taxonKey": "2526678",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:50:17.577Z"
+  },
+  "2283346649": {
+   "decimalLatitude": "42.414617",
+   "decimalLongitude": "-83.971124",
+   "countryCode": "US",
+   "year": "2017",
+   "taxonKey": "2526021",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:25:05.537Z"
+  },
+  "2283359601": {
+   "decimalLatitude": "42.414514",
+   "decimalLongitude": "-83.974042",
+   "countryCode": "US",
+   "year": "2017",
+   "taxonKey": "2526021",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:42:14.736Z"
+  },
+  "2283418737": {
+   "decimalLatitude": "42.416613",
+   "decimalLongitude": "-83.990178",
+   "countryCode": "US",
+   "year": "2017",
+   "taxonKey": "2526021",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:25:07.122Z"
+  },
+  "2331956014": {
+   "decimalLatitude": "42.405802",
+   "decimalLongitude": "-83.99738",
+   "countryCode": "US",
+   "year": "2019",
+   "taxonKey": "9225326",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:26:19.062Z"
+  },
+  "2366057666": {
+   "decimalLatitude": "40.475844",
+   "decimalLongitude": "-80.397975",
+   "countryCode": "US",
+   "year": "2019",
+   "taxonKey": "2526548",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:09:06.462Z"
+  },
+  "2448012915": {
+   "decimalLatitude": "41.663315",
+   "decimalLongitude": "-81.004342",
+   "countryCode": "US",
+   "year": "2017",
+   "taxonKey": "2578759",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:50:26.818Z"
+  },
+  "2549980973": {
+   "decimalLatitude": "39.672024",
+   "decimalLongitude": "-79.853391",
+   "countryCode": "US",
+   "year": "2019",
+   "taxonKey": "3306348",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:41:52.654Z"
+  },
+  "2573795692": {
+   "decimalLatitude": "44.93295",
+   "decimalLongitude": "-123.0285",
+   "countryCode": "US",
+   "year": "2018",
+   "taxonKey": "5445931",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:54:35.744Z"
+  },
+  "2596230733": {
+   "decimalLatitude": "40.570341",
+   "decimalLongitude": "-80.146145",
+   "countryCode": "US",
+   "year": "2020",
+   "taxonKey": "2607534",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:00:21.558Z"
+  },
+  "2802582129": {
+   "decimalLatitude": "39.844697",
+   "decimalLongitude": "-79.388899",
+   "countryCode": "US",
+   "year": "2020",
+   "taxonKey": "5260515",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:00:15.604Z"
+  },
+  "2802645014": {
+   "decimalLatitude": "39.835172",
+   "decimalLongitude": "-79.374186",
+   "countryCode": "US",
+   "year": "2020",
+   "taxonKey": "2600703",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:26:40.356Z"
+  },
+  "2851150840": {
+   "decimalLatitude": "43.552009",
+   "decimalLongitude": "-76.204901",
+   "countryCode": "US",
+   "year": "2020",
+   "taxonKey": "7405092",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:09:54.871Z"
+  },
+  "2862343335": {
+   "decimalLatitude": "42.41407",
+   "decimalLongitude": "-82.216355",
+   "countryCode": "CA",
+   "year": "2019",
+   "taxonKey": "9072021",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:39:25.597Z"
+  },
+  "2868369933": {
+   "decimalLatitude": "38.542805",
+   "decimalLongitude": "-81.93055",
+   "countryCode": "US",
+   "year": "2020",
+   "taxonKey": "2539731",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:41:58.696Z"
+  },
+  "2873815424": {
+   "decimalLatitude": "45.359605",
+   "decimalLongitude": "-75.677055",
+   "countryCode": "CA",
+   "year": "2020",
+   "taxonKey": "2539731",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:50:44.053Z"
+  },
+  "2898292349": {
+   "decimalLatitude": "43.943597",
+   "decimalLongitude": "-78.843309",
+   "countryCode": "CA",
+   "year": "2019",
+   "taxonKey": "2539731",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:00:35.076Z"
+  },
+  "2988510712": {
+   "decimalLatitude": "43.945862",
+   "decimalLongitude": "-79.296826",
+   "countryCode": "CA",
+   "year": "2020",
+   "taxonKey": "2539731",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:27:18.374Z"
+  },
+  "2992711078": {
+   "decimalLatitude": "44.565525",
+   "decimalLongitude": "-123.274253",
+   "countryCode": "US",
+   "year": "2020",
+   "taxonKey": "2542126",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:06:32.256Z"
+  },
+  "3005189327": {
+   "decimalLatitude": "42.018471",
+   "decimalLongitude": "-78.610277",
+   "countryCode": "US",
+   "year": "2018",
+   "taxonKey": "2538663",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:42:48.407Z"
+  },
+  "3039142307": {
+   "decimalLatitude": "41.809848",
+   "decimalLongitude": "-78.565083",
+   "countryCode": "US",
+   "year": "2015",
+   "taxonKey": "2605850",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:42:02.071Z"
+  },
+  "3321181321": {
+   "decimalLatitude": "44.519949",
+   "decimalLongitude": "-121.688946",
+   "countryCode": "US",
+   "year": "2019",
+   "taxonKey": "5259195",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:27:39.508Z"
+  },
+  "3327910685": {
+   "decimalLatitude": "43.614401",
+   "decimalLongitude": "-79.715249",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "5240273",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:40:21.829Z"
+  },
+  "3338099484": {
+   "decimalLatitude": "43.358908",
+   "decimalLongitude": "-80.327791",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "2547092",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:10:53.011Z"
+  },
+  "3355006657": {
+   "decimalLatitude": "44.374403",
+   "decimalLongitude": "-76.015715",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "7240044",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:51:23.593Z"
+  },
+  "3355537792": {
+   "decimalLatitude": "43.358889",
+   "decimalLongitude": "-80.327731",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "5487831",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:28:19.976Z"
+  },
+  "3355740553": {
+   "decimalLatitude": "43.380594",
+   "decimalLongitude": "-80.343128",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "2548311",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:11:12.788Z"
+  },
+  "3383870144": {
+   "decimalLatitude": "40.911524",
+   "decimalLongitude": "-79.829674",
+   "countryCode": "US",
+   "year": "2021",
+   "taxonKey": "3348650",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:10:58.109Z"
+  },
+  "3383962525": {
+   "decimalLatitude": "42.406073",
+   "decimalLongitude": "-71.462385",
+   "countryCode": "US",
+   "year": "2020",
+   "taxonKey": "2539731",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:51:38.613Z"
+  },
+  "3391689136": {
+   "decimalLatitude": "43.564719",
+   "decimalLongitude": "-79.674622",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "2534625",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:28:20.929Z"
+  },
+  "3398789539": {
+   "decimalLatitude": "45.489765",
+   "decimalLongitude": "-75.627968",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "2581585",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:26:51.088Z"
+  },
+  "3398841658": {
+   "decimalLatitude": "43.979787",
+   "decimalLongitude": "-123.094872",
+   "countryCode": "US",
+   "year": "2021",
+   "taxonKey": "2542126",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:51:32.356Z"
+  },
+  "3398906996": {
+   "decimalLatitude": "44.308418",
+   "decimalLongitude": "-123.48632",
+   "countryCode": "US",
+   "year": "2021",
+   "taxonKey": "2542126",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:11:23.401Z"
+  },
+  "3398923324": {
+   "decimalLatitude": "44.565558",
+   "decimalLongitude": "-123.274308",
+   "countryCode": "US",
+   "year": "2021",
+   "taxonKey": "2542126",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:11:07.261Z"
+  },
+  "3399054449": {
+   "decimalLatitude": "47.286446",
+   "decimalLongitude": "-122.964313",
+   "countryCode": "US",
+   "year": "2021",
+   "taxonKey": "8064813",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:51:35.983Z"
+  },
+  "3408118032": {
+   "decimalLatitude": "47.279441",
+   "decimalLongitude": "-122.967098",
+   "countryCode": "US",
+   "year": "2021",
+   "taxonKey": "3351455",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:01:08.191Z"
+  },
+  "3408220312": {
+   "decimalLatitude": "39.794132",
+   "decimalLongitude": "-79.17048",
+   "countryCode": "US",
+   "year": "2018",
+   "taxonKey": "2600703",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:01:10.875Z"
+  },
+  "3415490271": {
+   "decimalLatitude": "44.03169",
+   "decimalLongitude": "-123.0746",
+   "countryCode": "US",
+   "year": "2021",
+   "taxonKey": "2542126",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:11:22.906Z"
+  },
+  "3415625584": {
+   "decimalLatitude": "44.565512",
+   "decimalLongitude": "-123.274353",
+   "countryCode": "US",
+   "year": "2021",
+   "taxonKey": "2542126",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:51:39.658Z"
+  },
+  "3415864157": {
+   "decimalLatitude": "49.391309",
+   "decimalLongitude": "-123.018997",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "5954691",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:56:09.993Z"
+  },
+  "3415911308": {
+   "decimalLatitude": "41.069201",
+   "decimalLongitude": "-77.133794",
+   "countryCode": "US",
+   "year": "2017",
+   "taxonKey": "2540800",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:11:37.465Z"
+  },
+  "3415934326": {
+   "decimalLatitude": "39.794138",
+   "decimalLongitude": "-79.170483",
+   "countryCode": "US",
+   "year": "2018",
+   "taxonKey": "5260515",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:44:02.989Z"
+  },
+  "3455817537": {
+   "decimalLatitude": "47.068664",
+   "decimalLongitude": "-122.895667",
+   "countryCode": "US",
+   "year": "2021",
+   "taxonKey": "2538788",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:51:43.076Z"
+  },
+  "3455858344": {
+   "decimalLatitude": "42.080558",
+   "decimalLongitude": "-73.515422",
+   "countryCode": "US",
+   "year": "2021",
+   "taxonKey": "5463015",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:43:53.463Z"
+  },
+  "3456135596": {
+   "decimalLatitude": "40.163329",
+   "decimalLongitude": "-76.299715",
+   "countryCode": "US",
+   "year": "2019",
+   "taxonKey": "3483418",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:57:57.184Z"
+  },
+  "3456207849": {
+   "decimalLatitude": "47.068245",
+   "decimalLongitude": "-122.8956",
+   "countryCode": "US",
+   "year": "2021",
+   "taxonKey": "2538788",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:56:14.173Z"
+  },
+  "3456655392": {
+   "decimalLatitude": "47.06822",
+   "decimalLongitude": "-122.895722",
+   "countryCode": "US",
+   "year": "2021",
+   "taxonKey": "2538788",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:51:41.473Z"
+  },
+  "3499631337": {
+   "decimalLatitude": "41.542595",
+   "decimalLongitude": "-77.489517",
+   "countryCode": "US",
+   "year": "2016",
+   "taxonKey": "2605850",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:27:08.471Z"
+  },
+  "3712435746": {
+   "decimalLatitude": "43.305639",
+   "decimalLongitude": "-80.369383",
+   "countryCode": "CA",
+   "year": "2022",
+   "taxonKey": "5241128",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:28:20.274Z"
+  },
+  "3712464716": {
+   "decimalLatitude": "43.305329",
+   "decimalLongitude": "-80.364602",
+   "countryCode": "CA",
+   "year": "2022",
+   "taxonKey": "2523440",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:01:34.632Z"
+  },
+  "3712481430": {
+   "decimalLatitude": "44.37462",
+   "decimalLongitude": "-76.014439",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "2538595",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:01:29.345Z"
+  },
+  "3712507398": {
+   "decimalLatitude": "44.374477",
+   "decimalLongitude": "-76.01444",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "5452395",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:27:13.705Z"
+  },
+  "3712516406": {
+   "decimalLatitude": "44.374327",
+   "decimalLongitude": "-76.015507",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "2527302",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:07:32.649Z"
+  },
+  "3712557418": {
+   "decimalLatitude": "44.374604",
+   "decimalLongitude": "-76.014623",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "5240273",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:08:16.773Z"
+  },
+  "3712635447": {
+   "decimalLatitude": "44.374652",
+   "decimalLongitude": "-76.014365",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "2547301",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:43:37.168Z"
+  },
+  "3712676419": {
+   "decimalLatitude": "44.374164",
+   "decimalLongitude": "-76.016241",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "5244431",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:40:56.975Z"
+  },
+  "3743281395": {
+   "decimalLatitude": "44.374337",
+   "decimalLongitude": "-76.016116",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "6015464",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:44:13.750Z"
+  },
+  "3743303375": {
+   "decimalLatitude": "44.374069",
+   "decimalLongitude": "-76.014897",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "2594734",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:28:38.129Z"
+  },
+  "3747025328": {
+   "decimalLatitude": "38.883016",
+   "decimalLongitude": "-77.690101",
+   "countryCode": "US",
+   "year": "2019",
+   "taxonKey": "2605963",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:07:20.069Z"
+  },
+  "3747107953": {
+   "decimalLatitude": "43.30813",
+   "decimalLongitude": "-80.366066",
+   "countryCode": "CA",
+   "year": "2022",
+   "taxonKey": "9439058",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:58:48.591Z"
+  },
+  "3759603711": {
+   "decimalLatitude": "43.378841",
+   "decimalLongitude": "-80.341727",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "2547092",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:27:16.274Z"
+  },
+  "3764566428": {
+   "decimalLatitude": "43.305163",
+   "decimalLongitude": "-80.364114",
+   "countryCode": "CA",
+   "year": "2022",
+   "taxonKey": "2549850",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:41:00.137Z"
+  },
+  "3785057546": {
+   "decimalLatitude": "43.377025",
+   "decimalLongitude": "-80.340373",
+   "countryCode": "CA",
+   "year": "2022",
+   "taxonKey": "5248035",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:01:33.196Z"
+  },
+  "3872912491": {
+   "decimalLatitude": "44.374518",
+   "decimalLongitude": "-76.01523",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "2538000",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:11:57.198Z"
+  },
+  "3873678313": {
+   "decimalLatitude": "39.5453",
+   "decimalLongitude": "-79.096156",
+   "countryCode": "US",
+   "year": "2018",
+   "taxonKey": "7246716",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:12:11.997Z"
+  },
+  "3881457092": {
+   "decimalLatitude": "42.43694",
+   "decimalLongitude": "-71.12259",
+   "countryCode": "US",
+   "year": "2022",
+   "taxonKey": "2566443",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:27:43.867Z"
+  },
+  "3892559938": {
+   "decimalLatitude": "42.460197",
+   "decimalLongitude": "-71.088683",
+   "countryCode": "US",
+   "year": "2022",
+   "taxonKey": "2566443",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:27:50.432Z"
+  },
+  "3902336990": {
+   "decimalLatitude": "45.420943",
+   "decimalLongitude": "-75.836927",
+   "countryCode": "CA",
+   "year": "2022",
+   "taxonKey": "2581585",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:01:41.112Z"
+  },
+  "3903166506": {
+   "decimalLatitude": "46.665899",
+   "decimalLongitude": "-121.414001",
+   "countryCode": "US",
+   "year": "2022",
+   "taxonKey": "6015633",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:12:44.439Z"
+  },
+  "3925103713": {
+   "decimalLatitude": "44.374559",
+   "decimalLongitude": "-76.01423",
+   "countryCode": "CA",
+   "year": "2022",
+   "taxonKey": "2522103",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:41:49.296Z"
+  },
+  "3947304278": {
+   "decimalLatitude": "44.047542",
+   "decimalLongitude": "-123.076278",
+   "countryCode": "US",
+   "year": "2022",
+   "taxonKey": "2542126",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:30:11.989Z"
+  },
+  "3947752909": {
+   "decimalLatitude": "41.347317",
+   "decimalLongitude": "-79.220162",
+   "countryCode": "US",
+   "year": "2022",
+   "taxonKey": "3552956",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:29:46.466Z"
+  },
+  "3961271591": {
+   "decimalLatitude": "42.616688",
+   "decimalLongitude": "-76.639962",
+   "countryCode": "US",
+   "year": "2022",
+   "taxonKey": "3552956",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:02:09.437Z"
+  },
+  "3985683870": {
+   "decimalLatitude": "41.345309",
+   "decimalLongitude": "-79.205212",
+   "countryCode": "US",
+   "year": "2022",
+   "taxonKey": "3306348",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:08:17.343Z"
+  },
+  "3988592319": {
+   "decimalLatitude": "39.845788",
+   "decimalLongitude": "-74.898797",
+   "countryCode": "US",
+   "year": "2019",
+   "taxonKey": "2539731",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:08:42.932Z"
+  },
+  "4009778565": {
+   "decimalLatitude": "42.61665",
+   "decimalLongitude": "-76.639887",
+   "countryCode": "US",
+   "year": "2022",
+   "taxonKey": "3306348",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:29:45.118Z"
+  },
+  "4014853974": {
+   "decimalLatitude": "43.323642",
+   "decimalLongitude": "-73.675412",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "8597577",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:45:26.581Z"
+  },
+  "4015252444": {
+   "decimalLatitude": "43.378667",
+   "decimalLongitude": "-80.341921",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "9208081",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:02:00.836Z"
+  },
+  "4015257325": {
+   "decimalLatitude": "42.861271",
+   "decimalLongitude": "-71.447306",
+   "countryCode": "US",
+   "year": "2018",
+   "taxonKey": "2526564",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:45:44.683Z"
+  },
+  "4054862388": {
+   "decimalLatitude": "43.392551",
+   "decimalLongitude": "-80.146436",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "2550493",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:42:12.225Z"
+  },
+  "4081020496": {
+   "decimalLatitude": "43.303979",
+   "decimalLongitude": "-80.39689",
+   "countryCode": "CA",
+   "year": "2023",
+   "taxonKey": "5262861",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:02:39.651Z"
+  },
+  "4096984577": {
+   "decimalLatitude": "43.24303",
+   "decimalLongitude": "-81.853478",
+   "countryCode": "CA",
+   "year": "2023",
+   "taxonKey": "2516181",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:13:58.083Z"
+  },
+  "4126900733": {
+   "decimalLatitude": "41.157716",
+   "decimalLongitude": "-77.764203",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "7241318",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:42:28.681Z"
+  },
+  "4127070260": {
+   "decimalLatitude": "41.010965",
+   "decimalLongitude": "-77.74661",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "7241318",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:42:24.291Z"
+  },
+  "4133881602": {
+   "decimalLatitude": "42.082647",
+   "decimalLongitude": "-122.451351",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "5499840",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:02:29.427Z"
+  },
+  "4138639432": {
+   "decimalLatitude": "38.785647",
+   "decimalLongitude": "-82.969047",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "3344363",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:02:41.737Z"
+  },
+  "4153654782": {
+   "decimalLatitude": "44.016746",
+   "decimalLongitude": "-122.050193",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "2593181",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:15:01.445Z"
+  },
+  "4153861462": {
+   "decimalLatitude": "43.547142",
+   "decimalLongitude": "-75.93065",
+   "countryCode": "US",
+   "year": "2022",
+   "taxonKey": "3552956",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:09:20.797Z"
+  },
+  "4165419762": {
+   "decimalLatitude": "42.330787",
+   "decimalLongitude": "-83.588288",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "7865386",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:42:40.594Z"
+  },
+  "4165840922": {
+   "decimalLatitude": "40.489283",
+   "decimalLongitude": "-80.160022",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "2540787",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:42:42.994Z"
+  },
+  "4165840931": {
+   "decimalLatitude": "40.491089",
+   "decimalLongitude": "-80.154619",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "3552956",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:53:25.894Z"
+  },
+  "4171415307": {
+   "decimalLatitude": "39.826072",
+   "decimalLongitude": "-78.543556",
+   "countryCode": "US",
+   "year": "2016",
+   "taxonKey": "7250044",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:03:05.105Z"
+  },
+  "4407296678": {
+   "decimalLatitude": "40.60627",
+   "decimalLongitude": "-75.382378",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "4170",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:15:16.605Z"
+  },
+  "4407369699": {
+   "decimalLatitude": "41.159039",
+   "decimalLongitude": "-74.432625",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "3306348",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:59:17.439Z"
+  },
+  "4413520110": {
+   "decimalLatitude": "40.180004",
+   "decimalLongitude": "-79.100601",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "3552956",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:15:32.150Z"
+  },
+  "4430904302": {
+   "decimalLatitude": "39.736592",
+   "decimalLongitude": "-78.668099",
+   "countryCode": "US",
+   "year": "2016",
+   "taxonKey": "2550493",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:03:22.277Z"
+  },
+  "4438693490": {
+   "decimalLatitude": "40.502289",
+   "decimalLongitude": "-80.060144",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "2534001",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:54:08.643Z"
+  },
+  "4438839580": {
+   "decimalLatitude": "40.502419",
+   "decimalLongitude": "-80.060136",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "6014309",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:43:18.989Z"
+  },
+  "4440619985": {
+   "decimalLatitude": "44.661308",
+   "decimalLongitude": "-72.580452",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "9657399",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:03:39.168Z"
+  },
+  "4440833022": {
+   "decimalLatitude": "44.471504",
+   "decimalLongitude": "-72.528353",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "9657399",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:59:20.678Z"
+  },
+  "4458431371": {
+   "decimalLatitude": "39.111855",
+   "decimalLongitude": "-77.221817",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "5250887",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:09:48.632Z"
+  },
+  "4458664309": {
+   "decimalLatitude": "39.113098",
+   "decimalLongitude": "-77.226597",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "5250887",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:09:48.388Z"
+  },
+  "4500752951": {
+   "decimalLatitude": "48.019906",
+   "decimalLongitude": "-122.805245",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "2579320",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:43:32.605Z"
+  },
+  "4506214313": {
+   "decimalLatitude": "40.715672",
+   "decimalLongitude": "-77.750205",
+   "countryCode": "US",
+   "year": "2017",
+   "taxonKey": "2545089",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:32:33.289Z"
+  },
+  "4507607585": {
+   "decimalLatitude": "43.35943",
+   "decimalLongitude": "-80.330521",
+   "countryCode": "CA",
+   "year": "2022",
+   "taxonKey": "5247228",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:16:03.220Z"
+  },
+  "4507870091": {
+   "decimalLatitude": "42.447754",
+   "decimalLongitude": "-76.475944",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "4170",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:15:38.258Z"
+  },
+  "4510027432": {
+   "decimalLatitude": "41.330207",
+   "decimalLongitude": "-81.410197",
+   "countryCode": "US",
+   "year": "2020",
+   "taxonKey": "8956209",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:43:36.629Z"
+  },
+  "4516459112": {
+   "decimalLatitude": "39.734208",
+   "decimalLongitude": "-82.216553",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "5243525",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:03:58.636Z"
+  },
+  "4518955755": {
+   "decimalLatitude": "48.463787",
+   "decimalLongitude": "-122.994052",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "5244454",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:43:39.159Z"
+  },
+  "4599765069": {
+   "decimalLatitude": "40.603612",
+   "decimalLongitude": "-75.374458",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "3306348",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:44:11.125Z"
+  },
+  "4600019137": {
+   "decimalLatitude": "40.603478",
+   "decimalLongitude": "-75.374383",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "3306348",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:54:38.578Z"
+  },
+  "4606542869": {
+   "decimalLatitude": "42.394311",
+   "decimalLongitude": "-122.303632",
+   "countryCode": "US",
+   "year": "2022",
+   "taxonKey": "5499776",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:09:49.474Z"
+  },
+  "4846751756": {
+   "decimalLatitude": "40.068262",
+   "decimalLongitude": "-77.248811",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "3408377",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:16:03.450Z"
+  },
+  "4852392764": {
+   "decimalLatitude": "39.431914",
+   "decimalLongitude": "-76.933267",
+   "countryCode": "US",
+   "year": "2021",
+   "taxonKey": "2543824",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:54:49.927Z"
+  },
+  "4854796859": {
+   "decimalLatitude": "40.825792",
+   "decimalLongitude": "-78.132197",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "2581365",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:30:52.678Z"
+  },
+  "4855117547": {
+   "decimalLatitude": "40.990667",
+   "decimalLongitude": "-77.765219",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "7643901",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:54:43.401Z"
+  },
+  "4863660230": {
+   "decimalLatitude": "39.653623",
+   "decimalLongitude": "-79.744369",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "3306348",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:55:13.277Z"
+  },
+  "4891755564": {
+   "decimalLatitude": "42.305405",
+   "decimalLongitude": "-83.640853",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "2561802",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:16:28.050Z"
+  },
+  "4901230862": {
+   "decimalLatitude": "39.981645",
+   "decimalLongitude": "-75.25833",
+   "countryCode": "US",
+   "year": "2022",
+   "taxonKey": "9648066",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:09:56.856Z"
+  },
+  "4901799479": {
+   "decimalLatitude": "40.022636",
+   "decimalLongitude": "-75.196847",
+   "countryCode": "US",
+   "year": "2021",
+   "taxonKey": "9648066",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:54:55.964Z"
+  },
+  "4904304061": {
+   "decimalLatitude": "40.971458",
+   "decimalLongitude": "-77.171792",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "2538084",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:16:48.009Z"
+  },
+  "4910752242": {
+   "decimalLatitude": "38.890636",
+   "decimalLongitude": "-79.644536",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "3552956",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:17:18.947Z"
+  },
+  "4910945865": {
+   "decimalLatitude": "40.593536",
+   "decimalLongitude": "-78.10331",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "8117273",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:55:20.556Z"
+  },
+  "4919331748": {
+   "decimalLatitude": "43.3066",
+   "decimalLongitude": "-80.364838",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "7693097",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:44:57.679Z"
+  },
+  "4919610992": {
+   "decimalLatitude": "41.330238",
+   "decimalLongitude": "-76.273467",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "3552956",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:44:59.299Z"
+  },
+  "4919679625": {
+   "decimalLatitude": "43.304583",
+   "decimalLongitude": "-80.398963",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "5239982",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:31:28.951Z"
+  },
+  "4919693440": {
+   "decimalLatitude": "43.304803",
+   "decimalLongitude": "-80.399955",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "7693097",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:55:10.818Z"
+  },
+  "4923873214": {
+   "decimalLatitude": "45.928444",
+   "decimalLongitude": "-74.720322",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "2538524",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:17:52.489Z"
+  },
+  "4923908528": {
+   "decimalLatitude": "38.138299",
+   "decimalLongitude": "-75.502465",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "2537958",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:45:09.138Z"
+  },
+  "4924001495": {
+   "decimalLatitude": "42.683445",
+   "decimalLongitude": "-83.478924",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "3283164",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:45:01.660Z"
+  },
+  "4925968649": {
+   "decimalLatitude": "42.453939",
+   "decimalLongitude": "-83.144556",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "4170",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:31:30.489Z"
+  },
+  "4926030527": {
+   "decimalLatitude": "41.205117",
+   "decimalLongitude": "-75.613211",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "3345400",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:00:32.866Z"
+  },
+  "4935931126": {
+   "decimalLatitude": "41.736919",
+   "decimalLongitude": "-79.0903",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "7646591",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:11:20.363Z"
+  },
+  "4936991668": {
+   "decimalLatitude": "41.737264",
+   "decimalLongitude": "-79.090861",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "6014366",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:17:48.939Z"
+  },
+  "4945532045": {
+   "decimalLatitude": "41.371867",
+   "decimalLongitude": "-77.385078",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "5258860",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:33:36.631Z"
+  },
+  "4945668252": {
+   "decimalLatitude": "38.901405",
+   "decimalLongitude": "-76.998178",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "2566443",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:18:00.646Z"
+  },
+  "4946002612": {
+   "decimalLatitude": "43.302047",
+   "decimalLongitude": "-80.362162",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "5247228",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:31:47.930Z"
+  },
+  "4946624010": {
+   "decimalLatitude": "43.307637",
+   "decimalLongitude": "-80.365897",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "7698695",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:33:57.543Z"
+  },
+  "4950233767": {
+   "decimalLatitude": "43.55282",
+   "decimalLongitude": "-79.707375",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "2566443",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:17:19.288Z"
+  },
+  "4950443111": {
+   "decimalLatitude": "44.03921",
+   "decimalLongitude": "-123.058195",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "2542126",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:04:48.704Z"
+  },
+  "4950572867": {
+   "decimalLatitude": "40.01125",
+   "decimalLongitude": "-83.0178",
+   "countryCode": "US",
+   "year": "2019",
+   "taxonKey": "12201735",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:45:13.179Z"
+  },
+  "4953023546": {
+   "decimalLatitude": "40.429063",
+   "decimalLongitude": "-78.019575",
+   "countryCode": "US",
+   "year": "2016",
+   "taxonKey": "9733542",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:11:59.456Z"
+  },
+  "4974055998": {
+   "decimalLatitude": "48.038445",
+   "decimalLongitude": "-122.12534",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "2538000",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:34:12.759Z"
+  },
+  "4976189661": {
+   "decimalLatitude": "48.7798",
+   "decimalLongitude": "-123.453988",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "3293632",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:32:05.716Z"
+  },
+  "4978235532": {
+   "decimalLatitude": "48.916981",
+   "decimalLongitude": "-123.421539",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "5955386",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:32:09.105Z"
+  },
+  "4978241434": {
+   "decimalLatitude": "42.32509",
+   "decimalLongitude": "-72.641201",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "2566443",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:05:00.419Z"
+  },
+  "4978596053": {
+   "decimalLatitude": "43.033627",
+   "decimalLongitude": "-76.136081",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "10918048",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:56:03.513Z"
+  },
+  "4978639265": {
+   "decimalLatitude": "48.842563",
+   "decimalLongitude": "-123.285203",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "5255490",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:35:19.728Z"
+  },
+  "4980290899": {
+   "decimalLatitude": "48.112867",
+   "decimalLongitude": "-123.417143",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "3322440",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:55:46.649Z"
+  },
+  "4980290918": {
+   "decimalLatitude": "48.49292",
+   "decimalLongitude": "-123.345658",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "2533783",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:49:15.514Z"
+  },
+  "4980298848": {
+   "decimalLatitude": "48.493033",
+   "decimalLongitude": "-123.345588",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "2533783",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:02:24.734Z"
+  },
+  "4980397926": {
+   "decimalLatitude": "48.479217",
+   "decimalLongitude": "-123.30407",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "7246716",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:01:13.761Z"
+  },
+  "4980430338": {
+   "decimalLatitude": "48.03968",
+   "decimalLongitude": "-123.435868",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "3324249",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:05:03.071Z"
+  },
+  "4980460847": {
+   "decimalLatitude": "48.549355",
+   "decimalLongitude": "-123.479028",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "2527585",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:55:50.354Z"
+  },
+  "4980474093": {
+   "decimalLatitude": "48.550442",
+   "decimalLongitude": "-123.5046",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "10772490",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:35:15.884Z"
+  },
+  "4980522094": {
+   "decimalLatitude": "48.493042",
+   "decimalLongitude": "-123.345628",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "3268941",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:02:19.928Z"
+  },
+  "4980569851": {
+   "decimalLatitude": "48.3773",
+   "decimalLongitude": "-123.791764",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "5466954",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:48:35.128Z"
+  },
+  "4980574472": {
+   "decimalLatitude": "48.501087",
+   "decimalLongitude": "-123.344173",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "8064813",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:45:38.965Z"
+  },
+  "4980675906": {
+   "decimalLatitude": "48.542362",
+   "decimalLongitude": "-123.50843",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "3351455",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:56:05.133Z"
+  },
+  "4980691542": {
+   "decimalLatitude": "48.550253",
+   "decimalLongitude": "-123.477692",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "5452808",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:45:29.724Z"
+  },
+  "4980713416": {
+   "decimalLatitude": "48.492805",
+   "decimalLongitude": "-123.345725",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "5243243",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:56:01.191Z"
+  },
+  "4980736846": {
+   "decimalLatitude": "48.441441",
+   "decimalLongitude": "-123.301488",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "8191641",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:35:52.148Z"
+  },
+  "4980739900": {
+   "decimalLatitude": "48.493003",
+   "decimalLongitude": "-123.345628",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "5243525",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:35:01.352Z"
+  },
+  "4980743397": {
+   "decimalLatitude": "48.455903",
+   "decimalLongitude": "-123.276497",
+   "countryCode": "CA",
+   "year": "2023",
+   "taxonKey": "2534804",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:17:34.488Z"
+  },
+  "4981967679": {
+   "decimalLatitude": "48.52737",
+   "decimalLongitude": "-123.484783",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "5244414",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:34:46.718Z"
+  },
+  "4982174354": {
+   "decimalLatitude": "48.483188",
+   "decimalLongitude": "-123.550492",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "2534578",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:11:47.114Z"
+  },
+  "4982336994": {
+   "decimalLatitude": "47.619904",
+   "decimalLongitude": "-122.317657",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "8168319",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:17:39.818Z"
+  },
+  "4987489744": {
+   "decimalLatitude": "43.686247",
+   "decimalLongitude": "-122.711254",
+   "countryCode": "US",
+   "year": "2022",
+   "taxonKey": "2593181",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:11:24.407Z"
+  },
+  "4987501394": {
+   "decimalLatitude": "48.455223",
+   "decimalLongitude": "-123.275903",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "5243756",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:18:53.194Z"
+  },
+  "4994037065": {
+   "decimalLatitude": "49.494287",
+   "decimalLongitude": "-123.778862",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "11011338",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:04:57.836Z"
+  },
+  "4994340130": {
+   "decimalLatitude": "40.538015",
+   "decimalLongitude": "-80.10971",
+   "countryCode": "US",
+   "year": "2016",
+   "taxonKey": "2581823",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:55:54.118Z"
+  },
+  "4994433252": {
+   "decimalLatitude": "49.498161",
+   "decimalLongitude": "-123.779186",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "7005",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:04:58.626Z"
+  },
+  "5007806824": {
+   "decimalLatitude": "47.952433",
+   "decimalLongitude": "-124.385581",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "2584352",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:05:02.447Z"
+  },
+  "5008162714": {
+   "decimalLatitude": "49.350597",
+   "decimalLongitude": "-123.114105",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "3341115",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:45:48.986Z"
+  },
+  "5008242370": {
+   "decimalLatitude": "46.914938",
+   "decimalLongitude": "-122.915742",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "5244536",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:05:15.674Z"
+  },
+  "5008295474": {
+   "decimalLatitude": "47.719056",
+   "decimalLongitude": "-122.05474",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "7872520",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:11:06.685Z"
+  },
+  "5036684590": {
+   "decimalLatitude": "47.808934",
+   "decimalLongitude": "-122.13277",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "2583386",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:45:54.673Z"
+  },
+  "5062461316": {
+   "decimalLatitude": "40.430182",
+   "decimalLongitude": "-78.022775",
+   "countryCode": "US",
+   "year": "2016",
+   "taxonKey": "3427815",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:32:32.516Z"
+  },
+  "5062477314": {
+   "decimalLatitude": "39.762073",
+   "decimalLongitude": "-78.35937",
+   "countryCode": "US",
+   "year": "2016",
+   "taxonKey": "7246646",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:35:46.083Z"
+  },
+  "5062486323": {
+   "decimalLatitude": "39.762218",
+   "decimalLongitude": "-78.359217",
+   "countryCode": "US",
+   "year": "2016",
+   "taxonKey": "2606191",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:17:59.414Z"
+  },
+  "5062508318": {
+   "decimalLatitude": "39.762148",
+   "decimalLongitude": "-78.359465",
+   "countryCode": "US",
+   "year": "2016",
+   "taxonKey": "8597577",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:45:57.701Z"
+  },
+  "5062515317": {
+   "decimalLatitude": "39.762073",
+   "decimalLongitude": "-78.35937",
+   "countryCode": "US",
+   "year": "2016",
+   "taxonKey": "6606867",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:45:55.971Z"
+  },
+  "5062802110": {
+   "decimalLatitude": "48.944203",
+   "decimalLongitude": "-122.279019",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "6015633",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:17:58.242Z"
+  },
+  "5062855349": {
+   "decimalLatitude": "43.367158",
+   "decimalLongitude": "-80.31727",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "2547092",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:50:04.116Z"
+  },
+  "5062858009": {
+   "decimalLatitude": "48.843309",
+   "decimalLongitude": "-121.686813",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "6015633",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:32:40.819Z"
+  },
+  "5062929566": {
+   "decimalLatitude": "40.075031",
+   "decimalLongitude": "-82.985962",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "2549259",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:32:31.391Z"
+  },
+  "5063460955": {
+   "decimalLatitude": "48.939335",
+   "decimalLongitude": "-123.584398",
+   "countryCode": "CA",
+   "year": "2025",
+   "taxonKey": "5452326",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:10:55.231Z"
+  },
+  "5069785030": {
+   "decimalLatitude": "49.369067",
+   "decimalLongitude": "-123.352961",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "2600224",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:50:16.646Z"
+  },
+  "5069797619": {
+   "decimalLatitude": "41.44468",
+   "decimalLongitude": "-73.842743",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "8268211",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:56:20.129Z"
+  },
+  "5077053610": {
+   "decimalLatitude": "49.351836",
+   "decimalLongitude": "-123.391066",
+   "countryCode": "CA",
+   "year": "2025",
+   "taxonKey": "2600224",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:12:28.962Z"
+  },
+  "5086880347": {
+   "decimalLatitude": "39.861117",
+   "decimalLongitude": "-78.641855",
+   "countryCode": "US",
+   "year": "2016",
+   "taxonKey": "9227816",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:36:28.284Z"
+  },
+  "5086881394": {
+   "decimalLatitude": "40.167928",
+   "decimalLongitude": "-79.231606",
+   "countryCode": "US",
+   "year": "2018",
+   "taxonKey": "5247228",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:32:50.148Z"
+  },
+  "5086980568": {
+   "decimalLatitude": "47.007409",
+   "decimalLongitude": "-124.161365",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "2533895",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:56:29.637Z"
+  },
+  "5087075707": {
+   "decimalLatitude": "41.191266",
+   "decimalLongitude": "-74.909101",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "8268211",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:19:15.339Z"
+  },
+  "5104273730": {
+   "decimalLatitude": "43.38142",
+   "decimalLongitude": "-80.352406",
+   "countryCode": "CA",
+   "year": "2022",
+   "taxonKey": "2526942",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:35:44.065Z"
+  },
+  "5140025425": {
+   "decimalLatitude": "48.363404",
+   "decimalLongitude": "-122.476504",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "5244517",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:01:23.931Z"
+  },
+  "5154042193": {
+   "decimalLatitude": "43.384033",
+   "decimalLongitude": "-80.353517",
+   "countryCode": "CA",
+   "year": "2025",
+   "taxonKey": "2547092",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:05:36.220Z"
+  },
+  "5166791320": {
+   "decimalLatitude": "40.060013",
+   "decimalLongitude": "-79.3197",
+   "countryCode": "US",
+   "year": "2020",
+   "taxonKey": "2600703",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:36:23.963Z"
+  },
+  "5167909307": {
+   "decimalLatitude": "39.545358",
+   "decimalLongitude": "-79.096194",
+   "countryCode": "US",
+   "year": "2018",
+   "taxonKey": "7246650",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:02:22.756Z"
+  },
+  "5187672452": {
+   "decimalLatitude": "45.459695",
+   "decimalLongitude": "-72.212341",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "3451787",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:36:02.473Z"
+  },
+  "5205820452": {
+   "decimalLatitude": "49.33535",
+   "decimalLongitude": "-123.408294",
+   "countryCode": "CA",
+   "year": "2025",
+   "taxonKey": "2600224",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:33:58.289Z"
+  },
+  "5206104505": {
+   "decimalLatitude": "49.335475",
+   "decimalLongitude": "-123.408311",
+   "countryCode": "CA",
+   "year": "2025",
+   "taxonKey": "2600224",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:01:52.924Z"
+  },
+  "5206485518": {
+   "decimalLatitude": "49.378556",
+   "decimalLongitude": "-123.332536",
+   "countryCode": "CA",
+   "year": "2025",
+   "taxonKey": "2600224",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:13:12.193Z"
+  },
+  "5206607506": {
+   "decimalLatitude": "49.335339",
+   "decimalLongitude": "-123.408264",
+   "countryCode": "CA",
+   "year": "2025",
+   "taxonKey": "2600224",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:02:10.770Z"
+  },
+  "5206654478": {
+   "decimalLatitude": "49.335491",
+   "decimalLongitude": "-123.408302",
+   "countryCode": "CA",
+   "year": "2025",
+   "taxonKey": "2600224",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:01:55.746Z"
+  },
+  "5216421601": {
+   "decimalLatitude": "40.054997",
+   "decimalLongitude": "-75.257662",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "2586103",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:36:38.967Z"
+  },
+  "5230056512": {
+   "decimalLatitude": "42.941507",
+   "decimalLongitude": "-83.354975",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "2554340",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:11:49.945Z"
+  },
+  "5238351587": {
+   "decimalLatitude": "42.771453",
+   "decimalLongitude": "-83.381679",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "5240302",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:47:00.207Z"
+  },
+  "5293045588": {
+   "decimalLatitude": "40.424607",
+   "decimalLongitude": "-80.021327",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "3505071",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:51:01.534Z"
+  },
+  "5293325019": {
+   "decimalLatitude": "38.805962",
+   "decimalLongitude": "-77.581847",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "3359489",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:21:03.043Z"
+  },
+  "5760838365": {
+   "decimalLatitude": "38.39564",
+   "decimalLongitude": "-76.429346",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "9808003",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:52:22.161Z"
+  },
+  "5828650991": {
+   "decimalLatitude": "38.717258",
+   "decimalLongitude": "-79.628628",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "3306348",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:47:22.035Z"
+  },
+  "5830633573": {
+   "decimalLatitude": "47.397316",
+   "decimalLongitude": "-121.408303",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "3342669",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:13:09.076Z"
+  },
+  "5830901685": {
+   "decimalLatitude": "39.112465",
+   "decimalLongitude": "-79.595355",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "7240050",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:35:21.504Z"
+  },
+  "5840108291": {
+   "decimalLatitude": "48.786365",
+   "decimalLongitude": "-122.495836",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "8168319",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:06:32.837Z"
+  },
+  "5840241778": {
+   "decimalLatitude": "42.261853",
+   "decimalLongitude": "-70.923364",
+   "countryCode": "US",
+   "year": "2017",
+   "taxonKey": "2577239",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:35:23.489Z"
+  },
+  "5840430528": {
+   "decimalLatitude": "40.74162",
+   "decimalLongitude": "-73.911697",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "5239478",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:21:30.272Z"
+  },
+  "5868129274": {
+   "decimalLatitude": "42.858933",
+   "decimalLongitude": "-72.525475",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "6009534",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:05:40.021Z"
+  },
+  "5868279402": {
+   "decimalLatitude": "45.017235",
+   "decimalLongitude": "-78.5318",
+   "countryCode": "CA",
+   "year": "2025",
+   "taxonKey": "2568748",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:37:40.040Z"
+  },
+  "5889494534": {
+   "decimalLatitude": "48.441355",
+   "decimalLongitude": "-123.331863",
+   "countryCode": "CA",
+   "year": "2025",
+   "taxonKey": "8168319",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:35:39.016Z"
+  },
+  "5889629752": {
+   "decimalLatitude": "48.786622",
+   "decimalLongitude": "-122.496333",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "8168319",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:14:01.145Z"
+  },
+  "5889665549": {
+   "decimalLatitude": "42.455833",
+   "decimalLongitude": "-83.98735",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "2534804",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:35:38.436Z"
+  },
+  "5890025428": {
+   "decimalLatitude": "48.438325",
+   "decimalLongitude": "-123.292695",
+   "countryCode": "CA",
+   "year": "2025",
+   "taxonKey": "8197849",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:20:55.254Z"
+  },
+  "5890041097": {
+   "decimalLatitude": "47.48592",
+   "decimalLongitude": "-122.051094",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "2534205",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:12:57.960Z"
+  },
+  "5890165315": {
+   "decimalLatitude": "47.461421",
+   "decimalLongitude": "-122.12816",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "4911825",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:38:09.045Z"
+  },
+  "5890255078": {
+   "decimalLatitude": "48.093822",
+   "decimalLongitude": "-123.558937",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "3488019",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:37:47.836Z"
+  },
+  "5890367576": {
+   "decimalLatitude": "48.802805",
+   "decimalLongitude": "-123.438387",
+   "countryCode": "CA",
+   "year": "2025",
+   "taxonKey": "9015858",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:05:55.256Z"
+  },
+  "5892737377": {
+   "decimalLatitude": "42.572467",
+   "decimalLongitude": "-83.250267",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "2534537",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:20:56.342Z"
+  },
+  "5892771187": {
+   "decimalLatitude": "44.255625",
+   "decimalLongitude": "-72.56729",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "2566443",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:57:41.670Z"
+  },
+  "5892835456": {
+   "decimalLatitude": "43.767376",
+   "decimalLongitude": "-72.487348",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "2566443",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:06:30.457Z"
+  },
+  "5897504167": {
+   "decimalLatitude": "48.032106",
+   "decimalLongitude": "-123.59323",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "2522009",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:47:41.800Z"
+  },
+  "5897569639": {
+   "decimalLatitude": "48.432462",
+   "decimalLongitude": "-123.466995",
+   "countryCode": "CA",
+   "year": "2025",
+   "taxonKey": "5249353",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:13:31.957Z"
+  },
+  "5897586073": {
+   "decimalLatitude": "48.432562",
+   "decimalLongitude": "-123.466042",
+   "countryCode": "CA",
+   "year": "2025",
+   "taxonKey": "5249353",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:47:36.139Z"
+  },
+  "5903767480": {
+   "decimalLatitude": "48.435067",
+   "decimalLongitude": "-123.510055",
+   "countryCode": "CA",
+   "year": "2025",
+   "taxonKey": "3449007",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:06:26.020Z"
+  },
+  "5908724229": {
+   "decimalLatitude": "45.277087",
+   "decimalLongitude": "-121.737039",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "3488019",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:51:24.028Z"
+  },
+  "5908799039": {
+   "decimalLatitude": "42.440111",
+   "decimalLongitude": "-76.466678",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "3482529",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:21:50.665Z"
+  },
+  "5932222172": {
+   "decimalLatitude": "48.727256",
+   "decimalLongitude": "-122.485783",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "9107939",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:57:47.935Z"
+  },
+  "5932444164": {
+   "decimalLatitude": "48.443639",
+   "decimalLongitude": "-123.723183",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "3351455",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:51:26.883Z"
+  },
+  "5935548762": {
+   "decimalLatitude": "49.311803",
+   "decimalLongitude": "-124.55372",
+   "countryCode": "CA",
+   "year": "2025",
+   "taxonKey": "5244501",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:53:19.960Z"
+  },
+  "5936284541": {
+   "decimalLatitude": "43.358944",
+   "decimalLongitude": "-80.327699",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "2543528",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:39:15.440Z"
+  },
+  "6129990037": {
+   "decimalLatitude": "40.809453",
+   "decimalLongitude": "-77.288833",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "3552956",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:06:38.912Z"
+  },
+  "6130142327": {
+   "decimalLatitude": "40.84692",
+   "decimalLongitude": "-79.409408",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "7729510",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:22:25.610Z"
+  },
+  "6130736091": {
+   "decimalLatitude": "48.432617",
+   "decimalLongitude": "-123.466055",
+   "countryCode": "CA",
+   "year": "2025",
+   "taxonKey": "2542292",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:22:16.777Z"
+  },
+  "6130837737": {
+   "decimalLatitude": "48.996855",
+   "decimalLongitude": "-123.657228",
+   "countryCode": "CA",
+   "year": "2025",
+   "taxonKey": "2519269",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:37:55.061Z"
+  },
+  "6131047707": {
+   "decimalLatitude": "45.1006",
+   "decimalLongitude": "-74.608017",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "2554614",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:38:55.379Z"
+  },
+  "6131084803": {
+   "decimalLatitude": "45.866438",
+   "decimalLongitude": "-77.69693",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "7240044",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:06:49.279Z"
+  },
+  "6133051519": {
+   "decimalLatitude": "45.645544",
+   "decimalLongitude": "-122.765025",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "2534558",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:38:07.617Z"
+  },
+  "6147208220": {
+   "decimalLatitude": "40.208613",
+   "decimalLongitude": "-75.745553",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "2551150",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:48:13.614Z"
+  },
+  "6159330838": {
+   "decimalLatitude": "45.37482",
+   "decimalLongitude": "-73.941421",
+   "countryCode": "CA",
+   "year": "2015",
+   "taxonKey": "7825358",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:36:10.171Z"
+  },
+  "6184849622": {
+   "decimalLatitude": "47.429553",
+   "decimalLongitude": "-122.650035",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "2581565",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:48:20.790Z"
+  },
+  "6186001244": {
+   "decimalLatitude": "48.460053",
+   "decimalLongitude": "-123.306992",
+   "countryCode": "CA",
+   "year": "2025",
+   "taxonKey": "2512925",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:36:40.806Z"
+  },
+  "6188053102": {
+   "decimalLatitude": "41.371775",
+   "decimalLongitude": "-77.384578",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "5463107",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:06:53.416Z"
+  },
+  "6195868763": {
+   "decimalLatitude": "48.802933",
+   "decimalLongitude": "-123.43847",
+   "countryCode": "CA",
+   "year": "2025",
+   "taxonKey": "9015858",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:52:22.609Z"
+  },
+  "6195964599": {
+   "decimalLatitude": "43.466878",
+   "decimalLongitude": "-80.544633",
+   "countryCode": "CA",
+   "year": "2024",
+   "taxonKey": "9117055",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:07:12.149Z"
+  },
+  "6234666902": {
+   "decimalLatitude": "48.37858",
+   "decimalLongitude": "-123.918058",
+   "countryCode": "CA",
+   "year": "2025",
+   "taxonKey": "3341115",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:05:27.985Z"
+  },
+  "6320485679": {
+   "decimalLatitude": "43.055589",
+   "decimalLongitude": "-70.96132",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "2525710",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:53:02.909Z"
+  },
+  "6320788360": {
+   "decimalLatitude": "42.495158",
+   "decimalLongitude": "-76.79438",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "2577646",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:23:49.997Z"
+  },
+  "6334734989": {
+   "decimalLatitude": "45.5678",
+   "decimalLongitude": "-122.623474",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "5464365",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:07:16.353Z"
+  },
+  "6399368731": {
+   "decimalLatitude": "42.61682",
+   "decimalLongitude": "-83.915928",
+   "countryCode": "US",
+   "year": "2021",
+   "taxonKey": "2551169",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:07:21.520Z"
+  },
+  "6399591178": {
+   "decimalLatitude": "42.681867",
+   "decimalLongitude": "-83.171347",
+   "countryCode": "US",
+   "year": "2020",
+   "taxonKey": "2554318",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:58:59.596Z"
+  },
+  "6400193117": {
+   "decimalLatitude": "40.757287",
+   "decimalLongitude": "-82.517875",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "2579320",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:23:04.763Z"
+  },
+  "6413230571": {
+   "decimalLatitude": "45.092756",
+   "decimalLongitude": "-74.527778",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "2533355",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:49:04.871Z"
+  },
+  "6430911792": {
+   "decimalLatitude": "40.171992",
+   "decimalLongitude": "-79.235263",
+   "countryCode": "US",
+   "year": "2023",
+   "taxonKey": "3306348",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:37:28.233Z"
+  },
+  "6431433551": {
+   "decimalLatitude": "48.903252",
+   "decimalLongitude": "-123.757483",
+   "countryCode": "CA",
+   "year": "2025",
+   "taxonKey": "2519269",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:52:35.081Z"
+  },
+  "6451510886": {
+   "decimalLatitude": "40.617165",
+   "decimalLongitude": "-80.016697",
+   "countryCode": "US",
+   "year": "2022",
+   "taxonKey": "2551439",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:23:33.809Z"
+  },
+  "6452635808": {
+   "decimalLatitude": "38.644863",
+   "decimalLongitude": "-77.17643",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "2540800",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:59:01.426Z"
+  },
+  "6469826732": {
+   "decimalLatitude": "42.443961",
+   "decimalLongitude": "-76.501881",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "7246646",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:37:46.330Z"
+  },
+  "6480217568": {
+   "decimalLatitude": "40.08156",
+   "decimalLongitude": "-75.230014",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "2512861",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:23:53.312Z"
+  },
+  "6498562693": {
+   "decimalLatitude": "43.649775",
+   "decimalLongitude": "-79.446316",
+   "countryCode": "CA",
+   "year": "2021",
+   "taxonKey": "5254422",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:59:14.575Z"
+  },
+  "6500469352": {
+   "decimalLatitude": "47.579259",
+   "decimalLongitude": "-122.662248",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "2579320",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T06:07:47.462Z"
+  },
+  "6518590626": {
+   "decimalLatitude": "39.114925",
+   "decimalLongitude": "-79.593872",
+   "countryCode": "US",
+   "year": "2025",
+   "taxonKey": "2524730",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:40:45.204Z"
+  },
+  "6519414444": {
+   "decimalLatitude": "39.549003",
+   "decimalLongitude": "-82.290542",
+   "countryCode": "US",
+   "year": "2024",
+   "taxonKey": "2554340",
+   "basisOfRecord": "HUMAN_OBSERVATION",
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "lastInterpreted": "2026-09-11T05:38:12.767Z"
+  }
+ }
+}

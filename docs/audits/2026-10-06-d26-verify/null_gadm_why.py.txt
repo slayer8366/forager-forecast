@@ -1,0 +1,56 @@
+"""D26 verify item 4, third pass: is the missing GADM tag tied to a reprocessing batch?
+
+Counts null-GADM US and Canada records by issue, dataset and last-interpreted date; samples
+the 149 country-tagged records whose GADM tag is another country and the 15 the other way.
+"""
+
+import json
+import sys
+
+from tag_test import BASE, country, gadm, neg, post
+
+NULL_GADM = {"type": "isNull", "parameter": "GADM_LEVEL_0_GID"}
+INAT = "50c9509d-22c7-4a22-a47d-8c48425ef4a7"
+
+
+def count(*extra):
+    return post({"predicate": {"type": "and", "predicates": BASE + list(extra)}, "limit": 0})["count"]
+
+
+def sample(n, *extra):
+    body = {"predicate": {"type": "and", "predicates": BASE + list(extra)}, "limit": n}
+    return post(body)["results"]
+
+
+USCA = country("US", "CA")
+TAXON_NF = {"type": "equals", "key": "ISSUE", "value": "TAXON_ID_NOT_FOUND"}
+INAT_P = {"type": "equals", "key": "DATASET_KEY", "value": INAT}
+SINCE = {"type": "greaterThanOrEquals", "key": "LAST_INTERPRETED", "value": "2026-09-29"}
+out = {
+    "null_gadm_usca": count(NULL_GADM, USCA),
+    "null_gadm_usca_taxon_id_not_found": count(NULL_GADM, USCA, TAXON_NF),
+    "null_gadm_usca_inat": count(NULL_GADM, USCA, INAT_P),
+    "null_gadm_usca_interpreted_since_2026_09_29": count(NULL_GADM, USCA, SINCE),
+    "usca_taxon_id_not_found": count(USCA, TAXON_NF),
+    "usca_interpreted_since_2026_09_29": count(USCA, SINCE),
+    "notnull_gadm_usca_interpreted_since_2026_09_29": count(
+        {"type": "isNotNull", "parameter": "GADM_LEVEL_0_GID"}, USCA, SINCE
+    ),
+    "null_gadm_all_countries": count(NULL_GADM),
+    "null_gadm_all_interpreted_since_2026_09_29": count(NULL_GADM, SINCE),
+}
+json.dump(out, sys.stdout, indent=1)
+print()
+F = ("key", "country", "gadm", "decimalLatitude", "decimalLongitude", "stateProvince",
+     "issues", "coordinateUncertaintyInMeters", "lastInterpreted", "datasetKey")
+slim = lambda rs: [{f: r.get(f) for f in F} for r in rs]
+json.dump(
+    {
+        "country_usca_gadm_other": slim(sample(20, USCA, neg(gadm("USA", "CAN")),
+                                              {"type": "isNotNull", "parameter": "GADM_LEVEL_0_GID"})),
+        "gadm_usacan_country_other": slim(sample(15, gadm("USA", "CAN"), neg(USCA))),
+        "null_gadm_usca_not_since": slim(sample(10, NULL_GADM, USCA, neg(SINCE))),
+    },
+    open("mismatch_samples.json", "w"),
+    indent=1,
+)
