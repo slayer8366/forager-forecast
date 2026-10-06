@@ -1,0 +1,131 @@
+"""Strict revert runner for T6 (effort.py, effort_evaluation.py, filters.py, occurrence.py).
+Run from the worktree root:
+uv run python docs/audits/2026-10-06-t6-fit/revert.py.txt <results.jsonl>
+
+Per check: save the file's bytes; make one edit (must match exactly once); clear __pycache__;
+confirm a fresh interpreter imports the edited source (sha256 of the module file); run the two
+effort test files with a fresh JUnit XML; refuse on any exit other than 1, any error (a collection
+or import error is a build that did not run), or a missing XML; refuse unless the test named for
+that edit is among the failures; restore from the saved bytes, never from git; confirm the file
+is byte-identical to the saved copy. At the end, confirm git diff is empty for every touched file,
+so the forward change the checks vouch for is still the committed one.
+"""
+import hashlib, json, os, pathlib, shutil, subprocess, sys, xml.etree.ElementTree as ET
+
+ROOT = pathlib.Path.cwd()
+EFFORT = ("src/forager_forecast/effort.py", "forager_forecast.effort")
+EVAL = ("src/forager_forecast/effort_evaluation.py", "forager_forecast.effort_evaluation")
+FILTERS = ("src/forager_forecast/records/filters.py", "forager_forecast.records.filters")
+LOADER = ("src/forager_forecast/records/occurrence.py", "forager_forecast.records.occurrence")
+TESTS = ["tests/test_effort.py", "tests/test_effort_evaluation.py"]
+XML = ROOT / ".revert_junit.xml"
+CHECKS = [
+    ("R1 weekend starts Friday", EFFORT, "return WEEKEND if day.weekday() >= 5 else WEEKDAY",
+     "return WEEKEND if day.weekday() >= 4 else WEEKDAY", "test_weekend_is_saturday_and_sunday"),
+    ("R2 week 53 gets its own slot", EFFORT, "return min(week.week, N_SLOTS) - 1",
+     "return week.week - 1", "test_week_53_shares_week_52s_slot"),
+    ("R3 one anonymous observer overall", EFFORT,
+     'return record.recorded_by if record.recorded_by else f"anonymous:{record.dataset_key}"',
+     'return record.recorded_by if record.recorded_by else "anonymous"',
+     "test_empty_observer_is_one_anonymous_observer_per_dataset"),
+    ("R4 every recognised licence in the CC track", EFFORT,
+     "elif record.license in CC_TRACK_LICENSES:", "else:", "test_tracks_by_licence_and_benchmark"),
+    ("R5 partial first week kept", EFFORT, "if monday >= FIRST_DAY:", "if True:",
+     "test_frame_is_the_573_whole_iso_weeks"),
+    ("R6 no sparse-cell pull", EFFORT,
+     "cell_level = (obs_cell + q * average[band] * exposure) / (exposure * (1.0 + q))",
+     "cell_level = obs_cell / exposure",
+     "test_pull_gives_an_unseen_cell_a_positive_level_and_grows_with_lambda"),
+    ("R7 smoothing window not centred", EFFORT,
+     "return sum(np.roll(values, shift, axis=-1) for shift in range(-half, half + 1))",
+     "return sum(np.roll(values, shift, axis=-1) for shift in range(0, 2 * half + 1))",
+     "test_season_smoothing_wraps_around_the_year"),
+    ("R8 zeros left out of the deviance", EFFORT, "return 2.0 * (log_cell - y_cell + mu_cell)",
+     "return 2.0 * (log_cell - y_cell + np.bincount(ci, weights=mu_entry, minlength=counts.n_cells))",
+     "test_per_cell_deviance_given_total_equals_the_dense_deviance"),
+    ("R9 year total not given", EFFORT, "scale = y.sum() / per_cell.sum()", "scale = 1.0",
+     "test_per_cell_deviance_given_total_equals_the_dense_deviance"),
+    ("R10 arithmetic interpolation", EFFORT,
+     "return float(math.sqrt(year_level[max(below)] * year_level[min(above)]))",
+     "return float((year_level[max(below)] + year_level[min(above)]) / 2)",
+     "test_interpolated_scoring_uses_the_neighbouring_years"),
+    ("R11 lichen season not rescaled per band", EFFORT,
+     "season = lichen.season * (fungal_band / lichen_band)[:, None]", "season = lichen.season",
+     "test_combined_surface_keeps_band_level_and_takes_lichen_shape"),
+    ("R12 limit 250 m", FILTERS, "T6_MAX_COORDINATE_UNCERTAINTY_M = 1000.0",
+     "T6_MAX_COORDINATE_UNCERTAINTY_M = 250.0",
+     "test_t6_steps_keep_1000_m_and_drop_obscured_missing_and_wider"),
+    ("R13 event key", FILTERS,
+     'duplicate=DuplicateStep("one record per taxon, observer, cell and day", observer_key),',
+     'duplicate=DuplicateStep("one record per taxon, observer, cell and day", event_key),',
+     "test_t6_steps_keep_1000_m_and_drop_obscured_missing_and_wider"),
+    ("R14 class key not read", LOADER, 'class_key=_optional_int(row.get("classKey", "")),',
+     "class_key=None,", "test_loader_reads_class_key"),
+    ("R15 interval touching 1 passes", EFFORT, "return ratio_interval[0] > 1.0",
+     "return ratio_interval[0] >= 1.0", "test_verdicts_need_the_whole_interval_on_one_side"),
+    ("R16 inner score on the wrong year", EVAL,
+     "scores[(j, h)] = float(ef.surface_deviance(surface, fungi, h).sum())",
+     "scores[(j, h)] = float(ef.surface_deviance(surface, fungi, j).sum())",
+     "test_inner_score_is_the_effort_surface_fitted_without_both_years"),
+    ("R17 empty band not guarded", EFFORT, "season = np.where(denominator > 0, updated, season)",
+     "season = updated", "test_a_resample_without_a_band_still_fits"),
+]
+
+
+def clear_cache():
+    for d in ROOT.rglob("__pycache__"):
+        if ".venv" not in d.parts:
+            shutil.rmtree(d)
+
+
+out = open(sys.argv[1], "w")
+env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1")
+touched = set()
+for name, (path, module), old, new, expected in CHECKS:
+    src = ROOT / path
+    touched.add(path)
+    saved = src.read_bytes()
+    text = saved.decode()
+    assert text.count(old) == 1, (name, text.count(old))
+    edited = text.replace(old, new).encode()
+    try:
+        src.write_bytes(edited)
+        clear_cache()
+        seen = subprocess.run(
+            [sys.executable, "-c",
+             f"import hashlib,{module} as m;print(m.__file__);"
+             "print(hashlib.sha256(open(m.__file__,'rb').read()).hexdigest())"],
+            capture_output=True, text=True, env=env).stdout.split()
+        assert seen[0] == str(src) and seen[1] == hashlib.sha256(edited).hexdigest(), (name, seen)
+        if XML.exists():
+            XML.unlink()
+        r = subprocess.run([sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider", *TESTS,
+                            f"--junitxml={XML}"], capture_output=True, text=True, env=env)
+        if not XML.exists():
+            raise SystemExit(f"{name}: no XML, refusing\n{r.stdout[-2000:]}")
+        root = ET.parse(XML).getroot()
+        suite = root.find("testsuite") if root.find("testsuite") is not None else root
+        errors, failures = int(suite.get("errors")), int(suite.get("failures"))
+        if r.returncode != 1 or errors:
+            raise SystemExit(f"{name}: exit {r.returncode}, errors {errors}, refusing\n{r.stdout[-3000:]}")
+        failed = []
+        for case in suite.iter("testcase"):
+            f = case.find("failure")
+            if f is not None:
+                failed.append({"test": case.get("name"), "message": (f.get("message") or "")[:300]})
+        if expected not in {f["test"] for f in failed}:
+            raise SystemExit(f"{name}: expected {expected} to fail, got {[f['test'] for f in failed]}; refusing")
+        rec = {"check": name, "file": path, "exit": r.returncode, "errors": errors,
+               "failures": failures, "expected": expected, "failed": failed}
+    finally:
+        src.write_bytes(saved)
+        clear_cache()
+    assert src.read_bytes() == saved
+    rec["restored_identical"] = True
+    print(json.dumps(rec)); out.write(json.dumps(rec) + "\n"); out.flush()
+if XML.exists():
+    XML.unlink()
+for path in sorted(touched):
+    d = subprocess.run(["git", "diff", "--stat", "--", path], capture_output=True, text=True).stdout
+    print("git diff after all checks:", path, repr(d))
+    assert d == "", path
