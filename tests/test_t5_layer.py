@@ -243,6 +243,14 @@ def test_the_strip_is_the_planned_one():
     assert scanfi_url("douglasFir", 2025).endswith("SCANFI_spsCC_douglasFir_2025_v2_20260119.tif")
 
 
+def test_scanfis_total_is_read_from_its_own_published_file():
+    # D92. Added by the Amendment 3 review: every fetch test passes its own source_for, so no
+    # test read the real file name, and a wrong name failed no test. The name is the v2 readme's
+    # "Total crown closure (%)" file, as in docs/pulls/t5-scanfi-v2-2025-total-strip.request.json.
+    url = scanfi_url(SCANFI_TOTAL_LAYER, 2025)
+    assert url.endswith("/SCANFI_att_closure_2025_v2_20260119.tif")
+
+
 def test_us_cells_carry_treemap_crown_shares(built):
     bands, _, transform = _read(built["out"] / "host_trees_strip.tif")
     flags, _, _ = _read(built["out"] / "host_trees_strip_flags.tif")

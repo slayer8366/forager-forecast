@@ -1,0 +1,14 @@
+"""Section 9's sensitivity bullet: under the filed (old) null, is the first build's Pseudotsuga share an
+artifact at scales 0.7 and 1.3 too, and what is each build's old-rule verdict there? Reuses the sampling
+and old-rule functions of rerun_transects_a3.py.txt (exec'd without its main body). Read only.
+Run: uv run --frozen python docs/audits/2026-10-06-t5-amendment-3-review/old_rule_scales.py.txt
+"""
+from pathlib import Path
+src = Path("docs/audits/2026-10-06-t5-amendment-3-review/rerun_transects_a3.py.txt").read_text()
+exec(src[: src.index('print("== 1. hashes")')] + src[src.index("def old_verdict"): src.index("def same")])
+for build in ("tree_list", "treemap_canopy", "d92"):
+    for scale in ("0.7", "1.3"):
+        for band in TESTED[:3]:
+            o = old_verdict(*samples(T5 / f"master_{build}_scale_{scale}" / "host_trees_strip.tif", band))
+            print(f"{build:15s} {scale} {band:18s} n={o['n']} rows us/ca={o['null_rows_us']}/{o['null_rows_ca']} "
+                  f"B={o['B']:.5f} thr={o['threshold']:.5f} artifact={o['artifact']}")

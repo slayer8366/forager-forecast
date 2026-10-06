@@ -1,0 +1,55 @@
+Table 1 rows parsed: 53
+Pacific silver fir           spcd= 11 n=  218 (n ok) table1_max= 35.8 code=35.8 ok
+White fir                    spcd= 15 n=  855 (n ok) table1_max= 62.6 code=62.6 ok
+Grand fir                    spcd= 17 n=  610 (n ok) table1_max= 43.9 code=43.9 ok
+Corkbark fir                 spcd= 18 n=   68 (n ok) table1_max= 18.3 code=18.3 ok
+Subalpine fir                spcd= 19 n= 1262 (n ok) table1_max= 27.4 code=27.4 ok
+California red fir           spcd= 20 n=  160 (n ok) table1_max= 52.3 code=52.3 ok
+Shasta red fir               spcd= 21 n=   63 (n ok) table1_max= 40.1 code=40.1 ok
+Noble fir                    spcd= 22 n=   50 (n ok) table1_max= 46.0 code=46.0 ok
+Port-Orford cedar            spcd= 41 n=   78 (n ok) table1_max= 13.4 code=13.4 ok
+California juniper (w)       spcd= 62 n=   28 (n ok) table1_max= 42.6 code=42.6 ok
+Western juniper (w)          spcd= 64 n=  302 (n ok) table1_max= 45.3 code=45.3 ok
+Utah juniper (w)             spcd= 65 n=  402 (n ok) table1_max= 29.7 code=29.7 ok
+Rocky mtn. juniper (w)       spcd= 66 n=  144 (n ok) table1_max= 38.1 code=38.1 ok
+One-seed juniper (w)         spcd= 69 n=   98 (n ok) table1_max= 36.5 code=36.5 ok
+Western larch                spcd= 73 n=  183 (n ok) table1_max= 23.1 code=23.1 ok
+Incense cedar                spcd= 81 n=  220 (n ok) table1_max= 42.0 code=42.0 ok
+Engelman spruce              spcd= 93 n= 1205 (n ok) table1_max= 35.9 code=35.9 ok
+Sitka spruce                 spcd= 98 n=   53 (n ok) table1_max= 39.2 code=39.2 ok
+Whitebark pine               spcd=101 n=   97 (n ok) table1_max= 24.2 code=24.2 ok
+Bristlecone pine             spcd=102 n=   26 (n ok) table1_max= 18.9 code=18.9 ok
+Common pinyon (w)            spcd=106 n=  278 (n ok) table1_max= 25.5 code=25.5 ok
+Lodgepole pine               spcd=108 n= 2761 (n ok) table1_max= 62.2 code=62.2 ok
+Limber pine                  spcd=113 n=  164 (n ok) table1_max= 20.7 code=20.7 ok
+Jeffrey pine                 spcd=116 n=  108 (n ok) table1_max= 48.1 code=48.1 ok
+Sugar pine                   spcd=117 n=  118 (n ok) table1_max= 44.9 code=44.9 ok
+Western white pine           spcd=119 n=   84 (n ok) table1_max= 38.4 code=38.4 ok
+Ponderosa pine               spcd=122 n= 1413 (n ok) table1_max= 41.3 code=41.3 ok
+Grey pine                    spcd=127 n=   37 (n ok) table1_max= 34.8 code=34.8 ok
+Singleleaf pinyon (w)        spcd=133 n=  323 (n ok) table1_max= 22.7 code=22.7 ok
+Douglas-fir                  spcd=202 n= 4088 (n ok) table1_max= 68.7 code=68.7 ok
+Redwood                      spcd=211 n=   55 (n ok) table1_max= 35.6 code=35.6 ok
+Western redcedar             spcd=242 n=  439 (n ok) table1_max= 62.0 code=62.0 ok
+Western hemlock              spcd=263 n= 1008 (n ok) table1_max= 63.5 code=63.5 ok
+Mountain hemlock             spcd=264 n=  209 (n ok) table1_max= 32.4 code=32.4 ok
+Bigleaf maple                spcd=312 n=  106 (n ok) table1_max= 34.1 code=34.1 ok
+Rocky mtn. maple (w)         spcd=321 n=   70 (n ok) table1_max= 26.2 code=26.2 ok
+Bigtooth maple (w)           spcd=322 n=   48 (n ok) table1_max= 14.7 code=14.7 ok
+Red alder                    spcd=351 n=  409 (n ok) table1_max= 28.3 code=28.3 ok
+White alder                  spcd=352 n=   37 (n ok) table1_max= 18.1 code=18.1 ok
+Pacific madrone              spcd=361 n=  164 (n ok) table1_max= 29.7 code=29.7 ok
+Curlleaf mtn-mahogany        spcd=475 n=  227 (n ok) table1_max= 24.0 code=24.0 ok
+Tanoak                       spcd=631 n=  534 (n ok) table1_max= 31.0 code=31.0 ok
+Quaking aspen                spcd=746 n= 1383 (n ok) table1_max= 19.9 code=19.9 ok
+Narrowleaf cottonwood        spcd=749 n=   44 (n ok) table1_max= 16.6 code=16.6 ok
+Coastal live oak             spcd=801 n=   87 (n ok) table1_max= 40.6 code=40.6 ok
+Canyon live oak              spcd=805 n=  440 (n ok) table1_max= 53.2 code=53.2 ok
+Blue oak                     spcd=807 n=  184 (n ok) table1_max= 29.4 code=29.4 ok
+Gambel oak (w)               spcd=814 n=  248 (n ok) table1_max= 15.4 code=15.4 ok
+Oregon white oak             spcd=815 n=  126 (n ok) table1_max= 22.4 code=22.4 ok
+California black oak         spcd=818 n=  239 (n ok) table1_max= 40.3 code=40.3 ok
+Valley oak                   spcd=821 n=   29 (n ok) table1_max= 21.3 code=21.3 ok
+Interior live oak            spcd=839 n=   79 (n ok) table1_max= 19.5 code=19.5 ok
+California laurel            spcd=981 n=   28 (n ok) table1_max= 18.7 code=18.7 ok
+rows checked 53 dmax mismatches 0 n mismatches 0
