@@ -42,10 +42,10 @@ def test_region_assignment():
     assert region("47.0", "-123.0") == "pnw"
     assert region("42.0", "-77.0") == "east"
     assert region("49.5", "-121.0") == "pnw", "limits are inclusive"
-    assert region("49.51", "-121.0") == c.REST_OF_NORTH_AMERICA
-    assert region("47.0", "-120.99") == c.REST_OF_NORTH_AMERICA
-    assert region("35.0", "-90.0") == c.REST_OF_NORTH_AMERICA
-    assert region("47.0", "123.0") == c.REST_OF_NORTH_AMERICA, "east longitude is not pnw"
+    assert region("49.51", "-121.0") == c.OUTSIDE_T1_BOXES
+    assert region("47.0", "-120.99") == c.OUTSIDE_T1_BOXES
+    assert region("35.0", "-90.0") == c.OUTSIDE_T1_BOXES
+    assert region("47.0", "123.0") == c.OUTSIDE_T1_BOXES, "east longitude is not pnw"
 
 
 def test_group_assignment_by_genus_key():
@@ -80,9 +80,9 @@ def test_count_table_through_the_loader_and_pipeline():
     assert table.count("source", "cantharellus", "pnw", "2023") == 2
     assert table.count("coordinate_uncertainty", "cantharellus", "pnw", "2023") == 1
     assert table.count("duplicate_taxon_observer_cell_day", "cantharellus", "pnw", "2023") == 1
-    assert table.count("source", "all_fungi", "rest_of_north_america", "2024") == 2
-    assert table.count("user_obscured", "all_fungi", "rest_of_north_america", "2024") == 1
-    assert table.count("user_obscured", "laetiporus", "rest_of_north_america", "2024") == 0
+    assert table.count("source", "all_fungi", "outside_t1_boxes", "2024") == 2
+    assert table.count("user_obscured", "all_fungi", "outside_t1_boxes", "2024") == 1
+    assert table.count("user_obscured", "laetiporus", "outside_t1_boxes", "2024") == 0
     assert table.count("source", "laetiporus", "pnw", "2024") == 1
     assert table.count("source", "cantharellus", "east", "2024") == 1
     final = pipeline.counts[-1].step

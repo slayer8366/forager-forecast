@@ -2,6 +2,7 @@ import json
 
 import pytest
 
+from forager_forecast.records import gbif_download as gd
 from forager_forecast.records.gbif_download import (
     DOWNLOAD_REQUEST_URL,
     PREDICATE_PATH,
@@ -116,3 +117,138 @@ def test_request_template_carries_the_callers_predicate_and_nothing_personal():
     template = request_template(predicate)
     assert template["predicate"] == predicate
     assert set(template) == {"format", "checklistKey", "predicate"}
+
+
+# D26's download: the area by GBIF's GADM country tag, else the country field (D71, D72).
+
+D26_REQUEST = {
+    "format": "DWCA",
+    "checklistKey": "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c",
+    "predicate": {
+        "type": "and",
+        "predicates": [
+            {"type": "equals", "key": "TAXON_KEY", "value": "5"},
+            {"type": "equals", "key": "BASIS_OF_RECORD", "value": "HUMAN_OBSERVATION"},
+            {"type": "greaterThanOrEquals", "key": "YEAR", "value": "2015"},
+            {"type": "lessThanOrEquals", "key": "YEAR", "value": "2025"},
+            {"type": "equals", "key": "HAS_COORDINATE", "value": "true"},
+            {
+                "type": "or",
+                "predicates": [
+                    {"type": "in", "key": "GADM_LEVEL_0_GID", "values": ["USA", "CAN"]},
+                    {
+                        "type": "and",
+                        "predicates": [
+                            {"type": "isNull", "parameter": "GADM_LEVEL_0_GID"},
+                            {"type": "in", "key": "COUNTRY", "values": ["US", "CA"]},
+                        ],
+                    },
+                ],
+            },
+        ],
+    },
+}
+
+
+def _keys(node):
+    """Every "key" and "parameter" named anywhere in a predicate tree."""
+    if isinstance(node, dict):
+        for name in ("key", "parameter"):
+            if name in node:
+                yield node[name]
+        for value in node.values():
+            yield from _keys(value)
+    elif isinstance(node, list):
+        for value in node:
+            yield from _keys(value)
+
+
+def test_d26_request_is_the_t1_filters_plus_tag_else_country():
+    assert request_template(gd.d26_predicate()) == D26_REQUEST
+
+
+def test_d26_predicate_has_no_continent_and_no_licence_filter():
+    keys = set(_keys(gd.d26_predicate()))
+    assert "CONTINENT" not in keys, "D26: never select by the continent field"
+    assert "LICENSE" not in keys, "D61: records of every licence"
+    assert keys == {
+        "TAXON_KEY",
+        "BASIS_OF_RECORD",
+        "YEAR",
+        "HAS_COORDINATE",
+        "GADM_LEVEL_0_GID",
+        "COUNTRY",
+    }
+
+
+def test_d26_predicate_keeps_the_t1_template_filters_unchanged():
+    """D26: the content of the predicate does not change; only the area replaces the boxes."""
+    t1 = expected_t1_predicate()["predicates"]
+    assert gd.d26_predicate()["predicates"][:5] == t1[:5]
+
+
+class FakeStream:
+    def __init__(self, status, chunks):
+        self.status = status
+        self._chunks = list(chunks)
+
+    def read(self, size=-1):
+        return self._chunks.pop(0) if self._chunks else b""
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
+
+
+def test_download_status_reads_gbifs_record_without_credentials():
+    seen = {}
+    record = {"key": "0000001-261006000000000", "status": "RUNNING", "size": 0}
+
+    def opener(request, timeout):
+        seen["url"] = request.full_url
+        seen["method"] = request.get_method()
+        seen["auth"] = request.get_header("Authorization")
+        return FakeStream(200, [json.dumps(record).encode()])
+
+    assert gd.download_status("0000001-261006000000000", opener=opener) == record
+    assert seen["url"] == "https://api.gbif.org/v1/occurrence/download/0000001-261006000000000"
+    assert seen["method"] == "GET"
+    assert seen["auth"] is None
+
+
+def test_fetch_download_writes_once_and_returns_size_and_sha256(tmp_path):
+    import hashlib
+
+    payload = [b"PK\x03\x04 first", b" second", b" third"]
+    seen = {}
+
+    def opener(request, timeout):
+        seen["url"] = request.full_url
+        return FakeStream(200, payload)
+
+    whole = b"".join(payload)
+    result = gd.fetch_download("0000001-261006000000000", tmp_path, len(whole), opener=opener)
+    target = tmp_path / "0000001-261006000000000.zip"
+    assert seen["url"] == (
+        "https://api.gbif.org/v1/occurrence/download/request/0000001-261006000000000.zip"
+    )
+    assert target.read_bytes() == whole
+    assert result == {
+        "path": str(target),
+        "size_bytes": len(whole),
+        "sha256": hashlib.sha256(whole).hexdigest(),
+    }
+    with pytest.raises(FileExistsError):
+        gd.fetch_download("0000001-261006000000000", tmp_path, len(whole), opener=opener)
+
+
+def test_fetch_download_refuses_a_size_that_disagrees_with_gbif(tmp_path):
+    def opener(request, timeout):
+        return FakeStream(200, [b"short"])
+
+    with pytest.raises(RuntimeError, match="5 bytes, GBIF's record says 9"):
+        gd.fetch_download("0000001-261006000000000", tmp_path, 9, opener=opener)
+    assert not (tmp_path / "0000001-261006000000000.zip").exists()
+    assert not list(tmp_path.iterdir()), "no partial file is left behind"
