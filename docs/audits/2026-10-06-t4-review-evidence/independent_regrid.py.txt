@@ -1,0 +1,170 @@
+"""T4 reviewer (D18): an independent exact area-weighted regrid of a handful of real master cells.
+
+Written by the review session without reusing any forager_forecast code. Differences from the
+pipeline's regrid.py, on purpose:
+- corners are projected with pyproj.Proj (pure projections, no CRS-to-CRS operation, so no datum step
+  can be chosen): inverse ESRI:102008 to lon/lat, then forward +proj=igh on the WGS84 ellipsoid;
+- the clipping runs the other way round: each native pixel square is clipped by the quad's four edges
+  (pure-Python Sutherland-Hodgman over the quad's half-planes), and the overlap area is the shoelace
+  area of what is left; the pipeline clips the quad by the square's four sides, vectorised;
+- the 0-30 cm blend (weights 5, 10, 15 over 30, D80) and the pH x 10 division are done here from the
+  raw int16 files; no-data is the file's own nodata value.
+Cells: chosen by rule, before reading any master value: Seattle, Kalaloch and Paradise (named points),
+six cells drawn with numpy default_rng(20261006) uniformly over the master window, then the first four
+cells, scanning the window row by row from the top-left, whose stored mean-band valid fraction lies in
+[0.3, 0.7] (chosen on the fraction band, not on any pH value), to exercise partial cells and the 0.5
+threshold. Compared with data/t4/master.tif bands 1-6.
+Usage: uv run python independent_regrid.py.txt DATA_DIR OUT_JSON
+"""
+import json
+import math
+import sys
+from pathlib import Path
+
+import numpy as np
+import rasterio
+from pyproj import Proj
+
+DATA = Path(sys.argv[1])
+ALBERS = Proj("ESRI:102008")
+IGH = Proj("+proj=igh +ellps=WGS84 +no_defs")
+W = {"0-5cm": 5, "5-15cm": 10, "15-30cm": 15}
+STATS = ["mean", "Q0.05", "Q0.95"]
+
+
+def load():
+    blended, tr = {}, None
+    for s in STATS:
+        acc = 0
+        for d, w in W.items():
+            with rasterio.open(DATA / "native" / f"phh2o_{d}_{s}.tif") as ds:
+                raw = ds.read(1).astype("float64")
+                raw[raw == ds.nodata] = np.nan
+                tr = ds.transform
+            acc = acc + w * raw / 10.0
+        blended[s] = acc / 30.0
+    return blended, tr
+
+
+def clip(poly, a, b):
+    """Keep the part of poly left of the directed edge a->b (quad is counter-clockwise)."""
+    def side(p):
+        return (b[0] - a[0]) * (p[1] - a[1]) - (b[1] - a[1]) * (p[0] - a[0])
+    out = []
+    for i in range(len(poly)):
+        p, q = poly[i - 1], poly[i]
+        sp, sq = side(p), side(q)
+        if sq >= 0:
+            if sp < 0:
+                t = sp / (sp - sq)
+                out.append((p[0] + t * (q[0] - p[0]), p[1] + t * (q[1] - p[1])))
+            out.append(q)
+        elif sp >= 0:
+            t = sp / (sp - sq)
+            out.append((p[0] + t * (q[0] - p[0]), p[1] + t * (q[1] - p[1])))
+    return out
+
+
+def area(poly):
+    return 0.5 * abs(sum(poly[i - 1][0] * poly[i][1] - poly[i][0] * poly[i - 1][1] for i in range(len(poly))))
+
+
+def cell_quad(col, row, tr):
+    xs = [col * 250, (col + 1) * 250, (col + 1) * 250, col * 250]
+    ys = [row * 250, row * 250, (row + 1) * 250, (row + 1) * 250]
+    lon, lat = ALBERS(xs, ys, inverse=True)
+    hx, hy = IGH(lon, lat)
+    # native pixel space: u = column, v = row (v grows south)
+    pts = [((x - tr.c) / tr.a, (y - tr.f) / tr.e) for x, y in zip(hx, hy)]
+    s = sum(pts[i - 1][0] * pts[i][1] - pts[i][0] * pts[i - 1][1] for i in range(4))
+    return pts if s > 0 else pts[::-1]
+
+
+def regrid_cell(col, row, blended, tr):
+    quad = cell_quad(col, row, tr)
+    us = [p[0] for p in quad]
+    vs = [p[1] for p in quad]
+    total, out = 0.0, {}
+    acc = {s: [0.0, 0.0] for s in STATS}
+    for r in range(math.floor(min(vs)), math.floor(max(vs)) + 1):
+        for c in range(math.floor(min(us)), math.floor(max(us)) + 1):
+            poly = [(c, r), (c + 1, r), (c + 1, r + 1), (c, r + 1)]
+            for i in range(4):
+                poly = clip(poly, quad[i], quad[(i + 1) % 4])
+                if not poly:
+                    break
+            a = area(poly) if len(poly) >= 3 else 0.0
+            if a <= 0:
+                continue
+            total += a
+            for s in STATS:
+                v = blended[s][r, c]
+                if np.isfinite(v):
+                    acc[s][0] += a * v
+                    acc[s][1] += a
+    for s in STATS:
+        wsum, wvalid = acc[s]
+        out[s] = (wsum / wvalid if wvalid > 0 else None, wvalid / total)
+    return out
+
+
+def main():
+    blended, tr = load()
+    with rasterio.open(DATA / "master.tif") as m:
+        mt = m.transform
+        bands = m.read().astype("float64")
+        left, top = int(mt.c), int(mt.f)
+        h, w = m.height, m.width
+    def rc(col, row):
+        return top // 250 - 1 - row, col - left // 250
+    cells = []
+    for name, lon, lat in [("Seattle", -122.3321, 47.6062), ("Kalaloch", -124.374, 47.604),
+                           ("Paradise", -121.736, 46.786)]:
+        x, y = ALBERS(lon, lat)
+        cells.append((name, math.floor(x / 250), math.floor(y / 250)))
+    rng = np.random.default_rng(20261006)
+    for i in range(6):
+        r, c = int(rng.integers(0, h)), int(rng.integers(0, w))
+        cells.append((f"random {i + 1}", left // 250 + c, top // 250 - 1 - r))
+    found = 0
+    frac = bands[3]
+    for r in range(h):
+        if found == 4:
+            break
+        for c in range(w):
+            if 0.3 <= frac[r, c] <= 0.7:
+                cells.append((f"partial {found + 1}", left // 250 + c, top // 250 - 1 - r))
+                found += 1
+                if found == 4:
+                    break
+    rows, worst = [], 0.0
+    for name, col, row in cells:
+        mine = regrid_cell(col, row, blended, tr)
+        r, c = rc(col, row)
+        clon, clat = ALBERS((col + 0.5) * 250, (row + 0.5) * 250, inverse=True)
+        inside = 45.5 <= clat <= 49.0 and -125.0 <= clon <= -121.0  # D82, cell centre
+        entry = {"cell": name, "col": col, "row": row, "centre_lonlat": [clon, clat],
+                 "centre_in_d82_rectangle": inside, "stats": {}}
+        for k, s in enumerate(STATS):
+            mv, mf = bands[k, r, c], bands[3 + k, r, c]
+            v, f = mine[s]
+            expected_nodata = v is None or f < 0.5 or not inside
+            vd = None if (expected_nodata or not np.isfinite(mv)) else abs(mv - v)
+            frac_ok = abs(mf - f) < 1e-5 if inside else mf == 0.0  # master zeroes it outside
+            ok = frac_ok and (
+                (expected_nodata and not np.isfinite(mv)) or (vd is not None and vd < 1e-4))
+            entry["stats"][s] = {"mine": v, "mine_fraction": f, "master": None if not np.isfinite(mv) else mv,
+                                 "master_fraction": mf, "abs_diff": vd, "ok": bool(ok)}
+            if vd is not None:
+                worst = max(worst, vd)
+        rows.append(entry)
+    Path(sys.argv[2]).write_text(json.dumps({"worst_abs_diff_ph": worst, "cells": rows}, indent=1) + "\n")
+    for e in rows:
+        print(e["cell"], e["col"], e["row"], "in D82" if e["centre_in_d82_rectangle"] else "OUTSIDE D82", {s: (round(v["mine"], 5) if v["mine"] is not None else None,
+              round(v["mine_fraction"], 4), None if v["master"] is None else round(v["master"], 5),
+              round(v["master_fraction"], 4), v["ok"]) for s, v in e["stats"].items()})
+    print("worst |master - mine| over valid stats:", worst)
+    print("all ok:", all(v["ok"] for e in rows for v in e["stats"].values()))
+
+
+main()

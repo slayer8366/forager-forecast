@@ -1,0 +1,486 @@
+{
+  "tolerance_ph": 0.01,
+  "samples_per_side": 40,
+  "cells": [
+    {
+      "cell": "lattice 1",
+      "lon": -124.5,
+      "lat": 48.125,
+      "col": -7890,
+      "row": 5033,
+      "checks": {
+        "mean": {
+          "source_sampled": 4.976864583333334,
+          "source_valid_fraction": 1.0,
+          "master": 4.9378790855407715,
+          "master_valid_fraction": 1.0,
+          "difference": -0.03898549779256211,
+          "verdict": "FAIL"
+        },
+        "Q0.05": {
+          "source_sampled": 3.8841145833333326,
+          "source_valid_fraction": 1.0,
+          "master": 3.8063347339630127,
+          "master_valid_fraction": 1.0,
+          "difference": -0.0777798493703199,
+          "verdict": "FAIL"
+        },
+        "Q0.95": {
+          "source_sampled": 6.25525,
+          "source_valid_fraction": 1.0,
+          "master": 6.217189311981201,
+          "master_valid_fraction": 1.0,
+          "difference": -0.03806068801879903,
+          "verdict": "FAIL"
+        }
+      },
+      "archive": {
+        "z9_pixel": [
+          20206,
+          45494
+        ],
+        "grey": 49,
+        "alpha": 255,
+        "master_cell_under_pixel_centre": [
+          -7890,
+          5033
+        ],
+        "expected_grey": 49,
+        "verdict": "match"
+      },
+      "ok": false
+    },
+    {
+      "cell": "lattice 2",
+      "lon": -123.5,
+      "lat": 48.125,
+      "col": -7621,
+      "row": 4951,
+      "checks": {
+        "mean": {
+          "source_sampled": 5.777927548441449,
+          "source_valid_fraction": 0.741875,
+          "master": 5.777982711791992,
+          "master_valid_fraction": 0.7422943115234375,
+          "difference": 5.516335054345234e-05,
+          "verdict": "match"
+        },
+        "Q0.05": {
+          "source_sampled": 4.27346251053075,
+          "source_valid_fraction": 0.741875,
+          "master": 4.280223369598389,
+          "master_valid_fraction": 0.7422943115234375,
+          "difference": 0.006760859067638236,
+          "verdict": "match"
+        },
+        "Q0.95": {
+          "source_sampled": 7.762468407750632,
+          "source_valid_fraction": 0.741875,
+          "master": 7.771589279174805,
+          "master_valid_fraction": 0.7422943115234375,
+          "difference": 0.00912087142417306,
+          "verdict": "match"
+        }
+      },
+      "archive": {
+        "z9_pixel": [
+          20571,
+          45494
+        ],
+        "grey": 58,
+        "alpha": 255,
+        "master_cell_under_pixel_centre": [
+          -7621,
+          4951
+        ],
+        "expected_grey": 58,
+        "verdict": "match"
+      },
+      "ok": true
+    },
+    {
+      "cell": "lattice 3",
+      "lon": -122.5,
+      "lat": 48.125,
+      "col": -7351,
+      "row": 4872,
+      "checks": {
+        "mean": {
+          "source_sampled": null,
+          "source_valid_fraction": 0.0,
+          "master": null,
+          "master_valid_fraction": 0.0,
+          "difference": null,
+          "verdict": "both no data"
+        },
+        "Q0.05": {
+          "source_sampled": null,
+          "source_valid_fraction": 0.0,
+          "master": null,
+          "master_valid_fraction": 0.0,
+          "difference": null,
+          "verdict": "both no data"
+        },
+        "Q0.95": {
+          "source_sampled": null,
+          "source_valid_fraction": 0.0,
+          "master": null,
+          "master_valid_fraction": 0.0,
+          "difference": null,
+          "verdict": "both no data"
+        }
+      },
+      "archive": {
+        "z9_pixel": [
+          20935,
+          45494
+        ],
+        "grey": null,
+        "alpha": 0,
+        "master_cell_under_pixel_centre": [
+          -7351,
+          4872
+        ],
+        "expected_grey": null,
+        "verdict": "match"
+      },
+      "ok": true
+    },
+    {
+      "cell": "lattice 4",
+      "lon": -121.5,
+      "lat": 48.125,
+      "col": -7081,
+      "row": 4796,
+      "checks": {
+        "mean": {
+          "source_sampled": 4.9513645833333335,
+          "source_valid_fraction": 1.0,
+          "master": 4.859427452087402,
+          "master_valid_fraction": 1.0,
+          "difference": -0.09193713124593117,
+          "verdict": "FAIL"
+        },
+        "Q0.05": {
+          "source_sampled": 3.9793020833333332,
+          "source_valid_fraction": 1.0,
+          "master": 3.881395101547241,
+          "master_valid_fraction": 1.0,
+          "difference": -0.09790698178609203,
+          "verdict": "FAIL"
+        },
+        "Q0.95": {
+          "source_sampled": 6.39121875,
+          "source_valid_fraction": 1.0,
+          "master": 6.214071750640869,
+          "master_valid_fraction": 1.0,
+          "difference": -0.17714699935913103,
+          "verdict": "FAIL"
+        }
+      },
+      "archive": {
+        "z9_pixel": [
+          21299,
+          45494
+        ],
+        "grey": 49,
+        "alpha": 255,
+        "master_cell_under_pixel_centre": [
+          -7080,
+          4796
+        ],
+        "expected_grey": 49,
+        "verdict": "match"
+      },
+      "ok": false
+    },
+    {
+      "cell": "lattice 5",
+      "lon": -124.5,
+      "lat": 46.375,
+      "col": -8134,
+      "row": 4244,
+      "checks": {
+        "mean": {
+          "source_sampled": null,
+          "source_valid_fraction": 0.0,
+          "master": null,
+          "master_valid_fraction": 0.0,
+          "difference": null,
+          "verdict": "both no data"
+        },
+        "Q0.05": {
+          "source_sampled": null,
+          "source_valid_fraction": 0.0,
+          "master": null,
+          "master_valid_fraction": 0.0,
+          "difference": null,
+          "verdict": "both no data"
+        },
+        "Q0.95": {
+          "source_sampled": null,
+          "source_valid_fraction": 0.0,
+          "master": null,
+          "master_valid_fraction": 0.0,
+          "difference": null,
+          "verdict": "both no data"
+        }
+      },
+      "archive": {
+        "z9_pixel": [
+          20206,
+          46433
+        ],
+        "grey": null,
+        "alpha": 0,
+        "master_cell_under_pixel_centre": [
+          -8135,
+          4244
+        ],
+        "expected_grey": null,
+        "verdict": "match"
+      },
+      "ok": true
+    },
+    {
+      "cell": "lattice 6",
+      "lon": -123.5,
+      "lat": 46.375,
+      "col": -7857,
+      "row": 4160,
+      "checks": {
+        "mean": {
+          "source_sampled": 4.941614583333335,
+          "source_valid_fraction": 1.0,
+          "master": 4.881156921386719,
+          "master_valid_fraction": 1.0,
+          "difference": -0.06045766194661617,
+          "verdict": "FAIL"
+        },
+        "Q0.05": {
+          "source_sampled": 3.8691562500000005,
+          "source_valid_fraction": 1.0,
+          "master": 3.7658982276916504,
+          "master_valid_fraction": 1.0,
+          "difference": -0.10325802230835013,
+          "verdict": "FAIL"
+        },
+        "Q0.95": {
+          "source_sampled": 5.792322916666666,
+          "source_valid_fraction": 1.0,
+          "master": 5.755683898925781,
+          "master_valid_fraction": 1.0,
+          "difference": -0.036639017740884405,
+          "verdict": "FAIL"
+        }
+      },
+      "archive": {
+        "z9_pixel": [
+          20571,
+          46433
+        ],
+        "grey": 49,
+        "alpha": 255,
+        "master_cell_under_pixel_centre": [
+          -7857,
+          4159
+        ],
+        "expected_grey": 49,
+        "verdict": "match"
+      },
+      "ok": false
+    },
+    {
+      "cell": "lattice 7",
+      "lon": -122.5,
+      "lat": 46.375,
+      "col": -7579,
+      "row": 4078,
+      "checks": {
+        "mean": {
+          "source_sampled": 5.2615,
+          "source_valid_fraction": 1.0,
+          "master": 5.228244304656982,
+          "master_valid_fraction": 1.0,
+          "difference": -0.03325569534301742,
+          "verdict": "FAIL"
+        },
+        "Q0.05": {
+          "source_sampled": 4.566760416666665,
+          "source_valid_fraction": 1.0,
+          "master": 4.4887614250183105,
+          "master_valid_fraction": 1.0,
+          "difference": -0.07799899164835455,
+          "verdict": "FAIL"
+        },
+        "Q0.95": {
+          "source_sampled": 5.9238541666666675,
+          "source_valid_fraction": 1.0,
+          "master": 5.960130214691162,
+          "master_valid_fraction": 1.0,
+          "difference": 0.03627604802449458,
+          "verdict": "FAIL"
+        }
+      },
+      "archive": {
+        "z9_pixel": [
+          20935,
+          46433
+        ],
+        "grey": 52,
+        "alpha": 255,
+        "master_cell_under_pixel_centre": [
+          -7579,
+          4078
+        ],
+        "expected_grey": 52,
+        "verdict": "match"
+      },
+      "ok": false
+    },
+    {
+      "cell": "lattice 8",
+      "lon": -121.5,
+      "lat": 46.375,
+      "col": -7300,
+      "row": 4000,
+      "checks": {
+        "mean": {
+          "source_sampled": 5.347270833333332,
+          "source_valid_fraction": 1.0,
+          "master": 5.280522346496582,
+          "master_valid_fraction": 1.0,
+          "difference": -0.06674848683675005,
+          "verdict": "FAIL"
+        },
+        "Q0.05": {
+          "source_sampled": 4.282635416666666,
+          "source_valid_fraction": 1.0,
+          "master": 4.252902984619141,
+          "master_valid_fraction": 1.0,
+          "difference": -0.02973243204752496,
+          "verdict": "FAIL"
+        },
+        "Q0.95": {
+          "source_sampled": 6.2878750000000005,
+          "source_valid_fraction": 1.0,
+          "master": 6.371631145477295,
+          "master_valid_fraction": 1.0,
+          "difference": 0.08375614547729437,
+          "verdict": "FAIL"
+        }
+      },
+      "archive": {
+        "z9_pixel": [
+          21299,
+          46433
+        ],
+        "grey": 53,
+        "alpha": 255,
+        "master_cell_under_pixel_centre": [
+          -7300,
+          3999
+        ],
+        "expected_grey": 53,
+        "verdict": "match"
+      },
+      "ok": false
+    },
+    {
+      "cell": "coastal: Kalaloch",
+      "lon": -124.374,
+      "lat": 47.604,
+      "col": -7928,
+      "row": 4787,
+      "checks": {
+        "mean": {
+          "source_sampled": 4.775563139931741,
+          "source_valid_fraction": 0.915625,
+          "master": 4.734534740447998,
+          "master_valid_fraction": 0.9152315855026245,
+          "difference": -0.04102839948374282,
+          "verdict": "FAIL"
+        },
+        "Q0.05": {
+          "source_sampled": 3.5721843003412967,
+          "source_valid_fraction": 0.915625,
+          "master": 3.524078845977783,
+          "master_valid_fraction": 0.9152315855026245,
+          "difference": -0.048105454363513545,
+          "verdict": "FAIL"
+        },
+        "Q0.95": {
+          "source_sampled": 6.342946530147895,
+          "source_valid_fraction": 0.915625,
+          "master": 6.31177282333374,
+          "master_valid_fraction": 0.9152315855026245,
+          "difference": -0.031173706814154656,
+          "verdict": "FAIL"
+        }
+      },
+      "archive": {
+        "z9_pixel": [
+          20252,
+          45777
+        ],
+        "grey": null,
+        "alpha": 0,
+        "master_cell_under_pixel_centre": [
+          -7929,
+          4787
+        ],
+        "expected_grey": null,
+        "verdict": "match"
+      },
+      "ok": false
+    },
+    {
+      "cell": "high: Paradise, Mount Rainier",
+      "lon": -121.736,
+      "lat": 46.786,
+      "col": -7314,
+      "row": 4205,
+      "checks": {
+        "mean": {
+          "source_sampled": 5.024749999999999,
+          "source_valid_fraction": 1.0,
+          "master": 4.991395950317383,
+          "master_valid_fraction": 1.0,
+          "difference": -0.03335404968261635,
+          "verdict": "FAIL"
+        },
+        "Q0.05": {
+          "source_sampled": 4.111854166666666,
+          "source_valid_fraction": 1.0,
+          "master": 3.968231678009033,
+          "master_valid_fraction": 1.0,
+          "difference": -0.14362248865763316,
+          "verdict": "FAIL"
+        },
+        "Q0.95": {
+          "source_sampled": 6.058208333333333,
+          "source_valid_fraction": 1.0,
+          "master": 6.05816650390625,
+          "master_valid_fraction": 1.0,
+          "difference": -4.1829427082973325e-05,
+          "verdict": "match"
+        }
+      },
+      "archive": {
+        "z9_pixel": [
+          21213,
+          46215
+        ],
+        "grey": 50,
+        "alpha": 255,
+        "master_cell_under_pixel_centre": [
+          -7314,
+          4205
+        ],
+        "expected_grey": 50,
+        "verdict": "match"
+      },
+      "ok": false
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+crs ESRI:102008 res (250.0, 250.0) bounds (-2099250.0, 890750.0, -1709250.0, 1367250.0) dtype float32
+cells with mean 1301966 | same validity across 3 stats: True
+mean pH min 3.79 max 6.98 median 5.27
+Q0.05 (approximate) <= mean <= Q0.95 (approximate) in every valid cell: True

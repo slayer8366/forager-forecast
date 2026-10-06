@@ -1,0 +1,79 @@
+import numpy as np, rasterio
+from rasterio.transform import from_origin, rowcol
+from rasterio.warp import reproject, Resampling
+from rasterio.crs import CRS
+from pyproj import Transformer
+H=CRS.from_string('+proj=igh +datum=WGS84 +no_defs'); A=CRS.from_string('ESRI:102008')
+rng=np.random.default_rng(1)
+# native grid: 250 m pixels around western WA in Homolosine, origin on multiple of 250 (like SoilGrids? unknown)
+x0,y0=-13300000.0,5550000.0; w,h=2600,2400
+src=(rng.integers(40,80,(h,w))/10).astype('float32')
+st=from_origin(x0,y0,250,250)
+# dst: master grid
+L,B,R,T=-2100000,890000,-1709000,1368000
+dw,dh=int((R-L)/250),int((T-B)/250); dt=from_origin(L,T,250,250)
+dst=np.full((dh,dw),np.nan,'float32')
+reproject(src,dst,src_transform=st,src_crs=H,dst_transform=dt,dst_crs=A,resampling=Resampling.average,src_nodata=np.nan,dst_nodata=np.nan,**({'error_threshold':0} if __import__('os').environ.get('ET0') else {}))
+tf=Transformer.from_crs(A,H,always_xy=True)
+def clip(poly, xmin,ymin,xmax,ymax):
+    def c(poly,inside,inter):
+        out=[]
+        for i in range(len(poly)):
+            p,q=poly[i-1],poly[i]
+            if inside(q):
+                if not inside(p): out.append(inter(p,q))
+                out.append(q)
+            elif inside(p): out.append(inter(p,q))
+        return out
+    for ax,v,keep in ((0,xmin,1),(0,xmax,-1),(1,ymin,1),(1,ymax,-1)):
+        if not poly: return []
+        ins=lambda pt,ax=ax,v=v,keep=keep: (pt[ax]-v)*keep>=0
+        def it(p,q,ax=ax,v=v):
+            t=(v-p[ax])/(q[ax]-p[ax]); return (p[0]+t*(q[0]-p[0]),p[1]+t*(q[1]-p[1]))
+        poly=c(poly,ins,it)
+    return poly
+def area(p): 
+    return 0.5*abs(sum(p[i-1][0]*p[i][1]-p[i][0]*p[i-1][1] for i in range(len(p))))
+diffs=[]
+for k in range(300):
+    r=rng.integers(5,dh-5); c=rng.integers(5,dw-5)
+    cx0=L+c*250; cy1=T-r*250
+    n=8
+    edge=[(cx0+250*i/n,cy1-250) for i in range(n)]+[(cx0+250,cy1-250+250*i/n) for i in range(n)]+[(cx0+250-250*i/n,cy1) for i in range(n)]+[(cx0,cy1-250*i/n) for i in range(n)]
+    xs,ys=tf.transform([e[0] for e in edge],[e[1] for e in edge]); poly=list(zip(xs,ys))
+    cols=range(int((min(xs)-x0)//250),int((max(xs)-x0)//250)+1); rows=range(int((y0-max(ys))//250),int((y0-min(ys))//250)+1)
+    s=0;wsum=0
+    for rr in rows:
+        for cc in cols:
+            a=area(clip(poly,x0+cc*250,y0-(rr+1)*250,x0+(cc+1)*250,y0-rr*250)) if True else 0
+            if a>0: s+=a*src[rr,cc]; wsum+=a
+    diffs.append(abs(s/wsum-dst[r,c]))
+d=np.array(diffs); print('max',d.max(),'p95',np.percentile(d,95),'mean',d.mean())
+# variant: axis-aligned bbox of the 4 transformed corners, fractional overlap weights
+def bbox_w(r,c,ncorner=False):
+    cx0=L+c*250; cy1=T-r*250
+    if ncorner:
+        xs,ys=tf.transform([cx0+125],[cy1-125]); xs=[xs[0]-125,xs[0]+125]; ys=[ys[0]-125,ys[0]+125]
+    else:
+        xs,ys=tf.transform([cx0,cx0+250,cx0+250,cx0],[cy1,cy1,cy1-250,cy1-250])
+    fx0=(min(xs)-x0)/250; fx1=(max(xs)-x0)/250; fy0=(y0-max(ys))/250; fy1=(y0-min(ys))/250
+    s=wsum=0
+    for rr in range(int(np.floor(fy0)),int(np.ceil(fy1))):
+        for cc in range(int(np.floor(fx0)),int(np.ceil(fx1))):
+            wx=min(fx1,cc+1)-max(fx0,cc); wy=min(fy1,rr+1)-max(fy0,rr)
+            if wx>0 and wy>0: s+=wx*wy*src[rr,cc]; wsum+=wx*wy
+    return s/wsum
+rng2=np.random.default_rng(2)
+for mode in (False,True):
+    dd=[]
+    for k in range(300):
+        r=rng2.integers(5,dh-5); c=rng2.integers(5,dw-5); dd.append(abs(bbox_w(r,c,mode)-dst[r,c]))
+    dd=np.array(dd); print('bbox mode centre-shift' if mode else 'bbox corners','max',dd.max(),'mean',dd.mean())
+r,c=800,700
+cx0=L+c*250; cy1=T-r*250; n=8
+edge=[(cx0+250*i/n,cy1-250) for i in range(n)]+[(cx0+250,cy1-250+250*i/n) for i in range(n)]+[(cx0+250-250*i/n,cy1) for i in range(n)]+[(cx0,cy1-250*i/n) for i in range(n)]
+xs,ys=tf.transform([e[0] for e in edge],[e[1] for e in edge]); poly=list(zip(xs,ys))
+print('poly area',area(poly))
+import math
+print('rotation deg', math.degrees(math.atan2(ys[n]-ys[0], xs[n]-xs[0])))
+# constant-gradient test: src = x coordinate, both linear

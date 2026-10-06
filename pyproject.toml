@@ -15,6 +15,9 @@ dependencies = [
     "rasterio==1.5.1",
     "pyproj==3.8.0",
     "lightgbm==4.7.0",
+    # T4: converts the MBTiles GDAL writes into PMTiles (D6) and reads its header back. Pure
+    # Python, no dependencies, BSD-3-Clause (Protomaps). GDAL 3.12 has no raster PMTiles writer.
+    "pmtiles==3.8.1",
 ]
 
 [dependency-groups]

@@ -1,0 +1,25 @@
+# T4 reviewer (D18): grid and cell-id checks beyond the builder's tests. Output: grid_checks.out.txt
+import math, numpy as np
+from pyproj import Proj
+from forager_forecast.grid import GridCell, cell_at, cell_from_id, cell_for_lonlat, GridWindow, snap_bounds
+rng = np.random.default_rng(20261006)
+cols = rng.integers(-32768, 32768, 1_000_000); rows = rng.integers(-32768, 32768, 1_000_000)
+ids = [GridCell(int(c), int(r)).id for c, r in zip(cols[:200000], rows[:200000])]
+print("round trip 200,000 random cells:", all(cell_from_id(i) == GridCell(int(c), int(r)) for i, c, r in zip(ids, cols, rows)))
+print("ids in [0, 2**32):", min(ids) >= 0 and max(ids) < 2**32)
+pairs = set(zip(cols[:200000].tolist(), rows[:200000].tolist()))
+print("distinct cells -> distinct ids:", len(pairs) == len(set(ids)))
+print("corner ids:", GridCell(-32768, -32768).id, GridCell(32767, 32767).id, "== 0 and 2**32-1:", GridCell(-32768,-32768).id == 0 and GridCell(32767,32767).id == 2**32-1)
+for x in (-8_192_000.0, 8_191_999.999, 8_192_000.0):
+    try: print("cell_at", x, "->", cell_at(x, 0.0))
+    except ValueError as e: print("cell_at", x, "-> raises:", e)
+# edges: exact multiples of 250 go east/north, for negative and positive values
+print("edges:", cell_at(-250.0, -250.0), cell_at(250.0, 250.0), cell_at(-1e-9, 1e-9))
+# Seattle by a pure projection, no CRS-to-CRS operation
+x, y = Proj("ESRI:102008")(-122.3321, 47.6062)
+print("Seattle pure Albers:", round(x, 3), round(y, 3), "->", math.floor(x/250), math.floor(y/250), "pipeline:", cell_for_lonlat(-122.3321, 47.6062))
+# lattice: the false origin is lon -96, lat 40
+print("false origin:", Proj("ESRI:102008")(-96.0, 40.0))
+# window pixel/cell round trip over a real-size window
+w = GridWindow(-2099250, 890750, -1709250, 1367250)
+print("T4 window", w.width, "x", w.height, "=", w.width * w.height, "cells; corners:", w.cell_of_pixel(0, 0), w.cell_of_pixel(w.height-1, w.width-1))

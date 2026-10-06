@@ -1,0 +1,19 @@
+R1 datum pin EPSG:4269 -> EPSG:4326: refused=[] failed=2/47 probe 'NAD83 (with axis order normalized for visualization)' -> 'WGS 84 (with axis order normalized for visualization)' restored=True
+     test_lonlat_to_grid_leaves_proj_no_datum_operation_to_choose: assert 3 == 1
+     test_the_pinned_null_shift_holds_where_offline_proj_would_shift: assert (0.7136995354667306 < 0.001)
+R2 blend weights 5,10,15 -> 10,10,10 (an unweighted mean): refused=[] failed=5/20 probe "(('0-5cm', 5), ('5-15cm', 10), ('15-30cm', 15))" -> "(('0-5cm', 10), ('5-15cm', 10), ('15-30cm', 10))" restored=True
+     test_the_layers_are_three_depths_by_three_statistics_named_as_isric_names_them: assert [10, 10, 10] == [5, 10, 15]
+     test_the_blend_is_thickness_weighted_and_no_data_in_any_depth_is_no_data: assert np.float64(5.0) == 4.666666666666667 ± 4.7e-06
+     test_the_master_grid_is_on_the_lattice_and_carries_the_blended_values: AssertionError: 
+     test_a_cell_mostly_over_no_data_becomes_no_data_and_keeps_its_fraction: AssertionError: 
+     test_the_archive_is_zoom_9_and_reads_back_the_master_value: assert np.uint8(55) == 53
+R3 regrid weights: overlap area -> 1 per touched pixel: refused=[] failed=4/9 probe '2.2' -> '2.0' restored=True
+     test_a_uniform_field_returns_its_value_exactly: AssertionError: 
+     test_a_half_and_half_split_returns_the_area_weighted_mean: AssertionError: 
+     test_a_cell_partly_over_no_data_uses_valid_pixels_only_and_reports_the_fraction: AssertionError: 
+     test_the_pure_shift_case_agrees_with_gdal_average_to_1e_6: AssertionError: 
+R4 tile encoding half-up -> round half to even: refused=[] failed=1/17 probe '[53]' -> '[52]' restored=True
+     test_an_exact_half_rounds_up_as_the_archive_metadata_states: AssertionError: 
+R5 Q0.05/Q0.95 approximate label dropped from the archive range-band note: refused=[] failed=1/17 probe 'True' -> 'False' restored=True
+     test_the_archive_is_zoom_9_and_reads_back_the_master_value: AssertionError: assert 'approximate' in 'Q0.05 and Q0.95 pH, blended 0 to 30 cm the same way, are exact (a weighted mean of quantiles is not a quantile). They exist on the master grid only and are not in this archive (D8
+all edited files byte-identical to their saved copies; reviewer tests present
