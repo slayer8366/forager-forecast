@@ -1,0 +1,68 @@
+{
+ "gadm_USA": {
+  "count": 2051625
+ },
+ "gadm_CAN": {
+  "count": 380445
+ },
+ "gadm_USA_CAN": {
+  "count": 2432070,
+  "facets": {}
+ },
+ "country_US": {
+  "count": 2094743
+ },
+ "country_CA": {
+  "count": 398969
+ },
+ "country_US_CA": {
+  "count": 2493712,
+  "facets": {}
+ },
+ "continent_north_america_now": {
+  "count": 2555190
+ },
+ "box_pnw": {
+  "count": 252822
+ },
+ "box_pnw_and_gadm": {
+  "count": 243611
+ },
+ "box_pnw_not_gadm": {
+  "count": 0,
+  "facets": {}
+ },
+ "box_pnw_and_country": {
+  "count": 252821
+ },
+ "box_east": {
+  "count": 945486
+ },
+ "box_east_and_gadm": {
+  "count": 924793
+ },
+ "box_east_not_gadm": {
+  "count": 0,
+  "facets": {}
+ },
+ "box_east_and_country": {
+  "count": 945485
+ },
+ "country_not_gadm": {
+  "count": 149,
+  "facets": {}
+ },
+ "country_and_gadm_null": {
+  "count": 61508
+ },
+ "gadm_not_country": {
+  "count": 15,
+  "facets": {}
+ },
+ "gadm_east_hemisphere": {
+  "count": 3
+ },
+ "gadm_lon_ge_179_9_or_le_m179_9": {
+  "count": 0
+ }
+}

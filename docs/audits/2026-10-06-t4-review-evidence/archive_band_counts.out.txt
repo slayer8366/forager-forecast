@@ -1,0 +1,5 @@
+zoom 5: 2 band(s) uint8 256x256 -> 4 tiles
+zoom 6: 2 band(s) uint8 256x256 -> 4 tiles
+zoom 7: 2 band(s) uint8 256x256 -> 6 tiles
+zoom 8: 2 band(s) uint8 256x256 -> 15 tiles
+zoom 9: 2 band(s) uint8 256x256 -> 49 tiles

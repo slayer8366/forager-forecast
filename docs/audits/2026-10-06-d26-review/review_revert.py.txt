@@ -1,0 +1,129 @@
+"""Reviewer's revert runner for the D26 review (written for this review, not the builder's).
+
+Per check: save a byte copy of the file; apply one replacement (refuse unless the old text occurs
+exactly once); delete every __pycache__ under src and tests; with PYTHONDONTWRITEBYTECODE=1, ask a
+fresh interpreter whether it sees the edit (a probe expression that differs between forward and
+reverted code); run the named tests with a fresh JUnit XML; restore from the saved copy (never
+git) and confirm byte equality; confirm a fresh interpreter sees the forward code again. A run is
+refused (not cited) if the probe does not show the edit, if pytest's exit code is not 1, if the XML
+is missing or reports errors, or if the restore did not take.
+"""
+
+import json
+import os
+import shutil
+import subprocess
+import sys
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+ROOT = Path.home() / "Zynergy" / "forager-forecast-d26-review"
+XML = Path(__file__).parent / "revert-junit.xml"
+ENV = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
+GD = "src/forager_forecast/records/gbif_download.py"
+TGD = "tests/test_records_gbif_download.py"
+
+CHECKS = [
+    {
+        "name": "fallback's and becomes or: a record tagged as another country gets in by country",
+        "file": GD,
+        "old": '                "type": "and",\n                "predicates": [\n'
+        '                    {"type": "isNull"',
+        "new": '                "type": "or",\n                "predicates": [\n'
+        '                    {"type": "isNull"',
+        "probe": "from forager_forecast.records.gbif_download import d26_predicate as p; "
+        "print(p()['predicates'][5]['predicates'][1]['type'])",
+        "forward": "and",
+        "reverted": "or",
+        "tests": [TGD],
+    },
+    {
+        "name": "fetch never moves the .part file to its final name",
+        "file": GD,
+        "old": "    partial.rename(target)\n",
+        "new": "",
+        "probe": "import inspect, forager_forecast.records.gbif_download as g; "
+        "print('partial.rename(target)' in inspect.getsource(g.fetch_download))",
+        "forward": "True",
+        "reverted": "False",
+        "tests": [TGD],
+    },
+    {
+        "name": "Mexico's GADM code added to the tag list",
+        "file": GD,
+        "old": 'D26_GADM_COUNTRIES = ("USA", "CAN")',
+        "new": 'D26_GADM_COUNTRIES = ("USA", "CAN", "MEX")',
+        "probe": "from forager_forecast.records.gbif_download import d26_predicate as p; "
+        "print(p()['predicates'][5]['predicates'][0]['values'])",
+        "forward": "['USA', 'CAN']",
+        "reverted": "['USA', 'CAN', 'MEX']",
+        "tests": [TGD],
+    },
+]
+
+
+def clear_pycache():
+    for top in ("src", "tests"):
+        for d in (ROOT / top).rglob("__pycache__"):
+            shutil.rmtree(d)
+
+
+def probe(expr):
+    out = subprocess.run(["uv", "run", "--frozen", "python", "-c", expr], cwd=ROOT, env=ENV,
+                         capture_output=True, text=True)
+    return out.stdout.strip()
+
+
+def run(check):
+    path = ROOT / check["file"]
+    saved = path.read_bytes()
+    text = saved.decode("utf-8")
+    result = {"check": check["name"]}
+    if text.count(check["old"]) != 1:
+        result["refused"] = f"old text found {text.count(check['old'])} times"
+        return result
+    try:
+        path.write_text(text.replace(check["old"], check["new"]), encoding="utf-8")
+        clear_pycache()
+        seen = probe(check["probe"])
+        result["probe_with_edit"] = seen
+        XML.unlink(missing_ok=True)
+        proc = subprocess.run(
+            ["uv", "run", "--frozen", "pytest", "-q", "-p", "no:cacheprovider",
+             f"--junitxml={XML}", *check["tests"]],
+            cwd=ROOT, env=ENV, capture_output=True, text=True)
+    finally:
+        path.write_bytes(saved)
+        clear_pycache()
+    result["restored_byte_identical"] = path.read_bytes() == saved
+    result["probe_after_restore"] = probe(check["probe"])
+    result["exit"] = proc.returncode
+    problems = []
+    if seen != check["reverted"]:
+        problems.append("interpreter did not see the edit")
+    if result["probe_after_restore"] != check["forward"]:
+        problems.append("forward code not back after restore")
+    if not result["restored_byte_identical"]:
+        problems.append("restore not byte-identical")
+    if proc.returncode != 1 or not XML.exists():
+        problems.append(f"exit {proc.returncode} or no XML")
+    else:
+        root = ET.parse(XML).getroot()
+        suite = root if root.tag == "testsuite" else root.find("testsuite")
+        result.update(tests=int(suite.get("tests")), failures=int(suite.get("failures")),
+                      errors=int(suite.get("errors")))
+        if result["errors"]:
+            problems.append("collection or import errors")
+        result["failed"] = [
+            [c.get("name"), (c.find("failure").get("message") or "")[:300]]
+            for c in suite.iter("testcase") if c.find("failure") is not None]
+    if problems:
+        result["refused"] = problems
+        result["stdout_tail"] = proc.stdout[-600:]
+    return result
+
+
+if __name__ == "__main__":
+    for check in CHECKS:
+        print(json.dumps(run(check)), flush=True)
+    sys.exit(0)

@@ -1,0 +1,99 @@
+"""T4 revert checks. Each check: save a copy of the file, apply one exact edit, run the named test
+files with a fresh JUnit XML, refuse the run if pytest reports collection or import errors (or
+writes no XML), record which tests failed and their first message line, restore the file from the
+saved copy (never from git), and confirm the restored file is byte-identical to the saved copy and
+to HEAD (the forward change is committed, so this also confirms it is still present).
+Before each run it deletes __pycache__ outside .venv, disables bytecode writing, and confirms the
+interpreter imports the edited source; a run where it does not is refused like a collection error.
+Run from the repository root: uv run python docs/audits/2026-10-06-t4-build/revert.py.txt OUT.json
+"""
+import hashlib, json, os, shutil, subprocess, sys, xml.etree.ElementTree as ET
+from pathlib import Path
+
+CHECKS = [
+    ("grid: floor to round in cell_at", "src/forager_forecast/grid.py",
+     "return GridCell(col=math.floor(x / CELL_SIZE_M), row=math.floor(y / CELL_SIZE_M))",
+     "return GridCell(col=round(x / CELL_SIZE_M), row=round(y / CELL_SIZE_M))", ["tests/test_grid.py"]),
+    ("grid: id decode mask", "src/forager_forecast/grid.py",
+     "col=(cell_id & 0xFFFF) - _ID_OFFSET", "col=(cell_id & 0x7FFF) - _ID_OFFSET", ["tests/test_grid.py"]),
+    ("grid: snap right edge inward", "src/forager_forecast/grid.py",
+     "math.ceil(right / step) * step", "math.floor(right / step) * step", ["tests/test_grid.py"]),
+    ("grid: datum pin EPSG:4269 to EPSG:4326 (expected NOT to bite offline)", "src/forager_forecast/grid.py",
+     'GEOGRAPHIC_CRS = "EPSG:4269"', 'GEOGRAPHIC_CRS = "EPSG:4326"', ["tests/test_grid.py", "tests/test_soilgrids.py"]),
+    ("regrid: drop the top clip of the unit square", "src/forager_forecast/regrid.py",
+     "unit_square = ((0, 0.0, True), (0, 1.0, False), (1, 0.0, True), (1, 1.0, False))",
+     "unit_square = ((0, 0.0, True), (0, 1.0, False), (1, 0.0, True))", ["tests/test_regrid.py"]),
+    ("regrid: no-data pixels weighted", "src/forager_forecast/regrid.py",
+     "ok = finite[b, rr, cc] & touched", "ok = touched", ["tests/test_regrid.py"]),
+    ("regrid: coverage error removed", "src/forager_forecast/regrid.py",
+     "if (touched & ~inside).any():", "if False:", ["tests/test_regrid.py"]),
+    ("soilgrids: scale 10 to 100", "src/forager_forecast/soilgrids.py",
+     "MAPPED_UNITS_PER_PH = 10", "MAPPED_UNITS_PER_PH = 100", ["tests/test_soilgrids.py", "tests/test_t4_layer.py"]),
+    ("soilgrids: blend unweighted", "src/forager_forecast/soilgrids.py",
+     "term = np.asarray(by_depth[depth], dtype=\"float64\") * weight",
+     "term = np.asarray(by_depth[depth], dtype=\"float64\") * 10", ["tests/test_soilgrids.py", "tests/test_t4_layer.py"]),
+    ("soilgrids: missing no-data guessed", "src/forager_forecast/soilgrids.py",
+     "    if nodata is None:\n        raise", "    if False:\n        raise", ["tests/test_soilgrids.py"]),
+    ("soilgrids: window rounded instead of outward", "src/forager_forecast/soilgrids.py",
+     "col0 = math.floor(raw.col_off)", "col0 = round(raw.col_off)", ["tests/test_soilgrids.py"]),
+    ("t4: valid-fraction threshold not applied", "src/forager_forecast/t4_layer.py",
+     "values[(fraction < MIN_VALID_FRACTION) | ~mask[None]] = np.nan", "values[(fraction <= 0) | ~mask[None]] = np.nan", ["tests/test_t4_layer.py"]),
+    ("t4: rectangle mask not applied", "src/forager_forecast/t4_layer.py",
+     "values[(fraction < MIN_VALID_FRACTION) | ~mask[None]] = np.nan", "values[(fraction < MIN_VALID_FRACTION)] = np.nan", ["tests/test_t4_layer.py"]),
+    ("t4: different native grid accepted", "src/forager_forecast/t4_layer.py",
+     "elif this != grid:", "elif False:", ["tests/test_t4_layer.py"]),
+    ("t4: range bands not labelled approximate in the archive", "src/forager_forecast/t4_layer.py",
+     "the same way, are approximate (a weighted mean ", "the same way, are (a weighted mean ", ["tests/test_t4_layer.py"]),
+    ("tiles: nearest lookup rounds instead of floors", "src/forager_forecast/tiles.py",
+     "col = np.floor((np.asarray(gx) - window.left) / CELL_SIZE_M).astype(np.int64)",
+     "col = np.round((np.asarray(gx) - window.left) / CELL_SIZE_M).astype(np.int64)", ["tests/test_tiles.py"]),
+    ("tiles: encoding truncates instead of rounding half up", "src/forager_forecast/tiles.py",
+     "scaled = np.floor(np.where(valid, ph, 0.0) * 10 + 0.5)", "scaled = np.floor(np.where(valid, ph, 0.0) * 10)", ["tests/test_tiles.py"]),
+    ("tiles: zoom-10 pixel size", "src/forager_forecast/tiles.py",
+     "Z9_PIXEL_M = 2 * _HALF_WORLD_M / TILE_PX / 2**MAX_ZOOM", "Z9_PIXEL_M = 2 * _HALF_WORLD_M / TILE_PX / 2 ** (MAX_ZOOM + 1)",
+     ["tests/test_tiles.py"]),
+]
+
+def sha(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+
+results = []
+for name, path, old, new, tests in CHECKS:
+    p = Path(path); saved = p.read_bytes(); saved_sha = sha(p)
+    head = subprocess.run(["git", "show", f"HEAD:{path}"], capture_output=True).stdout
+    text = saved.decode()
+    assert text.count(old) == 1, f"{name}: edit anchor not unique or missing"
+    xml = Path("/tmp/claude-1000/t4/revert.xml")
+    xml.unlink(missing_ok=True)
+    try:
+        p.write_text(text.replace(old, new))
+        for cache in Path(".").rglob("__pycache__"):
+            if ".venv" not in cache.parts:
+                shutil.rmtree(cache)
+        env = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
+        # The interpreter that runs the tests must see the edited source, or the run is stale.
+        module = path.removeprefix("src/").removesuffix(".py").replace("/", ".")
+        probe = subprocess.run(["uv", "run", "--frozen", "python", "-c",
+                                f"import inspect, {module} as m; print({new!r} in inspect.getsource(m))"],
+                               capture_output=True, text=True, env=env)
+        edit_seen = probe.stdout.strip() == "True"
+        run = subprocess.run(["uv", "run", "--frozen", "pytest", "-q", "-p", "no:warnings", "-p", "no:cacheprovider",
+                              f"--junitxml={xml}", *tests], capture_output=True, text=True, env=env)
+    finally:
+        p.write_bytes(saved)
+    restored_ok = sha(p) == saved_sha and p.read_bytes() == head
+    out = run.stdout + run.stderr
+    collection_error = (not edit_seen) or ("error during collection" in out) or ("ImportError" in out) or ("SyntaxError" in out) or not xml.exists()
+    failures = []
+    if xml.exists() and not collection_error:
+        root = ET.parse(xml).getroot()
+        for case in root.iter("testcase"):
+            for f in list(case.findall("failure")) + list(case.findall("error")):
+                msg = (f.get("message") or "").splitlines()[0][:160]
+                failures.append(f"{case.get('name')}: {msg}")
+    results.append({"check": name, "file": path, "tests": tests, "collection_error": collection_error,
+                    "edit_seen_by_interpreter": edit_seen, "citable": not collection_error, "failed": len(failures), "failures": failures,
+                    "restored_from_copy_and_equal_to_HEAD": restored_ok,
+                    "tail": out.strip().splitlines()[-1] if out.strip() else ""})
+    print(f"{name}: collection_error={collection_error} failed={len(failures)} restored={restored_ok}", flush=True)
+
+Path(sys.argv[1]).write_text(json.dumps(results, indent=1) + "\n")

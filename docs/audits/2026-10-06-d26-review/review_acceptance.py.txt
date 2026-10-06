@@ -1,0 +1,105 @@
+"""Reviewer's own D26 acceptance check, written independently of acceptance.py.txt.
+
+Reads both zips in place (never extracted). Box limits are typed here from the T1 dispatch
+("Boxes, for T1 only": PNW 42.0-49.5 N, 125.0-121.0 W; East 38.0-46.0 N, 84.0-70.0 W, inclusive)
+rather than imported, and are compared with t1_design.BOXES at the end.
+Also checks every row of the new download against D72's predicate, row by row.
+"""
+
+import csv
+import io
+import json
+import sys
+import zipfile
+from collections import Counter
+
+csv.field_size_limit(sys.maxsize)
+BOXES = {"pnw": (42.0, 49.5, -125.0, -121.0), "east": (38.0, 46.0, -84.0, -70.0)}
+
+
+def box(lat, lon):
+    for name, (s, n, w, e) in BOXES.items():
+        if s <= lat <= n and w <= lon <= e:
+            return name
+    return None
+
+
+def rows(zpath, member):
+    with zipfile.ZipFile(zpath) as z, z.open(member) as raw:
+        yield from csv.DictReader(
+            io.TextIOWrapper(raw, encoding="utf-8", newline=""), delimiter="\t",
+            quoting=csv.QUOTE_NONE)
+
+
+old_zip, new_zip, out = sys.argv[1:4]
+with zipfile.ZipFile(old_zip) as z:
+    old_member = [n for n in z.namelist() if n.endswith(".csv")][0]
+old = set()
+old_rows = 0
+old_outside_box = 0
+for r in rows(old_zip, old_member):
+    old_rows += 1
+    old.add(int(r["gbifID"]))
+    if box(float(r["decimalLatitude"]), float(r["decimalLongitude"])) is None:
+        old_outside_box += 1
+
+new_rows = 0
+new_keys = set()
+dup_new = 0
+subset = Counter()
+subset_keys = set()
+present_tag = Counter()
+area = Counter()
+area_violations = []
+for r in rows(new_zip, "occurrence.txt"):
+    new_rows += 1
+    k = int(r["gbifID"])
+    if k in new_keys:
+        dup_new += 1
+    new_keys.add(k)
+    tag, cc = r["level0Gid"], r["countryCode"]
+    if tag in ("USA", "CAN"):
+        area["tag USA/CAN"] += 1
+    elif tag == "" and cc in ("US", "CA"):
+        area["untagged, country US/CA"] += 1
+    else:
+        area["violates D72"] += 1
+        if len(area_violations) < 20:
+            area_violations.append([k, tag, cc])
+    try:
+        b = box(float(r["decimalLatitude"]), float(r["decimalLongitude"]))
+    except ValueError:
+        b = None
+    if b:
+        subset[b] += 1
+        subset_keys.add(k)
+        if k in old:
+            present_tag["untagged" if tag == "" else "tagged"] += 1
+
+missing = sorted(old - subset_keys)
+missing_elsewhere = sorted(set(missing) & new_keys)
+result = {
+    "old_rows": old_rows,
+    "old_distinct": len(old),
+    "old_rows_outside_boxes": old_outside_box,
+    "new_rows": new_rows,
+    "new_distinct": len(new_keys),
+    "new_duplicate_gbifIDs": dup_new,
+    "area_classes": dict(area),
+    "area_violations_sample": area_violations,
+    "box_subset": dict(subset),
+    "box_subset_total": sum(subset.values()),
+    "old_keys_in_subset": len(old & subset_keys),
+    "old_keys_missing_from_subset": len(missing),
+    "of_which_elsewhere_in_new": len(missing_elsewhere),
+    "subset_not_in_old": len(subset_keys - old),
+    "old_keys_in_subset_by_tag": dict(present_tag),
+    "missing_keys": missing,
+}
+json.dump(result, open(out, "w"), indent=1)
+print(json.dumps({k: v for k, v in result.items() if k != "missing_keys"}, indent=1))
+
+from forager_forecast.t1_design import BOXES as T1  # noqa: E402  (pure constants, no network)
+
+print("t1_design.BOXES equal to the dispatch limits:",
+      {b.name: (b.south, b.north, b.west, b.east) for b in T1} == BOXES)

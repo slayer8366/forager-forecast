@@ -1,0 +1,32 @@
+"""D26 go step: the option A predicate (D72) on GBIF's predicate search, count only."""
+
+import json
+
+from tag_test import BASE, BOXES, box, post
+
+AREA = {
+    "type": "or",
+    "predicates": [
+        {"type": "in", "key": "GADM_LEVEL_0_GID", "values": ["USA", "CAN"]},
+        {
+            "type": "and",
+            "predicates": [
+                {"type": "isNull", "parameter": "GADM_LEVEL_0_GID"},
+                {"type": "in", "key": "COUNTRY", "values": ["US", "CA"]},
+            ],
+        },
+    ],
+}
+
+
+def count(*extra):
+    return post({"predicate": {"type": "and", "predicates": BASE + list(extra)}, "limit": 0})["count"]
+
+
+print(json.dumps({
+    "option_a": count(AREA),
+    "option_a_box_pnw": count(AREA, box(BOXES[0])),
+    "option_a_box_east": count(AREA, box(BOXES[1])),
+    "box_pnw": count(box(BOXES[0])),
+    "box_east": count(box(BOXES[1])),
+}, indent=1))

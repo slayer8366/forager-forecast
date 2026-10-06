@@ -1,0 +1,5 @@
+Output of ten_cell_controls.py.txt over /tmp/claude-1000/t4/synth, 2026-10-06 (TOLERANCE_PH 0.01):
+master mean +0.02 pH at lattice 3 -> (1, {'lattice 3': (['mean'], 'match')})
+master Q0.95 -0.02 pH at Kalaloch -> (1, {'coastal: Kalaloch': (['Q0.95'], 'match')})
+master mean +0.009 pH at lattice 5 (inside tolerance, must still pass) -> (0, {})
+master cell under Paradise's archive pixel +0.1 pH, archive not rebuilt -> (1, {'high: Paradise, Mount Rainier': (['mean'], 'FAIL')})

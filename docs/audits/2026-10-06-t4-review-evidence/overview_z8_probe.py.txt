@@ -1,0 +1,37 @@
+# T4 reviewer (D18): an observation, not a gate. Does zoom 8 (GDAL average overview) average only
+# valid zoom-9 pixels, or does it mix in the grey 0 that no-data pixels carry? Compares each z8 pixel
+# with the 2x2 z9 block under it.
+import numpy as np
+from pmtiles.reader import MmapSource, all_tiles
+from rasterio.io import MemoryFile
+tiles = {}
+with open("/home/zynergy-labs/Zynergy/forager-forecast-t4/data/t4/archive/soil-ph-0-30cm.pmtiles", "rb") as f:
+    for (z, x, y), data in all_tiles(MmapSource(f)):
+        if z in (8, 9):
+            with MemoryFile(data) as mem, mem.open() as ds:
+                b = ds.read().astype(float)
+            tiles[(z, x, y)] = (b[0], b[1])
+def z9_block(X, Y):  # z9 pixel rows/cols covering z8 tile (X, Y)
+    g = np.zeros((512, 512)); a = np.zeros((512, 512))
+    for dy in (0, 1):
+        for dx in (0, 1):
+            t = tiles.get((9, 2 * X + dx, 2 * Y + dy))
+            if t is not None:
+                g[dy*256:(dy+1)*256, dx*256:(dx+1)*256], a[dy*256:(dy+1)*256, dx*256:(dx+1)*256] = t
+    return g, a
+n = {"z8 valid pixels": 0, "full 2x2 valid": 0, "partial 2x2": 0,
+     "partial: within 1 of valid-only mean": 0, "partial: within 1 of all-pixel mean (zeros mixed in)": 0,
+     "partial: max |z8 - valid-only mean|": 0.0}
+for (z, X, Y), (g8, a8) in tiles.items():
+    if z != 8: continue
+    g9, a9 = z9_block(X, Y)
+    G = g9.reshape(256, 2, 256, 2); A = a9.reshape(256, 2, 256, 2) > 0
+    cnt = A.sum(axis=(1, 3)); s = (G * A).sum(axis=(1, 3))
+    valid_mean = np.where(cnt > 0, s / np.maximum(cnt, 1), np.nan); all_mean = G.mean(axis=(1, 3))
+    v = a8 > 0
+    n["z8 valid pixels"] += int(v.sum()); n["full 2x2 valid"] += int((v & (cnt == 4)).sum())
+    p = v & (cnt > 0) & (cnt < 4); n["partial 2x2"] += int(p.sum())
+    n["partial: within 1 of valid-only mean"] += int((p & (np.abs(g8 - valid_mean) <= 1)).sum())
+    n["partial: within 1 of all-pixel mean (zeros mixed in)"] += int((p & (np.abs(g8 - all_mean) <= 1)).sum())
+    if p.any(): n["partial: max |z8 - valid-only mean|"] = max(n["partial: max |z8 - valid-only mean|"], float(np.nanmax(np.abs(g8 - valid_mean)[p])))
+for k, val in n.items(): print(k, val)

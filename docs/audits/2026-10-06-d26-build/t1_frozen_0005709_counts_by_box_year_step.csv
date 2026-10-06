@@ -1,0 +1,265 @@
+box,group,year,stage,records
+east,all_fungi,2015,"coordinate uncertainty present and at most 1,000 m",2827
+east,all_fungi,2015,inside a T1 box,37811
+east,all_fungi,2015,not a default date (first of month at 00:00:00),2782
+east,all_fungi,2015,"one record per taxon, cell and day",2602
+east,all_fungi,2015,source,37811
+east,all_fungi,2015,year 2015 to 2025,37811
+east,all_fungi,2016,"coordinate uncertainty present and at most 1,000 m",4641
+east,all_fungi,2016,inside a T1 box,41061
+east,all_fungi,2016,not a default date (first of month at 00:00:00),4585
+east,all_fungi,2016,"one record per taxon, cell and day",4262
+east,all_fungi,2016,source,41061
+east,all_fungi,2016,year 2015 to 2025,41061
+east,all_fungi,2017,"coordinate uncertainty present and at most 1,000 m",8164
+east,all_fungi,2017,inside a T1 box,47372
+east,all_fungi,2017,not a default date (first of month at 00:00:00),8117
+east,all_fungi,2017,"one record per taxon, cell and day",7582
+east,all_fungi,2017,source,47372
+east,all_fungi,2017,year 2015 to 2025,47372
+east,all_fungi,2018,"coordinate uncertainty present and at most 1,000 m",19815
+east,all_fungi,2018,inside a T1 box,69323
+east,all_fungi,2018,not a default date (first of month at 00:00:00),19757
+east,all_fungi,2018,"one record per taxon, cell and day",18486
+east,all_fungi,2018,source,69323
+east,all_fungi,2018,year 2015 to 2025,69323
+east,all_fungi,2019,"coordinate uncertainty present and at most 1,000 m",28045
+east,all_fungi,2019,inside a T1 box,72499
+east,all_fungi,2019,not a default date (first of month at 00:00:00),27991
+east,all_fungi,2019,"one record per taxon, cell and day",25648
+east,all_fungi,2019,source,72499
+east,all_fungi,2019,year 2015 to 2025,72499
+east,all_fungi,2020,"coordinate uncertainty present and at most 1,000 m",54948
+east,all_fungi,2020,inside a T1 box,87402
+east,all_fungi,2020,not a default date (first of month at 00:00:00),54909
+east,all_fungi,2020,"one record per taxon, cell and day",51044
+east,all_fungi,2020,source,87402
+east,all_fungi,2020,year 2015 to 2025,87402
+east,all_fungi,2021,"coordinate uncertainty present and at most 1,000 m",71183
+east,all_fungi,2021,inside a T1 box,109818
+east,all_fungi,2021,not a default date (first of month at 00:00:00),71164
+east,all_fungi,2021,"one record per taxon, cell and day",65159
+east,all_fungi,2021,source,109818
+east,all_fungi,2021,year 2015 to 2025,109818
+east,all_fungi,2022,"coordinate uncertainty present and at most 1,000 m",60078
+east,all_fungi,2022,inside a T1 box,91612
+east,all_fungi,2022,not a default date (first of month at 00:00:00),60061
+east,all_fungi,2022,"one record per taxon, cell and day",55456
+east,all_fungi,2022,source,91612
+east,all_fungi,2022,year 2015 to 2025,91612
+east,all_fungi,2023,"coordinate uncertainty present and at most 1,000 m",80673
+east,all_fungi,2023,inside a T1 box,126875
+east,all_fungi,2023,not a default date (first of month at 00:00:00),80652
+east,all_fungi,2023,"one record per taxon, cell and day",73612
+east,all_fungi,2023,source,126875
+east,all_fungi,2023,year 2015 to 2025,126875
+east,all_fungi,2024,"coordinate uncertainty present and at most 1,000 m",74385
+east,all_fungi,2024,inside a T1 box,118720
+east,all_fungi,2024,not a default date (first of month at 00:00:00),74355
+east,all_fungi,2024,"one record per taxon, cell and day",67698
+east,all_fungi,2024,source,118720
+east,all_fungi,2024,year 2015 to 2025,118720
+east,all_fungi,2025,"coordinate uncertainty present and at most 1,000 m",86150
+east,all_fungi,2025,inside a T1 box,132663
+east,all_fungi,2025,not a default date (first of month at 00:00:00),86133
+east,all_fungi,2025,"one record per taxon, cell and day",75614
+east,all_fungi,2025,source,132663
+east,all_fungi,2025,year 2015 to 2025,132663
+east,cantharellus,2015,"coordinate uncertainty present and at most 1,000 m",13
+east,cantharellus,2015,inside a T1 box,179
+east,cantharellus,2015,not a default date (first of month at 00:00:00),13
+east,cantharellus,2015,"one record per taxon, cell and day",12
+east,cantharellus,2015,source,179
+east,cantharellus,2015,year 2015 to 2025,179
+east,cantharellus,2016,"coordinate uncertainty present and at most 1,000 m",29
+east,cantharellus,2016,inside a T1 box,180
+east,cantharellus,2016,not a default date (first of month at 00:00:00),29
+east,cantharellus,2016,"one record per taxon, cell and day",28
+east,cantharellus,2016,source,180
+east,cantharellus,2016,year 2015 to 2025,180
+east,cantharellus,2017,"coordinate uncertainty present and at most 1,000 m",69
+east,cantharellus,2017,inside a T1 box,276
+east,cantharellus,2017,not a default date (first of month at 00:00:00),69
+east,cantharellus,2017,"one record per taxon, cell and day",65
+east,cantharellus,2017,source,276
+east,cantharellus,2017,year 2015 to 2025,276
+east,cantharellus,2018,"coordinate uncertainty present and at most 1,000 m",207
+east,cantharellus,2018,inside a T1 box,492
+east,cantharellus,2018,not a default date (first of month at 00:00:00),207
+east,cantharellus,2018,"one record per taxon, cell and day",196
+east,cantharellus,2018,source,492
+east,cantharellus,2018,year 2015 to 2025,492
+east,cantharellus,2019,"coordinate uncertainty present and at most 1,000 m",214
+east,cantharellus,2019,inside a T1 box,471
+east,cantharellus,2019,not a default date (first of month at 00:00:00),214
+east,cantharellus,2019,"one record per taxon, cell and day",203
+east,cantharellus,2019,source,471
+east,cantharellus,2019,year 2015 to 2025,471
+east,cantharellus,2020,"coordinate uncertainty present and at most 1,000 m",345
+east,cantharellus,2020,inside a T1 box,566
+east,cantharellus,2020,not a default date (first of month at 00:00:00),345
+east,cantharellus,2020,"one record per taxon, cell and day",323
+east,cantharellus,2020,source,566
+east,cantharellus,2020,year 2015 to 2025,566
+east,cantharellus,2021,"coordinate uncertainty present and at most 1,000 m",522
+east,cantharellus,2021,inside a T1 box,817
+east,cantharellus,2021,not a default date (first of month at 00:00:00),522
+east,cantharellus,2021,"one record per taxon, cell and day",502
+east,cantharellus,2021,source,817
+east,cantharellus,2021,year 2015 to 2025,817
+east,cantharellus,2022,"coordinate uncertainty present and at most 1,000 m",235
+east,cantharellus,2022,inside a T1 box,391
+east,cantharellus,2022,not a default date (first of month at 00:00:00),235
+east,cantharellus,2022,"one record per taxon, cell and day",220
+east,cantharellus,2022,source,391
+east,cantharellus,2022,year 2015 to 2025,391
+east,cantharellus,2023,"coordinate uncertainty present and at most 1,000 m",609
+east,cantharellus,2023,inside a T1 box,1009
+east,cantharellus,2023,not a default date (first of month at 00:00:00),608
+east,cantharellus,2023,"one record per taxon, cell and day",571
+east,cantharellus,2023,source,1009
+east,cantharellus,2023,year 2015 to 2025,1009
+east,cantharellus,2024,"coordinate uncertainty present and at most 1,000 m",330
+east,cantharellus,2024,inside a T1 box,574
+east,cantharellus,2024,not a default date (first of month at 00:00:00),330
+east,cantharellus,2024,"one record per taxon, cell and day",319
+east,cantharellus,2024,source,574
+east,cantharellus,2024,year 2015 to 2025,574
+east,cantharellus,2025,"coordinate uncertainty present and at most 1,000 m",337
+east,cantharellus,2025,inside a T1 box,548
+east,cantharellus,2025,not a default date (first of month at 00:00:00),336
+east,cantharellus,2025,"one record per taxon, cell and day",309
+east,cantharellus,2025,source,548
+east,cantharellus,2025,year 2015 to 2025,548
+pnw,all_fungi,2015,"coordinate uncertainty present and at most 1,000 m",954
+pnw,all_fungi,2015,inside a T1 box,2492
+pnw,all_fungi,2015,not a default date (first of month at 00:00:00),939
+pnw,all_fungi,2015,"one record per taxon, cell and day",843
+pnw,all_fungi,2015,source,2492
+pnw,all_fungi,2015,year 2015 to 2025,2492
+pnw,all_fungi,2016,"coordinate uncertainty present and at most 1,000 m",1459
+pnw,all_fungi,2016,inside a T1 box,3073
+pnw,all_fungi,2016,not a default date (first of month at 00:00:00),1444
+pnw,all_fungi,2016,"one record per taxon, cell and day",1334
+pnw,all_fungi,2016,source,3073
+pnw,all_fungi,2016,year 2015 to 2025,3073
+pnw,all_fungi,2017,"coordinate uncertainty present and at most 1,000 m",2079
+pnw,all_fungi,2017,inside a T1 box,4088
+pnw,all_fungi,2017,not a default date (first of month at 00:00:00),2070
+pnw,all_fungi,2017,"one record per taxon, cell and day",1866
+pnw,all_fungi,2017,source,4088
+pnw,all_fungi,2017,year 2015 to 2025,4088
+pnw,all_fungi,2018,"coordinate uncertainty present and at most 1,000 m",3756
+pnw,all_fungi,2018,inside a T1 box,7635
+pnw,all_fungi,2018,not a default date (first of month at 00:00:00),3743
+pnw,all_fungi,2018,"one record per taxon, cell and day",3519
+pnw,all_fungi,2018,source,7635
+pnw,all_fungi,2018,year 2015 to 2025,7635
+pnw,all_fungi,2019,"coordinate uncertainty present and at most 1,000 m",7531
+pnw,all_fungi,2019,inside a T1 box,13498
+pnw,all_fungi,2019,not a default date (first of month at 00:00:00),7517
+pnw,all_fungi,2019,"one record per taxon, cell and day",6795
+pnw,all_fungi,2019,source,13498
+pnw,all_fungi,2019,year 2015 to 2025,13498
+pnw,all_fungi,2020,"coordinate uncertainty present and at most 1,000 m",13962
+pnw,all_fungi,2020,inside a T1 box,23467
+pnw,all_fungi,2020,not a default date (first of month at 00:00:00),13946
+pnw,all_fungi,2020,"one record per taxon, cell and day",12631
+pnw,all_fungi,2020,source,23467
+pnw,all_fungi,2020,year 2015 to 2025,23467
+pnw,all_fungi,2021,"coordinate uncertainty present and at most 1,000 m",18179
+pnw,all_fungi,2021,inside a T1 box,27978
+pnw,all_fungi,2021,not a default date (first of month at 00:00:00),18172
+pnw,all_fungi,2021,"one record per taxon, cell and day",16165
+pnw,all_fungi,2021,source,27978
+pnw,all_fungi,2021,year 2015 to 2025,27978
+pnw,all_fungi,2022,"coordinate uncertainty present and at most 1,000 m",17941
+pnw,all_fungi,2022,inside a T1 box,25323
+pnw,all_fungi,2022,not a default date (first of month at 00:00:00),17897
+pnw,all_fungi,2022,"one record per taxon, cell and day",15654
+pnw,all_fungi,2022,source,25323
+pnw,all_fungi,2022,year 2015 to 2025,25323
+pnw,all_fungi,2023,"coordinate uncertainty present and at most 1,000 m",27948
+pnw,all_fungi,2023,inside a T1 box,40744
+pnw,all_fungi,2023,not a default date (first of month at 00:00:00),27939
+pnw,all_fungi,2023,"one record per taxon, cell and day",24110
+pnw,all_fungi,2023,source,40744
+pnw,all_fungi,2023,year 2015 to 2025,40744
+pnw,all_fungi,2024,"coordinate uncertainty present and at most 1,000 m",30350
+pnw,all_fungi,2024,inside a T1 box,47077
+pnw,all_fungi,2024,not a default date (first of month at 00:00:00),30333
+pnw,all_fungi,2024,"one record per taxon, cell and day",26718
+pnw,all_fungi,2024,source,47077
+pnw,all_fungi,2024,year 2015 to 2025,47077
+pnw,all_fungi,2025,"coordinate uncertainty present and at most 1,000 m",37963
+pnw,all_fungi,2025,inside a T1 box,54894
+pnw,all_fungi,2025,not a default date (first of month at 00:00:00),37958
+pnw,all_fungi,2025,"one record per taxon, cell and day",32603
+pnw,all_fungi,2025,source,54894
+pnw,all_fungi,2025,year 2015 to 2025,54894
+pnw,cantharellus,2015,"coordinate uncertainty present and at most 1,000 m",4
+pnw,cantharellus,2015,inside a T1 box,26
+pnw,cantharellus,2015,not a default date (first of month at 00:00:00),4
+pnw,cantharellus,2015,"one record per taxon, cell and day",3
+pnw,cantharellus,2015,source,26
+pnw,cantharellus,2015,year 2015 to 2025,26
+pnw,cantharellus,2016,"coordinate uncertainty present and at most 1,000 m",8
+pnw,cantharellus,2016,inside a T1 box,31
+pnw,cantharellus,2016,not a default date (first of month at 00:00:00),8
+pnw,cantharellus,2016,"one record per taxon, cell and day",8
+pnw,cantharellus,2016,source,31
+pnw,cantharellus,2016,year 2015 to 2025,31
+pnw,cantharellus,2017,"coordinate uncertainty present and at most 1,000 m",15
+pnw,cantharellus,2017,inside a T1 box,53
+pnw,cantharellus,2017,not a default date (first of month at 00:00:00),15
+pnw,cantharellus,2017,"one record per taxon, cell and day",12
+pnw,cantharellus,2017,source,53
+pnw,cantharellus,2017,year 2015 to 2025,53
+pnw,cantharellus,2018,"coordinate uncertainty present and at most 1,000 m",34
+pnw,cantharellus,2018,inside a T1 box,71
+pnw,cantharellus,2018,not a default date (first of month at 00:00:00),34
+pnw,cantharellus,2018,"one record per taxon, cell and day",29
+pnw,cantharellus,2018,source,71
+pnw,cantharellus,2018,year 2015 to 2025,71
+pnw,cantharellus,2019,"coordinate uncertainty present and at most 1,000 m",89
+pnw,cantharellus,2019,inside a T1 box,222
+pnw,cantharellus,2019,not a default date (first of month at 00:00:00),88
+pnw,cantharellus,2019,"one record per taxon, cell and day",79
+pnw,cantharellus,2019,source,222
+pnw,cantharellus,2019,year 2015 to 2025,222
+pnw,cantharellus,2020,"coordinate uncertainty present and at most 1,000 m",121
+pnw,cantharellus,2020,inside a T1 box,328
+pnw,cantharellus,2020,not a default date (first of month at 00:00:00),121
+pnw,cantharellus,2020,"one record per taxon, cell and day",111
+pnw,cantharellus,2020,source,328
+pnw,cantharellus,2020,year 2015 to 2025,328
+pnw,cantharellus,2021,"coordinate uncertainty present and at most 1,000 m",141
+pnw,cantharellus,2021,inside a T1 box,369
+pnw,cantharellus,2021,not a default date (first of month at 00:00:00),141
+pnw,cantharellus,2021,"one record per taxon, cell and day",122
+pnw,cantharellus,2021,source,369
+pnw,cantharellus,2021,year 2015 to 2025,369
+pnw,cantharellus,2022,"coordinate uncertainty present and at most 1,000 m",132
+pnw,cantharellus,2022,inside a T1 box,280
+pnw,cantharellus,2022,not a default date (first of month at 00:00:00),126
+pnw,cantharellus,2022,"one record per taxon, cell and day",97
+pnw,cantharellus,2022,source,280
+pnw,cantharellus,2022,year 2015 to 2025,280
+pnw,cantharellus,2023,"coordinate uncertainty present and at most 1,000 m",108
+pnw,cantharellus,2023,inside a T1 box,321
+pnw,cantharellus,2023,not a default date (first of month at 00:00:00),108
+pnw,cantharellus,2023,"one record per taxon, cell and day",98
+pnw,cantharellus,2023,source,321
+pnw,cantharellus,2023,year 2015 to 2025,321
+pnw,cantharellus,2024,"coordinate uncertainty present and at most 1,000 m",401
+pnw,cantharellus,2024,inside a T1 box,941
+pnw,cantharellus,2024,not a default date (first of month at 00:00:00),401
+pnw,cantharellus,2024,"one record per taxon, cell and day",345
+pnw,cantharellus,2024,source,941
+pnw,cantharellus,2024,year 2015 to 2025,941
+pnw,cantharellus,2025,"coordinate uncertainty present and at most 1,000 m",378
+pnw,cantharellus,2025,inside a T1 box,783
+pnw,cantharellus,2025,not a default date (first of month at 00:00:00),378
+pnw,cantharellus,2025,"one record per taxon, cell and day",322
+pnw,cantharellus,2025,source,783
+pnw,cantharellus,2025,year 2015 to 2025,783

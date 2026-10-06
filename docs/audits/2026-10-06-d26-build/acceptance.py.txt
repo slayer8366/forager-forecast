@@ -1,0 +1,126 @@
+"""D26 acceptance check: does the T1 box subset of the new download hold every gbifID of 0005709?
+
+Usage: uv run python acceptance.py <new DWCA zip> <0005709 SIMPLE_CSV zip> <output json>
+
+Both zips are read in place, never extracted. Box membership uses t1_design.box_of on the
+coordinates as the new download reports them (edges inclusive), the same test the T1 step list
+applies. Every 0005709 key is placed in exactly one class:
+  in_box_subset        in the new download, inside a T1 box
+  in_download_outside  in the new download, outside both boxes (coordinates moved)
+  in_download_no_coord in the new download, coordinates missing or not numbers
+  absent               not in the new download at all
+For the last three classes the 0005709 row's own fields are kept, for grouping reasons. The new
+download's level0Gid is tallied for the 0005709 keys it holds (the untagged question).
+"""
+
+import csv
+import io
+import json
+import sys
+import zipfile
+from collections import Counter
+
+from forager_forecast.t1_design import box_of
+
+csv.field_size_limit(sys.maxsize)
+
+
+def number(text):
+    try:
+        return float(text)
+    except ValueError:
+        return None
+
+
+def main(new_zip, t1_zip, out_path):
+    t1_keys = set()
+    with zipfile.ZipFile(t1_zip) as archive:
+        (member,) = [n for n in archive.namelist() if n.endswith(".csv")]
+        with archive.open(member) as raw:
+            reader = csv.reader(io.TextIOWrapper(raw, encoding="utf-8", newline=""),
+                                delimiter="\t", quoting=csv.QUOTE_NONE)
+            header = next(reader)
+            assert header[0] == "gbifID", header[:3]
+            t1_rows = 0
+            for row in reader:
+                t1_rows += 1
+                t1_keys.add(int(row[0]))
+    assert len(t1_keys) == t1_rows, "0005709 gbifIDs are not unique"
+
+    where = {}
+    new_rows = 0
+    new_box_keys = Counter()
+    new_box_not_t1 = Counter()
+    level0_of_t1_keys = Counter()
+    level0_of_box = Counter()
+    with zipfile.ZipFile(new_zip) as archive:
+        with archive.open("occurrence.txt") as raw:
+            reader = csv.DictReader(io.TextIOWrapper(raw, encoding="utf-8", newline=""),
+                                    delimiter="\t", quoting=csv.QUOTE_NONE)
+            for column in ("gbifID", "decimalLatitude", "decimalLongitude", "level0Gid",
+                           "countryCode"):
+                assert column in reader.fieldnames, column
+            for row in reader:
+                new_rows += 1
+                key = int(row["gbifID"])
+                lat, lon = number(row["decimalLatitude"]), number(row["decimalLongitude"])
+                box = box_of(lat, lon) if lat is not None and lon is not None else None
+                level0 = row["level0Gid"] or "(none)"
+                if box is not None:
+                    new_box_keys[box.name] += 1
+                    level0_of_box[(box.name, level0, row["countryCode"])] += 1
+                if key in t1_keys:
+                    level0_of_t1_keys[level0] += 1
+                    if box is not None:
+                        where[key] = "in_box_subset"
+                    elif lat is None or lon is None:
+                        where[key] = "in_download_no_coord"
+                    else:
+                        where[key] = ("in_download_outside", row["decimalLatitude"],
+                                      row["decimalLongitude"], row["countryCode"], level0)
+                elif box is not None:
+                    new_box_not_t1[box.name] += 1
+
+    classes = Counter(v if isinstance(v, str) else v[0] for v in where.values())
+    absent = sorted(t1_keys - where.keys())
+    classes["absent"] = len(absent)
+    assert sum(classes.values()) == len(t1_keys)
+
+    details = {}
+    wanted = set(absent) | {k for k, v in where.items() if not isinstance(v, str)}
+    if wanted:
+        with zipfile.ZipFile(t1_zip) as archive:
+            with archive.open(member) as raw:
+                reader = csv.DictReader(io.TextIOWrapper(raw, encoding="utf-8", newline=""),
+                                        delimiter="\t", quoting=csv.QUOTE_NONE)
+                for row in reader:
+                    key = int(row["gbifID"])
+                    if key in wanted:
+                        details[key] = {f: row[f] for f in (
+                            "decimalLatitude", "decimalLongitude", "countryCode", "year",
+                            "taxonKey", "basisOfRecord", "datasetKey", "lastInterpreted")}
+    out = {
+        "t1_rows_0005709": t1_rows,
+        "t1_distinct_keys": len(t1_keys),
+        "new_rows": new_rows,
+        "new_box_subset_rows": dict(new_box_keys),
+        "new_box_subset_total": sum(new_box_keys.values()),
+        "new_box_rows_not_in_0005709": dict(new_box_not_t1),
+        "classes_of_0005709_keys": dict(classes),
+        "level0Gid_in_new_download_of_0005709_keys": dict(level0_of_t1_keys.most_common()),
+        "level0Gid_countryCode_of_new_box_rows": {
+            f"{b}|{g}|{c}": n for (b, g, c), n in sorted(level0_of_box.items())
+        },
+        "moved_outside": {
+            str(k): {"new": v[1:], "in_0005709": details.get(k)}
+            for k, v in where.items() if not isinstance(v, str)
+        },
+        "absent": {str(k): details.get(k) for k in absent},
+    }
+    json.dump(out, open(out_path, "w"), indent=1)
+    print(json.dumps({k: v for k, v in out.items() if k not in ("moved_outside", "absent")},
+                     indent=1))
+
+
+if __name__ == "__main__":
+    main(*sys.argv[1:4])

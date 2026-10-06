@@ -1,0 +1,20 @@
+"""The 242 keys of 0005709 that 0005714 lacks: their continent and country in the D26 download."""
+
+import csv
+import io
+import json
+import sys
+import zipfile
+from collections import Counter
+
+csv.field_size_limit(sys.maxsize)
+wanted = {int(k) for k in json.load(open(sys.argv[1]))["absent"]}
+seen = Counter()
+with zipfile.ZipFile(sys.argv[2]).open("occurrence.txt") as raw:
+    for row in csv.DictReader(io.TextIOWrapper(raw, encoding="utf-8", newline=""),
+                              delimiter="\t", quoting=csv.QUOTE_NONE):
+        if int(row["gbifID"]) in wanted:
+            seen[(row["continent"] or "(empty)", row["countryCode"], row["level0Gid"] or "(none)")] += 1
+print(json.dumps({"found": sum(seen.values()), "of": len(wanted),
+                  "continent_country_level0": {"|".join(k): n for k, n in seen.most_common()}},
+                 indent=1))

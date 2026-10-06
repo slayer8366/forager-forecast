@@ -1,0 +1,79 @@
+First assertion lines of every failure in the reviewer's revert runs (JUnit XML, this session's run).
+r1_edited tests.test_grid test_lonlat_to_grid_leaves_proj_no_datum_operation_to_choose
+   E       assert 3 == 1
+   E        +  where 3 = len([<Concatenated Operation Transformer: pipeline>\nDescription: axis order change (2D) + Inverse of NAD83 to WGS 84 (1) +...Area of Use:\n- name: United States (USA) - Alaska - Aleutian Islands onshore.\n- bounds: (172.42, 51.3, -164.84, 54.34)])
+   E        +    where [<Concatenated Operation Transformer: pipeline>\nDescription: axis order change (2D) + Inverse of NAD83 to WGS 84 (1) +...Area of Use:\n- name: United States (USA) - Alaska - Aleutian Islands onshore.\n- bounds: (172.42, 51.3, -164.84, 54.34)] = <TransformerGroup: best_available=True>\n- transformers: 3\n- unavailable_operations: 47.transformers
+r1_edited tests.test_grid test_the_pinned_null_shift_holds_where_offline_proj_would_shift
+   E           assert (0.7136995354667306 < 0.001)
+   E            +  where 0.7136995354667306 = abs((-5935469.533747222 - -5935470.247446758))
+r2_edited tests.test_soilgrids test_the_layers_are_three_depths_by_three_statistics_named_as_isric_names_them
+   E       assert [10, 10, 10] == [5, 10, 15]
+   E         
+   E         At index 0 diff: 10 != 5
+   E         Use -v to get more diff
+r2_edited tests.test_soilgrids test_the_blend_is_thickness_weighted_and_no_data_in_any_depth_is_no_data
+   E       assert np.float64(5.0) == 4.666666666666667 ± 4.7e-06
+   E         
+   E         comparison failed
+   E         Obtained: 5.0
+   E         Expected: 4.666666666666667 ± 4.7e-06
+r2_edited tests.test_t4_layer test_the_master_grid_is_on_the_lattice_and_carries_the_blended_values
+   E       AssertionError: 
+   E       Not equal to tolerance rtol=1e-06, atol=0
+   E       
+   E       Mismatched elements: 2248 / 2248 (100%)
+   E       First 5 mismatches are at indices:
+   E        [0]: 5.5 (ACTUAL), 5.333333333333333 (DESIRED)
+   E        [1]: 5.5 (ACTUAL), 5.333333333333333 (DESIRED)
+r2_edited tests.test_t4_layer test_a_cell_mostly_over_no_data_becomes_no_data_and_keeps_its_fraction
+   E       AssertionError: 
+   E       Not equal to tolerance rtol=1e-06, atol=0
+   E       
+   E       Mismatched elements: 32 / 32 (100%)
+   E       First 5 mismatches are at indices:
+   E        [0]: 5.5 (ACTUAL), 5.3333333 (DESIRED)
+   E        [1]: 5.5 (ACTUAL), 5.3333333 (DESIRED)
+r2_edited tests.test_t4_layer test_the_archive_is_zoom_9_and_reads_back_the_master_value
+   E       assert np.uint8(55) == 53
+r3_edited tests.test_regrid test_a_uniform_field_returns_its_value_exactly
+   E       AssertionError: 
+   E       Not equal to tolerance rtol=1e-07, atol=1e-12
+   E       
+   E       Mismatched elements: 200 / 200 (100%)
+   E       First 5 mismatches are at indices:
+   E        [0, 0, 0]: 4.0 (ACTUAL), 1.0 (DESIRED)
+   E        [0, 0, 1]: 4.000000000000001 (ACTUAL), 1.0 (DESIRED)
+r3_edited tests.test_regrid test_a_half_and_half_split_returns_the_area_weighted_mean
+   E       AssertionError: 
+   E       Not equal to tolerance rtol=1e-07, atol=0
+   E       
+   E       Mismatched elements: 12 / 12 (100%)
+   E       First 5 mismatches are at indices:
+   E        [0]: 6.0 (ACTUAL), 6.4 (DESIRED)
+   E        [1]: 6.0 (ACTUAL), 6.4 (DESIRED)
+r3_edited tests.test_regrid test_a_cell_partly_over_no_data_uses_valid_pixels_only_and_reports_the_fraction
+   E       AssertionError: 
+   E       Not equal to tolerance rtol=1e-07, atol=0
+   E       
+   E       Mismatched elements: 12 / 12 (100%)
+   E       First 5 mismatches are at indices:
+   E        [0]: 1.0 (ACTUAL), 0.4 (DESIRED)
+   E        [1]: 1.0 (ACTUAL), 0.4 (DESIRED)
+r3_edited tests.test_regrid test_the_pure_shift_case_agrees_with_gdal_average_to_1e_6
+   E       AssertionError: 
+   E       Not equal to tolerance rtol=1e-07, atol=1e-06
+   E       
+   E       Mismatched elements: 2750 / 2750 (100%)
+   E       First 5 mismatches are at indices:
+   E        [0, 0]: 5.725000023841858 (ACTUAL), 5.589600086212158 (DESIRED)
+   E        [0, 1]: 4.850000023841858 (ACTUAL), 4.986400127410889 (DESIRED)
+r4_edited tests.test_tiles test_an_exact_half_rounds_up_as_the_archive_metadata_states
+   E       AssertionError: 
+   E       Arrays are not equal
+   E       
+   E       Mismatched elements: 2 / 3 (66.7%)
+   E       Mismatch at indices:
+   E        [0]: 42 (ACTUAL), 43 (DESIRED)
+   E        [1]: 52 (ACTUAL), 53 (DESIRED)
+r5_edited tests.test_t4_layer test_the_archive_is_zoom_9_and_reads_back_the_master_value
+   E       AssertionError: assert 'approximate' in 'Q0.05 and Q0.95 pH, blended 0 to 30 cm the same way, are exact (a weighted mean of quantiles is not a quantile). They exist on the master grid only and are not in this archive (D81).'

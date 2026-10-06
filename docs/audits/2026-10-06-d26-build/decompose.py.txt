@@ -1,0 +1,111 @@
+"""D26: decompose the step-count differences between 0005714 and the D26 download 0012112.
+
+Usage: uv run python decompose.py <0005714 zip> <0012112 zip> <output json>
+
+Pass 1 reads gbifID, countryCode and level0Gid from both occurrence.txt files, in place. Each
+record is then one of: in both downloads ("common"), only in 0005714 ("only_0005714"), or only in
+0012112 ("only_0012112"). Pass 2 loads each download through the real loader and runs the filter
+steps of both step lists (t1_steps, r6_audit_steps) per record, counting the first step that drops
+it, per class. Filter steps are per record, so these per-class counts add up exactly to the
+pipeline's own. The duplicate step joins records and is not decomposed here.
+"""
+
+import csv
+import io
+import json
+import sys
+import zipfile
+from collections import Counter
+
+from forager_forecast.records.filters import r6_audit_steps, t1_steps
+from forager_forecast.records.occurrence import OccurrenceLoader, read_occurrence_rows
+
+csv.field_size_limit(sys.maxsize)
+
+
+def raw_rows(path):
+    with zipfile.ZipFile(path).open("occurrence.txt") as raw:
+        yield from csv.DictReader(io.TextIOWrapper(raw, encoding="utf-8", newline=""),
+                                  delimiter="\t", quoting=csv.QUOTE_NONE)
+
+
+PLACE_CODES: dict = {}
+PLACES: list = []
+
+
+def place_code(country, level0):
+    place = (country, level0 or "(none)")
+    if place not in PLACE_CODES:
+        PLACE_CODES[place] = len(PLACES)
+        PLACES.append(place)
+    return PLACE_CODES[place]
+
+
+class Places(dict):
+    def __getitem__(self, key):
+        return PLACES[dict.__getitem__(self, key)]
+
+
+def keys_and_places(path):
+    places = Places()
+    for row in raw_rows(path):
+        dict.__setitem__(places, int(row["gbifID"]), place_code(row["countryCode"], row["level0Gid"]))
+    return set(places), places
+
+
+def first_drop(steps, record):
+    for step in steps.filters:
+        if step.drops(record):
+            return step.name
+    return "reaches the duplicate step"
+
+
+def per_class(path, other_keys, own_label):
+    loader = OccurrenceLoader()
+    counts = {"t1": Counter(), "r6": Counter()}
+    t1, r6 = t1_steps(), r6_audit_steps()
+    with zipfile.ZipFile(path).open("occurrence.txt") as raw:
+        rows = read_occurrence_rows(io.TextIOWrapper(raw, encoding="utf-8", newline=""))
+        for record in loader.load(rows):
+            cls = "common" if record.gbif_id in other_keys else own_label
+            counts["t1"][(cls, first_drop(t1, record))] += 1
+            counts["r6"][(cls, first_drop(r6, record))] += 1
+    unloadable_by_class = None  # the loader counts by reason, not by key
+    return {
+        "rows_read": loader.rows_read,
+        "unloadable": dict(loader.unloadable),
+        "unloadable_by_class": unloadable_by_class,
+        "t1": {f"{c}|{s}": n for (c, s), n in sorted(counts["t1"].items())},
+        "r6": {f"{c}|{s}": n for (c, s), n in sorted(counts["r6"].items())},
+    }
+
+
+def main(old_zip, new_zip, out_path):
+    old_keys, old_places = keys_and_places(old_zip)
+    new_keys, new_places = keys_and_places(new_zip)
+    only_old = old_keys - new_keys
+    only_new = new_keys - old_keys
+    out = {
+        "keys": {"0005714": len(old_keys), "0012112": len(new_keys),
+                 "common": len(old_keys & new_keys), "only_0005714": len(only_old),
+                 "only_0012112": len(only_new)},
+        "only_0005714_by_country_level0": dict(
+            Counter(f"{c}|{g}" for c, g in (old_places[k] for k in only_old)).most_common(40)),
+        "only_0012112_by_country_level0": dict(
+            Counter(f"{c}|{g}" for c, g in (new_places[k] for k in only_new)).most_common(40)),
+        "only_0005714_in_us_ca_by_country_level0": dict(Counter(
+            f"{c}|{g}" for c, g in (old_places[k] for k in only_old)
+            if c in ("US", "CA") or g in ("USA", "CAN")).most_common(40)),
+        "only_0005714_us_ca_sample_keys": sorted(
+            k for k in only_old if old_places[k][0] in ("US", "CA")
+            or old_places[k][1] in ("USA", "CAN"))[:60],
+    }
+    del old_places, new_places
+    out["0005714_steps_by_class"] = per_class(old_zip, new_keys, "only_0005714")
+    out["0012112_steps_by_class"] = per_class(new_zip, old_keys, "only_0012112")
+    json.dump(out, open(out_path, "w"), indent=1)
+    print(json.dumps(out, indent=1))
+
+
+if __name__ == "__main__":
+    main(*sys.argv[1:4])

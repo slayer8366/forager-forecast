@@ -1,0 +1,9 @@
+# T4 reviewer (D18): the completion report's master-grid figures (section 5), re-read from master.tif.
+import numpy as np, rasterio
+with rasterio.open("/home/zynergy-labs/Zynergy/forager-forecast-t4/data/t4/master.tif") as m:
+    b = m.read().astype("float64"); print("crs", m.crs, "res", m.res, "bounds", tuple(m.bounds), "dtype", m.dtypes[0])
+mean, q5, q95 = b[0], b[1], b[2]
+v = np.isfinite(mean)
+print("cells with mean", int(v.sum()), "| same validity across 3 stats:", np.array_equal(v, np.isfinite(q5)) and np.array_equal(v, np.isfinite(q95)))
+print("mean pH min %.2f max %.2f median %.2f" % (mean[v].min(), mean[v].max(), np.median(mean[v])))
+print("Q0.05 (approximate) <= mean <= Q0.95 (approximate) in every valid cell:", bool(((q5[v] <= mean[v]) & (mean[v] <= q95[v])).all()))

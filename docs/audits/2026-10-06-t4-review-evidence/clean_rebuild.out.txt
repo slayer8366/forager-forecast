@@ -1,0 +1,7 @@
+{"cells": 2973360, "cells_in_extent": 1884904, "cells_with_mean": 1301966, "cells_below_min_valid_fraction": 43706, "regrid_seconds": 113.44221144999756, "window": {"left": -2099250, "bottom": 890750, "right": -1709250, "top": 1367250}} 115.11499094963074
+master.tif 14685784 9fe55bc231cabbdac923dc40aa5f0e47fb7b13325295605174e843bb5aefe72f
+soil-ph-0-30cm.pmtiles 891388 84905e335c0390b2b7c32348ace86fc25fa372101b53530ea9af6c4d1ea0ee34
+{"version": "3", "root_offset": "127", "root_length": "270", "metadata_offset": "397", "metadata_length": "760", "leaf_directory_offset": "1157", "leaf_directory_length": "0", "tile_data_offset": "1157", "tile_data_length": "890231", "addressed_tiles_count": "78", "tile_entries_count": "78", "tile_contents_count": "78", "clustered": "True", "internal_compression": "GZIP", "tile_compression": "NONE", "tile_type": "PNG", "min_zoom": "5", "max_zoom": "9", "min_lon_e7": "-1272656250", "min_lat_e7": "445904671", "max_lon_e7": "-1195312500", "max_lat_e7": "498379824", "center_zoom": "5", "center_lon_e7": "-1233984375", "center_lat_e7": "472142247"}
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:57.98
+	Maximum resident set size (kbytes): 864140
+exit=0

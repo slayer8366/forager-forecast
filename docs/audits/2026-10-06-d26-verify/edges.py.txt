@@ -1,0 +1,32 @@
+"""D26 verify items 4 and 7: the box records the country field leaves out, and the GADM-tagged
+US and Canada records east of 0 degrees longitude (where the Aleutians cross 180)."""
+
+import json
+
+from tag_test import BASE, BOXES, box, country, gadm, neg, post
+
+F = ("key", "country", "gadm", "decimalLatitude", "decimalLongitude", "stateProvince",
+     "coordinateUncertaintyInMeters", "lastInterpreted", "datasetKey", "issues")
+
+
+def sample(n, *extra):
+    body = {"predicate": {"type": "and", "predicates": BASE + list(extra)}, "limit": n}
+    return [{f: r.get(f) for f in F} for r in post(body)["results"]]
+
+
+out = {
+    "box_pnw_not_country": sample(5, box(BOXES[0]), neg(country("US", "CA"))),
+    "box_east_not_country": sample(5, box(BOXES[1]), neg(country("US", "CA"))),
+    "gadm_usacan_lon_gt_0": sample(
+        5, gadm("USA", "CAN"), {"type": "greaterThan", "key": "DECIMAL_LONGITUDE", "value": "0"}
+    ),
+    "country_usca_lon_gt_0_count": post({"predicate": {"type": "and", "predicates": BASE + [
+        country("US", "CA"), {"type": "greaterThan", "key": "DECIMAL_LONGITUDE", "value": "0"}]},
+        "limit": 0})["count"],
+    "country_usca_lon_ge_170_or_le_m170_count": post({"predicate": {"type": "and", "predicates": BASE + [
+        country("US", "CA"), {"type": "or", "predicates": [
+            {"type": "greaterThanOrEquals", "key": "DECIMAL_LONGITUDE", "value": "170"},
+            {"type": "lessThanOrEquals", "key": "DECIMAL_LONGITUDE", "value": "-170"}]}]},
+        "limit": 0})["count"],
+}
+json.dump(out, open("edges.json", "w"), indent=1)

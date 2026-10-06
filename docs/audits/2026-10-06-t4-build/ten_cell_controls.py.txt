@@ -1,0 +1,44 @@
+"""Negative controls for scripts/t4_ten_cells.py on the synthetic full-extent outputs.
+
+Each control copies DATA_DIR, changes one thing in the copy, runs the check and prints the cells
+it fails. The original is never edited. Run: uv run python THIS DATA_DIR
+"""
+import math, shutil, subprocess, sys, json
+from pathlib import Path
+import rasterio
+
+src = Path(sys.argv[1])
+sys.path.insert(0, str(Path.cwd() / "scripts"))
+import t4_ten_cells as tc
+
+def run(d):
+    p = subprocess.run([sys.executable, "scripts/t4_ten_cells.py", str(d)], capture_output=True, text=True)
+    body = json.loads(p.stdout)
+    return p.returncode, {c["cell"]: ([k for k, v in c["checks"].items() if v["verdict"] == "FAIL"], c["archive"]["verdict"]) for c in body["cells"] if not c["ok"]}
+
+def edit_master(d, col, row, delta, band=1):
+    with rasterio.open(d / "master.tif", "r+") as m:
+        T = m.transform
+        r = int(round((T.f - (row + 1) * 250) / 250)); c = int(round((col * 250 - T.c) / 250))
+        win = rasterio.windows.Window(c, r, 1, 1)
+        v = m.read(band, window=win); m.write(v + delta, band, window=win)
+
+for name, (cell, delta, band) in {
+    "master mean +0.02 pH at lattice 3": ("lattice 3", 0.02, 1),
+    "master Q0.95 -0.02 pH at Kalaloch": ("coastal: Kalaloch", -0.02, 3),
+    "master mean +0.009 pH at lattice 5 (inside tolerance, must still pass)": ("lattice 5", 0.009, 1),
+}.items():
+    d = Path(str(src) + "-control"); shutil.rmtree(d, ignore_errors=True); shutil.copytree(src, d)
+    lon, lat = next((lo, la) for n, lo, la in tc.CELLS if n == cell)
+    gx, gy = tc.TO_GRID.transform(lon, lat)
+    edit_master(d, math.floor(gx / 250), math.floor(gy / 250), delta, band)
+    print(name, "->", run(d))
+
+# Archive control: change the master cell under the archive pixel at Paradise by +0.1 pH without
+# rebuilding the archive. The archive check must fail there (old grey vs new expected).
+d = Path(str(src) + "-control"); shutil.rmtree(d, ignore_errors=True); shutil.copytree(src, d)
+lon, lat = next((lo, la) for n, lo, la in tc.CELLS if n.startswith("high"))
+_, _, (pcol, prow), _ = tc.archive_pixel(d / "archive" / "soil-ph-0-30cm.pmtiles", lon, lat)
+edit_master(d, pcol, prow, 0.1, 1)
+print("master cell under Paradise's archive pixel +0.1 pH, archive not rebuilt ->", run(d))
+shutil.rmtree(d)

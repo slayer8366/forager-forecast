@@ -1,0 +1,473 @@
+{
+ "worst_abs_diff_ph": 2.384114150544292e-07,
+ "cells": [
+  {
+   "cell": "Seattle",
+   "col": -7373,
+   "row": 4624,
+   "centre_lonlat": [
+    -122.33283280130073,
+    47.60685763077932
+   ],
+   "centre_in_d82_rectangle": true,
+   "stats": {
+    "mean": {
+     "mine": null,
+     "mine_fraction": 0.0,
+     "master": null,
+     "master_fraction": 0.0,
+     "abs_diff": null,
+     "ok": true
+    },
+    "Q0.05": {
+     "mine": null,
+     "mine_fraction": 0.0,
+     "master": null,
+     "master_fraction": 0.0,
+     "abs_diff": null,
+     "ok": true
+    },
+    "Q0.95": {
+     "mine": null,
+     "mine_fraction": 0.0,
+     "master": null,
+     "master_fraction": 0.0,
+     "abs_diff": null,
+     "ok": true
+    }
+   }
+  },
+  {
+   "cell": "Kalaloch",
+   "col": -7928,
+   "row": 4787,
+   "centre_lonlat": [
+    -124.37238865906991,
+    47.60333463570135
+   ],
+   "centre_in_d82_rectangle": true,
+   "stats": {
+    "mean": {
+     "mine": 4.775932894097227,
+     "mine_fraction": 0.9152318043973988,
+     "master": 4.775932788848877,
+     "master_fraction": 0.9152315855026245,
+     "abs_diff": 1.0524835047931447e-07,
+     "ok": true
+    },
+    "Q0.05": {
+     "mine": 3.5722364339983406,
+     "mine_fraction": 0.9152318043973988,
+     "master": 3.5722365379333496,
+     "master_fraction": 0.9152315855026245,
+     "abs_diff": 1.0393500904370967e-07,
+     "ok": true
+    },
+    "Q0.95": {
+     "mine": 6.343568810298099,
+     "mine_fraction": 0.9152318043973988,
+     "master": 6.343568801879883,
+     "master_fraction": 0.9152315855026245,
+     "abs_diff": 8.418216346228746e-09,
+     "ok": true
+    }
+   }
+  },
+  {
+   "cell": "Paradise",
+   "col": -7314,
+   "row": 4205,
+   "centre_lonlat": [
+    -121.73623434551004,
+    46.786084715241586
+   ],
+   "centre_in_d82_rectangle": true,
+   "stats": {
+    "mean": {
+     "mine": 5.024729230480893,
+     "mine_fraction": 1.0,
+     "master": 5.024729251861572,
+     "master_fraction": 1.0,
+     "abs_diff": 2.1380679449123363e-08,
+     "ok": true
+    },
+    "Q0.05": {
+     "mine": 4.111827487314039,
+     "mine_fraction": 1.0,
+     "master": 4.111827373504639,
+     "master_fraction": 1.0,
+     "abs_diff": 1.1380940012628571e-07,
+     "ok": true
+    },
+    "Q0.95": {
+     "mine": 6.05816659688483,
+     "mine_fraction": 1.0,
+     "master": 6.05816650390625,
+     "master_fraction": 1.0,
+     "abs_diff": 9.297858039047924e-08,
+     "ok": true
+    }
+   }
+  },
+  {
+   "cell": "random 1",
+   "col": -7132,
+   "row": 4075,
+   "centre_lonlat": [
+    -121.0076663341021,
+    46.62248356115634
+   ],
+   "centre_in_d82_rectangle": true,
+   "stats": {
+    "mean": {
+     "mine": 6.200725632031178,
+     "mine_fraction": 1.0,
+     "master": 6.200725555419922,
+     "master_fraction": 1.0,
+     "abs_diff": 7.661125600577634e-08,
+     "ok": true
+    },
+    "Q0.05": {
+     "mine": 5.142453568483582,
+     "mine_fraction": 1.0,
+     "master": 5.142453670501709,
+     "master_fraction": 1.0,
+     "abs_diff": 1.0201812727927972e-07,
+     "ok": true
+    },
+    "Q0.95": {
+     "mine": 7.677676439292442,
+     "mine_fraction": 1.0,
+     "master": 7.677676677703857,
+     "master_fraction": 1.0,
+     "abs_diff": 2.384114150544292e-07,
+     "ok": true
+    }
+   }
+  },
+  {
+   "cell": "random 2",
+   "col": -7895,
+   "row": 4742,
+   "centre_lonlat": [
+    -124.21462531567896,
+    47.53271756020275
+   ],
+   "centre_in_d82_rectangle": true,
+   "stats": {
+    "mean": {
+     "mine": 4.15,
+     "mine_fraction": 1.0,
+     "master": 4.150000095367432,
+     "master_fraction": 1.0,
+     "abs_diff": 9.536743128535363e-08,
+     "ok": true
+    },
+    "Q0.05": {
+     "mine": 3.5494121683672017,
+     "mine_fraction": 1.0,
+     "master": 3.549412250518799,
+     "master_fraction": 1.0,
+     "abs_diff": 8.215159708058195e-08,
+     "ok": true
+    },
+    "Q0.95": {
+     "mine": 5.149220037083683,
+     "mine_fraction": 1.0,
+     "master": 5.149219989776611,
+     "master_fraction": 1.0,
+     "abs_diff": 4.730707203748352e-08,
+     "ok": true
+    }
+   }
+  },
+  {
+   "cell": "random 3",
+   "col": -6846,
+   "row": 4416,
+   "centre_lonlat": [
+    -120.34912795129144,
+    47.47665402052876
+   ],
+   "centre_in_d82_rectangle": false,
+   "stats": {
+    "mean": {
+     "mine": 6.803610743231109,
+     "mine_fraction": 0.7412298552833468,
+     "master": null,
+     "master_fraction": 0.0,
+     "abs_diff": null,
+     "ok": true
+    },
+    "Q0.05": {
+     "mine": 5.461553599971761,
+     "mine_fraction": 0.7412298552833468,
+     "master": null,
+     "master_fraction": 0.0,
+     "abs_diff": null,
+     "ok": true
+    },
+    "Q0.95": {
+     "mine": 8.320277409897777,
+     "mine_fraction": 0.7412298552833468,
+     "master": null,
+     "master_fraction": 0.0,
+     "abs_diff": null,
+     "ok": true
+    }
+   }
+  },
+  {
+   "cell": "random 4",
+   "col": -8049,
+   "row": 3664,
+   "centre_lonlat": [
+    -123.6427299132689,
+    45.2535993012441
+   ],
+   "centre_in_d82_rectangle": false,
+   "stats": {
+    "mean": {
+     "mine": 5.275813977359626,
+     "mine_fraction": 1.0,
+     "master": null,
+     "master_fraction": 0.0,
+     "abs_diff": null,
+     "ok": true
+    },
+    "Q0.05": {
+     "mine": 4.3658166781292485,
+     "mine_fraction": 1.0,
+     "master": null,
+     "master_fraction": 0.0,
+     "abs_diff": null,
+     "ok": true
+    },
+    "Q0.95": {
+     "mine": 5.960021612721174,
+     "mine_fraction": 1.0,
+     "master": null,
+     "master_fraction": 0.0,
+     "abs_diff": null,
+     "ok": true
+    }
+   }
+  },
+  {
+   "cell": "random 5",
+   "col": -7542,
+   "row": 3679,
+   "centre_lonlat": [
+    -122.00385930431979,
+    45.58360033012391
+   ],
+   "centre_in_d82_rectangle": true,
+   "stats": {
+    "mean": {
+     "mine": 4.9163446056338245,
+     "mine_fraction": 1.0,
+     "master": 4.91634464263916,
+     "master_fraction": 1.0,
+     "abs_diff": 3.7005335684625607e-08,
+     "ok": true
+    },
+    "Q0.05": {
+     "mine": 3.766237251956209,
+     "mine_fraction": 1.0,
+     "master": 3.766237258911133,
+     "master_fraction": 1.0,
+     "abs_diff": 6.954923748025976e-09,
+     "ok": true
+    },
+    "Q0.95": {
+     "mine": 5.815759351559947,
+     "mine_fraction": 1.0,
+     "master": 5.815759181976318,
+     "master_fraction": 1.0,
+     "abs_diff": 1.695836289172803e-07,
+     "ok": true
+    }
+   }
+  },
+  {
+   "cell": "random 6",
+   "col": -8069,
+   "row": 5359,
+   "centre_lonlat": [
+    -125.4624769178193,
+    48.671222789661584
+   ],
+   "centre_in_d82_rectangle": false,
+   "stats": {
+    "mean": {
+     "mine": null,
+     "mine_fraction": 0.0,
+     "master": null,
+     "master_fraction": 0.0,
+     "abs_diff": null,
+     "ok": true
+    },
+    "Q0.05": {
+     "mine": null,
+     "mine_fraction": 0.0,
+     "master": null,
+     "master_fraction": 0.0,
+     "abs_diff": null,
+     "ok": true
+    },
+    "Q0.95": {
+     "mine": null,
+     "mine_fraction": 0.0,
+     "master": null,
+     "master_fraction": 0.0,
+     "abs_diff": null,
+     "ok": true
+    }
+   }
+  },
+  {
+   "cell": "partial 1",
+   "col": -7899,
+   "row": 5467,
+   "centre_lonlat": [
+    -124.99686354432751,
+    48.99944236243553
+   ],
+   "centre_in_d82_rectangle": true,
+   "stats": {
+    "mean": {
+     "mine": 5.5,
+     "mine_fraction": 0.3362481618539775,
+     "master": null,
+     "master_fraction": 0.3362484872341156,
+     "abs_diff": null,
+     "ok": true
+    },
+    "Q0.05": {
+     "mine": 4.0,
+     "mine_fraction": 0.3362481618539775,
+     "master": null,
+     "master_fraction": 0.3362484872341156,
+     "abs_diff": null,
+     "ok": true
+    },
+    "Q0.95": {
+     "mine": 7.950000000000001,
+     "mine_fraction": 0.3362481618539775,
+     "master": null,
+     "master_fraction": 0.3362484872341156,
+     "abs_diff": null,
+     "ok": true
+    }
+   }
+  },
+  {
+   "cell": "partial 2",
+   "col": -7897,
+   "row": 5464,
+   "centre_lonlat": [
+    -124.98670648259268,
+    48.99464259340404
+   ],
+   "centre_in_d82_rectangle": true,
+   "stats": {
+    "mean": {
+     "mine": 4.912289979026234,
+     "mine_fraction": 0.6271678380314899,
+     "master": 4.912290096282959,
+     "master_fraction": 0.6271681785583496,
+     "abs_diff": 1.1725672521833985e-07,
+     "ok": true
+    },
+    "Q0.05": {
+     "mine": 3.7131126645134045,
+     "mine_fraction": 0.6271678380314899,
+     "master": 3.7131125926971436,
+     "master_fraction": 0.6271681785583496,
+     "abs_diff": 7.181626093810678e-08,
+     "ok": true
+    },
+    "Q0.95": {
+     "mine": 6.560670090015245,
+     "mine_fraction": 0.6271678380314899,
+     "master": 6.560669898986816,
+     "master_fraction": 0.6271681785583496,
+     "abs_diff": 1.9102842863105707e-07,
+     "ok": true
+    }
+   }
+  },
+  {
+   "cell": "partial 3",
+   "col": -7897,
+   "row": 5463,
+   "centre_lonlat": [
+    -124.98561863651274,
+    48.9926161015711
+   ],
+   "centre_in_d82_rectangle": true,
+   "stats": {
+    "mean": {
+     "mine": 4.916666666666667,
+     "mine_fraction": 0.3039332563153411,
+     "master": null,
+     "master_fraction": 0.3039335012435913,
+     "abs_diff": null,
+     "ok": true
+    },
+    "Q0.05": {
+     "mine": 3.7,
+     "mine_fraction": 0.3039332563153411,
+     "master": null,
+     "master_fraction": 0.3039335012435913,
+     "abs_diff": null,
+     "ok": true
+    },
+    "Q0.95": {
+     "mine": 6.683333333333334,
+     "mine_fraction": 0.3039332563153411,
+     "master": null,
+     "master_fraction": 0.3039335012435913,
+     "abs_diff": null,
+     "ok": true
+    }
+   }
+  },
+  {
+   "cell": "partial 4",
+   "col": -7896,
+   "row": 5462,
+   "centre_lonlat": [
+    -124.98108479042939,
+    48.99122922690565
+   ],
+   "centre_in_d82_rectangle": true,
+   "stats": {
+    "mean": {
+     "mine": 4.931038930085905,
+     "mine_fraction": 0.6529569194363862,
+     "master": 4.931038856506348,
+     "master_fraction": 0.652957022190094,
+     "abs_diff": 7.357955755793455e-08,
+     "ok": true
+    },
+    "Q0.05": {
+     "mine": 3.7568832097422873,
+     "mine_fraction": 0.6529569194363862,
+     "master": 3.756883144378662,
+     "master_fraction": 0.652957022190094,
+     "abs_diff": 6.536362517906014e-08,
+     "ok": true
+    },
+    "Q0.95": {
+     "mine": 6.6778207686081865,
+     "mine_fraction": 0.6529569194363862,
+     "master": 6.677820682525635,
+     "master_fraction": 0.652957022190094,
+     "abs_diff": 8.608255175346358e-08,
+     "ok": true
+    }
+   }
+  }
+ ]
+}

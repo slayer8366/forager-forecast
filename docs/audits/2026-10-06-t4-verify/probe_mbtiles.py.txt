@@ -1,0 +1,34 @@
+"""Synthetic probe: can rasterio's bundled GDAL write a zoom-9 raster MBTiles with exact byte
+values, and can pmtiles 3.8.1 convert it and read it back? No real data."""
+import io, math, sqlite3, sys
+import numpy as np
+import rasterio
+from rasterio.transform import from_origin
+from rasterio.enums import Resampling
+
+out = sys.argv[1]
+R = 2 * math.pi * 6378137 / 256 / 2**9  # z9 metres per pixel
+ORIG = -2 * math.pi * 6378137 / 2
+# 2x2 tiles at z9, tile x 80..81, y 178..179
+x0 = ORIG + 80 * 256 * R
+y0 = -ORIG - 178 * 256 * R
+w = h = 512
+vals = (np.arange(w * h).reshape(h, w) % 140 + 1).astype("uint8")
+alpha = np.full((h, w), 255, "uint8")
+alpha[:, :50] = 0  # nodata strip
+prof = dict(driver="MBTiles", width=w, height=h, count=2, dtype="uint8",
+            crs="EPSG:3857", transform=from_origin(x0, y0, R, R))
+with rasterio.open(out, "w", **prof, TILE_FORMAT="PNG", RESAMPLING="NEAREST") as dst:
+    dst.write(vals, 1); dst.write(alpha, 2)
+    dst.build_overviews([2], Resampling.average)
+con = sqlite3.connect(out)
+print("metadata", con.execute("select name,value from metadata").fetchall())
+print("zooms", con.execute("select zoom_level,count(*) from tiles group by zoom_level").fetchall())
+blob = con.execute("select tile_data from tiles where zoom_level=9 limit 1").fetchone()[0]
+print("png color type byte", blob[25], "(0 grey, 4 grey+alpha, 6 rgba)")
+with rasterio.open(out) as src:
+    print("reopen count", src.count, src.res, src.bounds)
+    with rasterio.open(out, BAND_COUNT=2) as s2:
+        a = s2.read(1); m = s2.read(2)
+        ok = (m == alpha).all() and (a[alpha == 255] == vals[alpha == 255]).all()
+        print("exact roundtrip of values where alpha=255:", bool(ok))

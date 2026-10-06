@@ -1,0 +1,19 @@
+"""T4 reviewer (D18): a negative control for the ten-cell check on real data.
+
+Builds a deliberately wrong master grid and archive from the builder's stored SoilGrids subsets, with
+the 0-30 cm blend weights reversed (15, 10, 5 instead of 5, 10, 15) by patching the module attribute
+in this process only (no source file is edited), into a scratch directory whose native/ is a symlink
+to the builder's data (read-only). Then scripts/t4_ten_cells.py must FAIL on it: if it passed, it
+would share the pipeline's blend rather than recompute it.
+Usage: uv run python ten_cell_real_control.py.txt SCRATCH_DIR  (SCRATCH_DIR/native must exist)
+"""
+import sys
+from pathlib import Path
+
+import forager_forecast.soilgrids as sg
+from forager_forecast.t4_layer import WESTERN_WASHINGTON, build_archive, build_master
+
+out = Path(sys.argv[1])
+sg.DEPTHS = (("0-5cm", 15), ("5-15cm", 10), ("15-30cm", 5))
+print(build_master(out / "native", out / "master.tif", WESTERN_WASHINGTON))
+build_archive(out / "master.tif", out / "archive")

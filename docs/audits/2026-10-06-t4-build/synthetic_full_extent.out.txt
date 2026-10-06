@@ -1,0 +1,7 @@
+Output of synthetic_full_extent.py.txt, run 2026-10-06 under /usr/bin/time -v on this machine
+(data dir /tmp/claude-1000/t4/synth, noise sources, no ISRIC data):
+
+window left -2099250 bottom 890750 right -1709250 top 1367250; cells 2973360
+regrid_seconds 120.1; build_master_seconds 122.4; archive_seconds 3.1; header_zoom [5, 9]
+sampler_vs_exact_on_noise: n 2000, max 0.0031, p99 0.0019, mean 0.0004 (pH)
+Elapsed (wall clock) 2:10.59; Maximum resident set size 874264 kB
