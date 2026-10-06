@@ -144,3 +144,10 @@ records each would move.
 
 None. Main moved, but no cite fails. The hash matches. `datasetKey` and date precision are both on the
 Record. The D28 measure is fixed above, before any count.
+
+## Correction, 2026-10-06, appended by the same session after the build
+
+Nothing above is edited. Section 4 says "One `rights.txt` entry has an empty title (observed)". That is
+wrong. The "observation" was a 1,500-character print of the file's start, which cut off in the middle of
+a `Dataset:` line. Parsing the whole file gives 26 entries, and every one has a title
+(`docs/pulls/gbif-fungi-us-canada-2015-2025.datasets.json`, `rights_txt_in_zip`). No dataset lacks a title.
