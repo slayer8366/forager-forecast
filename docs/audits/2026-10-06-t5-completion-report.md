@@ -356,7 +356,7 @@ Reading:
   does not touch it, and D92 does not change a value on this strip.
 - **Conifer and broadleaf stay no step**; their threshold rises from 0.059 to 0.066.
 - **D91 moves no tested B at three decimals.** The full files differ only in US within-country
-  figures and the signed mean, by at most 0.004.
+  figures (the largest, the US 95th-percentile within step, by 0.0041) and the signed mean.
 - **Sensitivity** (scales 0.7 and 1.3, Amendment 3, D90): *Pseudotsuga* B 0.0831 against 0.1199 at
   both, no step; conifer B 0.0173 and 0.0176 against 0.0661, no step. Under the old null the first
   build's *Pseudotsuga* was an artifact at all three scales (B 0.0894, 0.0875, 0.0853), and still is
