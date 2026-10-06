@@ -10,8 +10,8 @@ section 4, with the verdict rule as amended in section 7 of that report):
 - Border step, Canada minus US: W0(north) - W0(south). Within-country steps: W_k - W_k+1,
   k = 0..18, on each side.
 - Verdict: B = median over transects of |border step|. The null for each side is the median over
-  transects of one |within step| per transect, drawn at random (seed 20260918, D31); the threshold
-  is the larger side's 95th percentile. B above it is a step larger than the variation inside each
+  the same transects (those with a border step, D90) of one |within step| per transect, drawn at
+  random (seed 20260918, D31); the threshold is the larger side's 95th percentile. B above it is a step larger than the variation inside each
   country, and is written up as a known artifact.
 """
 
@@ -94,8 +94,12 @@ def verdict(border, within_us, within_ca, resamples: int = 10000) -> dict:
     rng = np.random.default_rng(SEED)
     wus = np.abs(np.asarray(within_us, dtype="float64"))
     wca = np.abs(np.asarray(within_ca, dtype="float64"))
-    threshold_us = _null_threshold(wus, rng, resamples)
-    threshold_ca = _null_threshold(wca, rng, resamples)
+    # D90: the null uses the same transects as B (matched counts), not every transect with a
+    # within-country step. The filed rule (verify report section 7) used all of them.
+    matched_us = wus[ok] if wus.ndim == 2 else wus
+    matched_ca = wca[ok] if wca.ndim == 2 else wca
+    threshold_us = _null_threshold(matched_us, rng, resamples)
+    threshold_ca = _null_threshold(matched_ca, rng, resamples)
     threshold = max(threshold_us, threshold_ca)
     big = float(np.median(np.abs(b))) if len(b) else float("nan")
     v_us = float(np.nanmedian(wus)) if np.isfinite(wus).any() else float("nan")
@@ -115,6 +119,8 @@ def verdict(border, within_us, within_ca, resamples: int = 10000) -> dict:
         "within_ca_median_abs": v_ca,
         "within_us_p95_abs": float(np.nanpercentile(wus, 95)) if np.isfinite(wus).any() else None,
         "within_ca_p95_abs": float(np.nanpercentile(wca, 95)) if np.isfinite(wca).any() else None,
+        "null_rows_us": int(sum(np.isfinite(row).any() for row in matched_us)),
+        "null_rows_ca": int(sum(np.isfinite(row).any() for row in matched_ca)),
         "null_threshold_us": threshold_us,
         "null_threshold_ca": threshold_ca,
         "threshold": threshold,

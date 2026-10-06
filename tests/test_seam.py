@@ -95,6 +95,25 @@ def test_with_no_step_the_verdict_fires_about_one_time_in_twenty_or_less():
     assert fired / trials <= 0.08
 
 
+def test_with_7_border_steps_against_24_within_rows_the_verdict_still_fires_rarely():
+    # D90 (Amendment 3, F1 of the T5 review): the null is built from the same transects as the
+    # border statistic. Under the filed rule a median of 7 border steps was compared with a null
+    # of medians over 24 rows, which the review measured firing about 1 time in 6 (0.165).
+    rng = np.random.default_rng(11)
+    fired = 0
+    trials = 200
+    for _ in range(trials):
+        within_us = rng.normal(0, 0.03, (25, 19))
+        within_ca = rng.normal(0, 0.03, (25, 19))
+        within_us[0] = np.nan  # one transect with no US within-country step: 24 rows
+        border = np.full(25, np.nan)
+        border[1:8] = rng.normal(0, 0.03, 7)  # 7 transects with a border step
+        result = verdict(border, within_us, within_ca, resamples=400)
+        fired += result["artifact"]
+    assert fired / trials <= 0.10
+    assert result["null_rows_us"] == result["null_rows_ca"] == result["n_transects"] == 7
+
+
 def test_a_transect_with_no_valid_border_window_is_left_out_and_counted():
     within = np.zeros((3, 19))
     result = verdict(np.array([0.1, np.nan, 0.1]), within, within)
