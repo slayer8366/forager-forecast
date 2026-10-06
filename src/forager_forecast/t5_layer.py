@@ -18,6 +18,7 @@ docs/audits/2026-10-06-t5-verify-report.md.
 """
 
 import csv
+import hashlib
 import io
 import json
 import math
@@ -29,6 +30,7 @@ import numpy as np
 import rasterio
 from pyproj import CRS, Transformer
 from rasterio.transform import from_origin
+from rasterio.windows import Window, from_bounds
 
 from forager_forecast.crown_cover import BANDS, Tree, plot_cover
 from forager_forecast.grid import CELL_SIZE_M, GEOGRAPHIC_CRS, GRID_CRS, GridWindow
@@ -170,6 +172,50 @@ def _number(text: str) -> float:
     return float("nan") if text in ("", "NA") else float(text)
 
 
+# Pixels of the cut window that lie beyond the TreeMap raster itself. The raster ends a little north
+# of 49 N (its top edge in EPSG:5070 is 3,177,435 m), short of the strip's north edge; those pixels
+# are on the Canadian side and are no data there. One on the US side is an error.
+OUTSIDE_RASTER = -1
+
+
+def _cut_window(source: Path, bounds, dest: Path) -> dict:
+    """Like soilgrids.fetch_layer for a local raster, but pixels beyond it read OUTSIDE_RASTER."""
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    with rasterio.open(source) as src:
+        raw = from_bounds(*bounds, transform=src.transform)
+        col0, row0 = math.floor(raw.col_off), math.floor(raw.row_off)
+        col1 = math.ceil(raw.col_off + raw.width)
+        row1 = math.ceil(raw.row_off + raw.height)
+        window = Window(col0, row0, col1 - col0, row1 - row0)
+        data = src.read(1, window=window, boundless=True, fill_value=OUTSIDE_RASTER)
+        if (data == OUTSIDE_RASTER).any() and src.nodata == OUTSIDE_RASTER:
+            raise ValueError("the raster's own no-data value collides with OUTSIDE_RASTER")
+        profile = {
+            "driver": "GTiff", "width": window.width, "height": window.height, "count": 1,
+            "dtype": data.dtype.name, "crs": src.crs, "transform": src.window_transform(window),
+            "nodata": src.nodata, "compress": "deflate",
+        }  # fmt: skip
+        record = {
+            "source": str(source),
+            "bounds_requested": list(bounds),
+            "pixel_window": {"col_off": col0, "row_off": row0, "width": col1 - col0,
+                             "height": row1 - row0},
+            "source_grid": {"crs_wkt": src.crs.to_wkt(), "transform": list(src.transform)[:6],
+                            "width": src.width, "height": src.height},
+            "nodata": src.nodata,
+            "outside_raster_value": OUTSIDE_RASTER,
+            "outside_raster_pixels": int((data == OUTSIDE_RASTER).sum()),
+        }  # fmt: skip
+    lat = _pixel_latitudes(profile["transform"], window.width, window.height, profile["crs"])
+    if ((data == OUTSIDE_RASTER) & (lat < BORDER_LATITUDE)).any():
+        raise ValueError("the TreeMap raster does not cover the US side of the window")
+    with rasterio.open(dest, "w", **profile) as dst:
+        dst.write(data, 1)
+    record["file"] = dest.name
+    record["sha256"] = hashlib.sha256(dest.read_bytes()).hexdigest()
+    return record
+
+
 def cut_treemap(
     native_dir: Path,
     box: LonLatBox,
@@ -180,13 +226,13 @@ def cut_treemap(
     """The TreeMap window over ``box`` and its plots' covers. Returns the request record's path."""
     native_dir = Path(native_dir)
     window = master_window(box)
-    record = fetch_layer(
-        str(treemap_tif), native_bounds(window, TREEMAP_CRS), native_dir / "treemap_plots.tif"
+    record = _cut_window(
+        Path(treemap_tif), native_bounds(window, TREEMAP_CRS), native_dir / "treemap_plots.tif"
     )
     with rasterio.open(native_dir / "treemap_plots.tif") as ds:
         plots = ds.read(1)
         nodata = ds.nodata
-    ids = {int(v) for v in np.unique(plots[plots != nodata])}
+    ids = {int(v) for v in np.unique(plots[(plots != nodata) & (plots != OUTSIDE_RASTER)])}
 
     trees: dict[int, list[Tree]] = {i: [] for i in ids}
     with zipfile.ZipFile(tree_zip) as z, z.open(member) as f:
@@ -286,14 +332,15 @@ def _treemap_layers(native_dir: Path, scale: float):
         nodata = ds.nodata
         transform, crs = ds.transform, ds.crs
     own_side = _pixel_latitudes(transform, plots.shape[1], plots.shape[0], crs) < BORDER_LATITUDE
-    forest = plots != nodata
+    outside = plots == OUTSIDE_RASTER
+    forest = (plots != nodata) & ~outside
     pos = np.searchsorted(ids, plots[forest])
     if (pos >= len(ids)).any() or (ids[np.minimum(pos, len(ids) - 1)] != plots[forest]).any():
         raise ValueError("a TreeMap plot in the window has no row in the plot cover table")
     for k, name in enumerate(("total", *BANDS)):
         layer = np.zeros(plots.shape)
         layer[forest] = table[pos, k]
-        layer[~own_side] = np.nan
+        layer[~own_side | outside] = np.nan
         yield name, layer, transform
 
 

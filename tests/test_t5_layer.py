@@ -72,9 +72,13 @@ def _bounds_in(crs, box, margin):
     return x.min() - margin, y.min() - margin, x.max() + margin, y.max() + margin
 
 
-def _write_treemap(path):
-    left, bottom, right, top = _bounds_in(TREEMAP_CRS, SMALL, 3000)
-    left, top = math.floor(left / 30) * 30, math.ceil(top / 30) * 30
+def _write_treemap(path, top_lat=49.015):
+    # Like the real raster, it ends a little north of 49 N, short of the strip's north edge.
+    left, bottom, right, _ = _bounds_in(TREEMAP_CRS, SMALL, 3000)
+    _, top = Transformer.from_crs("EPSG:4269", TREEMAP_CRS, always_xy=True).transform(
+        -121.90, top_lat
+    )
+    left, top = math.floor(left / 30) * 30, math.floor(top / 30) * 30
     width, height = int((right - left) // 30) + 1, int((top - bottom) // 30) + 1
     transform = from_origin(left, top, 30, 30)
     lon, lat = _grid_lonlat(transform, width, height, TREEMAP_CRS)
@@ -277,6 +281,18 @@ def test_surrogate_widths_move_only_the_plot_with_a_surrogate(built):
     w1 = _at(wide, transform, -121.93, 48.99)
     assert w1["share_Pseudotsuga"] == w0["share_Pseudotsuga"]
     assert built["summary"]["surrogate_species"] == {"542": 746}
+
+
+def test_the_treemap_raster_may_end_north_of_the_border_but_not_south_of_it(built, tmp_path):
+    # The fixture's raster stops at about 49.015 N and the build above succeeded; its Canadian
+    # cells read SCANFI only (test_canadian_cells_...). A raster ending south of 49 N leaves US
+    # cells unknown, which must be an error, not no crown.
+    _write_treemap(tmp_path / "short.tif", top_lat=48.99)
+    _write_tree_zip(tmp_path / "RDS-2026-0038.zip")
+    with pytest.raises(ValueError, match="does not cover"):
+        cut_treemap(
+            tmp_path / "native", SMALL, tmp_path / "short.tif", tmp_path / "RDS-2026-0038.zip"
+        )
 
 
 def test_plot_covers_are_computed_only_for_plots_in_the_window(built):
