@@ -1,0 +1,40 @@
+"""T6 review (D18), beside with no verdict: how much the lichen season adds over no season at all.
+
+Scores, by the same leave-one-year-out with each fold's chosen configuration (refit.py.txt's),
+cell + year + day-type with a flat season, against the effort surface (lichen season) and the
+all-fungi fit. Reuses refit.py.txt's definitions by executing its text up to its run section, so
+the model is the one already compared with the builder's to 1e-9.
+
+    python flat_season.py.txt RECOUNT_DIR REFIT_JSON OUT_JSON
+"""
+
+import json
+import resource
+import sys
+from pathlib import Path
+
+HERE = Path(__file__).parent
+source = (HERE / "refit.py.txt").read_text()
+recount, refit_json, out = sys.argv[1], sys.argv[2], Path(sys.argv[3])
+sys.argv = ["refit", recount, "/dev/null"]
+exec(source.split("\nresults = {}\n")[0])  # noqa: S102 - the reviewer's own file, read in full
+chosen_all = json.loads(Path(refit_json).read_text())
+result = {}
+for name, fn in (("all", "outings_all.npy"), ("cc", "outings_cc_alone.npy")):
+    t = Track(np.load(Path(recount) / fn))  # noqa: F821
+    chosen = chosen_all[name]["chosen_per_fold"]
+    scores = {"flat season (cell + year + day-type)": 0.0, "effort surface (lichen season)": 0.0,
+              "+ day-type (all-fungi season)": 0.0}
+    for h in YEARS:  # noqa: F821
+        p, s = chosen[str(h)].replace("pull=", "").split(",smoothing=")
+        cfg = (float(p), int(s))
+        train = [y for y in YEARS if y != h]  # noqa: F821
+        flat = fit(t, t.fungi, train, cfg[0], cfg[1], ("cell", "year", "day"))  # noqa: F821
+        f_, e_ = effort_surface(t, train, cfg)  # noqa: F821
+        scores["flat season (cell + year + day-type)"] += float(dev_cells(t, t.fungi, flat, h).sum())  # noqa: F821
+        scores["effort surface (lichen season)"] += float(dev_cells(t, t.fungi, e_, h).sum())  # noqa: F821
+        scores["+ day-type (all-fungi season)"] += float(dev_cells(t, t.fungi, f_, h).sum())  # noqa: F821
+    result[name] = scores
+result["peak_rss_mb"] = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss // 1024
+out.write_text(json.dumps(result, indent=1) + "\n")
+print(json.dumps(result, indent=1))
