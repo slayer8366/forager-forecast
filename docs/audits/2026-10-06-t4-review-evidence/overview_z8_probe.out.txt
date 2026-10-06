@@ -1,0 +1,6 @@
+z8 valid pixels 485906
+full 2x2 valid 457499
+partial 2x2 28407
+partial: within 1 of valid-only mean 28407
+partial: within 1 of all-pixel mean (zeros mixed in) 0
+partial: max |z8 - valid-only mean| 0.5

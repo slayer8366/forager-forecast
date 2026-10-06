@@ -1,0 +1,11 @@
+round trip 200,000 random cells: True
+ids in [0, 2**32): True
+distinct cells -> distinct ids: True
+corner ids: 0 4294967295 == 0 and 2**32-1: True
+cell_at -8192000.0 -> GridCell(col=-32768, row=0)
+cell_at 8191999.999 -> GridCell(col=32767, row=0)
+cell_at 8192000.0 -> raises: cell (32768, 0) is outside the id range of +/-8,192 km
+edges: GridCell(col=-1, row=-1) GridCell(col=1, row=1) GridCell(col=-1, row=0)
+Seattle pure Albers: -1843096.297 1156036.185 -> -7373 4624 pipeline: GridCell(col=-7373, row=4624)
+false origin: (0.0, 0.00010960777507351693)
+T4 window 1560 x 1906 = 2973360 cells; corners: GridCell(col=-8397, row=5468) GridCell(col=-6838, row=3563)

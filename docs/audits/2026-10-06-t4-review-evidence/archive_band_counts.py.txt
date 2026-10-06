@@ -1,0 +1,11 @@
+# T4 reviewer (D18): bands and dtypes of every tile in the archive (D81: the mean only, no range bands).
+from collections import Counter
+from pmtiles.reader import MmapSource, all_tiles
+from rasterio.io import MemoryFile
+c = Counter()
+with open("/home/zynergy-labs/Zynergy/forager-forecast-t4/data/t4/archive/soil-ph-0-30cm.pmtiles", "rb") as f:
+    for (z, x, y), data in all_tiles(MmapSource(f)):
+        with MemoryFile(data) as mem, mem.open() as ds:
+            c[(z, ds.count, ds.dtypes[0], ds.width, ds.height)] += 1
+for k, v in sorted(c.items()):
+    print("zoom %d: %d band(s) %s %dx%d -> %d tiles" % (*k, v))
