@@ -1,0 +1,65 @@
+{
+ "zip": "data/d26/downloads/0012112-260928105237408.zip",
+ "rows_read": 2493578,
+ "unloadable": {
+  "eventDate does not name a calendar day": 9604,
+  "eventDate spans more than one day": 23
+ },
+ "source": 2483951,
+ "steps": [
+  [
+   "inside a T1 box",
+   2483951,
+   1295252,
+   1188699
+  ],
+  [
+   "year 2015 to 2025",
+   1188699,
+   0,
+   1188699
+  ],
+  [
+   "not user-obscured",
+   1188699,
+   68863,
+   1119836
+  ],
+  [
+   "coordinate uncertainty present and at most 1,000 m",
+   1119836,
+   464181,
+   655655
+  ],
+  [
+   "not a default date (first of month at 00:00:00)",
+   655655,
+   567,
+   655088
+  ],
+  [
+   "one record per taxon, cell and day",
+   655088,
+   63764,
+   591324
+  ]
+ ],
+ "survivors": 591324,
+ "by_stage_box": {
+  "coordinate uncertainty present and at most 1,000 m|east": 491394,
+  "coordinate uncertainty present and at most 1,000 m|pnw": 164261,
+  "inside a T1 box|east": 935881,
+  "inside a T1 box|pnw": 252818,
+  "not a default date (first of month at 00:00:00)|east": 490991,
+  "not a default date (first of month at 00:00:00)|pnw": 164097,
+  "not user-obscured|east": 883930,
+  "not user-obscured|pnw": 235906,
+  "one record per taxon, cell and day|east": 447276,
+  "one record per taxon, cell and day|pnw": 144048,
+  "source|east": 935881,
+  "source|outside": 1295252,
+  "source|pnw": 252818,
+  "year 2015 to 2025|east": 935881,
+  "year 2015 to 2025|pnw": 252818
+ }
+}
