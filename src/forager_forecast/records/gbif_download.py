@@ -219,11 +219,19 @@ def fetch_download(
     if target.exists():
         raise FileExistsError(f"{target} exists; a download is fetched once")
     partial = target.with_name(target.name + ".part")
+    # Created here, before the request, so the cleanup below only ever removes a file this call
+    # made. A partial file left by an earlier run is refused and kept (D26 review, finding 3).
+    try:
+        out = partial.open("xb")
+    except FileExistsError as error:
+        raise FileExistsError(
+            f"{partial} exists; left by an earlier fetch, so it is not removed here"
+        ) from error
     digest = hashlib.sha256()
     size = 0
     request = Request(DOWNLOAD_FILE_URL.format(key=key), method="GET")
     try:
-        with opener(request, timeout=600) as response, partial.open("xb") as out:
+        with out, opener(request, timeout=600) as response:
             while chunk := response.read(chunk_bytes):
                 out.write(chunk)
                 digest.update(chunk)
