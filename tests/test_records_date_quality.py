@@ -170,6 +170,14 @@ def test_a_significant_excess_under_twice_one_in_thirty_is_a_small_excess():
     assert verdicts(days("a", 100_000, 4000)) == {"a": dq.SMALL}
 
 
+def test_a_share_above_twice_one_in_thirty_is_not_clear_unless_its_interval_is():
+    """25 of 300: the share is 0.083, above 2/30, but the interval's lower end is not."""
+    (a,) = dq.assess([days("a", 300, 25)])
+    assert a.share > dq.CLEAR_EXCESS_SHARE > a.interval[0]
+    assert a.p_value < a.level_each
+    assert a.verdict == dq.SMALL
+
+
 def test_the_level_is_split_over_the_datasets_tested_and_only_those():
     # 48 of 1,000 on the 1st: upper tail 0.00876, under 0.01 and over 0.005.
     assert verdicts(days("a", 1000, 48)) == {"a": dq.SMALL}
