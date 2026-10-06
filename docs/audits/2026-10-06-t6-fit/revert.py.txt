@@ -23,7 +23,7 @@ CHECKS = [
     ("R1 weekend starts Friday", EFFORT, "return WEEKEND if day.weekday() >= 5 else WEEKDAY",
      "return WEEKEND if day.weekday() >= 4 else WEEKDAY", "test_weekend_is_saturday_and_sunday"),
     ("R2 week 53 gets its own slot", EFFORT, "return min(week.week, N_SLOTS) - 1",
-     "return week.week - 1", "test_week_53_shares_week_52s_slot"),
+     "return (week.week - 1) % N_SLOTS", "test_week_53_shares_week_52s_slot"),
     ("R3 one anonymous observer overall", EFFORT,
      'return record.recorded_by if record.recorded_by else f"anonymous:{record.dataset_key}"',
      'return record.recorded_by if record.recorded_by else "anonymous"',
