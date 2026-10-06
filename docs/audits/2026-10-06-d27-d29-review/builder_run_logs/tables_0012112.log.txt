@@ -1,0 +1,33 @@
+assessment written: {'clear excess': 0, 'small excess': 1, 'too few to test': 20, 'close to 1 in 30': 5}
+t1_keep_all: 194.6 s, peak 548.1 MB
+t1_per_dataset: 186.9 s, peak 549.4 MB
+t1_per_dataset_plus_small: 185.7 s, peak 549.4 MB
+t1_per_dataset_plus_too_few: 185.8 s, peak 549.4 MB
+r6_drop_all: 210.8 s, peak 1111.2 MB
+r6_keep_all: 209.4 s, peak 1141.4 MB
+r6_per_dataset: 209.4 s, peak 1141.6 MB
+r6_per_dataset_plus_small: 211.3 s, peak 1141.7 MB
+r6_per_dataset_plus_too_few: 211.7 s, peak 1141.7 MB
+	Command being timed: ".venv/bin/python scripts/d27_d28_tables.py /home/zynergy-labs/Zynergy/forager-forecast-d26/data/d26/downloads/0012112-260928105237408.zip docs/pulls/gbif-fungi-us-canada-2015-2025.datasets.json docs/audits/2026-10-06-d27-d29/tables_0012112"
+	User time (seconds): 1998.20
+	System time (seconds): 5.54
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 33:25.34
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1169080
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 1343505
+	Voluntary context switches: 2
+	Involuntary context switches: 104154
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 288
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

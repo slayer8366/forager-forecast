@@ -1,0 +1,2 @@
+occurrence.txt: 2,549,508 rows, 41 datasets
+wrote docs/pulls/gbif-fungi-north-america-2015-2025.datasets.json; 16 API requests
