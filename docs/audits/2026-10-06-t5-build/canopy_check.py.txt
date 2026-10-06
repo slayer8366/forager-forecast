@@ -1,0 +1,41 @@
+"""T5 build check: our plot cover (Bechtold 2004 Eq. 3 + Crookston and Stage eqs. 1-2, trees of
+5.0 in and up) against TreeMap's own CANOPYPCT (FVS live canopy cover, all live trees) for the
+strip's plots, read from the raster attribute table (.vat.dbf) on the flash drive.
+Run: uv run --frozen python docs/audits/2026-10-06-t5-build/canopy_check.py.txt
+"""
+import csv, struct
+import numpy as np
+
+def read_dbf(path, want):
+    with open(path, "rb") as f:
+        head = f.read(32)
+        n, hlen, rlen = struct.unpack("<IHH", head[4:12])
+        fields = []
+        while True:
+            d = f.read(32)
+            if d[0] == 0x0D: break
+            fields.append((d[:11].split(b"\0")[0].decode(), d[16]))
+        f.seek(hlen)
+        out = {k: [] for k in want}
+        for _ in range(n):
+            rec = f.read(rlen); pos = 1
+            for name, size in fields:
+                if name in out: out[name].append(rec[pos:pos + size].decode().strip())
+                pos += size
+    return out
+
+vat = read_dbf("data/t5/treemap2023/TreeMap2023_CONUS.tif.vat.dbf", ["Value", "CANOPYPCT", "Count"])
+canopy = {int(float(v)): float(c) for v, c in zip(vat["Value"], vat["CANOPYPCT"]) if c not in ("",)}
+ours = {}
+with open("data/t5/native/treemap_plot_covers.csv") as f:
+    for row in csv.DictReader(f):
+        if float(row["surrogate_width_scale"]) == 1.0:
+            ours[int(row["TM_ID"])] = float(row["total"])
+ids = sorted(set(ours) & set(canopy))
+a = np.array([ours[i] for i in ids]); b = np.array([canopy[i] for i in ids])
+print("plots", len(ids), "of", len(ours))
+print("ours mean %.1f, TreeMap CANOPYPCT mean %.1f" % (a.mean(), b.mean()))
+print("Pearson r %.3f" % np.corrcoef(a, b)[0, 1])
+d = a - b
+print("difference ours - TreeMap: median %.1f, IQR %.1f to %.1f, mean abs %.1f" % (
+    np.median(d), np.percentile(d, 25), np.percentile(d, 75), np.abs(d).mean()))

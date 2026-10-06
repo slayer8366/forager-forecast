@@ -1,0 +1,306 @@
+window pixels 10776740 forest pixels 4524208 distinct TM_ID 1396
+plots with trees 1396 plots without any tree row 0
+live tree rows 49723
+basal-area share in trees under 5.0 in (pixel-weighted): 0.0582
+[
+{
+"spcd": 11,
+"common": "Pacific silver fir",
+"scientific": "Abies amabilis",
+"ba_share_pixel_weighted": 0.2788
+},
+{
+"spcd": 263,
+"common": "western hemlock",
+"scientific": "Tsuga heterophylla",
+"ba_share_pixel_weighted": 0.25206
+},
+{
+"spcd": 202,
+"common": "Douglas-fir",
+"scientific": "Pseudotsuga menziesii",
+"ba_share_pixel_weighted": 0.10048
+},
+{
+"spcd": 264,
+"common": "mountain hemlock",
+"scientific": "Tsuga mertensiana",
+"ba_share_pixel_weighted": 0.09479
+},
+{
+"spcd": 242,
+"common": "western redcedar",
+"scientific": "Thuja plicata",
+"ba_share_pixel_weighted": 0.05786
+},
+{
+"spcd": 351,
+"common": "red alder",
+"scientific": "Alnus rubra",
+"ba_share_pixel_weighted": 0.04889
+},
+{
+"spcd": 542,
+"common": "Oregon ash",
+"scientific": "Fraxinus latifolia",
+"ba_share_pixel_weighted": 0.0408
+},
+{
+"spcd": 19,
+"common": "subalpine fir",
+"scientific": "Abies lasiocarpa",
+"ba_share_pixel_weighted": 0.02745
+},
+{
+"spcd": 22,
+"common": "noble fir",
+"scientific": "Abies procera",
+"ba_share_pixel_weighted": 0.02455
+},
+{
+"spcd": 312,
+"common": "bigleaf maple",
+"scientific": "Acer macrophyllum",
+"ba_share_pixel_weighted": 0.02323
+},
+{
+"spcd": 42,
+"common": "Alaska yellow-cedar",
+"scientific": "Chamaecyparis nootkatensis",
+"ba_share_pixel_weighted": 0.01771
+},
+{
+"spcd": 747,
+"common": "black cottonwood",
+"scientific": "Populus balsamifera ssp. trichocarpa",
+"ba_share_pixel_weighted": 0.0098
+},
+{
+"spcd": 98,
+"common": "Sitka spruce",
+"scientific": "Picea sitchensis",
+"ba_share_pixel_weighted": 0.0073
+},
+{
+"spcd": 93,
+"common": "Engelmann spruce",
+"scientific": "Picea engelmannii",
+"ba_share_pixel_weighted": 0.0043
+},
+{
+"spcd": 119,
+"common": "western white pine",
+"scientific": "Pinus monticola",
+"ba_share_pixel_weighted": 0.00234
+},
+{
+"spcd": 108,
+"common": "lodgepole pine",
+"scientific": "Pinus contorta",
+"ba_share_pixel_weighted": 0.00211
+},
+{
+"spcd": 17,
+"common": "grand fir",
+"scientific": "Abies grandis",
+"ba_share_pixel_weighted": 0.00206
+},
+{
+"spcd": 768,
+"common": "bitter cherry",
+"scientific": "Prunus emarginata",
+"ba_share_pixel_weighted": 0.00138
+},
+{
+"spcd": 815,
+"common": "Oregon white oak",
+"scientific": "Quercus garryana",
+"ba_share_pixel_weighted": 0.00052
+},
+{
+"spcd": 375,
+"common": "paper birch",
+"scientific": "Betula papyrifera",
+"ba_share_pixel_weighted": 0.00044
+},
+{
+"spcd": 72,
+"common": "subalpine larch",
+"scientific": "Larix lyallii",
+"ba_share_pixel_weighted": 0.0004
+},
+{
+"spcd": 231,
+"common": "Pacific yew",
+"scientific": "Taxus brevifolia",
+"ba_share_pixel_weighted": 0.00037
+},
+{
+"spcd": 81,
+"common": "incense-cedar",
+"scientific": "Calocedrus decurrens",
+"ba_share_pixel_weighted": 0.00037
+},
+{
+"spcd": 101,
+"common": "whitebark pine",
+"scientific": "Pinus albicaulis",
+"ba_share_pixel_weighted": 0.00036
+},
+{
+"spcd": 73,
+"common": "western larch",
+"scientific": "Larix occidentalis",
+"ba_share_pixel_weighted": 0.00027
+},
+{
+"spcd": 661,
+"common": "Oregon crab apple",
+"scientific": "Malus fusca",
+"ba_share_pixel_weighted": 0.00026
+},
+{
+"spcd": 361,
+"common": "Pacific madrone",
+"scientific": "Arbutus menziesii",
+"ba_share_pixel_weighted": 0.00022
+},
+{
+"spcd": 122,
+"common": "ponderosa pine",
+"scientific": "Pinus ponderosa",
+"ba_share_pixel_weighted": 0.00022
+},
+{
+"spcd": 492,
+"common": "Pacific dogwood",
+"scientific": "Cornus nuttallii",
+"ba_share_pixel_weighted": 0.00019
+},
+{
+"spcd": 818,
+"common": "California black oak",
+"scientific": "Quercus kelloggii",
+"ba_share_pixel_weighted": 0.00011
+},
+{
+"spcd": 41,
+"common": "Port-Orford-cedar",
+"scientific": "Chamaecyparis lawsoniana",
+"ba_share_pixel_weighted": 0.0001
+},
+{
+"spcd": 807,
+"common": "blue oak",
+"scientific": "Quercus douglasii",
+"ba_share_pixel_weighted": 7e-05
+},
+{
+"spcd": 116,
+"common": "Jeffrey pine",
+"scientific": "Pinus jeffreyi",
+"ba_share_pixel_weighted": 5e-05
+},
+{
+"spcd": 15,
+"common": "white fir",
+"scientific": "Abies concolor",
+"ba_share_pixel_weighted": 3e-05
+},
+{
+"spcd": 805,
+"common": "canyon live oak",
+"scientific": "Quercus chrysolepis",
+"ba_share_pixel_weighted": 3e-05
+},
+{
+"spcd": 431,
+"common": "giant chinkapin, golden chinkapin",
+"scientific": "Chrysolepis chrysophylla var. chrysophylla",
+"ba_share_pixel_weighted": 3e-05
+},
+{
+"spcd": 127,
+"common": "gray or California foothill pine",
+"scientific": "Pinus sabiniana",
+"ba_share_pixel_weighted": 1e-05
+},
+{
+"spcd": 117,
+"common": "sugar pine",
+"scientific": "Pinus lambertiana",
+"ba_share_pixel_weighted": 1e-05
+},
+{
+"spcd": 631,
+"common": "tanoak",
+"scientific": "Lithocarpus densiflorus",
+"ba_share_pixel_weighted": 1e-05
+},
+{
+"spcd": 763,
+"common": "chokecherry",
+"scientific": "Prunus virginiana",
+"ba_share_pixel_weighted": 1e-05
+},
+{
+"spcd": 746,
+"common": "quaking aspen",
+"scientific": "Populus tremuloides",
+"ba_share_pixel_weighted": 1e-05
+},
+{
+"spcd": 103,
+"common": "knobcone pine",
+"scientific": "Pinus attenuata",
+"ba_share_pixel_weighted": 0.0
+},
+{
+"spcd": 981,
+"common": "California laurel",
+"scientific": "Umbellularia californica",
+"ba_share_pixel_weighted": 0.0
+},
+{
+"spcd": 839,
+"common": "interior live oak",
+"scientific": "Quercus wislizeni",
+"ba_share_pixel_weighted": 0.0
+},
+{
+"spcd": 64,
+"common": "western juniper",
+"scientific": "Juniperus occidentalis",
+"ba_share_pixel_weighted": 0.0
+},
+{
+"spcd": 321,
+"common": "Rocky Mountain maple",
+"scientific": "Acer glabrum",
+"ba_share_pixel_weighted": 0.0
+},
+{
+"spcd": 333,
+"common": "California buckeye",
+"scientific": "Aesculus californica",
+"ba_share_pixel_weighted": 0.0
+},
+{
+"spcd": 20,
+"common": "California red fir",
+"scientific": "Abies magnifica",
+"ba_share_pixel_weighted": 0.0
+},
+{
+"spcd": 21,
+"common": "Shasta red fir",
+"scientific": "Abies shastensis",
+"ba_share_pixel_weighted": 0.0
+},
+{
+"spcd": 922,
+"common": "black willow",
+"scientific": "Salix nigra",
+"ba_share_pixel_weighted": 0.0
+}
+]

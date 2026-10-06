@@ -1,0 +1,233 @@
+"""T5 review (D18): genus shares and total cover on real master cells, recomputed independently.
+
+Independent of t5_layer.py, regrid.py and crown_cover.plot_cover: the DBF is parsed here, the
+tree table is streamed here, crown cover (Bechtold 2004 Eq. 3, Crookston and Stage eqs 1-2) and
+the surrogate rule are re-implemented here, and each master cell is approximated by a 50 x 50
+grid of point samples (exact area weighting is not reproduced, so agreement is to about 0.01 in a
+share and about 1 point in cover). It reuses only crown_cover.BECHTOLD_2004_EQ3 and _N, which the
+review checked row by row against the paper's Tables 3 and 1, and it checks each SPCD it uses
+against the tree table's COMMON_NAME. Reads the flash drive only; writes nothing there.
+Run: PYTHONDONTWRITEBYTECODE=1 uv run --frozen python <this file>
+"""
+
+import csv
+import hashlib
+import io
+import json
+import math
+import struct
+import zipfile
+from collections import defaultdict
+from pathlib import Path
+
+import numpy as np
+import rasterio
+from pyproj import Transformer
+
+from forager_forecast.crown_cover import BECHTOLD_2004_EQ3 as EQ3
+from forager_forecast.crown_cover import BECHTOLD_2004_N as NOBS
+
+D = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t5")
+MASTER = D / "master_treemap_canopy_scale_1.0" / "host_trees_strip.tif"
+TM_TIF = D / "treemap2023" / "TreeMap2023_CONUS.tif"
+VAT = D / "treemap2023" / "TreeMap2023_CONUS.tif.vat.dbf"
+ZIP = D / "treemap2023" / "RDS-2026-0038.zip"
+NATIVE = D / "native"
+SS = 50
+WOODLAND = {62, 64, 65, 66, 69, 106, 133, 321, 322, 475, 814}
+# Table 1 maximum stem diameter (in) for the species the strip uses most, read from the paper.
+TABLE1_MAX_D = {11: 35.8, 202: 68.7, 263: 63.5, 264: 32.4, 242: 62.0, 351: 28.3, 312: 34.1,
+                98: 39.2, 93: 35.9, 19: 27.4, 17: 43.9, 22: 46.0, 746: 19.9, 815: 22.4, 108: 62.2,
+                119: 38.4, 73: 23.1, 41: 13.4, 122: 41.3}
+GYMNO = {"Abies", "Callitropsis", "Calocedrus", "Chamaecyparis", "Cupressus", "Hesperocyparis",
+         "Juniperus", "Larix", "Picea", "Pinus", "Pseudotsuga", "Sequoia", "Sequoiadendron",
+         "Taxus", "Thuja", "Torreya", "Tsuga", "Xanthocyparis"}
+
+to_lonlat = Transformer.from_crs("ESRI:102008", "EPSG:4269", always_xy=True)
+
+
+def dbf(path, want):
+    with open(path, "rb") as f:
+        n, hlen, rlen = struct.unpack("<IHH", f.read(12)[4:12])
+        f.seek(32)
+        fields = []
+        while (d := f.read(32))[0] != 0x0D:
+            fields.append((d[:11].rstrip(b"\0").decode(), d[16]))
+        f.seek(hlen)
+        out = {w: [] for w in want}
+        for _ in range(n):
+            r = f.read(rlen)
+            p = 1
+            for name, size in fields:
+                if name in out:
+                    out[name].append(r[p:p + size].decode().strip())
+                p += size
+    return out
+
+
+def cell_points(col, row, left, top):
+    off = (np.arange(SS) + 0.5) / SS * 250
+    xs = left + col * 250 + off
+    ys = top - row * 250 - off
+    return np.meshgrid(xs, ys)
+
+
+with rasterio.open(MASTER) as m:
+    names = list(m.descriptions)
+    B = {n: m.read(i + 1) for i, n in enumerate(names)}
+    left, top = m.transform.c, m.transform.f
+rng = np.random.default_rng(20261006)
+us_ok = np.argwhere((B["source"] == 1) & np.isfinite(B["share_Pseudotsuga"]) & (B["share_Pseudotsuga"] > 0.05))
+ca_ok = np.argwhere((B["source"] == 2) & np.isfinite(B["share_Pseudotsuga"]) & (B["share_Pseudotsuga"] > 0.05))
+us_cells = [tuple(x) for x in us_ok[rng.choice(len(us_ok), 4, replace=False)]]
+ca_cells = [tuple(x) for x in ca_ok[rng.choice(len(ca_ok), 3, replace=False)]]
+
+# --- US side -----------------------------------------------------------------------------------
+to5070 = Transformer.from_crs("ESRI:102008", "EPSG:5070", always_xy=True)
+pts = {}
+with rasterio.open(TM_TIF) as tm:
+    nod = tm.nodata
+    for row, col in us_cells:
+        gx, gy = cell_points(col, row, left, top)
+        lon, lat = to_lonlat.transform(gx, gy)
+        x, y = to5070.transform(gx, gy)
+        vals = np.array([v[0] for v in tm.sample(zip(x.ravel(), y.ravel()))])
+        own = lat.ravel() < 49.0
+        pts[(row, col)] = (vals[own], nod)
+plots = {int(v) for vals, nod in pts.values() for v in vals if v != nod}
+
+vat = dbf(VAT, ("Value", "CANOPYPCT"))
+canopy = {int(float(v)): float(c) for v, c in zip(vat["Value"], vat["CANOPYPCT"]) if c}
+
+# Whole-window facts: plots without split, trees with no crown or beyond Table 1's range.
+with rasterio.open(NATIVE / "treemap_plots.tif") as ds:
+    cut = ds.read(1)
+    cut_nod = ds.nodata
+    t, crs = ds.transform, ds.crs
+win_plots = {int(v) for v in np.unique(cut[(cut != cut_nod) & (cut != -1)])}
+all_plots = win_plots | plots
+
+trees = defaultdict(list)
+names_seen = {}
+with zipfile.ZipFile(ZIP) as z, z.open("Data/TreeMap2023_CONUS_Tree_Table.csv") as f:
+    for r in csv.DictReader(io.TextIOWrapper(f, encoding="utf-8-sig")):
+        tmid = int(r["TM_ID"])
+        if tmid in all_plots:
+            trees[tmid].append(r)
+            names_seen[int(r["SPCD"])] = r["COMMON_NAME"]
+
+
+def surrogate(spcd, genus):
+    if spcd in EQ3:
+        return spcd
+    from forager_forecast.crown_cover import TABLE_3_GENUS  # genus labels only
+    mates = [s for s, g in TABLE_3_GENUS.items() if g == genus and s not in WOODLAND]
+    if mates:
+        return max(mates, key=NOBS.get)
+    return 202 if genus in GYMNO else 746
+
+
+def plot_split(rows):
+    """(sum p a by genus and class, total p a, zero-width trees, beyond-range trees)."""
+    pa = defaultdict(float)
+    zero = beyond = 0
+    for r in rows:
+        if r["STATUSCD"] != "1" or r["DIA"] in ("", "NA") or float(r["DIA"]) < 5.0:
+            continue
+        tpa = float(r["TPA_UNADJ"]) if r["TPA_UNADJ"] not in ("", "NA") else 0
+        if tpa <= 0:
+            continue
+        spcd, genus, d = int(r["SPCD"]), r["SCIENTIFIC_NAME"].split()[0], float(r["DIA"])
+        s = surrogate(spcd, genus)
+        b0, b1, b2 = EQ3[s]
+        w = b0 + b1 * d + b2 * d * d
+        if s in TABLE1_MAX_D and d > TABLE1_MAX_D[s]:
+            beyond += 1
+        if w <= 0:
+            zero += 1
+            continue
+        a = tpa * math.pi * (w / 2) ** 2
+        pa[genus] += a
+        pa["conifer" if genus in GYMNO else "broadleaf"] += a
+        pa["_total"] += a
+    return pa, zero, beyond
+
+
+split = {p: plot_split(trees.get(p, [])) for p in all_plots}
+no_split = sorted(p for p in win_plots if split[p][0]["_total"] == 0 and canopy.get(p, 0) > 0)
+no_split_any = sorted(p for p in win_plots if split[p][0]["_total"] == 0)
+lat_cut = Transformer.from_crs(crs, "EPSG:4269", always_xy=True).transform(
+    *np.meshgrid(t.c + (np.arange(cut.shape[1]) + 0.5) * t.a, t.f + (np.arange(cut.shape[0]) + 0.5) * t.e))[1]
+forest = (cut != cut_nod) & (cut != -1)
+us_forest = forest & (lat_cut < 49.0)
+ns_set = np.isin(cut, no_split)
+facts = {
+    "plots_in_window": len(win_plots),
+    "plots_with_canopy_but_no_tree_of_5in": len(no_split),
+    "plots_with_no_tree_of_5in_any_canopy": len(no_split_any),
+    "forest_pixels_in_cut": int(forest.sum()),
+    "forest_pixels_in_cut_south_of_49": int(us_forest.sum()),
+    "no_split_pixels_in_cut": int((forest & ns_set).sum()),
+    "no_split_pixels_south_of_49": int((us_forest & ns_set).sum()),
+    "trees_with_zero_or_negative_width_dropped": sum(split[p][1] for p in win_plots),
+    "trees_beyond_table1_max_d_listed_species": sum(split[p][2] for p in win_plots),
+    "canopypct_of_no_split_plots": {p: canopy[p] for p in no_split},
+}
+
+results = {"facts": facts, "us": [], "canada": []}
+for (row, col), (vals, nod) in pts.items():
+    n = len(vals)
+    tot = sum(canopy[v] if v != nod else 0.0 for v in vals) / n
+    num = defaultdict(float)
+    den = 0.0
+    for v in vals:
+        if v == nod:
+            continue
+        pa = split[v][0]
+        if pa["_total"] == 0:
+            continue
+        den += canopy[v]
+        for g in ("Pseudotsuga", "Tsuga", "Abies", "conifer", "broadleaf"):
+            num[g] += canopy[v] * pa[g] / pa["_total"]
+    mine = {"total_cover_pct": tot, **{f"share_{g}": num[g] / den for g in num}}
+    built = {k: float(B[k][row, col]) for k in mine}
+    results["us"].append({"row": int(row), "col": int(col), "own_side_samples": n,
+                          "independent": mine, "built": built,
+                          "max_abs_diff_share": max(abs(mine[k] - built[k]) for k in mine if k.startswith("share")),
+                          "abs_diff_cover": abs(mine["total_cover_pct"] - built["total_cover_pct"])})
+
+# --- Canadian side ----------------------------------------------------------------------------
+req = json.loads(Path("docs/pulls/t5-scanfi-v2-2025-strip.request.json").read_text())
+hash_ok = all(hashlib.sha256((NATIVE / L["file"]).read_bytes()).hexdigest() == L["sha256"] for L in req["layers"])
+results["facts"]["scanfi_native_hashes_match_request_record"] = hash_ok
+classes = req["classes"]
+arr = {}
+for c in classes:
+    with rasterio.open(NATIVE / f"scanfi_{c}.tif") as ds:
+        arr[c] = (ds.read(1), ds.transform, ds.crs, ds.nodata)
+tolcc = Transformer.from_crs("ESRI:102008", arr[classes[0]][2], always_xy=True)
+for row, col in ca_cells:
+    gx, gy = cell_points(col, row, left, top)
+    lon, lat = to_lonlat.transform(gx, gy)
+    own = lat.ravel() >= 49.0
+    x, y = tolcc.transform(gx.ravel()[own], gy.ravel()[own])
+    sums = {}
+    for c in classes:
+        a, tr, _, nod = arr[c]
+        cc = np.floor((x - tr.c) / tr.a).astype(int)
+        rr = np.floor((y - tr.f) / tr.e).astype(int)
+        v = a[rr, cc].astype(float)
+        v[v == nod] = 0.0
+        sums[c] = v.mean()
+    total = sum(sums.values())
+    mine = {"total_cover_pct": total, "share_Pseudotsuga": sums["douglasFir"] / total,
+            "share_broadleaf": sums["broadleaf"] / total,
+            "share_conifer": (total - sums["broadleaf"]) / total}
+    built = {k: float(B[k][row, col]) for k in mine}
+    results["canada"].append({"row": int(row), "col": int(col), "independent": mine, "built": built,
+                              "max_abs_diff_share": max(abs(mine[k] - built[k]) for k in mine if k.startswith("share")),
+                              "abs_diff_cover": abs(mine["total_cover_pct"] - built["total_cover_pct"])})
+
+used = sorted({surrogate(int(r["SPCD"]), r["SCIENTIFIC_NAME"].split()[0]) for p in all_plots for r in trees.get(p, [])})
+results["facts"]["spcd_common_names_for_table3_species_used"] = {s: names_seen.get(s) for s in used}
+print(json.dumps(results, indent=1, default=str))

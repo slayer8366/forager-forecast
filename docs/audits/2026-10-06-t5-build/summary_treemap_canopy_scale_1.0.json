@@ -1,0 +1,77 @@
+{
+  "master_window": {
+    "left": -1839250,
+    "bottom": 1254250,
+    "right": -1696750,
+    "top": 1356750
+  },
+  "cells_in_box": {
+    "us": 72479,
+    "canada": 72040
+  },
+  "cells_valid": {
+    "us": 72478,
+    "canada": 72040
+  },
+  "cells_with_share": {
+    "us": 49424,
+    "canada": 56306
+  },
+  "surrogate_width_scale": 1.0,
+  "surrogate_species": {
+    "42": 41,
+    "72": 73,
+    "103": 108,
+    "231": 202,
+    "333": 746,
+    "375": 746,
+    "431": 746,
+    "492": 746,
+    "542": 746,
+    "661": 746,
+    "747": 746,
+    "763": 746,
+    "768": 746,
+    "922": 746
+  },
+  "surrogate_trees": 1242,
+  "plots_in_window": 1512,
+  "plots_without_tree_rows": 0,
+  "plots_without_split": 22,
+  "us_total": "treemap_canopy",
+  "scanfi_year": 2025,
+  "mean_share_where_defined": {
+    "Pseudotsuga": {
+      "us": 0.08023464738484083,
+      "canada": 0.2015204751305729
+    },
+    "Tsuga": {
+      "us": 0.3202102488865993,
+      "canada": null
+    },
+    "Picea": {
+      "us": 0.010367865444572952,
+      "canada": null
+    },
+    "Abies": {
+      "us": 0.34164572409722876,
+      "canada": null
+    },
+    "Pinus": {
+      "us": 0.007071823219369598,
+      "canada": null
+    },
+    "Quercus": {
+      "us": 0.0020737392595071447,
+      "canada": null
+    },
+    "conifer": {
+      "us": 0.8118016564842097,
+      "canada": 0.7910187500894285
+    },
+    "broadleaf": {
+      "us": 0.18819834351579035,
+      "canada": 0.20898124991057157
+    }
+  }
+}

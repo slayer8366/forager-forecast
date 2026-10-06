@@ -1,0 +1,92 @@
+{
+  "dataset": "SCANFI v2, species crown closure (%)",
+  "citation": "Guindon L., Correia D.L.P, Manka F. and Smiley B. 2026. SCANFI v2: Spatialized CAnadian National Forest Inventory data product v2. Natural Resources Canada, Canadian Forest Service, Laurentian Forestry Centre, Quebec, Canada. https://doi.org/10.23687/07653869-f303-46c2-a04e-9ab479b73cbf",
+  "licence": "Open Government Licence - Canada",
+  "licence_source": "https://open.canada.ca/data/en/dataset/07653869-f303-46c2-a04e-9ab479b73cbf",
+  "year": 2025,
+  "classes": [
+    "balsamFir",
+    "blackSpruce",
+    "broadleaf",
+    "douglasFir",
+    "jackPine",
+    "lodgepolePine",
+    "otherConiferous",
+    "ponderosaPine",
+    "tamarack",
+    "whiteRedPine"
+  ],
+  "total_layer": "att_closure",
+  "extent": {
+    "south": 48.7,
+    "north": 49.3,
+    "west": -122.8,
+    "east": -120.95
+  },
+  "master_window": {
+    "left": -1839250,
+    "bottom": 1254250,
+    "right": -1696750,
+    "top": 1356750
+  },
+  "native_bounds": [
+    -1988720.726272089,
+    6932804.879382668,
+    -1829230.8745986258,
+    7056904.008475835
+  ],
+  "layers": [
+    {
+      "source": "https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/SCANFI/v2/SCANFI_att_closure_2025_v2_20260119.tif",
+      "requested_at": "2026-10-06T13:31:01+00:00",
+      "account": "anonymous",
+      "http": {
+        "etag": "\"fa8951cb-64a02ca60de80\"",
+        "last_modified": "Wed, 04 Feb 2026 17:21:46 GMT",
+        "content_length": "4203303371"
+      },
+      "bounds_requested": [
+        -1988720.726272089,
+        6932804.879382668,
+        -1829230.8745986258,
+        7056904.008475835
+      ],
+      "pixel_window": {
+        "col_off": 11759,
+        "row_off": 79319,
+        "width": 5317,
+        "height": 4138
+      },
+      "source_grid": {
+        "crs_wkt": "PROJCS[\"NAD_1983_Canada_Lambert\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.257222101004,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Lambert_Conformal_Conic_2SP\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-95],PARAMETER[\"standard_parallel_1\",49],PARAMETER[\"standard_parallel_2\",77],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+        "transform": [
+          30.0,
+          0.0,
+          -2341500.0,
+          0.0,
+          -30.0,
+          9436500.0
+        ],
+        "width": 178400,
+        "height": 119100,
+        "dtype": "uint8"
+      },
+      "nodata": 255.0,
+      "file": "scanfi_att_closure.tif",
+      "sha256": "ceb2d79fa3d100d0b3f5e946b8be8dfeb8468b87bb2c98bb81f9b06a82160402"
+    }
+  ],
+  "rulings": [
+    "D83",
+    "D84",
+    "D85",
+    "D86",
+    "D87",
+    "D88",
+    "D89",
+    "D90",
+    "D91",
+    "D92",
+    "D74"
+  ]
+}

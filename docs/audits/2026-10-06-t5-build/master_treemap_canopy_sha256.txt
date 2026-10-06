@@ -1,0 +1,2 @@
+70c5e6b09d41a40a93ccda86bcde8de6151039ee5717f67261a5b2eea0518843  data/t5/master_treemap_canopy_scale_1.0/host_trees_strip_flags.tif
+5a61e085159c7992eac0fc1ce3217eab085b8c98b4a0e852fe00726125538711  data/t5/master_treemap_canopy_scale_1.0/host_trees_strip.tif

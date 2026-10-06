@@ -1,0 +1,88 @@
+"""Reviewer re-run (Amendment 3 review): the stored strips on the flash drive, read only.
+1. sha256 of the three master_d92 strips against master_d92_sha256.txt.
+2. Transects under the code at HEAD (D90) on every stored build, compared with the committed JSON.
+3. The filed rule (null over every transect with a within step) on the same samples, for the old column.
+Run: uv run --frozen python docs/audits/2026-10-06-t5-amendment-3-review/rerun_transects_a3.py.txt
+"""
+import hashlib, json, math
+from pathlib import Path
+import numpy as np
+from forager_forecast import seam
+from forager_forecast.seam import run_transects
+
+T5 = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t5")
+EV = Path("docs/audits/2026-10-06-t5-amendment-3")
+TESTED = ["share_Pseudotsuga", "share_conifer", "share_broadleaf", "total_cover_pct"]
+
+print("== 1. hashes")
+for line in (EV / "master_d92_sha256.txt").read_text().splitlines():
+    h, name = line.split()
+    got = hashlib.sha256((T5 / name).read_bytes()).hexdigest()
+    print(name, "match" if got == h else f"MISMATCH {got}")
+
+def old_verdict(border, w_us, w_ca, resamples=10000):
+    """The filed rule, verify report section 7: each null over every row with a finite within step."""
+    rng = np.random.default_rng(seam.SEED)
+    t_us = seam._null_threshold(np.abs(w_us), rng, resamples)
+    t_ca = seam._null_threshold(np.abs(w_ca), rng, resamples)
+    b = border[np.isfinite(border)]
+    big = float(np.median(np.abs(b)))
+    rows = lambda w: int(sum(np.isfinite(r).any() for r in w))
+    return dict(n=len(b), B=big, threshold=max(t_us, t_ca), artifact=bool(big > max(t_us, t_ca)),
+                null_rows_us=rows(w_us), null_rows_ca=rows(w_ca))
+
+def samples(path, name):
+    ds, window = seam._sampler(path)
+    with ds:
+        band = ds.read(list(ds.descriptions).index(name) + 1).astype("float64")
+    border, wus, wca = [], [], []
+    for lon in seam.transect_longitudes():
+        n, s = seam.sample_latitudes(lon)
+        def read(lats):
+            out = np.full(len(lats), np.nan)
+            for i, lat in enumerate(lats):
+                try:
+                    r, c = window.pixel_of_cell(seam.cell_for_lonlat(lon, float(lat)))
+                except IndexError:
+                    continue
+                out[i] = band[r, c]
+            return out
+        b, wu, wc = seam.transect_steps(read(n), read(s))
+        border.append(b); wus.append(wu); wca.append(wc)
+    return np.array(border), np.array(wus), np.array(wca)
+
+def same(a, b):
+    if isinstance(a, dict):
+        return a.keys() == b.keys() and all(same(a[k], b[k]) for k in a)
+    if isinstance(a, list):
+        return len(a) == len(b) and all(same(x, y) for x, y in zip(a, b))
+    if isinstance(a, float) and isinstance(b, float) and math.isnan(a) and math.isnan(b):
+        return True
+    return a == b
+
+print("== 2. D90 re-run against the committed files")
+for build, committed in [("d92", EV / "transects_d92_d90.json"),
+                         ("tree_list", EV / "transects_tree_list_d90.json"),
+                         ("treemap_canopy", EV / "transects_treemap_canopy_d90.json")]:
+    stored = json.loads(committed.read_text())
+    for scale in ("0.7", "1.0", "1.3"):
+        bands = TESTED if scale == "1.0" else TESTED[:3]
+        mine = json.loads(json.dumps(run_transects(T5 / f"master_{build}_scale_{scale}" / "host_trees_strip.tif", bands)))
+        print(build, scale, "identical" if same(mine, stored[scale]) else "DIFFERS")
+        for band in bands:
+            r = mine[band]
+            print(f"   {band:18s} n={r['n_transects']:2d} rows us/ca={r['null_rows_us']}/{r['null_rows_ca']} "
+                  f"B={r['border_median_abs']:.5f} thr={r['threshold']:.5f} mean={r['border_mean_signed']:+.4f} "
+                  f"ci=[{r['border_mean_signed_ci95'][0]:+.4f},{r['border_mean_signed_ci95'][1]:+.4f}] "
+                  f"artifact={r['artifact']}")
+    # the drive's own copy of the file, if present
+    drive = T5 / committed.name
+    if drive.exists():
+        print("   drive copy == committed:", drive.read_bytes() == committed.read_bytes())
+
+print("== 3. filed (old) rule on the same samples, scale 1.0")
+for build in ("tree_list", "treemap_canopy", "d92"):
+    for band in TESTED:
+        o = old_verdict(*samples(T5 / f"master_{build}_scale_1.0" / "host_trees_strip.tif", band))
+        print(f"{build:15s} {band:18s} n={o['n']:2d} rows us/ca={o['null_rows_us']}/{o['null_rows_ca']} "
+              f"B={o['B']:.5f} thr={o['threshold']:.5f} artifact={o['artifact']}")

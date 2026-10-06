@@ -1,0 +1,61 @@
+[
+  {
+    "check": "seam D90: both nulls over every transect at once (the filed rule)",
+    "file": "src/forager_forecast/seam.py",
+    "edit_seen_by_interpreter": true,
+    "pytest_exit": 1,
+    "summary": "1 failed, 9 passed, 2 warnings in 151.26s (0:02:31)",
+    "failed": [
+      {
+        "test": "test_with_7_border_steps_against_24_within_rows_the_verdict_still_fires_rarely",
+        "message": "assert (28 / 200) <= 0.1"
+      }
+    ],
+    "bites": true,
+    "restored_identical_to_copy": true,
+    "restored_identical_to_HEAD": true
+  },
+  {
+    "check": "crown D91: cap read from the tree's own species, not the coefficients' species",
+    "file": "src/forager_forecast/crown_cover.py",
+    "edit_seen_by_interpreter": true,
+    "pytest_exit": 1,
+    "summary": "1 failed, 12 passed in 0.07s",
+    "failed": [
+      {
+        "test": "test_a_surrogate_is_capped_at_its_coefficients_species_range",
+        "message": "assert 38.6385 == 26.48921 \u00b1 2.6e-05"
+      }
+    ],
+    "bites": true,
+    "restored_identical_to_copy": true,
+    "restored_identical_to_HEAD": true
+  },
+  {
+    "check": "crown D91: capped trees not counted",
+    "file": "src/forager_forecast/crown_cover.py",
+    "edit_seen_by_interpreter": true,
+    "pytest_exit": 1,
+    "summary": "1 failed, 12 passed in 0.05s",
+    "failed": [
+      {
+        "test": "test_a_diameter_beyond_the_fitted_range_takes_the_width_at_the_largest_fitted_diameter",
+        "message": "AssertionError: assert 0 == 1"
+      }
+    ],
+    "bites": true,
+    "restored_identical_to_copy": true,
+    "restored_identical_to_HEAD": true
+  },
+  {
+    "check": "t5 D92: the total layer's URL names another file (expected NOT to bite if no test pins it)",
+    "file": "src/forager_forecast/t5_layer.py",
+    "edit_seen_by_interpreter": true,
+    "pytest_exit": 0,
+    "summary": "16 passed, 44 warnings in 11.62s",
+    "failed": [],
+    "bites": false,
+    "restored_identical_to_copy": true,
+    "restored_identical_to_HEAD": true
+  }
+]

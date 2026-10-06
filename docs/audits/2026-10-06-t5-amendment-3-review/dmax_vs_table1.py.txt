@@ -1,0 +1,27 @@
+"""D91: every BECHTOLD_2004_DMAX entry against Bechtold 2004 Table 1's stem-diameter maximum.
+Table 1 rows are read from pdftotext -layout of the paper (the copy the T5 review read, sha256 68b67c0e...),
+and matched to species codes by position: Table 1 lists the 53 species in ascending FIA code order, so
+row i is sorted(BECHTOLD_2004_DMAX)[i]. Table 1's own n is checked against BECHTOLD_2004_N for the same
+code as a cross-check on that pairing (a first pass matched by n alone and mis-paired the three n that
+occur twice, 28, 37 and 164; kept out of the evidence because it was the script's error, not the code's).
+Run: uv run --frozen python docs/audits/2026-10-06-t5-amendment-3-review/dmax_vs_table1.py.txt PATH_TO_bechtold.txt
+"""
+import re, sys
+from forager_forecast.crown_cover import BECHTOLD_2004_DMAX, BECHTOLD_2004_N
+text = open(sys.argv[1]).read().splitlines()
+start = next(i for i, l in enumerate(text) if l.startswith("Table 1."))
+row = re.compile(r"^\s+([A-Z][A-Za-z.\- ]+?(?:\(w\))?)\s+(\d+)\s+(\d+)\s+(\d+)\s+([\d.]+)\s+([\d.]+)\s")
+rows = [m.groups() for l in text[start:start + 80] if (m := row.match(l))]
+print("Table 1 rows parsed:", len(rows))
+codes = sorted(BECHTOLD_2004_DMAX)
+assert len(rows) == len(codes) == 53
+bad = n_bad = 0
+for (name, n, cwmin, cwmax, dmin, dmax), spcd in zip(rows, codes):
+    code = BECHTOLD_2004_DMAX[spcd]
+    ok = code == float(dmax)
+    n_ok = BECHTOLD_2004_N[spcd] == int(n)
+    bad += not ok
+    n_bad += not n_ok
+    print(f"{name:28s} spcd={spcd:3d} n={n:>5s} ({'n ok' if n_ok else 'N MISMATCH'}) "
+          f"table1_max={dmax:>5s} code={code} {'ok' if ok else 'MISMATCH'}")
+print("rows checked", len(rows), "dmax mismatches", bad, "n mismatches", n_bad)

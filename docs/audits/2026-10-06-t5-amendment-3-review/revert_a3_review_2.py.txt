@@ -1,0 +1,18 @@
+"""Second reviewer revert run: the D92 URL check again, after the reviewer's added test
+(tests/test_t5_layer.py, test_scanfis_total_is_read_from_its_own_published_file). Same strict runner:
+it imports CHECKS-free machinery from revert_a3_review.py.txt by exec with one check.
+Run: uv run --frozen python docs/audits/2026-10-06-t5-amendment-3-review/revert_a3_review_2.py.txt OUT.json
+Note: the restore-to-HEAD comparison reads HEAD, so the test file must be committed before this runs.
+"""
+from pathlib import Path
+src = Path("docs/audits/2026-10-06-t5-amendment-3-review/revert_a3_review.py.txt").read_text()
+start, end = src.index("CHECKS = ["), src.index("\n]\n", src.index("CHECKS = [")) + 3
+src = src[:start] + '''CHECKS = [
+    ("t5 D92: the total layer's URL names another file (after the reviewer's added test)",
+     "src/forager_forecast/t5_layer.py",
+     'return f"{base}/SCANFI_att_closure_{year}_v2_20260119.tif"',
+     'return f"{base}/SCANFI_spsCC_att_closure_{year}_v2_20260119.tif"',
+     "forager_forecast.t5_layer", ["tests/test_t5_layer.py"]),
+]
+''' + src[end:]
+exec(compile(src, "revert_a3_review.py.txt", "exec"))

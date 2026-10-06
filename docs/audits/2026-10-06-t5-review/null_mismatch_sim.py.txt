@@ -1,0 +1,34 @@
+"""T5 review (D18): false-positive rate of seam.verdict when B is a median over fewer transects
+than the null is built from (the real share case: 7 border steps against 23 and 24 null rows).
+
+Under no step, border and within steps are drawn from one distribution. Three cases:
+  A. 25 border steps, 25 null rows (the builder's test's case);
+  B. 7 border steps, 24 null rows on both sides (the real share case);
+  C. 7 border steps, null restricted to those same 7 transects.
+Seeds are fixed. Run: PYTHONDONTWRITEBYTECODE=1 uv run --frozen python <this file>
+"""
+
+import numpy as np
+
+from forager_forecast.seam import verdict
+
+rng = np.random.default_rng(20261006)
+TRIALS = 400
+
+
+def rate(n_border, n_rows, restrict):
+    fired = 0
+    for _ in range(TRIALS):
+        wus = rng.normal(0, 0.03, (n_rows, 19))
+        wca = rng.normal(0, 0.03, (n_rows, 19))
+        border = np.full(n_rows, np.nan)
+        border[:n_border] = rng.normal(0, 0.03, n_border)
+        if restrict:
+            wus, wca, border = wus[:n_border], wca[:n_border], border[:n_border]
+        fired += verdict(border, wus, wca, resamples=400)["artifact"]
+    return fired / TRIALS
+
+
+print("A  25 border, 25 rows          :", rate(25, 25, False))
+print("B   7 border, 24 rows          :", rate(7, 24, False))
+print("C   7 border, null on same 7   :", rate(7, 24, True))

@@ -1,0 +1,82 @@
+"""Reviewer revert checks for T5 Amendment 3 (strict). Written for this review, not copied from the
+builder's runner. Each check: save a copy of the file in memory, apply one exact edit (refuse if the
+anchor is not found exactly once), delete every __pycache__ outside .venv, run the named test files
+with PYTHONDONTWRITEBYTECODE=1 and a fresh JUnit XML (old XML deleted first), refuse the result if
+pytest reports a collection or import error, writes no XML, or if a separate interpreter does not see
+the edit in the imported module's source; record each failing test and its first message line;
+restore from the saved copy (never git) and confirm the file is byte-identical to the copy and to HEAD.
+Run from the repository root: uv run --frozen python docs/audits/2026-10-06-t5-amendment-3-review/revert_a3_review.py.txt OUT.json
+"""
+import hashlib, json, os, shutil, subprocess, sys, xml.etree.ElementTree as ET
+from pathlib import Path
+
+CHECKS = [
+    ("seam D90: both nulls over every transect at once (the filed rule)", "src/forager_forecast/seam.py",
+     "    matched_us = wus[ok] if wus.ndim == 2 else wus\n    matched_ca = wca[ok] if wca.ndim == 2 else wca\n",
+     "    matched_us = wus\n    matched_ca = wca\n", "forager_forecast.seam", ["tests/test_seam.py"]),
+    ("crown D91: cap read from the tree's own species, not the coefficients' species",
+     "src/forager_forecast/crown_cover.py",
+     "d = min(dbh_in, BECHTOLD_2004_DMAX[used])", "d = min(dbh_in, BECHTOLD_2004_DMAX.get(spcd, 1e9))",
+     "forager_forecast.crown_cover", ["tests/test_crown_cover.py"]),
+    ("crown D91: capped trees not counted", "src/forager_forecast/crown_cover.py",
+     "capped_trees += is_capped(t.spcd, t.genus, t.dbh_in)", "capped_trees += 0",
+     "forager_forecast.crown_cover", ["tests/test_crown_cover.py"]),
+    ("t5 D92: the total layer's URL names another file (expected NOT to bite if no test pins it)",
+     "src/forager_forecast/t5_layer.py",
+     'return f"{base}/SCANFI_att_closure_{year}_v2_20260119.tif"',
+     'return f"{base}/SCANFI_spsCC_att_closure_{year}_v2_20260119.tif"',
+     "forager_forecast.t5_layer", ["tests/test_t5_layer.py"]),
+]
+
+def sha(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+def head(p): return subprocess.run(["git", "show", f"HEAD:{p}"], capture_output=True, check=True).stdout
+
+def clear_pycache():
+    for d in Path(".").rglob("__pycache__"):
+        if ".venv" not in d.parts:
+            shutil.rmtree(d)
+
+env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1")
+results = []
+for name, path, old, new, module, tests in CHECKS:
+    src = Path(path).read_bytes()
+    text = src.decode()
+    if text.count(old) != 1:
+        results.append({"check": name, "refused": f"anchor found {text.count(old)} times"}); continue
+    Path(path).write_text(text.replace(old, new))
+    try:
+        clear_pycache()
+        seen = subprocess.run([sys.executable, "-c",
+            f"import inspect,{module} as m; print({new!r} in inspect.getsource(m))"],
+            capture_output=True, text=True, env=env).stdout.strip()
+        xml = Path("revert_review_a3.xml")
+        xml.unlink(missing_ok=True)
+        run = subprocess.run([sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider",
+                              f"--junitxml={xml}", *tests], capture_output=True, text=True, env=env)
+        out = run.stdout + run.stderr
+        rec = {"check": name, "file": path, "edit_seen_by_interpreter": seen == "True",
+               "pytest_exit": run.returncode, "summary": out.strip().splitlines()[-1] if out.strip() else ""}
+        if seen != "True":
+            rec["refused"] = "interpreter did not see the edit"
+        elif "error" in rec["summary"].lower() or "ERROR collecting" in out or run.returncode in (2, 3, 4):
+            rec["refused"] = "collection or import error"
+        elif not xml.exists():
+            rec["refused"] = "no JUnit XML written"
+        else:
+            failed = []
+            for tc in ET.parse(xml).getroot().iter("testcase"):
+                f = tc.find("failure")
+                if f is None: f = tc.find("error")
+                if f is not None:
+                    failed.append({"test": tc.get("name"), "message": (f.get("message") or "").splitlines()[0][:300]})
+            rec["failed"] = failed
+            rec["bites"] = bool(failed)
+        xml.unlink(missing_ok=True)
+    finally:
+        Path(path).write_bytes(src)
+        clear_pycache()
+    rec["restored_identical_to_copy"] = sha(path) == hashlib.sha256(src).hexdigest()
+    rec["restored_identical_to_HEAD"] = Path(path).read_bytes() == head(path)
+    results.append(rec)
+    print(json.dumps(rec, indent=1), flush=True)
+Path(sys.argv[1]).write_text(json.dumps(results, indent=2) + "\n")
