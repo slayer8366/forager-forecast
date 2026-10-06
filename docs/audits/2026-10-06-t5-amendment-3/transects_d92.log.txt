@@ -1,0 +1,6 @@
+share_Pseudotsuga {'n_transects': 7, 'border_median_abs': 0.08313479468779406, 'threshold': 0.11985186394304037, 'ratio': 1.4800644951405442, 'artifact': False}
+share_conifer {'n_transects': 7, 'border_median_abs': 0.017415732145309448, 'threshold': 0.06612692028284073, 'ratio': 1.084111768097014, 'artifact': False}
+share_broadleaf {'n_transects': 7, 'border_median_abs': 0.017415742855519056, 'threshold': 0.06612691283226013, 'ratio': 1.0841139432040592, 'artifact': False}
+total_cover_pct {'n_transects': 25, 'border_median_abs': 14.97117006778717, 'threshold': 14.158846855163574, 'ratio': 1.8352749421011467, 'artifact': True}
+transects: 6.9 s
+peakRSS_kB=116432 wall=7.19 exit=0

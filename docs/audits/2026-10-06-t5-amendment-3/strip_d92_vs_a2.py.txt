@@ -1,0 +1,20 @@
+"""Amendment 3: the D92 strip (scale 1.0) against the Amendment 2 strip (treemap_canopy, scale 1.0,
+built before D91), band by band and side by side. Run from the repository root:
+uv run --frozen python docs/audits/2026-10-06-t5-amendment-3/strip_d92_vs_a2.py.txt"""
+import numpy as np, rasterio
+new, old = "data/t5/master_d92_scale_1.0/host_trees_strip.tif", "data/t5/master_treemap_canopy_scale_1.0/host_trees_strip.tif"
+with rasterio.open(new) as a, rasterio.open(old) as b:
+    assert a.descriptions == b.descriptions and a.shape == b.shape
+    src = a.read(a.descriptions.index("source") + 1)
+    print("bands", a.descriptions, "shape", a.shape)
+    for i, name in enumerate(a.descriptions, start=1):
+        x, y = a.read(i).astype("float64"), b.read(i).astype("float64")
+        for side, code in (("US", 1), ("CA", 2)):
+            m = src == code
+            nan_mismatch = int((np.isnan(x[m]) != np.isnan(y[m])).sum())
+            both = m & np.isfinite(x) & np.isfinite(y)
+            d = np.abs(x[both] - y[both])
+            print(f"{name:18s} {side} cells={int(m.sum())} finite_both={int(both.sum())} nan_pattern_differs={nan_mismatch} "
+                  f"changed={int((d > 0).sum())} max_abs_diff={d.max() if d.size else 0:.6f} mean_abs_diff={d.mean() if d.size else 0:.6f}")
+    print("tags new us_total:", a.tags()["us_total"][:80], "| ca_total:", a.tags()["ca_total"][:120])
+    print("tags old ca_total:", b.tags().get("ca_total", "(no ca_total tag: built before D92 added it)")[:120])

@@ -1,0 +1,437 @@
+{
+  "dataset": "SCANFI v2, species crown closure (%)",
+  "citation": "Guindon L., Correia D.L.P, Manka F. and Smiley B. 2026. SCANFI v2: Spatialized CAnadian National Forest Inventory data product v2. Natural Resources Canada, Canadian Forest Service, Laurentian Forestry Centre, Quebec, Canada. https://doi.org/10.23687/07653869-f303-46c2-a04e-9ab479b73cbf",
+  "licence": "Open Government Licence - Canada",
+  "licence_source": "https://open.canada.ca/data/en/dataset/07653869-f303-46c2-a04e-9ab479b73cbf",
+  "year": 2025,
+  "classes": [
+    "balsamFir",
+    "blackSpruce",
+    "broadleaf",
+    "douglasFir",
+    "jackPine",
+    "lodgepolePine",
+    "otherConiferous",
+    "ponderosaPine",
+    "tamarack",
+    "whiteRedPine"
+  ],
+  "extent": {
+    "south": 48.7,
+    "north": 49.3,
+    "west": -122.8,
+    "east": -120.95
+  },
+  "master_window": {
+    "left": -1839250,
+    "bottom": 1254250,
+    "right": -1696750,
+    "top": 1356750
+  },
+  "native_bounds": [
+    -1988720.726272089,
+    6932804.879382668,
+    -1829230.8745986258,
+    7056904.008475835
+  ],
+  "layers": [
+    {
+      "source": "https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/SCANFI/v2/SCANFI_spsCC_balsamFir_2025_v2_20260119.tif",
+      "requested_at": "2026-10-06T11:57:26+00:00",
+      "account": "anonymous",
+      "http": {
+        "etag": "\"453e2186-64a03c18f1140\"",
+        "last_modified": "Wed, 04 Feb 2026 18:30:53 GMT",
+        "content_length": "1161699718"
+      },
+      "bounds_requested": [
+        -1988720.726272089,
+        6932804.879382668,
+        -1829230.8745986258,
+        7056904.008475835
+      ],
+      "pixel_window": {
+        "col_off": 11759,
+        "row_off": 79319,
+        "width": 5317,
+        "height": 4138
+      },
+      "source_grid": {
+        "crs_wkt": "PROJCS[\"NAD_1983_Canada_Lambert\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.257222101004,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Lambert_Conformal_Conic_2SP\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-95],PARAMETER[\"standard_parallel_1\",49],PARAMETER[\"standard_parallel_2\",77],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+        "transform": [
+          30.0,
+          0.0,
+          -2341500.0,
+          0.0,
+          -30.0,
+          9436500.0
+        ],
+        "width": 178400,
+        "height": 119100,
+        "dtype": "uint8"
+      },
+      "nodata": 255.0,
+      "file": "scanfi_balsamFir.tif",
+      "sha256": "b2b2cf0444910d532eb7b5009f0d37b7b124ea42f280d9e33c8ee179f4db100c"
+    },
+    {
+      "source": "https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/SCANFI/v2/SCANFI_spsCC_blackSpruce_2025_v2_20260119.tif",
+      "requested_at": "2026-10-06T11:57:47+00:00",
+      "account": "anonymous",
+      "http": {
+        "etag": "\"c575c36a-64a03a8589980\"",
+        "last_modified": "Wed, 04 Feb 2026 18:23:50 GMT",
+        "content_length": "3312829290"
+      },
+      "bounds_requested": [
+        -1988720.726272089,
+        6932804.879382668,
+        -1829230.8745986258,
+        7056904.008475835
+      ],
+      "pixel_window": {
+        "col_off": 11759,
+        "row_off": 79319,
+        "width": 5317,
+        "height": 4138
+      },
+      "source_grid": {
+        "crs_wkt": "PROJCS[\"NAD_1983_Canada_Lambert\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.257222101004,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Lambert_Conformal_Conic_2SP\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-95],PARAMETER[\"standard_parallel_1\",49],PARAMETER[\"standard_parallel_2\",77],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+        "transform": [
+          30.0,
+          0.0,
+          -2341500.0,
+          0.0,
+          -30.0,
+          9436500.0
+        ],
+        "width": 178400,
+        "height": 119100,
+        "dtype": "uint8"
+      },
+      "nodata": 255.0,
+      "file": "scanfi_blackSpruce.tif",
+      "sha256": "3a06e131ed25f86835be628f144d31b32e8208dc7b32adbb62c73edb5ba41123"
+    },
+    {
+      "source": "https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/SCANFI/v2/SCANFI_spsCC_broadleaf_2025_v2_20260119.tif",
+      "requested_at": "2026-10-06T11:58:05+00:00",
+      "account": "anonymous",
+      "http": {
+        "etag": "\"9fc297f2-64a02dff48d00\"",
+        "last_modified": "Wed, 04 Feb 2026 17:27:48 GMT",
+        "content_length": "2680330226"
+      },
+      "bounds_requested": [
+        -1988720.726272089,
+        6932804.879382668,
+        -1829230.8745986258,
+        7056904.008475835
+      ],
+      "pixel_window": {
+        "col_off": 11759,
+        "row_off": 79319,
+        "width": 5317,
+        "height": 4138
+      },
+      "source_grid": {
+        "crs_wkt": "PROJCS[\"NAD_1983_Canada_Lambert\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.257222101004,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Lambert_Conformal_Conic_2SP\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-95],PARAMETER[\"standard_parallel_1\",49],PARAMETER[\"standard_parallel_2\",77],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+        "transform": [
+          30.0,
+          0.0,
+          -2341500.0,
+          0.0,
+          -30.0,
+          9436500.0
+        ],
+        "width": 178400,
+        "height": 119100,
+        "dtype": "uint8"
+      },
+      "nodata": 255.0,
+      "file": "scanfi_broadleaf.tif",
+      "sha256": "bdf67ac483285c2fc2c2f88fc85ed35460cb56720497492c7d62240496cb2d98"
+    },
+    {
+      "source": "https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/SCANFI/v2/SCANFI_spsCC_douglasFir_2025_v2_20260119.tif",
+      "requested_at": "2026-10-06T11:58:24+00:00",
+      "account": "anonymous",
+      "http": {
+        "etag": "\"e6b2260-64a02e61834c0\"",
+        "last_modified": "Wed, 04 Feb 2026 17:29:31 GMT",
+        "content_length": "241902176"
+      },
+      "bounds_requested": [
+        -1988720.726272089,
+        6932804.879382668,
+        -1829230.8745986258,
+        7056904.008475835
+      ],
+      "pixel_window": {
+        "col_off": 11759,
+        "row_off": 79319,
+        "width": 5317,
+        "height": 4138
+      },
+      "source_grid": {
+        "crs_wkt": "PROJCS[\"NAD_1983_Canada_Lambert\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.257222101004,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Lambert_Conformal_Conic_2SP\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-95],PARAMETER[\"standard_parallel_1\",49],PARAMETER[\"standard_parallel_2\",77],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+        "transform": [
+          30.0,
+          0.0,
+          -2341500.0,
+          0.0,
+          -30.0,
+          9436500.0
+        ],
+        "width": 178400,
+        "height": 119100,
+        "dtype": "uint8"
+      },
+      "nodata": 255.0,
+      "file": "scanfi_douglasFir.tif",
+      "sha256": "ded432b499a2ab52527298cee46e07a66f97c37d932b03d37db0a0d4a33f6fdb"
+    },
+    {
+      "source": "https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/SCANFI/v2/SCANFI_spsCC_jackPine_2025_v2_20260119.tif",
+      "requested_at": "2026-10-06T11:58:49+00:00",
+      "account": "anonymous",
+      "http": {
+        "etag": "\"6046e60e-64a02ebef9140\"",
+        "last_modified": "Wed, 04 Feb 2026 17:31:09 GMT",
+        "content_length": "1615259150"
+      },
+      "bounds_requested": [
+        -1988720.726272089,
+        6932804.879382668,
+        -1829230.8745986258,
+        7056904.008475835
+      ],
+      "pixel_window": {
+        "col_off": 11759,
+        "row_off": 79319,
+        "width": 5317,
+        "height": 4138
+      },
+      "source_grid": {
+        "crs_wkt": "PROJCS[\"NAD_1983_Canada_Lambert\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.257222101004,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Lambert_Conformal_Conic_2SP\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-95],PARAMETER[\"standard_parallel_1\",49],PARAMETER[\"standard_parallel_2\",77],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+        "transform": [
+          30.0,
+          0.0,
+          -2341500.0,
+          0.0,
+          -30.0,
+          9436500.0
+        ],
+        "width": 178400,
+        "height": 119100,
+        "dtype": "uint8"
+      },
+      "nodata": 255.0,
+      "file": "scanfi_jackPine.tif",
+      "sha256": "e5b4320b4229b47a512e11003c55858c9d58f6ad6196db5c60b0e45ec3f13ac3"
+    },
+    {
+      "source": "https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/SCANFI/v2/SCANFI_spsCC_lodgepolePine_2025_v2_20260119.tif",
+      "requested_at": "2026-10-06T11:59:06+00:00",
+      "account": "anonymous",
+      "http": {
+        "etag": "\"2ccebda0-64a02f0d2c9c0\"",
+        "last_modified": "Wed, 04 Feb 2026 17:32:31 GMT",
+        "content_length": "751746464"
+      },
+      "bounds_requested": [
+        -1988720.726272089,
+        6932804.879382668,
+        -1829230.8745986258,
+        7056904.008475835
+      ],
+      "pixel_window": {
+        "col_off": 11759,
+        "row_off": 79319,
+        "width": 5317,
+        "height": 4138
+      },
+      "source_grid": {
+        "crs_wkt": "PROJCS[\"NAD_1983_Canada_Lambert\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.257222101004,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Lambert_Conformal_Conic_2SP\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-95],PARAMETER[\"standard_parallel_1\",49],PARAMETER[\"standard_parallel_2\",77],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+        "transform": [
+          30.0,
+          0.0,
+          -2341500.0,
+          0.0,
+          -30.0,
+          9436500.0
+        ],
+        "width": 178400,
+        "height": 119100,
+        "dtype": "uint8"
+      },
+      "nodata": 255.0,
+      "file": "scanfi_lodgepolePine.tif",
+      "sha256": "22ada2d4d46393087a60fb9ca02b36f8b2fa08abee18fc6e8805ee7eb07b50dd"
+    },
+    {
+      "source": "https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/SCANFI/v2/SCANFI_spsCC_otherConiferous_2025_v2_20260119.tif",
+      "requested_at": "2026-10-06T11:59:21+00:00",
+      "account": "anonymous",
+      "http": {
+        "etag": "\"9a090f0c-64a02f4941780\"",
+        "last_modified": "Wed, 04 Feb 2026 17:33:34 GMT",
+        "content_length": "2584284940"
+      },
+      "bounds_requested": [
+        -1988720.726272089,
+        6932804.879382668,
+        -1829230.8745986258,
+        7056904.008475835
+      ],
+      "pixel_window": {
+        "col_off": 11759,
+        "row_off": 79319,
+        "width": 5317,
+        "height": 4138
+      },
+      "source_grid": {
+        "crs_wkt": "PROJCS[\"NAD_1983_Canada_Lambert\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.257222101004,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Lambert_Conformal_Conic_2SP\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-95],PARAMETER[\"standard_parallel_1\",49],PARAMETER[\"standard_parallel_2\",77],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+        "transform": [
+          30.0,
+          0.0,
+          -2341500.0,
+          0.0,
+          -30.0,
+          9436500.0
+        ],
+        "width": 178400,
+        "height": 119100,
+        "dtype": "uint8"
+      },
+      "nodata": 255.0,
+      "file": "scanfi_otherConiferous.tif",
+      "sha256": "211cf5a0cd7dd8ce2f20bce528a79bc513ec68561c4369060134d6f6d4b3284f"
+    },
+    {
+      "source": "https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/SCANFI/v2/SCANFI_spsCC_ponderosaPine_2025_v2_20260119.tif",
+      "requested_at": "2026-10-06T11:59:38+00:00",
+      "account": "anonymous",
+      "http": {
+        "etag": "\"4e96494-64a02f9680dc0\"",
+        "last_modified": "Wed, 04 Feb 2026 17:34:55 GMT",
+        "content_length": "82404500"
+      },
+      "bounds_requested": [
+        -1988720.726272089,
+        6932804.879382668,
+        -1829230.8745986258,
+        7056904.008475835
+      ],
+      "pixel_window": {
+        "col_off": 11759,
+        "row_off": 79319,
+        "width": 5317,
+        "height": 4138
+      },
+      "source_grid": {
+        "crs_wkt": "PROJCS[\"NAD_1983_Canada_Lambert\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.257222101004,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Lambert_Conformal_Conic_2SP\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-95],PARAMETER[\"standard_parallel_1\",49],PARAMETER[\"standard_parallel_2\",77],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+        "transform": [
+          30.0,
+          0.0,
+          -2341500.0,
+          0.0,
+          -30.0,
+          9436500.0
+        ],
+        "width": 178400,
+        "height": 119100,
+        "dtype": "uint8"
+      },
+      "nodata": 255.0,
+      "file": "scanfi_ponderosaPine.tif",
+      "sha256": "a2be5e601ae27b3d8ff03b1ddbbde818576c80a10dcc123323027fa3e352532e"
+    },
+    {
+      "source": "https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/SCANFI/v2/SCANFI_spsCC_tamarack_2025_v2_20260119.tif",
+      "requested_at": "2026-10-06T11:59:59+00:00",
+      "account": "anonymous",
+      "http": {
+        "etag": "\"6f82cf52-64a0300cc24c0\"",
+        "last_modified": "Wed, 04 Feb 2026 17:36:59 GMT",
+        "content_length": "1870843730"
+      },
+      "bounds_requested": [
+        -1988720.726272089,
+        6932804.879382668,
+        -1829230.8745986258,
+        7056904.008475835
+      ],
+      "pixel_window": {
+        "col_off": 11759,
+        "row_off": 79319,
+        "width": 5317,
+        "height": 4138
+      },
+      "source_grid": {
+        "crs_wkt": "PROJCS[\"NAD_1983_Canada_Lambert\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.257222101004,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Lambert_Conformal_Conic_2SP\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-95],PARAMETER[\"standard_parallel_1\",49],PARAMETER[\"standard_parallel_2\",77],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+        "transform": [
+          30.0,
+          0.0,
+          -2341500.0,
+          0.0,
+          -30.0,
+          9436500.0
+        ],
+        "width": 178400,
+        "height": 119100,
+        "dtype": "uint8"
+      },
+      "nodata": 255.0,
+      "file": "scanfi_tamarack.tif",
+      "sha256": "66328d487cbe87ceb28f581b6a012a224c3e1631f168b1e8a6e226a0c01715cd"
+    },
+    {
+      "source": "https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/SCANFI/v2/SCANFI_spsCC_whiteRedPine_2025_v2_20260119.tif",
+      "requested_at": "2026-10-06T12:00:17+00:00",
+      "account": "anonymous",
+      "http": {
+        "etag": "\"106a9d22-64a0305be9f80\"",
+        "last_modified": "Wed, 04 Feb 2026 17:38:22 GMT",
+        "content_length": "275422498"
+      },
+      "bounds_requested": [
+        -1988720.726272089,
+        6932804.879382668,
+        -1829230.8745986258,
+        7056904.008475835
+      ],
+      "pixel_window": {
+        "col_off": 11759,
+        "row_off": 79319,
+        "width": 5317,
+        "height": 4138
+      },
+      "source_grid": {
+        "crs_wkt": "PROJCS[\"NAD_1983_Canada_Lambert\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.257222101004,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Lambert_Conformal_Conic_2SP\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-95],PARAMETER[\"standard_parallel_1\",49],PARAMETER[\"standard_parallel_2\",77],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+        "transform": [
+          30.0,
+          0.0,
+          -2341500.0,
+          0.0,
+          -30.0,
+          9436500.0
+        ],
+        "width": 178400,
+        "height": 119100,
+        "dtype": "uint8"
+      },
+      "nodata": 255.0,
+      "file": "scanfi_whiteRedPine.tif",
+      "sha256": "d06fcacb3cf9c6c3cced10b4737f4f9ccd10c520eedbde67c0256836be87a49d"
+    }
+  ],
+  "rulings": [
+    "D83",
+    "D84",
+    "D85",
+    "D86",
+    "D87",
+    "D74"
+  ]
+}

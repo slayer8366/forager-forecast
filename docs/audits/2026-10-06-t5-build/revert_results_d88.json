@@ -1,0 +1,382 @@
+[
+ {
+  "check": "crown: quadratic term dropped",
+  "file": "src/forager_forecast/crown_cover.py",
+  "tests": [
+   "tests/test_crown_cover.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 2,
+  "failures": [
+   "test_table_3_coefficients_reproduce_hand_values: assert 27.0533 == 22.6933 \u00b1 2.3e-05",
+   "test_plot_cover_follows_crookston_and_stage_equations_1_and_2: assert 7.634270747431993 == 5.4346957584819 \u00b1 5.4e-06"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "2 failed, 8 passed in 0.05s"
+ },
+ {
+  "check": "crown: no overlap correction",
+  "file": "src/forager_forecast/crown_cover.py",
+  "tests": [
+   "tests/test_crown_cover.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_plot_cover_follows_crookston_and_stage_equations_1_and_2: assert 5.587953997882489 == 5.4346957584819 \u00b1 5.4e-06"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 9 passed in 0.05s"
+ },
+ {
+  "check": "crown: saplings and dead trees kept",
+  "file": "src/forager_forecast/crown_cover.py",
+  "tests": [
+   "tests/test_crown_cover.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_dead_trees_and_trees_under_5_inches_carry_no_crown: AssertionError: assert 7.389373945499189 == 0.0"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 9 passed in 0.05s"
+ },
+ {
+  "check": "crown: no same-genus surrogate",
+  "file": "src/forager_forecast/crown_cover.py",
+  "tests": [
+   "tests/test_crown_cover.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_a_species_missing_from_the_table_takes_its_genus_mate_with_most_observations: assert 202 == 41"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 9 passed in 0.05s"
+ },
+ {
+  "check": "crown: woodland species allowed as surrogates",
+  "file": "src/forager_forecast/crown_cover.py",
+  "tests": [
+   "tests/test_crown_cover.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_woodland_species_are_never_surrogates: assert 65 == 202"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 9 passed in 0.05s"
+ },
+ {
+  "check": "crown: unknown genus guessed broadleaf",
+  "file": "src/forager_forecast/crown_cover.py",
+  "tests": [
+   "tests/test_crown_cover.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_an_unknown_genus_is_refused_rather_than_guessed: Failed: DID NOT RAISE UnknownGenus"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 9 passed in 0.05s"
+ },
+ {
+  "check": "t5: Canada fills genera SCANFI cannot supply (expected NOT to bite: US layers are already NaN there)",
+  "file": "src/forager_forecast/t5_layer.py",
+  "tests": [
+   "tests/test_t5_layer.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 0,
+  "failures": [],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "13 passed in 9.30s"
+ },
+ {
+  "check": "t5: SCANFI's mapped pines supplied as Pinus",
+  "file": "src/forager_forecast/t5_layer.py",
+  "tests": [
+   "tests/test_t5_layer.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_the_strip_is_the_planned_one: AssertionError: assert {'Abies', 'Pi...cus', 'Tsuga'} == {'Abies', 'Pi...cus', 'Tsuga'}"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 12 passed in 8.60s"
+ },
+ {
+  "check": "t5: not-available flag dropped",
+  "file": "src/forager_forecast/t5_layer.py",
+  "tests": [
+   "tests/test_t5_layer.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_canadian_cells_carry_scanfi_shares_and_flag_what_it_cannot_supply: assert np.uint8(0) == 3"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 12 passed in 8.58s"
+ },
+ {
+  "check": "t5: SCANFI no data read as 255 percent",
+  "file": "src/forager_forecast/t5_layer.py",
+  "tests": [
+   "tests/test_t5_layer.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_cells_below_ten_percent_cover_or_outside_the_box_have_no_share: assert np.float32(2550.0) < 10.0"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 12 passed in 8.62s"
+ },
+ {
+  "check": "t5: half-area rule not applied (expected NOT to bite: under the centre rule a cell's own side holds about half its area or more)",
+  "file": "src/forager_forecast/t5_layer.py",
+  "tests": [
+   "tests/test_t5_layer.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 0,
+  "failures": [],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "13 passed in 8.55s"
+ },
+ {
+  "check": "t5: 10% cover threshold not applied",
+  "file": "src/forager_forecast/t5_layer.py",
+  "tests": [
+   "tests/test_t5_layer.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_cells_below_ten_percent_cover_or_outside_the_box_have_no_share: AssertionError: assert np.False_"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 12 passed in 8.54s"
+ },
+ {
+  "check": "t5: TreeMap pixels north of 49 N kept",
+  "file": "src/forager_forecast/t5_layer.py",
+  "tests": [
+   "tests/test_t5_layer.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_a_straddling_cell_uses_its_own_side_and_the_half_area_rule: assert np.False_"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 12 passed in 8.60s"
+ },
+ {
+  "check": "t5: short TreeMap raster accepted",
+  "file": "src/forager_forecast/t5_layer.py",
+  "tests": [
+   "tests/test_t5_layer.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_the_treemap_raster_may_end_north_of_the_border_but_not_south_of_it: Failed: DID NOT RAISE ValueError"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 12 passed in 8.54s"
+ },
+ {
+  "check": "t5: cell side by >= 49 flipped to >",
+  "file": "src/forager_forecast/t5_layer.py",
+  "tests": [
+   "tests/test_t5_layer.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_a_straddling_cell_uses_its_own_side_and_the_half_area_rule: assert np.False_"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 12 passed in 8.56s"
+ },
+ {
+  "check": "t5 D88: US total back to the tree list",
+  "file": "src/forager_forecast/t5_layer.py",
+  "tests": [
+   "tests/test_t5_layer.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 3,
+  "failures": [
+   "test_us_cells_carry_treemap_crown_shares: assert np.float32(42.714336) == 70.0 \u00b1 7.0e-05",
+   "test_us_total_cover_is_treemaps_canopy_and_genus_cover_is_canopy_times_the_split: assert np.float32(40.946457) == 55.0 \u00b1 5.5e-05",
+   "test_canopy_the_tree_list_cannot_split_counts_as_cover_but_gives_no_share: assert np.float32(0.0) == 30.0 \u00b1 3.0e-05"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "3 failed, 10 passed in 8.61s"
+ },
+ {
+  "check": "t5 D88: canopy with no split counted as no genus",
+  "file": "src/forager_forecast/t5_layer.py",
+  "tests": [
+   "tests/test_t5_layer.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 11,
+  "failures": [
+   "test_us_cells_carry_treemap_crown_shares: failed on setup with \"ValueError: layers of one source must share their no-data pattern\"",
+   "test_us_total_cover_is_treemaps_canopy_and_genus_cover_is_canopy_times_the_split: failed on setup with \"ValueError: layers of one source must share their no-data pattern\"",
+   "test_the_first_builds_tree_list_total_is_still_reproducible: failed on setup with \"ValueError: layers of one source must share their no-data pattern\"",
+   "test_canopy_the_tree_list_cannot_split_counts_as_cover_but_gives_no_share: failed on setup with \"ValueError: layers of one source must share their no-data pattern\"",
+   "test_canadian_cells_carry_scanfi_shares_and_flag_what_it_cannot_supply: failed on setup with \"ValueError: layers of one source must share their no-data pattern\"",
+   "test_cells_below_ten_percent_cover_or_outside_the_box_have_no_share: failed on setup with \"ValueError: layers of one source must share their no-data pattern\"",
+   "test_a_straddling_cell_uses_its_own_side_and_the_half_area_rule: failed on setup with \"ValueError: layers of one source must share their no-data pattern\"",
+   "test_surrogate_widths_move_only_the_plot_with_a_surrogate: failed on setup with \"ValueError: layers of one source must share their no-data pattern\"",
+   "test_the_treemap_raster_may_end_north_of_the_border_but_not_south_of_it: failed on setup with \"ValueError: layers of one source must share their no-data pattern\"",
+   "test_plot_covers_are_computed_only_for_plots_in_the_window: failed on setup with \"ValueError: layers of one source must share their no-data pattern\"",
+   "test_request_records_carry_the_sources_terms_and_attribution: failed on setup with \"ValueError: layers of one source must share their no-data pattern\""
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "2 passed, 11 errors in 2.69s"
+ },
+ {
+  "check": "t5 D88: genus cover left as tree-list cover",
+  "file": "src/forager_forecast/t5_layer.py",
+  "tests": [
+   "tests/test_t5_layer.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 4,
+  "failures": [
+   "test_us_cells_carry_treemap_crown_shares: assert np.float32(0.6102048) == 1.0 \u00b1 1.0e-06",
+   "test_us_total_cover_is_treemaps_canopy_and_genus_cover_is_canopy_times_the_split: assert np.float32(0.3851381) == 0.5173242475740623 \u00b1 5.2e-06",
+   "test_a_straddling_cell_uses_its_own_side_and_the_half_area_rule: assert False",
+   "test_surrogate_widths_move_only_the_plot_with_a_surrogate: assert np.float32(0.4034382) == 0.5156819068017252 \u00b1 5.2e-06"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "4 failed, 9 passed in 8.55s"
+ },
+ {
+  "check": "t5 D88: plot without CANOPYPCT accepted",
+  "file": "src/forager_forecast/t5_layer.py",
+  "tests": [
+   "tests/test_t5_layer.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_a_plot_missing_from_the_attribute_table_is_an_error: KeyError: 2"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 12 passed in 8.59s"
+ },
+ {
+  "check": "seam: border step sign flipped",
+  "file": "src/forager_forecast/seam.py",
+  "tests": [
+   "tests/test_seam.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_steps_are_canada_minus_us_at_the_border_and_neighbours_inside_each_country: assert -0.3 == 0.3 \u00b1 3.0e-07"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 8 passed in 13.98s"
+ },
+ {
+  "check": "seam: window ignores missing samples",
+  "file": "src/forager_forecast/seam.py",
+  "tests": [
+   "tests/test_seam.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_a_window_is_the_mean_of_four_samples_and_missing_if_any_is_missing: AssertionError: assert np.False_"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 8 passed in 14.15s"
+ },
+ {
+  "check": "seam: verdict against the median, the section 4 rule",
+  "file": "src/forager_forecast/seam.py",
+  "tests": [
+   "tests/test_seam.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_with_no_step_the_verdict_fires_about_one_time_in_twenty_or_less: assert (83 / 200) <= 0.08"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 8 passed in 13.94s"
+ },
+ {
+  "check": "seam: spherical parallel radius",
+  "file": "src/forager_forecast/seam.py",
+  "tests": [
+   "tests/test_seam.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_25_transects_5_km_apart_along_the_parallel_from_121_west: assert -122.64495020841343 == -122.64 \u00b1 0.001"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 8 passed in 13.92s"
+ }
+]

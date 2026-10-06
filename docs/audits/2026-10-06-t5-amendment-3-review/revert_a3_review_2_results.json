@@ -1,0 +1,18 @@
+[
+  {
+    "check": "t5 D92: the total layer's URL names another file (after the reviewer's added test)",
+    "file": "src/forager_forecast/t5_layer.py",
+    "edit_seen_by_interpreter": true,
+    "pytest_exit": 1,
+    "summary": "1 failed, 16 passed, 44 warnings in 16.11s",
+    "failed": [
+      {
+        "test": "test_scanfis_total_is_read_from_its_own_published_file",
+        "message": "AssertionError: assert False"
+      }
+    ],
+    "bites": true,
+    "restored_identical_to_copy": true,
+    "restored_identical_to_HEAD": true
+  }
+]

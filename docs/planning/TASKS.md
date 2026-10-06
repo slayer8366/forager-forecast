@@ -15,7 +15,9 @@ T1 reports.
 | D32 follow-up: unify the filter pipelines | Built 2026-10-06 on branch d32-followup-unify-filters, unmerged, waiting for the independent review (D18): one Record type and loader (records/occurrence.py), one filter pipeline (records/filters.py), D63/D64 cells at 0.1 and 0.25 degree, DWCA-only requests; report in docs/audits/2026-10-06-d32-followup-completion-report.md. D26's download is next and waits for that review | docs/dispatch/2026-10-06-d32-followup-unify-filters.md |
 | D26 shared download | Done 2026-10-06 on branch d26-shared-download, unmerged, waiting for the independent review (D18): one DWCA of US and Canada fungi, GADM tag else country field (D71, D72), key 0012112-260928105237408, DOI 10.15468/dl.8jxmeb, 2,493,578 records, provisional; acceptance check: 305 of 0005709's 1,195,034 keys missing, all no longer on GBIF; report in docs/audits/2026-10-06-d26-completion-report.md. D27 in full, D28's day-of-month table and D29's dataset list are next | docs/dispatch/2026-10-06-d26-shared-download.md |
 | T4. Master grid and one layer, end to end | Built 2026-10-06 on branch t4-master-grid, unmerged, waiting for the independent review (D18): master grid in src/forager_forecast/grid.py, SoilGrids pH 0 to 30 cm (D80, D81) for the D82 rectangle by an exact area-weighted regrid, zoom-9 PMTiles archive (max zoom 9), ten-cell check 10 of 10; report in docs/audits/2026-10-06-t4-completion-report.md | docs/dispatch/2026-10-06-t4-master-grid.md |
-| T5 to T11 | Not started | Not written yet |
+| T5. Host trees and the border seam | Built 2026-10-06 on branch t5-host-trees, unmerged. Reviewed (D18, docs/audits/2026-10-06-t5-review.md); Amendments 1 to 3 and D83 to D92 applied: TreeMap 2023 US (CANOPYPCT total, D88), SCANFI v2 2025 Canada (its own total, D92), diameters capped at Bechtold's fitted range (D91), transect null matched to the border statistic (D90). Final verdicts at the 49 N seam: total cover a known artifact; Douglas-fir, conifer and broadleaf shares no step. Waiting for the short follow-up review of Amendment 3 and the owner's merge word (D40). Report: docs/audits/2026-10-06-t5-completion-report.md, sections 8 and 9 | docs/dispatch/2026-10-06-t5-host-trees.md, docs/dispatch/2026-10-06-t5-host-trees-amendment-1.md, docs/dispatch/2026-10-06-t5-host-trees-amendment-2.md, docs/dispatch/2026-10-06-t5-host-trees-amendment-3.md |
+| T6 to T11 | Not started | Not written yet |
+| T6b. Continental soil and host-tree layers | Not started; added 2026-10-06 by the owner (D100), to run before T7 | Not written yet |
 
 **T0. Repo bootstrap**
 - Depends on: none
@@ -66,8 +68,15 @@ T1 reports.
 - Verify: the effort model reproduces the weekend effect and beats a constant-effort model on held-out deviance.
 - Device-only: no
 
+**T6b. Continental soil and host-tree layers** (added 2026-10-06, D100)
+- Depends on: T4, T5
+- Does: run T4's soil pH layer (D80, D81, D74) and T5's genus canopy shares with their source flags over the whole study area on the master grid: the United States and Canada, with Alaska, Mexico and the Arctic masked (SPEC.md, D31, D47, D87 onward). The work is split into tiles that fit in memory. Data lives on the external flash drive, not the laptop's internal disk (owner, Forager RECORD -587).
+- Verify: no step at any internal tile edge (the same cells computed inside one tile and across a tile edge agree exactly); the count of valid cells per layer is reported against the land area; ten cells per layer, fixed by rule before any value is read, match the source within T4's tolerance; and the full run's time and disk use are recorded against T4's extrapolation of about 4.5 hours for soil.
+- Device-only: no
+
 **T7. Habitat model, first version**
 - Depends on: T4, T5, T6
+- Also depends on (added 2026-10-06, D100): T6b, so the model is fitted on continental layers, not the test areas T4 and T5 built
 - Does: fit presence-background models for both groups with the effort covariate, then predict with effort held constant and compute the area of applicability.
 - Verify: a spatial block validation report by ecoregion and a mask map.
 - Device-only: no

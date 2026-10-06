@@ -1,0 +1,64 @@
+== 1. hashes
+master_d92_scale_0.7/host_trees_strip_flags.tif match
+master_d92_scale_0.7/host_trees_strip.tif match
+master_d92_scale_1.0/host_trees_strip_flags.tif match
+master_d92_scale_1.0/host_trees_strip.tif match
+master_d92_scale_1.3/host_trees_strip_flags.tif match
+master_d92_scale_1.3/host_trees_strip.tif match
+== 2. D90 re-run against the committed files
+d92 0.7 identical
+   share_Pseudotsuga  n= 7 rows us/ca=7/7 B=0.08313 thr=0.11985 mean=+0.0867 ci=[-0.0126,+0.1883] artifact=False
+   share_conifer      n= 7 rows us/ca=7/7 B=0.01734 thr=0.06613 mean=+0.0196 ci=[-0.0182,+0.0769] artifact=False
+   share_broadleaf    n= 7 rows us/ca=7/7 B=0.01734 thr=0.06613 mean=-0.0196 ci=[-0.0769,+0.0182] artifact=False
+d92 1.0 identical
+   share_Pseudotsuga  n= 7 rows us/ca=7/7 B=0.08313 thr=0.11985 mean=+0.0872 ci=[-0.0121,+0.1888] artifact=False
+   share_conifer      n= 7 rows us/ca=7/7 B=0.01742 thr=0.06613 mean=+0.0201 ci=[-0.0180,+0.0782] artifact=False
+   share_broadleaf    n= 7 rows us/ca=7/7 B=0.01742 thr=0.06613 mean=-0.0201 ci=[-0.0782,+0.0180] artifact=False
+   total_cover_pct    n=25 rows us/ca=25/25 B=14.97117 thr=14.15885 mean=-5.9405 ci=[-14.1260,+1.7680] artifact=True
+d92 1.3 identical
+   share_Pseudotsuga  n= 7 rows us/ca=7/7 B=0.08313 thr=0.11985 mean=+0.0878 ci=[-0.0117,+0.1893] artifact=False
+   share_conifer      n= 7 rows us/ca=7/7 B=0.01757 thr=0.06613 mean=+0.0207 ci=[-0.0177,+0.0794] artifact=False
+   share_broadleaf    n= 7 rows us/ca=7/7 B=0.01757 thr=0.06613 mean=-0.0207 ci=[-0.0794,+0.0177] artifact=False
+   drive copy == committed: True
+tree_list 0.7 identical
+   share_Pseudotsuga  n= 7 rows us/ca=7/7 B=0.08938 thr=0.11985 mean=+0.0861 ci=[-0.0213,+0.1930] artifact=False
+   share_conifer      n= 7 rows us/ca=7/7 B=0.02027 thr=0.06613 mean=+0.0209 ci=[-0.0177,+0.0794] artifact=False
+   share_broadleaf    n= 7 rows us/ca=7/7 B=0.02027 thr=0.06613 mean=-0.0209 ci=[-0.0794,+0.0177] artifact=False
+tree_list 1.0 identical
+   share_Pseudotsuga  n= 7 rows us/ca=7/7 B=0.08748 thr=0.11985 mean=+0.0872 ci=[-0.0196,+0.1939] artifact=False
+   share_conifer      n= 7 rows us/ca=7/7 B=0.02017 thr=0.06613 mean=+0.0216 ci=[-0.0174,+0.0815] artifact=False
+   share_broadleaf    n= 7 rows us/ca=7/7 B=0.02017 thr=0.06613 mean=-0.0216 ci=[-0.0815,+0.0174] artifact=False
+   total_cover_pct    n=25 rows us/ca=25/25 B=14.37516 thr=12.62265 mean=+0.8568 ci=[-6.7645,+7.8152] artifact=True
+tree_list 1.3 identical
+   share_Pseudotsuga  n= 7 rows us/ca=7/7 B=0.08530 thr=0.11985 mean=+0.0885 ci=[-0.0176,+0.1946] artifact=False
+   share_conifer      n= 7 rows us/ca=7/7 B=0.02001 thr=0.06613 mean=+0.0225 ci=[-0.0170,+0.0839] artifact=False
+   share_broadleaf    n= 7 rows us/ca=7/7 B=0.02001 thr=0.06613 mean=-0.0225 ci=[-0.0839,+0.0170] artifact=False
+   drive copy == committed: True
+treemap_canopy 0.7 identical
+   share_Pseudotsuga  n= 7 rows us/ca=7/7 B=0.08313 thr=0.11985 mean=+0.0868 ci=[-0.0126,+0.1884] artifact=False
+   share_conifer      n= 7 rows us/ca=7/7 B=0.01734 thr=0.06613 mean=+0.0197 ci=[-0.0182,+0.0772] artifact=False
+   share_broadleaf    n= 7 rows us/ca=7/7 B=0.01734 thr=0.06613 mean=-0.0197 ci=[-0.0772,+0.0182] artifact=False
+treemap_canopy 1.0 identical
+   share_Pseudotsuga  n= 7 rows us/ca=7/7 B=0.08313 thr=0.11985 mean=+0.0873 ci=[-0.0121,+0.1889] artifact=False
+   share_conifer      n= 7 rows us/ca=7/7 B=0.01742 thr=0.06613 mean=+0.0203 ci=[-0.0179,+0.0787] artifact=False
+   share_broadleaf    n= 7 rows us/ca=7/7 B=0.01742 thr=0.06613 mean=-0.0203 ci=[-0.0787,+0.0179] artifact=False
+   total_cover_pct    n=25 rows us/ca=25/25 B=14.97117 thr=14.15885 mean=-5.9405 ci=[-14.1260,+1.7680] artifact=True
+treemap_canopy 1.3 identical
+   share_Pseudotsuga  n= 7 rows us/ca=7/7 B=0.08313 thr=0.11985 mean=+0.0879 ci=[-0.0116,+0.1895] artifact=False
+   share_conifer      n= 7 rows us/ca=7/7 B=0.01757 thr=0.06613 mean=+0.0209 ci=[-0.0176,+0.0801] artifact=False
+   share_broadleaf    n= 7 rows us/ca=7/7 B=0.01757 thr=0.06613 mean=-0.0209 ci=[-0.0801,+0.0176] artifact=False
+   drive copy == committed: True
+== 3. filed (old) rule on the same samples, scale 1.0
+tree_list       share_Pseudotsuga  n= 7 rows us/ca=23/24 B=0.08748 thr=0.07178 artifact=True
+tree_list       share_conifer      n= 7 rows us/ca=23/24 B=0.02017 thr=0.05898 artifact=False
+tree_list       share_broadleaf    n= 7 rows us/ca=23/24 B=0.02017 thr=0.05898 artifact=False
+tree_list       total_cover_pct    n=25 rows us/ca=25/25 B=14.37516 thr=12.62265 artifact=True
+treemap_canopy  share_Pseudotsuga  n= 7 rows us/ca=23/24 B=0.08313 thr=0.07178 artifact=True
+treemap_canopy  share_conifer      n= 7 rows us/ca=23/24 B=0.01742 thr=0.05898 artifact=False
+treemap_canopy  share_broadleaf    n= 7 rows us/ca=23/24 B=0.01742 thr=0.05898 artifact=False
+treemap_canopy  total_cover_pct    n=25 rows us/ca=25/25 B=14.97117 thr=14.15885 artifact=True
+d92             share_Pseudotsuga  n= 7 rows us/ca=23/24 B=0.08313 thr=0.07178 artifact=True
+d92             share_conifer      n= 7 rows us/ca=23/24 B=0.01742 thr=0.05898 artifact=False
+d92             share_broadleaf    n= 7 rows us/ca=23/24 B=0.01742 thr=0.05898 artifact=False
+d92             total_cover_pct    n=25 rows us/ca=25/25 B=14.97117 thr=14.15885 artifact=True
+peakRSS_kB=117528 wall=50.10

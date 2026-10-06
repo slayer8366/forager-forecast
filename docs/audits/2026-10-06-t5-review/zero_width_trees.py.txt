@@ -1,0 +1,21 @@
+"""T5 review (D18): which live trees of 5 in and up get a Bechtold width <= 0 (dropped silently by
+crown_cover.plot_cover, line 209) in the strip's plots, by species, with their trees per acre.
+Run: PYTHONDONTWRITEBYTECODE=1 uv run --frozen python <this file>. Reads the flash drive only."""
+import csv, io, zipfile
+from collections import Counter
+import numpy as np, rasterio
+from forager_forecast.crown_cover import crown_width_for
+D = "/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t5"
+with rasterio.open(f"{D}/native/treemap_plots.tif") as ds:
+    a = ds.read(1); ids = {int(v) for v in np.unique(a[(a != ds.nodata) & (a != -1)])}
+rows, tpa = Counter(), Counter()
+with zipfile.ZipFile(f"{D}/treemap2023/RDS-2026-0038.zip") as z, z.open("Data/TreeMap2023_CONUS_Tree_Table.csv") as f:
+    for r in csv.DictReader(io.TextIOWrapper(f, encoding="utf-8-sig")):
+        if int(r["TM_ID"]) not in ids or r["STATUSCD"] != "1" or r["DIA"] in ("", "NA"): continue
+        d = float(r["DIA"])
+        if d < 5: continue
+        w, used = crown_width_for(int(r["SPCD"]), r["SCIENTIFIC_NAME"].split()[0], d)
+        if w <= 0:
+            k = (r["COMMON_NAME"], used); rows[k] += 1; tpa[k] += float(r["TPA_UNADJ"])
+for k in rows: print(k, "tree rows", rows[k], "sum TPA", round(tpa[k], 2))
+print("total rows", sum(rows.values()))
