@@ -37,6 +37,7 @@ from forager_forecast.regrid import area_weighted_regrid
 from forager_forecast.soilgrids import (
     ATTRIBUTION,
     DEPTHS,
+    HOMOLOSINE,
     STATISTICS,
     blend_0_30,
     fetch_layer,
@@ -151,6 +152,18 @@ def fetch_natives(
     return request_path
 
 
+def _require_homolosine(crs, name: str) -> None:
+    """The regrid assumes SoilGrids' Homolosine (soilgrids.HOMOLOSINE); check the file says so."""
+    probe_lon = np.array([-124.9, -121.0, -122.3, -96.0])
+    probe_lat = np.array([45.5, 49.0, 47.6, 40.0])
+    ours = Transformer.from_crs("EPSG:4326", HOMOLOSINE, always_xy=True)
+    theirs = Transformer.from_crs("EPSG:4326", crs.to_wkt(), always_xy=True)
+    ax, ay = ours.transform(probe_lon, probe_lat)
+    bx, by = theirs.transform(probe_lon, probe_lat)
+    if not (np.allclose(ax, bx, atol=1e-3) and np.allclose(ay, by, atol=1e-3)):
+        raise ValueError(f"{name} is not in SoilGrids' Homolosine projection")
+
+
 def _read_native(native_dir: Path):
     grid = None
     by_stat: dict[str, dict[str, np.ndarray]] = {stat: {} for stat in STATISTICS}
@@ -159,6 +172,7 @@ def _read_native(native_dir: Path):
         with rasterio.open(native_dir / f"{layer_name(depth, stat)}.tif") as ds:
             this = (ds.crs.to_wkt(), tuple(ds.transform)[:6], ds.width, ds.height)
             if grid is None:
+                _require_homolosine(ds.crs, layer_name(depth, stat))
                 grid, transform = this, ds.transform
             elif this != grid:
                 raise ValueError(

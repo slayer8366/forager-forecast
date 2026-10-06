@@ -208,5 +208,17 @@ def test_a_native_file_from_a_different_grid_is_refused(tmp_path):
         build_master(native_dir, tmp_path / "m.tif", SMALL_BOX)
 
 
+def test_a_native_file_in_another_projection_is_refused(tmp_path):
+    window = master_window(SMALL_BOX)
+    sources, _, _ = _write_sources(tmp_path, window)
+    native_dir = tmp_path / "native"
+    fetch_natives(native_dir, SMALL_BOX, source_for=lambda d, s: sources[(d, s)])
+    for depth, stat in layers():
+        with rasterio.open(native_dir / f"{layer_name(depth, stat)}.tif", "r+") as ds:
+            ds.crs = rasterio.crs.CRS.from_string("ESRI:54009")  # Mollweide, same grid numbers
+    with pytest.raises(ValueError, match="Homolosine"):
+        build_master(native_dir, tmp_path / "m.tif", SMALL_BOX)
+
+
 def test_window_type():
     assert isinstance(master_window(SMALL_BOX), GridWindow)
