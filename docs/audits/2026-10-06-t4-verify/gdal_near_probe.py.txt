@@ -1,0 +1,16 @@
+import numpy as np
+exec(open('/tmp/claude-1000/t4/explore/avg.py').read().split('tf=Transformer')[0].replace('Resampling.average','Resampling.nearest'))
+from pyproj import Transformer
+tf=Transformer.from_crs(A,H,always_xy=True)
+rng=np.random.default_rng(5); d=[]
+for k in range(2000):
+    r=rng.integers(5,dh-5); c=rng.integers(5,dw-5)
+    X,Y=tf.transform(L+c*250+125,T-r*250-125)
+    u=(X-x0)/250-0.5; v=(y0-Y)/250-0.5; c0=int(np.floor(u)); r0=int(np.floor(v)); fu=u-c0; fv=v-r0
+    e=src[int(np.floor(v+0.5)),int(np.floor(u+0.5))]
+    d.append(abs(e-dst[r,c]))
+d=np.array(d); print('nearest mismatch fraction',(d>1e-6).mean())
+
+import math
+X0,Y0=tf.transform(L+700*250,T-800*250);X1,Y1=tf.transform(L+701*250,T-800*250);X2,Y2=tf.transform(L+700*250,T-801*250)
+print('dst x-step in src m',math.hypot(X1-X0,Y1-Y0),'y-step',math.hypot(X2-X0,Y2-Y0))

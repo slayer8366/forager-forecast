@@ -1,0 +1,12 @@
+import numpy as np
+exec(open('/tmp/claude-1000/t4/explore/avg.py').read().split('tf=Transformer')[0].replace('Resampling.average','Resampling.bilinear'))
+from pyproj import Transformer
+tf=Transformer.from_crs(A,H,always_xy=True)
+rng=np.random.default_rng(5); d=[]
+for k in range(2000):
+    r=rng.integers(5,dh-5); c=rng.integers(5,dw-5)
+    X,Y=tf.transform(L+c*250+125,T-r*250-125)
+    u=(X-x0)/250-0.5; v=(y0-Y)/250-0.5; c0=int(np.floor(u)); r0=int(np.floor(v)); fu=u-c0; fv=v-r0
+    e=(1-fu)*(1-fv)*src[r0,c0]+fu*(1-fv)*src[r0,c0+1]+(1-fu)*fv*src[r0+1,c0]+fu*fv*src[r0+1,c0+1]
+    d.append(abs(e-dst[r,c]))
+d=np.array(d); print('bilinear vs exact centre bilinear: max',d.max(),'p99',np.percentile(d,99))

@@ -1,0 +1,18 @@
+import numpy as np
+from rasterio.transform import from_origin
+from rasterio.warp import reproject, Resampling
+from rasterio.crs import CRS
+A=CRS.from_string('ESRI:102008')
+rng=np.random.default_rng(3)
+src=(rng.integers(40,80,(200,200))/10).astype('float32')
+st=from_origin(0,50000,250,250)
+dt=from_origin(100,49930,250,250)  # shift 100 m east, 70 m south
+dst=np.full((180,180),np.nan,'float32')
+reproject(src,dst,src_transform=st,src_crs=A,dst_transform=dt,dst_crs=A,resampling=Resampling.average,src_nodata=np.nan,dst_nodata=np.nan)
+fx,fy=100/250,70/250
+d=[]
+for r in range(5,170):
+  for c in range(5,170):
+    e=(1-fx)*(1-fy)*src[r,c]+fx*(1-fy)*src[r,c+1]+(1-fx)*fy*src[r+1,c]+fx*fy*src[r+1,c+1]
+    d.append(abs(e-dst[r,c]))
+print('shift-only max diff', max(d))

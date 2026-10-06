@@ -1,0 +1,9 @@
+Outputs of the GDAL resampling probes, 2026-10-06, synthetic noise in the real geometry
+(Homolosine native 250 m to ESRI:102008 250 m over western Washington), rasterio 1.5.1 / GDAL 3.12.4:
+gdal_avg_probe:   GDAL average vs exact polygon area weights, 300 cells: max 0.5022874 p95 0.2724174 mean 0.092297904 (pH)
+                  (bbox-of-corners weighting model: max 0.836 mean 0.130; centre-shift bbox: max 0.674 mean 0.114, neither is GDAL's)
+                  error_threshold=0 (ET0=1) gave identical numbers
+gdal_shift_probe: same CRS, pure 100 m / 70 m shift: GDAL average vs exact max diff 9.536743e-07
+gdal_bil_probe:   GDAL bilinear vs exact centre bilinear, 2000 cells: max 0.9718323 p99 0.6348241
+gdal_near_probe:  GDAL nearest vs centre pixel: mismatch fraction 0.0245;
+                  a master cell's step in Homolosine: x 285.5 m, y 219.3 m; rotation about 13 degrees

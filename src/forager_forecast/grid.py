@@ -1,8 +1,9 @@
 """The master grid: 250 m cells in North America Albers equal-area (ESRI:102008).
 
 Every static layer is computed on this grid (D8) and only finished rasters are reprojected to Web
-Mercator for tiles. Defined in T4 (docs/dispatch/2026-10-06-t4-master-grid.md, item 1) as proposed in
-docs/audits/2026-10-06-t4-verify-report.md, section 3, and accepted by the planner on 2026-10-06.
+Mercator for tiles. Defined in T4 (docs/dispatch/2026-10-06-t4-master-grid.md, item 1) as
+proposed in docs/audits/2026-10-06-t4-verify-report.md, section 3, and accepted by the planner on
+2026-10-06.
 
 - The lattice sits on the projection's own false origin, (0, 0) in ESRI:102008 (lon -96, lat 40).
   Cell edges are integer multiples of 250 m, so no extent has to be chosen and a later layer over a
@@ -43,7 +44,9 @@ class GridCell:
 
     def __post_init__(self) -> None:
         if not (-_ID_OFFSET <= self.col < _ID_OFFSET and -_ID_OFFSET <= self.row < _ID_OFFSET):
-            raise ValueError(f"cell ({self.col}, {self.row}) is outside the id range of +/-8,192 km")
+            raise ValueError(
+                f"cell ({self.col}, {self.row}) is outside the id range of +/-8,192 km"
+            )
 
     @property
     def id(self) -> int:
@@ -85,9 +88,7 @@ def cell_for_lonlat(longitude: float, latitude: float) -> GridCell:
     return cell_at(x, y)
 
 
-def snap_bounds(
-    left: float, bottom: float, right: float, top: float
-) -> tuple[int, int, int, int]:
+def snap_bounds(left: float, bottom: float, right: float, top: float) -> tuple[int, int, int, int]:
     """Bounds widened outward to the 250 m lattice, as every raster on the grid must be."""
     if not (left < right and bottom < top):
         raise ValueError(f"empty bounds: {(left, bottom, right, top)}")
@@ -127,9 +128,7 @@ class GridWindow:
         if not (0 <= raster_row < self.height and 0 <= raster_col < self.width):
             raise IndexError(f"pixel ({raster_row}, {raster_col}) is outside the window")
         top_row = self.top // CELL_SIZE_M
-        return GridCell(
-            col=self.left // CELL_SIZE_M + raster_col, row=top_row - 1 - raster_row
-        )
+        return GridCell(col=self.left // CELL_SIZE_M + raster_col, row=top_row - 1 - raster_row)
 
     def pixel_of_cell(self, cell: GridCell) -> tuple[int, int]:
         top_row = self.top // CELL_SIZE_M

@@ -69,7 +69,8 @@ def polygon_square_overlap(polys: np.ndarray) -> np.ndarray:
     verts = np.zeros((n, _MAX_VERTICES, 2))
     verts[:, :m] = polys
     count = np.full(n, m)
-    for axis, value, keep_above in ((0, 0.0, True), (0, 1.0, False), (1, 0.0, True), (1, 1.0, False)):
+    unit_square = ((0, 0.0, True), (0, 1.0, False), (1, 0.0, True), (1, 1.0, False))
+    for axis, value, keep_above in unit_square:
         verts, count = _clip_half_plane(verts, count, axis, value, keep_above)
     k = np.arange(_MAX_VERTICES)[None, :]
     real = k < count[:, None]
