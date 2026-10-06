@@ -1,0 +1,310 @@
+[
+ {
+  "check": "grid: floor to round in cell_at",
+  "file": "src/forager_forecast/grid.py",
+  "tests": [
+   "tests/test_grid.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 5,
+  "failures": [
+   "test_a_known_point_lands_in_a_known_cell_with_a_known_id: AssertionError: assert GridCell(col=-7372, row=4624) == GridCell(col=-7373, row=4624)",
+   "test_the_lattice_origin_is_the_projection_false_origin: AssertionError: assert GridCell(col=0, row=0) == GridCell(col=-1, row=-1)",
+   "test_points_on_edges_go_east_and_north[499.999-749.999-expected1]: AssertionError: assert GridCell(col=2, row=3) == GridCell(col=1, row=2)",
+   "test_points_on_edges_go_east_and_north[-250.001--500.001-expected3]: AssertionError: assert GridCell(col=-1, row=-2) == GridCell(col=-2, row=-3)",
+   "test_cells_outside_the_id_range_raise_instead_of_wrapping: Failed: DID NOT RAISE ValueError"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "5 failed, 13 passed in 0.45s"
+ },
+ {
+  "check": "grid: id decode mask",
+  "file": "src/forager_forecast/grid.py",
+  "tests": [
+   "tests/test_grid.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 4,
+  "failures": [
+   "test_cell_id_round_trips[0-0]: AssertionError: assert GridCell(col=-32768, row=0) == GridCell(col=0, row=0)",
+   "test_cell_id_round_trips[32767-32767]: AssertionError: assert GridCell(col=-1, row=32767) == GridCell(col=32767, row=32767)",
+   "test_cell_id_round_trips[12345--2]: AssertionError: assert GridCell(col=-20423, row=-2) == GridCell(col=12345, row=-2)",
+   "test_north_american_extremes_have_ids: AssertionError: assert GridCell(col=...3, row=-13787) == GridCell(col=8895, row=-13787)"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "4 failed, 14 passed in 0.42s"
+ },
+ {
+  "check": "grid: snap right edge inward",
+  "file": "src/forager_forecast/grid.py",
+  "tests": [
+   "tests/test_grid.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 2,
+  "failures": [
+   "test_snap_bounds_widens_outward_to_the_lattice: assert (-1250, 0, 250, 500) == (-1250, 0, 500, 500)",
+   "test_a_window_maps_raster_pixels_to_cells_with_rows_north_to_south: assert (6, 2) == (7, 2)"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "2 failed, 16 passed in 0.43s"
+ },
+ {
+  "check": "grid: datum pin EPSG:4269 to EPSG:4326 (expected NOT to bite offline)",
+  "file": "src/forager_forecast/grid.py",
+  "tests": [
+   "tests/test_grid.py",
+   "tests/test_soilgrids.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 0,
+  "failures": [],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "27 passed in 0.54s"
+ },
+ {
+  "check": "regrid: drop the top clip of the unit square",
+  "file": "src/forager_forecast/regrid.py",
+  "tests": [
+   "tests/test_regrid.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 3,
+  "failures": [
+   "test_overlap_of_a_unit_square_with_itself_and_with_a_shifted_copy: assert np.float64(0.6000000000000001) == 0.42 \u00b1 4.2e-07",
+   "test_overlap_of_a_rotated_square_is_exact: assert np.float64(0.8713203435596425) == 0.8284271247461901 \u00b1 1.0e-12",
+   "test_the_pure_shift_case_agrees_with_gdal_average_to_1e_6: AssertionError: "
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "3 failed, 6 passed in 0.39s"
+ },
+ {
+  "check": "regrid: no-data pixels weighted",
+  "file": "src/forager_forecast/regrid.py",
+  "tests": [
+   "tests/test_regrid.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 3,
+  "failures": [
+   "test_a_cell_partly_over_no_data_uses_valid_pixels_only_and_reports_the_fraction: AssertionError: ",
+   "test_a_cell_with_no_valid_pixel_is_no_data_with_fraction_zero: AssertionError: ",
+   "test_several_bands_share_the_geometry_but_not_the_validity: AssertionError: "
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "3 failed, 6 passed in 0.39s"
+ },
+ {
+  "check": "regrid: coverage error removed",
+  "file": "src/forager_forecast/regrid.py",
+  "tests": [
+   "tests/test_regrid.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_a_master_cell_beyond_the_native_raster_is_an_error_not_a_silent_gap: Failed: DID NOT RAISE ValueError"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 8 passed in 0.37s"
+ },
+ {
+  "check": "soilgrids: scale 10 to 100",
+  "file": "src/forager_forecast/soilgrids.py",
+  "tests": [
+   "tests/test_soilgrids.py",
+   "tests/test_t4_layer.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 4,
+  "failures": [
+   "test_mapped_values_divide_by_ten_once_and_no_data_becomes_nan: AssertionError: ",
+   "test_the_master_grid_is_on_the_lattice_and_carries_the_blended_values: AssertionError: ",
+   "test_a_cell_mostly_over_no_data_becomes_no_data_and_keeps_its_fraction: AssertionError: ",
+   "test_the_archive_is_zoom_9_and_reads_back_the_master_value: assert np.uint8(5) == 53"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "4 failed, 14 passed in 1.03s"
+ },
+ {
+  "check": "soilgrids: blend unweighted",
+  "file": "src/forager_forecast/soilgrids.py",
+  "tests": [
+   "tests/test_soilgrids.py",
+   "tests/test_t4_layer.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 4,
+  "failures": [
+   "test_the_blend_is_thickness_weighted_and_no_data_in_any_depth_is_no_data: assert np.float64(5.0) == 4.666666666666667 \u00b1 4.7e-06",
+   "test_the_master_grid_is_on_the_lattice_and_carries_the_blended_values: AssertionError: ",
+   "test_a_cell_mostly_over_no_data_becomes_no_data_and_keeps_its_fraction: AssertionError: ",
+   "test_the_archive_is_zoom_9_and_reads_back_the_master_value: assert np.uint8(55) == 53"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "4 failed, 14 passed in 1.02s"
+ },
+ {
+  "check": "soilgrids: missing no-data guessed",
+  "file": "src/forager_forecast/soilgrids.py",
+  "tests": [
+   "tests/test_soilgrids.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_a_missing_no_data_value_is_refused_not_guessed: Failed: DID NOT RAISE ValueError"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 8 passed in 0.32s"
+ },
+ {
+  "check": "soilgrids: window rounded instead of outward",
+  "file": "src/forager_forecast/soilgrids.py",
+  "tests": [
+   "tests/test_soilgrids.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_fetch_layer_keeps_the_native_pixels_and_records_the_request: AssertionError: assert (-12998000.0 <= -12998100.0)"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 8 passed in 0.33s"
+ },
+ {
+  "check": "t4: valid-fraction threshold not applied",
+  "file": "src/forager_forecast/t4_layer.py",
+  "tests": [
+   "tests/test_t4_layer.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_a_cell_mostly_over_no_data_becomes_no_data_and_keeps_its_fraction: AssertionError: assert (np.True_ and np.False_)"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 8 passed in 0.97s"
+ },
+ {
+  "check": "t4: rectangle mask not applied",
+  "file": "src/forager_forecast/t4_layer.py",
+  "tests": [
+   "tests/test_t4_layer.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_the_master_grid_is_on_the_lattice_and_carries_the_blended_values: AssertionError: assert np.False_"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 8 passed in 0.97s"
+ },
+ {
+  "check": "t4: different native grid accepted",
+  "file": "src/forager_forecast/t4_layer.py",
+  "tests": [
+   "tests/test_t4_layer.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_a_native_file_from_a_different_grid_is_refused: Failed: DID NOT RAISE ValueError"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 8 passed in 1.19s"
+ },
+ {
+  "check": "t4: range bands not labelled approximate in the archive",
+  "file": "src/forager_forecast/t4_layer.py",
+  "tests": [
+   "tests/test_t4_layer.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_the_archive_is_zoom_9_and_reads_back_the_master_value: AssertionError: assert 'approximate' in 'Q0.05 and Q0.95 pH, blended 0 to 30 cm the same way, are (a weighted mean of quantiles is not a quantile). They exist o"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 8 passed in 0.96s"
+ },
+ {
+  "check": "tiles: nearest lookup rounds instead of floors",
+  "file": "src/forager_forecast/tiles.py",
+  "tests": [
+   "tests/test_tiles.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_each_mercator_pixel_takes_the_master_cell_under_its_centre: assert np.float64(3231.1428571428573) == np.float64(3231.0)"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 5 passed in 0.52s"
+ },
+ {
+  "check": "tiles: encoding truncates instead of rounding half up",
+  "file": "src/forager_forecast/tiles.py",
+  "tests": [
+   "tests/test_tiles.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_encoding_rounds_ph_times_ten_half_up_and_marks_no_data_transparent: AssertionError: "
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 5 passed in 0.54s"
+ },
+ {
+  "check": "tiles: zoom-10 pixel size",
+  "file": "src/forager_forecast/tiles.py",
+  "tests": [
+   "tests/test_tiles.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 2,
+  "failures": [
+   "test_zoom_9_pixel_size_is_the_web_mercator_one: assert 152.8740565703525 == 305.748113140705 \u00b1 3.1e-04",
+   "test_the_archive_has_max_zoom_9_and_carries_the_values_and_metadata: assert 10 == 9"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "2 failed, 4 passed in 0.64s"
+ }
+]
