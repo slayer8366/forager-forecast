@@ -56,6 +56,12 @@ def test_a_species_missing_from_the_table_takes_its_genus_mate_with_most_observa
     assert crown_width_for(324, "Acer", 10.0)[1] == 312
 
 
+def test_woodland_species_are_never_surrogates():
+    # Every Table 3 juniper is a woodland species (D is root-collar diameter), so an unlisted
+    # juniper takes the softwood default, not a juniper.
+    assert crown_width_for(68, "Juniperus", 10.0)[1] == 202
+
+
 def test_a_species_with_no_genus_mate_takes_its_class_default():
     assert crown_width_for(542, "Fraxinus", 10.0)[1] == 746  # hardwood: quaking aspen
     assert crown_width_for(231, "Taxus", 10.0)[1] == 202  # softwood: Douglas-fir

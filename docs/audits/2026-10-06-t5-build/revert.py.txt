@@ -1,0 +1,102 @@
+"""T5 revert checks (the T4 runner, docs/audits/2026-10-06-t4-build/revert.py.txt, with T5's checks). Each check: save a copy of the file, apply one exact edit, run the named test
+files with a fresh JUnit XML, refuse the run if pytest reports collection or import errors (or
+writes no XML), record which tests failed and their first message line, restore the file from the
+saved copy (never from git), and confirm the restored file is byte-identical to the saved copy and
+to HEAD (the forward change is committed, so this also confirms it is still present).
+Before each run it deletes __pycache__ outside .venv, disables bytecode writing, and confirms the
+interpreter imports the edited source; a run where it does not is refused like a collection error.
+Run from the repository root: uv run python docs/audits/2026-10-06-t5-build/revert.py.txt OUT.json
+"""
+import hashlib, json, os, shutil, subprocess, sys, xml.etree.ElementTree as ET
+from pathlib import Path
+
+CHECKS = [
+    ("crown: quadratic term dropped", "src/forager_forecast/crown_cover.py",
+     "return b0 + b1 * dbh_in + b2 * dbh_in * dbh_in, used", "return b0 + b1 * dbh_in, used",
+     ["tests/test_crown_cover.py"]),
+    ("crown: no overlap correction", "src/forager_forecast/crown_cover.py",
+     "total = 100.0 * (1.0 - math.exp(-0.01 * c_prime))", "total = c_prime", ["tests/test_crown_cover.py"]),
+    ("crown: saplings and dead trees kept", "src/forager_forecast/crown_cover.py",
+     "if not t.live or not (t.dbh_in >= MIN_DBH_IN) or not (t.tpa > 0):", "if not (t.tpa > 0):",
+     ["tests/test_crown_cover.py"]),
+    ("crown: no same-genus surrogate", "src/forager_forecast/crown_cover.py",
+     "    if mates:\n        return max(", "    if False:\n        return max(", ["tests/test_crown_cover.py"]),
+    ("crown: woodland species allowed as surrogates", "src/forager_forecast/crown_cover.py",
+     "if g == genus and s not in WOODLAND]", "if g == genus]", ["tests/test_crown_cover.py"]),
+    ("crown: unknown genus guessed broadleaf", "src/forager_forecast/crown_cover.py",
+     "    raise UnknownGenus(f\"genus {genus!r} is in neither", "    return False\n    raise UnknownGenus(f\"genus {genus!r} is in neither",
+     ["tests/test_crown_cover.py"]),
+    ("t5: Canada fills genera SCANFI cannot supply", "src/forager_forecast/t5_layer.py",
+     "share = np.where(canada, np.nan, us_share)", "share = us_share", ["tests/test_t5_layer.py"]),
+    ("t5: SCANFI no data read as 255 percent", "src/forager_forecast/t5_layer.py",
+     "data[ds.read(1) == ds.nodata] = 0.0", "pass", ["tests/test_t5_layer.py"]),
+    ("t5: half-area rule not applied", "src/forager_forecast/t5_layer.py",
+     "valid = in_box & (fraction >= MIN_VALID_FRACTION)", "valid = in_box & (fraction > 0)",
+     ["tests/test_t5_layer.py"]),
+    ("t5: 10% cover threshold not applied", "src/forager_forecast/t5_layer.py",
+     "defined = valid & (total >= MIN_TOTAL_COVER_PCT)", "defined = valid & (total > 0)",
+     ["tests/test_t5_layer.py"]),
+    ("t5: TreeMap pixels north of 49 N kept", "src/forager_forecast/t5_layer.py",
+     "layer[~own_side | outside] = np.nan", "layer[outside] = np.nan", ["tests/test_t5_layer.py"]),
+    ("t5: short TreeMap raster accepted", "src/forager_forecast/t5_layer.py",
+     "if ((data == OUTSIDE_RASTER) & (lat < BORDER_LATITUDE)).any():", "if False:",
+     ["tests/test_t5_layer.py"]),
+    ("t5: cell side by >= 49 flipped to >", "src/forager_forecast/t5_layer.py",
+     "canada = _cell_latitudes(window) >= BORDER_LATITUDE", "canada = _cell_latitudes(window) > 49.01",
+     ["tests/test_t5_layer.py"]),
+    ("seam: border step sign flipped", "src/forager_forecast/seam.py",
+     "return float(wn[0] - ws[0]), ws[:-1] - ws[1:], wn[:-1] - wn[1:]",
+     "return float(ws[0] - wn[0]), ws[:-1] - ws[1:], wn[:-1] - wn[1:]", ["tests/test_seam.py"]),
+    ("seam: window ignores missing samples", "src/forager_forecast/seam.py",
+     "return v.mean(axis=1)", "return np.nanmean(v, axis=1)", ["tests/test_seam.py"]),
+    ("seam: verdict against the median, the section 4 rule", "src/forager_forecast/seam.py",
+     "\"artifact\": bool(len(b) and math.isfinite(threshold) and big > threshold),",
+     "\"artifact\": bool(len(b) and big > max(v_us, v_ca)),", ["tests/test_seam.py"]),
+    ("seam: spherical parallel radius", "src/forager_forecast/seam.py",
+     "parallel_radius = a / math.sqrt(1 - e2 * math.sin(phi) ** 2) * math.cos(phi)",
+     "parallel_radius = 6371008.8 * math.cos(phi)", ["tests/test_seam.py"]),
+]
+
+def sha(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+
+results = []
+for name, path, old, new, tests in CHECKS:
+    p = Path(path); saved = p.read_bytes(); saved_sha = sha(p)
+    head = subprocess.run(["git", "show", f"HEAD:{path}"], capture_output=True).stdout
+    text = saved.decode()
+    assert text.count(old) == 1, f"{name}: edit anchor not unique or missing"
+    xml = Path("/tmp/claude-1000/t5/revert.xml")
+    xml.unlink(missing_ok=True)
+    try:
+        p.write_text(text.replace(old, new))
+        for cache in Path(".").rglob("__pycache__"):
+            if ".venv" not in cache.parts:
+                shutil.rmtree(cache)
+        env = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
+        # The interpreter that runs the tests must see the edited source, or the run is stale.
+        module = path.removeprefix("src/").removesuffix(".py").replace("/", ".")
+        probe = subprocess.run(["uv", "run", "--frozen", "python", "-c",
+                                f"import inspect, {module} as m; print({new!r} in inspect.getsource(m))"],
+                               capture_output=True, text=True, env=env)
+        edit_seen = probe.stdout.strip() == "True"
+        run = subprocess.run(["uv", "run", "--frozen", "pytest", "-q", "-p", "no:warnings", "-p", "no:cacheprovider",
+                              f"--junitxml={xml}", *tests], capture_output=True, text=True, env=env)
+    finally:
+        p.write_bytes(saved)
+    restored_ok = sha(p) == saved_sha and p.read_bytes() == head
+    out = run.stdout + run.stderr
+    collection_error = (not edit_seen) or ("error during collection" in out) or ("ImportError" in out) or ("SyntaxError" in out) or not xml.exists()
+    failures = []
+    if xml.exists() and not collection_error:
+        root = ET.parse(xml).getroot()
+        for case in root.iter("testcase"):
+            for f in list(case.findall("failure")) + list(case.findall("error")):
+                msg = (f.get("message") or "").splitlines()[0][:160]
+                failures.append(f"{case.get('name')}: {msg}")
+    results.append({"check": name, "file": path, "tests": tests, "collection_error": collection_error,
+                    "edit_seen_by_interpreter": edit_seen, "citable": not collection_error, "failed": len(failures), "failures": failures,
+                    "restored_from_copy_and_equal_to_HEAD": restored_ok,
+                    "tail": out.strip().splitlines()[-1] if out.strip() else ""})
+    print(f"{name}: collection_error={collection_error} failed={len(failures)} restored={restored_ok}", flush=True)
+
+Path(sys.argv[1]).write_text(json.dumps(results, indent=1) + "\n")
