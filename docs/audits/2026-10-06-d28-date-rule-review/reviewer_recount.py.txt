@@ -1,0 +1,280 @@
+"""Reviewer's independent recount over D26's download, one pass, one process (D18 review of D28).
+
+Usage: uv run python reviewer_recount.py.txt <0012112 zip> <expected sha256> <output json>
+
+Independent of the builder's new code: it does not import records/midnight.py,
+records/date_quality.py, scripts/d28_*.py, or the new date-step functions of records/filters.py.
+It uses only code that the task did not change (git diff 41005c1..48c78c7 on records/occurrence.py,
+records/counts.py and t1_design.py is empty; in records/filters.py only the date step changed): the
+loader (record_from_row), the non-date filter predicates, region_of and the two key functions.
+The midnight table, the date variants, the duplicate counting and the stats are written here.
+A raw-text midnight count (a regex over eventDate, not the loader) is kept beside the loader's.
+
+One builder function is exercised on purpose, as its own check: scripts/d27_d28_tables.py pass 1
+after its one-line change is Pipeline(with_date_rule(t1_steps(), DROP_ALL)); it is run on the same
+stream through a generator tap, so its survivors and step table can be compared with the filed
+D27 to D29 run (pass_t1_drop_all.json).
+"""
+
+import hashlib
+import io
+import json
+import re
+import resource
+import sys
+import time as clock
+import zipfile
+from collections import Counter, defaultdict
+from datetime import time
+
+from scipy.stats import beta, binomtest
+
+from forager_forecast.records import date_quality as dq
+from forager_forecast.records.counts import region_of
+from forager_forecast.records.filters import (
+    R6_MAX_COORDINATE_UNCERTAINTY_M,
+    Pipeline,
+    event_key,
+    is_user_obscured,
+    observer_key,
+    outside_t1_boxes,
+    outside_t1_years,
+    t1_steps,
+)
+from forager_forecast.records.occurrence import UnloadableRow, read_occurrence_rows, record_from_row
+from forager_forecast.t1_design import MAX_COORDINATE_UNCERTAINTY_M
+
+MIDNIGHT = time(0, 0, 0)
+RAW_MIDNIGHT = re.compile(r"^\d{4}-\d{2}-(\d{2})T00:00(:00(\.0+)?)?(Z|[+-]\d{2}(:?\d{2})?)?$")
+P0 = 12 / 365.2425
+REGIONS: dict[str, int] = {}
+LIMIT = int(__import__("os").environ.get("RECOUNT_LIMIT", "0"))  # smoke runs only
+
+
+def rcode(name):
+    return REGIONS.setdefault(name, len(REGIONS))
+
+
+def digest(key):
+    return int.from_bytes(hashlib.blake2b(repr(key).encode(), digest_size=8).digest(), "big")
+
+
+def unc_above(record, limit):
+    v = record.coordinate_uncertainty_m
+    return v is None or v > limit
+
+
+def t1_fails(r):
+    return (
+        outside_t1_boxes(r)
+        or outside_t1_years(r)
+        or is_user_obscured(r)
+        or unc_above(r, MAX_COORDINATE_UNCERTAINTY_M)
+    )
+
+
+def r6_fails(r):
+    return is_user_obscured(r) or unc_above(r, R6_MAX_COORDINATE_UNCERTAINTY_M)
+
+
+LISTS = {"t1": t1_fails, "r6": r6_fails}
+KEYS = {"event": event_key, "observer": observer_key}
+
+
+def main(zip_path, expected_sha, out_path):
+    t0 = clock.monotonic()
+    h = hashlib.sha256()
+    with open(zip_path, "rb") as f:
+        while chunk := f.read(1 << 20):
+            h.update(chunk)
+    if h.hexdigest() != expected_sha and not LIMIT:
+        raise SystemExit(f"sha256 {h.hexdigest()} != {expected_sha}")
+
+    rows = 0
+    unloadable = Counter()
+    timed = Counter()
+    midnight_by_day = defaultdict(Counter)
+    raw_midnight_by_day = defaultdict(Counter)
+    loader_raw_disagree = 0
+    timed_not_midnight = Counter()
+    timed_not_midnight_first = Counter()
+    # base: records clearing every non-date filter that are neither date-only on the 1st nor
+    # midnight on the 1st. list -> key -> digest -> gbif*8 + region code (lowest gbifID)
+    base = {L: {k: {} for k in KEYS} for L in LISTS}
+    reach = {L: Counter() for L in LISTS}
+    extra = {L: {"d1": [], "m1": []} for L in LISTS}
+
+    def tap(handle):
+        nonlocal rows, loader_raw_disagree
+        for row in read_occurrence_rows(handle):
+            rows += 1
+            ds = row.get("datasetKey", "").strip()
+            raw = row.get("eventDate", "").strip()
+            m = RAW_MIDNIGHT.match(raw)
+            try:
+                r = record_from_row(row)
+            except UnloadableRow as e:
+                unloadable[e.reason] += 1
+                if m:
+                    loader_raw_disagree += 1
+                continue
+            day = r.event_date.day
+            if m:
+                raw_midnight_by_day[ds][int(m.group(1))] += 1
+            if r.event_time is not None:
+                timed[ds] += 1
+                if r.event_time == MIDNIGHT:
+                    midnight_by_day[ds][day] += 1
+                else:
+                    timed_not_midnight[ds] += 1
+                    if day == 1:
+                        timed_not_midnight_first[ds] += 1
+            if bool(m) != (r.event_time == MIDNIGHT):
+                loader_raw_disagree += 1
+            kind = None
+            if day == 1 and r.event_time is None:
+                kind = "d1"
+            elif day == 1 and r.event_time == MIDNIGHT:
+                kind = "m1"
+            region = region_of(r)
+            for L, fails in LISTS.items():
+                if fails(r):
+                    continue
+                reach[L][kind or "base"] += 1
+                if kind is not None:
+                    extra[L][kind].append(
+                        {
+                            "gbifID": r.gbif_id,
+                            "datasetKey": ds,
+                            "eventDate": raw,
+                            "region": region,
+                            "event": digest(event_key(r)),
+                            "observer": digest(observer_key(r)),
+                        }
+                    )
+                    continue
+                val = r.gbif_id * 8 + rcode(region)
+                for kname, kfn in KEYS.items():
+                    table = base[L][kname]
+                    d = digest(kfn(r))
+                    cur = table.get(d)
+                    if cur is None or val < cur:
+                        table[d] = val
+            if rows % 500_000 == 0:
+                print(rows, flush=True)
+            yield r
+            if LIMIT and rows >= LIMIT:
+                break
+
+    pass1 = Pipeline(dq.with_date_rule(t1_steps(), dq.DROP_ALL))
+    with zipfile.ZipFile(zip_path).open("occurrence.txt") as raw:
+        handle = io.TextIOWrapper(raw, encoding="utf-8", newline="")
+        pass1_survivors = pass1.run(tap(handle))
+    pass1_out = {
+        "survivors": len(pass1_survivors),
+        "survivors_by_region": dict(Counter(region_of(r) for r in pass1_survivors)),
+        "steps": [
+            {"step": c.step, "before": c.before, "dropped": c.dropped} for c in pass1.counts
+        ],
+        "source": pass1.source_count,
+    }
+    del pass1_survivors
+
+    names = {v: k for k, v in REGIONS.items()}
+
+    def merged(L, kname, kinds):
+        table = dict(base[L][kname])
+        for kind in kinds:
+            for rec in extra[L][kind]:
+                val = rec["gbifID"] * 8 + rcode(rec["region"])
+                cur = table.get(rec[kname])
+                if cur is None or val < cur:
+                    table[rec[kname]] = val
+        by = Counter(names[v & 7] for v in table.values())
+        return table, {"total": len(table), "by_region": dict(sorted(by.items()))}
+
+    variants = {"drop_all": (), "keep_all": ("d1",), "now_d97_d98": ("d1", "m1")}
+    out_variants = {
+        L: {v: {k: merged(L, k, kinds)[1] for k in KEYS} for v, kinds in variants.items()}
+        for L in LISTS
+    }
+
+    # Trace each midnight-on-the-1st record that reaches the duplicate step, in each list's own key.
+    own = {"t1": "event", "r6": "observer"}
+    trace = {}
+    for L, kname in own.items():
+        keep_all_table, _ = merged(L, kname, ("d1",))
+        m1 = extra[L]["m1"]
+        same_key = Counter(rec[kname] for rec in m1)
+        rows_out = []
+        for rec in m1:
+            partner = keep_all_table.get(rec[kname])
+            rows_out.append(
+                {
+                    "gbifID": rec["gbifID"],
+                    "datasetKey": rec["datasetKey"],
+                    "eventDate": rec["eventDate"],
+                    "region": rec["region"],
+                    "key_in_keep_all_survivors": partner is not None,
+                    "keep_all_survivor_gbifID_with_that_key": (partner >> 3) if partner else None,
+                    "other_midnight_records_with_same_key": same_key[rec[kname]] - 1,
+                }
+            )
+        trace[L] = rows_out
+
+    def stats(by_day):
+        mm = sum(by_day.values())
+        k = by_day.get(1, 0)
+        if not mm:
+            return {"M": 0, "k": 0}
+        p = binomtest(k, mm, P0, alternative="greater").pvalue
+        lo = beta.ppf(0.025, k, mm - k + 1) if k else 0.0
+        hi = beta.ppf(0.975, k + 1, mm - k) if k < mm else 1.0
+        return {
+            "M": mm,
+            "k": k,
+            "share": k / mm,
+            "ratio": k / mm / P0,
+            "expected_k": mm * P0,
+            "p": p,
+            "ci95": [lo, hi],
+            "min_day": min(by_day.get(d, 0) for d in range(1, 32)),
+            "max_day": max(by_day.values()),
+            "max_day_at": max(by_day, key=by_day.get),
+        }
+
+    pooled = Counter()
+    for c in midnight_by_day.values():
+        pooled.update(c)
+    out = {
+        "rows": rows,
+        "unloadable": dict(unloadable),
+        "loader_vs_raw_midnight_disagreements": loader_raw_disagree,
+        "timed_by_dataset": dict(timed),
+        "midnight_by_dataset": {
+            ds: {"timed": timed[ds], **stats(c), "by_day": dict(sorted(c.items()))}
+            for ds, c in midnight_by_day.items()
+        },
+        "raw_midnight_by_dataset_day": {
+            ds: dict(sorted(c.items())) for ds, c in raw_midnight_by_day.items()
+        },
+        "own_calendar_share": {
+            ds: timed_not_midnight_first[ds] / timed_not_midnight[ds]
+            for ds in timed
+            if timed_not_midnight[ds]
+        },
+        "pooled": {"timed": sum(timed.values()), **stats(pooled)},
+        "reach_duplicate_step": {L: dict(c) for L, c in reach.items()},
+        "survivors": out_variants,
+        "midnight_first_trace": trace,
+        "repo_d27_d28_pass1_drop_all": pass1_out,
+        "seconds": round(clock.monotonic() - t0, 1),
+        "peak_rss_mb": round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024, 1),
+    }
+    with open(out_path, "w") as fh:
+        json.dump(out, fh, indent=1, default=str)
+    print("done", out["seconds"], "s, peak MB", out["peak_rss_mb"], flush=True)
+
+
+if __name__ == "__main__":
+    main(sys.argv[1], sys.argv[2], sys.argv[3])
