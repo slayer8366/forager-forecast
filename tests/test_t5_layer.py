@@ -83,6 +83,7 @@ def _write_treemap(path, top_lat=49.015):
     transform = from_origin(left, top, 30, 30)
     lon, lat = _grid_lonlat(transform, width, height, TREEMAP_CRS)
     plots = np.where(lon < -121.90, 1, 2).astype("int32")
+    plots[lat >= 49.0] = 2  # north of the border: a different plot, which no cell may read
     plots[lat < 48.975] = TREEMAP_NODATA  # non-forest on the US side
     with rasterio.open(
         path, "w", driver="GTiff", width=width, height=height, count=1, dtype="int32",
@@ -156,6 +157,8 @@ def _write_scanfi(directory):
     for cls in SCANFI_CLASSES:
         data = np.full((height, width), SCANFI_VALUES.get(cls, 0), dtype="uint8")
         data[(lat > 49.03) & (lon > -121.87)] = 255  # no data in one Canadian corner
+        low = {"douglasFir": 3, "otherConiferous": 2, "broadleaf": 1}.get(cls, 0)
+        data[(lat > 49.03) & (lon < -121.93)] = low  # 6% cover in the opposite corner
         with rasterio.open(
             directory / f"{cls}.tif", "w", driver="GTiff", width=width, height=height, count=1,
             dtype="uint8", crs=SCANFI_CRS_WKT, transform=transform, nodata=255,
@@ -251,6 +254,11 @@ def test_cells_below_ten_percent_cover_or_outside_the_box_have_no_share(built):
     corner = _at(bands, transform, -121.855, 49.038)
     assert corner["total_cover_pct"] < MIN_TOTAL_COVER_PCT
     assert np.isnan(corner["share_conifer"])
+    # Some cover, but under 10%: still no share.
+    sparse = _at(bands, transform, -121.945, 49.038)
+    assert sparse["total_cover_pct"] == pytest.approx(6.0)
+    assert np.isnan(sparse["share_Pseudotsuga"])
+    assert _at(flags, transform, -121.945, 49.038)["flag_Pseudotsuga"] == FLAG_NONE
     # Outside the box altogether: the Albers window's corners lie outside the rectangle.
     window = master_window(SMALL)
     assert bands["source"].shape == (window.height, window.width)
@@ -267,6 +275,33 @@ def test_a_straddling_cell_uses_its_own_side_and_the_half_area_rule(built):
     # Some cells straddle 49 N: their own side covers only part of them.
     assert ((vf > 0.5) & (vf < 1.0) & inside).any()
     assert np.isnan(bands["share_conifer"][inside & (vf < 0.5)]).all()
+    lat = _cell_lat(bands["source"].shape, transform)
+    # A cell whose centre is at or just north of 49 N is Canadian.
+    assert (src[inside & (lat >= 49.0) & (lat < 49.01)] == FLAG_SCANFI).all()
+    assert (inside & (lat >= 49.0) & (lat < 49.01)).any()
+    # A US cell straddling the line reads only its US part: in the west that is pure plot 1
+    # (Douglas-fir), although the raster north of 49 N holds plot 2 there.
+    west_straddle = inside & (lat < 49.0) & (lat > 48.998) & (vf < 1.0) & (vf > 0.5)
+    lon = _cell_lon(bands["source"].shape, transform)
+    west_straddle &= lon < -121.91
+    assert west_straddle.any()
+    assert np.allclose(bands["share_Pseudotsuga"][west_straddle], 1.0)
+
+
+def _cell_centres(shape, transform):
+    h, w = shape
+    xs = transform.c + (np.arange(w) + 0.5) * 250
+    ys = transform.f - (np.arange(h) + 0.5) * 250
+    gx, gy = np.meshgrid(xs, ys)
+    return Transformer.from_crs("ESRI:102008", "EPSG:4269", always_xy=True).transform(gx, gy)
+
+
+def _cell_lat(shape, transform):
+    return _cell_centres(shape, transform)[1]
+
+
+def _cell_lon(shape, transform):
+    return _cell_centres(shape, transform)[0]
 
 
 def test_surrogate_widths_move_only_the_plot_with_a_surrogate(built):
