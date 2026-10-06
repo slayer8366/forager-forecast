@@ -1,0 +1,31 @@
+"""D92 check before the switch: SCANFI v2 2025's ten species-class crown closures summed, against
+its own total crown closure layer, on the strip's Canadian side (pixel centres at 49 N and north),
+read from the windows on the flash drive. 255 (no data) is counted separately.
+Run: uv run --frozen python docs/audits/2026-10-06-t5-amendment-3/scanfi_sum_vs_total.py.txt
+"""
+import numpy as np, rasterio
+from forager_forecast.t5_layer import SCANFI_CLASSES, _pixel_latitudes
+
+N = "data/t5/native"
+with rasterio.open(f"{N}/scanfi_att_closure.tif") as ds:
+    total = ds.read(1).astype(int); tr, crs = ds.transform, ds.crs
+    lat = _pixel_latitudes(tr, ds.width, ds.height, crs)
+ssum = np.zeros_like(total); nd_cls = np.zeros(total.shape, bool)
+for c in SCANFI_CLASSES:
+    with rasterio.open(f"{N}/scanfi_{c}.tif") as ds:
+        assert ds.transform == tr and ds.shape == total.shape
+        a = ds.read(1).astype(int); nd_cls |= a == 255; ssum += np.where(a == 255, 0, a)
+ca = lat >= 49.0
+nd_tot = total == 255
+both = ca & ~nd_tot & ~nd_cls
+d = ssum[both] - total[both]
+print("Canadian-side pixels", int(ca.sum()))
+print("no data: total layer", int((ca & nd_tot).sum()), " any class layer", int((ca & nd_cls).sum()),
+      " disagreeing no-data masks", int((ca & (nd_tot != nd_cls)).sum()))
+print("pixels compared", int(both.sum()))
+print("sum == total:", round(float((d == 0).mean()), 4), " |sum - total| <= 1:", round(float((abs(d) <= 1).mean()), 4))
+print("sum - total: mean %.3f, median %d, min %d, max %d, P1 %d, P99 %d" % (
+    d.mean(), np.median(d), d.min(), d.max(), np.percentile(d, 1), np.percentile(d, 99)))
+print("mean total %.2f, mean sum %.2f" % (total[both].mean(), ssum[both].mean()))
+print("total > 0 with sum == 0:", int(((total[both] > 0) & (ssum[both] == 0)).sum()),
+      " sum > 0 with total == 0:", int(((ssum[both] > 0) & (total[both] == 0)).sum()))
