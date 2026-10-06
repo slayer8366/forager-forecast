@@ -1,0 +1,476 @@
+{
+ "rows": 2493578,
+ "unloadable": {
+  "eventDate spans more than one day": 23,
+  "eventDate does not name a calendar day": 9604
+ },
+ "loader_vs_raw_midnight_disagreements": 0,
+ "timed_by_dataset": {
+  "e3ce628e-9683-4af7-b7a9-47eef785d3bb": 1141,
+  "4238d2a9-efce-4f77-81c1-94b1a74fc2d9": 20,
+  "6ac3f774-d9fb-4796-b3e9-92bf6c81c084": 18,
+  "9ec7b624-8f5c-4898-a90d-194913d7e0ab": 467,
+  "50c9509d-22c7-4a22-a47d-8c48425ef4a7": 2123100,
+  "0e1a8d83-1f7a-4b9d-ade7-a665f836eb10": 20,
+  "27b3d6a5-04ca-4ba1-91aa-c33a82931103": 4,
+  "32a242ff-db39-4513-971b-a042b6380828": 23
+ },
+ "midnight_by_dataset": {
+  "6ac3f774-d9fb-4796-b3e9-92bf6c81c084": {
+   "timed": 18,
+   "M": 18,
+   "k": 0,
+   "share": 0.0,
+   "ratio": 0.0,
+   "expected_k": 0.5913879135095177,
+   "p": 1.0,
+   "ci95": [
+    0.0,
+    0.1853019681378522
+   ],
+   "min_day": 0,
+   "max_day": 3,
+   "max_day_at": 29,
+   "by_day": {
+    "2": 1,
+    "3": 1,
+    "4": 1,
+    "5": 1,
+    "6": 3,
+    "7": 2,
+    "12": 1,
+    "17": 1,
+    "20": 1,
+    "26": 2,
+    "28": 1,
+    "29": 3
+   }
+  },
+  "50c9509d-22c7-4a22-a47d-8c48425ef4a7": {
+   "timed": 2123100,
+   "M": 657,
+   "k": 30,
+   "share": 0.045662100456621,
+   "ratio": 1.3898116438356163,
+   "expected_k": 21.585658843097395,
+   "p": 0.04693582754000124,
+   "ci95": [
+    0.031016826768842525,
+    0.06454632861021298
+   ],
+   "min_day": 3,
+   "max_day": 88,
+   "max_day_at": 19,
+   "by_day": {
+    "1": 30,
+    "2": 22,
+    "3": 11,
+    "4": 13,
+    "5": 39,
+    "6": 34,
+    "7": 22,
+    "8": 9,
+    "9": 7,
+    "10": 14,
+    "11": 10,
+    "12": 14,
+    "13": 9,
+    "14": 8,
+    "15": 17,
+    "16": 10,
+    "17": 27,
+    "18": 29,
+    "19": 88,
+    "20": 27,
+    "21": 21,
+    "22": 13,
+    "23": 21,
+    "24": 29,
+    "25": 17,
+    "26": 6,
+    "27": 27,
+    "28": 40,
+    "29": 18,
+    "30": 22,
+    "31": 3
+   }
+  }
+ },
+ "raw_midnight_by_dataset_day": {
+  "6ac3f774-d9fb-4796-b3e9-92bf6c81c084": {
+   "2": 1,
+   "3": 1,
+   "4": 1,
+   "5": 1,
+   "6": 3,
+   "7": 2,
+   "12": 1,
+   "17": 1,
+   "20": 1,
+   "26": 2,
+   "28": 1,
+   "29": 3
+  },
+  "50c9509d-22c7-4a22-a47d-8c48425ef4a7": {
+   "1": 30,
+   "2": 22,
+   "3": 11,
+   "4": 13,
+   "5": 39,
+   "6": 34,
+   "7": 22,
+   "8": 9,
+   "9": 7,
+   "10": 14,
+   "11": 10,
+   "12": 14,
+   "13": 9,
+   "14": 8,
+   "15": 17,
+   "16": 10,
+   "17": 27,
+   "18": 29,
+   "19": 88,
+   "20": 27,
+   "21": 21,
+   "22": 13,
+   "23": 21,
+   "24": 29,
+   "25": 17,
+   "26": 6,
+   "27": 27,
+   "28": 40,
+   "29": 18,
+   "30": 22,
+   "31": 3
+  }
+ },
+ "own_calendar_share": {
+  "e3ce628e-9683-4af7-b7a9-47eef785d3bb": 0.022787028921998246,
+  "4238d2a9-efce-4f77-81c1-94b1a74fc2d9": 0.0,
+  "9ec7b624-8f5c-4898-a90d-194913d7e0ab": 0.05139186295503212,
+  "50c9509d-22c7-4a22-a47d-8c48425ef4a7": 0.03430951973739695,
+  "0e1a8d83-1f7a-4b9d-ade7-a665f836eb10": 0.0,
+  "27b3d6a5-04ca-4ba1-91aa-c33a82931103": 0.0,
+  "32a242ff-db39-4513-971b-a042b6380828": 0.0
+ },
+ "pooled": {
+  "timed": 2124793,
+  "M": 675,
+  "k": 30,
+  "share": 0.044444444444444446,
+  "ratio": 1.3527500000000001,
+  "expected_k": 22.177046756606913,
+  "p": 0.06189694430038318,
+  "ci95": [
+   0.030184203092046325,
+   0.06284175696561795
+  ],
+  "min_day": 3,
+  "max_day": 88,
+  "max_day_at": 19
+ },
+ "reach_duplicate_step": {
+  "t1": {
+   "base": 655088,
+   "d1": 562,
+   "m1": 5
+  },
+  "r6": {
+   "base": 1341108,
+   "d1": 740,
+   "m1": 10
+  }
+ },
+ "survivors": {
+  "t1": {
+   "drop_all": {
+    "event": {
+     "total": 591324,
+     "by_region": {
+      "east": 447276,
+      "pnw": 144048
+     }
+    },
+    "observer": {
+     "total": 611599,
+     "by_region": {
+      "east": 461642,
+      "pnw": 149957
+     }
+    }
+   },
+   "keep_all": {
+    "event": {
+     "total": 591779,
+     "by_region": {
+      "east": 447634,
+      "pnw": 144145
+     }
+    },
+    "observer": {
+     "total": 612116,
+     "by_region": {
+      "east": 462017,
+      "pnw": 150099
+     }
+    }
+   },
+   "now_d97_d98": {
+    "event": {
+     "total": 591783,
+     "by_region": {
+      "east": 447638,
+      "pnw": 144145
+     }
+    },
+    "observer": {
+     "total": 612120,
+     "by_region": {
+      "east": 462021,
+      "pnw": 150099
+     }
+    }
+   }
+  },
+  "r6": {
+   "drop_all": {
+    "event": {
+     "total": 1206604,
+     "by_region": {
+      "east": 401013,
+      "outside_t1_boxes": 676971,
+      "pnw": 128620
+     }
+    },
+    "observer": {
+     "total": 1249009,
+     "by_region": {
+      "east": 413305,
+      "outside_t1_boxes": 702274,
+      "pnw": 133430
+     }
+    }
+   },
+   "keep_all": {
+    "event": {
+     "total": 1207278,
+     "by_region": {
+      "east": 401216,
+      "outside_t1_boxes": 677394,
+      "pnw": 128668
+     }
+    },
+    "observer": {
+     "total": 1249709,
+     "by_region": {
+      "east": 413516,
+      "outside_t1_boxes": 702705,
+      "pnw": 133488
+     }
+    }
+   },
+   "now_d97_d98": {
+    "event": {
+     "total": 1207287,
+     "by_region": {
+      "east": 401218,
+      "outside_t1_boxes": 677401,
+      "pnw": 128668
+     }
+    },
+    "observer": {
+     "total": 1249718,
+     "by_region": {
+      "east": 413518,
+      "outside_t1_boxes": 702712,
+      "pnw": 133488
+     }
+    }
+   }
+  }
+ },
+ "midnight_first_trace": {
+  "t1": [
+   {
+    "gbifID": 4137930571,
+    "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+    "eventDate": "2020-08-01T00:00",
+    "region": "east",
+    "key_in_keep_all_survivors": false,
+    "keep_all_survivor_gbifID_with_that_key": null,
+    "other_midnight_records_with_same_key": 0
+   },
+   {
+    "gbifID": 6320789455,
+    "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+    "eventDate": "2025-08-01T00:00",
+    "region": "east",
+    "key_in_keep_all_survivors": false,
+    "keep_all_survivor_gbifID_with_that_key": null,
+    "other_midnight_records_with_same_key": 0
+   },
+   {
+    "gbifID": 3859827663,
+    "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+    "eventDate": "2015-01-01T00:00",
+    "region": "east",
+    "key_in_keep_all_survivors": false,
+    "keep_all_survivor_gbifID_with_that_key": null,
+    "other_midnight_records_with_same_key": 0
+   },
+   {
+    "gbifID": 3466077871,
+    "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+    "eventDate": "2021-10-01T00:00",
+    "region": "east",
+    "key_in_keep_all_survivors": true,
+    "keep_all_survivor_gbifID_with_that_key": 3466153817,
+    "other_midnight_records_with_same_key": 0
+   },
+   {
+    "gbifID": 5903948242,
+    "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+    "eventDate": "2025-08-01T00:00",
+    "region": "east",
+    "key_in_keep_all_survivors": false,
+    "keep_all_survivor_gbifID_with_that_key": null,
+    "other_midnight_records_with_same_key": 0
+   }
+  ],
+  "r6": [
+   {
+    "gbifID": 4926343142,
+    "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+    "eventDate": "2024-08-01T00:00",
+    "region": "outside_t1_boxes",
+    "key_in_keep_all_survivors": false,
+    "keep_all_survivor_gbifID_with_that_key": null,
+    "other_midnight_records_with_same_key": 0
+   },
+   {
+    "gbifID": 2234741660,
+    "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+    "eventDate": "2019-02-01T00:00",
+    "region": "outside_t1_boxes",
+    "key_in_keep_all_survivors": false,
+    "keep_all_survivor_gbifID_with_that_key": null,
+    "other_midnight_records_with_same_key": 0
+   },
+   {
+    "gbifID": 2234741829,
+    "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+    "eventDate": "2019-02-01T00:00",
+    "region": "outside_t1_boxes",
+    "key_in_keep_all_survivors": false,
+    "keep_all_survivor_gbifID_with_that_key": null,
+    "other_midnight_records_with_same_key": 0
+   },
+   {
+    "gbifID": 6252551042,
+    "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+    "eventDate": "2019-08-01T00:00",
+    "region": "outside_t1_boxes",
+    "key_in_keep_all_survivors": false,
+    "keep_all_survivor_gbifID_with_that_key": null,
+    "other_midnight_records_with_same_key": 0
+   },
+   {
+    "gbifID": 4137930571,
+    "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+    "eventDate": "2020-08-01T00:00",
+    "region": "east",
+    "key_in_keep_all_survivors": false,
+    "keep_all_survivor_gbifID_with_that_key": null,
+    "other_midnight_records_with_same_key": 0
+   },
+   {
+    "gbifID": 1802772667,
+    "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+    "eventDate": "2017-10-01T00:00",
+    "region": "outside_t1_boxes",
+    "key_in_keep_all_survivors": false,
+    "keep_all_survivor_gbifID_with_that_key": null,
+    "other_midnight_records_with_same_key": 0
+   },
+   {
+    "gbifID": 3859827663,
+    "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+    "eventDate": "2015-01-01T00:00",
+    "region": "east",
+    "key_in_keep_all_survivors": false,
+    "keep_all_survivor_gbifID_with_that_key": null,
+    "other_midnight_records_with_same_key": 0
+   },
+   {
+    "gbifID": 4919684524,
+    "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+    "eventDate": "2024-06-01T00:00",
+    "region": "outside_t1_boxes",
+    "key_in_keep_all_survivors": false,
+    "keep_all_survivor_gbifID_with_that_key": null,
+    "other_midnight_records_with_same_key": 0
+   },
+   {
+    "gbifID": 3466077871,
+    "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+    "eventDate": "2021-10-01T00:00",
+    "region": "east",
+    "key_in_keep_all_survivors": true,
+    "keep_all_survivor_gbifID_with_that_key": 3466153817,
+    "other_midnight_records_with_same_key": 0
+   },
+   {
+    "gbifID": 3457104863,
+    "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+    "eventDate": "2022-01-01T00:00",
+    "region": "outside_t1_boxes",
+    "key_in_keep_all_survivors": false,
+    "keep_all_survivor_gbifID_with_that_key": null,
+    "other_midnight_records_with_same_key": 0
+   }
+  ]
+ },
+ "repo_d27_d28_pass1_drop_all": {
+  "survivors": 591324,
+  "survivors_by_region": {
+   "east": 447276,
+   "pnw": 144048
+  },
+  "steps": [
+   {
+    "step": "inside a T1 box",
+    "before": 2483951,
+    "dropped": 1295252
+   },
+   {
+    "step": "year 2015 to 2025",
+    "before": 1188699,
+    "dropped": 0
+   },
+   {
+    "step": "not user-obscured",
+    "before": 1188699,
+    "dropped": 68863
+   },
+   {
+    "step": "coordinate uncertainty present and at most 1,000 m",
+    "before": 1119836,
+    "dropped": 464181
+   },
+   {
+    "step": "date kept as given (D97, D98)",
+    "before": 655655,
+    "dropped": 567
+   },
+   {
+    "step": "one record per taxon, cell and day",
+    "before": 655088,
+    "dropped": 63764
+   }
+  ],
+  "source": 2483951
+ },
+ "seconds": 238.1,
+ "peak_rss_mb": 851.6
+}

@@ -235,6 +235,25 @@ def test_drop_all_is_the_provisional_rule_and_the_step_lists_now_keep_every_date
     assert survivors(dq.with_date_rule(steps, dq.DROP_ALL)) == {4, 5}
 
 
+@pytest.mark.parametrize("make_steps", [f.t1_steps, f.r6_audit_steps], ids=["t1", "r6"])
+def test_drop_all_drops_only_the_1st_and_keeps_midnight_and_date_only_on_other_days(make_steps):
+    # Added by the D18 review of D28: test_first_of_month_without_a_real_time_is_dropped in
+    # test_records_filters.py covered is_default_date's "not the 1st" cases until D97 and D98
+    # retired it from the lists; DROP_ALL still names that predicate, so they stay covered here.
+    records = load(
+        [
+            row(1, "2021-06-14T00:00:00"),  # midnight, not the 1st
+            row(2, "2021-06-14"),  # date-only, not the 1st
+            row(3, "2021-06-01T00:00:01"),  # the 1st, one second after midnight
+            row(4, "2021-06-01T00:00:00"),  # midnight on the 1st
+            row(5, "2021-06-01"),  # date-only on the 1st
+        ]
+    )
+    steps = dq.with_date_rule(make_steps(), dq.DROP_ALL)
+    kept = {r.gbif_id for r in f.Pipeline(steps).run(records)}
+    assert kept == {1, 2, 3}
+
+
 def test_a_rule_replaces_only_the_date_step():
     steps = f.r6_audit_steps()
     changed = dq.with_date_rule(steps, dq.KEEP_ALL)
