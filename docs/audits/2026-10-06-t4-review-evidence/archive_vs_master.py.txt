@@ -1,0 +1,88 @@
+"""T4 reviewer (D18): every zoom-9 pixel of the archive against the master cell under its centre.
+
+No forager_forecast code is imported. Each zoom-9 tile is read with the pinned pmtiles reader and
+decoded with rasterio; each pixel centre goes Web Mercator -> lon/lat -> ESRI:102008 by pure
+pyproj.Proj projections (no CRS-to-CRS operation), and the expected grey is floor(mean * 10 + 0.5)
+of master band 1 at that cell, alpha 255; a NaN cell or a centre outside the master raster expects
+alpha 0. Also reports the header, the metadata keys, every metadata string searched for forbidden
+terms, and how many pixels would differ under round-half-to-even instead of floor(x + 0.5).
+Usage: uv run python archive_vs_master.py.txt DATA_DIR
+"""
+import math
+import re
+import sys
+from pathlib import Path
+
+import numpy as np
+import rasterio
+from pmtiles.reader import MmapSource, Reader, all_tiles
+from pyproj import Proj
+from rasterio.io import MemoryFile
+
+DATA = Path(sys.argv[1])
+MERC = Proj("EPSG:3857")
+ALBERS = Proj("ESRI:102008")
+HALF = math.pi * 6378137.0
+PX9 = 2 * HALF / 256 / 512
+
+with rasterio.open(DATA / "master.tif") as m:
+    mean = m.read(1).astype("float64")
+    left, top = m.transform.c, m.transform.f
+    H, W = m.height, m.width
+
+counts = {"tiles_z9": 0, "pixels": 0, "valid_expected": 0, "valid_match": 0, "nodata_expected": 0,
+          "nodata_match": 0, "mismatch": 0, "round_half_even_would_differ": 0}
+zooms = {}
+examples = []
+with open(DATA / "archive" / "soil-ph-0-30cm.pmtiles", "rb") as f:
+    src = MmapSource(f)
+    reader = Reader(src)
+    header = reader.header()
+    meta = reader.metadata()
+    for (z, x, y), data in all_tiles(src):
+        zooms[z] = zooms.get(z, 0) + 1
+        if z != 9:
+            continue
+        counts["tiles_z9"] += 1
+        with MemoryFile(data) as mem, mem.open() as ds:
+            b = ds.read()
+        grey = b[0].astype(int)
+        alpha = b[-1].astype(int) if b.shape[0] in (2, 4) else np.full(grey.shape, 255)
+        jj, ii = np.meshgrid(np.arange(256), np.arange(256))
+        cx = -HALF + (x * 256 + jj + 0.5) * PX9
+        cy = HALF - (y * 256 + ii + 0.5) * PX9
+        lon, lat = MERC(cx.ravel(), cy.ravel(), inverse=True)
+        gx, gy = ALBERS(lon, lat)
+        col = np.floor((np.asarray(gx) - left) / 250).astype(int)
+        row = np.floor((top - np.asarray(gy)) / 250).astype(int)
+        inside = (col >= 0) & (col < W) & (row >= 0) & (row < H)
+        v = np.full(col.shape, np.nan)
+        v[inside] = mean[row[inside], col[inside]]
+        valid = np.isfinite(v)
+        exp = np.where(valid, np.floor(np.where(valid, v, 0) * 10 + 0.5), 0).astype(int)
+        rhe = np.where(valid, np.round(np.where(valid, v, 0) * 10), 0).astype(int)
+        g, a = grey.ravel(), alpha.ravel()
+        ok_valid = valid & (a == 255) & (g == exp)
+        ok_nodata = ~valid & (a == 0)
+        counts["pixels"] += g.size
+        counts["valid_expected"] += int(valid.sum())
+        counts["valid_match"] += int(ok_valid.sum())
+        counts["nodata_expected"] += int((~valid).sum())
+        counts["nodata_match"] += int(ok_nodata.sum())
+        bad = ~(ok_valid | ok_nodata)
+        counts["mismatch"] += int(bad.sum())
+        counts["round_half_even_would_differ"] += int((valid & (rhe != exp)).sum())
+        for k in np.flatnonzero(bad)[:3]:
+            if len(examples) < 10:
+                examples.append((z, x, y, int(k), int(g[k]), int(a[k]), float(v[k])))
+
+print("header:", {k: (v.name if hasattr(v, "name") else v) for k, v in header.items()})
+print("tiles per zoom:", dict(sorted(zooms.items())))
+print("z9 counts:", counts)
+print("mismatch examples:", examples)
+print("metadata keys:", sorted(meta))
+text = " ".join(str(v) for v in meta.values()).lower()
+for term in ["fruiting probability", "probability of finding", "chance of finding", "probability",
+             "chance", "%", "percent", "calibrated", "approximate", "q0.05", "q0.95"]:
+    print(f"metadata contains {term!r}:", term in text)
+print("metadata numbers followed by %:", re.findall(r"\d+\s*%", text))

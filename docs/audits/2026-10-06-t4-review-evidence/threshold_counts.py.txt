@@ -1,0 +1,24 @@
+"""T4 reviewer (D18): what the 0.5 valid-fraction threshold blanks, and what other thresholds would do.
+Reads data/t4/master.tif only (bands 1 mean, 4-6 valid fractions). The master zeroes the fraction of
+cells whose centre is outside the D82 rectangle, so "in the rectangle with some soil" is fraction > 0.
+Usage: uv run python threshold_counts.py.txt DATA_DIR
+"""
+import sys
+import numpy as np
+import rasterio
+
+with rasterio.open(sys.argv[1] + "/master.tif") as m:
+    b = m.read().astype("float64")
+mean, fm, f5, f95 = b[0], b[3], b[4], b[5]
+print("fraction bands identical across statistics:", np.array_equal(fm, f5) and np.array_equal(fm, f95))
+some = fm > 0
+print("cells with some valid soil (fraction > 0):", int(some.sum()))
+print("cells carrying a mean (fraction >= 0.5):", int(np.isfinite(mean).sum()))
+print("cells blanked by the 0.5 threshold (0 < fraction < 0.5):", int(((fm > 0) & (fm < 0.5)).sum()))
+print("cells at exactly fraction 0.5:", int((fm == 0.5).sum()))
+for t in [0.0, 0.25, 0.5, 0.75, 0.9, 0.999999]:
+    kept = int((fm >= t).sum() if t > 0 else some.sum())
+    print(f"threshold {t}: cells with a value {kept}, change vs 0.5: {kept - int((fm >= 0.5).sum()):+d}")
+hist, edges = np.histogram(fm[some], bins=[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.999999, 1.0000001])
+for h, lo, hi in zip(hist, edges[:-1], edges[1:]):
+    print(f"  fraction [{lo:.2f}, {hi:.2f}): {h}")

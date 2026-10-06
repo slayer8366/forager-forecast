@@ -119,3 +119,35 @@ def test_the_datum_step_is_pinned_and_gdal_agrees_with_it():
         assert abs(wx - px) < 1e-3 and abs(wy - py) < 1e-3
         assert cell == cell_at(gx[0], gy[0])
     assert CELL_SIZE_M == 250
+
+
+def test_lonlat_to_grid_leaves_proj_no_datum_operation_to_choose():
+    # Added by the T4 reviewer (D18), docs/audits/2026-10-06-t4-review.md. The test above passes
+    # with the pin reverted, because at its three points PROJ picks the null shift either way.
+    # What the pin guarantees is that no PROJ setup has a choice: from EPSG:4326, PROJ 9.8.1 lists
+    # three usable NAD83 to WGS 84 operations (up to 2.6 m apart at Seattle) and 47 more that
+    # need grids. From the pinned CRS there is one operation, the projection itself.
+    from pyproj.transformer import TransformerGroup
+
+    from forager_forecast.grid import lonlat_transformer
+
+    transformer = lonlat_transformer()
+    group = TransformerGroup(transformer.source_crs, transformer.target_crs, always_xy=True)
+    assert len(group.transformers) == 1
+    assert group.unavailable_operations == []
+
+
+def test_the_pinned_null_shift_holds_where_offline_proj_would_shift():
+    # Added by the T4 reviewer (D18). Offline, PROJ 9.8.1 going from EPSG:4326 applies a datum
+    # shift of 0.7 to 1 m in Hawaii and the Aleutians (not in the T4 rectangle), so the pin is
+    # observable without network grids. The pinned path must be the bare projection: no shift.
+    from pyproj import Proj
+
+    from forager_forecast.grid import lonlat_transformer
+
+    albers = Proj(GRID_CRS)  # a projection alone, no CRS-to-CRS operation, so no datum step
+    for lon, lat in [(-157.8583, 21.3069), (-176.64, 51.88), (-160.41986644407345, 18.5)]:
+        bare_x, bare_y = albers(lon, lat)
+        x, y = lonlat_transformer().transform(lon, lat)
+        assert abs(x - bare_x) < 1e-3 and abs(y - bare_y) < 1e-3
+        assert cell_for_lonlat(lon, lat) == cell_at(bare_x, bare_y)
