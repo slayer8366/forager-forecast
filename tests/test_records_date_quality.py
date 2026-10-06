@@ -226,10 +226,13 @@ def test_each_candidate_rule_drops_what_it_says(make_steps):
 
 
 @pytest.mark.parametrize("make_steps", [f.t1_steps, f.r6_audit_steps], ids=["t1", "r6"])
-def test_drop_all_is_the_provisional_rule_already_in_the_step_lists(make_steps):
+def test_drop_all_is_the_provisional_rule_and_the_step_lists_now_keep_every_date(make_steps):
+    # D97 and D98 retired the provisional rule from both lists; DROP_ALL still names it, so the
+    # D28 tables can be re-run as measured.
     steps = make_steps()
     assert dq.DROP_ALL is f.is_default_date
-    assert survivors(dq.with_date_rule(steps, dq.DROP_ALL)) == survivors(steps)
+    assert survivors(steps) == {1, 2, 3, 4, 5}
+    assert survivors(dq.with_date_rule(steps, dq.DROP_ALL)) == {4, 5}
 
 
 def test_a_rule_replaces_only_the_date_step():

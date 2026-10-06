@@ -23,7 +23,13 @@ from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field, replace
 from datetime import time
 
-from forager_forecast.records.filters import SOURCE_STAGE, FilterStep, Steps, is_default_date
+from forager_forecast.records.filters import (
+    SOURCE_STAGE,
+    FilterStep,
+    Steps,
+    date_step_position,
+    is_default_date,
+)
 from forager_forecast.records.occurrence import Record
 
 # Fixed before any count was read (verify report, section 3).
@@ -245,10 +251,7 @@ class DefaultDateInDatasets:
 
 def with_date_rule(steps: Steps, drops: Callable[[Record], bool]) -> Steps:
     """The same step list with its default-date step's predicate replaced; names unchanged."""
-    positions = [i for i, step in enumerate(steps.filters) if step.drops is is_default_date]
-    if len(positions) != 1:
-        raise ValueError(f"no default-date step to replace (found {len(positions)})")
-    (at,) = positions
+    at = date_step_position(steps)
     filters = list(steps.filters)
     filters[at] = FilterStep(filters[at].name, drops)
     return replace(steps, filters=tuple(filters))

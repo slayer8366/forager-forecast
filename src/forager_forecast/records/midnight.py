@@ -24,7 +24,7 @@ from forager_forecast.records.date_quality import (
     binomial_upper_tail,
     clopper_pearson,
 )
-from forager_forecast.records.filters import SOURCE_STAGE, Steps, is_default_date
+from forager_forecast.records.filters import SOURCE_STAGE, Steps, date_step_position
 from forager_forecast.records.occurrence import Record
 
 # Fixed before any count was read (docs/audits/2026-10-06-d28-midnight-measure.md).
@@ -47,10 +47,7 @@ def is_midnight(record: Record) -> bool:
 
 def filters_before_date_step(steps: Steps) -> tuple:
     """The filters a record must clear to reach the step list's date step."""
-    positions = [i for i, step in enumerate(steps.filters) if step.drops is is_default_date]
-    if len(positions) != 1:
-        raise ValueError(f"no default-date step in the list (found {len(positions)})")
-    return steps.filters[: positions[0]]
+    return steps.filters[: date_step_position(steps)]
 
 
 @dataclass

@@ -94,10 +94,7 @@ def test_reaching_the_date_step_matches_a_real_pipeline_run_for_both_lists():
         table.add(f.SOURCE_STAGE, record)
     reached = table.datasets()[DATASET_A].first_midnight_reaching_date_step
     for name, steps in lists.items():
-        date_step = next(s.name for s in steps.filters if s.drops is f.is_default_date)
-        before_date = steps.filters[
-            steps.filters.index(next(s for s in steps.filters if s.name == date_step)) - 1
-        ].name
+        before_date = steps.filters[f.date_step_position(steps) - 1].name
         seen = Counter()
 
         def sink(stage, record, seen=seen, before_date=before_date):
@@ -183,7 +180,7 @@ def test_pooled_row_adds_every_dataset():
 def test_a_list_without_a_date_step_is_refused():
     steps = f.r6_audit_steps()
     no_date = f.Steps(
-        filters=tuple(s for s in steps.filters if s.drops is not f.is_default_date),
+        filters=tuple(s for s in steps.filters if s.drops not in f.DATE_STEP_RULES),
         duplicate=steps.duplicate,
     )
     with pytest.raises(ValueError):
