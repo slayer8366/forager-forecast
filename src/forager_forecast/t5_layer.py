@@ -373,14 +373,18 @@ def _scanfi_layers(native_dir: Path):
 
 
 def _regrid(layers, crs, window):
-    values, fraction = {}, None
-    to_native = _to_native(crs)
-    for name, layer, transform in layers:
-        v, f = area_weighted_regrid(layer[None], transform, to_native, window)
-        values[name] = v[0]
-        if fraction is None:
-            fraction = f[0]
-    return values, fraction
+    """All of one source's layers in one regrid, so the footprint geometry is computed once."""
+    names, arrays, transform = [], [], None
+    for name, layer, this in layers:
+        if transform is not None and this != transform:
+            raise ValueError("layers of one source must share a grid")
+        names.append(name)
+        arrays.append(layer)
+        transform = this
+    v, f = area_weighted_regrid(np.stack(arrays), transform, _to_native(crs), window)
+    if not all(np.array_equal(f[0], f[k]) for k in range(1, len(names))):
+        raise ValueError("layers of one source must share their no-data pattern")
+    return {name: v[k] for k, name in enumerate(names)}, f[0]
 
 
 def build_master(
