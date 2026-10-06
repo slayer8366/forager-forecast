@@ -1,0 +1,385 @@
+{
+ "box_pnw_null_gadm": [
+  {
+   "key": 5006980842,
+   "country": "Canada",
+   "gadm": {},
+   "decimalLatitude": 48.428942,
+   "decimalLongitude": -123.394013,
+   "stateProvince": "British Columbia",
+   "locality": null,
+   "issues": [
+    "COORDINATE_ROUNDED",
+    "CONTINENT_DERIVED_FROM_COORDINATES",
+    "TAXON_ID_NOT_FOUND"
+   ],
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "coordinateUncertaintyInMeters": null,
+   "lastInterpreted": "2026-09-30T02:24:48.607+00:00",
+   "informationWithheld": null,
+   "continent": "NORTH_AMERICA"
+  },
+  {
+   "key": 5006980885,
+   "country": "United States of America",
+   "gadm": {},
+   "decimalLatitude": 47.81848,
+   "decimalLongitude": -122.280583,
+   "stateProvince": "Washington",
+   "locality": null,
+   "issues": [
+    "COORDINATE_ROUNDED",
+    "CONTINENT_DERIVED_FROM_COORDINATES",
+    "TAXON_ID_NOT_FOUND"
+   ],
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "coordinateUncertaintyInMeters": 26775.0,
+   "lastInterpreted": "2026-09-30T02:05:09.607+00:00",
+   "informationWithheld": "Coordinate uncertainty increased to 26775m at the request of the observer",
+   "continent": "NORTH_AMERICA"
+  },
+  {
+   "key": 5007166926,
+   "country": "United States of America",
+   "gadm": {},
+   "decimalLatitude": 47.992435,
+   "decimalLongitude": -122.462505,
+   "stateProvince": "Washington",
+   "locality": null,
+   "issues": [
+    "COORDINATE_ROUNDED",
+    "CONTINENT_DERIVED_FROM_COORDINATES",
+    "TAXON_ID_NOT_FOUND"
+   ],
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "coordinateUncertaintyInMeters": 26775.0,
+   "lastInterpreted": "2026-09-30T02:41:22.970+00:00",
+   "informationWithheld": "Coordinate uncertainty increased to 26775m at the request of the observer",
+   "continent": "NORTH_AMERICA"
+  },
+  {
+   "key": 5007316823,
+   "country": "United States of America",
+   "gadm": {},
+   "decimalLatitude": 47.813355,
+   "decimalLongitude": -122.313513,
+   "stateProvince": "Washington",
+   "locality": null,
+   "issues": [
+    "COORDINATE_ROUNDED",
+    "CONTINENT_DERIVED_FROM_COORDINATES",
+    "TAXON_ID_NOT_FOUND"
+   ],
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "coordinateUncertaintyInMeters": 26775.0,
+   "lastInterpreted": "2026-09-30T02:47:59.399+00:00",
+   "informationWithheld": "Coordinate uncertainty increased to 26775m at the request of the observer",
+   "continent": "NORTH_AMERICA"
+  },
+  {
+   "key": 5007366493,
+   "country": "United States of America",
+   "gadm": {},
+   "decimalLatitude": 47.419068,
+   "decimalLongitude": -122.648744,
+   "stateProvince": "Washington",
+   "locality": null,
+   "issues": [
+    "COORDINATE_ROUNDED",
+    "CONTINENT_DERIVED_FROM_COORDINATES",
+    "TAXON_ID_NOT_FOUND"
+   ],
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "coordinateUncertaintyInMeters": 26839.0,
+   "lastInterpreted": "2026-09-30T02:04:55.903+00:00",
+   "informationWithheld": "Coordinate uncertainty increased to 26839m at the request of the observer",
+   "continent": "NORTH_AMERICA"
+  },
+  {
+   "key": 5007551622,
+   "country": "United States of America",
+   "gadm": {},
+   "decimalLatitude": 47.41092,
+   "decimalLongitude": -122.709468,
+   "stateProvince": "Washington",
+   "locality": null,
+   "issues": [
+    "COORDINATE_ROUNDED",
+    "CONTINENT_DERIVED_FROM_COORDINATES",
+    "TAXON_ID_NOT_FOUND"
+   ],
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "coordinateUncertaintyInMeters": 26839.0,
+   "lastInterpreted": "2026-09-30T02:40:35.560+00:00",
+   "informationWithheld": "Coordinate uncertainty increased to 26839m at the request of the observer",
+   "continent": "NORTH_AMERICA"
+  },
+  {
+   "key": 5007625699,
+   "country": "United States of America",
+   "gadm": {},
+   "decimalLatitude": 48.657119,
+   "decimalLongitude": -122.488927,
+   "stateProvince": "Washington",
+   "locality": null,
+   "issues": [
+    "COORDINATE_ROUNDED",
+    "CONTINENT_DERIVED_FROM_COORDINATES",
+    "TAXON_ID_NOT_FOUND"
+   ],
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "coordinateUncertaintyInMeters": 61385.0,
+   "lastInterpreted": "2026-09-30T02:24:56.770+00:00",
+   "informationWithheld": "Coordinate uncertainty increased to 61385m at the request of the observer",
+   "continent": "NORTH_AMERICA"
+  },
+  {
+   "key": 5007629454,
+   "country": "United States of America",
+   "gadm": {},
+   "decimalLatitude": 44.767922,
+   "decimalLongitude": -124.081891,
+   "stateProvince": "Oregon",
+   "locality": null,
+   "issues": [
+    "COORDINATE_ROUNDED",
+    "CONTINENT_DERIVED_FROM_COORDINATES",
+    "TAXON_ID_NOT_FOUND"
+   ],
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "coordinateUncertaintyInMeters": 27285.0,
+   "lastInterpreted": "2026-09-30T02:04:20.088+00:00",
+   "informationWithheld": "Coordinate uncertainty increased to 27285m at the request of the observer",
+   "continent": "NORTH_AMERICA"
+  },
+  {
+   "key": 5007631835,
+   "country": "United States of America",
+   "gadm": {},
+   "decimalLatitude": 43.97517,
+   "decimalLongitude": -124.193154,
+   "stateProvince": "Oregon",
+   "locality": null,
+   "issues": [
+    "COORDINATE_ROUNDED",
+    "CONTINENT_DERIVED_FROM_COORDINATES",
+    "TAXON_ID_NOT_FOUND"
+   ],
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "coordinateUncertaintyInMeters": 27411.0,
+   "lastInterpreted": "2026-09-30T02:41:36.184+00:00",
+   "informationWithheld": "Coordinate uncertainty increased to 27411m to protect threatened taxon",
+   "continent": "NORTH_AMERICA"
+  },
+  {
+   "key": 5007652498,
+   "country": "Canada",
+   "gadm": {},
+   "decimalLatitude": 49.078407,
+   "decimalLongitude": -123.708611,
+   "stateProvince": "British Columbia",
+   "locality": null,
+   "issues": [
+    "CONTINENT_DERIVED_FROM_COORDINATES",
+    "TAXON_ID_NOT_FOUND"
+   ],
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "coordinateUncertaintyInMeters": 4.0,
+   "lastInterpreted": "2026-09-30T02:51:50.236+00:00",
+   "informationWithheld": null,
+   "continent": "NORTH_AMERICA"
+  }
+ ],
+ "box_east_null_gadm": [
+  {
+   "key": 5007434387,
+   "country": "Canada",
+   "gadm": {},
+   "decimalLatitude": 45.535419,
+   "decimalLongitude": -75.580826,
+   "stateProvince": "Ontario",
+   "locality": null,
+   "issues": [
+    "COORDINATE_ROUNDED",
+    "CONTINENT_DERIVED_FROM_COORDINATES",
+    "TAXON_ID_NOT_FOUND"
+   ],
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "coordinateUncertaintyInMeters": 27158.0,
+   "lastInterpreted": "2026-09-30T02:38:41.642+00:00",
+   "informationWithheld": "Coordinate uncertainty increased to 27158m at the request of the observer",
+   "continent": "NORTH_AMERICA"
+  },
+  {
+   "key": 5007678148,
+   "country": "United States of America",
+   "gadm": {},
+   "decimalLatitude": 42.401486,
+   "decimalLongitude": -72.515144,
+   "stateProvince": "Massachusetts",
+   "locality": null,
+   "issues": [
+    "COORDINATE_ROUNDED",
+    "CONTINENT_DERIVED_FROM_COORDINATES",
+    "TAXON_ID_NOT_FOUND"
+   ],
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "coordinateUncertaintyInMeters": 27630.0,
+   "lastInterpreted": "2026-09-30T02:05:09.996+00:00",
+   "informationWithheld": "Coordinate uncertainty increased to 27630m at the request of the observer",
+   "continent": "NORTH_AMERICA"
+  },
+  {
+   "key": 5008060256,
+   "country": "Canada",
+   "gadm": {},
+   "decimalLatitude": 44.769475,
+   "decimalLongitude": -80.91492,
+   "stateProvince": "Ontario",
+   "locality": null,
+   "issues": [
+    "COORDINATE_ROUNDED",
+    "CONTINENT_DERIVED_FROM_COORDINATES",
+    "TAXON_ID_NOT_FOUND"
+   ],
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "coordinateUncertaintyInMeters": 27285.0,
+   "lastInterpreted": "2026-09-30T02:38:36.377+00:00",
+   "informationWithheld": "Coordinate uncertainty increased to 27285m at the request of the observer",
+   "continent": "NORTH_AMERICA"
+  },
+  {
+   "key": 5008063164,
+   "country": "United States of America",
+   "gadm": {},
+   "decimalLatitude": 42.894388,
+   "decimalLongitude": -70.839509,
+   "stateProvince": "New Hampshire",
+   "locality": null,
+   "issues": [
+    "COORDINATE_ROUNDED",
+    "CONTINENT_DERIVED_FROM_COORDINATES",
+    "TAXON_ID_NOT_FOUND"
+   ],
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "coordinateUncertaintyInMeters": 27568.0,
+   "lastInterpreted": "2026-09-30T02:56:26.661+00:00",
+   "informationWithheld": "Coordinate uncertainty increased to 27568m at the request of the observer",
+   "continent": "NORTH_AMERICA"
+  },
+  {
+   "key": 5008148887,
+   "country": "United States of America",
+   "gadm": {},
+   "decimalLatitude": 38.679398,
+   "decimalLongitude": -78.174137,
+   "stateProvince": "Virginia",
+   "locality": null,
+   "issues": [
+    "COORDINATE_ROUNDED",
+    "CONTINENT_DERIVED_FROM_COORDINATES",
+    "TAXON_ID_NOT_FOUND"
+   ],
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "coordinateUncertaintyInMeters": 28210.0,
+   "lastInterpreted": "2026-09-30T02:04:30.161+00:00",
+   "informationWithheld": "Coordinate uncertainty increased to 28210m at the request of the observer",
+   "continent": "NORTH_AMERICA"
+  },
+  {
+   "key": 5036707890,
+   "country": "Canada",
+   "gadm": {},
+   "decimalLatitude": 45.46996,
+   "decimalLongitude": -75.871229,
+   "stateProvince": "Qu\u00e9bec",
+   "locality": null,
+   "issues": [
+    "COORDINATE_ROUNDED",
+    "CONTINENT_DERIVED_FROM_COORDINATES",
+    "TAXON_ID_NOT_FOUND"
+   ],
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "coordinateUncertaintyInMeters": 27158.0,
+   "lastInterpreted": "2026-09-30T02:05:14.104+00:00",
+   "informationWithheld": "Coordinate uncertainty increased to 27158m at the request of the observer",
+   "continent": "NORTH_AMERICA"
+  },
+  {
+   "key": 5036821157,
+   "country": "Canada",
+   "gadm": {},
+   "decimalLatitude": 45.989683,
+   "decimalLongitude": -75.163172,
+   "stateProvince": "Qu\u00e9bec",
+   "locality": null,
+   "issues": [
+    "COORDINATE_ROUNDED",
+    "CONTINENT_DERIVED_FROM_COORDINATES",
+    "TAXON_ID_NOT_FOUND"
+   ],
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "coordinateUncertaintyInMeters": 27095.0,
+   "lastInterpreted": "2026-09-30T02:04:34.501+00:00",
+   "informationWithheld": "Coordinate uncertainty increased to 27095m at the request of the observer",
+   "continent": "NORTH_AMERICA"
+  },
+  {
+   "key": 5036824990,
+   "country": "United States of America",
+   "gadm": {},
+   "decimalLatitude": 42.302148,
+   "decimalLongitude": -72.396275,
+   "stateProvince": "Massachusetts",
+   "locality": null,
+   "issues": [
+    "COORDINATE_ROUNDED",
+    "CONTINENT_DERIVED_FROM_COORDINATES",
+    "TAXON_ID_NOT_FOUND"
+   ],
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "coordinateUncertaintyInMeters": 27661.0,
+   "lastInterpreted": "2026-09-30T02:26:32.352+00:00",
+   "informationWithheld": "Coordinate uncertainty increased to 27661m at the request of the observer",
+   "continent": "NORTH_AMERICA"
+  },
+  {
+   "key": 5036954068,
+   "country": "United States of America",
+   "gadm": {},
+   "decimalLatitude": 41.294389,
+   "decimalLongitude": -81.501653,
+   "stateProvince": "Ohio",
+   "locality": null,
+   "issues": [
+    "COORDINATE_ROUNDED",
+    "CONTINENT_DERIVED_FROM_COORDINATES",
+    "TAXON_ID_NOT_FOUND"
+   ],
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "coordinateUncertaintyInMeters": 27816.0,
+   "lastInterpreted": "2026-09-30T02:27:15.545+00:00",
+   "informationWithheld": "Coordinate uncertainty increased to 27816m at the request of the observer",
+   "continent": "NORTH_AMERICA"
+  },
+  {
+   "key": 5037020085,
+   "country": "Canada",
+   "gadm": {},
+   "decimalLatitude": 45.468262,
+   "decimalLongitude": -75.864812,
+   "stateProvince": "Qu\u00e9bec",
+   "locality": null,
+   "issues": [
+    "COORDINATE_ROUNDED",
+    "CONTINENT_DERIVED_FROM_COORDINATES",
+    "TAXON_ID_NOT_FOUND"
+   ],
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "coordinateUncertaintyInMeters": 27158.0,
+   "lastInterpreted": "2026-09-30T02:04:43.035+00:00",
+   "informationWithheld": "Coordinate uncertainty increased to 27158m at the request of the observer",
+   "continent": "NORTH_AMERICA"
+  }
+ ]
+}

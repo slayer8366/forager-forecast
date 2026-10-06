@@ -1,0 +1,585 @@
+[
+ {
+  "key": 5104317056,
+  "country": "United States of America",
+  "gadm": {
+   "level0": {
+    "gid": "MEX",
+    "name": "M\u00e9xico"
+   },
+   "level1": {
+    "gid": "MEX.28_1",
+    "name": "Tamaulipas"
+   },
+   "level2": {
+    "gid": "MEX.28.15_2",
+    "name": "Guerrero"
+   }
+  },
+  "decimalLatitude": 26.582261,
+  "decimalLongitude": -99.181161,
+  "stateProvince": "Texas",
+  "locality": null,
+  "issues": [
+   "COORDINATE_ROUNDED",
+   "CONTINENT_DERIVED_FROM_COORDINATES",
+   "TAXON_ID_NOT_FOUND"
+  ],
+  "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+  "coordinateUncertaintyInMeters": 29845.0
+ },
+ {
+  "key": 5087450091,
+  "country": "United States of America",
+  "gadm": {
+   "level0": {
+    "gid": "MEX",
+    "name": "M\u00e9xico"
+   },
+   "level1": {
+    "gid": "MEX.28_1",
+    "name": "Tamaulipas"
+   },
+   "level2": {
+    "gid": "MEX.28.32_2",
+    "name": "Reynosa"
+   }
+  },
+  "decimalLatitude": 26.119709,
+  "decimalLongitude": -98.340065,
+  "stateProvince": "Texas",
+  "locality": null,
+  "issues": [
+   "COORDINATE_ROUNDED",
+   "CONTINENT_DERIVED_FROM_COORDINATES",
+   "TAXON_ID_NOT_FOUND"
+  ],
+  "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+  "coordinateUncertaintyInMeters": 29891.0
+ },
+ {
+  "key": 5293221320,
+  "country": "United States of America",
+  "gadm": {
+   "level0": {
+    "gid": "MEX",
+    "name": "M\u00e9xico"
+   },
+   "level1": {
+    "gid": "MEX.28_1",
+    "name": "Tamaulipas"
+   },
+   "level2": {
+    "gid": "MEX.28.32_2",
+    "name": "Reynosa"
+   }
+  },
+  "decimalLatitude": 26.071951,
+  "decimalLongitude": -98.217823,
+  "stateProvince": "Texas",
+  "locality": null,
+  "issues": [
+   "COORDINATE_ROUNDED",
+   "CONTINENT_DERIVED_FROM_COORDINATES",
+   "TAXON_ID_NOT_FOUND"
+  ],
+  "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+  "coordinateUncertaintyInMeters": 29891.0
+ },
+ {
+  "key": 6231258368,
+  "country": "United States of America",
+  "gadm": {
+   "level0": {
+    "gid": "RUS",
+    "name": "Russia"
+   },
+   "level1": {
+    "gid": "RUS.4_1",
+    "name": "Arkhangel'sk"
+   },
+   "level2": {
+    "gid": "RUS.4.1_1",
+    "name": "Arkhangel'sk"
+   },
+   "level3": {
+    "gid": "RUS.4.1.1_1"
+   }
+  },
+  "decimalLatitude": 64.506,
+  "decimalLongitude": 40.6708,
+  "stateProvince": "Alaska",
+  "locality": null,
+  "issues": [
+   "GEODETIC_DATUM_ASSUMED_WGS84",
+   "COUNTRY_COORDINATE_MISMATCH",
+   "CONTINENT_DERIVED_FROM_COORDINATES",
+   "TAXON_ID_NOT_FOUND"
+  ],
+  "datasetKey": "d714382d-5890-4234-ae81-696eeb53658a",
+  "coordinateUncertaintyInMeters": null
+ },
+ {
+  "key": 6231204048,
+  "country": "United States of America",
+  "gadm": {
+   "level0": {
+    "gid": "RUS",
+    "name": "Russia"
+   },
+   "level1": {
+    "gid": "RUS.4_1",
+    "name": "Arkhangel'sk"
+   },
+   "level2": {
+    "gid": "RUS.4.20_1",
+    "name": "Primorskiy rayon"
+   },
+   "level3": {
+    "gid": "RUS.4.20.1_1"
+   }
+  },
+  "decimalLatitude": 64.5702,
+  "decimalLongitude": 40.5159,
+  "stateProvince": "Alaska",
+  "locality": null,
+  "issues": [
+   "GEODETIC_DATUM_ASSUMED_WGS84",
+   "COUNTRY_COORDINATE_MISMATCH",
+   "CONTINENT_DERIVED_FROM_COORDINATES",
+   "TAXON_ID_NOT_FOUND"
+  ],
+  "datasetKey": "d714382d-5890-4234-ae81-696eeb53658a",
+  "coordinateUncertaintyInMeters": null
+ },
+ {
+  "key": 4891843120,
+  "country": "United States of America",
+  "gadm": {
+   "level0": {
+    "gid": "MEX",
+    "name": "M\u00e9xico"
+   },
+   "level1": {
+    "gid": "MEX.28_1",
+    "name": "Tamaulipas"
+   },
+   "level2": {
+    "gid": "MEX.28.32_2",
+    "name": "Reynosa"
+   }
+  },
+  "decimalLatitude": 26.096274,
+  "decimalLongitude": -98.373542,
+  "stateProvince": "Texas",
+  "locality": null,
+  "issues": [
+   "COORDINATE_ROUNDED",
+   "CONTINENT_DERIVED_FROM_COORDINATES",
+   "TAXON_ID_NOT_FOUND"
+  ],
+  "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+  "coordinateUncertaintyInMeters": 29891.0
+ },
+ {
+  "key": 4921486850,
+  "country": "United States of America",
+  "gadm": {
+   "level0": {
+    "gid": "MEX",
+    "name": "M\u00e9xico"
+   },
+   "level1": {
+    "gid": "MEX.26_1",
+    "name": "Sonora"
+   },
+   "level2": {
+    "gid": "MEX.26.45_2",
+    "name": "Nogales"
+   }
+  },
+  "decimalLatitude": 31.320069,
+  "decimalLongitude": -111.054109,
+  "stateProvince": "Arizona",
+  "locality": null,
+  "issues": [
+   "COORDINATE_ROUNDED",
+   "CONTINENT_DERIVED_FROM_COORDINATES",
+   "TAXON_ID_NOT_FOUND"
+  ],
+  "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+  "coordinateUncertaintyInMeters": 29252.0
+ },
+ {
+  "key": 4926171346,
+  "country": "United States of America",
+  "gadm": {
+   "level0": {
+    "gid": "MEX",
+    "name": "M\u00e9xico"
+   },
+   "level1": {
+    "gid": "MEX.26_1",
+    "name": "Sonora"
+   },
+   "level2": {
+    "gid": "MEX.26.62_2",
+    "name": "Santa Cruz"
+   }
+  },
+  "decimalLatitude": 31.250576,
+  "decimalLongitude": -110.384014,
+  "stateProvince": "Arizona",
+  "locality": null,
+  "issues": [
+   "COORDINATE_ROUNDED",
+   "CONTINENT_DERIVED_FROM_COORDINATES",
+   "TAXON_ID_NOT_FOUND"
+  ],
+  "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+  "coordinateUncertaintyInMeters": 29252.0
+ },
+ {
+  "key": 4993854772,
+  "country": "United States of America",
+  "gadm": {
+   "level0": {
+    "gid": "MEX",
+    "name": "M\u00e9xico"
+   },
+   "level1": {
+    "gid": "MEX.26_1",
+    "name": "Sonora"
+   },
+   "level2": {
+    "gid": "MEX.26.20_2",
+    "name": "Cananea"
+   }
+  },
+  "decimalLatitude": 31.226201,
+  "decimalLongitude": -110.28187,
+  "stateProvince": "Arizona",
+  "locality": null,
+  "issues": [
+   "COORDINATE_ROUNDED",
+   "CONTINENT_DERIVED_FROM_COORDINATES",
+   "TAXON_ID_NOT_FOUND"
+  ],
+  "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+  "coordinateUncertaintyInMeters": 29252.0
+ },
+ {
+  "key": 4978290912,
+  "country": "United States of America",
+  "gadm": {
+   "level0": {
+    "gid": "MEX",
+    "name": "M\u00e9xico"
+   },
+   "level1": {
+    "gid": "MEX.26_1",
+    "name": "Sonora"
+   },
+   "level2": {
+    "gid": "MEX.26.41_2",
+    "name": "Naco"
+   }
+  },
+  "decimalLatitude": 31.226287,
+  "decimalLongitude": -110.25526,
+  "stateProvince": "Arizona",
+  "locality": null,
+  "issues": [
+   "COORDINATE_ROUNDED",
+   "CONTINENT_DERIVED_FROM_COORDINATES",
+   "TAXON_ID_NOT_FOUND"
+  ],
+  "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+  "coordinateUncertaintyInMeters": 29252.0
+ },
+ {
+  "key": 6231246352,
+  "country": "United States of America",
+  "gadm": {
+   "level0": {
+    "gid": "ATA",
+    "name": "Antarctica"
+   }
+  },
+  "decimalLatitude": -90.0,
+  "decimalLongitude": -5.0,
+  "stateProvince": "Wyoming",
+  "locality": null,
+  "issues": [
+   "GEODETIC_DATUM_ASSUMED_WGS84",
+   "COUNTRY_COORDINATE_MISMATCH",
+   "CONTINENT_DERIVED_FROM_COORDINATES",
+   "TAXON_ID_NOT_FOUND"
+  ],
+  "datasetKey": "d714382d-5890-4234-ae81-696eeb53658a",
+  "coordinateUncertaintyInMeters": null
+ },
+ {
+  "key": 4458750226,
+  "country": "United States of America",
+  "gadm": {
+   "level0": {
+    "gid": "MEX",
+    "name": "M\u00e9xico"
+   },
+   "level1": {
+    "gid": "MEX.28_1",
+    "name": "Tamaulipas"
+   },
+   "level2": {
+    "gid": "MEX.28.32_2",
+    "name": "Reynosa"
+   }
+  },
+  "decimalLatitude": 26.22353,
+  "decimalLongitude": -98.519195,
+  "stateProvince": "Texas",
+  "locality": null,
+  "issues": [
+   "COORDINATE_ROUNDED",
+   "CONTINENT_DERIVED_FROM_COORDINATES",
+   "TAXON_ID_NOT_FOUND"
+  ],
+  "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+  "coordinateUncertaintyInMeters": 29868.0
+ },
+ {
+  "key": 3994227425,
+  "country": "United States of America",
+  "gadm": {
+   "level0": {
+    "gid": "MEX",
+    "name": "M\u00e9xico"
+   },
+   "level1": {
+    "gid": "MEX.28_1",
+    "name": "Tamaulipas"
+   },
+   "level2": {
+    "gid": "MEX.28.7_2",
+    "name": "Camargo"
+   }
+  },
+  "decimalLatitude": 26.32018,
+  "decimalLongitude": -98.77481,
+  "stateProvince": "Texas",
+  "locality": null,
+  "issues": [
+   "COORDINATE_ROUNDED",
+   "CONTINENT_DERIVED_FROM_COORDINATES",
+   "TAXON_ID_NOT_FOUND"
+  ],
+  "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+  "coordinateUncertaintyInMeters": 29868.0
+ },
+ {
+  "key": 3858515692,
+  "country": "United States of America",
+  "gadm": {
+   "level0": {
+    "gid": "MEX",
+    "name": "M\u00e9xico"
+   },
+   "level1": {
+    "gid": "MEX.28_1",
+    "name": "Tamaulipas"
+   },
+   "level2": {
+    "gid": "MEX.28.32_2",
+    "name": "Reynosa"
+   }
+  },
+  "decimalLatitude": 26.002237,
+  "decimalLongitude": -98.358331,
+  "stateProvince": "Texas",
+  "locality": null,
+  "issues": [
+   "COORDINATE_ROUNDED",
+   "COUNTRY_COORDINATE_MISMATCH",
+   "CONTINENT_DERIVED_FROM_COORDINATES",
+   "TAXON_ID_NOT_FOUND"
+  ],
+  "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+  "coordinateUncertaintyInMeters": 29891.0
+ },
+ {
+  "key": 6231239795,
+  "country": "United States of America",
+  "gadm": {
+   "level0": {
+    "gid": "DZA",
+    "name": "Algeria"
+   },
+   "level1": {
+    "gid": "DZA.36_1",
+    "name": "Sa\u00efda"
+   },
+   "level2": {
+    "gid": "DZA.36.8_1",
+    "name": "Moulay Larbi"
+   }
+  },
+  "decimalLatitude": 34.5314,
+  "decimalLongitude": 0.0,
+  "stateProvince": "Mississippi",
+  "locality": "County Rd. 297, 7.08 miles ENE of Abbeville",
+  "issues": [
+   "GEODETIC_DATUM_ASSUMED_WGS84",
+   "COUNTRY_COORDINATE_MISMATCH",
+   "CONTINENT_DERIVED_FROM_COORDINATES",
+   "TAXON_MATCH_HIGHERRANK"
+  ],
+  "datasetKey": "d714382d-5890-4234-ae81-696eeb53658a",
+  "coordinateUncertaintyInMeters": null
+ },
+ {
+  "key": 3925256301,
+  "country": "United States of America",
+  "gadm": {
+   "level0": {
+    "gid": "MEX",
+    "name": "M\u00e9xico"
+   },
+   "level1": {
+    "gid": "MEX.6_1",
+    "name": "Chihuahua"
+   },
+   "level2": {
+    "gid": "MEX.6.36_2",
+    "name": "Ju\u00e1rez"
+   }
+  },
+  "decimalLatitude": 31.694107,
+  "decimalLongitude": -106.356503,
+  "stateProvince": "Texas",
+  "locality": null,
+  "issues": [
+   "COORDINATE_ROUNDED",
+   "CONTINENT_DERIVED_FROM_COORDINATES",
+   "TAXON_ID_NOT_FOUND"
+  ],
+  "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+  "coordinateUncertaintyInMeters": 29199.0
+ },
+ {
+  "key": 3947724932,
+  "country": "United States of America",
+  "gadm": {
+   "level0": {
+    "gid": "MEX",
+    "name": "M\u00e9xico"
+   },
+   "level1": {
+    "gid": "MEX.26_1",
+    "name": "Sonora"
+   },
+   "level2": {
+    "gid": "MEX.26.58_2",
+    "name": "San Luis R\u00edo Colorado"
+   }
+  },
+  "decimalLatitude": 32.420181,
+  "decimalLongitude": -114.679028,
+  "stateProvince": "Arizona",
+  "locality": null,
+  "issues": [
+   "COORDINATE_ROUNDED",
+   "CONTINENT_DERIVED_FROM_COORDINATES",
+   "TAXON_ID_NOT_FOUND"
+  ],
+  "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+  "coordinateUncertaintyInMeters": 29093.0
+ },
+ {
+  "key": 3988645146,
+  "country": "United States of America",
+  "gadm": {
+   "level0": {
+    "gid": "MEX",
+    "name": "M\u00e9xico"
+   },
+   "level1": {
+    "gid": "MEX.28_1",
+    "name": "Tamaulipas"
+   },
+   "level2": {
+    "gid": "MEX.28.32_2",
+    "name": "Reynosa"
+   }
+  },
+  "decimalLatitude": 26.111017,
+  "decimalLongitude": -98.393455,
+  "stateProvince": "Texas",
+  "locality": null,
+  "issues": [
+   "COORDINATE_ROUNDED",
+   "CONTINENT_DERIVED_FROM_COORDINATES",
+   "TAXON_ID_NOT_FOUND"
+  ],
+  "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+  "coordinateUncertaintyInMeters": 29891.0
+ },
+ {
+  "key": 4015198829,
+  "country": "United States of America",
+  "gadm": {
+   "level0": {
+    "gid": "MEX",
+    "name": "M\u00e9xico"
+   },
+   "level1": {
+    "gid": "MEX.28_1",
+    "name": "Tamaulipas"
+   },
+   "level2": {
+    "gid": "MEX.28.24_2",
+    "name": "Mier"
+   }
+  },
+  "decimalLatitude": 26.498994,
+  "decimalLongitude": -99.141946,
+  "stateProvince": "Texas",
+  "locality": null,
+  "issues": [
+   "COORDINATE_ROUNDED",
+   "CONTINENT_DERIVED_FROM_COORDINATES",
+   "TAXON_ID_NOT_FOUND"
+  ],
+  "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+  "coordinateUncertaintyInMeters": 29845.0
+ },
+ {
+  "key": 4980407927,
+  "country": "United States of America",
+  "gadm": {
+   "level0": {
+    "gid": "MEX",
+    "name": "M\u00e9xico"
+   },
+   "level1": {
+    "gid": "MEX.28_1",
+    "name": "Tamaulipas"
+   },
+   "level2": {
+    "gid": "MEX.28.24_2",
+    "name": "Mier"
+   }
+  },
+  "decimalLatitude": 26.428621,
+  "decimalLongitude": -99.124437,
+  "stateProvince": "Texas",
+  "locality": null,
+  "issues": [
+   "COORDINATE_ROUNDED",
+   "CONTINENT_DERIVED_FROM_COORDINATES",
+   "TAXON_ID_NOT_FOUND"
+  ],
+  "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+  "coordinateUncertaintyInMeters": 29845.0
+ }
+]

@@ -1,0 +1,132 @@
+"""D26 verify item 4: the small test of GBIF's GADM country tag, no download, no credentials.
+
+Uses GBIF's predicate search (POST https://api.gbif.org/v1/occurrence/search/predicate), which
+takes the same predicate language as the download API, so a predicate it accepts is parsed by the
+same code path the download request uses for its keys. Counts only (limit 0), plus one sample.
+Run from the d26 worktree with `uv run python`, so the boxes come from t1_design.
+"""
+
+import json
+import sys
+import time
+from urllib.request import Request, urlopen
+
+from forager_forecast.t1_design import BOXES
+
+URL = "https://api.gbif.org/v1/occurrence/search/predicate"
+
+BASE = [
+    {"type": "equals", "key": "TAXON_KEY", "value": "5"},
+    {"type": "equals", "key": "BASIS_OF_RECORD", "value": "HUMAN_OBSERVATION"},
+    {"type": "greaterThanOrEquals", "key": "YEAR", "value": "2015"},
+    {"type": "lessThanOrEquals", "key": "YEAR", "value": "2025"},
+    {"type": "equals", "key": "HAS_COORDINATE", "value": "true"},
+]
+
+
+def gadm(*codes):
+    return {"type": "in", "key": "GADM_LEVEL_0_GID", "values": list(codes)}
+
+
+def country(*codes):
+    return {"type": "in", "key": "COUNTRY", "values": list(codes)}
+
+
+def box(b):
+    return {"type": "within", "geometry": b.wkt_polygon()}
+
+
+def neg(p):
+    return {"type": "not", "predicate": p}
+
+
+def post(body):
+    for attempt in range(4):
+        try:
+            req = Request(
+                URL,
+                data=json.dumps(body).encode(),
+                method="POST",
+                headers={"Content-Type": "application/json", "Accept": "application/json"},
+            )
+            with urlopen(req, timeout=120) as r:
+                return json.load(r)
+        except Exception as exc:  # reported, retried, then raised
+            print(f"retry {attempt} after {exc!r}", file=sys.stderr)
+            time.sleep(5 * (attempt + 1))
+    raise RuntimeError("predicate search failed four times")
+
+
+def count(*extra, facet=None):
+    body = {"predicate": {"type": "and", "predicates": BASE + list(extra)}, "limit": 0}
+    if facet:
+        body["facet"] = [facet]
+        body["facetLimit"] = 50
+    out = post(body)
+    result = {"count": out["count"]}
+    if facet:
+        result["facets"] = {
+            f["field"]: {c["name"]: c["count"] for c in f["counts"]} for f in out.get("facets", [])
+        }
+    return result
+
+
+def main():
+    pnw, east = BOXES
+    both_gadm = gadm("USA", "CAN")
+    both_country = country("US", "CA")
+    q = {
+        "gadm_USA": count(gadm("USA")),
+        "gadm_CAN": count(gadm("CAN")),
+        "gadm_USA_CAN": count(both_gadm, facet="COUNTRY"),
+        "country_US": count(country("US")),
+        "country_CA": count(country("CA")),
+        "country_US_CA": count(both_country, facet="GADM_LEVEL_0_GID"),
+        "continent_north_america_now": count(
+            {"type": "equals", "key": "CONTINENT", "value": "NORTH_AMERICA"}
+        ),
+        "box_pnw": count(box(pnw)),
+        "box_pnw_and_gadm": count(box(pnw), both_gadm),
+        "box_pnw_not_gadm": count(box(pnw), neg(both_gadm), facet="COUNTRY"),
+        "box_pnw_and_country": count(box(pnw), both_country),
+        "box_east": count(box(east)),
+        "box_east_and_gadm": count(box(east), both_gadm),
+        "box_east_not_gadm": count(box(east), neg(both_gadm), facet="COUNTRY"),
+        "box_east_and_country": count(box(east), both_country),
+        "country_not_gadm": count(both_country, neg(both_gadm), facet="GADM_LEVEL_0_GID"),
+        "country_and_gadm_null": count(
+            both_country, {"type": "isNull", "parameter": "GADM_LEVEL_0_GID"}
+        ),
+        "gadm_not_country": count(both_gadm, neg(both_country), facet="COUNTRY"),
+        "gadm_east_hemisphere": count(
+            both_gadm, {"type": "greaterThan", "key": "DECIMAL_LONGITUDE", "value": "0"}
+        ),
+        "gadm_lon_ge_179_9_or_le_m179_9": count(
+            both_gadm,
+            {
+                "type": "or",
+                "predicates": [
+                    {"type": "greaterThanOrEquals", "key": "DECIMAL_LONGITUDE", "value": "179.9"},
+                    {"type": "lessThanOrEquals", "key": "DECIMAL_LONGITUDE", "value": "-179.9"},
+                ],
+            },
+        ),
+    }
+    json.dump(q, sys.stdout, indent=1)
+    print()
+
+    sample_body = {
+        "predicate": {"type": "and", "predicates": BASE + [both_country, neg(both_gadm)]},
+        "limit": 20,
+    }
+    fields = (
+        "key", "country", "gadm", "decimalLatitude", "decimalLongitude", "stateProvince",
+        "locality", "issues", "datasetKey", "coordinateUncertaintyInMeters",
+    )
+    sample = [{f: r.get(f) for f in fields} for r in post(sample_body)["results"]]
+    with open("excluded_sample.json", "w") as fh:
+        json.dump(sample, fh, indent=1)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,60 @@
+"""D26 verify item 4, second pass: what are the box records with no GADM tag?
+
+Same endpoint and base filters as tag_test.py. Counts and a sample of box records whose
+GADM_LEVEL_0_GID is null, plus how null-GADM records split by country and by box.
+"""
+
+import json
+import sys
+
+from tag_test import BASE, BOXES, box, country, gadm, neg, post
+
+NULL_GADM = {"type": "isNull", "parameter": "GADM_LEVEL_0_GID"}
+NOTNULL_GADM = {"type": "isNotNull", "parameter": "GADM_LEVEL_0_GID"}
+
+
+def count(*extra):
+    body = {"predicate": {"type": "and", "predicates": BASE + list(extra)}, "limit": 0}
+    return post(body)["count"]
+
+
+def sample(n, *extra):
+    body = {"predicate": {"type": "and", "predicates": BASE + list(extra)}, "limit": n}
+    return post(body)["results"]
+
+
+FIELDS = (
+    "key", "country", "gadm", "decimalLatitude", "decimalLongitude", "stateProvince",
+    "locality", "issues", "datasetKey", "coordinateUncertaintyInMeters", "lastInterpreted",
+    "informationWithheld", "continent",
+)
+
+
+def main():
+    pnw, east = BOXES
+    out = {
+        "all_base": count(),
+        "null_gadm": count(NULL_GADM),
+        "notnull_gadm": count(NOTNULL_GADM),
+        "null_gadm_country_US_CA": count(NULL_GADM, country("US", "CA")),
+        "null_gadm_box_pnw": count(NULL_GADM, box(pnw)),
+        "null_gadm_box_east": count(NULL_GADM, box(east)),
+        "notnull_gadm_box_pnw": count(NOTNULL_GADM, box(pnw)),
+        "notnull_gadm_box_east": count(NOTNULL_GADM, box(east)),
+        "notnull_not_USACAN_box_pnw": count(NOTNULL_GADM, neg(gadm("USA", "CAN")), box(pnw)),
+        "notnull_not_USACAN_box_east": count(NOTNULL_GADM, neg(gadm("USA", "CAN")), box(east)),
+    }
+    json.dump(out, sys.stdout, indent=1)
+    print()
+    rows = {
+        "box_pnw_null_gadm": [{f: r.get(f) for f in FIELDS} for r in sample(10, NULL_GADM, box(pnw))],
+        "box_east_null_gadm": [
+            {f: r.get(f) for f in FIELDS} for r in sample(10, NULL_GADM, box(east))
+        ],
+    }
+    with open("null_gadm_box_sample.json", "w") as fh:
+        json.dump(rows, fh, indent=1)
+
+
+if __name__ == "__main__":
+    main()

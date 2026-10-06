@@ -1,0 +1,21 @@
+"""D26 verify item 4, fourth pass: are the untagged records mostly obscured (uncertainty >= 20 km)?"""
+
+import json
+
+from tag_test import BASE, country, post
+
+NULL_GADM = {"type": "isNull", "parameter": "GADM_LEVEL_0_GID"}
+BIG = {"type": "greaterThanOrEquals", "key": "COORDINATE_UNCERTAINTY_IN_METERS", "value": "20000"}
+USCA = country("US", "CA")
+
+
+def count(*extra):
+    return post({"predicate": {"type": "and", "predicates": BASE + list(extra)}, "limit": 0})["count"]
+
+
+print(json.dumps({
+    "usca": count(USCA),
+    "usca_uncertainty_ge_20km": count(USCA, BIG),
+    "null_gadm_usca": count(NULL_GADM, USCA),
+    "null_gadm_usca_uncertainty_ge_20km": count(NULL_GADM, USCA, BIG),
+}, indent=1))
