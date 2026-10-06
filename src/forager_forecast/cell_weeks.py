@@ -12,7 +12,7 @@ from collections.abc import Iterable
 from dataclasses import dataclass
 
 from forager_forecast.cells import Cell, IsoWeek, cell_for, iso_week_of
-from forager_forecast.records.t1_record import Record
+from forager_forecast.records.occurrence import Record
 
 
 @dataclass(frozen=True, order=True)

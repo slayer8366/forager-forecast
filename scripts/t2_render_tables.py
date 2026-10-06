@@ -15,11 +15,11 @@ from collections import defaultdict
 from pathlib import Path
 
 from forager_forecast.records.counts import ALL_FUNGI, REST_OF_NORTH_AMERICA, T1_BOXES
-from forager_forecast.records.filters import default_steps
+from forager_forecast.records.filters import r6_audit_steps
 
 GROUPS = ("cantharellus", "laetiporus", ALL_FUNGI)
 REGIONS = (*[box.name for box in T1_BOXES], REST_OF_NORTH_AMERICA)
-STAGES = ("source", *[step.name for step in default_steps()])
+STAGES = ("source", *r6_audit_steps().names())
 FINAL = STAGES[-1]
 
 
@@ -34,7 +34,14 @@ def main(out_dir: Path) -> None:
     year_list = sorted(years)
     summary = json.loads((out_dir / "summary.json").read_text(encoding="utf-8"))
 
-    print(f"Source rows: {summary['source_count']:,}; survivors: {summary['survivors']:,}.\n")
+    print(
+        f"Rows read: {summary['rows_read']:,}; could not be loaded: "
+        f"{sum(summary['unloadable_rows'].values()):,}; loaded: {summary['source_count']:,}; "
+        f"survivors: {summary['survivors']:,}.\n"
+    )
+    for reason, n in summary["unloadable_rows"].items():
+        print(f"- could not be loaded, {reason}: {n:,}")
+    print()
     print("| Step | Before | Dropped | After |\n|---|---|---|---|")
     for step in summary["steps"]:
         print(f"| {step['step']} | {step['before']:,} | {step['dropped']:,} | {step['after']:,} |")
@@ -84,19 +91,19 @@ def main(out_dir: Path) -> None:
 
     print("### eventDate shapes at the source stage\n")
     print("| Shape | Rows |\n|---|---|")
-    for shape, n in summary["event_date_shapes_at_source"].items():
+    for shape, n in summary["event_date_shapes_of_rows_read"].items():
         print(f"| {shape} | {n:,} |")
     print()
     print("### informationWithheld texts at the source stage (first 40 characters)\n")
     print(f"Distinct prefixes: {summary['information_withheld_distinct_prefixes']}\n")
     print("| Prefix | Rows |\n|---|---|")
-    for prefix, n in summary["information_withheld_prefixes_at_source"].items():
+    for prefix, n in summary["information_withheld_prefixes_of_rows_read"].items():
         print(f"| {prefix} | {n:,} |")
     print()
     print("### dataGeneralizations texts at the source stage (first 40 characters)\n")
     print(f"Distinct prefixes: {summary['data_generalizations_distinct_prefixes']}\n")
     print("| Prefix | Rows |\n|---|---|")
-    for prefix, n in summary["data_generalizations_prefixes_at_source"].items():
+    for prefix, n in summary["data_generalizations_prefixes_of_rows_read"].items():
         print(f"| {prefix} | {n:,} |")
 
 

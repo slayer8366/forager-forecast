@@ -16,7 +16,7 @@ from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
 
-from forager_forecast.records.filters import Record
+from forager_forecast.records.occurrence import Record
 
 
 @dataclass(frozen=True)
@@ -42,38 +42,37 @@ T1_BOXES = (
     Box("east", 38.0, 46.0, -84.0, -70.0),
 )
 REST_OF_NORTH_AMERICA = "rest_of_north_america"
-NO_COORDINATES = "no_coordinates"
 
 # GBIF Backbone genus keys, resolved with /v1/species/match on 2026-09-18:
 # Cantharellus Adans. ex Fr., 1821 -> 9623860 (EXACT, ACCEPTED);
 # Laetiporus Murrill, 1904 -> 2542160 (EXACT, ACCEPTED).
 GROUP_BY_GENUS_KEY = {
-    "9623860": "cantharellus",
-    "2542160": "laetiporus",
+    9623860: "cantharellus",
+    2542160: "laetiporus",
 }
 ALL_FUNGI = "all_fungi"
 STAGE_SOURCE = "source"
 
 
 def region_of(record: Record, boxes: Iterable[Box] = T1_BOXES) -> str:
-    try:
-        latitude = float(record["decimalLatitude"])
-        longitude = float(record["decimalLongitude"])
-    except KeyError, ValueError:
-        return NO_COORDINATES
+    # A record without coordinates never becomes a Record (D66), so there is no "no coordinates"
+    # region; the loader counts those rows by reason instead.
     for box in boxes:
-        if box.contains(latitude, longitude):
+        if box.contains(record.latitude, record.longitude):
             return box.name
     return REST_OF_NORTH_AMERICA
 
 
 def group_of(record: Record) -> str | None:
     """The forager group a record belongs to, or None for any other fungus."""
-    return GROUP_BY_GENUS_KEY.get(record.get("genusKey", "").strip())
+    if record.genus_key is None:
+        return None
+    return GROUP_BY_GENUS_KEY.get(record.genus_key)
 
 
 def year_of(record: Record) -> str:
-    return record.get("year", "").strip() or "no_year"
+    """The event's calendar year. Every Record has one: the loader refuses rows without a day."""
+    return str(record.event_date.year)
 
 
 @dataclass(frozen=True)

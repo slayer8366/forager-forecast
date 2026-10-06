@@ -16,7 +16,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from forager_forecast.records.counts import ALL_FUNGI, group_of
-from forager_forecast.records.filters import Record
+from forager_forecast.records.occurrence import Record
 
 EMPTY = "(empty)"
 
@@ -36,8 +36,8 @@ class LicenseTable:
         self._counts: Counter[LicenseKey] = Counter()
 
     def add(self, stage: str, record: Record) -> None:
-        license_text = record.get("license", "").strip() or EMPTY
-        dataset_key = record.get("datasetKey", "").strip() or EMPTY
+        license_text = record.license or EMPTY
+        dataset_key = record.dataset_key or EMPTY
         self._counts[LicenseKey(stage, ALL_FUNGI, license_text, dataset_key)] += 1
         group = group_of(record)
         if group is not None:

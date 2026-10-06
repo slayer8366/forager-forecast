@@ -1,3 +1,9 @@
+# Not part of the pipeline. Kept unchanged as the evidence of T1's provisional run over SIMPLE_CSV
+# download 0005709 (D67), as D30 kept the T0b verify script; the code below this header is as it
+# stood at main 1d5bd80. The one Record type and filter pipeline are records/occurrence.py and
+# records/filters.py.
+# After D63 its East total at the last step is 447,163, not the published 447,164: see the header
+# of records/t1_record.py.
 """T1 count tables from a SIMPLE_CSV download zip: by box, year and filter step, and by license.
 
 Usage: uv run python scripts/t1_count_table.py <download.zip> <output directory>

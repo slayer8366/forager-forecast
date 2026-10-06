@@ -1,3 +1,7 @@
+# Not part of the pipeline. Kept unchanged as the evidence of T1's provisional run over SIMPLE_CSV
+# download 0005709 (D67), as D30 kept the T0b verify script; the code below this header is as it
+# stood at main 1d5bd80. The one Record type and filter pipeline are records/occurrence.py and
+# records/filters.py.
 """Rows of a GBIF SIMPLE_CSV download, read into T1 Records.
 
 Written for the T1 run (T1 run report, 2026-09-19) against download 0005709-260916113435855.

@@ -1,15 +1,20 @@
-"""The GBIF occurrence download T1 needs, prepared and not yet requested.
+"""GBIF occurrence download requests: the T1 predicate, the DWCA request, and its submission.
 
 SPEC.md, Constraints: "Bulk record pulls go through GBIF downloads, which give a citable DOI."
-The predicate in gbif/t1_fungi_two_boxes_2015_2025.json is the dispatch's "Verify first" item 1
-as a GBIF predicate: kingdom Fungi (backbone key 5), human observations, years 2015 to 2025,
-records with coordinates, inside the two T1 boxes. On 2026-09-18 the same predicate posted to
-https://api.gbif.org/v1/occurrence/search/predicate with limit 0 counted 1,195,034 records
-(T1 completion report).
+New downloads are requested in Darwin Core Archive format through request_template (D45, D67):
+SIMPLE_CSV carries neither informationWithheld nor acceptedTaxonKey, which the obscured step and
+D27's key need. The SIMPLE_CSV request that fetched T1's provisional download 0005709 on 2026-09-19
+(T1 credentialed run report) is retired; that download is read only by the code kept as its
+evidence (records/t1_simple_csv.py, D67).
 
-Requesting a download needs a GBIF account. The request endpoint answered 403 without
-credentials and 401 with wrong ones on 2026-09-18. This module reads GBIF_USER, GBIF_PWD and
-GBIF_EMAIL from the environment and refuses, naming what is missing, rather than trying anyway.
+The predicate in gbif/t1_fungi_two_boxes_2015_2025.json is T1's dispatch "Verify first" item 1 as
+a GBIF predicate: kingdom Fungi (backbone key 5), human observations, years 2015 to 2025, records
+with coordinates, inside the two T1 boxes. D26's download needs a geometry predicate of its own,
+which is D26's work, passed to request_template by its caller.
+
+Requesting a download needs a GBIF account. The request endpoint answered 403 without credentials
+and 401 with wrong ones on 2026-09-18. This module reads GBIF_USER, GBIF_PWD and GBIF_EMAIL from
+the environment and refuses, naming what is missing, rather than trying anyway.
 """
 
 import base64
@@ -24,7 +29,6 @@ from forager_forecast.t1_design import BOXES, FIRST_YEAR, FUNGI_KINGDOM_KEY, LAS
 
 PREDICATE_PATH = Path(__file__).parent / "gbif" / "t1_fungi_two_boxes_2015_2025.json"
 DOWNLOAD_REQUEST_URL = "https://api.gbif.org/v1/occurrence/download/request"
-DOWNLOAD_FORMAT = "SIMPLE_CSV"
 
 # Carried over from T2's records/gbif_download.py under D42 and D45, with request_template below.
 # GBIF Backbone Taxonomy. TAXON_KEY 5 is Fungi in this checklist
@@ -93,17 +97,6 @@ def expected_t1_predicate() -> dict:
     }
 
 
-def build_download_request(credentials: GbifCredentials, predicate: dict) -> dict:
-    """The JSON body GBIF's download request endpoint takes."""
-    return {
-        "creator": credentials.user,
-        "notificationAddresses": [credentials.email],
-        "sendNotification": True,
-        "format": DOWNLOAD_FORMAT,
-        "predicate": predicate,
-    }
-
-
 def request_template(predicate: dict[str, Any]) -> dict[str, Any]:
     """The request body without the fields that belong to a person: no email, no notification.
 
@@ -127,10 +120,20 @@ def submit_download_request(
     url: str = DOWNLOAD_REQUEST_URL,
     opener: Callable = urlopen,
 ) -> str:
-    """POST the request with HTTP basic auth and return GBIF's download key. First run against
-    the real endpoint on 2026-09-19 UTC, returning key 0005709-260916113435855 on the first
-    call (T1 credentialed run report); before that, no credentials existed on the machine."""
-    body = json.dumps(build_download_request(credentials, predicate)).encode("utf-8")
+    """POST the DWCA request with HTTP basic auth and return GBIF's download key.
+
+    The body is request_template's with the fields that belong to a person added (D67). This
+    function first ran against the real endpoint on 2026-09-19 UTC, returning key
+    0005709-260916113435855 (T1 credentialed run report); it then sent the retired SIMPLE_CSV body,
+    and it has not run against GBIF since this change.
+    """
+    body_fields = {
+        **request_template(predicate),
+        "creator": credentials.user,
+        "notificationAddresses": [credentials.email],
+        "sendNotification": True,
+    }
+    body = json.dumps(body_fields).encode("utf-8")
     token = base64.b64encode(f"{credentials.user}:{credentials.password}".encode()).decode()
     request = Request(
         url,
