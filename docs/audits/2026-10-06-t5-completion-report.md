@@ -254,3 +254,147 @@ Reading:
     - "plot without CANOPYPCT accepted" fails later, with a `KeyError` and not the intended message.
   - Both of the last two still fail loudly, but not at the assertion written for them.
 - The not-available flag check's anchor was updated to follow the D88 flag code (`04bf880`).
+
+## 9. Appended 2026-10-06: Amendment 3, the D92 build and the matched null (D90, D91, D92)
+
+Sections 1 to 8 above stand as written. This section records Amendment 3
+(`docs/dispatch/2026-10-06-t5-host-trees-amendment-3.md`, Forager RECORD -594), which answers the
+review (`2026-10-06-t5-review.md`). Evidence is in `2026-10-06-t5-amendment-3/`.
+
+**How this section was produced.** Two earlier sessions on this amendment were stopped by machine
+restarts, the second by an out-of-memory kill of a build process at 3.9 GB while a Gradle suite also
+ran. This session started from `171e3b6` (nothing newer on the remote, worktree clean) and trusted
+none of their output on the drive:
+- The TreeMap cut was re-run with the current code. All three files (`treemap_plots.tif`,
+  `treemap_plot_covers.csv`, `treemap_request.json`) came out byte-identical to both cuts the earlier
+  sessions left (sha256 `5cb0f6a9`, `729a80c9`, `1d6be31c`).
+- The SCANFI total window matches its request record in `docs/pulls/` (sha256 `ceb2d79f`), and the
+  ten class windows match theirs.
+- The leftover `stale_master_d92_scale_0.7_from_0642` and `stale_recut_from_0632` folders on the drive
+  were not used. No `master_d92_*` folder existed before this session's builds.
+- Each scale was built in its own process (`scale=S`, added at `a1634ec`), one after another, under a
+  6 GB memory cap with no swap, as the only heavy job on the machine.
+
+| Step | Peak memory (max RSS) | Wall time |
+| --- | --- | --- |
+| TreeMap re-cut | 0.85 GB | 14 s |
+| D92 build, scale 1.0 | 5.00 GB | 496 s |
+| D92 build, scale 0.7 | 5.00 GB | 477 s |
+| D92 build, scale 1.3 | 5.00 GB | 481 s |
+| Transects, three scales | 0.12 GB | 7 s |
+| SCANFI sum against total (re-run) | 1.09 GB | — |
+| Revert runner, 29 checks | 0.16 GB | 285 s |
+| Full suite | 0.18 GB | 34 s |
+
+**D92: SCANFI's own total.** Before the switch, the ten-class sum was compared with SCANFI's total
+crown closure on the strip's Canadian side (`scanfi_sum_vs_total.out.txt`, re-run this session and
+identical):
+- 10,995,751 pixels; 24,467 are no data in both, with no disagreement between the masks.
+- On all 10,971,284 compared pixels, the sum equals the total exactly (difference 0 at the minimum,
+  maximum, P1 and P99). The mean is 35.83 for both.
+- So, on this strip, D92 changes nothing in the values. On the master grid the D92 strip and the
+  Amendment 2 strip have identical `total_cover_pct` on all 72,040 Canadian cells, and identical
+  Canadian shares (`strip_d92_vs_a2.out.txt`). The build now names its Canadian total in the
+  `ca_total` tag; the Amendment 2 strip carries no such tag.
+
+**D91: capped diameters.** From the cut's request record (`treemap_request.json`, scale 1.0):
+- **1,516 live trees** of 5 in or more are beyond the largest Table 1 diameter for the species whose
+  coefficients they use, and take the width at that diameter. The review's estimate was about 1,500.
+- **0 trees** with a non-positive width remain. Before D91, 29 were dropped without a count (28
+  western redcedar, 1 Douglas-fir; review F2).
+- The counts are recorded at scale 1.0 only. The cap depends on diameter alone, so the capped count
+  is the same at every scale (inferred from `crown_cover.py:190-195`, not counted at 0.7 and 1.3).
+- Effect on the strip (scale 1.0, against the Amendment 2 strip, which was built before D91): no US
+  cell changes its total cover or its defined cells. US shares change on part of the 49,424 cells
+  with a share: Douglas-fir on 16,910 cells, at most 0.028, mean 0.0003; conifer and broadleaf on
+  about 18,500 cells, at most 0.019; *Abies* and *Tsuga* the most, at most 0.21 and 0.13, mean 0.006
+  and 0.004. Those two are not tested at the border (D85).
+
+**D90: the matched null.** The null for each variable is now drawn from the same transects as its
+border statistic B. Same seed (20260918), same 25 transects (longitudes identical in all three
+builds' files), same windows, same 95th percentile.
+
+**Every build so far, at scale 1.0.** "Old null" is the rule as filed (verify report section 7):
+null over 23 (US) and 24 (Canada) transects for the shares, against B over 7 (review,
+`rerun_transects.out.txt`). "D90 null" is matched: 7 and 7 for the shares, 25 and 25 for total cover.
+The first two builds under the D90 null are the earlier session's files
+`transects_tree_list_d90.json` and `transects_treemap_canopy_d90.json`, run on the stored layers.
+
+| Variable | Build | Null | Transects (B) | B | Threshold | Mean signed (CA − US) [95% CI] | Verdict |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Total cover (pts) | first (tree list) | old | 25 | 14.4 | 12.6 | +0.9 [−6.8, +7.8] | artifact |
+| Total cover (pts) | first (tree list) | D90 | 25 | 14.4 | 12.6 | +0.9 [−6.8, +7.8] | artifact |
+| Total cover (pts) | Amendment 2 (CANOPYPCT) | old | 25 | 15.0 | 14.2 | −5.9 [−14.1, +1.8] | artifact |
+| Total cover (pts) | Amendment 2 (CANOPYPCT) | D90 | 25 | 15.0 | 14.2 | −5.9 [−14.1, +1.8] | artifact |
+| Total cover (pts) | **Amendment 3 (D91, D92)** | **D90** | 25 | **15.0** | **14.2** | **−5.9 [−14.1, +1.8]** | **artifact** |
+| *Pseudotsuga* share | first | old | 7 | 0.088 | 0.072 | +0.087 [−0.021, +0.197] | artifact |
+| *Pseudotsuga* share | first | D90 | 7 | 0.088 | 0.120 | +0.087 | no step |
+| *Pseudotsuga* share | Amendment 2 | old | 7 | 0.083 | 0.072 | +0.087 [−0.014, +0.192] | artifact |
+| *Pseudotsuga* share | Amendment 2 | D90 | 7 | 0.083 | 0.120 | +0.087 | no step |
+| *Pseudotsuga* share | **Amendment 3** | **D90** | 7 | **0.083** | **0.120** | **+0.087 [−0.012, +0.189]** | **no step** |
+| Conifer share | first | old | 7 | 0.020 | 0.059 | +0.022 [−0.017, +0.081] | no step |
+| Conifer share | first | D90 | 7 | 0.020 | 0.066 | +0.022 | no step |
+| Conifer share | Amendment 2 | old | 7 | 0.017 | 0.059 | +0.020 [−0.018, +0.079] | no step |
+| Conifer share | Amendment 2 | D90 | 7 | 0.017 | 0.066 | +0.020 | no step |
+| Conifer share | **Amendment 3** | **D90** | 7 | **0.017** | **0.066** | **+0.020 [−0.018, +0.078]** | **no step** |
+| Broadleaf share | first | old | 7 | 0.020 | 0.059 | −0.022 [−0.081, +0.017] | no step |
+| Broadleaf share | first | D90 | 7 | 0.020 | 0.066 | −0.022 | no step |
+| Broadleaf share | Amendment 2 | old | 7 | 0.017 | 0.059 | −0.020 [−0.079, +0.018] | no step |
+| Broadleaf share | Amendment 2 | D90 | 7 | 0.017 | 0.066 | −0.020 | no step |
+| Broadleaf share | **Amendment 3** | **D90** | 7 | **0.017** | **0.066** | **−0.020 [−0.078, +0.018]** | **no step** |
+
+The CI column is left as the mean only for the earlier D90 rows; the CI does not depend on the null,
+and is the old row's above it.
+
+Reading:
+- **The *Pseudotsuga* verdict changes from artifact to no step**, in every build, at every scale.
+  The reason is the null alone: B is 0.083 (0.088 in the first build) under the old threshold of
+  0.072 and the matched threshold of 0.120. Nothing about the data changed. Under the old rule a
+  median of 7 border steps was compared with a threshold read from 24 within-country rows, which the
+  review measured as about 1 false alarm in 6 rather than 1 in 20.
+- **Total cover stays a known artifact.** Its B and null were already over 25 transects each, so D90
+  does not touch it, and D92 does not change a value on this strip.
+- **Conifer and broadleaf stay no step**; their threshold rises from 0.059 to 0.066.
+- **D91 moves no tested B at three decimals.** The full files differ only in US within-country
+  figures and the signed mean, by at most 0.004.
+- **Sensitivity** (scales 0.7 and 1.3, Amendment 3, D90): *Pseudotsuga* B 0.0831 against 0.1199 at
+  both, no step; conifer B 0.0173 and 0.0176 against 0.0661, no step. Under the old null the first
+  build's *Pseudotsuga* was an artifact at all three scales (B 0.0894, 0.0875, 0.0853), and still is
+  by that rule; under D90 none is.
+- Still only 7 of 25 transects carry shares on both sides. US cells with a share: 49,424; Canadian:
+  56,306, the same at all three scales.
+
+**Files.** `summary_d92_scale_{0.7,1.0,1.3}.json`, `master_d92_sha256.txt`,
+`build_d92_scale_*.log.txt`, `transects_d92_d90.json`, `transects_d92.log.txt`,
+`strip_d92_vs_a2.py.txt` and its `.out.txt`, `revert_results_a3.json`. The strips themselves are on
+the flash drive as `master_d92_scale_*`; the first build's and Amendment 2's folders are kept beside
+them.
+
+**Tests and revert checks.**
+- Suite before and after this session's work: **314 passed** both times (210 test functions by a
+  grep of `def test_` over `tests/`). The only code change this session is the build script's
+  `scale=` option, which no test covers. Ruff check and format are clean.
+- Revert runner (`2026-10-06-t5-build/revert.py.txt`: saved-copy restore, `__pycache__` cleared,
+  `PYTHONDONTWRITEBYTECODE=1`, refuses collection errors or a run where the interpreter does not
+  see the edit): **29 checks, 27 bite, and the same 2 cannot by construction.** Every run was
+  citable (no collection error, edit seen), and every file was restored byte-identical to HEAD.
+- **The six Amendment 3 checks had not run before.** The runner as committed at `2927f22` stopped
+  on its first check, because D91 had renamed the variable in the quadratic-term anchor
+  (`dbh_in` to `d`). The anchor was updated at `27d253e`; no other check was changed. The six,
+  each failing with a message specific to its edit:
+  - review F4, US share against the cover total: `assert False` in
+    `test_a_cell_mixing_split_and_unsplit_canopy_takes_its_share_from_the_split_part`;
+  - D91, no diameter cap: `assert -8.3287 == 13.8041` and `assert 38.6385 == 26.4892`;
+  - D91, non-positive widths not counted: `assert 0 == 1`;
+  - D92, total back to the ten-class sum: `assert 0.0 == 40.0` and `assert 80.0 == 85.0`;
+  - D90, US null over every transect: `assert 24 == 7`; Canadian: `assert 7 == 25`. Both are on the
+    null's row count in the unequal-counts test, not on its false-alarm rate.
+- The D88 check "canopy with no split counted as no genus" still fails at the regrid's guard before
+  any share assertion, as section 8 recorded.
+
+**Not checked or not verified.**
+- That the Amendment 3 tests were written before the code and failed first: that was the earlier
+  session's work (`3cde1e2`, `d235993`), and its red runs are not recorded in the repository. This
+  session only confirmed, by revert, that each test fails without its change.
+- The capped and non-positive counts at scales 0.7 and 1.3 (see above).
+- Spatial correlation's effect on the matched null's false-alarm rate (the review's caveat stands).
