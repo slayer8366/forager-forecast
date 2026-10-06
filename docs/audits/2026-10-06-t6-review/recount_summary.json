@@ -1,0 +1,73 @@
+{
+  "rows_read": 2493578,
+  "loaded": 2483951,
+  "unloadable": {
+    "eventDate spans more than one day": 23,
+    "eventDate not one calendar day": 9604
+  },
+  "steps": {
+    "not user-obscured": {
+      "in": 2483951,
+      "dropped": 155988
+    },
+    "uncertainty present and at most 1,000 m": {
+      "in": 2327963,
+      "dropped": 845666
+    },
+    "after filters": 1482297,
+    "observer key survivors": 1379859,
+    "event key survivors (for comparison)": 1331020
+  },
+  "licences_after_filters": {
+    "CC_BY_NC_4_0": 1266021,
+    "CC_BY_4_0": 143521,
+    "CC0_1_0": 72755
+  },
+  "class_names_on_classKey_180_rows": {
+    "Lecanoromycetes": 321965
+  },
+  "distinct_observer_strings": 165513,
+  "datasets_after_filters": 12,
+  "anonymous_records_after_filters_by_dataset": {
+    "58ffefab-20aa-4cec-b0c0-dd7330ed7280": 318,
+    "9ec7b624-8f5c-4898-a90d-194913d7e0ab": 467
+  },
+  "observer_keys_whose_survivor_is_not_cc_but_hold_a_cc_record": 0,
+  "observer_key_survivors_in_whole_weeks": 1378013,
+  "cc_alone_observer_key_survivors": 192492,
+  "outings_before_duplicate_step_in_whole_weeks": 879576,
+  "outings_after_duplicate_step_any_week": 880650,
+  "outings_lost_to_the_observer_key": 0,
+  "outings_lost_to_the_observer_key_in_whole_weeks": 0,
+  "outings_lost_named_vs_anonymous": {
+    "named": 0,
+    "anonymous": 0
+  },
+  "all_licences": {
+    "outings": 879576,
+    "cells": 43035,
+    "lichen_outings": 131301,
+    "nonzero_cell_week_daytype": 658232,
+    "cell_weeks_with_an_outing": 588097,
+    "frame_rows_if_built": 49318110
+  },
+  "cc_builder_rule": {
+    "outings": 106765,
+    "cells": 16335,
+    "lichen_outings": 25106,
+    "nonzero_cell_week_daytype": 94112,
+    "cell_weeks_with_an_outing": 88441,
+    "frame_rows_if_built": 18719910
+  },
+  "cc_from_cc_records_alone": {
+    "outings": 106765,
+    "cells": 16335,
+    "lichen_outings": 25106,
+    "nonzero_cell_week_daytype": 94112,
+    "cell_weeks_with_an_outing": 88441,
+    "frame_rows_if_built": 18719910
+  },
+  "cc_builder_rule_rows_equal_cc_alone_rows": true,
+  "seconds": 68.4,
+  "peak_rss_mb": 507
+}
