@@ -1,0 +1,53 @@
+"""T5 verify probe: which TreeMap 2023 plots and species fall in the proposed border strip.
+
+Reads the TreeMap raster window for the strip's US side (48.70 to 49.00 N, 122.80 to 120.95 W)
+and the tree table streamed from the publication zip (never extracted to internal disk), then
+counts species by crown-area weight. Run from the repository root:
+uv run --frozen python docs/audits/2026-10-06-t5-verify/treemap_strip_probe.py.txt
+"""
+import csv, io, json, zipfile
+from collections import Counter, defaultdict
+import numpy as np, rasterio
+from pyproj import Transformer
+from rasterio.windows import from_bounds
+
+D = "data/t5/treemap2023"
+lons = np.linspace(-122.80, -120.95, 200); lats = np.linspace(48.70, 49.00, 200)
+t = Transformer.from_crs("EPSG:4269", "EPSG:5070", always_xy=True)
+ex = np.concatenate([lons, lons, np.full(200, -122.80), np.full(200, -120.95)])
+ey = np.concatenate([np.full(200, 48.70), np.full(200, 49.00), lats, lats])
+x, y = t.transform(ex, ey)
+with rasterio.open(f"{D}/TreeMap2023_CONUS.tif") as ds:
+    w = from_bounds(x.min(), y.min(), x.max(), y.max(), ds.transform).round_offsets().round_lengths()
+    a = ds.read(1, window=w)
+    nod = ds.nodata
+valid = a != nod
+ids, counts = np.unique(a[valid], return_counts=True)
+pix = dict(zip(ids.tolist(), counts.tolist()))
+print("window pixels", a.size, "forest pixels", int(valid.sum()), "distinct TM_ID", len(ids))
+
+trees = defaultdict(list)
+with zipfile.ZipFile(f"{D}/RDS-2026-0038.zip") as z:
+    with z.open("Data/TreeMap2023_CONUS_Tree_Table.csv") as f:
+        for row in csv.DictReader(io.TextIOWrapper(f, encoding="utf-8-sig")):
+            tm = int(row["TM_ID"])
+            if tm in pix:
+                trees[tm].append(row)
+print("plots with trees", len(trees), "plots without any tree row", len(set(pix) - set(trees)))
+live = [(tm, r) for tm, rs in trees.items() for r in rs if r["STATUSCD"] == "1"]
+print("live tree rows", len(live))
+sp_pixel_tpa = Counter(); small = Counter(); names = {}
+for tm, r in live:
+    tpa = float(r["TPA_UNADJ"]) if r["TPA_UNADJ"] not in ("", "NA") else 0.0
+    dia = float(r["DIA"]) if r["DIA"] not in ("", "NA") else float("nan")
+    sp = int(r["SPCD"]); names[sp] = (r["COMMON_NAME"], r["SCIENTIFIC_NAME"])
+    ba = 0.005454 * dia * dia * tpa  # basal area ft2/ac, only to rank species
+    if dia >= 5.0: sp_pixel_tpa[sp] += ba * pix[tm]
+    else: small[sp] += ba * pix[tm]
+tot = sum(sp_pixel_tpa.values()) + sum(small.values())
+print("basal-area share in trees under 5.0 in (pixel-weighted):", round(sum(small.values()) / tot, 4))
+out = []
+for sp, v in (sp_pixel_tpa + small).most_common():
+    out.append({"spcd": sp, "common": names[sp][0], "scientific": names[sp][1],
+                "ba_share_pixel_weighted": round(v / tot, 5)})
+print(json.dumps(out, indent=0))
