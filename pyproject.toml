@@ -24,6 +24,8 @@ dependencies = [
 dev = [
     "pytest==9.1.1",
     "ruff==0.16.8",
+    # T6 (D106): an independent check on the effort fit, on small tables in tests only. BSD-3-Clause.
+    "statsmodels==0.15.0",
 ]
 
 [build-system]
