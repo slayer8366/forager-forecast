@@ -181,3 +181,76 @@ How to read the two artifacts. They are written up here with their size, and not
    Burdsall and Banik 2001 for *Laetiporus* (conifers, and *Quercus* among hardwoods). The dispatch's
    oak line for PNW chanterelles is not supported by the first.
 4. **Decision rows used**: D83 to D87, within the D83 to D89 range the dispatch allowed.
+
+## 8. Appended 2026-10-06: Amendment 2, with TreeMap's own canopy as the US total (D88, D89)
+
+Sections 1 to 7 above stand as written. This section records Amendment 2
+(`docs/dispatch/2026-10-06-t5-host-trees-amendment-2.md`, Forager RECORD -588) and what it changed.
+
+**The field.**
+- TreeMap's data dictionary (`TreeMap2023_CONUS_Data_Dictionary.pdf`, in the publication zip) lists
+  `CANOPYPCT` as "Live canopy cover (percent)", source "From Forest Vegetation Simulator". It is
+  read from the raster attribute table, `TreeMap2023_CONUS.tif.vat.dbf`.
+- The dictionary does not say whether overlap is accounted for. The publication's metadata says plot
+  cover was calculated "using the StrClass keyword in the Forest Vegetation Simulator (Dixon 2002,
+  Crookston and Stage 1999)". Crookston and Stage define StrClass's stand total as "Percent canopy
+  cover, accounting for overlap". So `CANOPYPCT` is **canopy cover with overlap** (inferred from
+  those two texts; neither states it on its own).
+- It covers all live trees, including those under 5 in, which the tree-list split leaves out.
+
+**The change** (`680bca4`):
+- US total cover is now `CANOPYPCT`.
+- A genus's cover is `CANOPYPCT` x its tree-list share; D87's split is unchanged.
+- In the strip, 22 of 1,512 plots (2,219 of 4,969,059 forest pixels) have canopy but no tree of 5 in
+  or more. They count toward total cover but are left out of the shares, never counted as zero of
+  every genus.
+- The first build stays reproducible (`us_total="tree_list"`). Its outputs are kept on the drive as
+  `master_tree_list_scale_*` and `transects_tree_list.json`. The committed `transects.json` and
+  `summary_scale_*.json` in `2026-10-06-t5-build/` are those first-build files.
+- Rule, seed and windows are unchanged; nothing else was tuned.
+
+**Transects, old against new** (scale 1.0; new files `transects_treemap_canopy.json` and
+`summary_treemap_canopy_scale_*.json`):
+
+| Variable | US total | Transects | B, median \|border step\| | Threshold | Median \|within\| US / CA | Mean signed (CA − US) [95% CI] | Verdict |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Total cover (pts) | tree list (first build) | 25 | 14.4 | 12.6 | 8.1 / 8.2 | +0.9 [−6.8, +7.8] | artifact |
+| Total cover (pts) | **TreeMap CANOPYPCT** | 25 | **15.0** | **14.2** | 8.1 / 8.2 | **−5.9 [−14.1, +1.8]** | **artifact** |
+| *Pseudotsuga* share | tree list | 7 | 0.088 | 0.072 | 0.038 / 0.056 | +0.087 [−0.021, +0.197] | artifact |
+| *Pseudotsuga* share | **CANOPYPCT** | 7 | **0.083** | 0.072 | 0.041 / 0.056 | +0.087 [−0.014, +0.192] | **artifact** |
+| Conifer share | tree list | 7 | 0.020 | 0.059 | 0.012 / 0.016 | +0.022 [−0.017, +0.081] | no step |
+| Conifer share | **CANOPYPCT** | 7 | **0.017** | 0.059 | 0.009 / 0.016 | +0.020 [−0.018, +0.079] | no step |
+| Broadleaf share | tree list | 7 | 0.020 | 0.059 | 0.012 / 0.016 | −0.022 [−0.081, +0.017] | no step |
+| Broadleaf share | **CANOPYPCT** | 7 | **0.017** | 0.059 | 0.009 / 0.016 | −0.020 [−0.079, +0.018] | no step |
+
+Reading:
+- **Both artifacts remain.** They stay recorded as known artifacts, as Amendment 2 allows.
+- **Total cover**: the step's size barely moves (14.4 to 15.0 against a threshold of 14.2). Its sign
+  now leans US-high: with TreeMap's higher canopy, the mean is −5.9, and the interval still spans
+  zero.
+- **Shares**: they move only through the per-pixel weighting, and the verdicts do not change.
+- **Cells with a share**: US cells rise from 47,160 to 49,424, because more cells now pass the 10%
+  threshold. Still only 7 transects have shares on both sides.
+- **Sensitivity**: at surrogate width scales 0.7 and 1.3, the *Pseudotsuga* B is 0.0831 at both and
+  the verdicts are unchanged.
+
+**Decision rows**:
+- D88 records the US total, with the field, its units and its overlap reading.
+- D89 records the owner's acceptance of the four readings: *Pinus*, *Picea* and *Abies* wholly not
+  available in Canada; the surrogate rule; the 10% threshold; SCANFI 2025.
+- That fills the range the dispatch allowed (D83 to D89).
+
+**Tests and revert checks.**
+- Tests first: the new tests failed with `build_master() got an unexpected keyword argument
+  'us_total'` before the change.
+- Suite: **307 passed**, with test functions going from 199 to 203. Ruff is clean.
+- Revert runner, now with 23 checks (`revert_results_d88.json`):
+  - **21 bite**, and the same 2 as before cannot bite.
+  - The four D88 checks:
+    - "US total back to the tree list" fails with `42.71 == 70.0`.
+    - "genus cover left as tree-list cover" fails with `0.610 == 1.0`.
+    - "canopy with no split counted as no genus" is stopped by the regrid's own guard ("layers of
+      one source must share their no-data pattern") before any share test runs.
+    - "plot without CANOPYPCT accepted" fails later, with a `KeyError` and not the intended message.
+  - Both of the last two still fail loudly, but not at the assertion written for them.
+- The not-available flag check's anchor was updated to follow the D88 flag code (`04bf880`).
