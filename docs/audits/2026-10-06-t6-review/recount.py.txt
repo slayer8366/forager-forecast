@@ -1,0 +1,203 @@
+"""T6 review (D18): an independent recount of T6's outings over D26's download.
+
+Reviewer's own code. Imports nothing from forager_forecast. Reads the zip in place, streamed, never
+extracted, splitting occurrence.txt on tabs (GBIF writes it unquoted). One pass. Writes compact
+arrays for the reviewer's fit (refit.py.txt) and a JSON summary.
+
+    python recount.py ZIP OUT_DIR
+"""
+
+import io
+import json
+import resource
+import sys
+import time
+import zipfile
+from collections import Counter, defaultdict
+from datetime import date, timedelta
+from decimal import ROUND_FLOOR, Decimal
+from pathlib import Path
+
+import numpy as np
+
+ZIP, OUT = Path(sys.argv[1]), Path(sys.argv[2])
+OUT.mkdir(parents=True, exist_ok=True)
+TENTH = Decimal("0.1")
+HALF = Decimal("0.5")
+CC = {"CC0_1_0", "CC_BY_4_0"}
+
+# Whole ISO weeks inside 2015-01-01 .. 2025-12-31.
+first_monday = date(2015, 1, 1) + timedelta(days=(7 - date(2015, 1, 1).weekday()) % 7)
+weeks = []
+m = first_monday
+while m + timedelta(days=6) <= date(2025, 12, 31):
+    weeks.append(m.isocalendar()[:2])
+    m += timedelta(days=7)
+WEEK_INDEX = {w: i for i, w in enumerate(weeks)}
+
+
+def tenths(text):
+    return int((Decimal(text) / TENTH + HALF).to_integral_value(rounding=ROUND_FLOOR))
+
+
+def day_of(part):
+    head = part.split("T", 1)[0]
+    if len(head) != 10:
+        return None
+    try:
+        return date.fromisoformat(head)
+    except ValueError:
+        return None
+
+
+started = time.time()
+rows = loaded = 0
+unloadable = Counter()
+dropped = Counter()
+kept = {}  # observer key -> (gbif_id, payload)
+kept_cc = {}  # observer key over CC records only
+pre_dedupe_outings = set()
+licences = Counter()
+lichen_class_names = Counter()
+
+with zipfile.ZipFile(ZIP) as archive, archive.open("occurrence.txt") as raw:
+    text = io.TextIOWrapper(raw, encoding="utf-8", newline="")
+    header = text.readline().rstrip("\n").rstrip("\r").split("\t")
+    col = {name: i for i, name in enumerate(header)}
+    need = ["gbifID", "acceptedTaxonKey", "decimalLatitude", "decimalLongitude",
+            "coordinateUncertaintyInMeters", "eventDate", "license", "datasetKey", "recordedBy",
+            "informationWithheld", "dataGeneralizations", "classKey", "class"]
+    idx = [col[n] for n in need]
+    for line in text:
+        f = line.rstrip("\n").rstrip("\r").split("\t")
+        rows += 1
+        (gid, taxon, lat, lon, unc, ev, lic, ds, by, withheld, gen, ck, cname) = (
+            f[i] if i < len(f) else "" for i in idx)
+        if ck.strip() == "180":
+            lichen_class_names[cname] += 1
+        try:
+            gid = int(gid)
+            taxon = int(taxon)
+        except ValueError:
+            unloadable["id or taxon"] += 1
+            continue
+        try:
+            latf, lonf = float(lat), float(lon)
+        except ValueError:
+            unloadable["coordinates"] += 1
+            continue
+        if not (-90 <= latf <= 90 and -180 <= lonf <= 180):
+            unloadable["coordinates"] += 1
+            continue
+        ends = ev.strip().split("/")
+        days = [day_of(e) for e in ends] if ev.strip() else [None]
+        if len(ends) > 2 or any(d is None for d in days):
+            unloadable["not one calendar day"] += 1
+            continue
+        if len(days) == 2 and days[0] != days[1]:
+            unloadable["spans days"] += 1
+            continue
+        loaded += 1
+        day = days[0]
+        if withheld.strip() or gen.strip():
+            dropped["obscured"] += 1
+            continue
+        try:
+            u = float(unc) if unc.strip() else None
+        except ValueError:
+            u = None
+        if u is not None and u != u:
+            u = None
+        if u is None or u > 1000.0:
+            dropped["uncertainty"] += 1
+            continue
+        lic = lic.strip()
+        licences[lic] += 1
+        by = by.strip()
+        ds = ds.strip()
+        cell = (tenths(lat.strip()), tenths(lon.strip()))
+        observer = by if by else "anon:" + ds
+        lichen = ck.strip() == "180"
+        payload = (observer, cell, day, lic in CC, lichen)
+        okey = (taxon, by, cell, day)
+        pre_dedupe_outings.add((observer, cell, day))
+        cur = kept.get(okey)
+        if cur is None or gid < cur[0]:
+            kept[okey] = (gid, payload)
+        if lic in CC:
+            cur = kept_cc.get(okey)
+            if cur is None or gid < cur[0]:
+                kept_cc[okey] = (gid, payload)
+
+filtered = loaded - dropped["obscured"] - dropped["uncertainty"]
+summary = {
+    "rows": rows, "loaded": loaded, "unloadable": dict(unloadable),
+    "dropped_obscured": dropped["obscured"], "dropped_uncertainty": dropped["uncertainty"],
+    "after_filters": filtered, "observer_key_survivors": len(kept),
+    "licences_after_filters": dict(licences),
+    "class_names_on_classKey_180_rows": dict(lichen_class_names),
+}
+
+
+def outings_from(survivors):
+    """(observer, cell, day) -> [any CC record, any lichen record]."""
+    out = {}
+    for _gid, (observer, cell, day, cc, lichen) in survivors:
+        k = (observer, cell, day)
+        v = out.get(k)
+        if v is None:
+            out[k] = [cc, lichen]
+        else:
+            v[0] = v[0] or cc
+            v[1] = v[1] or lichen
+    return out
+
+
+out_all = outings_from(kept.values())
+del kept
+out_cc_alone = outings_from(kept_cc.values())
+del kept_cc
+
+
+def in_frame(day):
+    iso = day.isocalendar()
+    return (iso[0], iso[1]) in WEEK_INDEX
+
+
+def arrays(outings, mask_cc):
+    rows_ = []
+    for (observer, cell, day), (cc, lichen) in outings.items():
+        if not in_frame(day):
+            continue
+        if mask_cc and not cc:
+            continue
+        iso = day.isocalendar()
+        rows_.append((cell[0], cell[1], WEEK_INDEX[(iso[0], iso[1])],
+                      0 if day.weekday() >= 5 else 1, int(lichen), day.toordinal()))
+    return np.array(rows_, dtype=np.int64)
+
+
+a_all = arrays(out_all, False)
+a_cc_rule = arrays(out_all, True)  # builder's rule: an outing with at least one CC survivor
+a_cc_alone = arrays(out_cc_alone, False)  # step list run on CC records alone
+pre_in_frame = sum(1 for (_o, _c, d) in pre_dedupe_outings if in_frame(d))
+np.save(OUT / "outings_all.npy", a_all)
+np.save(OUT / "outings_cc_rule.npy", a_cc_rule)
+np.save(OUT / "outings_cc_alone.npy", a_cc_alone)
+
+
+def describe(a):
+    cells = {(int(x), int(y)) for x, y in a[:, :2]}
+    lich = a[a[:, 4] == 1]
+    return {"outings": int(len(a)), "cells": len(cells), "lichen_outings": int(len(lich))}
+
+
+summary["outings_all_licences"] = describe(a_all)
+summary["outings_cc_builder_rule"] = describe(a_cc_rule)
+summary["outings_cc_from_cc_records_alone"] = describe(a_cc_alone)
+summary["outings_before_observer_key_in_whole_weeks"] = pre_in_frame
+summary["outings_all_any_week"] = len(out_all)
+summary["seconds"] = round(time.time() - started, 1)
+summary["peak_rss_mb"] = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss // 1024
+(OUT / "recount_summary.json").write_text(json.dumps(summary, indent=2) + "\n")
+print(json.dumps(summary, indent=2))
