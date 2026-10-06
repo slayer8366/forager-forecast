@@ -180,7 +180,7 @@ def test_pooled_row_adds_every_dataset():
 def test_a_list_without_a_date_step_is_refused():
     steps = f.r6_audit_steps()
     no_date = f.Steps(
-        filters=tuple(s for s in steps.filters if s.drops not in f.DATE_STEP_RULES),
+        filters=tuple(s for s in steps.filters if s.drops is not f.drops_no_dated_record),
         duplicate=steps.duplicate,
     )
     with pytest.raises(ValueError):

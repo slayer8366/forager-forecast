@@ -184,12 +184,9 @@ def r6_audit_steps() -> Steps:
     )
 
 
-DATE_STEP_RULES: tuple[Callable[[Record], bool], ...] = (drops_no_dated_record, is_default_date)
-
-
 def date_step_position(steps: Steps) -> int:
-    """Where a step list's date step is: the one filter applying the ruled or provisional rule."""
-    positions = [i for i, step in enumerate(steps.filters) if step.drops in DATE_STEP_RULES]
+    """Where a step list's date step is: the one filter applying the ruled rule (D97, D98)."""
+    positions = [i for i, step in enumerate(steps.filters) if step.drops is drops_no_dated_record]
     if len(positions) != 1:
         raise ValueError(f"no default-date step to replace (found {len(positions)})")
     return positions[0]
