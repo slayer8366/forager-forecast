@@ -1,0 +1,17 @@
+15:32:07 all: 43035 cells, 879576 outings, 131301 lichen
+15:32:07 all: one fit took 0.03 s, 5 iterations
+15:33:11 all: final configuration pull=10,smoothing=3
+15:33:40 all: weekend bootstrap
+15:34:10 all: done; verdicts {"beats_constant": {"effort_minus_constant": -2608992.0416759113, "interval_95": [-2816366.300076521, -2411888.1316447826], "pass": true}, "weekend": {"ratio": 1.4964378208914535, "interval_95": [1.477648523969387, 1.5163259081683373], "condition_1": true, "day_type_minus_season_deviance": -32147.253906223727, "interval_95_condition_2": [-34201.65245311382, -30190.53407967382], "condition_2": true, "pass": true}}
+15:34:10 cc: 16335 cells, 106765 outings, 25106 lichen
+15:34:10 cc: one fit took 0.01 s, 5 iterations
+15:34:26 cc: final configuration pull=10,smoothing=9
+15:34:37 cc: weekend bootstrap
+15:34:44 cc: done; verdicts {"beats_constant": {"effort_minus_constant": -173267.63211316158, "interval_95": [-201182.87620745064, -146379.81943767276], "pass": true}, "weekend": {"ratio": 1.5632135789313442, "interval_95": [1.5285056835595825, 1.6003938936839126], "condition_1": true, "day_type_minus_season_deviance": -4831.931282958095, "interval_95_condition_2": [-5360.139875536102, -4342.729101693671], "condition_2": true, "pass": true}}
+	Command being timed: "uv run --frozen python scripts/t6_fit.py fit /tmp/claude-1000/-home-zynergy-labs-Zynergy-Forager/594b88a0-2597-556f-be1b-255b2b0f226b/scratchpad/rerun/data /tmp/claude-1000/-home-zynergy-labs-Zynergy-Forager/594b88a0-2597-556f-be1b-255b2b0f226b/scratchpad/rerun/audit"
+	User time (seconds): 429.28
+	System time (seconds): 2.37
+	Percent of CPU this job got: 274%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 2:37.19
+	Maximum resident set size (kbytes): 226464
+	Exit status: 0
