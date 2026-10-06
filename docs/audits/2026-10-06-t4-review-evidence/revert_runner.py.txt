@@ -1,0 +1,158 @@
+"""T4 reviewer's revert runner (D18 check 8). Written by this review session from scratch; the earlier,
+stopped review session's runner and results are not used.
+
+Per check:
+1. Run the named test files on the forward code; record the testcase count; all must pass.
+2. Save the target file's bytes in memory (never git). Apply one exact edit; the anchor must occur once.
+3. Delete every __pycache__ outside .venv; PYTHONDONTWRITEBYTECODE=1 for every run.
+4. Run the named test files with a fresh JUnit XML and a pytest plugin (reviewer_probe, written next to
+   this runner at run time) that evaluates a behaviour probe inside the same interpreter that ran the
+   tests, at session end, from the loaded objects (not the file's text).
+5. Restore the saved bytes; confirm byte identity with the saved copy.
+6. Refuse to cite the run if: pytest's exit code is not 0 or 1 (2 = collection errors/interrupted);
+   the XML is missing or older than the run; its testcase count differs from the forward run; any
+   testcase carries an <error> (as opposed to a <failure>); the probe output is missing or equal to the
+   forward probe output (the interpreter did not see the edit).
+After all checks: every edited file is byte-identical to the copy saved before its edit, and the
+committed reviewer tests are still in tests/test_grid.py.
+Run from the worktree root: uv run --offline --frozen python <this file> OUT.json WORKDIR
+"""
+import hashlib
+import json
+import os
+import shutil
+import subprocess
+import sys
+import time
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+CHECKS = [
+    ("R1 datum pin EPSG:4269 -> EPSG:4326", "src/forager_forecast/grid.py",
+     'GEOGRAPHIC_CRS = "EPSG:4269"', 'GEOGRAPHIC_CRS = "EPSG:4326"',
+     "from forager_forecast import grid\nprint(grid.lonlat_transformer().source_crs.name)",
+     ["tests/test_grid.py", "tests/test_soilgrids.py", "tests/test_t4_layer.py", "tests/test_tiles.py"]),
+    ("R2 blend weights 5,10,15 -> 10,10,10 (an unweighted mean)", "src/forager_forecast/soilgrids.py",
+     'DEPTHS: tuple[tuple[str, int], ...] = (("0-5cm", 5), ("5-15cm", 10), ("15-30cm", 15))',
+     'DEPTHS: tuple[tuple[str, int], ...] = (("0-5cm", 10), ("5-15cm", 10), ("15-30cm", 10))',
+     "from forager_forecast import soilgrids\nprint(soilgrids.DEPTHS)",
+     ["tests/test_soilgrids.py", "tests/test_t4_layer.py"]),
+    ("R3 regrid weights: overlap area -> 1 per touched pixel", "src/forager_forecast/regrid.py",
+     "                    w = np.where(ok, overlap, 0.0)",
+     "                    w = np.where(ok, 1.0, 0.0)",
+     "import numpy as np\nfrom rasterio.transform import Affine\nfrom forager_forecast.grid import GridWindow\n"
+     "from forager_forecast.regrid import area_weighted_regrid\n"
+     "nat = np.array([[[1.0, 2.0, 3.0], [1.0, 2.0, 3.0], [1.0, 2.0, 3.0]]])\n"
+     "v, f = area_weighted_regrid(nat, Affine(100, 0, -50, 0, -100, 300), lambda x, y: (x, y), GridWindow(0, 0, 250, 250))\n"
+     "print(round(float(v[0, 0, 0]), 6))",
+     ["tests/test_regrid.py"]),
+    ("R4 tile encoding half-up -> round half to even", "src/forager_forecast/tiles.py",
+     "    scaled = np.floor(np.where(valid, ph, 0.0) * 10 + 0.5)",
+     "    scaled = np.round(np.where(valid, ph, 0.0) * 10)",
+     "import numpy as np\nfrom forager_forecast.tiles import encode_ph_byte\nprint(encode_ph_byte(np.array([5.25]))[0].tolist())",
+     ["tests/test_tiles.py", "tests/test_t4_layer.py"]),
+    ("R5 Q0.05/Q0.95 approximate label dropped from the archive range-band note", "src/forager_forecast/t4_layer.py",
+     '            "Q0.05 and Q0.95 pH, blended 0 to 30 cm the same way, are approximate (a weighted mean "',
+     '            "Q0.05 and Q0.95 pH, blended 0 to 30 cm the same way, are exact (a weighted mean "',
+     "from forager_forecast.t4_layer import archive_metadata, WESTERN_WASHINGTON\nprint('approximate' in archive_metadata(WESTERN_WASHINGTON)['forager_forecast_range_bands'])",
+     ["tests/test_t4_layer.py", "tests/test_tiles.py"]),
+]
+
+PLUGIN = '''
+import os
+def pytest_sessionfinish(session, exitstatus):
+    import contextlib, io
+    buf = io.StringIO()
+    with contextlib.redirect_stdout(buf):
+        exec(os.environ["REVIEW_PROBE"], {})
+    open(os.environ["REVIEW_PROBE_OUT"], "w").write(buf.getvalue().strip())
+'''
+
+out_path, work = Path(sys.argv[1]), Path(sys.argv[2])
+work.mkdir(parents=True, exist_ok=True)
+(work / "reviewer_probe.py").write_text(PLUGIN)
+BASE_ENV = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1",
+            "PYTHONPATH": str(work) + os.pathsep + os.environ.get("PYTHONPATH", "")}
+REVIEWER_TESTS = ["def test_lonlat_to_grid_leaves_proj_no_datum_operation_to_choose",
+                  "def test_the_pinned_null_shift_holds_where_offline_proj_would_shift"]
+
+
+def clear_caches():
+    for cache in list(Path(".").rglob("__pycache__")):
+        if ".venv" not in cache.parts:
+            shutil.rmtree(cache)
+
+
+def run(tests, tag, probe):
+    clear_caches()
+    xml = work / f"{tag}.xml"
+    probe_out = work / f"{tag}.probe"
+    for p in (xml, probe_out):
+        p.unlink(missing_ok=True)
+    started = time.time()
+    env = {**BASE_ENV, "REVIEW_PROBE": probe, "REVIEW_PROBE_OUT": str(probe_out)}
+    r = subprocess.run(["uv", "run", "--offline", "--frozen", "pytest", "-q", "-p", "no:cacheprovider",
+                        "-p", "reviewer_probe", f"--junitxml={xml}", *tests],
+                       capture_output=True, text=True, env=env)
+    cases, failures, errors = 0, [], []
+    fresh = xml.exists() and xml.stat().st_mtime >= started
+    if fresh:
+        for case in ET.parse(xml).getroot().iter("testcase"):
+            cases += 1
+            for f in case.findall("failure"):
+                failures.append(f"{case.get('name')}: {(f.get('message') or '').splitlines()[0][:220]}")
+            for e in case.findall("error"):
+                errors.append(f"{case.get('name')}: {(e.get('message') or '').splitlines()[0][:220]}")
+    probe_text = probe_out.read_text() if probe_out.exists() else None
+    tail = (r.stdout + r.stderr).strip().splitlines()[-1] if (r.stdout + r.stderr).strip() else ""
+    return {"exit": r.returncode, "xml_fresh": fresh, "cases": cases, "failures": failures,
+            "errors": errors, "probe": probe_text, "tail": tail}
+
+
+for t in REVIEWER_TESTS:
+    assert t in Path("tests/test_grid.py").read_text(), f"reviewer test missing before the run: {t}"
+saved_all = {}
+results = []
+for i, (name, path, old, new, probe, tests) in enumerate(CHECKS):
+    p = Path(path)
+    saved = p.read_bytes()
+    saved_all.setdefault(path, hashlib.sha256(saved).hexdigest())
+    text = saved.decode()
+    assert text.count(old) == 1, f"{name}: anchor occurs {text.count(old)} times"
+    forward = run(tests, f"r{i + 1}_forward", probe)
+    try:
+        p.write_text(text.replace(old, new))
+        edited = run(tests, f"r{i + 1}_edited", probe)
+    finally:
+        p.write_bytes(saved)
+    restored = hashlib.sha256(p.read_bytes()).hexdigest() == hashlib.sha256(saved).hexdigest()
+    reasons = []
+    if forward["exit"] != 0 or forward["failures"] or forward["errors"]:
+        reasons.append("forward run not green")
+    if edited["exit"] not in (0, 1):
+        reasons.append(f"pytest exit {edited['exit']} (collection error or interrupted)")
+    if not edited["xml_fresh"]:
+        reasons.append("no fresh JUnit XML")
+    if edited["cases"] != forward["cases"]:
+        reasons.append(f"testcase count {edited['cases']} != forward {forward['cases']}")
+    if edited["errors"]:
+        reasons.append("testcase errors")
+    if edited["probe"] is None or edited["probe"] == forward["probe"]:
+        reasons.append("interpreter did not see the edit")
+    if not restored:
+        reasons.append("restore failed")
+    results.append({"check": name, "file": path, "edit": [old, new], "tests": tests,
+                    "forward": {k: forward[k] for k in ("exit", "cases", "probe", "tail")},
+                    "edited": edited, "refused": reasons, "restored_from_saved_copy": restored})
+    print(f"{name}: refused={reasons} failed={len(edited['failures'])}/{edited['cases']} "
+          f"probe {forward['probe']!r} -> {edited['probe']!r} restored={restored}", flush=True)
+    for f in edited["failures"]:
+        print("    ", f, flush=True)
+
+for path, digest in saved_all.items():
+    assert hashlib.sha256(Path(path).read_bytes()).hexdigest() == digest, f"{path} not restored"
+for t in REVIEWER_TESTS:
+    assert t in Path("tests/test_grid.py").read_text(), f"reviewer test missing after the run: {t}"
+clear_caches()
+out_path.write_text(json.dumps(results, indent=1) + "\n")
+print("all edited files byte-identical to their saved copies; reviewer tests present")

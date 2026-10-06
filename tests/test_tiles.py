@@ -77,6 +77,15 @@ def test_encoding_rounds_ph_times_ten_half_up_and_marks_no_data_transparent():
     assert grey.dtype == np.uint8 and alpha.dtype == np.uint8
 
 
+def test_an_exact_half_rounds_up_as_the_archive_metadata_states():
+    # Added by the T4 reviewer (D18), docs/audits/2026-10-06-t4-review.md. The test above is named
+    # "half up" but holds no exact half, so round-half-to-even passed it. 4.25 and 5.25 are exact
+    # in binary (x 10 = 42.5, 52.5): half up gives 43 and 53, half to even 42 and 52. On the real
+    # master grid, 2,065 zoom-9 pixels sit on an exact half.
+    grey, _ = encode_ph_byte(np.array([4.25, 5.25, 5.75]))
+    np.testing.assert_array_equal(grey, [43, 53, 58])
+
+
 def test_values_that_cannot_be_a_ph_are_refused_not_clipped():
     with pytest.raises(ValueError):
         encode_ph_byte(np.array([30.0]))
