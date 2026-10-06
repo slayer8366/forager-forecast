@@ -42,3 +42,19 @@ Reference: `DATA_REGISTER.md`, `EVIDENCE.md`, `RESEARCH_LOG.md`, `IDEAS.md`, and
   are the code skeleton. `uv sync` builds the environment; CI runs `uv run ruff check .`,
   `uv run ruff format --check .` and `uv run pytest`.
 - Data, downloads, models and tiles are listed in `.gitignore` and never committed.
+
+## Licence (D110, 2026-10-06)
+
+Two licences, because the repository holds two kinds of thing:
+
+- **The code** (`src/`, `scripts/`, `tests/` and everything else not listed below) is licensed under the
+  **GNU Affero General Public License v3.0**, in `LICENSE`. Anyone may use, change and share it, and
+  anything distributed or run as a network service from a modified version stays open under the same
+  licence.
+- **The forecast data this project publishes** (the nightly archives, the weather-cell files and the
+  manifests) is licensed under **Creative Commons Attribution-NonCommercial 4.0 International**, in
+  `LICENSE-DATA`. About 80% of the sightings it is built from carry CC BY-NC (D29's lists, `docs/pulls/*.datasets.json`).
+- **Third-party data keeps its own licence.** GBIF records keep each record's licence (D48), and the
+  layers in `docs/planning/DATA_REGISTER.md` keep theirs. Their attribution is recorded beside each request.
+
+This is not legal advice.
