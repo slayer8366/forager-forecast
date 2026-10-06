@@ -1,0 +1,25 @@
+bands ('total_cover_pct', 'valid_fraction', 'source', 'share_Pseudotsuga', 'share_Tsuga', 'share_Picea', 'share_Abies', 'share_Pinus', 'share_Quercus', 'share_conifer', 'share_broadleaf') shape (410, 570)
+total_cover_pct    US cells=72479 finite_both=72478 nan_pattern_differs=0 changed=0 max_abs_diff=0.000000 mean_abs_diff=0.000000
+total_cover_pct    CA cells=72040 finite_both=72040 nan_pattern_differs=0 changed=0 max_abs_diff=0.000000 mean_abs_diff=0.000000
+valid_fraction     US cells=72479 finite_both=72479 nan_pattern_differs=0 changed=0 max_abs_diff=0.000000 mean_abs_diff=0.000000
+valid_fraction     CA cells=72040 finite_both=72040 nan_pattern_differs=0 changed=0 max_abs_diff=0.000000 mean_abs_diff=0.000000
+source             US cells=72479 finite_both=72479 nan_pattern_differs=0 changed=0 max_abs_diff=0.000000 mean_abs_diff=0.000000
+source             CA cells=72040 finite_both=72040 nan_pattern_differs=0 changed=0 max_abs_diff=0.000000 mean_abs_diff=0.000000
+share_Pseudotsuga  US cells=72479 finite_both=49424 nan_pattern_differs=0 changed=16910 max_abs_diff=0.027520 mean_abs_diff=0.000343
+share_Pseudotsuga  CA cells=72040 finite_both=56306 nan_pattern_differs=0 changed=0 max_abs_diff=0.000000 mean_abs_diff=0.000000
+share_Tsuga        US cells=72479 finite_both=49424 nan_pattern_differs=0 changed=42880 max_abs_diff=0.131527 mean_abs_diff=0.003840
+share_Tsuga        CA cells=72040 finite_both=0 nan_pattern_differs=0 changed=0 max_abs_diff=0.000000 mean_abs_diff=0.000000
+share_Picea        US cells=72479 finite_both=49424 nan_pattern_differs=0 changed=6761 max_abs_diff=0.034597 mean_abs_diff=0.000161
+share_Picea        CA cells=72040 finite_both=0 nan_pattern_differs=0 changed=0 max_abs_diff=0.000000 mean_abs_diff=0.000000
+share_Abies        US cells=72479 finite_both=49424 nan_pattern_differs=0 changed=39357 max_abs_diff=0.207463 mean_abs_diff=0.005546
+share_Abies        CA cells=72040 finite_both=0 nan_pattern_differs=0 changed=0 max_abs_diff=0.000000 mean_abs_diff=0.000000
+share_Pinus        US cells=72479 finite_both=49424 nan_pattern_differs=0 changed=2472 max_abs_diff=0.009396 mean_abs_diff=0.000008
+share_Pinus        CA cells=72040 finite_both=0 nan_pattern_differs=0 changed=0 max_abs_diff=0.000000 mean_abs_diff=0.000000
+share_Quercus      US cells=72479 finite_both=49424 nan_pattern_differs=0 changed=1567 max_abs_diff=0.001630 mean_abs_diff=0.000001
+share_Quercus      CA cells=72040 finite_both=0 nan_pattern_differs=0 changed=0 max_abs_diff=0.000000 mean_abs_diff=0.000000
+share_conifer      US cells=72479 finite_both=49424 nan_pattern_differs=0 changed=18501 max_abs_diff=0.019123 mean_abs_diff=0.000445
+share_conifer      CA cells=72040 finite_both=56306 nan_pattern_differs=0 changed=0 max_abs_diff=0.000000 mean_abs_diff=0.000000
+share_broadleaf    US cells=72479 finite_both=49424 nan_pattern_differs=0 changed=18510 max_abs_diff=0.019123 mean_abs_diff=0.000445
+share_broadleaf    CA cells=72040 finite_both=56306 nan_pattern_differs=0 changed=0 max_abs_diff=0.000000 mean_abs_diff=0.000000
+tags new us_total: treemap_canopy (D88): TreeMap CANOPYPCT, live canopy cover (percent) from the Fo | ca_total: scanfi_att_closure (D92): SCANFI v2 total crown closure; genus share from the ten species-class layers
+tags old ca_total: (no ca_total tag: built before D92 added it)
