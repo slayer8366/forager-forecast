@@ -179,3 +179,25 @@ probe ranks species by basal area only to size the coefficient gap. Basal area i
 4. SCANFI 2025 rather than 2020.
 
 None of these is a stop under Amendment 1. I am going ahead with the build as written.
+
+## 7. Appended 2026-10-06, before any real value was read: two corrections to section 4
+
+Section 4 is left as written above. These notes supersede the parts they name.
+
+1. **Westmost transect.** Section 4 says the last meridian is at 122.643 W, 0.06844° apart. Those
+   figures used a spherical Earth. On the WGS84 parallel radius at 49° N, 5 km is 0.06833°, which
+   puts the last meridian at **122.640 W** (`seam.transect_longitudes`, which
+   `tests/test_seam.py` checks against geodesic distance).
+2. **Verdict rule.** Section 4's rule was B > max(V_US, V_CA), using the medians of |within
+   steps|. While writing its test I found that this rule fires about half the time when there is
+   no step: B and V are then medians of draws from the same distribution. It is replaced by a null
+   built from the within-country steps themselves:
+   - for each side, draw one |within step| per transect at random, take the median over
+     transects, and repeat 10,000 times (seed 20260918);
+   - the threshold is the 95th percentile of those medians, on the side whose threshold is larger;
+   - B above the threshold is a step larger than the variation inside each country.
+
+   A test (`test_with_no_step_the_verdict_fires_about_one_time_in_twenty_or_less`) checks that the
+   rule fires on at most 8% of no-step draws. V_US, V_CA, the 95th percentiles and the bootstrap
+   interval are still reported, as section 4 promised. No real transect value had been computed
+   when this change was made: the master raster did not exist yet.
