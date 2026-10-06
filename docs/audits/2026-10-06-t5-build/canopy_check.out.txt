@@ -1,0 +1,4 @@
+plots 1512 of 1512
+ours mean 46.0, TreeMap CANOPYPCT mean 58.8
+Pearson r 0.832
+difference ours - TreeMap: median -10.9, IQR -19.1 to -4.2, mean abs 13.6
