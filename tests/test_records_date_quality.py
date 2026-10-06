@@ -98,18 +98,23 @@ def test_upper_tail_equals_the_exact_sum(n):
         assert dq.binomial_upper_tail(k, n, 1 / 30) == pytest.approx(expected, rel=1e-9, abs=1e-300)
 
 
-def test_upper_tail_holds_at_the_size_of_a_large_dataset():
-    n, k, p = 200_000, 7_000, 1 / 30
+def log_space_tail(k: int, n: int, p: float, terms: int) -> float:
+    """P(X >= k) summed term by term in log space, over the first `terms` terms from k."""
     logs = [
         math.lgamma(n + 1)
         - math.lgamma(i + 1)
         - math.lgamma(n - i + 1)
         + i * math.log(p)
         + (n - i) * math.log1p(-p)
-        for i in range(k, k + 3000)
+        for i in range(k, min(n, k + terms) + 1)
     ]
     top = max(logs)
-    expected = math.exp(top) * sum(math.exp(v - top) for v in logs)
+    return math.exp(top) * sum(math.exp(v - top) for v in logs)
+
+
+def test_upper_tail_holds_at_the_size_of_a_large_dataset():
+    n, k, p = 200_000, 7_000, 1 / 30
+    expected = log_space_tail(k, n, p, terms=3000)
     assert dq.binomial_upper_tail(k, n, p) == pytest.approx(expected, rel=1e-7)
 
 
@@ -125,8 +130,8 @@ def test_clopper_pearson_at_the_ends_has_the_closed_form():
 def test_clopper_pearson_lower_end_is_where_the_upper_tail_is_two_and_a_half_percent():
     k, n = 48, 1000
     lo, hi = dq.clopper_pearson(k, n)
-    assert exact_tail(k, n, Fraction(lo)) == pytest.approx(0.025, rel=1e-6)
-    assert 1 - exact_tail(k + 1, n, Fraction(hi)) == pytest.approx(0.025, rel=1e-6)
+    assert log_space_tail(k, n, lo, terms=n) == pytest.approx(0.025, rel=1e-6)
+    assert 1 - log_space_tail(k + 1, n, hi, terms=n) == pytest.approx(0.025, rel=1e-6)
 
 
 # The verdicts, as fixed before any count

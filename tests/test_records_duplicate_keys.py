@@ -101,8 +101,8 @@ def test_the_tally_names_the_records_region_of_the_lowest_gbif_id():
     """Two records share an event key across a box edge: the survivor's region is counted."""
     steps = f.r6_audit_steps()
     tally = KeyTally.for_steps(steps)
-    # 42.0 is in the East box, 41.96 is not; both are the cell 42.0 at 0.1 degree.
-    inside = rec(gbif_id=7, latitude=42.0, longitude=-77.0)
-    outside = rec(gbif_id=3, latitude=41.96, longitude=-77.0, recorded_by="observer_z")
+    # The East box starts at 38.0 N: 38.0 is in it, 37.96 is not; both are the cell 38.0.
+    inside = rec(gbif_id=7, latitude=38.0, longitude=-77.0)
+    outside = rec(gbif_id=3, latitude=37.96, longitude=-77.0, recorded_by="observer_z")
     f.Pipeline(steps, on_pass=tally.add).run([inside, outside])
     assert tally.survivors_by_region("event") == Counter({"outside_t1_boxes": 1})
