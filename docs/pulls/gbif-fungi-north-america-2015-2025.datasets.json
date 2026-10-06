@@ -1,0 +1,807 @@
+{
+ "what": "D29 dataset list for this download: each constituent dataset with its licence and record count, and records by their own licence field (D48). Licences are quoted as GBIF reports them; read times are UTC.",
+ "download_key": "0005714-260916113435855",
+ "doi": "10.15468/dl.k3mwnn",
+ "doi_record": "docs/pulls/gbif-fungi-north-america-2015-2025.doi.json",
+ "zip_sha256_from_doi_record": "d0e8e7cd813580a4a3c53d95196fb81e34c494cf78cce947be570bf30b0ecaaf",
+ "table_read": "occurrence.txt",
+ "rows_counted": 2549508,
+ "total_records_in_doi_record": 2549508,
+ "number_of_datasets_in_doi_record": 41,
+ "datasets_counted": 41,
+ "gbif_download_datasets_list_read_utc": "2026-10-06T18:09:36+00:00",
+ "gbif_download_datasets_listed": 41,
+ "run_started_utc": "2026-10-06T18:07:27+00:00",
+ "api_requests_this_run": 16,
+ "rights_txt_in_zip": [
+  {
+   "title": "CDA - California Department of Food and Agriculture",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by-nc/4.0/legalcode"
+  },
+  {
+   "title": "NABU|naturgucker",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "Observation.org, Nature data from around the World",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by-nc/4.0/legalcode"
+  },
+  {
+   "title": "iNaturalist Research-grade Observations",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by-nc/4.0/legalcode"
+  },
+  {
+   "title": "Estonian Naturalists’ Society",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by-nc/4.0/legalcode"
+  },
+  {
+   "title": "Données du Parc national de la Guadeloupe - Données de type Occurrence de taxons",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "Fungi of parks, forests and reserves of New Jersey, 2018",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "Mycoblitz 2017 - IRBV et Cercle des Mycologues de Montréal",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "Mushroom Observer",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by-nc/4.0/legalcode"
+  },
+  {
+   "title": "CardObs : Observations naturalistes issues de l'outil CardObs-Données naturalistes de URTIZBÉRÉA Frank",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "CardObs : Observations naturalistes issues de l'outil CardObs-Mission PatriNat à Saint-Pierre et Miquelon 2022",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "NatureShare",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "Kenai National Wildlife Refuge, Alaska (KNWR) Plant observations (Arctos)",
+   "rights_as_supplied": "http://creativecommons.org/publicdomain/zero/1.0/legalcode"
+  },
+  {
+   "title": "MARINe/PISCO: Intertidal: MARINe Coastal Biodiversity Surveys: Point Contact Surveys Summarized",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "Arizona State University Lichen Herbarium",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by-nc/4.0/legalcode"
+  },
+  {
+   "title": "Danish Mycological Society, fungal records database",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by-nc/4.0/legalcode"
+  },
+  {
+   "title": "Monitoreo para el D1 de la Modernización de la Planta Hidroeléctrica La Garita, ICE 2024",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by-nc/4.0/legalcode"
+  },
+  {
+   "title": "Monitoring of Invasive Plant Species in the Wetlands of the St. Lawrence River | Suivi des espèces végétales envahissantes dans les milieux humides du fleuve Saint-Laurent",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "Earth Guardians Weekly Feed",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by-nc/4.0/legalcode"
+  },
+  {
+   "title": "Fungi of parks, forests and reserves of New Jersey (2007-2019)",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "Resultados de los monitoreos en el estudio de preinversión de Modernización Ventanas Garita, 2023.",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by-nc/4.0/legalcode"
+  },
+  {
+   "title": "Ontario BioBlitz Species Records",
+   "rights_as_supplied": "http://creativecommons.org/publicdomain/zero/1.0/legalcode"
+  },
+  {
+   "title": "Kenai National Wildlife Refuge: Dall sheep response to fire: vegetation surveys",
+   "rights_as_supplied": "http://creativecommons.org/publicdomain/zero/1.0/legalcode"
+  },
+  {
+   "title": "The Portneuf-sur-Mer Salt Marsh - Characterization of Important Coastal Habitats on the North Shore of the St. Lawrence Estuary | Le marais salé de Portneuf-sur-Mer - Caractérisation des habitats littoraux d’importance de la rive nord de l’estuaire maritime du Saint-Laurent",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "Extension du quai 12 et confortement des quais 7 et 8-Surveillance environnementale GPMG - 2019",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "Survey of saproxylic fungi across parks of New Jersey",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "CardObs : Observations naturalistes issues de l'outil CardObs-Première description des communautés d’hyphomycètes aquatiques de la Guadeloupe",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "Baie de Mille-Vaches marsh - Characterization of important coastal habitats on the north shore of the St.Lawrence maritime Estuary | Le marais de la baie de Mille-Vaches - Caractérisation des habitats littoraux d’importance de la rive nord de l’estuaire maritime du Saint-Laurent",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "Resultados de los monitoreos en el estudio de preinversión Fourth Cliff en Siquirres, ICE",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by-nc/4.0/legalcode"
+  },
+  {
+   "title": "University of North Carolina at Chapel Hill Herbarium: Lichens",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "STATION DE TRAITEMENT DES EAUX USEES EXISTANTE DE FOLLE ANSE – GRAND BOURG",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "The Pointe des Fortin Marsh - Characterization of Important Coastal Habitats on the North Shore of the St. Lawrence Estuary | Le marais de la pointe des Fortin - Caractérisation des habitats littoraux d’importance de la rive nord de l’estuaire maritime du Saint-Laurent",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "La agrobiodiversidad presente en el agroecosistema en la vegetación de mesófilos de montaña de las comunidades del Comité de Recursos Naturales de la Chinantla Alta (CORENCHI)",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "Biodiversity4all Research-Grade Observations",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by-nc/4.0/legalcode"
+  },
+  {
+   "title": "Extension du quai 12 et confortement des quais 7 et 8 - Monitoring environnemental GPMG - 2019",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "Marc Kummel Photography",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "Programme d'observation naturaliste participative avec l'application mobile INPN Espèces - Application INPN Espèces: Observations naturalistes, participatives et opportunistes, fondées sur des photographies",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "Microorganismos asociados a sedimentos marinos con potencial uso en la biorremediación y otras áreas de interés",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by-nc/4.0/legalcode"
+  },
+  {
+   "title": "Bibliographie de la faune, la flore et la fonge de France métropolitaine et outre-mer-Bibliographique de la faune, la flore et la fonge de France métropolitaine et outre-mer",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "TUR Lichen collections of Turku University",
+   "rights_as_supplied": "http://creativecommons.org/licenses/by/4.0/legalcode"
+  },
+  {
+   "title": "Mohonk Preserve Forest Health Monitoring Data",
+   "rights_as_supplied": "http://creativecommons.org/publicdomain/zero/1.0/legalcode"
+  }
+ ],
+ "records_by_own_license_field": {
+  "CC_BY_NC_4_0": 2039359,
+  "CC_BY_4_0": 394607,
+  "CC0_1_0": 115542
+ },
+ "datasets": [
+  {
+   "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+   "title": "iNaturalist Research-grade Observations",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:06:36+00:00",
+   "dataset_doi": "10.15468/ab3s5x",
+   "title_in_zip": "iNaturalist Research-grade Observations",
+   "license_in_zip": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0 License.",
+   "records_counted_in_download": 2221740,
+   "records_per_gbif_download_list": 2221740,
+   "records_by_own_license_field": {
+    "CC_BY_NC_4_0": 1872856,
+    "CC_BY_4_0": 233616,
+    "CC0_1_0": 115268
+   }
+  },
+  {
+   "datasetKey": "d714382d-5890-4234-ae81-696eeb53658a",
+   "title": "Mushroom Observer",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:06:58+00:00",
+   "dataset_doi": "10.15468/wwcmna",
+   "title_in_zip": "Mushroom Observer",
+   "license_in_zip": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0 License.",
+   "records_counted_in_download": 164890,
+   "records_per_gbif_download_list": 164890,
+   "records_by_own_license_field": {
+    "CC_BY_NC_4_0": 164890
+   }
+  },
+  {
+   "datasetKey": "fca5e616-990e-4d62-adc3-3122ed64b8e8",
+   "title": "Fungi of parks, forests and reserves of New Jersey (2007-2019)",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:07:05+00:00",
+   "dataset_doi": "10.15468/7scek4",
+   "title_in_zip": "Fungi of parks, forests and reserves of New Jersey (2007-2019)",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 156744,
+   "records_per_gbif_download_list": 156744,
+   "records_by_own_license_field": {
+    "CC_BY_4_0": 156744
+   }
+  },
+  {
+   "datasetKey": "2b169d34-2946-40e4-8af1-13adce9c745b",
+   "title": "Fungi of parks, forests and reserves of New Jersey, 2018",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:06:25+00:00",
+   "dataset_doi": "10.15468/mxl2uj",
+   "title_in_zip": "Fungi of parks, forests and reserves of New Jersey, 2018",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 1877,
+   "records_per_gbif_download_list": 1877,
+   "records_by_own_license_field": {
+    "CC_BY_4_0": 1877
+   }
+  },
+  {
+   "datasetKey": "e3ce628e-9683-4af7-b7a9-47eef785d3bb",
+   "title": "Earth Guardians Weekly Feed",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:07:00+00:00",
+   "dataset_doi": "10.15468/slqqt8",
+   "title_in_zip": "Earth Guardians Weekly Feed",
+   "license_in_zip": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0 License.",
+   "records_counted_in_download": 1157,
+   "records_per_gbif_download_list": 1157,
+   "records_by_own_license_field": {
+    "CC_BY_NC_4_0": 1157
+   }
+  },
+  {
+   "datasetKey": "d1d59f9f-e130-4715-bc9b-8a25e7b62e89",
+   "title": "Survey of saproxylic fungi across parks of New Jersey",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:06:56+00:00",
+   "dataset_doi": "10.15468/ngpb5m",
+   "title_in_zip": "Survey of saproxylic fungi across parks of New Jersey",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 738,
+   "records_per_gbif_download_list": 738,
+   "records_by_own_license_field": {
+    "CC_BY_4_0": 738
+   }
+  },
+  {
+   "datasetKey": "9ec7b624-8f5c-4898-a90d-194913d7e0ab",
+   "title": "Marc Kummel Photography",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:06:51+00:00",
+   "dataset_doi": "10.15468/k4g2zn",
+   "title_in_zip": "Marc Kummel Photography",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 467,
+   "records_per_gbif_download_list": 467,
+   "records_by_own_license_field": {
+    "CC_BY_4_0": 467
+   }
+  },
+  {
+   "datasetKey": "58ffefab-20aa-4cec-b0c0-dd7330ed7280",
+   "title": "MARINe/PISCO: Intertidal: MARINe Coastal Biodiversity Surveys: Point Contact Surveys Summarized",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:06:39+00:00",
+   "dataset_doi": "10.6085/aa/marine_cbs.5.7",
+   "title_in_zip": "MARINe/PISCO: Intertidal: MARINe Coastal Biodiversity Surveys: Point Contact Surveys Summarized",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 340,
+   "records_per_gbif_download_list": 340,
+   "records_by_own_license_field": {
+    "CC_BY_4_0": 340
+   }
+  },
+  {
+   "datasetKey": "84d26682-f762-11e1-a439-00145eb45e9a",
+   "title": "Danish Mycological Society, fungal records database",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:06:43+00:00",
+   "dataset_doi": "10.15468/zn159h",
+   "title_in_zip": "Danish Mycological Society, fungal records database",
+   "license_in_zip": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0 License.",
+   "records_counted_in_download": 285,
+   "records_per_gbif_download_list": 285,
+   "records_by_own_license_field": {
+    "CC_BY_NC_4_0": 285
+   }
+  },
+  {
+   "datasetKey": "50cf53ad-5115-445f-ac3f-c4d676a2d480",
+   "title": "Extension du quai 12 et confortement des quais 7 et 8 - Monitoring environnemental GPMG - 2019",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:09:47+00:00",
+   "dataset_doi": "10.15468/xr4fmx",
+   "title_in_zip": "Extension du quai 12 et confortement des quais 7 et 8 - Monitoring environnemental GPMG - 2019",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 252,
+   "records_per_gbif_download_list": 252,
+   "records_by_own_license_field": {
+    "CC_BY_4_0": 252
+   }
+  },
+  {
+   "datasetKey": "d015960f-0a2d-4c6c-bbb0-e049a7978a62",
+   "title": "Extension du quai 12 et confortement des quais 7 et 8-Surveillance environnementale GPMG - 2019",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:09:59+00:00",
+   "dataset_doi": "10.15468/frt6re",
+   "title_in_zip": "Extension du quai 12 et confortement des quais 7 et 8-Surveillance environnementale GPMG - 2019",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 252,
+   "records_per_gbif_download_list": 252,
+   "records_by_own_license_field": {
+    "CC_BY_4_0": 252
+   }
+  },
+  {
+   "datasetKey": "39bd4817-9530-4341-a918-4f16b8db1419",
+   "title": "Mycoblitz 2017 - IRBV et Cercle des Mycologues de Montréal",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:06:33+00:00",
+   "dataset_doi": "10.5886/ebybuj",
+   "title_in_zip": "Mycoblitz 2017 - IRBV et Cercle des Mycologues de Montréal",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 132,
+   "records_per_gbif_download_list": 132,
+   "records_by_own_license_field": {
+    "CC0_1_0": 132
+   }
+  },
+  {
+   "datasetKey": "9604f43a-046f-4069-879c-8d2a535124db",
+   "title": "CardObs : Observations naturalistes issues de l'outil CardObs-Première description des communautés d’hyphomycètes aquatiques de la Guadeloupe",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:09:54+00:00",
+   "dataset_doi": "10.15468/rfxnxb",
+   "title_in_zip": "CardObs : Observations naturalistes issues de l'outil CardObs-Première description des communautés d’hyphomycètes aquatiques de la Guadeloupe",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 126,
+   "records_per_gbif_download_list": 126,
+   "records_by_own_license_field": {
+    "CC_BY_4_0": 126
+   }
+  },
+  {
+   "datasetKey": "062f3445-944a-4fd4-915a-ed1a1109cf04",
+   "title": "Mohonk Preserve Forest Health Monitoring Data",
+   "license_per_gbif_api": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "api_read_utc": "2026-10-06T18:06:19+00:00",
+   "dataset_doi": "10.15468/gukkks",
+   "title_in_zip": "Mohonk Preserve Forest Health Monitoring Data",
+   "license_in_zip": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "rights_text_in_zip": "To the extent possible under law, the publisher has waived all rights to these data and has dedicated them to the Public Domain (CC0 1.0). Users may copy, modify, distribute and use the work, including for commercial purposes, without restriction.",
+   "records_counted_in_download": 78,
+   "records_per_gbif_download_list": 78,
+   "records_by_own_license_field": {
+    "CC0_1_0": 78
+   }
+  },
+  {
+   "datasetKey": "2c12acd9-1600-487d-a809-2c2743381112",
+   "title": "Ontario BioBlitz Species Records",
+   "license_per_gbif_api": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "api_read_utc": "2026-10-06T18:06:29+00:00",
+   "dataset_doi": "10.5886/mc7h1q",
+   "title_in_zip": "Ontario BioBlitz Species Records",
+   "license_in_zip": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "rights_text_in_zip": "To the extent possible under law, the publisher has waived all rights to these data and has dedicated them to the Public Domain (CC0 1.0). Users may copy, modify, distribute and use the work, including for commercial purposes, without restriction.",
+   "records_counted_in_download": 61,
+   "records_per_gbif_download_list": 61,
+   "records_by_own_license_field": {
+    "CC_BY_NC_4_0": 61
+   }
+  },
+  {
+   "datasetKey": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
+   "title": "NABU|naturgucker",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:06:41+00:00",
+   "dataset_doi": "10.15468/uc1apo",
+   "title_in_zip": "NABU|naturgucker",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 46,
+   "records_per_gbif_download_list": 46,
+   "records_by_own_license_field": {
+    "CC_BY_4_0": 46
+   }
+  },
+  {
+   "datasetKey": "02fbd55d-d574-460b-bccc-d9a2eab564f0",
+   "title": "Kenai National Wildlife Refuge, Alaska (KNWR) Plant observations (Arctos)",
+   "license_per_gbif_api": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "api_read_utc": "2026-10-06T18:06:17+00:00",
+   "dataset_doi": "10.15468/1gdw2n",
+   "title_in_zip": "Kenai National Wildlife Refuge, Alaska (KNWR) Plant observations (Arctos)",
+   "license_in_zip": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "rights_text_in_zip": "To the extent possible under law, the publisher has waived all rights to these data and has dedicated them to the Public Domain (CC0 1.0). Users may copy, modify, distribute and use the work, including for commercial purposes, without restriction.",
+   "records_counted_in_download": 45,
+   "records_per_gbif_download_list": 45,
+   "records_by_own_license_field": {
+    "CC0_1_0": 45
+   }
+  },
+  {
+   "datasetKey": "8a863029-f435-446a-821e-275f4f641165",
+   "title": "Observation.org, Nature data from around the World",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:06:45+00:00",
+   "dataset_doi": "10.15468/5nilie",
+   "title_in_zip": "Observation.org, Nature data from around the World",
+   "license_in_zip": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0 License.",
+   "records_counted_in_download": 35,
+   "records_per_gbif_download_list": 35,
+   "records_by_own_license_field": {
+    "CC_BY_NC_4_0": 35
+   }
+  },
+  {
+   "datasetKey": "1ba64366-0e65-4999-b2b1-3269be277ae3",
+   "title": "La agrobiodiversidad presente en el agroecosistema en la vegetación de mesófilos de montaña de las comunidades del Comité de Recursos Naturales de la Chinantla Alta (CORENCHI)",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:09:41+00:00",
+   "dataset_doi": "10.15468/hy5cuf",
+   "title_in_zip": "La agrobiodiversidad presente en el agroecosistema en la vegetación de mesófilos de montaña de las comunidades del Comité de Recursos Naturales de la Chinantla Alta (CORENCHI)",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 33,
+   "records_per_gbif_download_list": 33,
+   "records_by_own_license_field": {
+    "CC_BY_4_0": 33
+   }
+  },
+  {
+   "datasetKey": "0f58f4f3-f323-4647-9ff7-177b6f4f6d33",
+   "title": "Monitoreo para el D1 de la Modernización de la Planta Hidroeléctrica La Garita, ICE 2024",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:09:39+00:00",
+   "dataset_doi": "10.15468/3g7ssx",
+   "title_in_zip": "Monitoreo para el D1 de la Modernización de la Planta Hidroeléctrica La Garita, ICE 2024",
+   "license_in_zip": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0 License.",
+   "records_counted_in_download": 27,
+   "records_per_gbif_download_list": 27,
+   "records_by_own_license_field": {
+    "CC_BY_NC_4_0": 27
+   }
+  },
+  {
+   "datasetKey": "32a242ff-db39-4513-971b-a042b6380828",
+   "title": "Baie de Mille-Vaches marsh - Characterization of important coastal habitats on the north shore of the St.Lawrence maritime Estuary | Le marais de la baie de Mille-Vaches - Caractérisation des habitats littoraux d’importance de la rive nord de l’estuaire maritime du Saint-Laurent",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:06:31+00:00",
+   "dataset_doi": "10.26071/ogsl-f10f496a-acf4",
+   "title_in_zip": "Baie de Mille-Vaches marsh - Characterization of important coastal habitats on the north shore of the St.Lawrence maritime Estuary | Le marais de la baie de Mille-Vaches - Caractérisation des habitats littoraux d’importance de la rive nord de l’estuaire maritime du Saint-Laurent",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 23,
+   "records_per_gbif_download_list": 23,
+   "records_by_own_license_field": {
+    "CC_BY_4_0": 23
+   }
+  },
+  {
+   "datasetKey": "0e1a8d83-1f7a-4b9d-ade7-a665f836eb10",
+   "title": "The Portneuf-sur-Mer Salt Marsh - Characterization of Important Coastal Habitats on the North Shore of the St. Lawrence Estuary | Le marais salé de Portneuf-sur-Mer - Caractérisation des habitats littoraux d’importance de la rive nord de l’estuaire maritime du Saint-Laurent",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:06:21+00:00",
+   "dataset_doi": "10.26071/ogsl-5374b582-43aa",
+   "title_in_zip": "The Portneuf-sur-Mer Salt Marsh - Characterization of Important Coastal Habitats on the North Shore of the St. Lawrence Estuary | Le marais salé de Portneuf-sur-Mer - Caractérisation des habitats littoraux d’importance de la rive nord de l’estuaire maritime du Saint-Laurent",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 20,
+   "records_per_gbif_download_list": 20,
+   "records_by_own_license_field": {
+    "CC_BY_4_0": 20
+   }
+  },
+  {
+   "datasetKey": "4238d2a9-efce-4f77-81c1-94b1a74fc2d9",
+   "title": "The Pointe des Fortin Marsh - Characterization of Important Coastal Habitats on the North Shore of the St. Lawrence Estuary | Le marais de la pointe des Fortin - Caractérisation des habitats littoraux d’importance de la rive nord de l’estuaire maritime du Saint-Laurent",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:06:34+00:00",
+   "dataset_doi": "10.26071/ogsl-3b8c6d97-6eb8",
+   "title_in_zip": "The Pointe des Fortin Marsh - Characterization of Important Coastal Habitats on the North Shore of the St. Lawrence Estuary | Le marais de la pointe des Fortin - Caractérisation des habitats littoraux d’importance de la rive nord de l’estuaire maritime du Saint-Laurent",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 20,
+   "records_per_gbif_download_list": 20,
+   "records_by_own_license_field": {
+    "CC_BY_4_0": 20
+   }
+  },
+  {
+   "datasetKey": "98897462-f677-4878-8a6a-8a5a812b3884",
+   "title": "Kenai National Wildlife Refuge: Dall sheep response to fire: vegetation surveys",
+   "license_per_gbif_api": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "api_read_utc": "2026-10-06T18:06:47+00:00",
+   "dataset_doi": "10.15468/fucrpb",
+   "title_in_zip": "Kenai National Wildlife Refuge: Dall sheep response to fire: vegetation surveys",
+   "license_in_zip": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "rights_text_in_zip": "To the extent possible under law, the publisher has waived all rights to these data and has dedicated them to the Public Domain (CC0 1.0). Users may copy, modify, distribute and use the work, including for commercial purposes, without restriction.",
+   "records_counted_in_download": 19,
+   "records_per_gbif_download_list": 19,
+   "records_by_own_license_field": {
+    "CC0_1_0": 19
+   }
+  },
+  {
+   "datasetKey": "2bf7b2c0-34dc-4458-8ee4-4f99fac03b33",
+   "title": "Biodiversity4all Research-Grade Observations",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:06:27+00:00",
+   "dataset_doi": "10.15468/njmmp7",
+   "title_in_zip": "Biodiversity4all Research-Grade Observations",
+   "license_in_zip": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0 License.",
+   "records_counted_in_download": 16,
+   "records_per_gbif_download_list": 16,
+   "records_by_own_license_field": {
+    "CC_BY_NC_4_0": 15,
+    "CC_BY_4_0": 1
+   }
+  },
+  {
+   "datasetKey": "3d3d5936-58af-424b-af71-5aa2decd8d18",
+   "title": "Microorganismos asociados a sedimentos marinos con potencial uso en la biorremediación y otras áreas de interés",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:09:43+00:00",
+   "dataset_doi": "10.15472/sdwtab",
+   "title_in_zip": "Microorganismos asociados a sedimentos marinos con potencial uso en la biorremediación y otras áreas de interés",
+   "license_in_zip": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0 License.",
+   "records_counted_in_download": 15,
+   "records_per_gbif_download_list": 15,
+   "records_by_own_license_field": {
+    "CC_BY_NC_4_0": 15
+   }
+  },
+  {
+   "datasetKey": "f1ee5d89-af61-423f-8029-2a5d490fb890",
+   "title": "University of North Carolina at Chapel Hill Herbarium: Lichens",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:07:03+00:00",
+   "dataset_doi": "10.15468/ssv4ea",
+   "title_in_zip": "University of North Carolina at Chapel Hill Herbarium: Lichens",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 15,
+   "records_per_gbif_download_list": 15,
+   "records_by_own_license_field": {
+    "CC_BY_4_0": 15
+   }
+  },
+  {
+   "datasetKey": "02576004-ea29-4583-bc18-64caa8fae293",
+   "title": "STATION DE TRAITEMENT DES EAUX USEES EXISTANTE DE FOLLE ANSE – GRAND BOURG",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:09:38+00:00",
+   "dataset_doi": "10.15468/8m2p2n",
+   "title_in_zip": "STATION DE TRAITEMENT DES EAUX USEES EXISTANTE DE FOLLE ANSE – GRAND BOURG",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 11,
+   "records_per_gbif_download_list": 11,
+   "records_by_own_license_field": {
+    "CC_BY_4_0": 11
+   }
+  },
+  {
+   "datasetKey": "8c2b0792-1727-4795-853c-b1032a8d5f3b",
+   "title": "Resultados de los monitoreos en el estudio de preinversión Fourth Cliff en Siquirres, ICE",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:09:52+00:00",
+   "dataset_doi": "10.15468/wmsvj2",
+   "title_in_zip": "Resultados de los monitoreos en el estudio de preinversión Fourth Cliff en Siquirres, ICE",
+   "license_in_zip": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0 License.",
+   "records_counted_in_download": 9,
+   "records_per_gbif_download_list": 9,
+   "records_by_own_license_field": {
+    "CC_BY_NC_4_0": 9
+   }
+  },
+  {
+   "datasetKey": "be8e2cb0-12ae-4718-9970-2595dca96cfd",
+   "title": "TUR Lichen collections of Turku University",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:09:55+00:00",
+   "dataset_doi": "10.15468/uuh75k",
+   "title_in_zip": "TUR Lichen collections of Turku University",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 7,
+   "records_per_gbif_download_list": 7,
+   "records_by_own_license_field": {
+    "CC_BY_4_0": 7
+   }
+  },
+  {
+   "datasetKey": "d89187e8-6377-46d2-8bbe-0a21b3274ef6",
+   "title": "CardObs : Observations naturalistes issues de l'outil CardObs-Mission PatriNat à Saint-Pierre et Miquelon 2022",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:10:03+00:00",
+   "dataset_doi": "10.15468/vwy3r7",
+   "title_in_zip": "CardObs : Observations naturalistes issues de l'outil CardObs-Mission PatriNat à Saint-Pierre et Miquelon 2022",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 6,
+   "records_per_gbif_download_list": 6,
+   "records_by_own_license_field": {
+    "CC_BY_4_0": 6
+   }
+  },
+  {
+   "datasetKey": "27b3d6a5-04ca-4ba1-91aa-c33a82931103",
+   "title": "Monitoring of Invasive Plant Species in the Wetlands of the St. Lawrence River | Suivi des espèces végétales envahissantes dans les milieux humides du fleuve Saint-Laurent",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:06:23+00:00",
+   "dataset_doi": "10.26071/8cd6a32f-3fbb-4185",
+   "title_in_zip": "Monitoring of Invasive Plant Species in the Wetlands of the St. Lawrence River | Suivi des espèces végétales envahissantes dans les milieux humides du fleuve Saint-Laurent",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 4,
+   "records_per_gbif_download_list": 4,
+   "records_by_own_license_field": {
+    "CC_BY_4_0": 4
+   }
+  },
+  {
+   "datasetKey": "7247dc2e-b862-4555-b533-7701d183271b",
+   "title": "Programme d'observation naturaliste participative avec l'application mobile INPN Espèces - Application INPN Espèces: Observations naturalistes, participatives et opportunistes, fondées sur des photographies",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:09:49+00:00",
+   "dataset_doi": "10.15468/2wgzwe",
+   "title_in_zip": "Programme d'observation naturaliste participative avec l'application mobile INPN Espèces - Application INPN Espèces: Observations naturalistes, participatives et opportunistes, fondées sur des photographies",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 4,
+   "records_per_gbif_download_list": 4,
+   "records_by_own_license_field": {
+    "CC_BY_4_0": 4
+   }
+  },
+  {
+   "datasetKey": "98bceab6-3c3e-4163-945d-6ca10576ebf1",
+   "title": "Arizona State University Lichen Herbarium",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:06:49+00:00",
+   "dataset_doi": "10.15468/qrwfjc",
+   "title_in_zip": "Arizona State University Lichen Herbarium",
+   "license_in_zip": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0 License.",
+   "records_counted_in_download": 3,
+   "records_per_gbif_download_list": 3,
+   "records_by_own_license_field": {
+    "CC_BY_NC_4_0": 3
+   }
+  },
+  {
+   "datasetKey": "b0515413-6d32-490a-83a0-f8c08f002c70",
+   "title": "CDA - California Department of Food and Agriculture",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:06:52+00:00",
+   "dataset_doi": "10.15468/phc373",
+   "title_in_zip": "CDA - California Department of Food and Agriculture",
+   "license_in_zip": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0 License.",
+   "records_counted_in_download": 3,
+   "records_per_gbif_download_list": 3,
+   "records_by_own_license_field": {
+    "CC_BY_NC_4_0": 3
+   }
+  },
+  {
+   "datasetKey": "4b563837-08f8-4952-93b8-5d786a3e20d7",
+   "title": "CardObs : Observations naturalistes issues de l'outil CardObs-Données naturalistes de URTIZBÉRÉA Frank",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:09:45+00:00",
+   "dataset_doi": "10.15468/mn3n3q",
+   "title_in_zip": "CardObs : Observations naturalistes issues de l'outil CardObs-Données naturalistes de URTIZBÉRÉA Frank",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 2,
+   "records_per_gbif_download_list": 2,
+   "records_by_own_license_field": {
+    "CC_BY_4_0": 2
+   }
+  },
+  {
+   "datasetKey": "f1c4df18-12d6-40cb-ab51-5bb0d7f08d6e",
+   "title": "Estonian Naturalists’ Society",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:07:02+00:00",
+   "dataset_doi": "10.15468/bmk3ab",
+   "title_in_zip": "Estonian Naturalists’ Society",
+   "license_in_zip": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0 License.",
+   "records_counted_in_download": 2,
+   "records_per_gbif_download_list": 2,
+   "records_by_own_license_field": {
+    "CC_BY_NC_4_0": 2
+   }
+  },
+  {
+   "datasetKey": "898635e6-df45-4a0e-ac8b-ab49c2bfb4b5",
+   "title": "Resultados de los monitoreos en el estudio de preinversión de Modernización Ventanas Garita, 2023.",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:09:50+00:00",
+   "dataset_doi": "10.15468/4u9eg9",
+   "title_in_zip": "Resultados de los monitoreos en el estudio de preinversión de Modernización Ventanas Garita, 2023.",
+   "license_in_zip": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0 License.",
+   "records_counted_in_download": 1,
+   "records_per_gbif_download_list": 1,
+   "records_by_own_license_field": {
+    "CC_BY_NC_4_0": 1
+   }
+  },
+  {
+   "datasetKey": "b6465deb-2071-445a-9ebd-d5722e1ed7e2",
+   "title": "NatureShare",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:06:54+00:00",
+   "dataset_doi": "10.15468/4cqg2v",
+   "title_in_zip": "NatureShare",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 1,
+   "records_per_gbif_download_list": 1,
+   "records_by_own_license_field": {
+    "CC_BY_4_0": 1
+   }
+  },
+  {
+   "datasetKey": "c5af860a-0395-4e3f-8ef9-8681025b1dcb",
+   "title": "Données du Parc national de la Guadeloupe - Données de type Occurrence de taxons",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:09:57+00:00",
+   "dataset_doi": "10.15468/gccmmw",
+   "title_in_zip": "Données du Parc national de la Guadeloupe - Données de type Occurrence de taxons",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 1,
+   "records_per_gbif_download_list": 1,
+   "records_by_own_license_field": {
+    "CC_BY_4_0": 1
+   }
+  },
+  {
+   "datasetKey": "d18935d7-260c-4633-af39-7eb7ee6f1e14",
+   "title": "Bibliographie de la faune, la flore et la fonge de France métropolitaine et outre-mer-Bibliographique de la faune, la flore et la fonge de France métropolitaine et outre-mer",
+   "license_per_gbif_api": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "api_read_utc": "2026-10-06T18:10:01+00:00",
+   "dataset_doi": "10.15468/cthncb",
+   "title_in_zip": "Bibliographie de la faune, la flore et la fonge de France métropolitaine et outre-mer-Bibliographique de la faune, la flore et la fonge de France métropolitaine et outre-mer",
+   "license_in_zip": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "rights_text_in_zip": "This work is licensed under a Creative Commons Attribution (CC-BY) 4.0 License.",
+   "records_counted_in_download": 1,
+   "records_per_gbif_download_list": 1,
+   "records_by_own_license_field": {
+    "CC_BY_4_0": 1
+   }
+  }
+ ]
+}
