@@ -1,0 +1,19 @@
+"""t1_steps() over a DWCA download: the unified pipeline's T1 list, read-only."""
+import io
+import json
+import sys
+import zipfile
+from collections import Counter
+
+from forager_forecast.records.filters import Pipeline, t1_steps
+from forager_forecast.records.occurrence import OccurrenceLoader, read_occurrence_rows
+from forager_forecast.t1_design import box_of
+
+boxes = Counter()
+loader = OccurrenceLoader()
+p = Pipeline(t1_steps(), on_pass=lambda s, r: boxes.__setitem__((s, box_of(r.latitude, r.longitude).name if box_of(r.latitude, r.longitude) else "outside"), boxes[(s, box_of(r.latitude, r.longitude).name if box_of(r.latitude, r.longitude) else "outside")] + 1))
+with zipfile.ZipFile(sys.argv[1]).open("occurrence.txt") as raw:
+    kept = p.run(loader.load(read_occurrence_rows(io.TextIOWrapper(raw, encoding="utf-8", newline=""))))
+print(json.dumps({"rows_read": loader.rows_read, "unloadable": dict(loader.unloadable),
+  "source": p.source_count, "steps": [[c.step, c.before, c.dropped, c.after] for c in p.counts],
+  "survivors": len(kept), "by_stage_box": {f"{s}|{b}": n for (s, b), n in sorted(boxes.items())}}, indent=1))

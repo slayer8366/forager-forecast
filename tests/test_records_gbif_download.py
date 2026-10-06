@@ -7,7 +7,6 @@ from forager_forecast.records.gbif_download import (
     PREDICATE_PATH,
     GbifCredentials,
     MissingGbifCredentials,
-    build_download_request,
     credentials_from_env,
     expected_t1_predicate,
     load_t1_predicate,
@@ -37,6 +36,9 @@ def test_missing_credentials_are_named_not_guessed():
         assert name in message
     with pytest.raises(MissingGbifCredentials, match="not set: GBIF_EMAIL$"):
         credentials_from_env({"GBIF_USER": "someone", "GBIF_PWD": "secret", "GBIF_EMAIL": " "})
+    # Two of three missing: both are named, in order (stage 2b report; the move review's proposal).
+    with pytest.raises(MissingGbifCredentials, match="not set: GBIF_PWD, GBIF_EMAIL$"):
+        credentials_from_env({"GBIF_USER": "someone"})
 
 
 def test_credentials_are_read_from_the_three_variables():
@@ -44,15 +46,6 @@ def test_credentials_are_read_from_the_three_variables():
         {"GBIF_USER": "someone", "GBIF_PWD": "secret", "GBIF_EMAIL": "someone@example.org"}
     )
     assert creds == GbifCredentials("someone", "secret", "someone@example.org")
-
-
-def test_download_request_body():
-    creds = GbifCredentials("someone", "secret", "someone@example.org")
-    body = build_download_request(creds, load_t1_predicate())
-    assert body["creator"] == "someone"
-    assert body["notificationAddresses"] == ["someone@example.org"]
-    assert body["format"] == "SIMPLE_CSV"
-    assert body["predicate"] == load_t1_predicate()
 
 
 class FakeResponse:
@@ -87,7 +80,15 @@ def test_submit_posts_basic_auth_json_and_returns_the_key():
     assert seen["method"] == "POST"
     assert seen["headers"]["Authorization"] == "Basic c29tZW9uZTpzZWNyZXQ="
     assert seen["headers"]["Content-type"] == "application/json"
-    assert seen["body"]["predicate"] == load_t1_predicate()
+    # D67: new downloads use the DWCA request; the body is request_template's plus the fields
+    # that belong to a person. SIMPLE_CSV is retired for new downloads.
+    assert seen["body"] == {
+        **request_template(load_t1_predicate()),
+        "creator": "someone",
+        "notificationAddresses": ["someone@example.org"],
+        "sendNotification": True,
+    }
+    assert seen["body"]["format"] == "DWCA"
 
 
 def test_submit_reports_a_refusal():

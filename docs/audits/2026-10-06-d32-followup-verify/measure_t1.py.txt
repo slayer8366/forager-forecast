@@ -1,0 +1,57 @@
+import io, json, sys, zipfile
+from collections import Counter, defaultdict
+sys.path.insert(0, "/tmp/d32m")
+from common import idx_plus_inf, idx_binary_nearest, is_decimal_tie
+from forager_forecast.cells import cell_for
+from forager_forecast.records.t1_record import T1_FILTER_STEPS, apply_t1_filters
+from forager_forecast.records.t1_simple_csv import UnloadableRow, read_rows, record_from_row
+from forager_forecast.t1_design import BOXES, box_of
+
+ZIP = sys.argv[1]
+archive = zipfile.ZipFile(ZIP)
+member = [n for n in archive.namelist() if n.endswith(".csv")][0]
+total = 0; unloadable = Counter(); outside = 0
+by_box_year = defaultdict(list)
+with archive.open(member) as raw:
+    for row in read_rows(io.TextIOWrapper(raw, encoding="utf-8", newline="")):
+        total += 1
+        try:
+            r = record_from_row(row)
+        except UnloadableRow as e:
+            unloadable[e.reason] += 1; continue
+        b = box_of(r.latitude, r.longitude)
+        if b is None:
+            outside += 1; continue
+        by_box_year[(b.name, r.event_date.year)].append(r)
+
+steps = Counter()   # (box, stage) -> after
+new_dedup = Counter()
+cellchg = Counter()
+for (box, year), recs in sorted(by_box_year.items()):
+    steps[(box, "source")] += len(recs)
+    res = apply_t1_filters(recs)
+    for s in res.steps:
+        steps[(box, s.name)] += s.after
+    # records entering the dedup step = output of step 4
+    cur = recs
+    for name, fn in T1_FILTER_STEPS[:-1]:
+        cur = fn(cur)
+    kept = set()
+    for r in cur:
+        old = cell_for(r.latitude, r.longitude)
+        new = (idx_plus_inf(r.latitude, "0.1"), idx_plus_inf(r.longitude, "0.1"))
+        binn = (idx_binary_nearest(r.latitude, "0.1"), idx_binary_nearest(r.longitude, "0.1"))
+        cellchg[(box, "entering dedup")] += 1
+        if (old.lat_tenths, old.lon_tenths) != new: cellchg[(box, "cell changes cell_for -> D63 (decimal)")] += 1
+        if new != binn: cellchg[(box, "D63 decimal differs from binary-nearest")] += 1
+        if is_decimal_tie(r.latitude, "0.1"): cellchg[(box, "decimal lat tie 0.1")] += 1
+        if is_decimal_tie(r.longitude, "0.1"): cellchg[(box, "decimal lon tie 0.1")] += 1
+        if is_decimal_tie(r.latitude, "0.25"): cellchg[(box, "decimal lat tie 0.25")] += 1
+        if is_decimal_tie(r.longitude, "0.25"): cellchg[(box, "decimal lon tie 0.25")] += 1
+        kept.add((r.taxon_key, new[0], new[1], r.event_date))
+    new_dedup[box] += len(kept)
+out = {"total_rows": total, "unloadable": dict(unloadable), "outside_boxes": outside,
+       "steps_after": {f"{b}|{s}": n for (b, s), n in sorted(steps.items())},
+       "dedup_after_with_D63_cell": dict(new_dedup),
+       "cells": {f"{b}|{k}": n for (b, k), n in sorted(cellchg.items())}}
+print(json.dumps(out, indent=1))

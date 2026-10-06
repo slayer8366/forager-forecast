@@ -116,3 +116,15 @@ Appended by the next planning session. Nothing above is edited. Every repo fact 
 ## Correction appended 2026-09-19, after the section above
 
 - **"Unanswered, third time" above is wrong.** Corrected by the owner. The only count on record is this handoff's own "asked twice and never answered", from the prior session. This session listed the question as an owner item but never put it to the owner as a question, so it added no ask. The question is still open.
+
+## Correction appended 2026-10-06, by the D32 follow-up coder session
+
+Appended under D41 by the coder session on the credentials machine, branch `d32-followup-unify-filters`.
+Facts known by listing the tree at `39ba0cd` and reading the files named.
+
+- **Line 111's "records.py is shadowed by the records package" and "gbif_download.py exists twice"
+  describe the tree before D32's move.** There is no `src/forager_forecast/records.py`, and there is one
+  `src/forager_forecast/records/gbif_download.py`. T1's record code moved to
+  `src/forager_forecast/records/t1_record.py` and `t1_simple_csv.py`, which are now kept only as evidence
+  (D67). The one Record type and filter pipeline are `records/occurrence.py` and `records/filters.py`
+  (D65, D66).

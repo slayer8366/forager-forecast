@@ -152,3 +152,20 @@ A suggestion, not a choice: `docs/planning/handoffs/coder/`. It keeps every hand
 the existing README can cover with one added sentence, and a later reader looking for handoffs finds both
 kinds in one place. A top-level `docs/handoffs/` is the alternative if coder handoffs should sit apart
 from planning.
+
+## Correction appended 2026-10-06, by the D32 follow-up coder session
+
+Appended under D41 by the coder session on the credentials machine, branch `d32-followup-unify-filters`.
+Facts known by listing the tree at `39ba0cd` (`ls` of each path) and by reading the files named.
+
+- **The paths at lines 84-96 are pre-move paths and none exists now.** `src/forager_forecast/records.py`,
+  `src/forager_forecast/simple_csv.py`, `src/forager_forecast/gbif_download.py`, `tests/test_records.py`,
+  `tests/test_records_observed.py`, `tests/test_simple_csv.py` and `tests/test_gbif_download.py` are absent.
+  The D32 move put T1's code at `src/forager_forecast/records/t1_record.py` and
+  `src/forager_forecast/records/t1_simple_csv.py`, with tests `tests/test_records_t1_record.py`,
+  `tests/test_records_t1_observed.py` and `tests/test_records_t1_simple_csv.py`. There is one
+  `src/forager_forecast/records/gbif_download.py`, tested by `tests/test_records_gbif_download.py`.
+- **"`Record` is a different type on each branch" no longer holds.** The follow-up task chose one (D66).
+  It is `Record` in `src/forager_forecast/records/occurrence.py`, and the one filter pipeline is
+  `src/forager_forecast/records/filters.py` (D65). `t1_record.py` and `t1_simple_csv.py` remain, unchanged
+  below a header, as the evidence of T1's provisional run and not as part of the pipeline (D67).

@@ -1,0 +1,26 @@
+"""Revert check: one edit, run tests, restore from a saved copy, confirm restore.
+
+Usage: revert.py FILE OLD NEW -- pytest args...
+Refuses to cite results when pytest reports a collection or import error.
+"""
+import pathlib, shutil, subprocess, sys, hashlib
+f = pathlib.Path(sys.argv[1]); old = sys.argv[2]; new = sys.argv[3]
+assert sys.argv[4] == "--"; args = sys.argv[5:]
+saved = pathlib.Path("/tmp/d32m/revert_saved_copy")
+shutil.copyfile(f, saved)
+before = hashlib.sha256(f.read_bytes()).hexdigest()
+text = f.read_text()
+if text.count(old) != 1:
+    sys.exit(f"OLD occurs {text.count(old)} times; refusing")
+f.write_text(text.replace(old, new))
+try:
+    r = subprocess.run(["uv", "run", "pytest", "-q", "-p", "no:cacheprovider", "-rf", *args],
+                       capture_output=True, text=True)
+finally:
+    shutil.copyfile(saved, f)
+after = hashlib.sha256(f.read_bytes()).hexdigest()
+out = r.stdout + r.stderr
+print("\n".join(l for l in out.splitlines() if l.startswith(("FAILED", "ERROR", "E  ")) or " passed" in l or " failed" in l or "error" in l.lower())[:6000])
+if "error" in out.lower() and ("during collection" in out or "ImportError" in out or "SyntaxError" in out):
+    print("REVERT BUILD DID NOT RUN CLEANLY: results not citable")
+print("restored from saved copy:", before == after)

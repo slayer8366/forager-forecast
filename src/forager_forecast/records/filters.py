@@ -1,146 +1,113 @@
-"""The R6 filter pipeline for GBIF occurrence records, every step counted.
+"""The one filter pipeline for GBIF occurrence records, every step counted (D32, D65, D66).
 
-A record is one row of a GBIF Darwin Core Archive occurrence.txt: a mapping from column name to
-text, as csv.DictReader yields it. The pipeline reads records and never writes to them. Its input
-is a stream, so a 2.5 million row table (the size of the shared pull on 2026-09-18, GBIF search
-API count) passes through without being held in memory; only the duplicate step keeps state, a set
-of 16-byte digests.
+D32 asked for one module in place of T1's list filters (records/t1_record.py) and T2's R6 stream
+(this file before the follow-up task). Every step either pipeline applied is here once, as one
+implementation; the two step lists differ only where the documents that fix them differ:
 
-The four steps are the four the dispatch names, in the dispatch's order
-(docs/dispatch/2026-09-18-t2-record-audit.md, "Then build"):
+- t1_steps(): T1's calendar design. Inside a T1 box, years 2015 to 2025, not user-obscured,
+  coordinate uncertainty at most 1,000 m (T1 dispatch; D33's headline), not a default date, one
+  record per taxon, cell and day (D27's event key).
+- r6_audit_steps(): T2's audit of SPEC.md R6. Not user-obscured, uncertainty at most 250 m (R6),
+  not a default date, one record per taxon, observer, cell and day (D27's observer-duplicate key).
 
-1. user_obscured
-2. coordinate_uncertainty (above 250 m or missing; R6)
-3. default_first_of_month_date
-4. duplicate_observer_cell_day
+Decided by D65: the user-obscured step is in both lists (T1's SIMPLE_CSV download could not carry
+it), the default-date rule is T1's on the parsed date and time, and the record that survives a
+duplicate is the one with the lowest gbifID. The duplicate cell is the nearest 0.1 degree point
+with exact ties toward +infinity (cells.cell_for; D46, D63, D64); T2's floor is retired (D46).
 
-Nothing is dropped from any source. A step returns True to say "this record does not flow on", and
-the pipeline counts it under that step. The counts and the survivors are what T2 reports.
+Records reach the pipeline already typed by records/occurrence.py, whose loader counts the rows it
+cannot type (D66). The pipeline reads records and never changes them.
 """
 
 from __future__ import annotations
 
-import csv
-import datetime as dt
 import hashlib
-import math
-from collections.abc import Callable, Iterable, Iterator, Mapping
+from collections.abc import Callable, Hashable, Iterable
 from dataclasses import dataclass, field
-from pathlib import Path
-from typing import TextIO
+from datetime import time
 
-Record = Mapping[str, str]
+from forager_forecast.cells import cell_for
+from forager_forecast.records.occurrence import Record
+from forager_forecast.t1_design import (
+    FIRST_YEAR,
+    LAST_YEAR,
+    MAX_COORDINATE_UNCERTAINTY_M,
+    box_of,
+)
 
-# SPEC.md R6: "coordinate uncertainty above 250 m" never reaches habitat training. Fixed by the
-# spec and the dispatch's do-not-touch list; not a parameter of any function here.
-R6_MAX_COORDINATE_UNCERTAINTY_M = 250
+SOURCE_STAGE = "source"
 
-# The weather cell that defines sighting chance is the 0.1 degree cell (D19, accepted in D21).
-# The duplicate step's "cell" is this cell.
-WEATHER_CELL_DEGREES = 0.1
+# SPEC.md R6: "coordinate uncertainty above 250 m" never reaches habitat training.
+R6_MAX_COORDINATE_UNCERTAINTY_M = 250.0
+
+
+# Filter steps. Each returns True to say "this record does not flow on".
+
+
+def outside_t1_boxes(record: Record) -> bool:
+    """Outside both T1 boxes. The download predicate selects the boxes; this re-checks the rows
+    received and makes the count visible."""
+    return box_of(record.latitude, record.longitude) is None
+
+
+def outside_t1_years(record: Record) -> bool:
+    return not FIRST_YEAR <= record.event_date.year <= LAST_YEAR
 
 
 def is_user_obscured(record: Record) -> bool:
     """True when the publisher says the coordinates were withheld or generalised.
 
     On GBIF an obscured iNaturalist record carries informationWithheld "Coordinate uncertainty
-    increased to NNNNNm at the request of the observer" and a coordinateUncertaintyInMeters of
-    about 26 to 29 km (T2 report, spot checks of 2026-09-18; 177 of a 900-record sample, all of
-    that form). dataGeneralizations was empty on every sampled record; it is read anyway because
-    Darwin Core defines it for exactly this purpose and other publishers in the pull may use it.
-    Any non-empty text in either counts, so a taxon-geoprivacy obscuring, should one ever appear,
-    lands here too rather than passing as open.
-    The 26 to 29 km is the sample's most common range, not its span: values run past 67 km (D31).
+    increased to NNNNNm at the request of the observer" and an uncertainty most often of 26 to
+    29 km, with values past 67 km (T2 report, spot checks of 2026-09-18; D31). dataGeneralizations
+    was empty on every sampled record; it is read anyway because Darwin Core defines it for exactly
+    this purpose. Any non-empty text in either counts.
     """
-    return bool(record.get("informationWithheld", "").strip()) or bool(
-        record.get("dataGeneralizations", "").strip()
-    )
+    return bool(record.information_withheld.strip()) or bool(record.data_generalizations.strip())
 
 
-def coordinate_uncertainty_m(record: Record) -> float | None:
-    """The uncertainty radius in metres, or None when missing or not a number."""
-    text = record.get("coordinateUncertaintyInMeters", "").strip()
-    if not text:
-        return None
-    try:
-        value = float(text)
-    except ValueError:
-        return None
-    if math.isnan(value) or math.isinf(value):
-        return None
-    return value
+@dataclass(frozen=True)
+class UncertaintyAbove:
+    """True when the uncertainty radius is missing or above limit_m. Exactly limit_m passes."""
 
-
-def exceeds_r6_uncertainty(record: Record) -> bool:
-    """True when the uncertainty is above 250 m or missing. Exactly 250 m passes."""
-    value = coordinate_uncertainty_m(record)
-    return value is None or value > R6_MAX_COORDINATE_UNCERTAINTY_M
-
-
-def is_default_first_of_month_date(record: Record) -> bool:
-    """True for a date on the first of a month with no time or a time of 00:00:00.
-
-    That is the shape a default date takes when a source knew only the month: the T1 dispatch
-    words it "first of month at 00:00:00". A first-of-month date that carries a real clock time is
-    a real observation and passes. Ranges ("2019-08-01/2019-08-31"), month-only dates ("2019-08")
-    and empty dates are not this step's concern and pass; the dispatch names no step for them, and
-    the report says how many there were.
-    """
-    text = record.get("eventDate", "").strip()
-    if not text or "/" in text:
-        return False
-    day_part, _, time_part = text.partition("T")
-    try:
-        day = dt.date.fromisoformat(day_part)
-    except ValueError:
-        return False
-    if day.day != 1:
-        return False
-    return time_part == "" or time_part.startswith("00:00:00")
-
-
-def weather_cell(latitude: float, longitude: float) -> tuple[int, int]:
-    """The 0.1 degree cell holding a point, as integer row and column indices (floor)."""
-    scale = round(1 / WEATHER_CELL_DEGREES)
-    # Round to a millionth of a degree first so a value read as 47.7999999999 from text that meant
-    # 47.8 does not fall into the cell below.
-    return math.floor(round(latitude * scale, 6)), math.floor(round(longitude * scale, 6))
-
-
-def observation_day(record: Record) -> str:
-    """The calendar day as text, "YYYY-MM-DD", or the raw eventDate when it is not that shape."""
-    text = record.get("eventDate", "").strip()
-    return text[:10] if len(text) >= 10 else text
-
-
-def duplicate_key(record: Record) -> str:
-    """Observer, 0.1 degree cell and day. Two records with the same key are duplicates."""
-    observer = record.get("recordedBy", "").strip()
-    try:
-        cell = weather_cell(float(record["decimalLatitude"]), float(record["decimalLongitude"]))
-        cell_text = f"{cell[0]},{cell[1]}"
-    except KeyError, ValueError:
-        cell_text = "no-cell"
-    return f"{record.get('acceptedTaxonKey', '')}|{observer}|{cell_text}|{observation_day(record)}"
-
-
-class DuplicateObserverCellDay:
-    """Stateful: the first record with a key flows on, every later one with that key is dropped.
-
-    Keeps a 16-byte BLAKE2b digest per distinct key rather than the key text, so 2.5 million keys
-    cost tens of megabytes, not hundreds, on a machine sharing 11 GB with other sessions. A fresh
-    instance per pipeline run; default_steps() makes one.
-    """
-
-    def __init__(self) -> None:
-        self._seen: set[bytes] = set()
+    limit_m: float
 
     def __call__(self, record: Record) -> bool:
-        digest = hashlib.blake2b(duplicate_key(record).encode("utf-8"), digest_size=16).digest()
-        if digest in self._seen:
-            return True
-        self._seen.add(digest)
+        value = record.coordinate_uncertainty_m
+        return value is None or value > self.limit_m
+
+
+def is_default_date(record: Record) -> bool:
+    """The first of a month at 00:00:00, or on the first with no time at all.
+
+    A date-only value on the first is what a defaulted date looks like once the clock part has
+    been dropped, so it is treated the same way (T1 completion report; D28 keeps this stricter
+    rule provisionally; D65 makes it the rule for both lists).
+    """
+    if record.event_date.day != 1:
         return False
+    return record.event_time is None or record.event_time == time(0, 0, 0)
+
+
+# Duplicate keys (D27). The cell is the D46/D63 nearest 0.1 degree point.
+
+
+def event_key(record: Record) -> Hashable:
+    """Taxon, cell and day: D27's event key, for T1's modelling tables."""
+    cell = cell_for(record.latitude, record.longitude)
+    return (record.taxon_key, cell.lat_tenths, cell.lon_tenths, record.event_date)
+
+
+def observer_key(record: Record) -> Hashable:
+    """Taxon, observer, cell and day: D27's observer-duplicate key, for T2's audit counts."""
+    cell = cell_for(record.latitude, record.longitude)
+    return (
+        record.taxon_key,
+        record.recorded_by.strip(),
+        cell.lat_tenths,
+        cell.lon_tenths,
+        record.event_date,
+    )
 
 
 @dataclass(frozen=True)
@@ -149,14 +116,55 @@ class FilterStep:
     drops: Callable[[Record], bool]
 
 
-def default_steps() -> list[FilterStep]:
-    """The dispatch's four steps in the dispatch's order, with fresh state."""
-    return [
-        FilterStep("user_obscured", is_user_obscured),
-        FilterStep("coordinate_uncertainty", exceeds_r6_uncertainty),
-        FilterStep("default_first_of_month_date", is_default_first_of_month_date),
-        FilterStep("duplicate_observer_cell_day", DuplicateObserverCellDay()),
-    ]
+@dataclass(frozen=True)
+class DuplicateStep:
+    """Keeps one record per key: the one with the lowest gbifID (D65)."""
+
+    name: str
+    key: Callable[[Record], Hashable]
+
+
+@dataclass(frozen=True)
+class Steps:
+    """A step list: filters in order, then the duplicate step, which always runs last."""
+
+    filters: tuple[FilterStep, ...]
+    duplicate: DuplicateStep
+
+    def __post_init__(self) -> None:
+        names = self.names()
+        if len(set(names)) != len(names):
+            raise ValueError(f"step names repeat: {names}")
+
+    def names(self) -> tuple[str, ...]:
+        return (*(step.name for step in self.filters), self.duplicate.name)
+
+
+def t1_steps() -> Steps:
+    return Steps(
+        filters=(
+            FilterStep("inside a T1 box", outside_t1_boxes),
+            FilterStep("year 2015 to 2025", outside_t1_years),
+            FilterStep("not user-obscured", is_user_obscured),
+            FilterStep(
+                "coordinate uncertainty present and at most 1,000 m",
+                UncertaintyAbove(MAX_COORDINATE_UNCERTAINTY_M),
+            ),
+            FilterStep("not a default date (first of month at 00:00:00)", is_default_date),
+        ),
+        duplicate=DuplicateStep("one record per taxon, cell and day", event_key),
+    )
+
+
+def r6_audit_steps() -> Steps:
+    return Steps(
+        filters=(
+            FilterStep("user_obscured", is_user_obscured),
+            FilterStep("coordinate_uncertainty", UncertaintyAbove(R6_MAX_COORDINATE_UNCERTAINTY_M)),
+            FilterStep("default_first_of_month_date", is_default_date),
+        ),
+        duplicate=DuplicateStep("duplicate_taxon_observer_cell_day", observer_key),
+    )
 
 
 @dataclass
@@ -170,57 +178,59 @@ class StepCount:
         return self.before - self.dropped
 
 
+def _digest(key: Hashable) -> bytes:
+    # 16 bytes per distinct key rather than the key itself, so 1.4 million keys stay small.
+    return hashlib.blake2b(repr(key).encode("utf-8"), digest_size=16).digest()
+
+
 @dataclass
 class Pipeline:
-    """Runs the steps over a stream and counts what each one drops.
+    """Runs a step list over records once and counts what each step drops.
 
-    run() is a generator: it yields the records that pass every step, in input order, and fills
-    counts as it goes. Read counts only after the generator is exhausted. Pass on_pass to see each
-    record as it clears each stage (the count table hooks in there); the stage name "source" is
-    called for every record before any step.
+    The filters see each record as it streams in. The duplicate step can only name its survivors
+    once every record has been seen, since the lowest gbifID per key is not known before then, so
+    run() returns the survivors as a list in gbifID order. on_pass(stage, record) is called with
+    "source" for every record, after each filter it clears, and finally with the duplicate step's
+    name for each survivor. Read counts after run() returns.
     """
 
-    steps: list[FilterStep] = field(default_factory=default_steps)
+    steps: Steps
     on_pass: Callable[[str, Record], None] | None = None
     counts: list[StepCount] = field(init=False)
     source_count: int = field(init=False, default=0)
+    _ran: bool = field(init=False, default=False)
 
     def __post_init__(self) -> None:
-        names = [step.name for step in self.steps]
-        if len(set(names)) != len(names):
-            raise ValueError(f"step names repeat: {names}")
-        self.counts = [StepCount(step.name) for step in self.steps]
+        self.counts = [StepCount(name) for name in self.steps.names()]
 
-    def run(self, source: Iterable[Record]) -> Iterator[Record]:
-        for record in source:
+    def _pass(self, stage: str, record: Record) -> None:
+        if self.on_pass is not None:
+            self.on_pass(stage, record)
+
+    def run(self, records: Iterable[Record]) -> list[Record]:
+        if self._ran:
+            raise RuntimeError("a Pipeline runs once; make a new one for another run")
+        self._ran = True
+        filter_counts = self.counts[:-1]
+        duplicate_count = self.counts[-1]
+        kept: dict[bytes, Record] = {}
+        for record in records:
             self.source_count += 1
-            if self.on_pass is not None:
-                self.on_pass("source", record)
-            for step, count in zip(self.steps, self.counts, strict=True):
+            self._pass(SOURCE_STAGE, record)
+            for step, count in zip(self.steps.filters, filter_counts, strict=True):
                 count.before += 1
                 if step.drops(record):
                     count.dropped += 1
                     break
-                if self.on_pass is not None:
-                    self.on_pass(step.name, record)
+                self._pass(step.name, record)
             else:
-                yield record
-
-
-def read_occurrence_rows(handle: TextIO) -> Iterator[Record]:
-    """Stream the rows of an open GBIF Darwin Core Archive occurrence.txt (or verbatim.txt).
-
-    Tab separated, one header row, no quoting: GBIF writes these tables with QUOTE_NONE and
-    escapes tabs and newlines inside values, so a reader that honoured quotes would mis-split on a
-    stray double quote in a remark. Takes an open text handle so the table can be streamed
-    straight out of the download zip without extracting it (T2 run report, 2026-09-19).
-    """
-    reader = csv.DictReader(handle, delimiter="\t", quoting=csv.QUOTE_NONE)
-    for row in reader:
-        yield {key: (value if value is not None else "") for key, value in row.items()}
-
-
-def read_occurrence_table(path: Path) -> Iterator[Record]:
-    """Stream the rows of an occurrence.txt on disk. Opened read-only and never written back."""
-    with path.open("r", encoding="utf-8", newline="") as handle:
-        yield from read_occurrence_rows(handle)
+                duplicate_count.before += 1
+                key = _digest(self.steps.duplicate.key(record))
+                current = kept.get(key)
+                if current is None or record.gbif_id < current.gbif_id:
+                    kept[key] = record
+        survivors = sorted(kept.values(), key=lambda r: r.gbif_id)
+        duplicate_count.dropped = duplicate_count.before - len(survivors)
+        for record in survivors:
+            self._pass(self.steps.duplicate.name, record)
+        return survivors

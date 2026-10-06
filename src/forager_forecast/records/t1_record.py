@@ -1,3 +1,14 @@
+# Not part of the pipeline. Kept unchanged as the evidence of T1's provisional run over SIMPLE_CSV
+# download 0005709 (D67), as D30 kept the T0b verify script; the code below this header is as it
+# stood at main 1d5bd80. The one Record type and filter pipeline are records/occurrence.py and
+# records/filters.py.
+# This file joined the frozen set on the Forager planner session's reading of D67 on 2026-10-06
+# (D67 names the loader and the two scripts, all of which import from here); the owner can
+# overrule that reading. Its docstring's "has not been requested" is stale: the download was
+# requested on 2026-09-19 (T1 credentialed run report). It still calls the shared cells.cell_for,
+# so after D63 a rerun of scripts/t1_count_table.py over 0005709 gives East 447,163 at the last
+# step, not the published 447,164 (the one record D63 moves). The last commit that reproduces
+# 447,164 is 1924d0a on branch d32-followup-unify-filters (and main 1d5bd80).
 """Occurrence records and the T1 filters (dispatch, "Then build", "Filters").
 
 Each filter is its own function that takes a sequence and returns a list, so the count before

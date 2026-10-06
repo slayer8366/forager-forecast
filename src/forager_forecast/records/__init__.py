@@ -1,12 +1,16 @@
-"""Record audit (T2, docs/dispatch/2026-09-18-t2-record-audit.md).
+"""GBIF occurrence records: requesting, loading, filtering and counting them.
 
-Four pieces, each its own module and none of them touching the network:
+- gbif_download: the T1 predicate, the DWCA download request (D45, D67) and its submission.
+- occurrence: the one Record type and the loader that builds it from a DWCA occurrence.txt row,
+  counting the rows it cannot type (D42, D66).
+- filters: the one filter pipeline, with T1's step list and the R6 audit's, every step counted
+  (D32, D65).
+- counts and licenses: the count tables by stage, group, region and year, and by licence and
+  publisher.
+- sampler: the seeded 200-record hand-check sample and its CSV (T2).
+- t1_record and t1_simple_csv: not part of the pipeline. Kept unchanged as the evidence of T1's
+  provisional SIMPLE_CSV run (D67).
 
-- gbif_download: the GBIF download predicate T2 shares with T1, and the request around it.
-- filters: the R6 filter pipeline, applied to a stream of records with every step counted.
-- counts: the T1 boxes, the two forager groups, and the count table by stage, group, region, year.
-- sampler: the seeded 200-record hand-check sample and its CSV.
-
-Source records are never modified: every function here reads a mapping and returns a verdict, a
-count or a new object. The pipeline drops nothing from its input; it decides what flows on.
+Source records are never modified: every function here reads a row or a Record and returns a
+verdict, a count or a new object.
 """

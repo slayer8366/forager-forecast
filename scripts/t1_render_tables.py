@@ -1,3 +1,7 @@
+# Not part of the pipeline. Kept unchanged as the evidence of T1's provisional run over SIMPLE_CSV
+# download 0005709 (D67), as D30 kept the T0b verify script; the code below this header is as it
+# stood at main 1d5bd80. The one Record type and filter pipeline are records/occurrence.py and
+# records/filters.py.
 """Render the T1 count tables as Markdown for the run report, from scripts/t1_count_table.py output.
 
 Usage: uv run python scripts/t1_render_tables.py <output directory>

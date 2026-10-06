@@ -1,0 +1,65 @@
+import io, json, sys, zipfile, hashlib
+from collections import Counter
+sys.path.insert(0, "/tmp/d32m")
+from common import idx_plus_inf, idx_binary_nearest, is_decimal_tie
+import forager_forecast.records.filters as f
+from forager_forecast.records.t1_simple_csv import UnloadableRow, parse_event, record_from_row
+from forager_forecast.records.t1_record import is_default_date
+
+ZIP = sys.argv[1]
+archive = zipfile.ZipFile(ZIP)
+c = Counter()
+seen_old, seen_new = set(), set()
+def digest(s): return hashlib.blake2b(s.encode(), digest_size=16).digest()
+with archive.open("occurrence.txt") as raw:
+    for r in f.read_occurrence_rows(io.TextIOWrapper(raw, encoding="utf-8", newline="")):
+        c["source"] += 1
+        # diagnostics at source
+        try:
+            record_from_row(r)
+        except UnloadableRow as e:
+            c["src: T1 loader would reject: " + e.reason] += 1
+        if r.get("taxonKey", "") != r.get("acceptedTaxonKey", ""):
+            c["src: taxonKey != acceptedTaxonKey"] += 1
+        obsc = f.is_user_obscured(r)
+        u = f.coordinate_uncertainty_m(r)
+        if obsc and u is not None and u <= 1000: c["src: obscured with uncertainty <= 1000 m"] += 1
+        if obsc and u is not None and u <= 250: c["src: obscured with uncertainty <= 250 m"] += 1
+        # old pipeline
+        if obsc: c["drop user_obscured"] += 1; continue
+        if f.exceeds_r6_uncertainty(r): c["drop coordinate_uncertainty"] += 1; continue
+        # default-date disagreement on rows reaching that step
+        t2_default = f.is_default_first_of_month_date(r)
+        try:
+            d, t = parse_event(r.get("eventDate", ""))
+            t1_default = is_default_date(d, t)
+        except UnloadableRow as e:
+            t1_default = None
+            c["at date step: T1 parser cannot read: " + e.reason] += 1
+        if t1_default is not None and t1_default != t2_default:
+            c[f"at date step: T1 says default={t1_default}, T2 says {t2_default}"] += 1
+        if t2_default: c["drop default_first_of_month_date"] += 1; continue
+        # dedup old (floor) and new (D63 nearest)
+        c["entering dedup"] += 1
+        k_old = f.duplicate_key(r)
+        try:
+            lat = float(r["decimalLatitude"]); lon = float(r["decimalLongitude"])
+            old = f.weather_cell(lat, lon)
+            new = (idx_plus_inf(lat, "0.1"), idx_plus_inf(lon, "0.1"))
+            if old != new: c["cell changes floor -> D63"] += 1
+            if new != (idx_binary_nearest(lat, "0.1"), idx_binary_nearest(lon, "0.1")):
+                c["D63 decimal differs from binary-nearest"] += 1
+            for ax, v in (("lat", lat), ("lon", lon)):
+                for st in ("0.1", "0.25"):
+                    if is_decimal_tie(v, st): c[f"decimal {ax} tie {st}"] += 1
+            cell_new = f"{new[0]},{new[1]}"
+        except (KeyError, ValueError):
+            c["entering dedup: no cell"] += 1
+            cell_new = "no-cell"
+        k_new = f"{r.get('acceptedTaxonKey', '')}|{r.get('recordedBy', '').strip()}|{cell_new}|{f.observation_day(r)}"
+        do, dn = digest(k_old), digest(k_new)
+        if do in seen_old: c["drop dedup (floor)"] += 1
+        else: seen_old.add(do)
+        if dn in seen_new: c["drop dedup (D63)"] += 1
+        else: seen_new.add(dn)
+print(json.dumps(dict(sorted(c.items())), indent=1))

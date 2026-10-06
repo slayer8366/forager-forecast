@@ -1,0 +1,42 @@
+{
+ "total_rows": 1195034,
+ "unloadable": {
+  "eventDate spans more than one day": 5,
+  "eventDate does not name a calendar day": 9604
+ },
+ "outside_boxes": 0,
+ "steps_after": {
+  "east|coordinate uncertainty present and at most 1,000 m": 490909,
+  "east|inside a T1 box": 935156,
+  "east|not a default date (first of month at 00:00:00)": 490506,
+  "east|one record per taxon, cell and day": 447164,
+  "east|source": 935156,
+  "east|year 2015 to 2025": 935156,
+  "pnw|coordinate uncertainty present and at most 1,000 m": 162122,
+  "pnw|inside a T1 box": 250269,
+  "pnw|not a default date (first of month at 00:00:00)": 161958,
+  "pnw|one record per taxon, cell and day": 142238,
+  "pnw|source": 250269,
+  "pnw|year 2015 to 2025": 250269
+ },
+ "dedup_after_with_D63_cell": {
+  "east": 447163,
+  "pnw": 142238
+ },
+ "cells": {
+  "east|D63 decimal differs from binary-nearest": 4,
+  "east|cell changes cell_for -> D63 (decimal)": 17,
+  "east|decimal lat tie 0.1": 13,
+  "east|decimal lat tie 0.25": 4,
+  "east|decimal lon tie 0.1": 17,
+  "east|decimal lon tie 0.25": 4,
+  "east|entering dedup": 490506,
+  "pnw|D63 decimal differs from binary-nearest": 10,
+  "pnw|cell changes cell_for -> D63 (decimal)": 10,
+  "pnw|decimal lat tie 0.1": 4,
+  "pnw|decimal lat tie 0.25": 3,
+  "pnw|decimal lon tie 0.1": 10,
+  "pnw|decimal lon tie 0.25": 2,
+  "pnw|entering dedup": 161958
+ }
+}
