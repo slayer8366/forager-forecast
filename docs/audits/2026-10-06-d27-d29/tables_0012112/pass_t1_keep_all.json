@@ -1,0 +1,75 @@
+{
+ "rule": "keep_all",
+ "rows_read": 2493578,
+ "unloadable": {
+  "eventDate does not name a calendar day": 9604,
+  "eventDate spans more than one day": 23
+ },
+ "source": 2483951,
+ "steps": [
+  {
+   "step": "inside a T1 box",
+   "before": 2483951,
+   "dropped": 1295252,
+   "after": 1188699
+  },
+  {
+   "step": "year 2015 to 2025",
+   "before": 1188699,
+   "dropped": 0,
+   "after": 1188699
+  },
+  {
+   "step": "not user-obscured",
+   "before": 1188699,
+   "dropped": 68863,
+   "after": 1119836
+  },
+  {
+   "step": "coordinate uncertainty present and at most 1,000 m",
+   "before": 1119836,
+   "dropped": 464181,
+   "after": 655655
+  },
+  {
+   "step": "not a default date (first of month at 00:00:00)",
+   "before": 655655,
+   "dropped": 5,
+   "after": 655650
+  },
+  {
+   "step": "one record per taxon, cell and day",
+   "before": 655650,
+   "dropped": 63871,
+   "after": 591779
+  }
+ ],
+ "duplicate_step_reads": {
+  "stage": "not a default date (first of month at 00:00:00)",
+  "records": 655650,
+  "by_region": {
+   "east": 491389,
+   "pnw": 164261
+  },
+  "records_with_empty_recordedBy": 88
+ },
+ "survivors": {
+  "event": {
+   "total": 591779,
+   "by_region": {
+    "east": 447634,
+    "pnw": 144145
+   }
+  },
+  "observer": {
+   "total": 612116,
+   "by_region": {
+    "east": 462017,
+    "pnw": 150099
+   }
+  }
+ },
+ "list_own_key": "event",
+ "seconds": 194.6,
+ "peak_rss_mb_so_far": 548.1
+}

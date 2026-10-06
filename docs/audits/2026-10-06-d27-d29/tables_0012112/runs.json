@@ -1,0 +1,48 @@
+{
+ "zip": "/home/zynergy-labs/Zynergy/forager-forecast-d26/data/d26/downloads/0012112-260928105237408.zip",
+ "started_utc": "2026-10-06T18:11:47+00:00",
+ "rules": {
+  "drop_all": null,
+  "keep_all": null,
+  "per_dataset": [],
+  "per_dataset_plus_small": [
+   "d1d59f9f-e130-4715-bc9b-8a25e7b62e89"
+  ],
+  "per_dataset_plus_too_few": [
+   "02fbd55d-d574-460b-bccc-d9a2eab564f0",
+   "062f3445-944a-4fd4-915a-ed1a1109cf04",
+   "0e1a8d83-1f7a-4b9d-ade7-a665f836eb10",
+   "27b3d6a5-04ca-4ba1-91aa-c33a82931103",
+   "2bf7b2c0-34dc-4458-8ee4-4f99fac03b33",
+   "2c12acd9-1600-487d-a809-2c2743381112",
+   "32a242ff-db39-4513-971b-a042b6380828",
+   "39bd4817-9530-4341-a918-4f16b8db1419",
+   "4238d2a9-efce-4f77-81c1-94b1a74fc2d9",
+   "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
+   "84d26682-f762-11e1-a439-00145eb45e9a",
+   "8a863029-f435-446a-821e-275f4f641165",
+   "98897462-f677-4878-8a6a-8a5a812b3884",
+   "98bceab6-3c3e-4163-945d-6ca10576ebf1",
+   "9ec7b624-8f5c-4898-a90d-194913d7e0ab",
+   "b0515413-6d32-490a-83a0-f8c08f002c70",
+   "b6465deb-2071-445a-9ebd-d5722e1ed7e2",
+   "e3ce628e-9683-4af7-b7a9-47eef785d3bb",
+   "f1c4df18-12d6-40cb-ab51-5bb0d7f08d6e",
+   "f1ee5d89-af61-423f-8029-2a5d490fb890"
+  ]
+ },
+ "passes": {
+  "t1_drop_all": "pass_t1_drop_all.json",
+  "t1_keep_all": "pass_t1_keep_all.json",
+  "t1_per_dataset": "pass_t1_per_dataset.json",
+  "t1_per_dataset_plus_small": "pass_t1_per_dataset_plus_small.json",
+  "t1_per_dataset_plus_too_few": "pass_t1_per_dataset_plus_too_few.json",
+  "r6_drop_all": "pass_r6_drop_all.json",
+  "r6_keep_all": "pass_r6_keep_all.json",
+  "r6_per_dataset": "pass_r6_per_dataset.json",
+  "r6_per_dataset_plus_small": "pass_r6_per_dataset_plus_small.json",
+  "r6_per_dataset_plus_too_few": "pass_r6_per_dataset_plus_too_few.json"
+ },
+ "finished_utc": "2026-10-06T18:45:12+00:00",
+ "peak_rss_mb": 1141.7
+}
