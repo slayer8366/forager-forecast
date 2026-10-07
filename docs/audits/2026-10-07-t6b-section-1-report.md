@@ -240,3 +240,5 @@ clean.
   `--stages`.
 
 No run section was started after section 1.
+
+Correction, appended 2026-10-07 03:13 UTC: section 7's heading gives 03:20 UTC; it was written at 03:12 UTC by the clock (`date -u`). Nothing else changes.
