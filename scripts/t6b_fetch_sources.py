@@ -31,7 +31,10 @@ def main(steps):
         raise SystemExit("flash drive not mounted")
     OUT.mkdir(parents=True, exist_ok=True)
     if "vectors" in steps:
-        for name, url in (("cec_political", CEC_POLITICAL_URL), ("cec_ecoregions_l3", CEC_ECOREGIONS_URL)):
+        for name, url in (
+            ("cec_political", CEC_POLITICAL_URL),
+            ("cec_ecoregions_l3", CEC_ECOREGIONS_URL),
+        ):
             t = time.perf_counter()
             record = download(url, OUT / f"{name}.zip")
             record["seconds"] = round(time.perf_counter() - t, 1)
@@ -51,7 +54,7 @@ def main(steps):
             print(json.dumps(rec), flush=True)
         body = {
             "source": NALCMS_URL,
-            "dataset": "North American Environmental Atlas - Land Cover 2020 30m (NALCMS), CEC, Ed. 2.0",
+            "dataset": "CEC NA Environmental Atlas, Land Cover 2020 30m (NALCMS), Ed. 2.0",
             "licence": "CC BY 4.0 (metadata, Use limitations)",
             "account": "anonymous",
             "http": headers,

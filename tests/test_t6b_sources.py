@@ -1,4 +1,4 @@
-"""T6b sources: a deflated member streamed out of a remote zip, checked against the zip's own CRC."""
+"""T6b sources: a deflated member streamed out of a remote zip, checked against its CRC."""
 
 import io
 import zipfile
