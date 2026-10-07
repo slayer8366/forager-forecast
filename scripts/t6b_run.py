@@ -178,7 +178,8 @@ def keep_groups() -> set[str]:
     return keep
 
 
-def stage_trees(until, workers: int, max_units: int | None = None) -> dict:
+def stage_trees(until, workers: int, max_units: int | None = None,
+                only_groups: set[str] | None = None) -> dict:  # fmt: skip
     tiles = tile_list(TREE_N, "trees")
     canadian = {t["key"] for t in tiles if t["canada"]}
     units = sorted((t["key"] for t in tiles),
@@ -211,6 +212,9 @@ def stage_trees(until, workers: int, max_units: int | None = None) -> dict:
         return {"scanfi_natives": "deleted, request kept"}
 
     log(f"trees: {len(units)} tiles, {len(canadian)} with Canadian cells")
+    if only_groups:
+        units = [u for u in units if super_key(u) in only_groups]
+        log(f"trees: this section offers only super-windows {sorted(only_groups)}")
     units = _first_pending(units, TILES / "trees", max_units)
     return run_section(units, tree_unit, MANIFEST, TILES / "trees", until=until, pause_file=PAUSE,
                        workers=workers, group_of=super_key, prepare=prepare, cleanup=cleanup,
@@ -261,6 +265,8 @@ def main() -> None:
     p.add_argument("--max-soil-tiles", type=int, default=None,
                    help="at most this many new soil tiles in this section")  # fmt: skip
     p.add_argument("--max-tree-tiles", type=int, default=None)
+    p.add_argument("--tree-groups", default=None,
+                   help="comma-separated super-window keys this section may run")  # fmt: skip
     args = p.parse_args()
     if not DRIVE.is_dir():
         sys.exit("flash drive not mounted")
@@ -278,7 +284,14 @@ def main() -> None:
             elif stage == "plots":
                 stage_plots()
             elif stage == "trees":
-                summaries.append(stage_trees(until, args.workers, args.max_tree_tiles))
+                summaries.append(
+                    stage_trees(
+                        until,
+                        args.workers,
+                        args.max_tree_tiles,
+                        set(args.tree_groups.split(",")) if args.tree_groups else None,
+                    )
+                )
             elif stage == "soil":
                 summaries.append(stage_soil(until, args.workers, args.max_soil_tiles))
             else:
