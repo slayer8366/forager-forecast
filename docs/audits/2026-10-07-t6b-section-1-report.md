@@ -282,3 +282,5 @@ daytime: this job started in the evening.
 expected to stop before "otherConiferous", after about 12.3 GB (balsam fir to lodgepole pine,
 inferred from the layer sizes). The other four layers follow once the `scanfi-layers` stage has
 regridded and deleted earlier ones. No compute section was started.
+
+Correction, appended 2026-10-07 03:48 UTC: section 8's heading gives 03:49 UTC; it was written at 03:47 UTC by the clock. Nothing else changes.
