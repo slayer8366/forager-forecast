@@ -284,3 +284,56 @@ inferred from the layer sizes). The other four layers follow once the `scanfi-la
 regridded and deleted earlier ones. No compute section was started.
 
 Correction, appended 2026-10-07 03:48 UTC: section 8's heading gives 03:49 UTC; it was written at 03:47 UTC by the clock. Nothing else changes.
+
+## 9. Appended 2026-10-07 16:58 UTC: the network fix after night section 2 (Forager RECORD -641)
+
+**What happened** (as the planner relays it; the log is on the drive at
+`forecast-data/t6b/night-2026-10-07.log` and copied as `2026-10-07-t6b-run/night-2026-10-07.log.txt`):
+- Night section 2 ran from 02:23 to 04:18 PDT, under the cap.
+- The mask was rebuilt in 441 s. The plot table was built in 18 s: 13,364 trees capped, 0
+  non-positive widths.
+- 37 of 89 soil tiles finished, median 346 s with two workers.
+- The laptop's Wi-Fi dropped at about 03:40. At 04:18 a soil worker raised `URLError: Temporary
+  failure in name resolution`. It propagated through `fut.result()` and ended the whole section.
+
+**The fix** (the planner's call; no rule change):
+- **Retry:** a fetch's network error is retried after 30 s, 2, 5 and 15 minutes, never waiting
+  past `--until`. Network errors are a URL error, a timeout, a dropped connection, an HTTP 5xx, or
+  a GDAL read error naming curl, HTTP or a connection. An HTTP 4xx is not one.
+- **Deferral:** a tile that still fails gets a manifest line with `"status": "deferred"` and its
+  errors, and the section carries on. A deferred tile never counts as done, and the next section
+  takes deferred tiles first.
+- **Real bugs still stop the section:** any other exception stops it, as before.
+- **Counts:** section summaries and the end-of-section commit give ok, deferred and remaining.
+- The SCANFI download job retries and resumes the same way.
+
+**Tests and checks:**
+- Seven new tests were written before the code and were red on the missing arguments: a stub that
+  fails twice and then succeeds; a 503 retried and a 404 not; a tile that keeps failing is deferred
+  and the section continues; deferred tiles go first next time; a real bug still stops the section;
+  no wait past the stop time; two workers.
+- A test that a layer download retries and resumes was also written first.
+- **One test came after the code:** that a GDAL read error counts only when it is a network one.
+- Revert runner: 34 checks, 32 bite. The same 2 labelled "may not bite" do not
+  (`revert_results_4.json`).
+- Full suite under the cap: 460 passed, 335 test functions, peak 531 MB.
+
+**State found on the drive:**
+- 38 soil tile files but 37 manifest lines. The tile in flight when the section ended has a file
+  and no line, so it will be redone.
+- 41 soil native folders. Those without a request record are fetched again.
+
+**Will tonight's outputs fit?** 6.1 GB is free.
+
+| Output | Estimate | Basis |
+|---|---|---|
+| Soil, the remaining tiles | about 2.2 GB | measured per study cell on the 37 done: 10.3 B of output and 5.3 B of native windows, over about 140 million remaining cells (about 240 million study cells less the 99.8 million done) |
+| US tree tiles | at most about 1.65 GB | the trial's 13.3 B per cell, measured in dense forest, so an upper figure, over about 124 million cells |
+| **Total** | **about 3.9 GB** | leaves about 2 GB |
+
+- **It fits.**
+- The final mosaics, and the four SCANFI layers not yet downloaded, need room freed first: the
+  scanfi-layers stage deletes each layer once it is regridded.
+- The download job, if restarted with its 8 GB reserve, stops at once, as intended.
+
+No section was started.
