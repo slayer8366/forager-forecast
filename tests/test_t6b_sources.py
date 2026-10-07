@@ -127,3 +127,29 @@ def test_layer_downloads_stop_before_a_layer_that_would_eat_the_reserve(tmp_path
                            headers=headers, opener=opener)  # fmt: skip
     assert out2["done"] == [] and "free" in out2["stopped"]
     assert not (tmp_path / "w" / "c.tif").exists()
+
+
+def test_a_layer_download_retries_a_network_error_and_resumes(tmp_path, monkeypatch):
+    import shutil
+    import urllib.error
+
+    from forager_forecast.t6b_sources import download_layers
+
+    payloads = {"u/a": b"z" * 5000}
+    headers, opener = _fake_source(payloads)
+    calls = {"n": 0}
+
+    def flaky_opener(url):
+        def open_from(start):
+            calls["n"] += 1
+            if calls["n"] == 1:
+                raise urllib.error.URLError("Temporary failure in name resolution")
+            return opener(url)(start)
+
+        return open_from
+
+    monkeypatch.setattr(shutil, "disk_usage", lambda p: shutil._ntuple_diskusage(10**9, 0, 10**9))
+    out = download_layers(["a"], lambda n: f"u/{n}", tmp_path / "w", tmp_path / "r", reserve=0,
+                          headers=headers, opener=flaky_opener, retry_delays=(0,),
+                          sleep=lambda s: None)  # fmt: skip
+    assert [d["layer"] for d in out["done"]] == ["a"] and calls["n"] == 2

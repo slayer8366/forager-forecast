@@ -229,7 +229,7 @@ def download_resumable(open_from, size: int, dest: Path, deadline: float | None,
 
 def download_layers(layers, url_for, dest_dir: Path, requests_dir: Path, reserve: int,
                     deadline: float | None = None, headers=http_headers, opener=http_open_from,
-                    log=print) -> dict:  # fmt: skip
+                    log=print, retry_delays=None, sleep=None) -> dict:  # fmt: skip
     """Forager RECORD -620: download SCANFI layers whole, one at a time, nothing else.
 
     A layer already on the drive with its request record is skipped. Before each layer the free
@@ -240,6 +240,8 @@ def download_layers(layers, url_for, dest_dir: Path, requests_dir: Path, reserve
     import json
     import shutil
     import time
+
+    from forager_forecast.t6b_run import RETRY_DELAYS, attempt
 
     dest_dir, requests_dir = Path(dest_dir), Path(requests_dir)
     dest_dir.mkdir(parents=True, exist_ok=True)
@@ -252,7 +254,14 @@ def download_layers(layers, url_for, dest_dir: Path, requests_dir: Path, reserve
             already.append(layer)
             continue
         url = url_for(layer)
-        head = headers(url)
+        delays = RETRY_DELAYS if retry_delays is None else retry_delays
+        got = attempt(lambda _, url=url: {"head": headers(url)}, layer, retry_delays=delays,
+                      deadline=deadline, sleep=sleep or time.sleep)  # fmt: skip
+        if got["status"] == "deferred":
+            stopped = f"{layer}: network errors, {got['error']}"
+            log(f"stop: {stopped}")
+            break
+        head = got["head"]
         partial = path.with_name(path.name + ".partial")
         have = partial.stat().st_size if partial.exists() else 0
         free = shutil.disk_usage(dest_dir).free
@@ -263,7 +272,17 @@ def download_layers(layers, url_for, dest_dir: Path, requests_dir: Path, reserve
             break
         requested_at = datetime.now(UTC).isoformat(timespec="seconds")
         t0 = time.time()
-        result = download_resumable(opener(url), head["content_length"], path, deadline)
+        result = attempt(
+            lambda _, url=url, head=head, path=path: download_resumable(
+                opener(url), head["content_length"], path, deadline
+            ),
+            layer, retry_delays=delays,
+            deadline=deadline, sleep=sleep or time.sleep,
+        )  # fmt: skip
+        if result["status"] == "deferred":
+            stopped = f"{layer}: network errors, {result['error']}"
+            log(f"stop: {stopped}")
+            break
         seconds = time.time() - t0
         rate = (result["bytes"] - have) / max(seconds, 1e-9)
         log(f"{layer}: {result['bytes']}/{head['content_length']} bytes in {seconds:.0f} s, "

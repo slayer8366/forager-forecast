@@ -320,7 +320,8 @@ def commit_progress(summaries: list[dict]) -> None:
     subprocess.run(["git", "add", str(EVIDENCE)], cwd=REPO, check=True)
     done = sum(s.get("units_done_now", 0) for s in summaries)
     msg = (f"T6b run section: {done} tiles; " + "; ".join(
-        f"{s.get('layer')}: {s.get('units_remaining')} left, {s.get('stopped')}" for s in summaries)
+        f"{s.get('layer')}: {s.get('units_ok')} ok, {s.get('units_deferred')} deferred, "
+        f"{s.get('units_remaining')} left, {s.get('stopped')}" for s in summaries)
         + "\n\nCo-Authored-By: Claude <noreply@anthropic.com>")  # fmt: skip
     if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=REPO).returncode != 0:
         subprocess.run(["git", "commit", "-q", "-m", msg], cwd=REPO, check=True)

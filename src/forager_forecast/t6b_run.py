@@ -13,6 +13,7 @@
 - Up to ``workers`` units run at once in worker processes (D115 item 2: two, inside the one cap).
 """
 
+import functools
 import hashlib
 import json
 import os
@@ -49,14 +50,20 @@ def read_lines(manifest: Path) -> list[dict]:
     return out
 
 
-def done_units(manifest: Path, out_dir: Path) -> set[str]:
-    """Units whose latest line is done and whose files still hash to what that line records."""
+def _latest_unit_lines(manifest: Path) -> dict[str, dict]:
     latest: dict[str, dict] = {}
     for entry in read_lines(manifest):
         if entry.get("kind") == "unit":
             latest[entry["unit"]] = entry
+    return latest
+
+
+def done_units(manifest: Path, out_dir: Path) -> set[str]:
+    """Units whose latest line is ok (not deferred) and whose files still hash to that line's."""
     done = set()
-    for unit, entry in latest.items():
+    for unit, entry in _latest_unit_lines(manifest).items():
+        if entry.get("status", "ok") != "ok":
+            continue
         files = entry.get("files", {})
         if all((Path(out_dir) / name).exists() for name in files) and all(
             sha256_file(Path(out_dir) / name) == sha for name, sha in files.items()
@@ -82,6 +89,58 @@ def stop_reason(until: datetime | None, pause_file: Path, clock=datetime.now) ->
     return None
 
 
+# Planner's call after night section 2 (Forager RECORD -641): a network failure in a fetch is
+# retried after these waits (s), never past the stop time; a tile that still fails is deferred.
+RETRY_DELAYS = (30, 120, 300, 900)
+_NETWORK_WORDS = ("curl", "http", "timed out", "timeout", "resolve", "name resolution",
+                  "connection", "network", "temporary failure")  # fmt: skip
+
+
+def is_network_error(exc: BaseException) -> bool:
+    """True for a failure of the network, not of the code: a URL error, a timeout, a dropped
+    connection, an HTTP 5xx, or a GDAL /vsicurl read error. An HTTP 4xx is not one."""
+    import http.client
+    import socket
+    import urllib.error
+
+    if isinstance(exc, urllib.error.HTTPError):
+        return exc.code >= 500
+    if isinstance(exc, (urllib.error.URLError, socket.timeout, TimeoutError, ConnectionError,
+                        http.client.IncompleteRead, http.client.RemoteDisconnected)):  # fmt: skip
+        return True
+    try:
+        from rasterio.errors import RasterioError
+    except ImportError:  # pragma: no cover
+        RasterioError = ()  # noqa: N806
+    if RasterioError and isinstance(exc, RasterioError):
+        text = str(exc).lower()
+        return "/vsicurl/" in text or any(w in text for w in _NETWORK_WORDS)
+    cause = exc.__cause__ or exc.__context__
+    return cause is not None and cause is not exc and is_network_error(cause)
+
+
+def attempt(work, unit: str, retry_delays=RETRY_DELAYS, deadline: float | None = None,
+            sleep=time.sleep, now=time.time) -> dict:  # fmt: skip
+    """Run ``work(unit)``, retrying network errors; deferred if it still fails. Others raise."""
+    errors: list[str] = []
+    for k in range(len(retry_delays) + 1):
+        try:
+            result = work(unit)
+            return {"status": "ok", "attempts": k + 1, "network_errors": errors, **result}
+        except Exception as exc:
+            if not is_network_error(exc):
+                raise
+            errors.append(f"{type(exc).__name__}: {exc}")
+            if k == len(retry_delays):
+                break
+            delay = retry_delays[k]
+            if deadline is not None and now() + delay >= deadline:
+                break
+            sleep(delay)
+    return {"status": "deferred", "attempts": len(errors), "network_errors": errors,
+            "error": errors[-1], "files": {}}  # fmt: skip
+
+
 def run_section(
     units: list[str],
     work: Callable[[str], dict],
@@ -96,6 +155,8 @@ def run_section(
     cleanup: Callable[[str], dict] | None = None,
     layer: str = "",
     clock=datetime.now,
+    retry_delays=RETRY_DELAYS,
+    sleep=time.sleep,
 ) -> dict:
     """Run pending units in order until done, the stop time, or the pause file. Returns a summary.
 
@@ -105,12 +166,23 @@ def run_section(
     started = time.time()
     done = done_units(manifest, out_dir)
     previously = {e["unit"] for e in read_lines(manifest) if e.get("kind") == "unit"}
-    pending = [u for u in units if u not in done]
+    latest = _latest_unit_lines(manifest)
+    was_deferred = {u for u, e in latest.items() if e.get("status") == "deferred"}
+    pending = [u for u in units if u not in done and u in was_deferred] + [
+        u for u in units if u not in done and u not in was_deferred
+    ]
+    deadline = until.timestamp() if until is not None else None
+    if workers <= 1:
+        guarded = functools.partial(attempt, work, retry_delays=retry_delays, deadline=deadline,
+                                    sleep=sleep, now=lambda: clock().timestamp())  # fmt: skip
+    else:
+        guarded = functools.partial(attempt, work, retry_delays=retry_delays, deadline=deadline)
     groups: dict[str | None, list[str]] = {}
     for u in units:
         groups.setdefault(group_of(u), []).append(u)
     prepared: set[str | None] = set()
     finished: list[str] = []
+    deferred: list[str] = []
     reason = None
 
     def record(unit: str, result: dict, seconds: float) -> None:
@@ -119,6 +191,9 @@ def run_section(
             "finished_at": datetime.now().astimezone().isoformat(timespec="seconds"),
             "redone": unit in previously, **result,
         })  # fmt: skip
+        if result.get("status") == "deferred":
+            deferred.append(unit)
+            return
         finished.append(unit)
         group = group_of(unit)
         if cleanup and group is not None and all(u in done or u in finished for u in groups[group]):
@@ -149,7 +224,7 @@ def run_section(
             if reason:
                 break
             t0 = time.time()
-            result = work(unit)
+            result = guarded(unit)
             record(unit, result, time.time() - t0)
     else:
         with ProcessPoolExecutor(max_workers=workers) as pool:
@@ -164,7 +239,7 @@ def run_section(
                     if reason:
                         break
                     unit = queue.pop(0)
-                    running[pool.submit(work, unit)] = (unit, time.time())
+                    running[pool.submit(guarded, unit)] = (unit, time.time())
                 if reason:
                     queue = []
                 if not running:
@@ -175,13 +250,14 @@ def run_section(
                     record(unit, fut.result(), time.time() - t0)
     remaining = [u for u in units if u not in done and u not in finished]
     if reason is None and remaining:
-        reason = "unknown"
+        reason = f"every tile tried; {len(deferred)} deferred after network errors"
     summary = {
         "kind": "section", "layer": layer,
         "started_at": datetime.fromtimestamp(started).astimezone().isoformat(timespec="seconds"),
         "ended_at": datetime.now().astimezone().isoformat(timespec="seconds"),
         "seconds": round(time.time() - started, 1), "units_total": len(units),
         "units_done_before": len(done), "units_done_now": len(finished),
+        "units_ok": len(finished), "units_deferred": len(deferred),
         "units_remaining": len(remaining), "stopped": reason or "all units done",
     }  # fmt: skip
     append_line(manifest, summary)
