@@ -1,0 +1,105 @@
+"""T6b revert checks: T5's strict runner (docs/audits/2026-10-06-t5-build/revert.py.txt) with T6b's checks.
+
+Each check: save a copy of the file, apply one exact edit (the anchor must occur once), delete every
+__pycache__ outside .venv, set PYTHONDONTWRITEBYTECODE=1, confirm a separate interpreter imports the
+edited source, run the named test files with a fresh JUnit XML, refuse the run if the edit was not
+seen, if pytest reports collection, import or syntax errors, or if no XML was written; record the
+failing tests and their first message line; restore the file from the saved copy (never from git)
+and confirm it is byte-identical to the copy and to HEAD, so the forward change is still present.
+Labels "may not bite" were written before the run.
+Run from the repository root under the cap:
+    .venv/bin/python docs/audits/2026-10-07-t6b-build/revert.py.txt OUT.json
+"""
+import hashlib, json, os, shutil, subprocess, sys, xml.etree.ElementTree as ET
+from pathlib import Path
+
+PY = ".venv/bin/python"
+L = "tests/test_t6b_layers.py"
+M = "tests/test_t6b_mask.py"
+R = "tests/test_t6b_run.py"
+G = "tests/test_regrid.py"
+S = "tests/test_t6b_sources.py"
+CHECKS = [
+    ("origin placement: window-relative arithmetic", "src/forager_forecast/regrid.py",
+     "return (nx - a.c) / a.a - col_off, (ny - a.f) / a.e - row_off",
+     "return (nx - (a.c + col_off * a.a)) / a.a, (ny - (a.f + row_off * a.e)) / a.e", [G, L]),
+    ("water: class 18 not water", "src/forager_forecast/t6b_layers.py",
+     "return (value == NALCMS_WATER) | np.isin(value, NALCMS_UNMAPPED)",
+     "return np.isin(value, NALCMS_UNMAPPED)", [L]),
+    ("water: TreeMap side not blanked", "src/forager_forecast/t6b_layers.py",
+     "blank = ~own | outside | water", "blank = ~own | outside", [L]),
+    ("water: SCANFI side not blanked", "src/forager_forecast/t6b_layers.py",
+     "blank = ~own | water", "blank = ~own", [L]),
+    ("mask: Arctic not excluded", "src/forager_forecast/t6b_mask.py",
+     "study = ((country == COUNTRY_US48) | (country == COUNTRY_CAN)) & (arctic == 0)",
+     "study = (country == COUNTRY_US48) | (country == COUNTRY_CAN)", [M, L]),
+    ("side: no 49 N band (polygon everywhere)", "src/forager_forecast/t6b_mask.py",
+     "return np.where(in_band, by_line, by_polygon).astype(\"uint8\")",
+     "return by_polygon.astype(\"uint8\")", [M, L]),
+    ("mask: Alaska counted as the 48 states", "src/forager_forecast/t6b_mask.py",
+     "code = COUNTRY_US_OTHER if state in US_MASKED_STATES else COUNTRY_US48",
+     "code = COUNTRY_US48", [M]),
+    ("soil: study area not applied", "src/forager_forecast/t6b_layers.py",
+     "values[(fraction < MIN_VALID_FRACTION) | ~study[None]] = np.nan",
+     "values[fraction < MIN_VALID_FRACTION] = np.nan", [L]),
+    ("plot table: CANOPYPCT not carried", "src/forager_forecast/t6b_layers.py",
+     "table[k, -1] = canopy.get(tm, np.nan)", "table[k, -1] = 50.0", [L]),
+    ("runner: pause file ignored", "src/forager_forecast/t6b_run.py",
+     "    if Path(pause_file).exists():", "    if False:", [R]),
+    ("runner: stop time ignored", "src/forager_forecast/t6b_run.py",
+     "if until is not None and clock() >= until:", "if False:", [R]),
+    ("runner: damaged output trusted", "src/forager_forecast/t6b_run.py",
+     "sha256_file(Path(out_dir) / name) == sha for name, sha in files.items()",
+     "True for name, sha in files.items()", [R]),
+    ("runner: group cleaned before its last tile", "src/forager_forecast/t6b_run.py",
+     "u in done or u in finished for u in groups[group]", "True for u in groups[group]", [R]),
+    ("sources: CRC not compared (may not bite: a damaged deflate stream fails earlier)",
+     "src/forager_forecast/t6b_sources.py",
+     "if written != info.file_size or crc != info.CRC:", "if written != info.file_size:", [S]),
+    ("pixel centres window-relative (may not bite: masks flip only on exact edges)",
+     "src/forager_forecast/t6b_layers.py",
+     "xs = full.c + (col_off + np.arange(width) + 0.5) * full.a",
+     "xs = (full.c + col_off * full.a) + (np.arange(width) + 0.5) * full.a", [L]),
+]
+
+def sha(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+
+results = []
+xml = Path("/tmp/claude-1000/t6b-revert.xml"); xml.parent.mkdir(parents=True, exist_ok=True)
+for name, path, old, new, tests in CHECKS:
+    p = Path(path); saved = p.read_bytes(); saved_sha = sha(p)
+    head = subprocess.run(["git", "show", f"HEAD:{path}"], capture_output=True).stdout
+    text = saved.decode()
+    assert text.count(old) == 1, f"{name}: edit anchor not unique or missing"
+    xml.unlink(missing_ok=True)
+    try:
+        p.write_text(text.replace(old, new))
+        for cache in Path(".").rglob("__pycache__"):
+            if ".venv" not in cache.parts:
+                shutil.rmtree(cache)
+        env = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
+        module = path.removeprefix("src/").removesuffix(".py").replace("/", ".")
+        probe = subprocess.run([PY, "-c", f"import inspect, {module} as m; print({new!r} in inspect.getsource(m))"],
+                               capture_output=True, text=True, env=env)
+        edit_seen = probe.stdout.strip() == "True"
+        run = subprocess.run([PY, "-m", "pytest", "-q", "-p", "no:warnings", "-p", "no:cacheprovider",
+                              f"--junitxml={xml}", *tests], capture_output=True, text=True, env=env)
+    finally:
+        p.write_bytes(saved)
+    restored_ok = sha(p) == saved_sha and p.read_bytes() == head
+    out = run.stdout + run.stderr
+    collection_error = (not edit_seen) or ("error during collection" in out) or ("ImportError" in out) or ("SyntaxError" in out) or not xml.exists()
+    failures = []
+    if xml.exists() and not collection_error:
+        root = ET.parse(xml).getroot()
+        for case in root.iter("testcase"):
+            for f in list(case.findall("failure")) + list(case.findall("error")):
+                msg = (f.get("message") or "").splitlines()[0][:160]
+                failures.append(f"{case.get('name')}: {msg}")
+    results.append({"check": name, "file": path, "tests": tests, "collection_error": collection_error,
+                    "edit_seen_by_interpreter": edit_seen, "citable": not collection_error, "failed": len(failures), "failures": failures,
+                    "restored_from_copy_and_equal_to_HEAD": restored_ok,
+                    "tail": out.strip().splitlines()[-1] if out.strip() else ""})
+    print(f"{name}: collection_error={collection_error} failed={len(failures)} restored={restored_ok}", flush=True)
+
+Path(sys.argv[1]).write_text(json.dumps(results, indent=1) + "\n")
