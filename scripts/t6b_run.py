@@ -331,7 +331,9 @@ def commit_progress(summaries: list[dict]) -> None:
 def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("--until", required=True, help="local HH:MM; no new tile starts after it")
-    p.add_argument("--stages", default="mask,plots,scanfi-layers,trees,soil")
+    # Forager RECORD -620: night sections run mask, plots, soil, then the tree tiles that are
+    # ready (US-only until the SCANFI layers are regridded). scanfi-layers is named explicitly.
+    p.add_argument("--stages", default="mask,plots,soil,trees")
     p.add_argument("--workers", type=int, default=2)
     p.add_argument("--max-soil-tiles", type=int, default=None,
                    help="at most this many new soil tiles in this section")  # fmt: skip

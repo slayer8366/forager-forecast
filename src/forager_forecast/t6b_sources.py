@@ -225,3 +225,56 @@ def download_resumable(open_from, size: int, dest: Path, deadline: float | None,
             sha.update(block)
     partial.rename(dest)
     return {"complete": True, "bytes": size, "size": size, "sha256": sha.hexdigest()}
+
+
+def download_layers(layers, url_for, dest_dir: Path, requests_dir: Path, reserve: int,
+                    deadline: float | None = None, headers=http_headers, opener=http_open_from,
+                    log=print) -> dict:  # fmt: skip
+    """Forager RECORD -620: download SCANFI layers whole, one at a time, nothing else.
+
+    A layer already on the drive with its request record is skipped. Before each layer the free
+    space must cover what is left of it plus ``reserve``; otherwise the job stops there, so the
+    night sections keep room for their outputs. A partial download resumes. Each finished layer
+    gets a request record with its sha256 (D118).
+    """
+    import json
+    import shutil
+    import time
+
+    dest_dir, requests_dir = Path(dest_dir), Path(requests_dir)
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    requests_dir.mkdir(parents=True, exist_ok=True)
+    done, already, stopped = [], [], None
+    for layer in layers:
+        path = dest_dir / f"{layer}.tif"
+        request = requests_dir / f"scanfi_whole_{layer}.request.json"
+        if path.exists() and request.exists():
+            already.append(layer)
+            continue
+        url = url_for(layer)
+        head = headers(url)
+        partial = path.with_name(path.name + ".partial")
+        have = partial.stat().st_size if partial.exists() else 0
+        free = shutil.disk_usage(dest_dir).free
+        if free < head["content_length"] - have + reserve:
+            stopped = (f"{layer}: {free} bytes free, {head['content_length'] - have} still to "
+                       f"download plus a reserve of {reserve}")  # fmt: skip
+            log(f"stop before {stopped}")
+            break
+        requested_at = datetime.now(UTC).isoformat(timespec="seconds")
+        t0 = time.time()
+        result = download_resumable(opener(url), head["content_length"], path, deadline)
+        seconds = time.time() - t0
+        rate = (result["bytes"] - have) / max(seconds, 1e-9)
+        log(f"{layer}: {result['bytes']}/{head['content_length']} bytes in {seconds:.0f} s, "
+            f"{rate / 1e3:.0f} kB/s, complete={result['complete']}")  # fmt: skip
+        if not result["complete"]:
+            stopped = f"{layer}: stop time reached"
+            break
+        record = {"source": url, "requested_at": requested_at, "account": "anonymous",
+                  "http": head, "file": path.name, "sha256": result["sha256"],
+                  "seconds": round(seconds, 1), "bytes_per_s": round(rate),
+                  "free_bytes_before": free, "rulings": ["D92", "D118"]}  # fmt: skip
+        request.write_text(json.dumps(record, indent=2) + "\n")
+        done.append({"layer": layer, "bytes": head["content_length"], "seconds": seconds})
+    return {"done": done, "already": already, "stopped": stopped}

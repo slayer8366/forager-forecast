@@ -71,3 +71,59 @@ def test_a_download_stops_at_its_deadline_and_resumes_where_it_stopped(tmp_path)
     import hashlib
 
     assert second["sha256"] == hashlib.sha256(payload).hexdigest()
+
+
+# Forager RECORD -620: SCANFI's layers download as their own daytime job, download only.
+
+
+def _fake_source(payloads):
+    def headers(url):
+        return {"etag": "e", "last_modified": "m", "content_length": len(payloads[url])}
+
+    def opener(url):
+        return lambda start: io.BytesIO(payloads[url][start:])
+
+    return headers, opener
+
+
+def test_layers_download_one_at_a_time_with_their_records_and_skip_what_is_there(
+    tmp_path, monkeypatch
+):
+    import hashlib
+    import json
+    import shutil
+
+    from forager_forecast.t6b_sources import download_layers
+
+    payloads = {f"u/{n}": bytes([k]) * (1000 + k) for k, n in enumerate(("a", "b"))}
+    headers, opener = _fake_source(payloads)
+    monkeypatch.setattr(shutil, "disk_usage", lambda p: shutil._ntuple_diskusage(10**9, 0, 10**9))
+    out = download_layers(["a", "b"], lambda n: f"u/{n}", tmp_path / "w", tmp_path / "r",
+                          reserve=0, headers=headers, opener=opener)  # fmt: skip
+    assert [o["layer"] for o in out["done"]] == ["a", "b"] and out["stopped"] is None
+    rec = json.loads((tmp_path / "r" / "scanfi_whole_b.request.json").read_text())
+    assert rec["sha256"] == hashlib.sha256(payloads["u/b"]).hexdigest()
+    assert (tmp_path / "w" / "b.tif").read_bytes() == payloads["u/b"]
+    again = download_layers(["a", "b"], lambda n: f"u/{n}", tmp_path / "w", tmp_path / "r",
+                            reserve=0, headers=headers, opener=opener)  # fmt: skip
+    assert again["done"] == [] and again["already"] == ["a", "b"]
+
+
+def test_layer_downloads_stop_before_a_layer_that_would_eat_the_reserve(tmp_path, monkeypatch):
+    import shutil
+
+    from forager_forecast.t6b_sources import download_layers
+
+    payloads = {"u/a": b"x" * 1000, "u/b": b"y" * 1000}
+    headers, opener = _fake_source(payloads)
+    monkeypatch.setattr(shutil, "disk_usage", lambda p: shutil._ntuple_diskusage(10**6, 0, 1500))
+    out = download_layers(["a", "b"], lambda n: f"u/{n}", tmp_path / "w", tmp_path / "r",
+                          reserve=400, headers=headers, opener=opener)  # fmt: skip
+    # 1,500 free covers a (1,000 + 400 reserve); the stub's free space does not shrink, but b is
+    # still checked on its own before it starts.
+    assert [o["layer"] for o in out["done"]] == ["a", "b"]
+    monkeypatch.setattr(shutil, "disk_usage", lambda p: shutil._ntuple_diskusage(10**6, 0, 1300))
+    out2 = download_layers(["c"], lambda n: "u/a", tmp_path / "w", tmp_path / "r", reserve=400,
+                           headers=headers, opener=opener)  # fmt: skip
+    assert out2["done"] == [] and "free" in out2["stopped"]
+    assert not (tmp_path / "w" / "c.tif").exists()
