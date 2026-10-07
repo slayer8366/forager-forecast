@@ -161,3 +161,82 @@ Every start ran under `MemoryMax=5G MemorySwapMax=0`. Peak memory per start was 
   section fetches the whole super-window again.
 - Coastline mismatch as the cause of stop 2 is inferred from the counts.
 - Drive use: `forecast-data/t6b` is 3.7 GB, and 17 GB is free.
+
+## 7. Appended 2026-10-07 03:20 UTC: the rulings on the three stops, and the changes made (no run)
+
+Sections 1 to 6 above stand as written, with one correction below. The planner relayed the rulings
+as Forager RECORD -615.
+
+**Section 1's length.** The planner asked for one short section of no more than 45 minutes. Section 1
+ran about 54 minutes of compute across four starts (18:32 to 19:04 local, then 19:05 to about 19:27).
+It overran.
+
+**Correction to stop 3's "about twenty times slower".** That figure compared time per layer across
+windows of different sizes.
+- Per pixel of window, the trial read about 0.61 million pixels a second (about 8 million pixels in
+  13 s). The 256 km window read about 0.084 million a second (about 76 million in 900 s).
+- That is about seven times slower, not twenty. The decision does not change.
+
+**Rows filed:**
+- **D116** (the owner): a genus outside T5's lists is classed by its FIA species code, under 300 as a
+  conifer and 300 and over as broadleaf. It counts toward the conifer and broadleaf totals only,
+  never as a host, and every such tree is counted.
+- **D117** (the owner): a cell is in the study area only if it lies inside a non-Arctic ecoregion.
+- **D118** (the planner): the SCANFI route.
+
+**The probe** (D118, about 5.5 minutes, `2026-10-07-t6b-run/gdal_probe.out.txt`): the same 128 km
+window of the ponderosa pine layer.
+
+| GDAL settings | Rate |
+|---|---|
+| Default | 0.082 Mpx/s, 9 kB/s received |
+| Tuned | 0.191 Mpx/s, 86 kB/s received |
+| The trial, for comparison | about 0.61 Mpx/s |
+
+The tuned rate is not near the trial's, so the whole-layer route is built. The server's bulk rate was
+also measured, at 02:42 UTC: 77,515 bytes a second on a 50 MB range, with about 10 s to the first
+byte.
+
+**Changes, tests first** (each new test was seen red before its code):
+- `crown_cover`: an optional FIA-code class (D116). T5's calls are unchanged, and T5's refusal still
+  raises without a code.
+- The mask's second band is now the ecoregion code: none, Arctic or other (D117). A coastal sliver in
+  no polygon is out. The mask carries a version, and the runner moves a mask, plot table, tile lists,
+  tiles and manifest of an older version aside (kept, under `superseded/`) before rebuilding. The two
+  soil tiles of section 1 will be redone.
+- SCANFI from whole layer files (D118): each layer is regridded over every Canadian tree tile and
+  stored per tile as float32, and the tree tile sums the classes.
+  - It matches the window route to float32 rounding, with flags exactly equal.
+  - One tile against four tiles agrees bit for bit.
+  - Downloads are resumable and stop at the section's stop time.
+  - Free space is checked before each layer.
+  - Each layer's request and sha256 are recorded.
+  - The layer file is deleted once all its tiles are done.
+- The trees stage now offers only tiles whose sources are ready. Windowed SCANFI reads, which are no
+  longer used by the runner, keep the tuned settings.
+
+**Revert runner:** 25 checks (`revert_results_2.json`).
+- **23 bite**, each with a message specific to its edit.
+- The same 2 labelled "may not bite" do not.
+- Every run was citable and every file was restored equal to HEAD.
+
+**Full suite under the cap:** 449 passed, 324 test functions (from 440 and 315), peak 534 MB. Ruff is
+clean.
+
+**What the whole-layer route costs** (inferred, not measured):
+- **Downloads:** 18.8 GB. At tonight's 77 kB/s that is about 68 hours. At the CEC server's 9.7 MB/s
+  it would be about 32 minutes. The SCANFI server's daytime rate is unknown.
+- **Compute:** each Canadian tile now runs eleven single-layer regrids instead of two grouped ones,
+  about 5.5 times the geometry work. On the trial's rate (about 0.47 ms per cell per regrid call)
+  that is about 130 hours for the Canadian tiles with two workers, against about 25 on the window
+  route. This is the main cost of the route that fits the disk. The window route needs all eleven
+  layers at once, about 19 to 20 GB of native windows, which does not fit the 17 GB free.
+
+**Next section, when the owner starts one:**
+- mask rebuild (about 7 minutes);
+- plot table (time unknown);
+- tile lists (about 10 minutes);
+- then the stages in the order mask, plots, scanfi-layers, trees, soil, or any subset with
+  `--stages`.
+
+No run section was started after section 1.
