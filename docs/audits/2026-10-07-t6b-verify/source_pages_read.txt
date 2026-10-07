@@ -1,0 +1,22 @@
+Pages read by the T6b coder session, 2026-10-07 UTC (times are request times). Documentation only, no data.
+
+1. Natural Earth terms of use, https://www.naturalearthdata.com/about/terms-of-use/ (00:42:16 UTC):
+   All versions of Natural Earth raster + vector map data found on this website are in the public domain. You may use the maps in any manner, including modifying the content and design, electronic dissemination, and offset printing. The primary authors, Tom Patterson and Nathaniel Vaughn Kelso , and all other contributors renounce all financial claim to the maps and invites you to use them for personal, educational, and commercial purposes. No permission is needed to use Natural Earth. Crediting the authors is unneces
+
+2. CEC North American Atlas, Political Boundaries 2021, metadata.zip from
+   https://www.cec.org/files/atlas_layers/0_reference/0_01_political_boundaries/metadata.zip (00:42:15 UTC),
+   sha256 829b40c3445080dd20844039b94c3f7321c843f80d2c0dcb779659f659b45c23
+   Credits Commission for Environmental Cooperation (CEC). 2022. “North American Environmental Atlas - Political Boundaries”. Statistics Canada, United States Census Bureau, Instituto Nacional de Estadística y Geografía (INEGI). Ed. 3.0, Vector digital data [1:10,000,000]. Use limitations This material is licensed under CC BY 4.0 , allowing non-exclusive rights to distribute, remix, adapt, and build upon the material in any medium or format, including for commercial purposes, so long as attribution is given to the creator. Extent West -180.00 East -50.00 North 85.00 South 14.00 Scale Range Maximum (zoomed in) 1:5,000 Minimum (zoomed out) 1:150,000,000 Topics and Keywords ▼ ► Themes or categorie
+
+   License (CC BY 4.0) , allowing redistribution and adaptation with appropriate attribution. Update frequency: Irregular Limitations of use: Intended for continental-scale reference; boundary lines at the local level can be inaccurate in some locations based on minor topology fixes performed during the integration of the trinational dataset. Vintage: 2021 Applications (Intended Use) * Environmental and policy mapping across North America. * Spatial analysis involving jurisdictional or administrative boundaries. * Supporting regional planning and cross-border studies. Files Download Credits Commission for Environmental Cooperation (CEC). 2022. “North American Environmental Atlas - Political Bou
+
+   Terms of use.doc in the same zip: 'If the author of this data is the CEC: This material is licensed under CC BY 4.0'; 'If the author of the data is noted otherwise: Please refer to the license information of this individual dataset'.
+
+3. SCANFI v2 catalogue record, https://open.canada.ca/data/api/3/action/package_show?id=07653869-f303-46c2-a04e-9ab479b73cbf (00:42:16 UTC):
+   license_title: Open Government Licence - Canada; spatial: {"type": "Polygon", "coordinates": [[[-141.003, 41.6755], [-52.6174, 41.6755], [-52.6174, 83.1139], [-141.003, 83.1139], [-141.003, 41.6755]]]}
+   notes: ... data product (SCANFI) was developed using the newly updated National Forest Inventory photo-plot dataset, which consists of a regular sample grid of photo-interpreted high-resolution imagery covering all of Canada’s non-arctic landmass. SCANFI was produced using tempor...
+
+4. SCANFI v2 readme, https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/SCANFI/v2/_SCANFI_v2_read_me.txt (00:38:42 UTC), sha256 996f671e4379fea728274034b4b82858d5008fc04869fa2438a039e9096f11c5
+   t national forest attribute product for Canada. It provides wall-to-wall maps of forest structure, composition, biomass, and age, derived from Landsat time series, National Forest Inventory (NFI) data, and auxiliary environmental layers. Compared to SCANFI v1, SCANFI v2 introduces substantial improvements in input data, modeling methodology, and predictive performance, and delivers a 
+   X_v2_20260119.tif Forest stand age (years) Northern extrapolation mask - Integer mask describing mapping approach. 0 identifies areas mapped with the main tiling approach. 1 and 2 identifies areas in northern Québec (1) and northern western Canada (2) mapped using a single training set. File name SCANFI_north_extrapol_area.tif Importa
+   plot-level validation or fine temporal trend detection. - Areas in northern Canada extrapolated beyond NFI sampling are explicitly defined in SCANFI_north_extrapol_area.tif. 

@@ -1,0 +1,61 @@
+{"file": "treemap_plots.tif", "pixels": 6885864, "nodata_value": -2147483648.0, "with_data_north_of_49": 4545, "with_data_south_of_49": 2722464, "pixels_north_of_49": 3436125, "pixels_south_of_49": 3449739, "outside_raster": 0, "max_lat_with_data": 49.001264155946785, "min_lat_with_data": 48.58589414668637}
+{"file": "scanfi_att_closure.tif", "pixels": 7965694, "nodata_value": 255.0, "with_data_north_of_49": 3970737, "with_data_south_of_49": 2844, "pixels_north_of_49": 3975407, "pixels_south_of_49": 3990287, "outside_raster": 0, "max_lat_with_data": 49.47982959825536, "min_lat_with_data": 48.99860357041298}
+size observe.log 0
+size scanfi-fetch.log 1046
+size soil/master.tif 725496
+size soil/native/phh2o_0-5cm_Q0.05.tif 59104
+size soil/native/phh2o_0-5cm_Q0.95.tif 57474
+size soil/native/phh2o_0-5cm_mean.tif 59287
+size soil/native/phh2o_15-30cm_Q0.05.tif 56272
+size soil/native/phh2o_15-30cm_Q0.95.tif 57258
+size soil/native/phh2o_15-30cm_mean.tif 57809
+size soil/native/phh2o_5-15cm_Q0.05.tif 57095
+size soil/native/phh2o_5-15cm_Q0.95.tif 56941
+size soil/native/phh2o_5-15cm_mean.tif 58624
+size soil/native/request.json 14127
+size soil-build.log 1153
+size soil-fetch.log 1036
+size tree-build.log 1168
+size tree-cut.log 1045
+size trees/master_scale_1.0/host_trees_strip.tif 1210938
+size trees/master_scale_1.0/host_trees_strip_flags.tif 16487
+size trees/master_scale_1.0/summary.json 1389
+size trees/native/scanfi_att_closure.tif 2514295
+size trees/native/scanfi_balsamFir.tif 61105
+size trees/native/scanfi_blackSpruce.tif 66785
+size trees/native/scanfi_broadleaf.tif 761281
+size trees/native/scanfi_douglasFir.tif 1325590
+size trees/native/scanfi_jackPine.tif 61104
+size trees/native/scanfi_lodgepolePine.tif 2037389
+size trees/native/scanfi_otherConiferous.tif 2475759
+size trees/native/scanfi_ponderosaPine.tif 180233
+size trees/native/scanfi_request.json 20486
+size trees/native/scanfi_tamarack.tif 93134
+size trees/native/scanfi_whiteRedPine.tif 61108
+size trees/native/treemap_plot_covers.csv 421142
+size trees/native/treemap_plots.tif 3229137
+size trees/native/treemap_request.json 3922
+{"step": "observe", "seconds": 3.2, "master_cells": 92588, "master_window": [-1308250, 1147500, -1235000, 1226500]}
+	Command being timed: ".venv/bin/python docs/audits/2026-10-07-t6b-verify/trial_tile.py.txt observe"
+	User time (seconds): 4.47
+	System time (seconds): 0.09
+	Percent of CPU this job got: 120%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.77
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 456196
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 27679
+	Voluntary context switches: 12
+	Involuntary context switches: 321
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

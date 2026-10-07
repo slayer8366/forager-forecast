@@ -1,0 +1,35 @@
+"""Does the regrid give bit-identical cells when the native subset starts at a different pixel?
+
+T6b verify item 3 (tile overlap). Same master cells, same native pixels, two native subsets whose
+origins differ by a few pixels (as two tiles' windows would). Reads the trial tile's stored soil
+subsets only. Run under the dispatch's cap.
+"""
+
+import numpy as np
+import rasterio
+from rasterio.transform import Affine
+
+from forager_forecast.grid import GridWindow
+from forager_forecast.regrid import area_weighted_regrid
+from forager_forecast.soilgrids import grid_to_homolosine
+from forager_forecast.t4_layer import _read_native
+from forager_forecast.soilgrids import STATISTICS, blend_0_30
+
+NATIVE = "/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/trial/soil/native"
+by_stat, t = _read_native(__import__("pathlib").Path(NATIVE))
+native = np.stack([blend_0_30(by_stat[s]) for s in STATISTICS])
+# A 64 x 64 cell block in the middle of the trial window.
+win = GridWindow(-1288250, 1170500, -1272250, 1186500)
+v0, f0 = area_weighted_regrid(native, t, grid_to_homolosine(), win)
+for dc, dr in ((3, 0), (0, 5), (7, 11), (1, 1)):
+    sub = native[:, dr:, dc:]
+    ts = t * Affine.translation(dc, dr)
+    v1, f1 = area_weighted_regrid(sub, ts, grid_to_homolosine(), win)
+    same_v = np.array_equal(v0, v1, equal_nan=True)
+    same_f = np.array_equal(f0, f1)
+    diff = np.nanmax(np.abs(v0 - v1))
+    n_diff = int((~((v0 == v1) | (np.isnan(v0) & np.isnan(v1)))).sum())
+    f32 = np.array_equal(v0.astype("float32"), v1.astype("float32"), equal_nan=True)
+    print(f"origin shift ({dc},{dr}) px: values bit-identical {same_v}, fractions {same_f}, "
+          f"cells differing {n_diff} of {v0.size}, max |diff| {diff:.3g}, "
+          f"identical after float32 storage {f32}")

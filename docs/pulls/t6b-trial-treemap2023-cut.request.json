@@ -1,0 +1,91 @@
+{
+  "dataset": "TreeMap 2023 CONUS (Forest Service Research Data Archive, RDS-2026-0038)",
+  "citation": "Zimmer, Scott N.; Houtman, Rachel M.; Leatherman, Lila S. T.; Shaw, John D.; Housman, Ian W.; Shrestha, Abhinav; Borja Arboleda, Maria O.; Grenfell, Isaac C.; Finney, Mark A.; Riley, Karin L. 2026. TreeMap 2023 CONUS: A tree-level model of the forests of the conterminous United States circa 2023. Fort Collins, CO: Forest Service Research Data Archive. https://doi.org/10.2737/RDS-2026-0038",
+  "terms": {
+    "use": "These data were collected using funding from the U.S. Government and can be used without additional permissions or fees.",
+    "licence": "Formally, Archive-published datasets are released under the Creative Commons CC-BY license structure.",
+    "redistribution": "The Data User agrees to not re-distribute a modified version of the data publication and represent it as the original data publication.",
+    "sources": [
+      "https://www.fs.usda.gov/rds/archive/catalog/RDS-2026-0038",
+      "https://www.fs.usda.gov/rds/archive/dataUseInfo",
+      "https://www.fs.usda.gov/rds/archive/datauseinfo/open"
+    ]
+  },
+  "derived_notice": "Derived data, not the original data publication: genus shares of canopy cover computed by forager-forecast (T5, D84, D87) from TreeMap 2023 CONUS (RDS-2026-0038) and SCANFI v2. Neither source's authors produced or reviewed these values.",
+  "zip": "RDS-2026-0038.zip",
+  "zip_sha256": "348264eb608cd55cf49cacec0fa354d03e3f6963d7895582502315629e66abb7",
+  "tree_table_member": "Data/TreeMap2023_CONUS_Tree_Table.csv",
+  "raster_window": {
+    "source": "/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t5/treemap2023/TreeMap2023_CONUS.tif",
+    "bounds_requested": [
+      -1402460.051073367,
+      2982873.047965055,
+      -1321680.5899555045,
+      3059516.2361395913
+    ],
+    "pixel_window": {
+      "col_off": 31970,
+      "row_off": 3930,
+      "width": 2694,
+      "height": 2556
+    },
+    "source_grid": {
+      "crs_wkt": "PROJCS[\"NAD83 / Conus Albers\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.257222101,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Albers_Conic_Equal_Area\"],PARAMETER[\"latitude_of_center\",23],PARAMETER[\"longitude_of_center\",-96],PARAMETER[\"standard_parallel_1\",29.5],PARAMETER[\"standard_parallel_2\",45.5],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH],AUTHORITY[\"EPSG\",\"5070\"]]",
+      "transform": [
+        30.0,
+        0.0,
+        -2361585.0,
+        0.0,
+        -30.0,
+        3177435.0000000037
+      ],
+      "width": 154179,
+      "height": 97279
+    },
+    "nodata": -2147483648.0,
+    "outside_raster_value": -1,
+    "outside_raster_pixels": 0,
+    "file": "treemap_plots.tif",
+    "sha256": "d43c3213e74c1ba2722fbc9e8177c652a9252981cad1a00f20d0f3eb49dbfeb0"
+  },
+  "plots_in_window": 1242,
+  "plots_without_tree_rows": 4,
+  "plots_without_split": 40,
+  "attribute_table": "TreeMap2023_CONUS.tif.vat.dbf",
+  "attribute_table_sha256": "3f0208e01107c7f44abf4afcda6bcef4d22420c7845b4908fdc1c95e892e77d3",
+  "surrogate_trees": 267,
+  "capped_trees": 129,
+  "nonpositive_width_trees": 0,
+  "surrogate_species": {
+    "72": 73,
+    "231": 202,
+    "374": 746,
+    "375": 746,
+    "747": 746
+  },
+  "extent": {
+    "south": 48.71,
+    "north": 49.29,
+    "west": -114.94,
+    "east": -114.06
+  },
+  "master_window": {
+    "left": -1308250,
+    "bottom": 1147500,
+    "right": -1235000,
+    "top": 1226500
+  },
+  "rulings": [
+    "D83",
+    "D84",
+    "D85",
+    "D86",
+    "D87",
+    "D88",
+    "D89",
+    "D90",
+    "D91",
+    "D92",
+    "D74"
+  ]
+}

@@ -1,0 +1,393 @@
+{
+  "dataset": "SoilGrids 2.0, ISRIC - World Soil Information",
+  "licence": "CC BY 4.0",
+  "property": "phh2o (pH in water, mapped as pH x 10)",
+  "depths": [
+    "0-5cm",
+    "5-15cm",
+    "15-30cm"
+  ],
+  "statistics": [
+    "mean",
+    "Q0.05",
+    "Q0.95"
+  ],
+  "extent": {
+    "south": 48.71,
+    "north": 49.29,
+    "west": -114.94,
+    "east": -114.06
+  },
+  "master_window": {
+    "left": -1308250,
+    "bottom": 1147500,
+    "right": -1235000,
+    "top": 1226500
+  },
+  "native_bounds_homolosine": [
+    -12294576.531137865,
+    5389797.556458741,
+    -12204075.320607958,
+    5473048.868064608
+  ],
+  "rulings": [
+    "D80",
+    "D81",
+    "D82"
+  ],
+  "dispatch": "docs/dispatch/2026-10-06-t4-master-grid.md",
+  "attribution": "Soil pH: SoilGrids 2.0, ISRIC - World Soil Information, CC BY 4.0. Poggio, L., de Sousa, L. M., Batjes, N. H., Heuvelink, G. B. M., Kempen, B., Ribeiro, E., and Rossiter, D.: SoilGrids 2.0: producing soil information for the globe with quantified spatial uncertainty, SOIL, 7, 217–240, 2021.",
+  "layers": [
+    {
+      "source": "https://files.isric.org/soilgrids/latest/data/phh2o/phh2o_0-5cm_mean.vrt",
+      "requested_at": "2026-10-07T00:45:17+00:00",
+      "account": "anonymous",
+      "http": {
+        "etag": "\"10771316263-1591112287-3524139\"",
+        "last_modified": "Tue, 02 Jun 2020 15:38:07 GMT",
+        "content_length": "3524139"
+      },
+      "bounds_requested": [
+        -12294576.531137865,
+        5389797.556458741,
+        -12204075.320607958,
+        5473048.868064608
+      ],
+      "pixel_window": {
+        "col_off": 30620,
+        "row_off": 11551,
+        "width": 363,
+        "height": 334
+      },
+      "source_grid": {
+        "crs_wkt": "PROJCS[\"Interrupted_Goode_Homolosine\",GEOGCS[\"GCS_WGS_1984 ellipse\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Interrupted_Goode_Homolosine\"],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+        "transform": [
+          250.0,
+          0.0,
+          -19949750.0,
+          0.0,
+          -250.0,
+          8361000.0
+        ],
+        "width": 159246,
+        "height": 58034,
+        "dtype": "int16"
+      },
+      "nodata": -32768.0,
+      "file": "phh2o_0-5cm_mean.tif",
+      "sha256": "1e73d5a0948508552271cb82a89a448dc4d335f598ede994f2770f55961458d2"
+    },
+    {
+      "source": "https://files.isric.org/soilgrids/latest/data/phh2o/phh2o_0-5cm_Q0.05.vrt",
+      "requested_at": "2026-10-07T00:45:55+00:00",
+      "account": "anonymous",
+      "http": {
+        "etag": "\"10770896868-1591112141-3531831\"",
+        "last_modified": "Tue, 02 Jun 2020 15:35:41 GMT",
+        "content_length": "3531831"
+      },
+      "bounds_requested": [
+        -12294576.531137865,
+        5389797.556458741,
+        -12204075.320607958,
+        5473048.868064608
+      ],
+      "pixel_window": {
+        "col_off": 30620,
+        "row_off": 11551,
+        "width": 363,
+        "height": 334
+      },
+      "source_grid": {
+        "crs_wkt": "PROJCS[\"Interrupted_Goode_Homolosine\",GEOGCS[\"GCS_WGS_1984 ellipse\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Interrupted_Goode_Homolosine\"],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+        "transform": [
+          250.0,
+          0.0,
+          -19949750.0,
+          0.0,
+          -250.0,
+          8361000.0
+        ],
+        "width": 159246,
+        "height": 58034,
+        "dtype": "int16"
+      },
+      "nodata": -32768.0,
+      "file": "phh2o_0-5cm_Q0.05.tif",
+      "sha256": "0ec74c6a6dadf99115200e0ec33d9a18012b0eade10e9ea71bbc7cfc3bc9c009"
+    },
+    {
+      "source": "https://files.isric.org/soilgrids/latest/data/phh2o/phh2o_0-5cm_Q0.95.vrt",
+      "requested_at": "2026-10-07T00:46:25+00:00",
+      "account": "anonymous",
+      "http": {
+        "etag": "\"10771076074-1591111825-3531831\"",
+        "last_modified": "Tue, 02 Jun 2020 15:30:25 GMT",
+        "content_length": "3531831"
+      },
+      "bounds_requested": [
+        -12294576.531137865,
+        5389797.556458741,
+        -12204075.320607958,
+        5473048.868064608
+      ],
+      "pixel_window": {
+        "col_off": 30620,
+        "row_off": 11551,
+        "width": 363,
+        "height": 334
+      },
+      "source_grid": {
+        "crs_wkt": "PROJCS[\"Interrupted_Goode_Homolosine\",GEOGCS[\"GCS_WGS_1984 ellipse\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Interrupted_Goode_Homolosine\"],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+        "transform": [
+          250.0,
+          0.0,
+          -19949750.0,
+          0.0,
+          -250.0,
+          8361000.0
+        ],
+        "width": 159246,
+        "height": 58034,
+        "dtype": "int16"
+      },
+      "nodata": -32768.0,
+      "file": "phh2o_0-5cm_Q0.95.tif",
+      "sha256": "96e4bc49fdc049c4ec5a05680f2fcde06da108609319d8553345f11d4fa2dbe6"
+    },
+    {
+      "source": "https://files.isric.org/soilgrids/latest/data/phh2o/phh2o_5-15cm_mean.vrt",
+      "requested_at": "2026-10-07T00:46:52+00:00",
+      "account": "anonymous",
+      "http": {
+        "etag": "\"10770185003-1591112253-3531831\"",
+        "last_modified": "Tue, 02 Jun 2020 15:37:33 GMT",
+        "content_length": "3531831"
+      },
+      "bounds_requested": [
+        -12294576.531137865,
+        5389797.556458741,
+        -12204075.320607958,
+        5473048.868064608
+      ],
+      "pixel_window": {
+        "col_off": 30620,
+        "row_off": 11551,
+        "width": 363,
+        "height": 334
+      },
+      "source_grid": {
+        "crs_wkt": "PROJCS[\"Interrupted_Goode_Homolosine\",GEOGCS[\"GCS_WGS_1984 ellipse\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Interrupted_Goode_Homolosine\"],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+        "transform": [
+          250.0,
+          0.0,
+          -19949750.0,
+          0.0,
+          -250.0,
+          8361000.0
+        ],
+        "width": 159246,
+        "height": 58034,
+        "dtype": "int16"
+      },
+      "nodata": -32768.0,
+      "file": "phh2o_5-15cm_mean.tif",
+      "sha256": "c119c3bb8d62376f46359a8debb887c1cbb41a7328a5915bb1ce8522cecf6618"
+    },
+    {
+      "source": "https://files.isric.org/soilgrids/latest/data/phh2o/phh2o_5-15cm_Q0.05.vrt",
+      "requested_at": "2026-10-07T00:47:27+00:00",
+      "account": "anonymous",
+      "http": {
+        "etag": "\"10770185004-1591112214-3539523\"",
+        "last_modified": "Tue, 02 Jun 2020 15:36:54 GMT",
+        "content_length": "3539523"
+      },
+      "bounds_requested": [
+        -12294576.531137865,
+        5389797.556458741,
+        -12204075.320607958,
+        5473048.868064608
+      ],
+      "pixel_window": {
+        "col_off": 30620,
+        "row_off": 11551,
+        "width": 363,
+        "height": 334
+      },
+      "source_grid": {
+        "crs_wkt": "PROJCS[\"Interrupted_Goode_Homolosine\",GEOGCS[\"GCS_WGS_1984 ellipse\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Interrupted_Goode_Homolosine\"],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+        "transform": [
+          250.0,
+          0.0,
+          -19949750.0,
+          0.0,
+          -250.0,
+          8361000.0
+        ],
+        "width": 159246,
+        "height": 58034,
+        "dtype": "int16"
+      },
+      "nodata": -32768.0,
+      "file": "phh2o_5-15cm_Q0.05.tif",
+      "sha256": "38c7f6b6e67a73b6b3ad1f6df8c96756ce7affeff6e115ad8226b392b12a7326"
+    },
+    {
+      "source": "https://files.isric.org/soilgrids/latest/data/phh2o/phh2o_5-15cm_Q0.95.vrt",
+      "requested_at": "2026-10-07T00:48:02+00:00",
+      "account": "anonymous",
+      "http": {
+        "etag": "\"10770896880-1591112286-3539523\"",
+        "last_modified": "Tue, 02 Jun 2020 15:38:06 GMT",
+        "content_length": "3539523"
+      },
+      "bounds_requested": [
+        -12294576.531137865,
+        5389797.556458741,
+        -12204075.320607958,
+        5473048.868064608
+      ],
+      "pixel_window": {
+        "col_off": 30620,
+        "row_off": 11551,
+        "width": 363,
+        "height": 334
+      },
+      "source_grid": {
+        "crs_wkt": "PROJCS[\"Interrupted_Goode_Homolosine\",GEOGCS[\"GCS_WGS_1984 ellipse\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Interrupted_Goode_Homolosine\"],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+        "transform": [
+          250.0,
+          0.0,
+          -19949750.0,
+          0.0,
+          -250.0,
+          8361000.0
+        ],
+        "width": 159246,
+        "height": 58034,
+        "dtype": "int16"
+      },
+      "nodata": -32768.0,
+      "file": "phh2o_5-15cm_Q0.95.tif",
+      "sha256": "377186708149c74f85cd14f34c5403b1e90e4fdad78545731e2de43e138f2914"
+    },
+    {
+      "source": "https://files.isric.org/soilgrids/latest/data/phh2o/phh2o_15-30cm_mean.vrt",
+      "requested_at": "2026-10-07T00:48:27+00:00",
+      "account": "anonymous",
+      "http": {
+        "etag": "\"10771316271-1591112049-3539523\"",
+        "last_modified": "Tue, 02 Jun 2020 15:34:09 GMT",
+        "content_length": "3539523"
+      },
+      "bounds_requested": [
+        -12294576.531137865,
+        5389797.556458741,
+        -12204075.320607958,
+        5473048.868064608
+      ],
+      "pixel_window": {
+        "col_off": 30620,
+        "row_off": 11551,
+        "width": 363,
+        "height": 334
+      },
+      "source_grid": {
+        "crs_wkt": "PROJCS[\"Interrupted_Goode_Homolosine\",GEOGCS[\"GCS_WGS_1984 ellipse\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Interrupted_Goode_Homolosine\"],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+        "transform": [
+          250.0,
+          0.0,
+          -19949750.0,
+          0.0,
+          -250.0,
+          8361000.0
+        ],
+        "width": 159246,
+        "height": 58034,
+        "dtype": "int16"
+      },
+      "nodata": -32768.0,
+      "file": "phh2o_15-30cm_mean.tif",
+      "sha256": "417f69b1bb243a880f8c656a1447b08fcf5d6cd6040536013544b0c6b8931055"
+    },
+    {
+      "source": "https://files.isric.org/soilgrids/latest/data/phh2o/phh2o_15-30cm_Q0.05.vrt",
+      "requested_at": "2026-10-07T00:48:57+00:00",
+      "account": "anonymous",
+      "http": {
+        "etag": "\"10771435904-1591111825-3547215\"",
+        "last_modified": "Tue, 02 Jun 2020 15:30:25 GMT",
+        "content_length": "3547215"
+      },
+      "bounds_requested": [
+        -12294576.531137865,
+        5389797.556458741,
+        -12204075.320607958,
+        5473048.868064608
+      ],
+      "pixel_window": {
+        "col_off": 30620,
+        "row_off": 11551,
+        "width": 363,
+        "height": 334
+      },
+      "source_grid": {
+        "crs_wkt": "PROJCS[\"Interrupted_Goode_Homolosine\",GEOGCS[\"GCS_WGS_1984 ellipse\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Interrupted_Goode_Homolosine\"],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+        "transform": [
+          250.0,
+          0.0,
+          -19949750.0,
+          0.0,
+          -250.0,
+          8361000.0
+        ],
+        "width": 159246,
+        "height": 58034,
+        "dtype": "int16"
+      },
+      "nodata": -32768.0,
+      "file": "phh2o_15-30cm_Q0.05.tif",
+      "sha256": "b0ccf02e54112051d2ae48df7450f6ef4167f62a23bc5a605bb8b88bd76b1d71"
+    },
+    {
+      "source": "https://files.isric.org/soilgrids/latest/data/phh2o/phh2o_15-30cm_Q0.95.vrt",
+      "requested_at": "2026-10-07T00:49:27+00:00",
+      "account": "anonymous",
+      "http": {
+        "etag": "\"10771076085-1591112160-3547215\"",
+        "last_modified": "Tue, 02 Jun 2020 15:36:00 GMT",
+        "content_length": "3547215"
+      },
+      "bounds_requested": [
+        -12294576.531137865,
+        5389797.556458741,
+        -12204075.320607958,
+        5473048.868064608
+      ],
+      "pixel_window": {
+        "col_off": 30620,
+        "row_off": 11551,
+        "width": 363,
+        "height": 334
+      },
+      "source_grid": {
+        "crs_wkt": "PROJCS[\"Interrupted_Goode_Homolosine\",GEOGCS[\"GCS_WGS_1984 ellipse\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Interrupted_Goode_Homolosine\"],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+        "transform": [
+          250.0,
+          0.0,
+          -19949750.0,
+          0.0,
+          -250.0,
+          8361000.0
+        ],
+        "width": 159246,
+        "height": 58034,
+        "dtype": "int16"
+      },
+      "nodata": -32768.0,
+      "file": "phh2o_15-30cm_Q0.95.tif",
+      "sha256": "90ec474c141c8279dd8f566ac0876cd2a401fe16d5b76225ef635d883f55e69e"
+    }
+  ]
+}
