@@ -37,6 +37,10 @@ COUNTRY_US48 = 1
 COUNTRY_CAN = 2
 COUNTRY_US_OTHER = 3  # Alaska, Hawaii, Puerto Rico, US Virgin Islands (D31, D86, D113)
 COUNTRY_MEX = 4
+COUNTRY_LEGEND = (
+    "country: 0 none, 1 US 48 states and DC, 2 Canada, 3 Alaska Hawaii Puerto Rico USVI, "
+    "4 Mexico (D113)"
+)
 US_MASKED_STATES = frozenset({"US-AK", "US-HI", "US-PR", "US-VI"})
 ARCTIC_LEVEL1 = frozenset({"1", "2"})  # "Arctic Cordillera", "Tundra" (D111, read from the file)
 
@@ -167,8 +171,7 @@ def build_mask(political_shp: Path, ecoregions_shp: Path, window: GridWindow, ou
                 for code, n in zip(*np.unique(country, return_counts=True), strict=True):
                     counts["country"][int(code)] = counts["country"].get(int(code), 0) + int(n)
                 counts["arctic"] += int(arc.sum())
-        dst.set_band_description(1, "country: 0 none, 1 US 48 states and DC, 2 Canada, "
-                                    "3 Alaska Hawaii Puerto Rico USVI, 4 Mexico (D113)")  # fmt: skip
+        dst.set_band_description(1, COUNTRY_LEGEND)
         dst.set_band_description(2, "arctic: 1 in CEC level I Tundra or Arctic Cordillera (D111)")
     partial.rename(out)
     return counts
