@@ -1,0 +1,70 @@
+{
+  "source": "https://www.cec.org/files/atlas_layers/1_terrestrial_ecosystems/1_01_0_land_cover_2020_30m/land_cover_2020v2_30m_tif.zip",
+  "dataset": "North American Environmental Atlas - Land Cover 2020 30m (NALCMS), CEC, Ed. 2.0",
+  "licence": "CC BY 4.0 (metadata, Use limitations)",
+  "account": "anonymous",
+  "http": {
+    "etag": "\"eb4d3277-65b8af17735c0\"",
+    "last_modified": "Tue, 15 Sep 2026 19:56:15 GMT",
+    "content_length": 3947704951
+  },
+  "members": [
+    {
+      "member": "land_cover_2020v2_30m_tif/NA_NALCMS_landcover_2020v2_30m/data/NA_NALCMS_landcover_2020v2_30m.tif.vat.dbf",
+      "file": "NA_NALCMS_landcover_2020v2_30m.tif.vat.dbf",
+      "file_size": 16034,
+      "crc32": "fa573a1e",
+      "crc32_ok": true,
+      "sha256": "11398d423d6c168c8f9d54f7f0b7c4803ad9a2a9b3dc0ef7f1d85688c693beac",
+      "seconds": 2.0
+    },
+    {
+      "member": "land_cover_2020v2_30m_tif/NA_NALCMS_landcover_2020v2_30m/data/NA_NALCMS_landcover_2020v2_30m.tif.aux.xml",
+      "file": "NA_NALCMS_landcover_2020v2_30m.tif.aux.xml",
+      "file_size": 1109,
+      "crc32": "e1d5dd6e",
+      "crc32_ok": true,
+      "sha256": "6ea360bb9cb53d699a3e60d3a4edc919342fa85465c6da70aa988c4eb3f90ae8",
+      "seconds": 1.7
+    },
+    {
+      "member": "land_cover_2020v2_30m_tif/NA_NALCMS_landcover_2020v2_30m/NALCMS_Class_Definitions_en.doc",
+      "file": "NALCMS_Class_Definitions_en.doc",
+      "file_size": 46592,
+      "crc32": "a391be3f",
+      "crc32_ok": true,
+      "sha256": "bb862806d4d7214115a8c9fcbb980dcc3646afe228e98a39fea49f22b72a9059",
+      "seconds": 1.8
+    },
+    {
+      "member": "land_cover_2020v2_30m_tif/Terms of use.doc",
+      "file": "Terms of use.doc",
+      "file_size": 32256,
+      "crc32": "f112b7dc",
+      "crc32_ok": true,
+      "sha256": "b6dcc5610708d63d87a8303d077a9af4bac63170a09fd944eafefdd65f3aed60",
+      "seconds": 1.8
+    },
+    {
+      "member": "land_cover_2020v2_30m_tif/HowToCite_ComoCitar_CommentCiter.txt",
+      "file": "HowToCite_ComoCitar_CommentCiter.txt",
+      "file_size": 1994,
+      "crc32": "e4bc3af5",
+      "crc32_ok": true,
+      "sha256": "7010b33180aafbc7dd5d1a936fb4e3ee34fdbd784e9e6c2cd68afe14ce077630",
+      "seconds": 1.7
+    },
+    {
+      "member": "land_cover_2020v2_30m_tif/NA_NALCMS_landcover_2020v2_30m/data/NA_NALCMS_landcover_2020v2_30m.tif",
+      "file": "NA_NALCMS_landcover_2020v2_30m.tif",
+      "file_size": 3363872655,
+      "crc32": "52c3bc0a",
+      "crc32_ok": true,
+      "sha256": "0d6b497ac21d15b73a01b2d0d95f24bd895612719ca483a99b17897fa93671b7",
+      "seconds": 274.1
+    }
+  ],
+  "rulings": [
+    "D112"
+  ]
+}
