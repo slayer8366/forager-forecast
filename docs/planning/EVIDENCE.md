@@ -56,3 +56,11 @@ for the Pacific Northwest. The full catalogue of 15 studies is in `evidence/frui
 | Area of applicability | Masks cells unlike anything in training | [CAST package](https://cran.r-project.org/web/packages/CAST/vignettes/cast04-AOA-tutorial.html) |
 | Previous-year NDVI and satellite soil moisture | Lifted yield models to adjusted R2 of up to 0.63 in Soria | [Olano et al. 2020](https://www.sciencedirect.com/science/article/abs/pii/S0168192320301179) |
 | Raster PMTiles | rio-pmtiles, or rio-mbtiles then pmtiles convert. The tiler needs at least three bands | [PMTiles repo](https://github.com/protomaps/PMTiles), [rio-mbtiles](https://github.com/mapbox/rio-mbtiles) |
+
+Correction 2026-10-06 (D103), appended; the table above is unchanged. The "temporal pseudo-absences and a
+benchmark taxon" row cites Capinha et al., "Predicting the timing of ecological phenomena across regions
+using citizen science data" (bioRxiv 10.1101/2023.05.05.539567). Opened on 2026-10-06, its benchmark
+taxon is pines (Pinus), a plant, modelled against random dates with day of the week, month and daily
+weather; it found more recording at weekends. The T6 dispatch read this row as a benchmark usable on
+D26's fungi-only download, which it is not. T6 uses lichens (class Lecanoromycetes) instead, by the
+owner's ruling.

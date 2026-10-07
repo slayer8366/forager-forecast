@@ -1,0 +1,138 @@
+"""T6 review (D18): the reviewer's own strict revert runner, four checks the builder's 17 did not make.
+
+Run from the worktree root, inside the memory cap (the pytest children share the scope):
+    systemd-run --user --scope -q -p MemoryMax=5G -p MemorySwapMax=0 \
+        .venv/bin/python docs/audits/2026-10-06-t6-review/revert.py.txt OUT.jsonl
+
+Per check, refusing (exit 2, no result written for that check) on any doubt:
+1. The source file must equal its committed bytes at HEAD before the edit (no uncommitted change
+   under test); its bytes are saved to memory and to a copy on disk.
+2. One edit, whose old text must occur exactly once.
+3. Every __pycache__ outside .venv is removed; PYTHONDONTWRITEBYTECODE=1 for every child.
+4. A fresh interpreter imports the module and reports its file and the sha256 of that file; both
+   must name the edited source.
+5. The JUnit XML is deleted first and must exist afterwards with a newer mtime than the run start.
+   pytest must exit 1 with errors == 0 in the XML (an error is a build that did not run) and the
+   named test must be among the failures, with its message recorded.
+6. Restore from the saved bytes (never from git), clear __pycache__ again, confirm the file is
+   byte-identical to the saved copy and to `git show HEAD:<path>`.
+At the end: `git diff --stat` for every touched file must be empty.
+"""
+
+import hashlib
+import json
+import os
+import shutil
+import subprocess
+import sys
+import time
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+ROOT = Path.cwd()
+PY = str(ROOT / ".venv" / "bin" / "python")
+XML = ROOT / ".review_revert_junit.xml"
+TESTS = ["tests/test_effort.py", "tests/test_effort_evaluation.py"]
+EFFORT = ("src/forager_forecast/effort.py", "forager_forecast.effort")
+EVAL = ("src/forager_forecast/effort_evaluation.py", "forager_forecast.effort_evaluation")
+CHECKS = [
+    ("V1 constant model spreads the total over 5 days a week, not 7", EFFORT,
+     "per_cell_day = total / (counts.n_cells * n_weeks * 7.0)",
+     "per_cell_day = total / (counts.n_cells * n_weeks * 5.0)",
+     "test_constant_model_deviance_equals_the_dense_deviance"),
+    ("V2 combined surface keeps the all-fungi year levels unrescaled", EFFORT,
+     "year_level = np.where(train, fungal.year_level * fungal_year / combined_year, np.nan)",
+     "year_level = np.where(train, fungal.year_level, np.nan)",
+     "test_combined_surface_keeps_band_level_and_takes_lichen_shape"),
+    ("V3 benchmark read as classKey 181", EFFORT,
+     "BENCHMARK_CLASS_KEY = 180", "BENCHMARK_CLASS_KEY = 181",
+     "test_tracks_by_licence_and_benchmark"),
+    ("V4 inner tuning scores the all-fungi fit instead of the effort surface", EVAL,
+     "            _f, _l, surface = _effort_surface(fungi, lichen, config, train)\n"
+     "            scores[(h, j)]",
+     "            surface, _l, _e = _effort_surface(fungi, lichen, config, train)\n"
+     "            scores[(h, j)]",
+     "test_inner_score_is_the_effort_surface_fitted_without_both_years"),
+]
+ENV = dict(os.environ, PYTHONDONTWRITEBYTECODE="1")
+
+
+def refuse(message):
+    print("REFUSED: " + message, flush=True)
+    sys.exit(2)
+
+
+def clear_cache():
+    for d in list(ROOT.rglob("__pycache__")):
+        if ".venv" not in d.parts:
+            shutil.rmtree(d)
+
+
+def committed(path):
+    return subprocess.run(["git", "show", f"HEAD:{path}"], capture_output=True, check=True).stdout
+
+
+out = open(sys.argv[1], "w")
+touched = []
+for name, (path, module), old, new, expected in CHECKS:
+    src = ROOT / path
+    saved = src.read_bytes()
+    if saved != committed(path):
+        refuse(f"{name}: {path} differs from HEAD before the edit")
+    backup = Path(sys.argv[1]).with_suffix(f".{len(touched)}.saved")
+    backup.write_bytes(saved)
+    touched.append(path)
+    text = saved.decode()
+    if text.count(old) != 1:
+        refuse(f"{name}: old text occurs {text.count(old)} times")
+    edited = text.replace(old, new).encode()
+    record = None
+    try:
+        src.write_bytes(edited)
+        clear_cache()
+        seen = subprocess.run(
+            [PY, "-c", f"import hashlib, {module} as m; print(m.__file__); "
+             "print(hashlib.sha256(open(m.__file__, 'rb').read()).hexdigest())"],
+            capture_output=True, text=True, env=ENV).stdout.split()
+        if len(seen) != 2 or seen[0] != str(src) or seen[1] != hashlib.sha256(edited).hexdigest():
+            refuse(f"{name}: the interpreter does not see the edit: {seen}")
+        if XML.exists():
+            XML.unlink()
+        start = time.time()
+        r = subprocess.run([PY, "-m", "pytest", "-q", "-p", "no:cacheprovider", *TESTS,
+                            f"--junitxml={XML}"], capture_output=True, text=True, env=ENV)
+        if not XML.exists() or XML.stat().st_mtime < start:
+            refuse(f"{name}: no fresh JUnit XML\n{r.stdout[-2000:]}")
+        root = ET.parse(XML).getroot()
+        suite = root.find("testsuite") if root.find("testsuite") is not None else root
+        errors, failures = int(suite.get("errors")), int(suite.get("failures"))
+        tests = int(suite.get("tests"))
+        if r.returncode != 1 or errors:
+            refuse(f"{name}: exit {r.returncode}, errors {errors}\n{r.stdout[-3000:]}")
+        failed = []
+        for case in suite.iter("testcase"):
+            f = case.find("failure")
+            if f is not None:
+                failed.append({"test": case.get("name"), "message": (f.get("message") or "")[:400]})
+        if expected not in {f["test"] for f in failed}:
+            refuse(f"{name}: expected {expected} to fail, got {[f['test'] for f in failed]}")
+        record = {"check": name, "file": path, "edit": [old, new], "exit": r.returncode,
+                  "tests": tests, "errors": errors, "failures": failures, "expected": expected,
+                  "failed": failed}
+    finally:
+        src.write_bytes(saved)
+        clear_cache()
+    if src.read_bytes() != backup.read_bytes() or src.read_bytes() != committed(path):
+        refuse(f"{name}: restore did not give back the committed file")
+    backup.unlink()
+    record["restored_identical_to_saved_copy_and_HEAD"] = True
+    print(json.dumps(record), flush=True)
+    out.write(json.dumps(record) + "\n")
+    out.flush()
+if XML.exists():
+    XML.unlink()
+for path in sorted(set(touched)):
+    d = subprocess.run(["git", "diff", "--stat", "--", path], capture_output=True, text=True).stdout
+    if d:
+        refuse(f"git diff not empty for {path}: {d}")
+    print(f"git diff after all checks: {path} empty", flush=True)

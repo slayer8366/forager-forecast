@@ -1,0 +1,13 @@
+{
+ "all": {
+  "flat season (cell + year + day-type)": 4743529.75332716,
+  "effort surface (lichen season)": 4728770.896525117,
+  "+ day-type (all-fungi season)": 4580310.311192146
+ },
+ "cc": {
+  "flat season (cell + year + day-type)": 912510.1230106798,
+  "effort surface (lichen season)": 914239.4452606784,
+  "+ day-type (all-fungi season)": 900353.9672165473
+ },
+ "peak_rss_mb": 122
+}

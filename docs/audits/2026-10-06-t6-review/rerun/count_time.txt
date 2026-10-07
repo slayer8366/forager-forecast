@@ -1,0 +1,12 @@
+    }
+  },
+  "seconds": 188.4,
+  "peak_rss_kb": 1189072
+}
+	Command being timed: "uv run --frozen python scripts/t6_fit.py count /home/zynergy-labs/Zynergy/forager-forecast-d26/data/d26/downloads/0012112-260928105237408.zip /tmp/claude-1000/-home-zynergy-labs-Zynergy-Forager/594b88a0-2597-556f-be1b-255b2b0f226b/scratchpad/rerun/data"
+	User time (seconds): 188.70
+	System time (seconds): 0.91
+	Percent of CPU this job got: 100%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 3:09.02
+	Maximum resident set size (kbytes): 1188552
+	Exit status: 0

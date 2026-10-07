@@ -1,0 +1,109 @@
+2026-10-06T22:22:36Z
+250000 rows, 5 s, RSS 50 MB
+500000 rows, 11 s, RSS 99 MB
+750000 rows, 18 s, RSS 144 MB
+1000000 rows, 25 s, RSS 180 MB
+1250000 rows, 31 s, RSS 244 MB
+1500000 rows, 38 s, RSS 266 MB
+1750000 rows, 45 s, RSS 304 MB
+2000000 rows, 51 s, RSS 325 MB
+2250000 rows, 58 s, RSS 388 MB
+stream done: 2493578 rows, 64 s, RSS 396 MB
+outings built, RSS 346 MB
+{
+  "rows_read": 2493578,
+  "loaded": 2483951,
+  "unloadable": {
+    "eventDate spans more than one day": 23,
+    "eventDate not one calendar day": 9604
+  },
+  "steps": {
+    "not user-obscured": {
+      "in": 2483951,
+      "dropped": 155988
+    },
+    "uncertainty present and at most 1,000 m": {
+      "in": 2327963,
+      "dropped": 845666
+    },
+    "after filters": 1482297,
+    "observer key survivors": 1379859,
+    "event key survivors (for comparison)": 1331020
+  },
+  "licences_after_filters": {
+    "CC_BY_NC_4_0": 1266021,
+    "CC_BY_4_0": 143521,
+    "CC0_1_0": 72755
+  },
+  "class_names_on_classKey_180_rows": {
+    "Lecanoromycetes": 321965
+  },
+  "distinct_observer_strings": 165513,
+  "datasets_after_filters": 12,
+  "anonymous_records_after_filters_by_dataset": {
+    "58ffefab-20aa-4cec-b0c0-dd7330ed7280": 318,
+    "9ec7b624-8f5c-4898-a90d-194913d7e0ab": 467
+  },
+  "observer_keys_whose_survivor_is_not_cc_but_hold_a_cc_record": 0,
+  "observer_key_survivors_in_whole_weeks": 1378013,
+  "cc_alone_observer_key_survivors": 192492,
+  "outings_before_duplicate_step_in_whole_weeks": 879576,
+  "outings_after_duplicate_step_any_week": 880650,
+  "outings_lost_to_the_observer_key": 0,
+  "outings_lost_to_the_observer_key_in_whole_weeks": 0,
+  "outings_lost_named_vs_anonymous": {
+    "named": 0,
+    "anonymous": 0
+  },
+  "all_licences": {
+    "outings": 879576,
+    "cells": 43035,
+    "lichen_outings": 131301,
+    "nonzero_cell_week_daytype": 658232,
+    "cell_weeks_with_an_outing": 588097,
+    "frame_rows_if_built": 49318110
+  },
+  "cc_builder_rule": {
+    "outings": 106765,
+    "cells": 16335,
+    "lichen_outings": 25106,
+    "nonzero_cell_week_daytype": 94112,
+    "cell_weeks_with_an_outing": 88441,
+    "frame_rows_if_built": 18719910
+  },
+  "cc_from_cc_records_alone": {
+    "outings": 106765,
+    "cells": 16335,
+    "lichen_outings": 25106,
+    "nonzero_cell_week_daytype": 94112,
+    "cell_weeks_with_an_outing": 88441,
+    "frame_rows_if_built": 18719910
+  },
+  "cc_builder_rule_rows_equal_cc_alone_rows": true,
+  "seconds": 68.4,
+  "peak_rss_mb": 507
+}
+	Command being timed: ".venv/bin/python docs/audits/2026-10-06-t6-review/recount.py.txt /home/zynergy-labs/Zynergy/forager-forecast-d26/data/d26/downloads/0012112-260928105237408.zip /tmp/claude-1000/-home-zynergy-labs-Zynergy-Forager/594b88a0-2597-556f-be1b-255b2b0f226b/scratchpad/recount"
+	User time (seconds): 68.77
+	System time (seconds): 0.50
+	Percent of CPU this job got: 100%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:08.64
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 520052
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 210725
+	Voluntary context switches: 11
+	Involuntary context switches: 4608
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 24
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+2026-10-06T22:23:45Z

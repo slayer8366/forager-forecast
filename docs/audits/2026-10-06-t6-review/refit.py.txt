@@ -1,0 +1,303 @@
+"""T6 review (D18): the reviewer's own refit of T6's evaluation, from recount.py.txt's outings.
+
+Reviewer's own code; imports nothing from forager_forecast. Re-implements the model as D104 to D106
+and the builder's six stated choices describe it (pull on cells and on season slots, continental
+fallback, smoothing as a wrapped centred window, combine by band total then year total), then:
+the full nested tuning (20 configurations, inner leave-one-year-out), the outer ladder, the
+cell-clustered bootstrap intervals (own draws: integers, seed 20260918, so intervals agree with the
+builder's only to bootstrap noise), the weekend ratio, and two items beside with no verdict:
+pulls above the grid (30, 100, 300, 1000) and the lichen spring peak by day.
+
+    python refit.py RECOUNT_DIR OUT_JSON
+
+Kept from the first review session's draft after reading it line by line against effort.py and
+effort_evaluation.py (second session, 2026-10-06). Changed: recount.py.txt's arrays now have
+seven columns (lat, lon, week, day-type, lichen, any-CC, day ordinal), so the day ordinal is
+column 6, not 5; the pulls above the grid are scored for the all-fungi fit as well as the effort
+surface, to tell whether the top-of-grid choice comes from the cell pull or from the lichen season;
+per-fold values and the grid's plain leave-one-year-out are written out. It holds only per-key
+totals and the non-zero entries (at most 658,232 per track), never the 49 million frame rows.
+"""
+
+import itertools
+import json
+import resource
+import sys
+import time
+from datetime import date, timedelta
+from pathlib import Path
+
+import numpy as np
+
+SRC, OUT = Path(sys.argv[1]), Path(sys.argv[2])
+YEARS = list(range(2015, 2026))
+GRID = [(p, s) for p in (0.1, 0.3, 1.0, 3.0, 10.0) for s in (1, 3, 5, 9)]
+SEED = 20260918
+DAYS = np.array([2.0, 5.0])
+started = time.time()
+
+first_monday = date(2015, 1, 5)
+weeks = []
+m = first_monday
+while m + timedelta(days=6) <= date(2025, 12, 31):
+    weeks.append(m.isocalendar()[:2])
+    m += timedelta(days=7)
+assert len(weeks) == 573, len(weeks)
+WEEK_YEAR = np.array([YEARS.index(y) for y, _ in weeks])
+WEEK_SLOT = np.array([min(w, 52) - 1 for _, w in weeks])
+WPYS = np.zeros((11, 52))
+np.add.at(WPYS, (WEEK_YEAR, WEEK_SLOT), 1.0)
+
+
+class Track:
+    def __init__(self, arr):
+        cells, cidx = np.unique(arr[:, :2], axis=0, return_inverse=True)
+        cidx = cidx.ravel()
+        self.n = len(cells)
+        band_deg = (cells[:, 0] // 50) * 5
+        self.band_ids, self.band = np.unique(band_deg, return_inverse=True)
+        self.band = self.band.ravel()
+        self.nb = len(self.band_ids)
+        self.fungi = self._entries(cidx, arr[:, 2], arr[:, 3], np.ones(len(arr), bool))
+        self.lichen = self._entries(cidx, arr[:, 2], arr[:, 3], arr[:, 4] == 1)
+        self.raw = arr
+
+    def _entries(self, c, w, d, mask):
+        key = (c[mask] * 573 + w[mask]) * 2 + d[mask]
+        u, n = np.unique(key, return_counts=True)
+        return {"cell": u // 1146, "week": (u // 2) % 573, "day": u % 2, "y": n.astype(float)}
+
+
+def wrap(x, k):
+    h = k // 2
+    return sum(np.roll(x, s, axis=-1) for s in range(-h, h + 1))
+
+
+def fit(t, e, train, pull, smooth, terms=("cell", "year", "season", "day"), wts=None):
+    tr = np.zeros(11, bool)
+    tr[[YEARS.index(y) for y in train]] = True
+    sel = tr[WEEK_YEAR[e["week"]]]
+    c, w, d, y = e["cell"][sel], e["week"][sel], e["day"][sel], e["y"][sel]
+    wc = np.ones(t.n) if wts is None else wts
+    yw = y * wc[c]
+    O_c = np.bincount(c, y, t.n)
+    O_y = np.bincount(WEEK_YEAR[w], yw, 11)
+    O_bk = np.bincount(t.band[c] * 52 + WEEK_SLOT[w], yw, t.nb * 52).reshape(t.nb, 52)
+    O_d = np.bincount(d, yw, 2)
+    W = WPYS * tr[:, None]
+    q = pull / W.sum()
+    a, b, s, r = np.ones(t.n), tr.astype(float), np.ones((t.nb, 52)), DAYS.copy()
+
+    def avg(o, ex):
+        cont = o.sum() / ex.sum()
+        with np.errstate(divide="ignore", invalid="ignore"):
+            return np.where(o > 0, o / ex, cont)
+
+    for it in range(100000):
+        old = np.concatenate([np.log(a), np.log(np.where(tr, b, 1)), np.log(s).ravel(), np.log(r)])
+        if "cell" in terms:
+            E_c = (s @ (b @ W))[t.band] * r.sum()
+            A = avg(np.bincount(t.band, wc * O_c, t.nb), np.bincount(t.band, wc * E_c, t.nb))
+            a = (O_c + q * A[t.band] * E_c) / (E_c * (1 + q))
+        M = np.bincount(t.band, wc * a, t.nb)
+        if "year" in terms:
+            b = np.where(tr, O_y / (W @ (M @ s) * r.sum()), 0.0)
+        if "season" in terms:
+            E_bk = M[:, None] * (b @ W)[None, :] * r.sum()
+            A = avg(O_bk.sum(1), E_bk.sum(1))
+            num, den = wrap(O_bk, smooth), wrap(E_bk, smooth)
+            with np.errstate(divide="ignore", invalid="ignore"):
+                s = np.where(den > 0, (num + q * A[:, None] * den) / (den * (1 + q)), s)
+        if "day" in terms:
+            r = O_d / (M @ (s @ (b @ W)))
+        # move scales into the cell level (expected values unchanged)
+        g = s.mean(1)
+        s = s / g[:, None]
+        a = a * g[t.band]
+        gy = b[tr].mean()
+        b = b / gy
+        a = a * gy
+        gr = r.sum() / 7.0
+        r = r / gr
+        a = a * gr
+        new = np.concatenate([np.log(a), np.log(np.where(tr, b, 1)), np.log(s).ravel(), np.log(r)])
+        if np.max(np.abs(new - old)) < 1e-11:
+            return {"a": a, "b": b, "s": s, "r": r, "it": it}
+    raise RuntimeError("no convergence")
+
+
+def combine(t, f, l_, train):
+    tr = np.zeros(11, bool)
+    tr[[YEARS.index(y) for y in train]] = True
+    k = (WPYS * tr[:, None]).sum(0)
+    s = l_["s"] * ((f["s"] @ k) / (l_["s"] @ k))[:, None]
+    return {"a": f["a"], "b": f["b"], "s": s, "r": f["r"]}
+
+
+def dev_cells(t, e, model, h):
+    """Per-cell Poisson deviance on held-out year h, zeros included, given the year's total."""
+    hi = YEARS.index(h)
+    sel = WEEK_YEAR[e["week"]] == hi
+    c, w, d, y = e["cell"][sel], e["week"][sel], e["day"][sel], e["y"][sel]
+    if model is None:  # constant effort
+        nweeks = WPYS[hi].sum()
+        mu = y.sum() / (t.n * nweeks * 7) * DAYS[d]
+        mu_c = np.full(t.n, y.sum() / t.n)
+    else:
+        a, s, r = model["a"], model["s"], model["r"]
+        per = a * (s @ WPYS[hi])[t.band] * r.sum()
+        k = y.sum() / per.sum()
+        mu = k * a[c] * s[t.band[c], WEEK_SLOT[w]] * r[d]
+        mu_c = k * per
+    out = 2 * (np.bincount(c, y * np.log(y / mu), t.n) - np.bincount(c, y, t.n) + mu_c)
+    return out
+
+
+def boot(t):
+    rng = np.random.default_rng(SEED)
+    for _ in range(1000):
+        yield np.bincount(rng.integers(0, t.n, t.n), minlength=t.n).astype(float)
+
+
+def interval(v):
+    lo, hi = np.percentile(v, [2.5, 97.5])
+    return [float(lo), float(hi)]
+
+
+def diff_interval(t, x, y_):
+    dlt = x - y_
+    return float(dlt.sum()), interval([w @ dlt for w in boot(t)])
+
+
+def effort_surface(t, train, cfg):
+    f = fit(t, t.fungi, train, *cfg)
+    l_ = fit(t, t.lichen, train, *cfg)
+    return f, combine(t, f, l_, train)
+
+
+def run_track(name, arr):
+    t = Track(arr)
+    res = {"cells": t.n, "outings": float(t.fungi["y"].sum()),
+           "lichen_outings": float(t.lichen["y"].sum()),
+           "nonzero_entries": int(len(t.fungi["y"])), "bands": t.band_ids.tolist()}
+    # inner tuning, full, own code
+    inner = {}
+    for cfg in GRID:
+        sc = {}
+        for h, j in itertools.combinations(YEARS, 2):
+            train = [y for y in YEARS if y not in (h, j)]
+            _f, eff = effort_surface(t, train, cfg)
+            sc[(h, j)] = dev_cells(t, t.fungi, eff, j).sum()
+            sc[(j, h)] = dev_cells(t, t.fungi, eff, h).sum()
+        inner[cfg] = sc
+    chosen = {}
+    for h in YEARS:
+        tot = {cfg: sum(inner[cfg][(h, j)] for j in YEARS if j != h) for cfg in GRID}
+        best = min(tot.values())
+        chosen[h] = next(cfg for cfg in GRID if tot[cfg] == best)
+    res["chosen_per_fold"] = {str(h): f"pull={c[0]:g},smoothing={c[1]}" for h, c in chosen.items()}
+    # outer folds, ladder
+    names = ["constant", "+ cell", "+ year", "+ season", "+ day-type", "effort"]
+    terms = {"+ cell": ("cell",), "+ year": ("cell", "year"),
+             "+ season": ("cell", "year", "season"),
+             "+ day-type": ("cell", "year", "season", "day")}
+    pc = {n: np.zeros(t.n) for n in names}
+    pf = {}
+    for h in YEARS:
+        cfg = chosen[h]
+        train = [y for y in YEARS if y != h]
+        before = {n: float(v.sum()) for n, v in pc.items()}
+        pc["constant"] += dev_cells(t, t.fungi, None, h)
+        full = None
+        for n, tm in terms.items():
+            m_ = fit(t, t.fungi, train, cfg[0], cfg[1], tm)
+            pc[n] += dev_cells(t, t.fungi, m_, h)
+            full = m_
+        l_ = fit(t, t.lichen, train, *cfg)
+        pc["effort"] += dev_cells(t, t.fungi, combine(t, full, l_, train), h)
+        pf[str(h)] = {n: float(pc[n].sum()) - before[n] for n in ("constant", "effort", "+ day-type")}
+    res["pooled"] = {n: float(v.sum()) for n, v in pc.items()}
+    res["per_fold_effort_and_constant"] = pf
+    res["effort_minus_constant"] = diff_interval(t, pc["effort"], pc["constant"])
+    res["cell_minus_constant"] = diff_interval(t, pc["+ cell"], pc["constant"])
+    res["year_minus_cell"] = float((pc["+ year"] - pc["+ cell"]).sum())
+    res["day_minus_season"] = diff_interval(t, pc["+ day-type"], pc["+ season"])
+    res["effort_minus_day"] = float((pc["effort"] - pc["+ day-type"]).sum())
+    # plain leave-one-year-out by configuration (the stored surface's choice)
+    outer = {}
+    for cfg in GRID:
+        outer[cfg] = float(sum(
+            dev_cells(t, t.fungi, effort_surface(t, [y for y in YEARS if y != h], cfg)[1], h).sum()
+            for h in YEARS))
+    best = min(outer.values())
+    final = next(c for c in GRID if outer[c] == best)
+    res["outer_by_configuration"] = {f"pull={c[0]:g},smoothing={c[1]}": v for c, v in outer.items()}
+    res["final_configuration"] = f"pull={final[0]:g},smoothing={final[1]}"
+    # weekend: fitted ratio (all years, final config) against the raw ratio; own bootstrap
+    full = fit(t, t.fungi, YEARS, *final)
+    fitted = float((full["r"][0] / 2) / (full["r"][1] / 5))
+    e = t.fungi
+    raw = float((e["y"][e["day"] == 0].sum() / 2) / (e["y"][e["day"] == 1].sum() / 5))
+    we = np.bincount(e["cell"][e["day"] == 0], e["y"][e["day"] == 0], t.n)
+    wd = np.bincount(e["cell"][e["day"] == 1], e["y"][e["day"] == 1], t.n)
+    draws, refit_gap = [], 0.0
+    for i, wts in enumerate(boot(t)):
+        rr = float(((wts @ we) / 2) / ((wts @ wd) / 5))
+        draws.append(rr)
+        if i < 10:  # confirm, on refits, that the fitted ratio is the weighted raw ratio
+            m_ = fit(t, t.fungi, YEARS, *final, wts=wts)
+            refit_gap = max(refit_gap, abs((m_["r"][0] / 2) / (m_["r"][1] / 5) - rr))
+    res["weekend"] = {"fitted": fitted, "raw": raw, "interval_raw_bootstrap": interval(draws),
+                      "max_gap_fitted_vs_weighted_raw_on_10_refits": refit_gap}
+    # beside, no verdict: pulls above the grid at the final smoothing (plain leave-one-year-out)
+    above = {}
+    for p in (3.0, 10.0, 30.0, 100.0, 300.0, 1000.0):
+        cfg = (p, final[1])
+        eff = fung = 0.0
+        for h in YEARS:
+            f_, e_ = effort_surface(t, [y for y in YEARS if y != h], cfg)
+            eff += float(dev_cells(t, t.fungi, e_, h).sum())
+            fung += float(dev_cells(t, t.fungi, f_, h).sum())
+        above[f"pull={p:g},smoothing={final[1]}"] = {"effort_surface": eff, "all_fungi_fit": fung}
+    res["beside_pull_around_and_above_grid_loyo"] = above
+    return res, t
+
+
+results = {}
+for name, fn in (("all", "outings_all.npy"), ("cc", "outings_cc_alone.npy")):
+    results[name], t = run_track(name, np.load(SRC / fn))
+    print(name, json.dumps({k: v for k, v in results[name].items() if k != "outer_by_configuration"}),
+          flush=True)
+    if name == "all":
+        # beside, no verdict: the lichen spring peak by day, bands 30 N to 50 N
+        arr = t.raw
+        bulk = (arr[:, 0] >= 300) & (arr[:, 0] < 500)
+        lich = arr[bulk & (arr[:, 4] == 1)]
+        fung = arr[bulk]
+        peak = {}
+        for y in YEARS:
+            ly = lich[np.array([date.fromordinal(int(o)).year == y for o in lich[:, 6]])]
+            days, n = np.unique(ly[:, 6], return_counts=True)
+            top = np.argsort(-n)[:4]
+            peak[str(y)] = {"lichen_outings": int(len(ly)),
+                            "top_days": [[date.fromordinal(int(days[i])).isoformat(), int(n[i])]
+                                         for i in top],
+                            "median_day_count": float(np.median(np.bincount(
+                                (ly[:, 6] - date(y, 1, 1).toordinal()).astype(int))))}
+        # lichen and all-fungi outings by ISO week-of-year slot, with and without the 4 top
+        # lichen days of each year
+        top_days = {date.fromisoformat(d).toordinal() for v in peak.values() for d, _ in v["top_days"]}
+        def by_slot(a_):
+            return np.bincount(WEEK_SLOT[a_[:, 2]], minlength=52)
+        keep = ~np.isin(lich[:, 6], list(top_days))
+        results["beside_lichen_spring"] = {
+            "bulk_bands_30N_to_50N_by_year": peak,
+            "lichen_by_iso_week": by_slot(lich).tolist(),
+            "lichen_by_iso_week_without_top_4_days_each_year": by_slot(lich[keep]).tolist(),
+            "all_fungi_by_iso_week": by_slot(fung).tolist(),
+            "share_of_lichen_outings_on_top_4_days": float(1 - keep.mean()),
+        }
+results["seconds"] = round(time.time() - started, 1)
+results["peak_rss_mb"] = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss // 1024
+OUT.write_text(json.dumps(results, indent=1) + "\n")
+print("done", results["seconds"], results["peak_rss_mb"])

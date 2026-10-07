@@ -43,6 +43,9 @@ class Record:
     recorded_by: str = ""
     information_withheld: str = ""
     data_generalizations: str = ""
+    # GBIF classKey, read for T6's benchmark (D103). Not in COLUMNS_READ: a table without the
+    # column loads with None here, and T6's script refuses such a table itself.
+    class_key: int | None = None
 
 
 # The DWCA columns a Record is built from. A file missing any of them cannot be loaded.
@@ -196,6 +199,7 @@ def record_from_row(row: Mapping[str, str]) -> Record:
         recorded_by=row.get("recordedBy", "").strip(),
         information_withheld=row.get("informationWithheld", "").strip(),
         data_generalizations=row.get("dataGeneralizations", "").strip(),
+        class_key=_optional_int(row.get("classKey", "")),
     )
 
 
