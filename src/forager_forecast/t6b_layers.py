@@ -433,10 +433,11 @@ def fetch_scanfi_super(super_window: GridWindow, native_dir: Path, source_for=sc
     """One windowed read per SCANFI layer for a super-window (D115 item 2), with its record."""
     native_dir = Path(native_dir)
     bounds = scanfi_super_window(super_window)
-    records = [
-        fetch_layer(source_for(cls, 2025), bounds, native_dir / f"scanfi_{cls}.tif")
-        for cls in (*SCANFI_CLASSES, SCANFI_TOTAL_LAYER)
-    ]
+    with rasterio.Env(**TUNED_GDAL_HTTP):
+        records = [
+            fetch_layer(source_for(cls, 2025), bounds, native_dir / f"scanfi_{cls}.tif")
+            for cls in (*SCANFI_CLASSES, SCANFI_TOTAL_LAYER)
+        ]
     body = {
         "dataset": "SCANFI v2 2025, ten species-class crown closures and total crown closure",
         "citation": SCANFI_CITATION, "licence": SCANFI_LICENCE,
@@ -504,8 +505,94 @@ def _scanfi_part(window, mask_path, scanfi_dir: Path, nalcms_tif):
     return cover["total"], frac, shares, int(blank.sum()), int((water & own).sum())
 
 
+# --- SCANFI from whole local layer files (D118) ---
+
+SCANFI_LAYERS = (*SCANFI_CLASSES, SCANFI_TOTAL_LAYER)
+# GDAL network settings measured by the D118 probe (2.3 times the default rate); kept for any
+# windowed read of SCANFI.
+TUNED_GDAL_HTTP = {
+    "GDAL_HTTP_MERGE_CONSECUTIVE_RANGES": "YES", "GDAL_HTTP_MULTIPLEX": "YES",
+    "GDAL_HTTP_VERSION": "2", "CPL_VSIL_CURL_CHUNK_SIZE": "4194304",
+    "GDAL_DISABLE_READDIR_ON_OPEN": "EMPTY_DIR", "VSI_CACHE": "TRUE",
+    "VSI_CACHE_SIZE": "268435456", "GDAL_HTTP_MAX_RETRY": "3",
+}  # fmt: skip
+
+
+def require_free_space(path: Path, needed: int) -> int:
+    """Raise unless the file system holding ``path`` has at least ``needed`` bytes free."""
+    import shutil
+
+    free = shutil.disk_usage(path).free
+    if free < needed:
+        raise OSError(f"{path}: {free} bytes free, {needed} needed")
+    return free
+
+
+def scanfi_layer_tile(tile: Tile, layer_path: Path, layer: str, mask_path: Path,
+                      nalcms_tif: Path, out_dir: Path) -> dict:  # fmt: skip
+    """One SCANFI layer, read from its whole local file, regridded over one tile (D118).
+
+    The same pixels, side, water and no-data rules as the windowed route (``_scanfi_part``);
+    only the order of summing differs: the classes are regridded one by one and summed later,
+    which the regrid's linearity makes the same value up to rounding. Stored as float32.
+    """
+    window = tile.window
+    study, side = cells_in_study(window, *read_mask(mask_path, window))
+    if not (side == SIDE_CA).any():
+        return {"tile": tile.key, "layer": layer, "files": {}, "skipped": "no Canadian cell"}
+    with rasterio.open(layer_path) as ds:
+        _require_crs(ds.crs, SCANFI_CRS_WKT, Path(layer_path).name)
+        raw = from_bounds(*native_bounds(window, SCANFI_CRS_WKT), transform=ds.transform)
+        c0, r0 = math.floor(raw.col_off), math.floor(raw.row_off)
+        c1, r1 = math.ceil(raw.col_off + raw.width), math.ceil(raw.row_off + raw.height)
+        if c0 < 0 or r0 < 0 or c1 > ds.width or r1 > ds.height:
+            raise ValueError(f"tile {tile.key} reaches past the SCANFI raster")
+        data = ds.read(1, window=Window(c0, r0, c1 - c0, r1 - r0))
+        full, nodata, crs = ds.transform, ds.nodata, ds.crs
+    if nodata is None:
+        raise ValueError(f"{layer_path} declares no no-data value")
+    values = data.astype("float64")
+    values[data == nodata] = 0.0
+    lon, lat = _pixel_lonlat(full, c0, r0, data.shape[1], data.shape[0], crs)
+    own = _own_side(_pixel_side(lon, lat, mask_path), SIDE_CA)
+    water = _water(lon, lat, nalcms_tif)
+    del lon, lat
+    blank = ~own | water
+    values[blank] = np.nan
+    v, f = area_weighted_regrid_from_origin(values[None], full, c0, r0, _to_native(crs), window)
+    out = Path(out_dir) / f"scanfi_{layer}_{tile.key}.npz"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    partial = out.with_name(out.name + ".partial.npz")
+    np.savez_compressed(
+        partial, value=v[0].astype("float32"), fraction=f[0].astype("float32"),
+        blank=np.int64(blank.sum()), water=np.int64((water & own).sum()),
+    )  # fmt: skip
+    partial.rename(out)
+    return {"tile": tile.key, "layer": layer, "files": {out.name: _sha256(out)}}
+
+
+def _scanfi_part_from_layers(tile: Tile, layer_dir: Path):
+    arrays, fraction, blank, water = {}, None, 0, 0
+    for layer in SCANFI_LAYERS:
+        with np.load(Path(layer_dir) / f"scanfi_{layer}_{tile.key}.npz") as z:
+            arrays[layer] = z["value"].astype("float64")
+            if fraction is None:
+                fraction, blank, water = (
+                    z["fraction"].astype("float64"),
+                    int(z["blank"]),
+                    int(z["water"]),
+                )
+            elif not np.array_equal(fraction, z["fraction"].astype("float64")):
+                raise ValueError("layers of one source must share their no-data pattern")
+    shares = {"total": sum(arrays[c] for c in SCANFI_CLASSES)}
+    for band, classes in SCANFI_BAND_CLASSES.items():
+        shares[band] = sum(arrays[c] for c in classes)
+    return arrays[SCANFI_TOTAL_LAYER], fraction, shares, blank, water
+
+
 def tree_tile(tile: Tile, mask_path: Path, treemap_tif: Path, plot_table_path: Path,
-              scanfi_dir: Path | None, nalcms_tif: Path, out_dir: Path) -> dict:  # fmt: skip
+              scanfi_dir: Path | None, nalcms_tif: Path, out_dir: Path,
+              scanfi_layer_dir: Path | None = None) -> dict:  # fmt: skip
     """T5's genus canopy shares (D84 to D92) for one tile, with D111 to D115."""
     window = tile.window
     study, side = cells_in_study(window, *read_mask(mask_path, window))
@@ -524,11 +611,16 @@ def tree_tile(tile: Tile, mask_path: Path, treemap_tif: Path, plot_table_path: P
             _treemap_part(window, mask_path, treemap_tif, ids, table, nalcms_tif)
         )
     if canada.any():
-        if scanfi_dir is None:
-            raise ValueError(f"tile {tile.key} has Canadian cells but no SCANFI super-window")
-        ca_cover, ca_frac, ca, blanked["ca_pixels_blank"], blanked["ca_water_pixels"] = (
-            _scanfi_part(window, mask_path, scanfi_dir, nalcms_tif)
-        )
+        if scanfi_layer_dir is not None:
+            ca_cover, ca_frac, ca, blanked["ca_pixels_blank"], blanked["ca_water_pixels"] = (
+                _scanfi_part_from_layers(tile, scanfi_layer_dir)
+            )
+        elif scanfi_dir is not None:
+            ca_cover, ca_frac, ca, blanked["ca_pixels_blank"], blanked["ca_water_pixels"] = (
+                _scanfi_part(window, mask_path, scanfi_dir, nalcms_tif)
+            )
+        else:
+            raise ValueError(f"tile {tile.key} has Canadian cells but no SCANFI source")
         for band in BANDS:
             ca.setdefault(band, nan)
 

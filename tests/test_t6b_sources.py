@@ -50,3 +50,24 @@ def test_a_missing_member_is_an_error(tmp_path):
     blob = _zip_bytes({"a": b"1"})
     with pytest.raises(KeyError):
         extract_zip_member(_range_reader(blob), len(blob), "b", tmp_path / "b")
+
+
+def test_a_download_stops_at_its_deadline_and_resumes_where_it_stopped(tmp_path):
+    from forager_forecast.t6b_sources import download_resumable
+
+    payload = bytes(range(256)) * 4000  # 1,024,000 bytes
+
+    def open_from(start):
+        return io.BytesIO(payload[start:])
+
+    ticks = iter([0.0, 0.0, 99.0])  # passes the deadline after the second chunk
+    dest = tmp_path / "layer.tif"
+    first = download_resumable(open_from, len(payload), dest, deadline=50.0,
+                               clock=lambda: next(ticks, 99.0), chunk=300_000)  # fmt: skip
+    assert first["complete"] is False and not dest.exists()
+    assert dest.with_name("layer.tif.partial").stat().st_size == 600_000
+    second = download_resumable(open_from, len(payload), dest, deadline=None, chunk=300_000)
+    assert second["complete"] is True and dest.read_bytes() == payload
+    import hashlib
+
+    assert second["sha256"] == hashlib.sha256(payload).hexdigest()

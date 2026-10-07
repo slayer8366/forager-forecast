@@ -127,21 +127,27 @@ def run_section(
             append_line(manifest, {"kind": "cleanup", "layer": layer, "group": group,
                                    "seconds": round(time.time() - t0, 1), **info})  # fmt: skip
 
-    def ensure_prepared(unit: str) -> None:
+    def ensure_prepared(unit: str) -> str | None:
+        """Prepare the unit's group once. A prepare may answer {"stop_section": reason}."""
         group = group_of(unit)
         if prepare and group is not None and group not in prepared:
             t0 = time.time()
             info = prepare(group) or {}
             append_line(manifest, {"kind": "prepare", "layer": layer, "group": group,
                                    "seconds": round(time.time() - t0, 1), **info})  # fmt: skip
+            if info.get("stop_section"):
+                return str(info["stop_section"])
             prepared.add(group)
+        return None
 
     if workers <= 1:
         for unit in pending:
             reason = stop_reason(until, pause_file, clock)
             if reason:
                 break
-            ensure_prepared(unit)
+            reason = ensure_prepared(unit)
+            if reason:
+                break
             t0 = time.time()
             result = work(unit)
             record(unit, result, time.time() - t0)
@@ -154,8 +160,10 @@ def run_section(
                     reason = stop_reason(until, pause_file, clock)
                     if reason:
                         break
+                    reason = ensure_prepared(queue[0])
+                    if reason:
+                        break
                     unit = queue.pop(0)
-                    ensure_prepared(unit)
                     running[pool.submit(work, unit)] = (unit, time.time())
                 if reason:
                     queue = []

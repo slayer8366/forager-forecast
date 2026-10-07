@@ -107,3 +107,11 @@ def test_until_is_the_next_occurrence_of_the_local_time():
     now = datetime(2026, 10, 7, 23, 0)
     assert next_stop("07:00", now) == datetime(2026, 10, 8, 7, 0)
     assert next_stop("23:30", now) == datetime(2026, 10, 7, 23, 30)
+
+
+def test_a_prepare_that_asks_to_stop_ends_the_section_before_its_tiles(tmp_path):
+    manifest = tmp_path / "manifest.jsonl"
+    s = run_section(UNITS, functools.partial(_work, out_dir=tmp_path), manifest, tmp_path,
+                    until=None, pause_file=tmp_path / "PAUSE", group_of=_group,
+                    prepare=lambda g: {"stop_section": "download not finished"})  # fmt: skip
+    assert s["units_done_now"] == 0 and s["stopped"] == "download not finished"

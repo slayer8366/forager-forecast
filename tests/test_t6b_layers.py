@@ -335,3 +335,74 @@ def test_the_plot_table_holds_canopypct_and_t5s_split_at_scale_1(world):
         assert table[k, 1 : 1 + len(BANDS)].tolist() == [c.by_band[b] for b in BANDS]
         assert table[k, -1] == CANOPY[tm]
     assert table[2, 0] == 0.0  # plot 3: only a tree under 5 in, so no split (D88)
+
+
+# D118: SCANFI read from whole local layer files, one layer regridded at a time.
+
+
+def _trees_by_layer(world, tiles, out):
+    from forager_forecast.t6b_layers import SCANFI_LAYERS, scanfi_layer_tile
+
+    d = world["d"]
+    layer_dir = out / "scanfi_layers"
+    for layer in SCANFI_LAYERS:
+        for t in tiles:
+            scanfi_layer_tile(t, d / f"scanfi_full_{layer}.tif", layer, d / "mask.tif",
+                              d / "nalcms.tif", layer_dir)  # fmt: skip
+    return [
+        tree_tile(
+            t,
+            d / "mask.tif",
+            d / "treemap.tif",
+            d / "plots.npz",
+            None,
+            d / "nalcms.tif",
+            out,
+            scanfi_layer_dir=layer_dir,
+        )  # fmt: skip
+        for t in tiles
+    ]
+
+
+def test_the_layer_route_matches_the_window_route(world, tmp_path):
+    _trees(world, [BIG], tmp_path / "win")
+    _trees_by_layer(world, [BIG], tmp_path / "lay")
+    for prefix in ("trees", "trees_flags"):
+        a, _ = _read(tmp_path / "win" / f"{prefix}_{BIG.key}.tif")
+        b, _ = _read(tmp_path / "lay" / f"{prefix}_{BIG.key}.tif")
+        assert np.array_equal(np.isnan(a), np.isnan(b)) if a.dtype.kind == "f" else True
+        if a.dtype.kind == "f":
+            # Sum of per-layer regrids, stored as float32, against the regrid of the sums.
+            np.testing.assert_allclose(a, b, rtol=2e-6, atol=1e-6, equal_nan=True)
+        else:
+            assert np.array_equal(a, b)
+
+
+def test_the_layer_route_one_tile_and_four_smaller_tiles_agree_exactly(world, tmp_path):
+    _trees_by_layer(world, [BIG], tmp_path / "o1")
+    _trees_by_layer(world, SMALL, tmp_path / "o4")
+    for prefix in ("trees", "trees_flags"):
+        big, _ = _read(tmp_path / "o1" / f"{prefix}_{BIG.key}.tif")
+        assert np.array_equal(big, _mosaic(SMALL, prefix, tmp_path / "o4"), equal_nan=True)
+
+
+def test_a_layer_missing_for_a_canadian_tile_is_an_error(world, tmp_path):
+    from forager_forecast.t6b_layers import scanfi_layer_tile
+
+    d = world["d"]
+    scanfi_layer_tile(BIG, d / "scanfi_full_balsamFir.tif", "balsamFir", d / "mask.tif",
+                      d / "nalcms.tif", tmp_path / "layers")  # fmt: skip
+    with pytest.raises(FileNotFoundError):
+        tree_tile(BIG, d / "mask.tif", d / "treemap.tif", d / "plots.npz", None, d / "nalcms.tif",
+                  tmp_path, scanfi_layer_dir=tmp_path / "layers")  # fmt: skip
+
+
+def test_free_space_is_checked_before_a_whole_layer_download(tmp_path, monkeypatch):
+    import shutil
+
+    from forager_forecast.t6b_layers import require_free_space
+
+    monkeypatch.setattr(shutil, "disk_usage", lambda p: shutil._ntuple_diskusage(100, 90, 10))
+    with pytest.raises(OSError):
+        require_free_space(tmp_path, needed=11)
+    require_free_space(tmp_path, needed=10)

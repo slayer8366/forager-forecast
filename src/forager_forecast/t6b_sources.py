@@ -176,3 +176,52 @@ def download(url: str, dest: Path) -> dict:
         "file": dest.name,
         "sha256": sha.hexdigest(),
     }
+
+
+def http_open_from(url: str):
+    """A function giving the file from byte ``start`` to its end, for ``download_resumable``."""
+
+    def open_from(start: int) -> BinaryIO:
+        headers = {"Range": f"bytes={start}-"} if start else {}
+        response = urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=300)
+        if start and response.status != 206:
+            raise ValueError(f"{url}: the server ignored the byte range (HTTP {response.status})")
+        return response
+
+    return open_from
+
+
+def download_resumable(open_from, size: int, dest: Path, deadline: float | None,
+                       clock=None, chunk: int = _CHUNK) -> dict:  # fmt: skip
+    """A whole file to ``dest`` through ``dest.partial``, resumable, stopping at ``deadline``.
+
+    D118 and D114: a SCANFI layer can take hours, and a run section ends at its stop time, so the
+    download stops between chunks once the deadline (a ``clock()`` value) has passed and the next
+    section carries on from the partial file. The sha256 is taken over the whole file at the end.
+    """
+    import time
+
+    clock = clock or time.time
+    dest = Path(dest)
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    partial = dest.with_name(dest.name + ".partial")
+    start = partial.stat().st_size if partial.exists() else 0
+    if start < size:
+        stream = open_from(start)
+        with partial.open("ab") as out:
+            while start < size:
+                if deadline is not None and clock() >= deadline:
+                    return {"complete": False, "bytes": start, "size": size}
+                data = stream.read(chunk)
+                if not data:
+                    break
+                out.write(data)
+                start += len(data)
+    if partial.stat().st_size != size:
+        raise ValueError(f"{dest.name}: {partial.stat().st_size} bytes, expected {size}")
+    sha = hashlib.sha256()
+    with partial.open("rb") as f:
+        while block := f.read(_CHUNK):
+            sha.update(block)
+    partial.rename(dest)
+    return {"complete": True, "bytes": size, "size": size, "sha256": sha.hexdigest()}
