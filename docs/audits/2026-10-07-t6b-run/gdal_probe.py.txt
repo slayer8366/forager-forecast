@@ -1,0 +1,32 @@
+"""T6b stop 3: one SCANFI layer window read with GDAL's default HTTP settings, then tuned ones.
+
+Same 128 km window (2 x 2 tree tiles inside the Manitoba super-window 1024_-1_6), same layer
+(ponderosa pine), each run capped by the caller. Reports seconds, network bytes received
+(wlo1, /proc/net/dev) and pixels per second. Writes to the scratch folder given, not the repo.
+"""
+import os, sys, time
+from pathlib import Path
+from forager_forecast.grid import GridWindow
+from forager_forecast.soilgrids import fetch_layer
+from forager_forecast.t5_layer import SCANFI_CRS_WKT, native_bounds, scanfi_url
+
+def rx():
+    for line in open("/proc/net/dev"):
+        if line.strip().startswith("wlo1:"):
+            return int(line.split(":")[1].split()[0])
+
+mode, out = sys.argv[1], Path(sys.argv[2])
+s = 512 * 250
+w = GridWindow(-1 * 4 * 256 * 250, 6 * 4 * 256 * 250, -1 * 4 * 256 * 250 + s, 6 * 4 * 256 * 250 + s)
+bounds = native_bounds(w, SCANFI_CRS_WKT)
+if mode == "tuned":
+    os.environ.update({"GDAL_HTTP_MERGE_CONSECUTIVE_RANGES": "YES", "GDAL_HTTP_MULTIPLEX": "YES",
+                       "GDAL_HTTP_VERSION": "2", "CPL_VSIL_CURL_CHUNK_SIZE": "4194304",
+                       "GDAL_DISABLE_READDIR_ON_OPEN": "EMPTY_DIR", "VSI_CACHE": "TRUE",
+                       "VSI_CACHE_SIZE": "268435456", "GDAL_HTTP_MAX_RETRY": "3"})
+r0, t0 = rx(), time.time()
+rec = fetch_layer(scanfi_url("ponderosaPine", 2025), bounds, out / f"probe_{mode}.tif")
+dt, nb = time.time() - t0, rx() - r0
+px = rec["pixel_window"]["width"] * rec["pixel_window"]["height"]
+print(f"{mode}: {dt:.0f} s, {nb/1e6:.1f} MB received, {px/1e6:.1f} Mpx window, {px/dt/1e6:.3f} Mpx/s, "
+      f"{nb/dt/1e3:.0f} kB/s, file {Path(out / f'probe_{mode}.tif').stat().st_size/1e6:.1f} MB")

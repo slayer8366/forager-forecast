@@ -14,6 +14,9 @@ from forager_forecast.t6b_mask import (
     COUNTRY_NONE,
     COUNTRY_US48,
     COUNTRY_US_OTHER,
+    ECO_ARCTIC,
+    ECO_NONE,
+    ECO_OTHER,
     SIDE_CA,
     SIDE_US,
     build_mask,
@@ -121,13 +124,26 @@ def sources(tmp_path):
         [{"COUNTRY": c, "STATEABB": s} for s, c, _ in states],
     )
     eco = tmp_path / "eco"
+    # Non-Arctic regions cover every state except a coastal sliver of Washington, 47.0 to 47.3 N,
+    # which lies in no ecoregion polygon, as the CEC coastlines leave some cells (D117).
     _write_shapefile(
         eco,
-        [[_ring(-121.0, 51.0, -116.0, 52.0)], [_ring(-121.0, 49.0, -116.0, 51.0)]],
+        [
+            [_ring(-121.0, 51.0, -116.0, 52.0)],
+            [_ring(-121.0, 49.0, -116.0, 51.0)],
+            [_ring(-121.0, 47.3, -116.0, 49.0)],
+            [_ring(-90.0, 47.0, -86.0, 50.0)],
+            [_ring(-150.0, 60.0, -146.0, 62.0)],
+            [_ring(-108.0, 28.0, -104.0, 31.0)],
+        ],
         [("LEVEL1", 5), ("NameL1_En", 40)],
         [
             {"LEVEL1": "2", "NameL1_En": "Tundra"},
             {"LEVEL1": "5", "NameL1_En": "Northern Forests"},
+            {"LEVEL1": "7", "NameL1_En": "Marine West Coast Forests"},
+            {"LEVEL1": "5", "NameL1_En": "Northern Forests"},
+            {"LEVEL1": "6", "NameL1_En": "Northwestern Forested Mountains"},
+            {"LEVEL1": "10", "NameL1_En": "North American Deserts"},
         ],
     )
     return political.with_suffix(".shp"), eco.with_suffix(".shp")
@@ -170,8 +186,9 @@ def test_countries_and_the_arctic_are_burned_by_cell_centre(sources, tmp_path):
     assert (country[us] == COUNTRY_US48).all()
     assert (country[ca] == COUNTRY_CAN).all()
     tundra = inner & (lat > 51.02) & (lat < 51.98)
-    assert (arctic[tundra] == 1).all()
-    assert (arctic[inner & (lat > 49.02) & (lat < 50.98)] == 0).all()
+    assert (arctic[tundra] == ECO_ARCTIC).all()
+    assert (arctic[inner & (lat > 49.02) & (lat < 50.98)] == ECO_OTHER).all()
+    assert (arctic[inner & (lat > 47.02) & (lat < 47.28)] == ECO_NONE).all()
     # The coarse "Canada" sliver south of 49 N between 118 and 116 W is burned as Canada.
     sliver = (lon > -117.9) & (lon < -116.1) & (lat > 48.975) & (lat < 48.995)
     assert sliver.any() and (country[sliver] == COUNTRY_CAN).all()
@@ -236,3 +253,17 @@ def test_blocks_give_the_same_mask_as_one_pass(sources, tmp_path):
     a = read_mask(tmp_path / "a.tif", window)
     b = read_mask(tmp_path / "b.tif", window)
     assert np.array_equal(a[0], b[0]) and np.array_equal(a[1], b[1])
+
+
+def test_a_cell_in_no_ecoregion_polygon_is_out_of_the_study_area(sources, tmp_path):
+    political, eco = sources
+    window = _window(-121.0, 47.0, -116.0, 49.0)
+    path = tmp_path / "mask.tif"
+    build_mask(political, eco, window, path, block=64)
+    study, _ = cells_in_study(window, *read_mask(path, window))
+    lon, lat = _cell_lonlat(window)
+    inner = (lon > -120.95) & (lon < -116.05)
+    sliver = inner & (lat > 47.02) & (lat < 47.28)
+    land = inner & (lat > 47.32) & (lat < 48.9)
+    assert sliver.any() and not study[sliver].any()  # D117
+    assert study[land].all()

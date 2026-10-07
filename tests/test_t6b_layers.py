@@ -92,6 +92,7 @@ TREES = {
     4: [
         ("122", "ponderosa pine", "Pinus ponderosa", 16.0, 50.0),
         ("093", "Engelmann spruce", "Picea engelmannii", 12.0, 30.0),
+        ("407", "shagbark hickory", "Carya ovata", 11.0, 25.0),  # outside T5's lists (D116)
     ],
 }
 CANOPY = {1: 70.0, 2: 55.0, 3: 30.0, 4: 45.0}
@@ -121,12 +122,14 @@ def world(tmp_path_factory):
         [{"COUNTRY": "USA", "STATEABB": "US-WA"}, {"COUNTRY": "CAN", "STATEABB": "CA-BC"}],
     )
     arctic_box = (e0 - 0.25 * (e0 - w0), n0 - 0.2 * (n0 - s0), -120.0, 51.0)
+    # The Arctic corner is drawn after the forest region that holds everything, so it wins there.
     _write_shapefile(
         d / "eco",
-        [[_ring(*arctic_box)]],
+        [[_ring(-123.0, 47.0, -120.0, 51.0)], [_ring(*arctic_box)]],
         [("LEVEL1", 5), ("NameL1_En", 40)],
-        [{"LEVEL1": "2", "NameL1_En": "Tundra"}],
-    )
+        [{"LEVEL1": "7", "NameL1_En": "Marine West Coast Forests"},
+         {"LEVEL1": "2", "NameL1_En": "Tundra"}],
+    )  # fmt: skip
     pad = BIG.window
     from forager_forecast.grid import GridWindow
 
@@ -325,7 +328,8 @@ def test_the_plot_table_holds_canopypct_and_t5s_split_at_scale_1(world):
     assert ids.tolist() == [1, 2, 3, 4]
     for k, tm in enumerate(ids.tolist()):
         c = plot_cover(
-            [Tree(int(s), sci.split()[0], dia, tpa, True) for s, _, sci, dia, tpa in TREES[tm]]
+            [Tree(int(s), sci.split()[0], dia, tpa, True) for s, _, sci, dia, tpa in TREES[tm]],
+            classify_unlisted_by_spcd=True,
         )
         assert table[k, 0] == c.total
         assert table[k, 1 : 1 + len(BANDS)].tolist() == [c.by_band[b] for b in BANDS]

@@ -10,8 +10,10 @@
   Rings are burned even-odd, so a lake drawn as a hole is out and an island in it is back in. Only
   rings whose bounding box meets a block are passed, which changes nothing: a closed ring that
   does not contain a point crosses any line to it an even number of times.
-- The mask raster has two bands: the country code of the cell centre, and 1 where the centre is in
-  the Arctic (D111). In the study area: 48 conterminous states and DC, or Canada; and not Arctic.
+- The mask raster has two bands: the country code of the cell centre, and its ecoregion code (none,
+  Arctic, other). In the study area: 48 conterminous states and DC, or Canada; and inside a
+  non-Arctic ecoregion polygon (D111, D117: a centre in no ecoregion polygon, such as the
+  coastal slivers where the two CEC coastlines differ, is out).
 - Side (D115 item 1): T5's rule, centre at 49 N or north is Canada, inside the band where the border
   is the 49th parallel (122.80 W to 95.15 W, 48.0 to 50.0 N); elsewhere the country polygon.
 """
@@ -106,12 +108,22 @@ def political_rings(shp: Path) -> list[tuple[int, list[np.ndarray]]]:
     return out
 
 
-def arctic_rings(shp: Path) -> list[list[np.ndarray]]:
+ECO_NONE = 0  # the centre is in no ecoregion polygon: out of the study area (D117)
+ECO_ARCTIC = 1  # level I Tundra or Arctic Cordillera: out (D111)
+ECO_OTHER = 2  # any other level I region: in, if the country is (D113)
+ECO_LEGEND = (
+    "ecoregion: 0 in no CEC ecoregion polygon (D117), 1 Tundra or Arctic Cordillera (D111), "
+    "2 any other level I region"
+)
+MASK_VERSION = "D111 D113 D117"
+
+
+def ecoregion_rings(shp: Path) -> list[tuple[int, list[np.ndarray]]]:
+    """(ECO_ARCTIC or ECO_OTHER, rings on the master grid) for every ecoregion polygon."""
     cols = read_dbf_columns(Path(shp).with_suffix(".dbf"), ("LEVEL1",))
     return [
-        _to_grid(rings)
+        (ECO_ARCTIC if level1 in ARCTIC_LEVEL1 else ECO_OTHER, _to_grid(rings))
         for rings, level1 in zip(read_shapefile(shp), cols["LEVEL1"], strict=True)
-        if level1 in ARCTIC_LEVEL1
     ]
 
 
@@ -143,13 +155,13 @@ def build_mask(political_shp: Path, ecoregions_shp: Path, window: GridWindow, ou
                block: int = 2048) -> dict:  # fmt: skip
     """Write the two-band mask over ``window`` block by block. Returns cell counts per code."""
     countries = political_rings(political_shp)
-    arctic = [(1, rings) for rings in arctic_rings(ecoregions_shp)]
+    ecoregions = ecoregion_rings(ecoregions_shp)
     profile = {
         "driver": "GTiff", "width": window.width, "height": window.height, "count": 2,
         "dtype": "uint8", "crs": GRID_CRS, "nodata": None, "compress": "deflate", "tiled": True,
         "transform": from_origin(window.left, window.top, CELL_SIZE_M, CELL_SIZE_M),
     }  # fmt: skip
-    counts = {"country": {}, "arctic": 0}
+    counts = {"country": {}, "ecoregion": {}}
     out = Path(out)
     out.parent.mkdir(parents=True, exist_ok=True)
     partial = out.with_name(out.name + ".partial")
@@ -165,28 +177,30 @@ def build_mask(political_shp: Path, ecoregions_shp: Path, window: GridWindow, ou
                     window.top - r0 * CELL_SIZE_M,
                 )
                 country = _burn(countries, sub)
-                arc = _burn(arctic, sub)
+                arc = _burn(ecoregions, sub)
                 dst.write(country, 1, window=Window(c0, r0, w, h))
                 dst.write(arc, 2, window=Window(c0, r0, w, h))
                 for code, n in zip(*np.unique(country, return_counts=True), strict=True):
                     counts["country"][int(code)] = counts["country"].get(int(code), 0) + int(n)
-                counts["arctic"] += int(arc.sum())
+                for code, n in zip(*np.unique(arc, return_counts=True), strict=True):
+                    counts["ecoregion"][int(code)] = counts["ecoregion"].get(int(code), 0) + int(n)
         dst.set_band_description(1, COUNTRY_LEGEND)
-        dst.set_band_description(2, "arctic: 1 in CEC level I Tundra or Arctic Cordillera (D111)")
+        dst.set_band_description(2, ECO_LEGEND)
+        dst.update_tags(mask_version=MASK_VERSION)
     partial.rename(out)
     return counts
 
 
 def read_mask(path: Path, window: GridWindow) -> tuple[np.ndarray, np.ndarray]:
-    """(country, arctic) for ``window``; cells outside the mask raster read as none."""
+    """(country, ecoregion) for ``window``; cells outside the mask raster read as none."""
     with rasterio.open(path) as ds:
         t = ds.transform
         col0 = (window.left - int(t.c)) // CELL_SIZE_M
         row0 = (int(t.f) - window.top) // CELL_SIZE_M
         win = Window(col0, row0, window.width, window.height)
         country = ds.read(1, window=win, boundless=True, fill_value=COUNTRY_NONE)
-        arctic = ds.read(2, window=win, boundless=True, fill_value=0)
-    return country, arctic
+        eco = ds.read(2, window=win, boundless=True, fill_value=ECO_NONE)
+    return country, eco
 
 
 def cell_lonlat(window: GridWindow) -> tuple[np.ndarray, np.ndarray]:
@@ -207,9 +221,10 @@ def side_rule(lon: np.ndarray, lat: np.ndarray, country: np.ndarray) -> np.ndarr
     return np.where(in_band, by_line, by_polygon).astype("uint8")
 
 
-def cells_in_study(window: GridWindow, country: np.ndarray, arctic: np.ndarray):
-    """(in study area, side) per cell. In: centre in the 48 states and DC or Canada, not Arctic."""
+def cells_in_study(window: GridWindow, country: np.ndarray, eco: np.ndarray):
+    """(in study area, side) per cell. In: centre in the 48 states and DC or Canada, and in a
+    non-Arctic ecoregion (D111, D113, D117)."""
     lon, lat = cell_lonlat(window)
-    study = ((country == COUNTRY_US48) | (country == COUNTRY_CAN)) & (arctic == 0)
+    study = ((country == COUNTRY_US48) | (country == COUNTRY_CAN)) & (eco == ECO_OTHER)
     side = side_rule(lon, lat, country)
     return study, np.where(study, side, SIDE_NONE).astype("uint8")

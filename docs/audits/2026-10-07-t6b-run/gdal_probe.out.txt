@@ -1,0 +1,4 @@
+default: 230 s, 2.1 MB received, 19.0 Mpx window, 0.082 Mpx/s, 9 kB/s, file 0.2 MB
+default exit 0
+tuned: 99 s, 8.5 MB received, 19.0 Mpx window, 0.191 Mpx/s, 86 kB/s, file 0.2 MB
+tuned exit 0

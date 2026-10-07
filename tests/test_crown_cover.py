@@ -168,3 +168,36 @@ def test_a_non_positive_width_is_counted_not_dropped_silently(monkeypatch):
     assert cover.nonpositive_width_trees == 1
     assert cover.by_band["Pseudotsuga"] == 0.0
     assert cover.by_band["Tsuga"] == pytest.approx(cover.total)
+
+
+# D116 (T6b, Forager RECORD -615): genera outside T5's lists are classed by FIA species code.
+
+
+def test_an_unlisted_genus_is_classed_by_its_fia_code_when_t6b_asks():
+    from forager_forecast.crown_cover import Tree, plot_cover
+
+    hickory = Tree(spcd=407, genus="Carya", dbh_in=12.0, tpa=20.0, live=True)
+    cypress = Tree(spcd=221, genus="Taxodium", dbh_in=12.0, tpa=20.0, live=True)
+    fir = Tree(spcd=202, genus="Pseudotsuga", dbh_in=12.0, tpa=20.0, live=True)
+    c = plot_cover([hickory, cypress, fir], classify_unlisted_by_spcd=True)
+    # Each of the three takes the same crown (Douglas-fir's width for the two unlisted ones'
+    # class defaults: hickory gets quaking aspen's, cypress Douglas-fir's), so compare by class.
+    only_fir = plot_cover([fir])
+    assert c.by_band["Pseudotsuga"] < c.total
+    assert c.by_band["broadleaf"] > 0  # the hickory
+    assert c.by_band["conifer"] > c.by_band["Pseudotsuga"]  # the cypress joins the conifers
+    assert abs(c.by_band["conifer"] + c.by_band["broadleaf"] - c.total) < 1e-9
+    # Never a host: no host band takes either unlisted tree.
+    hosts = ("Tsuga", "Picea", "Abies", "Pinus", "Quercus")
+    assert all(c.by_band[h] == 0 for h in hosts)
+    assert c.unlisted_genus_trees == 2
+    assert only_fir.unlisted_genus_trees == 0
+
+
+def test_the_fia_code_split_is_at_300():
+    from forager_forecast.crown_cover import is_conifer
+
+    assert is_conifer("Notagenus", spcd=299) is True
+    assert is_conifer("Notagenus", spcd=300) is False
+    with pytest.raises(UnknownGenus):  # T5's refusal stands without a code
+        is_conifer("Notagenus")

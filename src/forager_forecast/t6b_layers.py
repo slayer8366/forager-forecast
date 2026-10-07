@@ -279,15 +279,20 @@ def build_plot_table(tree_zip: Path, vat_path: Path, out: Path,
     ids = np.array(sorted(set(canopy) | set(trees)), dtype="int64")
     table = np.full((len(ids), 2 + len(BANDS)), np.nan)
     counts = {"surrogate_trees": 0, "capped_trees": 0, "nonpositive_width_trees": 0,
-              "plots_without_tree_rows": 0, "plots_without_canopypct": 0}  # fmt: skip
+              "plots_without_tree_rows": 0, "plots_without_canopypct": 0,
+              "unlisted_genus_trees_classed_by_fia_code": 0}  # fmt: skip
     for k, tm in enumerate(ids.tolist()):
-        c = plot_cover(trees.get(tm, []), surrogate_width_scale=SURROGATE_SCALE)
+        c = plot_cover(
+            trees.get(tm, []), surrogate_width_scale=SURROGATE_SCALE,
+            classify_unlisted_by_spcd=True,
+        )  # fmt: skip
         table[k, 0] = c.total
         table[k, 1 : 1 + len(BANDS)] = [c.by_band[b] for b in BANDS]
         table[k, -1] = canopy.get(tm, np.nan)
         counts["surrogate_trees"] += c.surrogate_trees
         counts["capped_trees"] += c.capped_trees
         counts["nonpositive_width_trees"] += c.nonpositive_width_trees
+        counts["unlisted_genus_trees_classed_by_fia_code"] += c.unlisted_genus_trees
         counts["plots_without_tree_rows"] += tm not in trees
         counts["plots_without_canopypct"] += tm not in canopy
     out = Path(out)
