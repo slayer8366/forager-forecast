@@ -1,0 +1,2 @@
+2026-10-06T20:32:12-07:00 start: 11 layers, reserve 8.0 GB, until None
+2026-10-06T20:38:32-07:00 balsamFir: 1161699718/1161699718 bytes in 378 s, 3069 kB/s, complete=True

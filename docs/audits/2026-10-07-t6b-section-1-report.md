@@ -242,3 +242,43 @@ clean.
 No run section was started after section 1.
 
 Correction, appended 2026-10-07 03:13 UTC: section 7's heading gives 03:20 UTC; it was written at 03:12 UTC by the clock (`date -u`). Nothing else changes.
+
+## 8. Appended 2026-10-07 03:49 UTC: the order of work (Forager RECORD -620) and the SCANFI download job
+
+The owner's order, as the planner relays it: "US and soil first (Recommended)". Night sections run
+the stages mask, plots, soil, then trees. The trees stage offers only tiles whose sources are ready,
+which until the SCANFI layers are regridded means the US-only tiles. SCANFI's layers download as a
+separate job, download only. Canadian tree compute comes last.
+
+**Changes, tests first.** The two new tests were red on import before `download_layers` existed.
+- `t6b_sources.download_layers` and `scripts/t6b_fetch_scanfi_layers.py`, a download-only job:
+  - one layer at a time;
+  - a layer already on the drive with its request record is skipped, and a partial download resumes;
+  - before each layer, free space must cover the rest of the layer plus a reserve, 8 GB by default,
+    kept for the night sections' outputs; otherwise the job stops there;
+  - each finished layer gets its request record and sha256 in `forecast-data/t6b/requests/`;
+  - its paths are the ones the `scanfi-layers` stage reads, and that stage deletes each layer once
+    regridded.
+- `scripts/t6b_run.py` now defaults to `--stages mask,plots,soil,trees`.
+- Revert runner: 27 checks, 25 bite. The same 2 labelled "may not bite" do not
+  (`revert_results_3.json`).
+- Full suite under the cap: 451 passed, 326 test functions, peak 534 MB.
+
+**The job.** Started 2026-10-06 20:32 local (03:32 UTC) as the user service `t6b-scanfi-download`:
+- memory cap 1 GB, no swap, nice 19, idle I/O class;
+- log at `forecast-data/t6b/scanfi_download.log`, copied here as `2026-10-07-t6b-run/scanfi_download.log.txt`;
+- `free -h` beforehand showed 7.6 GiB available.
+
+| Layer | Bytes | Time | Rate |
+|---|---|---|---|
+| balsam fir | 1,161,699,718 | 378 s | 3,069 kB/s, complete |
+| black spruce | 1,551,892,480 of 3,312,829,290 | 20:38:36 to 20:47:17 local | about 2.98 MB/s, still downloading |
+
+At about 3 MB/s all eleven layers (18.8 GB) would take about 1 h 45 min. That is about forty times
+the 77 kB/s measured at 02:42 UTC, so the server's rate varies widely. The rate was not measured in
+daytime: this job started in the evening.
+
+**It will stop at the reserve.** 17 GB was free at the start. With an 8 GB reserve the job is
+expected to stop before "otherConiferous", after about 12.3 GB (balsam fir to lodgepole pine,
+inferred from the layer sizes). The other four layers follow once the `scanfi-layers` stage has
+regridded and deleted earlier ones. No compute section was started.
