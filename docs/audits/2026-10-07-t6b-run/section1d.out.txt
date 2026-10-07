@@ -1,0 +1,9 @@
+2026-10-06T19:05:49-07:00 section start, until 2026-10-06T19:16, stages trees, workers 2, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE
+2026-10-06T19:05:49-07:00 trees: 4788 tiles, 2771 with Canadian cells
+2026-10-06T19:05:49-07:00 trees: this section offers only super-windows ['1024_-1_6']
+Command terminated by signal 15
+	Command being timed: ".venv/bin/python scripts/t6b_run.py --until 19:16 --stages trees --workers 2 --tree-groups 1024_-1_6"
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 21:27.42
+	Maximum resident set size (kbytes): 346036
+/usr/lib/python3.14/multiprocessing/resource_tracker.py:396: UserWarning: resource_tracker: There appear to be 5 leaked semaphore objects to clean up at shutdown: {'/mp-ypraps50', '/mp-2f9q4yfn', '/mp-7elq8396', '/mp-8dwrim24', '/mp-_4_leyie'}
+  warnings.warn(

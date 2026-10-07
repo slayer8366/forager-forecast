@@ -1,0 +1,973 @@
+{
+ "listed_disagreeing_with_fia_codes": [],
+ "unlisted": [
+  {
+   "genus": "Acacia",
+   "rows": 70,
+   "live_5in_plus": 41,
+   "spcd": [
+    303
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "sweet acacia"
+   ]
+  },
+  {
+   "genus": "Ailanthus",
+   "rows": 1217,
+   "live_5in_plus": 822,
+   "spcd": [
+    341
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "ailanthus"
+   ]
+  },
+  {
+   "genus": "Albizia",
+   "rows": 106,
+   "live_5in_plus": 57,
+   "spcd": [
+    345
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "mimosa, silktree"
+   ]
+  },
+  {
+   "genus": "Amelanchier",
+   "rows": 3251,
+   "live_5in_plus": 1232,
+   "spcd": [
+    356,
+    357
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "common serviceberry",
+    "serviceberry spp."
+   ]
+  },
+  {
+   "genus": "Annona",
+   "rows": 17,
+   "live_5in_plus": 4,
+   "spcd": [
+    853
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "pond-apple"
+   ]
+  },
+  {
+   "genus": "Areca",
+   "rows": 5,
+   "live_5in_plus": 5,
+   "spcd": [
+    915
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "other palms"
+   ]
+  },
+  {
+   "genus": "Asimina",
+   "rows": 812,
+   "live_5in_plus": 28,
+   "spcd": [
+    367
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "pawpaw"
+   ]
+  },
+  {
+   "genus": "Avicennia",
+   "rows": 181,
+   "live_5in_plus": 49,
+   "spcd": [
+    986
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "black mangrove"
+   ]
+  },
+  {
+   "genus": "Baccharis",
+   "rows": 15,
+   "live_5in_plus": 0,
+   "spcd": [
+    5260
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "eastern baccharis"
+   ]
+  },
+  {
+   "genus": "Bursera",
+   "rows": 5,
+   "live_5in_plus": 4,
+   "spcd": [
+    854
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "gumbo limbo"
+   ]
+  },
+  {
+   "genus": "Carpinus",
+   "rows": 6720,
+   "live_5in_plus": 2015,
+   "spcd": [
+    391
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "American hornbeam, musclewood"
+   ]
+  },
+  {
+   "genus": "Carya",
+   "rows": 42625,
+   "live_5in_plus": 33089,
+   "spcd": [
+    400,
+    401,
+    402,
+    403,
+    404,
+    405,
+    406,
+    407,
+    408,
+    409,
+    410,
+    412,
+    413
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "bitternut hickory",
+    "black hickory",
+    "hickory spp.",
+    "mockernut hickory",
+    "nutmeg hickory",
+    "pecan"
+   ]
+  },
+  {
+   "genus": "Castanea",
+   "rows": 228,
+   "live_5in_plus": 19,
+   "spcd": [
+    421,
+    422,
+    423,
+    424
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "Allegheny chinkapin",
+    "American chestnut",
+    "Chinese chestnut",
+    "Ozark chinkapin"
+   ]
+  },
+  {
+   "genus": "Catalpa",
+   "rows": 81,
+   "live_5in_plus": 50,
+   "spcd": [
+    450,
+    451,
+    452
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "catalpa spp.",
+    "northern catalpa",
+    "southern catalpa"
+   ]
+  },
+  {
+   "genus": "Celtis",
+   "rows": 7780,
+   "live_5in_plus": 5295,
+   "spcd": [
+    460,
+    461,
+    462,
+    463
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "hackberry",
+    "hackberry spp.",
+    "netleaf hackberry",
+    "sugarberry"
+   ]
+  },
+  {
+   "genus": "Cercis",
+   "rows": 2537,
+   "live_5in_plus": 491,
+   "spcd": [
+    471
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "eastern redbud"
+   ]
+  },
+  {
+   "genus": "Chrysobalanus",
+   "rows": 2,
+   "live_5in_plus": 0,
+   "spcd": [
+    6535
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "icaco coco plum"
+   ]
+  },
+  {
+   "genus": "Cinnamomum",
+   "rows": 16,
+   "live_5in_plus": 12,
+   "spcd": [
+    858
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "camphortree"
+   ]
+  },
+  {
+   "genus": "Citrus",
+   "rows": 18,
+   "live_5in_plus": 1,
+   "spcd": [
+    860
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "citrus spp."
+   ]
+  },
+  {
+   "genus": "Cladrastis",
+   "rows": 20,
+   "live_5in_plus": 14,
+   "spcd": [
+    481
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "yellowwood"
+   ]
+  },
+  {
+   "genus": "Coccoloba",
+   "rows": 1,
+   "live_5in_plus": 1,
+   "spcd": [
+    863
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "tietongue, pigeon-plum"
+   ]
+  },
+  {
+   "genus": "Condalia",
+   "rows": 32,
+   "live_5in_plus": 21,
+   "spcd": [
+    867
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "Bluewood"
+   ]
+  },
+  {
+   "genus": "Conocarpus",
+   "rows": 17,
+   "live_5in_plus": 13,
+   "spcd": [
+    987
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "buttonwood-mangrove"
+   ]
+  },
+  {
+   "genus": "Cotinus",
+   "rows": 4,
+   "live_5in_plus": 0,
+   "spcd": [
+    996
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "smoketree"
+   ]
+  },
+  {
+   "genus": "Diospyros",
+   "rows": 3523,
+   "live_5in_plus": 963,
+   "spcd": [
+    520,
+    521,
+    522
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "Texas persimmon",
+    "common persimmon",
+    "persimmon spp."
+   ]
+  },
+  {
+   "genus": "Ehretia",
+   "rows": 10,
+   "live_5in_plus": 8,
+   "spcd": [
+    523
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "Anacua knockaway"
+   ]
+  },
+  {
+   "genus": "Elaeagnus",
+   "rows": 24,
+   "live_5in_plus": 2,
+   "spcd": [
+    997
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "Russian olive"
+   ]
+  },
+  {
+   "genus": "Eugenia",
+   "rows": 3,
+   "live_5in_plus": 0,
+   "spcd": [
+    873
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "red stopper"
+   ]
+  },
+  {
+   "genus": "Fagus",
+   "rows": 35942,
+   "live_5in_plus": 22002,
+   "spcd": [
+    531
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "American beech"
+   ]
+  },
+  {
+   "genus": "Ficus",
+   "rows": 18,
+   "live_5in_plus": 5,
+   "spcd": [
+    876
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "Florida strangler fig"
+   ]
+  },
+  {
+   "genus": "Ginkgo",
+   "rows": 4,
+   "live_5in_plus": 0,
+   "spcd": [
+    561
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "ginkgo, maidenhair tree"
+   ]
+  },
+  {
+   "genus": "Gleditsia",
+   "rows": 1466,
+   "live_5in_plus": 945,
+   "spcd": [
+    551,
+    552
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "honeylocust",
+    "waterlocust"
+   ]
+  },
+  {
+   "genus": "Gordonia",
+   "rows": 2196,
+   "live_5in_plus": 1116,
+   "spcd": [
+    555
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "loblolly-bay"
+   ]
+  },
+  {
+   "genus": "Gymnocladus",
+   "rows": 39,
+   "live_5in_plus": 28,
+   "spcd": [
+    571
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "Kentucky coffeetree"
+   ]
+  },
+  {
+   "genus": "Halesia",
+   "rows": 386,
+   "live_5in_plus": 232,
+   "spcd": [
+    580,
+    581,
+    582
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "Carolina silverbell",
+    "silverbell spp.",
+    "two-wing silverbell"
+   ]
+  },
+  {
+   "genus": "Laguncularia",
+   "rows": 112,
+   "live_5in_plus": 28,
+   "spcd": [
+    988
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "white mangrove"
+   ]
+  },
+  {
+   "genus": "Leucaena",
+   "rows": 1,
+   "live_5in_plus": 1,
+   "spcd": [
+    7565
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "white leadtree"
+   ]
+  },
+  {
+   "genus": "Liquidambar",
+   "rows": 46335,
+   "live_5in_plus": 26247,
+   "spcd": [
+    611
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "sweetgum"
+   ]
+  },
+  {
+   "genus": "Liriodendron",
+   "rows": 28267,
+   "live_5in_plus": 21711,
+   "spcd": [
+    621
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "yellow-poplar"
+   ]
+  },
+  {
+   "genus": "Maclura",
+   "rows": 2030,
+   "live_5in_plus": 1559,
+   "spcd": [
+    641
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "Osage-orange"
+   ]
+  },
+  {
+   "genus": "Magnolia",
+   "rows": 8479,
+   "live_5in_plus": 5537,
+   "spcd": [
+    650,
+    651,
+    652,
+    653,
+    654,
+    655,
+    658
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "bigleaf magnolia",
+    "cucumbertree",
+    "magnolia spp.",
+    "mountain or Fraser magnolia",
+    "southern magnolia",
+    "sweetbay"
+   ]
+  },
+  {
+   "genus": "Melaleuca",
+   "rows": 284,
+   "live_5in_plus": 83,
+   "spcd": [
+    992
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "melaleuca"
+   ]
+  },
+  {
+   "genus": "Melia",
+   "rows": 450,
+   "live_5in_plus": 271,
+   "spcd": [
+    993
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "Chinaberrytree"
+   ]
+  },
+  {
+   "genus": "Metopium",
+   "rows": 5,
+   "live_5in_plus": 2,
+   "spcd": [
+    886
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "Florida poisontree"
+   ]
+  },
+  {
+   "genus": "Morella",
+   "rows": 136,
+   "live_5in_plus": 2,
+   "spcd": [
+    7845
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "Morella cerifera"
+   ]
+  },
+  {
+   "genus": "Morus",
+   "rows": 1654,
+   "live_5in_plus": 1082,
+   "spcd": [
+    680,
+    681,
+    682,
+    683
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "Texas mulberry",
+    "mulberry spp.",
+    "red mulberry",
+    "white mulberry"
+   ]
+  },
+  {
+   "genus": "Myrsine",
+   "rows": 6,
+   "live_5in_plus": 0,
+   "spcd": [
+    7912
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "Myrsine cubana"
+   ]
+  },
+  {
+   "genus": "Nyssa",
+   "rows": 32465,
+   "live_5in_plus": 22690,
+   "spcd": [
+    690,
+    691,
+    692,
+    693,
+    694
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "Ogeechee tupelo",
+    "blackgum",
+    "swamp tupelo",
+    "tupelo spp.",
+    "water tupelo"
+   ]
+  },
+  {
+   "genus": "Olneya",
+   "rows": 2,
+   "live_5in_plus": 1,
+   "spcd": [
+    990
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "desert ironwood"
+   ]
+  },
+  {
+   "genus": "Ostrya",
+   "rows": 11128,
+   "live_5in_plus": 4190,
+   "spcd": [
+    701
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "eastern hophornbeam"
+   ]
+  },
+  {
+   "genus": "Oxydendrum",
+   "rows": 10867,
+   "live_5in_plus": 7544,
+   "spcd": [
+    711
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "sourwood"
+   ]
+  },
+  {
+   "genus": "Paulownia",
+   "rows": 228,
+   "live_5in_plus": 181,
+   "spcd": [
+    712
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "paulownia, empress-tree"
+   ]
+  },
+  {
+   "genus": "Persea",
+   "rows": 2305,
+   "live_5in_plus": 592,
+   "spcd": [
+    721,
+    6511
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "redbay",
+    "swamp bay"
+   ]
+  },
+  {
+   "genus": "Planera",
+   "rows": 872,
+   "live_5in_plus": 609,
+   "spcd": [
+    722
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "water-elm, planertree"
+   ]
+  },
+  {
+   "genus": "Poncirus",
+   "rows": 9,
+   "live_5in_plus": 0,
+   "spcd": [
+    8296
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "hardy orange"
+   ]
+  },
+  {
+   "genus": "Prosopis",
+   "rows": 6385,
+   "live_5in_plus": 5049,
+   "spcd": [
+    756,
+    757,
+    758
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "honey mesquite ",
+    "screwbean mesquite",
+    "velvet mesquite"
+   ]
+  },
+  {
+   "genus": "Rhizophora",
+   "rows": 168,
+   "live_5in_plus": 6,
+   "spcd": [
+    989
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "American mangrove"
+   ]
+  },
+  {
+   "genus": "Roystonea",
+   "rows": 1,
+   "live_5in_plus": 1,
+   "spcd": [
+    909
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "royal palm spp."
+   ]
+  },
+  {
+   "genus": "Sabal",
+   "rows": 1819,
+   "live_5in_plus": 1686,
+   "spcd": [
+    912
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "cabbage palmetto"
+   ]
+  },
+  {
+   "genus": "Sapindus",
+   "rows": 170,
+   "live_5in_plus": 101,
+   "spcd": [
+    919
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "western soapberry"
+   ]
+  },
+  {
+   "genus": "Sassafras",
+   "rows": 7396,
+   "live_5in_plus": 3576,
+   "spcd": [
+    931
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "sassafras"
+   ]
+  },
+  {
+   "genus": "Schinus",
+   "rows": 14,
+   "live_5in_plus": 6,
+   "spcd": [
+    8563
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "Brazilian peppertree"
+   ]
+  },
+  {
+   "genus": "Sideroxylon",
+   "rows": 433,
+   "live_5in_plus": 158,
+   "spcd": [
+    381
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "chittamwood, gum bumelia"
+   ]
+  },
+  {
+   "genus": "Sophora",
+   "rows": 5,
+   "live_5in_plus": 2,
+   "spcd": [
+    870
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "Texas sophora"
+   ]
+  },
+  {
+   "genus": "Tamarindus",
+   "rows": 1,
+   "live_5in_plus": 1,
+   "spcd": [
+    897
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "tamarind"
+   ]
+  },
+  {
+   "genus": "Taxodium",
+   "rows": 10109,
+   "live_5in_plus": 8274,
+   "spcd": [
+    221,
+    222
+   ],
+   "by_fia_code": "conifer",
+   "names": [
+    "baldcypress",
+    "pondcypress"
+   ]
+  },
+  {
+   "genus": "Tilia",
+   "rows": 10789,
+   "live_5in_plus": 9240,
+   "spcd": [
+    950,
+    951,
+    952,
+    953
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "American basswood",
+    "Carolina basswood",
+    "basswood spp.",
+    "white basswood"
+   ]
+  },
+  {
+   "genus": "Tree",
+   "rows": 319,
+   "live_5in_plus": 98,
+   "spcd": [
+    299,
+    998,
+    999
+   ],
+   "by_fia_code": "mixed",
+   "names": [
+    "other or unknown live tree",
+    "unknown dead conifer",
+    "unknown dead hardwood"
+   ]
+  },
+  {
+   "genus": "Triadica",
+   "rows": 3391,
+   "live_5in_plus": 1728,
+   "spcd": [
+    994
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "Chinese tallow"
+   ]
+  },
+  {
+   "genus": "Vaccinium",
+   "rows": 36,
+   "live_5in_plus": 1,
+   "spcd": [
+    8860
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "farkleberry"
+   ]
+  },
+  {
+   "genus": "Vernicia",
+   "rows": 15,
+   "live_5in_plus": 1,
+   "spcd": [
+    995
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "tungoil tree"
+   ]
+  },
+  {
+   "genus": "Ximenia",
+   "rows": 5,
+   "live_5in_plus": 0,
+   "spcd": [
+    8901
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "tallow wood"
+   ]
+  },
+  {
+   "genus": "Zanthoxylum",
+   "rows": 13,
+   "live_5in_plus": 7,
+   "spcd": [
+    8944
+   ],
+   "by_fia_code": "broadleaf",
+   "names": [
+    "Hercules' club"
+   ]
+  }
+ ],
+ "unlisted_rows": 296075,
+ "unlisted_live_5in_plus": 190829,
+ "all_rows": 2388297,
+ "all_live_5in_plus": 1710284
+}

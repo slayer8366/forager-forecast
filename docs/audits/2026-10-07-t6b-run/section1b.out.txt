@@ -1,0 +1,44 @@
+2026-10-06T18:40:52-07:00 section start, until 2026-10-06T19:08, stages soil,trees, workers 2, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE
+2026-10-06T18:42:30-07:00 soil: 110 tiles
+2026-10-06T18:42:46-07:00 section end: 0 unit lines in the manifest
+check-large-files --staged: 3 file(s) checked, none over 1048576 bytes
+concurrent.futures.process._RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/usr/lib/python3.14/concurrent/futures/process.py", line 254, in _process_worker
+    r = call_item.fn(*call_item.args, **call_item.kwargs)
+  File "/home/zynergy-labs/Zynergy/forager-forecast-t6b/scripts/t6b_run.py", line 166, in soil_unit
+    result = soil_tile(_tile(key), MASK, NATIVE_SOIL, TILES / "soil")
+  File "/home/zynergy-labs/Zynergy/forager-forecast-t6b/src/forager_forecast/t6b_layers.py", line 170, in soil_tile
+    fetch_layer(source_for(d, s), bounds, native_dir / f"{layer_name(d, s)}.tif")
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zynergy-labs/Zynergy/forager-forecast-t6b/src/forager_forecast/soilgrids.py", line 141, in fetch_layer
+    col0 = math.floor(raw.col_off)
+ValueError: cannot convert float NaN to integer
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/zynergy-labs/Zynergy/forager-forecast-t6b/scripts/t6b_run.py", line 294, in <module>
+    main()
+    ~~~~^^
+  File "/home/zynergy-labs/Zynergy/forager-forecast-t6b/scripts/t6b_run.py", line 283, in main
+    summaries.append(stage_soil(until, args.workers, args.max_soil_tiles))
+                     ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zynergy-labs/Zynergy/forager-forecast-t6b/scripts/t6b_run.py", line 232, in stage_soil
+    return run_section(units, soil_unit, MANIFEST, TILES / "soil", until=until, pause_file=PAUSE,
+                       workers=workers, layer="soil")  # fmt: skip
+  File "/home/zynergy-labs/Zynergy/forager-forecast-t6b/src/forager_forecast/t6b_run.py", line 167, in run_section
+    record(unit, fut.result(), time.time() - t0)
+                 ~~~~~~~~~~^^
+  File "/usr/lib/python3.14/concurrent/futures/_base.py", line 443, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.14/concurrent/futures/_base.py", line 395, in __get_result
+    raise self._exception
+ValueError: cannot convert float NaN to integer
+Command exited with non-zero status 1
+	Command being timed: ".venv/bin/python scripts/t6b_run.py --until 19:08 --stages soil,trees --workers 2 --max-soil-tiles 2"
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:57.38
+	Maximum resident set size (kbytes): 299860

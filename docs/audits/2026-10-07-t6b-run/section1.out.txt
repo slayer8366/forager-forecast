@@ -1,0 +1,32 @@
+2026-10-06T18:32:11-07:00 section start, until 2026-10-06T19:10, stages mask,plots,trees, workers 2, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE
+2026-10-06T18:39:19-07:00 mask built in 428 s: {'country': {0: 288549893, 3: 9502670, 2: 158108060, 1: 124869475, 4: 18755374}, 'arctic': 45190392}
+2026-10-06T18:39:19-07:00 mask: ok
+2026-10-06T18:39:31-07:00 section end: 0 unit lines in the manifest
+check-large-files --staged: 4 file(s) checked, none over 1048576 bytes
+Traceback (most recent call last):
+  File "/home/zynergy-labs/Zynergy/forager-forecast-t6b/scripts/t6b_run.py", line 275, in <module>
+    main()
+    ~~~~^^
+  File "/home/zynergy-labs/Zynergy/forager-forecast-t6b/scripts/t6b_run.py", line 260, in main
+    stage_plots()
+    ~~~~~~~~~~~^^
+  File "/home/zynergy-labs/Zynergy/forager-forecast-t6b/scripts/t6b_run.py", line 111, in stage_plots
+    info = build_plot_table(
+        TREEMAP / "RDS-2026-0038.zip", TREEMAP / "TreeMap2023_CONUS.tif.vat.dbf", PLOTS
+    )
+  File "/home/zynergy-labs/Zynergy/forager-forecast-t6b/src/forager_forecast/t6b_layers.py", line 257, in build_plot_table
+    c = plot_cover(trees.get(tm, []), surrogate_width_scale=SURROGATE_SCALE)
+  File "/home/zynergy-labs/Zynergy/forager-forecast-t6b/src/forager_forecast/crown_cover.py", line 229, in plot_cover
+    width, used = crown_width_for(t.spcd, t.genus, t.dbh_in)
+                  ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/zynergy-labs/Zynergy/forager-forecast-t6b/src/forager_forecast/crown_cover.py", line 188, in crown_width_for
+    used = surrogate_for(spcd, genus)
+  File "/home/zynergy-labs/Zynergy/forager-forecast-t6b/src/forager_forecast/crown_cover.py", line 176, in surrogate_for
+    conifer = is_conifer(genus)
+  File "/home/zynergy-labs/Zynergy/forager-forecast-t6b/src/forager_forecast/crown_cover.py", line 169, in is_conifer
+    raise UnknownGenus(f"genus {genus!r} is in neither the conifer nor the broadleaf list")
+forager_forecast.crown_cover.UnknownGenus: genus 'Carya' is in neither the conifer nor the broadleaf list
+Command exited with non-zero status 1
+	Command being timed: ".venv/bin/python scripts/t6b_run.py --until 19:10 --stages mask,plots,trees --workers 2"
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 7:25.18
+	Maximum resident set size (kbytes): 1324244
