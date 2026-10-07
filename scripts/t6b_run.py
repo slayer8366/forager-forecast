@@ -42,7 +42,13 @@ from forager_forecast.t6b_mask import (
     political_rings,
     read_mask,
 )
-from forager_forecast.t6b_run import append_line, next_stop, read_lines, run_section
+from forager_forecast.t6b_run import (
+    append_line,
+    done_units,
+    next_stop,
+    read_lines,
+    run_section,
+)
 
 REPO = Path(__file__).resolve().parent.parent
 DRIVE = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data")
@@ -172,7 +178,7 @@ def keep_groups() -> set[str]:
     return keep
 
 
-def stage_trees(until, workers: int) -> dict:
+def stage_trees(until, workers: int, max_units: int | None = None) -> dict:
     tiles = tile_list(TREE_N, "trees")
     canadian = {t["key"] for t in tiles if t["canada"]}
     units = sorted((t["key"] for t in tiles),
@@ -205,14 +211,24 @@ def stage_trees(until, workers: int) -> dict:
         return {"scanfi_natives": "deleted, request kept"}
 
     log(f"trees: {len(units)} tiles, {len(canadian)} with Canadian cells")
+    units = _first_pending(units, TILES / "trees", max_units)
     return run_section(units, tree_unit, MANIFEST, TILES / "trees", until=until, pause_file=PAUSE,
                        workers=workers, group_of=super_key, prepare=prepare, cleanup=cleanup,
                        layer="trees")  # fmt: skip
 
 
-def stage_soil(until, workers: int) -> dict:
+def _first_pending(units: list[str], out_dir: Path, max_units: int | None) -> list[str]:
+    """With --max-units N, this section offers only the first N tiles not yet done."""
+    if max_units is None:
+        return units
+    done = done_units(MANIFEST, out_dir)
+    return [u for u in units if u not in done][:max_units]
+
+
+def stage_soil(until, workers: int, max_units: int | None = None) -> dict:
     units = [t["key"] for t in tile_list(SOIL_N, "soil")]
     log(f"soil: {len(units)} tiles")
+    units = _first_pending(units, TILES / "soil", max_units)
     return run_section(units, soil_unit, MANIFEST, TILES / "soil", until=until, pause_file=PAUSE,
                        workers=workers, layer="soil")  # fmt: skip
 
@@ -242,6 +258,9 @@ def main() -> None:
     p.add_argument("--until", required=True, help="local HH:MM; no new tile starts after it")
     p.add_argument("--stages", default="mask,plots,trees,soil")
     p.add_argument("--workers", type=int, default=2)
+    p.add_argument("--max-soil-tiles", type=int, default=None,
+                   help="at most this many new soil tiles in this section")  # fmt: skip
+    p.add_argument("--max-tree-tiles", type=int, default=None)
     args = p.parse_args()
     if not DRIVE.is_dir():
         sys.exit("flash drive not mounted")
@@ -259,9 +278,9 @@ def main() -> None:
             elif stage == "plots":
                 stage_plots()
             elif stage == "trees":
-                summaries.append(stage_trees(until, args.workers))
+                summaries.append(stage_trees(until, args.workers, args.max_tree_tiles))
             elif stage == "soil":
-                summaries.append(stage_soil(until, args.workers))
+                summaries.append(stage_soil(until, args.workers, args.max_soil_tiles))
             else:
                 sys.exit(f"unknown stage {stage}")
             log(f"{stage}: {summaries[-1] if summaries and stage in ('trees', 'soil') else 'ok'}")
