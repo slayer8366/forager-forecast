@@ -153,6 +153,24 @@ def _write_tif(path: Path, window: GridWindow, bands: dict, dtype: str, tags: di
 # --- Soil ---------------------------------------------------------------------------------------
 
 
+def _study_box(window: GridWindow, study: np.ndarray) -> GridWindow:
+    """The smallest window inside ``window`` holding every study cell of it.
+
+    Soil is regridded over this box only. A 512 km soil tile at the study area's northern edge
+    can reach past the pole side of the continent into a gap of SoilGrids' interrupted
+    Homolosine, where positions are not defined; no study cell lies there. Each cell's value
+    does not depend on the box (D115 item 5), so cropping changes no value.
+    """
+    rows = np.flatnonzero(study.any(axis=1))
+    cols = np.flatnonzero(study.any(axis=0))
+    return GridWindow(
+        window.left + int(cols[0]) * CELL_SIZE_M,
+        window.top - (int(rows[-1]) + 1) * CELL_SIZE_M,
+        window.left + (int(cols[-1]) + 1) * CELL_SIZE_M,
+        window.top - int(rows[0]) * CELL_SIZE_M,
+    )
+
+
 def soil_tile(tile: Tile, mask_path: Path, native_root: Path, out_dir: Path,
               source_for=vrt_url) -> dict:  # fmt: skip
     """T4's soil pH (D80, D81, D74) for one tile. Native windows are kept under native_root."""
@@ -165,7 +183,9 @@ def soil_tile(tile: Tile, mask_path: Path, native_root: Path, out_dir: Path,
     if request_path.exists():
         records = json.loads(request_path.read_text())["layers"]
     else:
-        bounds = native_bounds_for(window)
+        bounds = native_bounds_for(_study_box(window, study))
+        if not all(math.isfinite(b) for b in bounds):
+            raise ValueError(f"tile {tile.key}: its study cells reach a gap in the Homolosine")
         records = [
             fetch_layer(source_for(d, s), bounds, native_dir / f"{layer_name(d, s)}.tif")
             for d, s in layers()
@@ -191,9 +211,16 @@ def soil_tile(tile: Tile, mask_path: Path, native_root: Path, out_dir: Path,
     col_off, row_off = grid[1][0], grid[1][1]
     native = np.stack([blend_0_30(by_stat[s]) for s in STATISTICS])
     del by_stat
-    values, fraction = area_weighted_regrid_from_origin(
-        native, full, col_off, row_off, grid_to_homolosine(), window
+    box = _study_box(window, study)
+    sub_values, sub_fraction = area_weighted_regrid_from_origin(
+        native, full, col_off, row_off, grid_to_homolosine(), box
     )
+    r0 = (window.top - box.top) // CELL_SIZE_M
+    c0 = (box.left - window.left) // CELL_SIZE_M
+    values = np.full((len(STATISTICS), window.height, window.width), np.nan)
+    fraction = np.zeros((len(STATISTICS), window.height, window.width))
+    values[:, r0 : r0 + box.height, c0 : c0 + box.width] = sub_values
+    fraction[:, r0 : r0 + box.height, c0 : c0 + box.width] = sub_fraction
     values[(fraction < MIN_VALID_FRACTION) | ~study[None]] = np.nan
     fraction[:, ~study] = 0.0
     bands = dict(zip(BAND_DESCRIPTIONS, np.concatenate([values, fraction]), strict=True))
