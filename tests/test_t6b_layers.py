@@ -303,3 +303,31 @@ def test_water_is_no_data_not_zero_cover(world, tmp_path, which):
         lon, lat, world["water_ca"], inset=-0.004
     )
     assert np.array_equal(wet[:, far], dry[:, far], equal_nan=True)
+
+
+def test_soil_cells_outside_the_study_area_are_blank(world, tmp_path):
+    d = world["d"]
+    soil_tile(BIG, d / "mask.tif", tmp_path / "n", tmp_path / "o", _soil_source(world))
+    values, _ = _read(tmp_path / "o" / f"soil_{BIG.key}.tif")
+    lon, lat = _cells_lonlat()
+    arctic = _inside(lon, lat, world["arctic"], inset=0.001)
+    assert arctic.any()
+    assert np.isnan(values[:3, arctic]).all() and (values[3:, arctic] == 0).all()
+    outside_patch = ~_inside(lon, lat, world["arctic"], inset=-0.003) & (lat < 49.0)
+    assert np.isfinite(values[0][outside_patch]).any()
+
+
+def test_the_plot_table_holds_canopypct_and_t5s_split_at_scale_1(world):
+    from forager_forecast.crown_cover import Tree, plot_cover
+    from forager_forecast.t6b_layers import load_plot_table
+
+    ids, table = load_plot_table(world["d"] / "plots.npz")
+    assert ids.tolist() == [1, 2, 3, 4]
+    for k, tm in enumerate(ids.tolist()):
+        c = plot_cover(
+            [Tree(int(s), sci.split()[0], dia, tpa, True) for s, _, sci, dia, tpa in TREES[tm]]
+        )
+        assert table[k, 0] == c.total
+        assert table[k, 1 : 1 + len(BANDS)].tolist() == [c.by_band[b] for b in BANDS]
+        assert table[k, -1] == CANOPY[tm]
+    assert table[2, 0] == 0.0  # plot 3: only a tree under 5 in, so no split (D88)
