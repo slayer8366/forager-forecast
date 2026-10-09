@@ -91,3 +91,15 @@
 2026-10-09T04:36:11-07:00 trees: 4058 tiles, 2043 with Canadian cells; 2043 wait for the SCANFI layers (D118)
 2026-10-09T05:22:18-07:00 trees: {'kind': 'section', 'layer': 'trees', 'started_at': '2026-10-09T04:36:11-07:00', 'ended_at': '2026-10-09T05:22:18-07:00', 'seconds': 2767.0, 'units_total': 2015, 'units_done_before': 770, 'units_done_now': 80, 'units_ok': 80, 'units_deferred': 0, 'units_remaining': 1165, 'stopped': 'pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE'}
 2026-10-09T05:22:18-07:00 section end: 956 unit lines in the manifest
+2026-10-09T05:27:57-07:00 section start, until 2026-10-09T07:00, stages trees-us-half, workers 2, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/pnw/PAUSE
+2026-10-09T05:28:14-07:00 trees-us-half: 3 tiles with Canadian cells waiting for SCANFI (D119)
+2026-10-09T05:30:32-07:00 trees-us-half: {'kind': 'section', 'layer': 'trees-us-half', 'started_at': '2026-10-09T05:28:14-07:00', 'ended_at': '2026-10-09T05:30:32-07:00', 'seconds': 137.9, 'units_total': 3, 'units_done_before': 17, 'units_done_now': 3, 'units_ok': 3, 'units_deferred': 0, 'units_remaining': 0, 'stopped': 'all units done'}
+2026-10-09T05:30:32-07:00 section end: 959 unit lines in the manifest
+2026-10-09T05:45:45-07:00 section start, until 2026-10-09T23:00, stages mask,plots,soil,trees, workers 2, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE
+2026-10-09T05:45:45-07:00 mask: ok
+2026-10-09T05:45:45-07:00 plots: ok
+2026-10-09T05:45:45-07:00 soil: 89 tiles
+2026-10-09T05:46:57-07:00 soil: {'kind': 'section', 'layer': 'soil', 'started_at': '2026-10-09T05:45:45-07:00', 'ended_at': '2026-10-09T05:46:57-07:00', 'seconds': 72.2, 'units_total': 89, 'units_done_before': 89, 'units_done_now': 0, 'units_ok': 0, 'units_deferred': 0, 'units_remaining': 0, 'stopped': 'all units done'}
+2026-10-09T05:46:57-07:00 trees: 4058 tiles, 2043 with Canadian cells; 2043 wait for the SCANFI layers (D118)
+2026-10-09T10:04:46-07:00 trees: {'kind': 'section', 'layer': 'trees', 'started_at': '2026-10-09T05:46:57-07:00', 'ended_at': '2026-10-09T10:04:46-07:00', 'seconds': 15468.4, 'units_total': 2015, 'units_done_before': 850, 'units_done_now': 436, 'units_ok': 436, 'units_deferred': 0, 'units_remaining': 729, 'stopped': 'pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE'}
+2026-10-09T10:04:46-07:00 section end: 1395 unit lines in the manifest
