@@ -80,3 +80,19 @@ def test_the_image_carries_the_label_every_source_and_the_data_licence():
         words = html.escape(s).split()
         assert all(w in flat for w in words), s
     assert "TreeMap 2023" in svg and "CC BY-NC 4.0" in svg and "Not a forecast" in svg
+
+
+def test_the_blocked_box_mask_equals_the_whole_one():
+    from forager_forecast.pnw import PNW_BOX, in_box
+    from forager_forecast.t4_layer import box_mask
+
+    s = CELL_SIZE_M
+    # a window across the box's north-west corner (125 W, 49 N), 300 x 200 cells
+    from pyproj import Transformer
+
+    x, y = Transformer.from_crs("EPSG:4269", GRID_CRS, always_xy=True).transform(-125.0, 49.0)
+    left, top = int(x // s - 150) * s, int(y // s + 100) * s
+    window = GridWindow(left, top - 200 * s, left + 300 * s, top)
+    whole = box_mask(window, PNW_BOX)
+    assert whole.any() and not whole.all()
+    assert np.array_equal(in_box(window, rows_per_block=37), whole)

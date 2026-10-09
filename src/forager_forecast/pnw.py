@@ -112,8 +112,16 @@ def tile_states(window: GridWindow, n: int, state_for: Callable[[str], str]) -> 
     return out
 
 
-def in_box(window: GridWindow) -> np.ndarray:
-    return box_mask(window, PNW_BOX)
+def in_box(window: GridWindow, rows_per_block: int = 256) -> np.ndarray:
+    """``t4_layer.box_mask`` for the PNW box, computed a block of rows at a time to keep memory
+    low (the same cells, the same test)."""
+    out = np.zeros((window.height, window.width), dtype=bool)
+    for r0 in range(0, window.height, rows_per_block):
+        r1 = min(r0 + rows_per_block, window.height)
+        sub = GridWindow(window.left, window.top - r1 * CELL_SIZE_M, window.right,
+                         window.top - r0 * CELL_SIZE_M)  # fmt: skip
+        out[r0:r1] = box_mask(sub, PNW_BOX)
+    return out
 
 
 # --- Colour ---------------------------------------------------------------------------------------

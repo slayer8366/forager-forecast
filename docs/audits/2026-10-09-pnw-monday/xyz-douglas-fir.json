@@ -1,0 +1,17 @@
+{
+ "stage": "xyz",
+ "seconds": 42.1,
+ "layers": {
+  "douglas-fir": {
+   "files": 570,
+   "bytes": 15209090,
+   "empty_tiles": 18,
+   "zooms": [
+    5,
+    9
+   ]
+  }
+ },
+ "files": 570,
+ "bytes": 15209090
+}

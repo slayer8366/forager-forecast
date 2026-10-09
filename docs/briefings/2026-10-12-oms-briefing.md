@@ -8,9 +8,10 @@ reviewed by a second agent yet (D18).
 
 The system will give a weekly **sighting chance** for a group of mushrooms in a weather cell, an area
 about 11 km across (SPEC.md). Today it is not a forecast. What exists are some of the inputs: soil acidity across the United States and Canada
-at 250 m, host trees for much of the United States so far, and a measure of where and when people
-report fungi at all. The Pacific Northwest images and the map at
-`/Forager/forecast/` show two of those inputs. They say nothing about this week, and nothing about
+at 250 m; host trees for 850 of the 2,015 map tiles (64 km squares) that hold only US cells, as of
+commit 28bbf09 on branch t6b-continental-layers (2026-10-09, 05:22 PDT), plus the US side of 20 of
+the 92 tiles that straddle the border; and a measure of where and when people report fungi at all. The Pacific Northwest images and the map at
+`/Forager/forecast/` show some of those inputs. They say nothing about this week, and nothing about
 whether mushrooms are in a given spot.
 
 ## What the system will be
@@ -47,8 +48,8 @@ https://forager-forecast-pnw.zynergy-site.pages.dev/Forager/forecast/), and four
 on the data drive under `forecast-data/pnw/images/`. Figures from
 `docs/audits/2026-10-09-pnw-monday/mosaic.json` unless named otherwise.
 
-**The area.** The box 40 to 49 N, 111 to 125 W: Washington, Oregon, Idaho, western Montana and
-northern California, cut at 49 N. 16,674,133 cells of 250 m are in the study area there, 16,571,590
+**The area.** The box 40 to 49 N, 111 to 125 W: Washington, Oregon, Idaho, western Montana,
+northern California, northern Nevada and northwestern Utah, cut at 49 N. 16,674,133 cells of 250 m are in the study area there, 16,571,590
 of them in the United States.
 
 **What is shown.**
@@ -57,8 +58,8 @@ of them in the United States.
 - **Tree canopy cover** from TreeMap 2023 (US Forest Service): a value in 16,377,178 cells.
 - **Douglas-fir and hemlock**, each as a share of the tree canopy, where canopy cover is at least
   10% (D89): defined in 6,991,082 cells. These two were chosen because Pilz et al. 2003 name them
-  first among the PNW chanterelle hosts, and because Douglas-fir is the host layer that matched
-  best across the 49 N border in T5's test (no step, D90). Hemlock in Canada cannot be told apart
+  first among the PNW chanterelle hosts, and because Douglas-fir showed no step across 49 N in
+  T5's test (D90), as did the conifer and broadleaf totals. Hemlock in Canada cannot be told apart
   from other conifers in the Canadian source (D85), which does not matter inside this box.
 
 **What is not shown, or not yet.**

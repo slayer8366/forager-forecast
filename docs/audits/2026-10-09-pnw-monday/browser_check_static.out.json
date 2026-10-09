@@ -1,0 +1,91 @@
+{
+ "views": {
+  "soil-ph z6": {
+   "idle_s": 0.5,
+   "shown": "soil-ph"
+  },
+  "soil-ph z8": {
+   "idle_s": 0.0,
+   "shown": "soil-ph"
+  },
+  "soil-ph z10": {
+   "idle_s": 0.0,
+   "shown": "soil-ph"
+  },
+  "tree-cover z6": {
+   "idle_s": 0.5,
+   "shown": "tree-cover"
+  },
+  "tree-cover z8": {
+   "idle_s": 0.0,
+   "shown": "tree-cover"
+  },
+  "tree-cover z10": {
+   "idle_s": 0.0,
+   "shown": "tree-cover"
+  },
+  "douglas-fir z6": {
+   "idle_s": 0.0,
+   "shown": "douglas-fir"
+  },
+  "douglas-fir z8": {
+   "idle_s": 0.0,
+   "shown": "douglas-fir"
+  },
+  "douglas-fir z10": {
+   "idle_s": 0.0,
+   "shown": "douglas-fir"
+  },
+  "hemlock z6": {
+   "idle_s": 0.0,
+   "shown": "hemlock"
+  },
+  "hemlock z8": {
+   "idle_s": 0.0,
+   "shown": "hemlock"
+  },
+  "hemlock z10": {
+   "idle_s": 0.0,
+   "shown": "hemlock"
+  }
+ },
+ "first_idle_s": 1.2,
+ "taps": [
+  {
+   "aim": [
+    45.0,
+    -122.0
+   ],
+   "readout": "Hemlock: 21.0% of the canopy (45.000 N, 121.999 W).",
+   "tap": {
+    "layer": "hemlock",
+    "lng": -121.99937744140598,
+    "lat": 44.999999999999886,
+    "grey": 42,
+    "alpha": 255
+   }
+  },
+  {
+   "aim": [
+    48.77283,
+    -122.27543
+   ],
+   "readout": "Hemlock: 30.5% of the canopy (48.773 N, 122.275 W).",
+   "tap": {
+    "layer": "hemlock",
+    "lng": -122.27480744140689,
+    "lat": 48.7728299999994,
+    "grey": 61,
+    "alpha": 255
+   }
+  }
+ ],
+ "errors": [],
+ "worker": [
+  "https://f77ebe9b.zynergy-site.pages.dev/Forager/forecast/vendor/maplibre-gl-worker.mjs?v=6.13.0"
+ ],
+ "data_requests": 245,
+ "data_png": 245,
+ "data_other": [],
+ "pmtiles_requests": 0
+}

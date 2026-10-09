@@ -102,3 +102,63 @@ def test_the_us_half_runs_now_says_so_and_is_filled_later_without_change(runner,
 def test_us_half_tiles_must_be_tiles_with_canadian_cells(runner):
     with pytest.raises(SystemExit, match="not tiles with Canadian cells"):
         runner.stage_trees_us_half(None, 1, {"16_0_0"})
+
+
+# Review F1 (RECORD -786): a tile with Canadian cells only has no US half. It must never get a
+# us-half line, and an "ok" line with no files must never count as a done US half, or the trees
+# stage would try to fill a file that does not exist once SCANFI is in.
+
+
+def _canada_only_small_tile(world):  # noqa: F811
+    from forager_forecast.t6b_layers import Tile
+    from forager_forecast.t6b_mask import SIDE_CA, SIDE_US, cells_in_study, read_mask
+
+    n = 4
+    for di in range(4):
+        for dj in range(4):
+            t = Tile(BIG.i * 4 + di, BIG.j * 4 + dj, n)
+            study, side = cells_in_study(t.window, *read_mask(world["d"] / "mask.tif", t.window))
+            if (side == SIDE_CA).any() and not (side == SIDE_US).any():
+                return t
+    raise AssertionError("no Canada-only small tile in the synthetic world")
+
+
+def test_the_us_half_stage_offers_only_tiles_with_both_sides(runner, world):  # noqa: F811
+    t = _canada_only_small_tile(world)
+    runner.TREE_N = t.n
+    (runner.T6B / "tiles_trees.json").write_text(
+        json.dumps([{"key": t.key, "i": t.i, "j": t.j, "n": t.n, "canada": True}])
+    )
+    summary = runner.stage_trees_us_half(None, 1)
+    assert summary["units_total"] == 0
+    assert not [e for e in read_lines(runner.MANIFEST) if e.get("kind") == "unit"]
+
+
+def test_an_ok_us_half_line_without_files_is_not_a_done_us_half(runner):
+    from forager_forecast.t6b_run import append_line
+
+    line = {"kind": "unit", "layer": "trees-us-half", "unit": "us-half:16_0_0", "status": "ok",
+            "files": {}}  # fmt: skip
+    append_line(runner.MANIFEST, line)
+    assert not runner.us_half_done("16_0_0")
+
+
+def test_a_canada_only_tile_goes_from_waiting_to_a_whole_tile(runner, world):  # noqa: F811
+    from forager_forecast.t6b_layers import scanfi_layer_tile
+
+    t = _canada_only_small_tile(world)
+    runner.TREE_N = t.n
+    (runner.T6B / "tiles_trees.json").write_text(
+        json.dumps([{"key": t.key, "i": t.i, "j": t.j, "n": t.n, "canada": True}])
+    )
+    assert runner.stage_trees(None, 1)["units_total"] == 0  # waits for SCANFI
+    runner.stage_trees_us_half(None, 1)
+    d = world["d"]
+    for layer in SCANFI_LAYERS:
+        scanfi_layer_tile(t, d / f"scanfi_full_{layer}.tif", layer, d / "mask.tif",
+                          d / "nalcms.tif", runner.SCANFI_LAYER_TILES)  # fmt: skip
+    whole = runner.stage_trees(None, 1)
+    assert whole["units_ok"] == 1
+    line = [e for e in read_lines(runner.MANIFEST) if e.get("kind") == "unit"][-1]
+    assert line["unit"] == t.key and "us_cells_from" not in line
+    assert (runner.TILES / "trees" / f"trees_{t.key}.tif").exists()

@@ -363,6 +363,67 @@ def stage_pmtiles(only: str | None) -> dict:
     return summary
 
 
+XYZ = OUT / "xyz"
+XYZ_ZOOMS = range(5, 10)  # the zooms the archives held (MIN_ZOOM to MAX_ZOOM)
+
+
+def stage_xyz(only: str | None) -> dict:
+    """Static z/x/y PNG tiles per layer for the site (owner, RECORD -786: "A: Pre-cut tiles, go
+    live"). Same encoding as the archives; every zoom is nearest (review F5), so a pending or
+    not-computed pixel is never blended with a value. Every tile meeting the box is written,
+    empty or not, because the site answers a missing path with its home page and status 200."""
+    from forager_forecast.tiles import png_grey_alpha, tile_range, tile_values
+
+    t0 = time.time()
+    out = {}
+    for name, spec in LAYERS.items():
+        if only and name != only:
+            continue
+        check_free()
+        bands = ([spec["band"], "source", "missing"] if spec["mosaic"] == "trees"
+                 else [spec["band"]])  # fmt: skip
+        src, window = _read(f"{spec['mosaic']}_pnw.tif", bands)
+        box = in_box(window)
+        values = src[spec["band"]].astype("float32") * np.float32(spec.get("scale", 1.0))
+        values[~box] = np.nan
+        sentinel = None
+        if spec["mosaic"] == "trees":
+            sentinel = np.zeros(values.shape, dtype="float32")
+            sentinel[(src["source"] == FLAG_PENDING) & box] = PMTILES_PENDING
+            sentinel[(src["missing"] > 0) & box] = PMTILES_MISSING
+        del src
+        files = nbytes = empty = 0
+        for z in XYZ_ZOOMS:
+            x0, x1, y0, y1 = tile_range(PNW_BOX.west, PNW_BOX.south, PNW_BOX.east,
+                                        PNW_BOX.north, z)  # fmt: skip
+            for x in range(x0, x1 + 1):
+                for y in range(y0, y1 + 1):
+                    v = tile_values(values, window, z, x, y)
+                    if spec["kind"] == "ph":
+                        grey, alpha = encode_ph_byte(v)
+                    else:
+                        grey, alpha = encode_percent_byte(v)
+                        sv = tile_values(sentinel, window, z, x, y)
+                        for code in (PMTILES_PENDING, PMTILES_MISSING):
+                            grey[sv == code] = code
+                            alpha[sv == code] = 255
+                    data = png_grey_alpha(grey, alpha)
+                    path = XYZ / name / str(z) / str(x) / f"{y}.png"
+                    path.parent.mkdir(parents=True, exist_ok=True)
+                    path.write_bytes(data)
+                    files += 1
+                    nbytes += len(data)
+                    empty += int(not alpha.any())
+        out[name] = {"files": files, "bytes": nbytes, "empty_tiles": empty,
+                     "zooms": [XYZ_ZOOMS.start, XYZ_ZOOMS.stop - 1]}  # fmt: skip
+        del values, sentinel
+    summary = {"stage": "xyz", "seconds": round(time.time() - t0, 1), "layers": out,
+               "files": sum(o["files"] for o in out.values()),
+               "bytes": sum(o["bytes"] for o in out.values())}  # fmt: skip
+    (OUT / f"xyz{'-' + only if only else ''}.json").write_text(json.dumps(summary, indent=1) + "\n")
+    return summary
+
+
 def stage_lines() -> dict:
     lines = boundary_lines()
     gj = {"type": "FeatureCollection", "attribution": SOURCES["soil"][1], "features": [
@@ -378,7 +439,7 @@ def stage_lines() -> dict:
 
 def main() -> None:
     p = argparse.ArgumentParser()
-    p.add_argument("stage", choices=["mosaic", "images", "pmtiles", "lines"])
+    p.add_argument("stage", choices=["mosaic", "images", "pmtiles", "lines", "xyz"])
     p.add_argument("--layer", default=None, choices=list(LAYERS))
     args = p.parse_args()
     if not DRIVE.is_dir():
@@ -390,6 +451,8 @@ def main() -> None:
         log(stage_images())
     elif args.stage == "pmtiles":
         log(stage_pmtiles(args.layer))
+    elif args.stage == "xyz":
+        log(stage_xyz(args.layer))
     else:
         log(stage_lines())
 

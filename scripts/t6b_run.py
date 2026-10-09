@@ -190,8 +190,22 @@ def us_half_unit_name(key: str) -> str:
 
 
 def us_half_done(key: str) -> bool:
-    """True when this tile's US half (D119) has an ok manifest line whose files still hash."""
-    return us_half_unit_name(key) in done_units(MANIFEST, TILES_US_HALF)
+    """True when this tile's US half (D119) has an ok manifest line that names its files and
+    they still hash. A line with no files is never a US half (review F1, RECORD -786)."""
+    name = us_half_unit_name(key)
+    lines = [e for e in read_lines(MANIFEST) if e.get("kind") == "unit" and e.get("unit") == name]
+    if not lines or not lines[-1].get("files"):
+        return False
+    return name in done_units(MANIFEST, TILES_US_HALF)
+
+
+def has_us_cells(key: str) -> bool:
+    """True when the tile holds a study cell on the US side (D115). Read from the mask."""
+    from forager_forecast.t6b_mask import SIDE_US
+
+    window = _tile(key).window
+    _, side = cells_in_study(window, *read_mask(MASK, window))
+    return bool((side == SIDE_US).any())
 
 
 def tree_unit(key: str) -> dict:
@@ -320,13 +334,15 @@ def us_half_unit(unit: str) -> dict:
 
 
 def stage_trees_us_half(until, workers: int, only_tiles: set[str] | None = None) -> dict:
-    """D119 (owner, Forager RECORD -772): "Compute the US half now". Every tile with Canadian
-    cells that still waits for its SCANFI layers (D118) gets its US cells computed now; its
-    Canadian cells stay pending. A tile with Canadian cells only is recorded with no files."""
+    """D119 (owner, Forager RECORD -772): "Compute the US half now". Every tile with both US and
+    Canadian study cells that still waits for its SCANFI layers (D118) gets its US cells
+    computed now; its Canadian cells stay pending. A tile with Canadian cells only has no US
+    half and is not offered (review F1, RECORD -786): it waits whole, as D118 says."""
     tiles = tile_list(TREE_N, "trees")
     whole_done = done_units(MANIFEST, TILES / "trees")
     keys = [t["key"] for t in tiles if t["canada"] and not layers_ready(t["key"])
             and t["key"] not in whole_done]  # fmt: skip
+    keys = [k for k in keys if has_us_cells(k)]
     if only_tiles:
         unknown = only_tiles - {t["key"] for t in tiles if t["canada"]}
         if unknown:
