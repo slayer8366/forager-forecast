@@ -93,6 +93,10 @@ def test_the_us_half_runs_now_says_so_and_is_filled_later_without_change(runner,
         whole = ds.read()
     assert np.isfinite(whole[0]).sum() > 100
     assert runner.stage_trees_us_half(None, 1)["units_total"] == 0  # a whole tile is not offered
+    import shutil
+
+    shutil.rmtree(runner.SCANFI_LAYER_TILES)  # even with its layer files gone
+    assert runner.stage_trees_us_half(None, 1)["units_total"] == 0
 
 
 def test_us_half_tiles_must_be_tiles_with_canadian_cells(runner):
