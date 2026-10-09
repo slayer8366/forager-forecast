@@ -1,0 +1,37 @@
+import json
+from pyproj import Transformer
+from forager_forecast.t4_layer import LonLatBox, master_window
+from forager_forecast.grid import cell_for_lonlat
+box=LonLatBox(south=40.0,north=49.0,west=-125.0,east=-111.0)
+w=master_window(box); print("window",w, w.width, w.height)
+inv=Transformer.from_crs("ESRI:102008","EPSG:4269",always_xy=True)
+def inbox(cx,cy):
+    lon,lat=inv.transform(cx*250.0,cy*250.0); return box.contains(lon,lat)
+def corners(step):
+    out=[]
+    for cx in range(w.left//250//step*step, w.right//250+step, step):
+        for cy in range(w.bottom//250//step*step, w.top//250+step, step):
+            if inbox(cx,cy): out.append((cx,cy))
+    return out
+print("tree 1024 corners",len(corners(1024)),corners(1024))
+print("soil 2048 corners",len(corners(2048)),corners(2048))
+pnw=json.load(open("/tmp/claude-1000/-home-zynergy-labs-Zynergy-Forager/594b88a0-2597-556f-be1b-255b2b0f226b/scratchpad/pnw/border.json"))["pnw"]
+keys={r["key"] for r in pnw}
+def tk(i,j): return f"256_{i}_{j}"
+bc=[]
+for r in pnw:
+    _,i,j=map(int,r["key"].split("_"))
+    for ci,cj in ((i,j),(i+1,j),(i,j+1),(i+1,j+1)):
+        adj=[tk(ci-1,cj-1),tk(ci,cj-1),tk(ci-1,cj),tk(ci,cj)]
+        if sum(a in keys for a in adj)>=2 and inbox(ci*256,cj*256): bc.append((ci*256,cj*256))
+bc=sorted(set(bc)); print("border corners",len(bc),bc)
+mids=[]
+for cx,cy in corners(2048):
+    pass
+for cx in range(w.left//250//2048*2048, w.right//250+2048, 2048):
+    for cy in range(w.bottom//250//2048*2048, w.top//250+2048, 2048):
+        for mx,my in ((cx+1024,cy),(cx,cy+1024)):
+            if inbox(mx,my): mids.append((mx,my))
+print("soil edge midpoints",len(mids),mids)
+for name,(lat,lon) in {"coast-oregon":(44.30,-123.95),"border-us-selkirks":(48.95,-117.20),"border-ca-selkirks":(49.05,-117.20),"mountains-colorado":(40.35,-105.70)}.items():
+    print(name, box.contains(lon,lat))
