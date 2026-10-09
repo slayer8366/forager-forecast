@@ -50,6 +50,14 @@ CHECKS = [
      "    if (percent[valid] < -1e-6).any() or (percent[valid] > 100 + 1e-6).any():",
      "    if False:",
      ["tests/test_tiles.py::test_the_percent_encoding_rounds_to_half_points_and_makes_no_data_transparent"]),
+    ("D120: NONE pixel outside TreeMap refused again", "src/forager_forecast/t6b_layers.py",
+     "    if (outside & own & ~water & (pixel_side != SIDE_NONE)).any():",
+     "    if (outside & own & ~water).any():",
+     ["tests/test_t6b_layers.py::test_a_no_country_pixel_outside_treemap_is_no_data_and_a_us_pixel_still_refused"]),
+    ("D120: US pixel outside TreeMap accepted", "src/forager_forecast/t6b_layers.py",
+     "    if (outside & own & ~water & (pixel_side != SIDE_NONE)).any():",
+     "    if (outside & own & ~water & (pixel_side == 99)).any():",
+     ["tests/test_t6b_layers.py::test_a_no_country_pixel_outside_treemap_is_no_data_and_a_us_pixel_still_refused"]),
     ("refactor: share threshold moved", "src/forager_forecast/t6b_layers.py",
      "    defined = valid & (total >= MIN_TOTAL_COVER_PCT)\n    side_flag",
      "    defined = valid & (total > MIN_TOTAL_COVER_PCT + 5)\n    side_flag",
@@ -99,6 +107,6 @@ for name, path, old, new, tests in CHECKS:
     if sha(src) != before:
         sys.exit(f"{name}: restore does not match the pre-edit file")
     results[-1]["restored_equal"] = True
-out = ROOT / "docs/audits/2026-10-09-pnw-monday/revert_results.json"
+out = ROOT / os.environ.get("REVERT_OUT", "docs/audits/2026-10-09-pnw-monday/revert_results.json")
 out.write_text(json.dumps(results, indent=1) + "\n")
 print(json.dumps([(r["check"], r["status"]) for r in results], indent=1))

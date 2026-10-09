@@ -389,11 +389,15 @@ def _treemap_part(window, mask_path, treemap_tif, plot_ids, plot_table, nalcms_t
             raise ValueError("TreeMap's own no-data value collides with OUTSIDE_RASTER")
         full, nodata, crs = src.transform, src.nodata, src.crs
     lon, lat = _pixel_lonlat(full, c0, r0, plots.shape[1], plots.shape[0], crs)
-    own = _own_side(_pixel_side(lon, lat, mask_path), SIDE_US)
+    pixel_side = _pixel_side(lon, lat, mask_path)
+    own = _own_side(pixel_side, SIDE_US)
     water = _water(lon, lat, nalcms_tif)
     del lon, lat
     outside = plots == OUTSIDE_RASTER
-    if (outside & own & ~water).any():
+    # D120 (owner, Forager RECORD -784): a pixel in no country polygon (side NONE) that lies
+    # outside TreeMap's raster is no data for the US side (``blank`` below holds ``outside``).
+    # A US-side pixel outside the raster is still refused.
+    if (outside & own & ~water & (pixel_side != SIDE_NONE)).any():
         raise ValueError("the TreeMap raster does not cover the US side of this tile")
     forest = (plots != nodata) & ~outside
     pos = np.searchsorted(plot_ids, plots[forest])

@@ -549,3 +549,67 @@ def _sha(path):
     import hashlib
 
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+# D120 (owner, Forager RECORD -784): a pixel whose cell is in no country polygon (side NONE) and
+# that lies outside TreeMap's raster is no data for the US side, not a refusal. A US-side pixel
+# outside the raster is still refused.
+
+
+def _cropped_treemap(world, tmp_path, keep_east_of_lon):
+    from rasterio.windows import Window
+
+    src_path = world["d"] / "treemap.tif"
+    with rasterio.open(src_path) as src:
+        x, _ = Transformer.from_crs(GEOGRAPHIC_CRS, TREEMAP_CRS, always_xy=True).transform(
+            keep_east_of_lon, 49.0
+        )
+        c0 = int((x - src.transform.c) // src.transform.a)
+        win = Window(c0, 0, src.width - c0, src.height)
+        data = src.read(1, window=win)
+        profile = {**src.profile, "width": win.width, "transform": src.window_transform(win)}
+    out = tmp_path / "treemap_cropped.tif"
+    with rasterio.open(out, "w", **profile) as dst:
+        dst.write(data, 1)
+    return out
+
+
+@pytest.mark.parametrize("side_of_strip", ["none", "us"])
+def test_a_no_country_pixel_outside_treemap_is_no_data_and_a_us_pixel_still_refused(
+    world, tmp_path, monkeypatch, side_of_strip
+):
+    from forager_forecast import t6b_layers
+    from forager_forecast.t6b_layers import tree_tile_us_half
+    from forager_forecast.t6b_mask import SIDE_NONE, SIDE_US
+
+    w0, _, e0, _ = _lonlat_box(BIG.window, 0.0)
+    cut = w0 + 0.3 * (e0 - w0)  # TreeMap stops here; the strip west of it has no raster
+    real = t6b_layers._pixel_side
+    d = world["d"]
+    treemap = _cropped_treemap(world, tmp_path, cut)
+    with rasterio.open(treemap) as ds:
+        raster_west = ds.bounds.left
+    to_5070 = Transformer.from_crs(GEOGRAPHIC_CRS, TREEMAP_CRS, always_xy=True)
+
+    def side_with_strip(lon, lat, mask_path):
+        # Pixels west of the cropped raster's edge, on the US side, become the strip.
+        side = real(lon, lat, mask_path)
+        x, _ = to_5070.transform(lon, lat)
+        strip = (np.asarray(x) < raster_west) & (side == SIDE_US)
+        return np.where(strip, SIDE_NONE if side_of_strip == "none" else SIDE_US, side)
+
+    monkeypatch.setattr(t6b_layers, "_pixel_side", side_with_strip)
+    if side_of_strip == "us":
+        with pytest.raises(ValueError, match="does not cover the US side"):
+            tree_tile_us_half(BIG, d / "mask.tif", treemap, d / "plots.npz", d / "nalcms.tif",
+                              tmp_path)  # fmt: skip
+        return
+    tree_tile_us_half(BIG, d / "mask.tif", treemap, d / "plots.npz", d / "nalcms.tif", tmp_path)
+    values, _ = _read(tmp_path / f"trees_us_half_{BIG.key}.tif")
+    lon, lat = _cells_lonlat()
+    west = (np.asarray(lon) < cut - 0.01) & (np.asarray(lat) < 48.998)
+    east = (np.asarray(lon) > cut + 0.01) & (np.asarray(lat) < 48.998)
+    assert west.any() and east.any()
+    assert np.isnan(values[0][west]).all()  # no data, not 0% cover
+    assert (values[1][west] < 0.5).all()
+    assert np.isfinite(values[0][east]).sum() > 20
