@@ -406,3 +406,146 @@ def test_free_space_is_checked_before_a_whole_layer_download(tmp_path, monkeypat
     with pytest.raises(OSError):
         require_free_space(tmp_path, needed=11)
     require_free_space(tmp_path, needed=10)
+
+
+# D119 (Forager RECORD -772): a border tile's US cells now, its Canadian cells later.
+
+
+def _us_half(world, tiles, out):
+    from forager_forecast.t6b_layers import tree_tile_us_half
+
+    d = world["d"]
+    return [
+        tree_tile_us_half(
+            t, d / "mask.tif", d / "treemap.tif", d / "plots.npz", d / "nalcms.tif", out
+        )  # fmt: skip
+        for t in tiles
+    ]
+
+
+def _fill(world, tiles, half_dir, out):
+    from forager_forecast.t6b_layers import SCANFI_LAYERS, fill_canadian_cells, scanfi_layer_tile
+
+    d = world["d"]
+    layer_dir = out / "scanfi_layers"
+    for layer in SCANFI_LAYERS:
+        for t in tiles:
+            scanfi_layer_tile(t, d / f"scanfi_full_{layer}.tif", layer, d / "mask.tif",
+                              d / "nalcms.tif", layer_dir)  # fmt: skip
+    return [
+        fill_canadian_cells(
+            t, half_dir, d / "mask.tif", None, d / "nalcms.tif", out, scanfi_layer_dir=layer_dir
+        )  # fmt: skip
+        for t in tiles
+    ]
+
+
+def _sides(world):
+    from forager_forecast.t6b_mask import SIDE_CA, SIDE_US, cells_in_study, read_mask
+
+    study, side = cells_in_study(BIG.window, *read_mask(world["d"] / "mask.tif", BIG.window))
+    return study & (side == SIDE_US), study & (side == SIDE_CA)
+
+
+def test_the_us_half_has_the_whole_tiles_us_cells_and_marks_canadian_cells_pending(world, tmp_path):
+    from forager_forecast.t6b_layers import FLAG_PENDING, US_HALF_STATE
+
+    result = _us_half(world, [BIG], tmp_path / "half")[0]
+    _trees_by_layer(world, [BIG], tmp_path / "whole")
+    us, ca = _sides(world)
+    assert us.sum() > 50 and ca.sum() > 50
+    assert result["tile_state"] == US_HALF_STATE
+    assert result["cells_in_study"] == {"us": int(us.sum()), "canada_pending": int(ca.sum())}
+    half, _ = _read(tmp_path / "half" / f"trees_us_half_{BIG.key}.tif")
+    half_f, _ = _read(tmp_path / "half" / f"trees_flags_us_half_{BIG.key}.tif")
+    whole, _ = _read(tmp_path / "whole" / f"trees_{BIG.key}.tif")
+    whole_f, _ = _read(tmp_path / "whole" / f"trees_flags_{BIG.key}.tif")
+    other = ~ca
+    assert np.isfinite(whole[0][us]).sum() > 50
+    assert np.array_equal(half[:, other], whole[:, other], equal_nan=True)
+    assert np.array_equal(half_f[:, other], whole_f[:, other])
+    with rasterio.open(tmp_path / "half" / f"trees_us_half_{BIG.key}.tif") as ds:
+        names = list(ds.descriptions)
+        assert ds.tags()["tile_state"] == US_HALF_STATE
+    src = names.index("source")
+    assert (half[src][ca] == FLAG_PENDING).all()
+    assert np.isnan(np.delete(half, src, axis=0)[:, ca]).all()
+    assert (half_f[:, ca] == FLAG_PENDING).all()
+
+
+def test_the_us_half_one_tile_and_smaller_tiles_agree_exactly(world, tmp_path):
+    from forager_forecast.t6b_layers import tree_tile_us_half
+
+    _us_half(world, [BIG], tmp_path / "o1")
+    d = world["d"]
+    n = 4  # tiles small enough that some hold both sides of 49 N
+    tiles = [Tile(BIG.i * 4 + di, BIG.j * 4 + dj, n) for di in range(4) for dj in range(4)]
+    mixed = []
+    for t in tiles:
+        try:
+            r = tree_tile_us_half(t, d / "mask.tif", d / "treemap.tif", d / "plots.npz",
+                                  d / "nalcms.tif", tmp_path / "o4")  # fmt: skip
+        except ValueError as err:
+            assert "no Canadian cell" in str(err)
+            continue
+        if r["files"]:
+            mixed.append(t)
+    assert len(mixed) >= 2
+    for prefix in ("trees_us_half", "trees_flags_us_half"):
+        big, tr = _read(tmp_path / "o1" / f"{prefix}_{BIG.key}.tif")
+        for t in mixed:
+            small, st = _read(tmp_path / "o4" / f"{prefix}_{t.key}.tif")
+            r0 = (int(tr.f) - int(st.f)) // CELL_SIZE_M
+            c0 = (int(st.c) - int(tr.c)) // CELL_SIZE_M
+            part = big[:, r0 : r0 + n, c0 : c0 + n]
+            assert np.array_equal(part, small, equal_nan=True)
+
+
+def test_filling_the_canadian_cells_gives_the_whole_tile_and_leaves_the_us_half_alone(
+    world, tmp_path
+):
+    from forager_forecast.t6b_layers import WHOLE_STATE
+
+    half = _us_half(world, [BIG], tmp_path / "half")[0]
+    before = {n: _sha(tmp_path / "half" / n) for n in half["files"]}
+    filled = _fill(world, [BIG], tmp_path / "half", tmp_path / "filled")[0]
+    _trees_by_layer(world, [BIG], tmp_path / "whole")
+    assert filled["tile_state"] == WHOLE_STATE
+    assert {n: _sha(tmp_path / "half" / n) for n in half["files"]} == before
+    for prefix in ("trees", "trees_flags"):
+        a, _ = _read(tmp_path / "filled" / f"{prefix}_{BIG.key}.tif")
+        b, _ = _read(tmp_path / "whole" / f"{prefix}_{BIG.key}.tif")
+        assert np.array_equal(a, b, equal_nan=True)
+    us, ca = _sides(world)
+    filled_v, _ = _read(tmp_path / "filled" / f"trees_{BIG.key}.tif")
+    half_v, _ = _read(tmp_path / "half" / f"trees_us_half_{BIG.key}.tif")
+    assert np.array_equal(filled_v[:, ~ca], half_v[:, ~ca], equal_nan=True)
+    assert np.isfinite(filled_v[0][ca]).sum() > 50
+
+
+def test_a_tile_without_canadian_cells_is_not_a_us_half(world, tmp_path):
+    from forager_forecast.t6b_layers import tree_tile_us_half
+
+    d = world["d"]
+    south = Tile(BIG.i * 4, BIG.j * 4, 4)  # the south-west 4 x 4 corner of BIG
+    assert south.window.bottom == BIG.window.bottom
+    with pytest.raises(ValueError, match="no Canadian cell"):
+        tree_tile_us_half(south, d / "mask.tif", d / "treemap.tif", d / "plots.npz",
+                          d / "nalcms.tif", tmp_path)  # fmt: skip
+
+
+def test_filling_refuses_a_file_that_is_not_a_us_half(world, tmp_path):
+    _trees_by_layer(world, [BIG], tmp_path / "whole")
+    import shutil
+
+    for a, b in ((f"trees_{BIG.key}.tif", f"trees_us_half_{BIG.key}.tif"),
+                 (f"trees_flags_{BIG.key}.tif", f"trees_flags_us_half_{BIG.key}.tif")):  # fmt: skip
+        shutil.copy(tmp_path / "whole" / a, tmp_path / b)
+    with pytest.raises(ValueError, match="not a US-half file"):
+        _fill(world, [BIG], tmp_path, tmp_path / "filled")
+
+
+def _sha(path):
+    import hashlib
+
+    return hashlib.sha256(path.read_bytes()).hexdigest()

@@ -113,6 +113,22 @@ def encode_ph_byte(ph: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     return grey, alpha
 
 
+PERCENT_STEPS = 2  # grey byte steps per percentage point: 0.5 points, 0 to 100 -> 0 to 200
+
+
+def encode_percent_byte(percent: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """(grey, alpha) for a tree layer in percent (canopy cover, or a share times 100): grey is
+    floor(percent * 2 + 0.5), alpha 0 where the value is NaN (no data, masked or pending)."""
+    percent = np.asarray(percent, dtype="float64")
+    valid = np.isfinite(percent)
+    if (percent[valid] < -1e-6).any() or (percent[valid] > 100 + 1e-6).any():
+        raise ValueError("a value outside 0 to 100 is not a percentage")
+    scaled = np.floor(np.clip(np.where(valid, percent, 0.0), 0.0, 100.0) * PERCENT_STEPS + 0.5)
+    grey = np.where(valid, scaled, 0).astype("uint8")
+    alpha = np.where(valid, 255, 0).astype("uint8")
+    return grey, alpha
+
+
 def _normalise_header(header: Mapping) -> dict:
     out = dict(header)
     for key in ("tile_type", "tile_compression", "internal_compression"):

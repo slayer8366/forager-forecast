@@ -119,3 +119,15 @@ def test_the_archive_has_max_zoom_9_and_carries_the_values_and_metadata(tmp_path
     np.testing.assert_array_equal(g[a == 255], grey[:256, :256][a == 255])
     g, a = decode_tile(get_tile(9, 81, 179))
     np.testing.assert_array_equal(g, grey[256:, 256:])
+
+
+def test_the_percent_encoding_rounds_to_half_points_and_makes_no_data_transparent():
+    from forager_forecast.tiles import encode_percent_byte
+
+    grey, alpha = encode_percent_byte(np.array([0.0, 0.24, 0.25, 37.6, 100.0, np.nan, 100.0000001]))
+    assert grey.tolist() == [0, 0, 1, 75, 200, 0, 200]
+    assert alpha.tolist() == [255, 255, 255, 255, 255, 0, 255]
+    with pytest.raises(ValueError, match="not a percentage"):
+        encode_percent_byte(np.array([100.5]))
+    with pytest.raises(ValueError, match="not a percentage"):
+        encode_percent_byte(np.array([-0.5]))
