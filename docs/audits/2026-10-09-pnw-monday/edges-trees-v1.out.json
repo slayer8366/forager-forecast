@@ -10,7 +10,7 @@
    "study_cells": 4096,
    "canada": false,
    "entry_point": "tree_tile",
-   "seconds": 4.9,
+   "seconds": 4.4,
    "values": {
     "bands": [
      "total_cover_pct",
@@ -75,7 +75,7 @@
    "study_cells": 4096,
    "canada": false,
    "entry_point": "tree_tile",
-   "seconds": 5.4,
+   "seconds": 4.6,
    "values": {
     "bands": [
      "total_cover_pct",
@@ -177,7 +177,7 @@
      "share_conifer": 0,
      "share_broadleaf": 0
     },
-    "cells_compared": 3072
+    "cells_compared": 2048
    },
    "flags": {
     "bands": [
@@ -200,11 +200,11 @@
      "flag_conifer": 0,
      "flag_broadleaf": 0
     },
-    "cells_compared": 3072
+    "cells_compared": 2048
    },
-   "tiles_missing_cells": 1024,
+   "tiles_missing_cells": 2048,
    "result": "agree exactly",
-   "finite_total_cover_cells": 740
+   "finite_total_cover_cells": 610
   },
   {
    "point": [
@@ -214,7 +214,7 @@
    "study_cells": 4096,
    "canada": false,
    "entry_point": "tree_tile",
-   "seconds": 4.3,
+   "seconds": 4.4,
    "values": {
     "bands": [
      "total_cover_pct",
@@ -297,7 +297,7 @@
    "study_cells": 2313,
    "canada": false,
    "entry_point": "tree_tile",
-   "seconds": 4.3,
+   "seconds": 4.5,
    "values": {
     "bands": [
      "total_cover_pct",
@@ -325,7 +325,7 @@
      "share_conifer": 0,
      "share_broadleaf": 0
     },
-    "cells_compared": 4096
+    "cells_compared": 2048
    },
    "flags": {
     "bands": [
@@ -348,11 +348,11 @@
      "flag_conifer": 0,
      "flag_broadleaf": 0
     },
-    "cells_compared": 4096
+    "cells_compared": 2048
    },
-   "tiles_missing_cells": 0,
+   "tiles_missing_cells": 2048,
    "result": "agree exactly",
-   "finite_total_cover_cells": 2293
+   "finite_total_cover_cells": 1224
   },
   {
    "point": [
@@ -362,7 +362,7 @@
    "study_cells": 4096,
    "canada": false,
    "entry_point": "tree_tile",
-   "seconds": 4.3,
+   "seconds": 4.1,
    "values": {
     "bands": [
      "total_cover_pct",
@@ -427,7 +427,7 @@
    "study_cells": 4096,
    "canada": false,
    "entry_point": "tree_tile",
-   "seconds": 4.3,
+   "seconds": 4.1,
    "values": {
     "bands": [
      "total_cover_pct",
@@ -492,7 +492,7 @@
    "study_cells": 4096,
    "canada": false,
    "entry_point": "tree_tile",
-   "seconds": 5.0,
+   "seconds": 4.5,
    "values": {
     "bands": [
      "total_cover_pct",
@@ -650,7 +650,7 @@
      "share_conifer": 0,
      "share_broadleaf": 0
     },
-    "cells_compared": 4096
+    "cells_compared": 3072
    },
    "flags": {
     "bands": [
@@ -673,11 +673,11 @@
      "flag_conifer": 0,
      "flag_broadleaf": 0
     },
-    "cells_compared": 4096
+    "cells_compared": 3072
    },
-   "tiles_missing_cells": 0,
+   "tiles_missing_cells": 1024,
    "result": "agree exactly",
-   "finite_total_cover_cells": 4096
+   "finite_total_cover_cells": 3072
   },
   {
    "point": [
@@ -817,7 +817,7 @@
    "study_cells": 4096,
    "canada": false,
    "entry_point": "tree_tile",
-   "seconds": 4.3,
+   "seconds": 4.8,
    "values": {
     "bands": [
      "total_cover_pct",
@@ -947,7 +947,7 @@
    "study_cells": 4096,
    "canada": false,
    "entry_point": "tree_tile",
-   "seconds": 4.3,
+   "seconds": 4.2,
    "values": {
     "bands": [
      "total_cover_pct",
@@ -1012,7 +1012,7 @@
    "study_cells": 4096,
    "canada": false,
    "entry_point": "tree_tile",
-   "seconds": 4.9,
+   "seconds": 4.6,
    "values": {
     "bands": [
      "total_cover_pct",
@@ -1142,7 +1142,7 @@
    "study_cells": 4096,
    "canada": false,
    "entry_point": "tree_tile",
-   "seconds": 4.3,
+   "seconds": 4.4,
    "values": {
     "bands": [
      "total_cover_pct",
@@ -1207,7 +1207,7 @@
    "study_cells": 4096,
    "canada": false,
    "entry_point": "tree_tile",
-   "seconds": 4.3,
+   "seconds": 4.4,
    "values": {
     "bands": [
      "total_cover_pct",
@@ -1272,7 +1272,7 @@
    "study_cells": 4096,
    "canada": false,
    "entry_point": "tree_tile",
-   "seconds": 4.4,
+   "seconds": 4.6,
    "values": {
     "bands": [
      "total_cover_pct",
@@ -1467,7 +1467,7 @@
    "study_cells": 4096,
    "canada": false,
    "entry_point": "tree_tile",
-   "seconds": 4.3,
+   "seconds": 4.2,
    "values": {
     "bands": [
      "total_cover_pct",
@@ -1532,7 +1532,7 @@
    "study_cells": 4096,
    "canada": false,
    "entry_point": "tree_tile",
-   "seconds": 4.8,
+   "seconds": 4.5,
    "values": {
     "bands": [
      "total_cover_pct",
@@ -1597,7 +1597,7 @@
    "study_cells": 4096,
    "canada": false,
    "entry_point": "tree_tile",
-   "seconds": 4.4,
+   "seconds": 4.8,
    "values": {
     "bands": [
      "total_cover_pct",
@@ -1727,7 +1727,7 @@
    "study_cells": 4096,
    "canada": false,
    "entry_point": "tree_tile",
-   "seconds": 4.3,
+   "seconds": 4.4,
    "values": {
     "bands": [
      "total_cover_pct",
@@ -1915,6 +1915,6 @@
    "finite_total_cover_cells": 2421
   }
  ],
- "peak_rss_mb": 369.8,
- "seconds": 175.8
+ "peak_rss_mb": 369.4,
+ "seconds": 174.3
 }

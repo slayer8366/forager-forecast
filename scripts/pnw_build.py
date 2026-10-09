@@ -159,6 +159,11 @@ def stage_mosaic() -> dict:
     for b in TREE_BANDS:
         bands[b], m = assemble(window, TREE_N, tree_file, b)
         missing = m if missing is None else missing
+    # A tile with Canadian cells only has no file until SCANFI is in (D118): its cells are
+    # Canadian cells pending, the same as a US half's, not a tile held back.
+    canada_only = missing & pnw_study & (side == 2)
+    bands["source"] = np.where(canada_only, float(FLAG_PENDING), bands["source"])
+    missing = missing & ~canada_only
     bands["missing"] = (missing & pnw_study).astype("float32")
     bands["side"] = side.astype("float32")
     bands["pnw_study"] = pnw_study.astype("float32")
@@ -169,6 +174,7 @@ def stage_mosaic() -> dict:
         "pnw_study_cells_us": int((pnw_study & (side == 1)).sum()),
         "pnw_study_cells_canada": int((pnw_study & (side == 2)).sum()),
         "cells_in_tiles_not_computed_yet": int((missing & pnw_study).sum()),
+        "canadian_cells_in_tiles_with_canadian_cells_only": int(canada_only.sum()),
         "cells_pending_canada": int((pending & pnw_study).sum()),
         "cells_with_total_cover": int((np.isfinite(bands["total_cover_pct"]) & box).sum()),
         **{f"cells_with_{b}": int((np.isfinite(bands[b]) & box).sum())

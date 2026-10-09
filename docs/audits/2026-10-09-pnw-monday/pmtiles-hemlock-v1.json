@@ -1,9 +1,9 @@
 {
  "stage": "pmtiles",
- "seconds": 45.3,
+ "seconds": 46.8,
  "archives": {
-  "tree-cover": {
-   "bytes": 18358796,
+  "hemlock": {
+   "bytes": 7563702,
    "min_zoom": 5,
    "max_zoom": 9
   }

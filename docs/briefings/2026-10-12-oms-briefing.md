@@ -54,9 +54,9 @@ of them in the United States.
 **What is shown.**
 - **Soil pH**, top 30 cm, from SoilGrids 2.0: a value in 16,248,227 cells. The rest are water or
   places SoilGrids leaves blank.
-- **Tree canopy cover** from TreeMap 2023 (US Forest Service): a value in 16,351,767 cells.
+- **Tree canopy cover** from TreeMap 2023 (US Forest Service): a value in 16,377,178 cells.
 - **Douglas-fir and hemlock**, each as a share of the tree canopy, where canopy cover is at least
-  10% (D89): defined in 6,975,936 cells. These two were chosen because Pilz et al. 2003 name them
+  10% (D89): defined in 6,991,082 cells. These two were chosen because Pilz et al. 2003 name them
   first among the PNW chanterelle hosts, and because Douglas-fir is the host layer that matched
   best across the 49 N border in T5's test (no step, D90). Hemlock in Canada cannot be told apart
   from other conifers in the Canadian source (D85), which does not matter inside this box.
@@ -64,20 +64,16 @@ of them in the United States.
 **What is not shown, or not yet.**
 - **No forecast and no chance of anything.** The colours are inputs a model will use.
 - **Canada's trees.** Canadian cells wait for the Canadian tree data (SCANFI, D118). In the box
-  that is southern Vancouver Island, the Gulf Islands and Delta, drawn light grey where computed
-  tiles hold them.
-- **Three border tiles, drawn dark grey: not computed yet.** At 256_-31_20, 256_-30_20 and
-  256_-29_20 (the northern Olympic coast, the Salish Sea islands and the Bellingham area) the
-  run's own check found coastline pixels that no country outline claims and that fall outside the
-  US tree map. Deciding what those pixels count as changes a rule, so it waits for the owner. The
-  three hold 25,760 US cells, 0.16% of the US cells in the box.
+  that is southern Vancouver Island, the Gulf Islands and Delta, drawn light grey: 102,543 cells.
+- **Every US cell in the box has its tile.** Three coastal border tiles were held back for a few
+  hours on a coastline question, and the owner settled it (D120); they are now filled in.
 - **How strongly any of this predicts mushrooms.** That is what the model has to show, against a
   calendar, before anything is published (D5).
 
 **Checks run on these tiles** (`docs/audits/2026-10-09-pnw-monday/`, rules committed before any
 value was read):
 - **Tile edges.** Recomputed across tile edges, trees and soil agree exactly: 29 tree windows
-  (113,664 cells) and 10 soil windows (40,960 cells).
+  (117,760 cells) and 10 soil windows (40,960 cells).
 - **The fixed check cells.** The 2 of the project's 10 that fall in the box, one on the Oregon
   coast and one by the border in the Selkirks, match an independent recompute within tolerance,
   soil and trees.

@@ -1,17 +1,17 @@
 {
  "stage": "images",
- "seconds": 57.7,
+ "seconds": 56.1,
  "files": {
   "pnw-soil-ph.svg": 2891449,
-  "pnw-tree-cover.svg": 2729385,
-  "pnw-douglas-fir.svg": 2219770,
-  "pnw-hemlock.svg": 1187780
+  "pnw-tree-cover.svg": 2735118,
+  "pnw-douglas-fir.svg": 2223703,
+  "pnw-hemlock.svg": 1191821
  },
  "image_pixels": [
   1262,
   1272
  ],
  "cells_per_pixel": 16,
- "pending_pixels": 526,
- "missing_pixels": 7476
+ "pending_pixels": 6406,
+ "missing_pixels": 0
 }

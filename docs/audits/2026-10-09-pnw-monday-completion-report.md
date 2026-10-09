@@ -216,3 +216,75 @@ session. Pushed, so not amended.
 - The owner's word on (a).
 - Merges: both branches.
 - Phone check of the page.
+
+## 12. Appended 2026-10-09 12:48 UTC: D120 and the re-run (supersedes the held-back state above)
+
+Sections 1 to 11 stand as written. Where they describe the three held-back tiles, this section
+supersedes them.
+
+**The ruling.** The owner chose (a), Forager RECORD -784, verbatim "1 yes". Filed as **D120**: a
+pixel in no country polygon (side NONE) that lies outside TreeMap's raster is no data for the US
+side. A US-side pixel outside the raster is still refused.
+
+**The change** (`t6b_layers._treemap_part`) is one condition on the guard, plus a comment. The
+`blank` mask already held every pixel outside the raster. `RULINGS` was left unchanged, so no
+other tile's tags differ.
+
+**Tests and reverts:**
+- **The new test** (parametrised, `test_a_no_country_pixel_outside_treemap_...`): a TreeMap raster
+  cut short, with the cut-off strip set to side NONE, gives no data there and values east of it.
+  The same strip set to side US is still refused.
+  - Seen red before the change, for the right reason: the guard's message.
+- **Revert runner:** 11 checks, 11 bite (`revert_results_2.json`). Two are for D120: removing the
+  condition refuses NONE pixels again; dropping the US refusal fails the US case.
+- **Suite:** 473 to 475 passed.
+- **Commit:** `d5c338b`.
+
+**The re-run** (T6b paused, unit inactive since 05:22:38 PDT; same caps):
+
+| Step | Time | Peak |
+|---|---|---|
+| US halves of 256_-31_20, -30_20, -29_20 | 161 s | 2,343 MiB |
+| Mosaic, images, 3 tree PMTiles (first pass) | 321 s | 2,177 MiB |
+| Mosaic, images, 3 tree PMTiles (second pass, below) | 354 s | 2,246 MiB |
+| Tree edges | 176 s | 725 MiB |
+| Seam | 7 s | 1,231 MiB |
+
+- **Last heavy step ended** about 05:45:25 PDT. The planner was told.
+- **Disk:** the data drive ended at 3.2 GB free and the root disk at 2.1 GB.
+
+**A labelling error found and fixed.** The first pass showed 14,683 cells in the box still "not
+computed yet". They are the Canadian cells of three tiles holding Canadian cells only:
+256_-30_21, 256_-31_21, 256_-32_20 (section 9). Such a tile has no file until SCANFI is in.
+- They were never held back. They are Canadian cells pending, like a US half's.
+- `scripts/pnw_build.py` now marks them pending.
+- The first version of this report and of the images had counted them in the 119,935
+  "not computed" cells: 94,175 Canadian (14,683 of them in these Canada-only tiles) and 25,760 US.
+- The US figure in section 4 (25,760) stands.
+
+**Now, in the box:**
+- Every US study cell has its tile: 0 cells "not computed yet".
+- 102,543 Canadian cells are pending.
+- Tree cover is defined in 16,377,178 cells, shares in 6,991,082.
+- The earlier figures are kept as `*-v1.json`.
+
+**Checks re-run:**
+- **Tree edges:** 29 of 32 windows agree exactly, 117,760 cells compared (113,664 before). The
+  1,024 cells still excluded are in the Canada-only tiles.
+- **Seam:** still no verdict, Canada pending. All 2,000 US-side samples now carry a valid fraction
+  and source (1,443 before). 1,974 have a cover value; the other 26 are under half valid, such as
+  water. Within-US median steps: cover 8.03 points, Douglas-fir share 0.041.
+- **Soil edges and ten cells:** not re-run; neither reads the changed tiles.
+
+**On the preview** (site `01b3cde`; `browser_check_d120.out.json`; screenshots in
+`forecast-data/pnw/preview-check-d120/`):
+- 0 map errors.
+- The worker loads from the site, and all four layers draw.
+- A real pointer tap at 48.775 N, 122.273 W, inside 256_-29_20 (a D120 tile), read "Hemlock:
+  29.5% of the canopy". The mosaic holds 29.47 there.
+- A Range request on the new tree-cover archive returns 206, and its bytes equal the local
+  file's.
+- The page's "held back" legend key is removed; the colour stays in `app.js` for any later case.
+
+**Also from the first run, and wrong:** section 10 of this report said T6b's own whole-tile run
+would hit the same guard. Under D120 it no longer does, for these pixels.

@@ -1,9 +1,9 @@
 {
  "stage": "pmtiles",
- "seconds": 46.5,
+ "seconds": 45.1,
  "archives": {
   "douglas-fir": {
-   "bytes": 15219003,
+   "bytes": 15256592,
    "min_zoom": 5,
    "max_zoom": 9
   }
