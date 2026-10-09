@@ -288,3 +288,67 @@ computed yet". They are the Canadian cells of three tiles holding Canadian cells
 
 **Also from the first run, and wrong:** section 10 of this report said T6b's own whole-tile run
 would hit the same guard. Under D120 it no longer does, for these pixels.
+
+## 13. Appended 2026-10-09 16:53 UTC: the D18 review's items (Forager RECORD -786) and the static-tile site
+
+Sections 1 to 12 stand as written; where they describe the site's PMTiles archives and the
+byte-range handler, this section supersedes them.
+
+**F1 (blocking): a Canada-only tile could get a US-half line with no files.** That line counted
+as done, and once SCANFI was in the trees stage would have tried to fill a file that does not
+exist, ending the section. The reviewer reproduced it. Fixed twice:
+- `stage_trees_us_half` offers only tiles with both US and Canadian study cells
+  (`has_us_cells`, read from the mask);
+- `us_half_done` requires a line that names its files.
+
+Tests (red first, for the reviewer's reason):
+- the stage offers no Canada-only tile;
+- an "ok" line with no files is not a done US half;
+- through the runner, a Canada-only tile waits, gets no US half, and becomes a whole tile by
+  `tree_tile` once its layers exist.
+
+Reverts: `revert_results_3.json`, 13 of 13 bite. Each guard alone bites its own test. With both
+reverted together the runner test fails with the reviewer's error, a missing US-half file
+(checked by hand, restored from a saved copy, hash confirmed). Suite 475 to 480.
+
+**F2 to F5:**
+- F2 and F3: the briefing gives 850 of the 2,015 US-only tree tiles at 28bbf09, plus 20 of the 92
+  straddling tiles. It says Douglas-fir showed no step across 49 N, as did the conifer and
+  broadleaf totals. The box's list now includes northern Nevada and northwestern Utah.
+- F4: a START_HERE row records D120.
+- F5: the site's new tiles are nearest at every zoom (`tiles.tile_values`), so a sentinel is
+  never blended. The PMTiles archives on the drive keep their averaged overviews below zoom 9 and
+  are no longer used by the site; read them at zoom 9 only.
+
+**The site, the owner's choice "A: Pre-cut tiles, go live" (RECORD -786).**
+- **Tiles:** static grey+alpha PNGs, `Forager/forecast/data/<layer>/{z}/{x}/{y}.png`, zooms 5 to 9,
+  570 per layer, 2,280 in all, 55 MB. The site now holds 2,304 files; the largest is 1.08 MB.
+  - The tiles were cut on the laptop under a 2 GB cap, peak 0.67 GB, so T6b kept running.
+  - Every tile meeting the bounds is written, 64 of them empty, because a missing path here
+    answers with the home page.
+- **Dropped:** `pmtiles.js`.
+- **Middleware:** byte-identical to origin/main again (`git diff` empty).
+- **New files:** `_routes.json` keeps the Function off the tiles; `_headers` gives them
+  `Cache-Control: public, max-age=3600, stale-while-revalidate=86400`.
+- **README:** the handler rationale is replaced by the static-tile description.
+- **Copy (S5):** the page text "per forager group" now reads "per mushroom group", and the "held
+  back" text is gone.
+
+**Checked on the preview** (`browser_check_static.out.json`; deployment f77ebe9b, site commit
+8423138; screenshots in `forecast-data/pnw/preview-check-static/`):
+- **Tiles:** four tiles across layers and zooms are byte-identical to the local files. They answer
+  200 `image/png` with the cache header above and without the middleware's CSP header, so the
+  Function did not handle them.
+- **Rendering:** in headless Firefox, all four layers drew at zooms 6, 8 and 10 with 0 map errors.
+  The worker loaded from the site, and 245 data requests were made, all `.png`, none to PMTiles.
+- **Two real pointer taps on the hemlock layer:**
+  - At 45.0 N, 122.0 W the readout was 21.0% (grey 42).
+  - In D120 tile 256_-29_20 the readout was 30.5% (grey 61).
+  - In each case the grey byte equals the expected one. That is floor(2v + 0.5) of the master cell
+    under the centre of the zoom-9 pixel the tap fell in: 20.80 and 30.35.
+- **A correction to my earlier tap check.** I compared the readout with the cell at the rounded
+  coordinates the readout prints. That cell can be a neighbour. The exact comparison above
+  replaces it (the page now keeps `window.pnwLastTap` for checks).
+- **Not yet propagated:** on the branch alias the removed `vendor/pmtiles.js` still answered 200
+  at the time of checking, while the deployment's own URL answered with the home page (removed).
+  Likely the edge still holds the old file; not confirmed.
