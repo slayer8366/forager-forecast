@@ -1,6 +1,6 @@
 # Start here
 
-As of 2026-09-18.
+As of 2026-09-18; date and next-up line corrected 2026-10-09 against origin/main 36cc647.
 
 ## Where things stand
 
@@ -20,8 +20,15 @@ Decisions agreed so far (full rows in DECISIONS.md):
 - Delivery is PMTiles on Cloudflare, set up separately through Cowork, with MapLibre on the client.
 - Planning lives in the planning doc. Spec and task files live in the repo once building starts.
 
-Next up: T0, then T1 to T3. T1 is the task most likely to overturn the plan, so it runs before any
-pipeline work.
+~~Next up: T0, then T1 to T3. T1 is the task most likely to overturn the plan, so it runs before any
+pipeline work.~~
+
+Next up (corrected 2026-10-09): T0 to T6, D26 and D27 to D29 are merged to main (last merge 36cc647,
+T6, 2026-10-06; TASKS.md names each merge commit). T6b, the continental soil and host-tree layers, is
+running in sections on branch t6b-continental-layers, unmerged: soil is done, the US tree tiles are
+under way, and the tiles touching Canada wait for SCANFI except for their US cells (D119, branch
+t6b-pnw-monday). T1's model fit, the weather pull and T7 to T11 have not started, so no forecast
+exists yet.
 
 ## Fixed terms
 
