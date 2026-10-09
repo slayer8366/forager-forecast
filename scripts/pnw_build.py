@@ -280,7 +280,8 @@ def stage_images() -> dict:
             extra.append(LegendEntry(PENDING_RGBA, "Canada: not computed yet, waits for the "
                                      "Canadian tree data (SCANFI)"))  # fmt: skip
             if missing.any():
-                extra.append(LegendEntry(MISSING_RGBA, "United States: tile not computed yet"))
+                extra.append(LegendEntry(MISSING_RGBA, "Not computed yet: a border tile held "
+                                         "back by a coastline question"))  # fmt: skip
             if spec["band"].startswith("share"):
                 extra.append(LegendEntry((0, 0, 0, 0), "Blank where canopy cover is under 10%"))
         svg = svg_image(png_bytes(rgba), len(cols), len(rows), spec["title"],
@@ -300,6 +301,7 @@ def stage_images() -> dict:
 
 
 PMTILES_PENDING = 255  # grey byte of a pending Canadian cell in a tree archive (alpha 255)
+PMTILES_MISSING = 254  # grey byte of a US cell whose tile is not computed yet (alpha 255)
 
 
 def stage_pmtiles(only: str | None) -> dict:
@@ -309,7 +311,8 @@ def stage_pmtiles(only: str | None) -> dict:
         if only and name != only:
             continue
         check_free()
-        bands = [spec["band"], "source"] if spec["mosaic"] == "trees" else [spec["band"]]
+        bands = ([spec["band"], "source", "missing"] if spec["mosaic"] == "trees"
+                 else [spec["band"]])  # fmt: skip
         src, window = _read(f"{spec['mosaic']}_pnw.tif", bands)
         values = src[spec["band"]].astype("float64") * spec.get("scale", 1.0)
         box = in_box(window)
@@ -323,11 +326,17 @@ def stage_pmtiles(only: str | None) -> dict:
         else:
             grey, alpha = encode_percent_byte(m)
             encoding = (f"grey = floor(percent * 2 + 0.5), 0 to 200; grey {PMTILES_PENDING} with "
-                        "alpha 255 = Canada, pending SCANFI; alpha 0 = no data")  # fmt: skip
+                        "alpha 255 = Canada, pending SCANFI; grey "
+                        f"{PMTILES_MISSING} with alpha 255 = tile not computed yet; "
+                        "alpha 0 = no data")  # fmt: skip
             pend = (src["source"] == FLAG_PENDING) & box
             p = master_to_mercator_nearest(pend.astype("float64"), window, merc)
             grey[p == 1] = PMTILES_PENDING
             alpha[p == 1] = 255
+            miss = (src["missing"] > 0) & box
+            q = master_to_mercator_nearest(miss.astype("float64"), window, merc)
+            grey[q == 1] = PMTILES_MISSING
+            alpha[q == 1] = 255
         del m
         meta = {"name": f"pnw-{name}", "description": f"{spec['title']}. {LABEL}",
                 "attribution": " | ".join(SOURCES[spec["mosaic"]]), "licence": DATA_LICENCE,

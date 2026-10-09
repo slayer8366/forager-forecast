@@ -405,7 +405,15 @@ def main() -> None:
         default=str(EVIDENCE),
         help="folder in the repository the manifest and logs are copied to",
     )
+    p.add_argument(
+        "--pause-file",
+        default=None,
+        help="a pause file other than T6b's own, for a run while T6b is paused",
+    )
     args = p.parse_args()
+    if args.pause_file:
+        global PAUSE
+        PAUSE = Path(args.pause_file)
     if not DRIVE.is_dir():
         sys.exit("flash drive not mounted")
     until = next_stop(args.until, datetime.now())

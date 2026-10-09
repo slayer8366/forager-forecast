@@ -1,0 +1,11 @@
+{
+ "stage": "pmtiles",
+ "seconds": 49.7,
+ "archives": {
+  "tree-cover": {
+   "bytes": 18310420,
+   "min_zoom": 5,
+   "max_zoom": 9
+  }
+ }
+}

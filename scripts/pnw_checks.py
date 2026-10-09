@@ -138,16 +138,26 @@ def edges_trees() -> dict:
             rows.append(entry)
             continue
         t0 = time.time()
-        if has_ca:
-            from forager_forecast.t6b_layers import us_half_names
+        try:
+            if has_ca:
+                from forager_forecast.t6b_layers import us_half_names
 
-            tree_tile_us_half(t, MASK, TREEMAP / "TreeMap2023_CONUS.tif", PLOTS, NALCMS, scratch)
-            v, f = (scratch / n for n in us_half_names(t.key))
-            entry["entry_point"] = "tree_tile_us_half"
-        else:
-            tree_tile(t, MASK, TREEMAP / "TreeMap2023_CONUS.tif", PLOTS, None, NALCMS, scratch)
-            v, f = scratch / f"trees_{t.key}.tif", scratch / f"trees_flags_{t.key}.tif"
-            entry["entry_point"] = "tree_tile"
+                tree_tile_us_half(t, MASK, TREEMAP / "TreeMap2023_CONUS.tif", PLOTS, NALCMS,
+                                  scratch)  # fmt: skip
+                v, f = (scratch / n for n in us_half_names(t.key))
+                entry["entry_point"] = "tree_tile_us_half"
+            else:
+                tree_tile(t, MASK, TREEMAP / "TreeMap2023_CONUS.tif", PLOTS, None, NALCMS,
+                          scratch)  # fmt: skip
+                v, f = scratch / f"trees_{t.key}.tif", scratch / f"trees_flags_{t.key}.tif"
+                entry["entry_point"] = "tree_tile"
+        except ValueError as err:
+            # Not compared, and not a pass: the window could not be computed (reported).
+            entry["result"] = f"not computed: {err}"
+            entry["compared"] = False
+            rows.append(entry)
+            print(json.dumps({k: entry[k] for k in ("point", "result")}), flush=True)
+            continue
         entry["seconds"] = round(time.time() - t0, 1)
         with rasterio.open(v) as ds:
             vnames = list(ds.descriptions)
