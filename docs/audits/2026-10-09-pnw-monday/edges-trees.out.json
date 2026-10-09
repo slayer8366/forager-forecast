@@ -1,0 +1,1920 @@
+{
+ "check": "edges-trees",
+ "ok": true,
+ "windows": [
+  {
+   "point": [
+    -8192,
+    2048
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.9,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 4096
+  },
+  {
+   "point": [
+    -8192,
+    3072
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 5.4,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 4096
+  },
+  {
+   "point": [
+    -8192,
+    4096
+   ],
+   "study_cells": 0,
+   "canada": false,
+   "result": "no study cell"
+  },
+  {
+   "point": [
+    -7936,
+    5120
+   ],
+   "study_cells": 740,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.3,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 3072
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 3072
+   },
+   "tiles_missing_cells": 1024,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 740
+  },
+  {
+   "point": [
+    -7680,
+    4864
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.3,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 4093
+  },
+  {
+   "point": [
+    -7680,
+    5120
+   ],
+   "study_cells": 3654,
+   "canada": true,
+   "result": "Canadian cells only: pending on both sides, nothing to compare"
+  },
+  {
+   "point": [
+    -7680,
+    5376
+   ],
+   "study_cells": 4096,
+   "canada": true,
+   "result": "Canadian cells only: pending on both sides, nothing to compare"
+  },
+  {
+   "point": [
+    -7424,
+    5120
+   ],
+   "study_cells": 2313,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.3,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 2293
+  },
+  {
+   "point": [
+    -7168,
+    1024
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.3,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 4096
+  },
+  {
+   "point": [
+    -7168,
+    2048
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.3,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 4096
+  },
+  {
+   "point": [
+    -7168,
+    3072
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 5.0,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 4096
+  },
+  {
+   "point": [
+    -7168,
+    4096
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.5,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 3942
+  },
+  {
+   "point": [
+    -7168,
+    5120
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.3,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 4096
+  },
+  {
+   "point": [
+    -6912,
+    5120
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.3,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 4096
+  },
+  {
+   "point": [
+    -6656,
+    4864
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.3,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 4077
+  },
+  {
+   "point": [
+    -6400,
+    4864
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.3,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 4095
+  },
+  {
+   "point": [
+    -6144,
+    1024
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.1,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 4093
+  },
+  {
+   "point": [
+    -6144,
+    2048
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.3,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 4074
+  },
+  {
+   "point": [
+    -6144,
+    3072
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.9,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 4060
+  },
+  {
+   "point": [
+    -6144,
+    4096
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.4,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 3953
+  },
+  {
+   "point": [
+    -6144,
+    4864
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.3,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 4095
+  },
+  {
+   "point": [
+    -5888,
+    4864
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.3,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 4023
+  },
+  {
+   "point": [
+    -5632,
+    4608
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.4,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 4087
+  },
+  {
+   "point": [
+    -5376,
+    4608
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.4,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 4087
+  },
+  {
+   "point": [
+    -5120,
+    1024
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.1,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 2591
+  },
+  {
+   "point": [
+    -5120,
+    2048
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.3,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 4096
+  },
+  {
+   "point": [
+    -5120,
+    3072
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.8,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 4093
+  },
+  {
+   "point": [
+    -5120,
+    4096
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.4,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 3941
+  },
+  {
+   "point": [
+    -5120,
+    4608
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.4,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 4089
+  },
+  {
+   "point": [
+    -4864,
+    4608
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.3,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 3967
+  },
+  {
+   "point": [
+    -4608,
+    4608
+   ],
+   "study_cells": 4096,
+   "canada": false,
+   "entry_point": "tree_tile",
+   "seconds": 4.3,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 4057
+  },
+  {
+   "point": [
+    -4352,
+    4608
+   ],
+   "study_cells": 4096,
+   "canada": true,
+   "entry_point": "tree_tile_us_half",
+   "seconds": 4.0,
+   "values": {
+    "bands": [
+     "total_cover_pct",
+     "valid_fraction",
+     "source",
+     "share_Pseudotsuga",
+     "share_Tsuga",
+     "share_Picea",
+     "share_Abies",
+     "share_Pinus",
+     "share_Quercus",
+     "share_conifer",
+     "share_broadleaf"
+    ],
+    "cells_differing": {
+     "total_cover_pct": 0,
+     "valid_fraction": 0,
+     "source": 0,
+     "share_Pseudotsuga": 0,
+     "share_Tsuga": 0,
+     "share_Picea": 0,
+     "share_Abies": 0,
+     "share_Pinus": 0,
+     "share_Quercus": 0,
+     "share_conifer": 0,
+     "share_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "flags": {
+    "bands": [
+     "flag_Pseudotsuga",
+     "flag_Tsuga",
+     "flag_Picea",
+     "flag_Abies",
+     "flag_Pinus",
+     "flag_Quercus",
+     "flag_conifer",
+     "flag_broadleaf"
+    ],
+    "cells_differing": {
+     "flag_Pseudotsuga": 0,
+     "flag_Tsuga": 0,
+     "flag_Picea": 0,
+     "flag_Abies": 0,
+     "flag_Pinus": 0,
+     "flag_Quercus": 0,
+     "flag_conifer": 0,
+     "flag_broadleaf": 0
+    },
+    "cells_compared": 4096
+   },
+   "tiles_missing_cells": 0,
+   "result": "agree exactly",
+   "finite_total_cover_cells": 2421
+  }
+ ],
+ "peak_rss_mb": 369.8,
+ "seconds": 175.8
+}

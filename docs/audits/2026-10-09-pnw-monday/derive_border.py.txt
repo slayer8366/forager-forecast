@@ -1,0 +1,22 @@
+import json, numpy as np
+from pathlib import Path
+from forager_forecast.t6b_layers import Tile
+from forager_forecast.t6b_mask import read_mask, cells_in_study, cell_lonlat, SIDE_US, SIDE_CA
+MASK=Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/mask.tif")
+t=json.load(open("docs/audits/2026-10-07-t6b-run/tiles_trees.json"))
+mixed_all=[];pnw=[]
+for x in t:
+    if not x["canada"]: continue
+    tile=Tile(x["i"],x["j"],x["n"]); w=tile.window
+    study,side=cells_in_study(w,*read_mask(MASK,w))
+    us=(side==SIDE_US)
+    if not us.any(): continue
+    lon,lat=cell_lonlat(w)
+    inbox=(lat>=40)&(lat<=49)&(lon>=-125)&(lon<=-111)
+    rec=dict(key=x["key"],us=int(us.sum()),ca=int((side==SIDE_CA).sum()),us_in_box=int((us&inbox).sum()),study_in_box=int((study&inbox).sum()))
+    mixed_all.append(rec)
+    if (study&inbox).any(): pnw.append(rec)
+print("mixed tiles continent:",len(mixed_all))
+print("mixed tiles with study cells in PNW box:",len(pnw))
+for r in pnw: print(r)
+json.dump({"mixed_all":mixed_all,"pnw":pnw},open("/tmp/claude-1000/-home-zynergy-labs-Zynergy-Forager/594b88a0-2597-556f-be1b-255b2b0f226b/scratchpad/pnw/border.json","w"),indent=1)

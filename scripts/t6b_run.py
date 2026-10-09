@@ -2,8 +2,8 @@
 
 Usage (repository root):
     systemd-run --user --scope -q -p MemoryMax=5G -p MemorySwapMax=0 \
-        .venv/bin/python scripts/t6b_run.py --until 07:00 [--stages mask,plots,trees,soil]
-        [--workers 2]
+        .venv/bin/python scripts/t6b_run.py --until 07:00
+        [--stages mask,plots,soil,trees,trees-us-half] [--workers 2] [--us-half-tiles K1,K2]
 
 - ``--until HH:MM`` is local time, the next occurrence of it. No new tile starts after it; tiles in
   hand finish. ``touch <drive>/forecast-data/t6b/PAUSE`` does the same at once (delete the file
@@ -30,11 +30,13 @@ from forager_forecast.t6b_layers import (
     SCANFI_LAYERS,
     Tile,
     build_plot_table,
+    fill_canadian_cells,
     require_free_space,
     scanfi_layer_tile,
     soil_tile,
     tiles_over,
     tree_tile,
+    tree_tile_us_half,
 )
 from forager_forecast.t6b_mask import (
     COUNTRY_CAN,
@@ -72,6 +74,7 @@ MASK = T6B / "mask.tif"
 MASK_INFO = T6B / "mask.json"
 PLOTS = T6B / "plots.npz"
 TILES = T6B / "tiles"
+TILES_US_HALF = TILES / "trees_us_half"  # D119: border tiles' US cells, Canadian cells pending
 NATIVE_SOIL = T6B / "native" / "soil"
 NATIVE_SCANFI = T6B / "native" / "scanfi"
 MANIFEST = T6B / "manifest.jsonl"
@@ -182,14 +185,46 @@ def super_key(key: str) -> str:
     return f"{SUPER * t.n}_{t.i // SUPER}_{t.j // SUPER}"
 
 
+def us_half_unit_name(key: str) -> str:
+    return f"us-half:{key}"
+
+
+def us_half_done(key: str) -> bool:
+    """True when this tile's US half (D119) has an ok manifest line that names its files and
+    they still hash. A line with no files is never a US half (review F1, RECORD -786)."""
+    name = us_half_unit_name(key)
+    lines = [e for e in read_lines(MANIFEST) if e.get("kind") == "unit" and e.get("unit") == name]
+    if not lines or not lines[-1].get("files"):
+        return False
+    return name in done_units(MANIFEST, TILES_US_HALF)
+
+
+def has_us_cells(key: str) -> bool:
+    """True when the tile holds a study cell on the US side (D115). Read from the mask."""
+    from forager_forecast.t6b_mask import SIDE_US
+
+    window = _tile(key).window
+    _, side = cells_in_study(window, *read_mask(MASK, window))
+    return bool((side == SIDE_US).any())
+
+
 def tree_unit(key: str) -> dict:
     """A tree tile. Canadian cells take SCANFI from the whole-layer route (D118) when all eleven
-    layers are regridded for this tile, else from a super-window fetched by window."""
+    layers are regridded for this tile, else from a super-window fetched by window. A tile whose
+    US half is already done (D119) computes only its Canadian cells and copies the rest."""
     group = super_key(key)
     scanfi_dir = NATIVE_SCANFI / group
     layers_ready = all(
         (SCANFI_LAYER_TILES / f"scanfi_{layer}_{key}.npz").exists() for layer in SCANFI_LAYERS
     )
+    if us_half_done(key):
+        result = fill_canadian_cells(
+            _tile(key), TILES_US_HALF, MASK,
+            scanfi_dir if (scanfi_dir / "scanfi_request.json").exists() else None, NALCMS,
+            TILES / "trees", scanfi_layer_dir=SCANFI_LAYER_TILES if layers_ready else None,
+        )  # fmt: skip
+        result["scanfi_route"] = "whole layers (D118)" if layers_ready else "super-window"
+        return result
     result = tree_tile(
         _tile(key), MASK, TREEMAP / "TreeMap2023_CONUS.tif", PLOTS,
         scanfi_dir if (scanfi_dir / "scanfi_request.json").exists() else None, NALCMS,
@@ -292,6 +327,33 @@ def stage_trees(until, workers: int, max_units: int | None = None,
                        workers=workers, layer="trees")  # fmt: skip
 
 
+def us_half_unit(unit: str) -> dict:
+    key = unit.split(":", 1)[1]
+    return tree_tile_us_half(_tile(key), MASK, TREEMAP / "TreeMap2023_CONUS.tif", PLOTS, NALCMS,
+                             TILES_US_HALF)  # fmt: skip
+
+
+def stage_trees_us_half(until, workers: int, only_tiles: set[str] | None = None) -> dict:
+    """D119 (owner, Forager RECORD -772): "Compute the US half now". Every tile with both US and
+    Canadian study cells that still waits for its SCANFI layers (D118) gets its US cells
+    computed now; its Canadian cells stay pending. A tile with Canadian cells only has no US
+    half and is not offered (review F1, RECORD -786): it waits whole, as D118 says."""
+    tiles = tile_list(TREE_N, "trees")
+    whole_done = done_units(MANIFEST, TILES / "trees")
+    keys = [t["key"] for t in tiles if t["canada"] and not layers_ready(t["key"])
+            and t["key"] not in whole_done]  # fmt: skip
+    keys = [k for k in keys if has_us_cells(k)]
+    if only_tiles:
+        unknown = only_tiles - {t["key"] for t in tiles if t["canada"]}
+        if unknown:
+            sys.exit(f"not tiles with Canadian cells: {sorted(unknown)}")
+        keys = [k for k in keys if k in only_tiles]
+    log(f"trees-us-half: {len(keys)} tiles with Canadian cells waiting for SCANFI (D119)")
+    return run_section([us_half_unit_name(k) for k in keys], us_half_unit, MANIFEST,
+                       TILES_US_HALF, until=until, pause_file=PAUSE, workers=workers,
+                       layer="trees-us-half")  # fmt: skip
+
+
 def _first_pending(units: list[str], out_dir: Path, max_units: int | None) -> list[str]:
     """With --max-units N, this section offers only the first N tiles not yet done."""
     if max_units is None:
@@ -308,7 +370,8 @@ def stage_soil(until, workers: int, max_units: int | None = None) -> dict:
                        workers=workers, layer="soil")  # fmt: skip
 
 
-def commit_progress(summaries: list[dict]) -> None:
+def commit_progress(summaries: list[dict], evidence: Path = EVIDENCE) -> None:
+    EVIDENCE = evidence  # noqa: N806
     EVIDENCE.mkdir(parents=True, exist_ok=True)
     shutil.copy(MANIFEST, EVIDENCE / "manifest.jsonl")
     for name in ("mask.json", "tiles_trees.json", "tiles_soil.json"):
@@ -325,8 +388,14 @@ def commit_progress(summaries: list[dict]) -> None:
         + "\n\nCo-Authored-By: Claude <noreply@anthropic.com>")  # fmt: skip
     if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=REPO).returncode != 0:
         subprocess.run(["git", "commit", "-q", "-m", msg], cwd=REPO, check=True)
-        subprocess.run(["git", "push", "-q", "origin", "t6b-continental-layers"], cwd=REPO,
-                       check=False)  # fmt: skip
+        branch = subprocess.run(
+            ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+            cwd=REPO,
+            capture_output=True,
+            text=True,
+            check=True,
+        ).stdout.strip()
+        subprocess.run(["git", "push", "-q", "origin", branch], cwd=REPO, check=False)
 
 
 def main() -> None:
@@ -334,14 +403,33 @@ def main() -> None:
     p.add_argument("--until", required=True, help="local HH:MM; no new tile starts after it")
     # Forager RECORD -620: night sections run mask, plots, soil, then the tree tiles that are
     # ready (US-only until the SCANFI layers are regridded). scanfi-layers is named explicitly.
-    p.add_argument("--stages", default="mask,plots,soil,trees")
+    # D119 (RECORD -772): then the US cells of tiles that still wait for SCANFI.
+    p.add_argument("--stages", default="mask,plots,soil,trees,trees-us-half")
     p.add_argument("--workers", type=int, default=2)
     p.add_argument("--max-soil-tiles", type=int, default=None,
                    help="at most this many new soil tiles in this section")  # fmt: skip
     p.add_argument("--max-tree-tiles", type=int, default=None)
     p.add_argument("--tree-groups", default=None,
                    help="comma-separated super-window keys this section may run")  # fmt: skip
+    p.add_argument(
+        "--us-half-tiles",
+        default=None,
+        help="comma-separated tree tile keys the trees-us-half stage may run",
+    )
+    p.add_argument(
+        "--evidence",
+        default=str(EVIDENCE),
+        help="folder in the repository the manifest and logs are copied to",
+    )
+    p.add_argument(
+        "--pause-file",
+        default=None,
+        help="a pause file other than T6b's own, for a run while T6b is paused",
+    )
     args = p.parse_args()
+    if args.pause_file:
+        global PAUSE
+        PAUSE = Path(args.pause_file)
     if not DRIVE.is_dir():
         sys.exit("flash drive not mounted")
     until = next_stop(args.until, datetime.now())
@@ -368,15 +456,19 @@ def main() -> None:
                         set(args.tree_groups.split(",")) if args.tree_groups else None,
                     )
                 )
+            elif stage == "trees-us-half":
+                only = set(args.us_half_tiles.split(",")) if args.us_half_tiles else None
+                summaries.append(stage_trees_us_half(until, args.workers, only))
             elif stage == "soil":
                 summaries.append(stage_soil(until, args.workers, args.max_soil_tiles))
             else:
                 sys.exit(f"unknown stage {stage}")
-            log(f"{stage}: {summaries[-1] if summaries and stage in ('trees', 'soil') else 'ok'}")
+            shown = stage in ("trees", "soil", "trees-us-half")
+            log(f"{stage}: {summaries[-1] if summaries and shown else 'ok'}")
     finally:
         units = [e for e in read_lines(MANIFEST) if e.get("kind") == "unit"]
         log(f"section end: {len(units)} unit lines in the manifest")
-        commit_progress(summaries)
+        commit_progress(summaries, Path(args.evidence))
 
 
 if __name__ == "__main__":

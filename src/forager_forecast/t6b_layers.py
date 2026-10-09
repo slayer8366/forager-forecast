@@ -389,11 +389,15 @@ def _treemap_part(window, mask_path, treemap_tif, plot_ids, plot_table, nalcms_t
             raise ValueError("TreeMap's own no-data value collides with OUTSIDE_RASTER")
         full, nodata, crs = src.transform, src.nodata, src.crs
     lon, lat = _pixel_lonlat(full, c0, r0, plots.shape[1], plots.shape[0], crs)
-    own = _own_side(_pixel_side(lon, lat, mask_path), SIDE_US)
+    pixel_side = _pixel_side(lon, lat, mask_path)
+    own = _own_side(pixel_side, SIDE_US)
     water = _water(lon, lat, nalcms_tif)
     del lon, lat
     outside = plots == OUTSIDE_RASTER
-    if (outside & own & ~water).any():
+    # D120 (owner, Forager RECORD -784): a pixel in no country polygon (side NONE) that lies
+    # outside TreeMap's raster is no data for the US side (``blank`` below holds ``outside``).
+    # A US-side pixel outside the raster is still refused.
+    if (outside & own & ~water & (pixel_side != SIDE_NONE)).any():
         raise ValueError("the TreeMap raster does not cover the US side of this tile")
     forest = (plots != nodata) & ~outside
     pos = np.searchsorted(plot_ids, plots[forest])
@@ -590,40 +594,34 @@ def _scanfi_part_from_layers(tile: Tile, layer_dir: Path):
     return arrays[SCANFI_TOTAL_LAYER], fraction, shares, blank, water
 
 
-def tree_tile(tile: Tile, mask_path: Path, treemap_tif: Path, plot_table_path: Path,
-              scanfi_dir: Path | None, nalcms_tif: Path, out_dir: Path,
-              scanfi_layer_dir: Path | None = None) -> dict:  # fmt: skip
-    """T5's genus canopy shares (D84 to D92) for one tile, with D111 to D115."""
-    window = tile.window
-    study, side = cells_in_study(window, *read_mask(mask_path, window))
-    if not study.any():
-        return {"tile": tile.key, "cells_in_study": 0, "skipped": "no cell in the study area"}
-    shape = (window.height, window.width)
-    nan = np.full(shape, np.nan)
-    canada = side == SIDE_CA
-    us_cover, us_frac, us = nan, np.zeros(shape), {b: nan for b in ("total", *BANDS)}
-    ca_cover, ca_frac, ca = nan, np.zeros(shape), {b: nan for b in ("total", *BANDS)}
-    blanked = {"us_pixels_blank": 0, "us_water_pixels": 0, "ca_pixels_blank": 0,
-               "ca_water_pixels": 0}  # fmt: skip
-    if (side == SIDE_US).any():
-        ids, table = load_plot_table(plot_table_path)
-        us_cover, us_frac, us, blanked["us_pixels_blank"], blanked["us_water_pixels"] = (
-            _treemap_part(window, mask_path, treemap_tif, ids, table, nalcms_tif)
-        )
-    if canada.any():
-        if scanfi_layer_dir is not None:
-            ca_cover, ca_frac, ca, blanked["ca_pixels_blank"], blanked["ca_water_pixels"] = (
-                _scanfi_part_from_layers(tile, scanfi_layer_dir)
-            )
-        elif scanfi_dir is not None:
-            ca_cover, ca_frac, ca, blanked["ca_pixels_blank"], blanked["ca_water_pixels"] = (
-                _scanfi_part(window, mask_path, scanfi_dir, nalcms_tif)
-            )
-        else:
-            raise ValueError(f"tile {tile.key} has Canadian cells but no SCANFI source")
-        for band in BANDS:
-            ca.setdefault(band, nan)
+def _us_parts(window, mask_path, treemap_tif, plot_table_path, nalcms_tif):
+    ids, table = load_plot_table(plot_table_path)
+    return _treemap_part(window, mask_path, treemap_tif, ids, table, nalcms_tif)
 
+
+def _ca_parts(tile, window, mask_path, scanfi_dir, nalcms_tif, scanfi_layer_dir):
+    if scanfi_layer_dir is not None:
+        cover, frac, ca, blank, water = _scanfi_part_from_layers(tile, scanfi_layer_dir)
+    elif scanfi_dir is not None:
+        cover, frac, ca, blank, water = _scanfi_part(window, mask_path, scanfi_dir, nalcms_tif)
+    else:
+        raise ValueError(f"tile {tile.key} has Canadian cells but no SCANFI source")
+    shape = (window.height, window.width)
+    for band in BANDS:
+        ca.setdefault(band, np.full(shape, np.nan))
+    return cover, frac, ca, blank, water
+
+
+def _empty_parts(shape):
+    nan = np.full(shape, np.nan)
+    return nan, np.zeros(shape), {b: nan for b in ("total", *BANDS)}, 0, 0
+
+
+def _tree_bands(study, side, us_parts, ca_parts):
+    """A tree tile's value bands and flags from each side's regridded parts (D84 to D92)."""
+    canada = side == SIDE_CA
+    us_cover, us_frac, us = us_parts[:3]
+    ca_cover, ca_frac, ca = ca_parts[:3]
     fraction = np.where(canada, ca_frac, us_frac)
     total = np.where(canada, ca_cover, us_cover)
     valid = study & (fraction >= MIN_VALID_FRACTION)
@@ -648,7 +646,11 @@ def tree_tile(tile: Tile, mask_path: Path, treemap_tif: Path, plot_table_path: P
                 flag = np.where(study & canada, FLAG_NOT_AVAILABLE, flag)
             bands[f"share_{band}"] = np.where(has_share, share, np.nan)
             flags[f"flag_{band}"] = flag.astype("uint8")
-    tags = {
+    return bands, flags, valid, defined
+
+
+def _tree_tags(tile: Tile) -> dict:
+    return {
         "attribution": f"{TREEMAP_CITATION} | {SCANFI_CITATION} ({SCANFI_LICENCE}) | "
         f"{NALCMS_CITATION}",
         "derived_notice": DERIVED_NOTICE, "rulings": ",".join(RULINGS), "flag_legend": FLAG_LEGEND,
@@ -659,6 +661,27 @@ def tree_tile(tile: Tile, mask_path: Path, treemap_tif: Path, plot_table_path: P
         "water": "NALCMS 2020 water (18) and unmapped (0, 127) are no data (D112)",
         "study_area": "D111, D113 (cell centre); side D115", "tile": tile.key,
     }  # fmt: skip
+
+
+def tree_tile(tile: Tile, mask_path: Path, treemap_tif: Path, plot_table_path: Path,
+              scanfi_dir: Path | None, nalcms_tif: Path, out_dir: Path,
+              scanfi_layer_dir: Path | None = None) -> dict:  # fmt: skip
+    """T5's genus canopy shares (D84 to D92) for one tile, with D111 to D115."""
+    window = tile.window
+    study, side = cells_in_study(window, *read_mask(mask_path, window))
+    if not study.any():
+        return {"tile": tile.key, "cells_in_study": 0, "skipped": "no cell in the study area"}
+    shape = (window.height, window.width)
+    canada = side == SIDE_CA
+    us_parts = ca_parts = _empty_parts(shape)
+    if (side == SIDE_US).any():
+        us_parts = _us_parts(window, mask_path, treemap_tif, plot_table_path, nalcms_tif)
+    if canada.any():
+        ca_parts = _ca_parts(tile, window, mask_path, scanfi_dir, nalcms_tif, scanfi_layer_dir)
+    blanked = {"us_pixels_blank": us_parts[3], "us_water_pixels": us_parts[4],
+               "ca_pixels_blank": ca_parts[3], "ca_water_pixels": ca_parts[4]}  # fmt: skip
+    bands, flags, valid, defined = _tree_bands(study, side, us_parts, ca_parts)
+    tags = _tree_tags(tile)
     out_dir = Path(out_dir)
     sha_v = _write_tif(out_dir / f"trees_{tile.key}.tif", window, bands, "float32", tags,
                        nodata=float("nan"))  # fmt: skip
@@ -676,4 +699,108 @@ def tree_tile(tile: Tile, mask_path: Path, treemap_tif: Path, plot_table_path: P
             "canada": int((defined & canada).sum()),
         },
         **blanked,
+    }
+
+
+# --- Host trees: the US cells of a border tile now, its Canadian cells later (D119) -------------
+#
+# Owner's ruling (Forager RECORD -772, D119): "Compute the US half now". A tile with both US and
+# Canadian study cells no longer waits whole for the eleven SCANFI layers (D118): its US cells
+# are computed now, by the same code as a whole tile, into a separate "US half" file whose
+# Canadian study cells read FLAG_PENDING. When SCANFI is ready, ``fill_canadian_cells`` computes
+# only the Canadian cells and copies every other cell from the US-half file unchanged, so the
+# US cells are neither redone nor changed. The result equals ``tree_tile`` on the whole tile.
+
+FLAG_PENDING = 4
+FLAG_LEGEND_US_HALF = (
+    f"{FLAG_LEGEND}; 4 Canada, pending: this tile's Canadian cells wait for SCANFI (D118, D119)"
+)
+US_HALF_STATE = "US cells done; Canadian cells pending SCANFI (D119)"
+WHOLE_STATE = "whole: US cells from the US-half file, Canadian cells added (D119)"
+
+
+def us_half_names(key: str) -> tuple[str, str]:
+    return f"trees_us_half_{key}.tif", f"trees_flags_us_half_{key}.tif"
+
+
+def tree_tile_us_half(tile: Tile, mask_path: Path, treemap_tif: Path, plot_table_path: Path,
+                      nalcms_tif: Path, out_dir: Path) -> dict:  # fmt: skip
+    """The US cells of a border tile (D119). Canadian study cells are pending, not computed."""
+    window = tile.window
+    study, side = cells_in_study(window, *read_mask(mask_path, window))
+    canada = side == SIDE_CA
+    us_cells = study & (side == SIDE_US)
+    if not canada.any():
+        raise ValueError(f"tile {tile.key} has no Canadian cell: run it whole with tree_tile")
+    if not us_cells.any():
+        return {"tile": tile.key, "files": {}, "skipped": "no US cell",
+                "tile_state": "Canadian cells only; nothing to compute before SCANFI"}  # fmt: skip
+    us_parts = _us_parts(window, mask_path, treemap_tif, plot_table_path, nalcms_tif)
+    bands, flags, valid, defined = _tree_bands(study, side, us_parts,
+                                               _empty_parts(canada.shape))  # fmt: skip
+    pending = study & canada
+    for name in bands:
+        if name == "source":
+            bands[name] = np.where(pending, float(FLAG_PENDING), bands[name])
+        else:
+            bands[name] = np.where(pending, np.nan, bands[name])
+    for name in flags:
+        flags[name] = np.where(pending, FLAG_PENDING, flags[name]).astype("uint8")
+    tags = {**_tree_tags(tile), "flag_legend": FLAG_LEGEND_US_HALF, "tile_state": US_HALF_STATE}
+    v_name, f_name = us_half_names(tile.key)
+    out_dir = Path(out_dir)
+    sha_v = _write_tif(out_dir / v_name, window, bands, "float32", tags, nodata=float("nan"))
+    sha_f = _write_tif(out_dir / f_name, window, flags, "uint8", tags)
+    return {
+        "tile": tile.key,
+        "tile_state": US_HALF_STATE,
+        "files": {v_name: sha_v, f_name: sha_f},
+        "cells_in_study": {"us": int(us_cells.sum()), "canada_pending": int(pending.sum())},
+        "cells_valid": {"us": int((valid & ~canada).sum())},
+        "cells_with_share": {"us": int((defined & ~canada).sum())},
+        "us_pixels_blank": us_parts[3],
+        "us_water_pixels": us_parts[4],
+    }
+
+
+def fill_canadian_cells(tile: Tile, us_half_dir: Path, mask_path: Path, scanfi_dir: Path | None,
+                        nalcms_tif: Path, out_dir: Path,
+                        scanfi_layer_dir: Path | None = None) -> dict:  # fmt: skip
+    """The whole tile from its US-half file and SCANFI (D119). Only Canadian cells are computed;
+    every other cell is copied from the US-half file. Names and bands as ``tree_tile``."""
+    window = tile.window
+    study, side = cells_in_study(window, *read_mask(mask_path, window))
+    canada = side == SIDE_CA
+    v_name, f_name = us_half_names(tile.key)
+    with rasterio.open(Path(us_half_dir) / v_name) as ds:
+        if ds.tags().get("tile_state") != US_HALF_STATE:
+            raise ValueError(f"{v_name} is not a US-half file")
+        names = list(ds.descriptions)
+        half_v = {n: ds.read(k + 1) for k, n in enumerate(names)}
+    with rasterio.open(Path(us_half_dir) / f_name) as ds:
+        half_f = {n: ds.read(k + 1) for k, n in enumerate(ds.descriptions)}
+    if not np.array_equal(half_v["source"] == FLAG_PENDING, study & canada):
+        raise ValueError(f"{v_name}: its pending cells are not this tile's Canadian cells")
+    ca_parts = _ca_parts(tile, window, mask_path, scanfi_dir, nalcms_tif, scanfi_layer_dir)
+    bands, flags, valid, defined = _tree_bands(study, side, _empty_parts(canada.shape), ca_parts)
+    if list(bands) != names or list(flags) != list(half_f):
+        raise ValueError(f"{v_name}: its bands are not a tree tile's")
+    bands = {n: np.where(canada, bands[n], half_v[n].astype("float64")) for n in names}
+    flags = {n: np.where(canada, flags[n], half_f[n]).astype("uint8") for n in flags}
+    sha_half = _sha256(Path(us_half_dir) / v_name)
+    tags = {**_tree_tags(tile), "tile_state": WHOLE_STATE, "us_cells_from": f"{v_name} {sha_half}"}
+    out_dir = Path(out_dir)
+    sha_v = _write_tif(out_dir / f"trees_{tile.key}.tif", window, bands, "float32", tags,
+                       nodata=float("nan"))  # fmt: skip
+    sha_f = _write_tif(out_dir / f"trees_flags_{tile.key}.tif", window, flags, "uint8", tags)
+    return {
+        "tile": tile.key,
+        "tile_state": WHOLE_STATE,
+        "us_cells_from": {v_name: sha_half},
+        "files": {f"trees_{tile.key}.tif": sha_v, f"trees_flags_{tile.key}.tif": sha_f},
+        "cells_in_study": {"canada": int((study & canada).sum())},
+        "cells_valid": {"canada": int((valid & canada).sum())},
+        "cells_with_share": {"canada": int((defined & canada).sum())},
+        "ca_pixels_blank": ca_parts[3],
+        "ca_water_pixels": ca_parts[4],
     }

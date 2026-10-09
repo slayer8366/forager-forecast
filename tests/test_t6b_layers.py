@@ -406,3 +406,210 @@ def test_free_space_is_checked_before_a_whole_layer_download(tmp_path, monkeypat
     with pytest.raises(OSError):
         require_free_space(tmp_path, needed=11)
     require_free_space(tmp_path, needed=10)
+
+
+# D119 (Forager RECORD -772): a border tile's US cells now, its Canadian cells later.
+
+
+def _us_half(world, tiles, out):
+    from forager_forecast.t6b_layers import tree_tile_us_half
+
+    d = world["d"]
+    return [
+        tree_tile_us_half(
+            t, d / "mask.tif", d / "treemap.tif", d / "plots.npz", d / "nalcms.tif", out
+        )  # fmt: skip
+        for t in tiles
+    ]
+
+
+def _fill(world, tiles, half_dir, out):
+    from forager_forecast.t6b_layers import SCANFI_LAYERS, fill_canadian_cells, scanfi_layer_tile
+
+    d = world["d"]
+    layer_dir = out / "scanfi_layers"
+    for layer in SCANFI_LAYERS:
+        for t in tiles:
+            scanfi_layer_tile(t, d / f"scanfi_full_{layer}.tif", layer, d / "mask.tif",
+                              d / "nalcms.tif", layer_dir)  # fmt: skip
+    return [
+        fill_canadian_cells(
+            t, half_dir, d / "mask.tif", None, d / "nalcms.tif", out, scanfi_layer_dir=layer_dir
+        )  # fmt: skip
+        for t in tiles
+    ]
+
+
+def _sides(world):
+    from forager_forecast.t6b_mask import SIDE_CA, SIDE_US, cells_in_study, read_mask
+
+    study, side = cells_in_study(BIG.window, *read_mask(world["d"] / "mask.tif", BIG.window))
+    return study & (side == SIDE_US), study & (side == SIDE_CA)
+
+
+def test_the_us_half_has_the_whole_tiles_us_cells_and_marks_canadian_cells_pending(world, tmp_path):
+    from forager_forecast.t6b_layers import FLAG_PENDING, US_HALF_STATE
+
+    result = _us_half(world, [BIG], tmp_path / "half")[0]
+    _trees_by_layer(world, [BIG], tmp_path / "whole")
+    us, ca = _sides(world)
+    assert us.sum() > 50 and ca.sum() > 50
+    assert result["tile_state"] == US_HALF_STATE
+    assert result["cells_in_study"] == {"us": int(us.sum()), "canada_pending": int(ca.sum())}
+    half, _ = _read(tmp_path / "half" / f"trees_us_half_{BIG.key}.tif")
+    half_f, _ = _read(tmp_path / "half" / f"trees_flags_us_half_{BIG.key}.tif")
+    whole, _ = _read(tmp_path / "whole" / f"trees_{BIG.key}.tif")
+    whole_f, _ = _read(tmp_path / "whole" / f"trees_flags_{BIG.key}.tif")
+    other = ~ca
+    assert np.isfinite(whole[0][us]).sum() > 50
+    assert np.array_equal(half[:, other], whole[:, other], equal_nan=True)
+    assert np.array_equal(half_f[:, other], whole_f[:, other])
+    with rasterio.open(tmp_path / "half" / f"trees_us_half_{BIG.key}.tif") as ds:
+        names = list(ds.descriptions)
+        assert ds.tags()["tile_state"] == US_HALF_STATE
+    src = names.index("source")
+    assert (half[src][ca] == FLAG_PENDING).all()
+    assert np.isnan(np.delete(half, src, axis=0)[:, ca]).all()
+    assert (half_f[:, ca] == FLAG_PENDING).all()
+
+
+def test_the_us_half_one_tile_and_smaller_tiles_agree_exactly(world, tmp_path):
+    from forager_forecast.t6b_layers import tree_tile_us_half
+
+    _us_half(world, [BIG], tmp_path / "o1")
+    d = world["d"]
+    n = 4  # tiles small enough that some hold both sides of 49 N
+    tiles = [Tile(BIG.i * 4 + di, BIG.j * 4 + dj, n) for di in range(4) for dj in range(4)]
+    mixed = []
+    for t in tiles:
+        try:
+            r = tree_tile_us_half(t, d / "mask.tif", d / "treemap.tif", d / "plots.npz",
+                                  d / "nalcms.tif", tmp_path / "o4")  # fmt: skip
+        except ValueError as err:
+            assert "no Canadian cell" in str(err)
+            continue
+        if r["files"]:
+            mixed.append(t)
+    assert len(mixed) >= 2
+    for prefix in ("trees_us_half", "trees_flags_us_half"):
+        big, tr = _read(tmp_path / "o1" / f"{prefix}_{BIG.key}.tif")
+        for t in mixed:
+            small, st = _read(tmp_path / "o4" / f"{prefix}_{t.key}.tif")
+            r0 = (int(tr.f) - int(st.f)) // CELL_SIZE_M
+            c0 = (int(st.c) - int(tr.c)) // CELL_SIZE_M
+            part = big[:, r0 : r0 + n, c0 : c0 + n]
+            assert np.array_equal(part, small, equal_nan=True)
+
+
+def test_filling_the_canadian_cells_gives_the_whole_tile_and_leaves_the_us_half_alone(
+    world, tmp_path
+):
+    from forager_forecast.t6b_layers import WHOLE_STATE
+
+    half = _us_half(world, [BIG], tmp_path / "half")[0]
+    before = {n: _sha(tmp_path / "half" / n) for n in half["files"]}
+    filled = _fill(world, [BIG], tmp_path / "half", tmp_path / "filled")[0]
+    _trees_by_layer(world, [BIG], tmp_path / "whole")
+    assert filled["tile_state"] == WHOLE_STATE
+    assert {n: _sha(tmp_path / "half" / n) for n in half["files"]} == before
+    for prefix in ("trees", "trees_flags"):
+        a, _ = _read(tmp_path / "filled" / f"{prefix}_{BIG.key}.tif")
+        b, _ = _read(tmp_path / "whole" / f"{prefix}_{BIG.key}.tif")
+        assert np.array_equal(a, b, equal_nan=True)
+    us, ca = _sides(world)
+    filled_v, _ = _read(tmp_path / "filled" / f"trees_{BIG.key}.tif")
+    half_v, _ = _read(tmp_path / "half" / f"trees_us_half_{BIG.key}.tif")
+    assert np.array_equal(filled_v[:, ~ca], half_v[:, ~ca], equal_nan=True)
+    assert np.isfinite(filled_v[0][ca]).sum() > 50
+
+
+def test_a_tile_without_canadian_cells_is_not_a_us_half(world, tmp_path):
+    from forager_forecast.t6b_layers import tree_tile_us_half
+
+    d = world["d"]
+    south = Tile(BIG.i * 4, BIG.j * 4, 4)  # the south-west 4 x 4 corner of BIG
+    assert south.window.bottom == BIG.window.bottom
+    with pytest.raises(ValueError, match="no Canadian cell"):
+        tree_tile_us_half(south, d / "mask.tif", d / "treemap.tif", d / "plots.npz",
+                          d / "nalcms.tif", tmp_path)  # fmt: skip
+
+
+def test_filling_refuses_a_file_that_is_not_a_us_half(world, tmp_path):
+    _trees_by_layer(world, [BIG], tmp_path / "whole")
+    import shutil
+
+    for a, b in ((f"trees_{BIG.key}.tif", f"trees_us_half_{BIG.key}.tif"),
+                 (f"trees_flags_{BIG.key}.tif", f"trees_flags_us_half_{BIG.key}.tif")):  # fmt: skip
+        shutil.copy(tmp_path / "whole" / a, tmp_path / b)
+    with pytest.raises(ValueError, match="not a US-half file"):
+        _fill(world, [BIG], tmp_path, tmp_path / "filled")
+
+
+def _sha(path):
+    import hashlib
+
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+# D120 (owner, Forager RECORD -784): a pixel whose cell is in no country polygon (side NONE) and
+# that lies outside TreeMap's raster is no data for the US side, not a refusal. A US-side pixel
+# outside the raster is still refused.
+
+
+def _cropped_treemap(world, tmp_path, keep_east_of_lon):
+    from rasterio.windows import Window
+
+    src_path = world["d"] / "treemap.tif"
+    with rasterio.open(src_path) as src:
+        x, _ = Transformer.from_crs(GEOGRAPHIC_CRS, TREEMAP_CRS, always_xy=True).transform(
+            keep_east_of_lon, 49.0
+        )
+        c0 = int((x - src.transform.c) // src.transform.a)
+        win = Window(c0, 0, src.width - c0, src.height)
+        data = src.read(1, window=win)
+        profile = {**src.profile, "width": win.width, "transform": src.window_transform(win)}
+    out = tmp_path / "treemap_cropped.tif"
+    with rasterio.open(out, "w", **profile) as dst:
+        dst.write(data, 1)
+    return out
+
+
+@pytest.mark.parametrize("side_of_strip", ["none", "us"])
+def test_a_no_country_pixel_outside_treemap_is_no_data_and_a_us_pixel_still_refused(
+    world, tmp_path, monkeypatch, side_of_strip
+):
+    from forager_forecast import t6b_layers
+    from forager_forecast.t6b_layers import tree_tile_us_half
+    from forager_forecast.t6b_mask import SIDE_NONE, SIDE_US
+
+    w0, _, e0, _ = _lonlat_box(BIG.window, 0.0)
+    cut = w0 + 0.3 * (e0 - w0)  # TreeMap stops here; the strip west of it has no raster
+    real = t6b_layers._pixel_side
+    d = world["d"]
+    treemap = _cropped_treemap(world, tmp_path, cut)
+    with rasterio.open(treemap) as ds:
+        raster_west = ds.bounds.left
+    to_5070 = Transformer.from_crs(GEOGRAPHIC_CRS, TREEMAP_CRS, always_xy=True)
+
+    def side_with_strip(lon, lat, mask_path):
+        # Pixels west of the cropped raster's edge, on the US side, become the strip.
+        side = real(lon, lat, mask_path)
+        x, _ = to_5070.transform(lon, lat)
+        strip = (np.asarray(x) < raster_west) & (side == SIDE_US)
+        return np.where(strip, SIDE_NONE if side_of_strip == "none" else SIDE_US, side)
+
+    monkeypatch.setattr(t6b_layers, "_pixel_side", side_with_strip)
+    if side_of_strip == "us":
+        with pytest.raises(ValueError, match="does not cover the US side"):
+            tree_tile_us_half(BIG, d / "mask.tif", treemap, d / "plots.npz", d / "nalcms.tif",
+                              tmp_path)  # fmt: skip
+        return
+    tree_tile_us_half(BIG, d / "mask.tif", treemap, d / "plots.npz", d / "nalcms.tif", tmp_path)
+    values, _ = _read(tmp_path / f"trees_us_half_{BIG.key}.tif")
+    lon, lat = _cells_lonlat()
+    west = (np.asarray(lon) < cut - 0.01) & (np.asarray(lat) < 48.998)
+    east = (np.asarray(lon) > cut + 0.01) & (np.asarray(lat) < 48.998)
+    assert west.any() and east.any()
+    assert np.isnan(values[0][west]).all()  # no data, not 0% cover
+    assert (values[1][west] < 0.5).all()
+    assert np.isfinite(values[0][east]).sum() > 20

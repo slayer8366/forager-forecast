@@ -1,6 +1,6 @@
 # Start here
 
-As of 2026-09-18.
+As of 2026-09-18; date and next-up line corrected 2026-10-09 against origin/main 36cc647.
 
 ## Where things stand
 
@@ -20,8 +20,15 @@ Decisions agreed so far (full rows in DECISIONS.md):
 - Delivery is PMTiles on Cloudflare, set up separately through Cowork, with MapLibre on the client.
 - Planning lives in the planning doc. Spec and task files live in the repo once building starts.
 
-Next up: T0, then T1 to T3. T1 is the task most likely to overturn the plan, so it runs before any
-pipeline work.
+~~Next up: T0, then T1 to T3. T1 is the task most likely to overturn the plan, so it runs before any
+pipeline work.~~
+
+Next up (corrected 2026-10-09): T0 to T6, D26 and D27 to D29 are merged to main (last merge 36cc647,
+T6, 2026-10-06; TASKS.md names each merge commit). T6b, the continental soil and host-tree layers, is
+running in sections on branch t6b-continental-layers, unmerged: soil is done, the US tree tiles are
+under way, and the tiles touching Canada wait for SCANFI except for their US cells (D119, branch
+t6b-pnw-monday). T1's model fit, the weather pull and T7 to T11 have not started, so no forecast
+exists yet.
 
 ## Fixed terms
 
@@ -89,3 +96,5 @@ needs one of them to mean something else, the sentence is wrong.
 | 2026-10-06 | D27 to D29 on branch dq-tables-d27-d29 after merging main aa05c1f (T5). The D28 test was fixed and committed (ea579c2) before any day-of-month count, and the planner accepted it (D95). Over D26's download: no dataset shows a clear excess on the 1st, and the one small excess (a New Jersey saproxylic survey) is a survey date, 2017-10-01. Keeping date-only records on the 1st adds 455 T1 and 700 R6 survivors. Both keys are counted per list and region (T1 591,324 event and 611,599 observer; R6 1,206,604 and 1,249,009). Dataset and licence lists are filed beside all three DOIs (D96, 44 public requests, every count equal to GBIF's). The D26 review items and T5 notes A1 to A3 are done. Suite 315 to 357 passed; 18 of 18 reverts bite. Next: the owner's date ruling (D28), then the review | `docs/audits/2026-10-06-d27-d29-completion-report.md` |
 | 2026-10-06 | D28's final date rule on branch d28-date-rule from main 41005c1. Part 1: the midnight measure was committed (00d23f6) before any count; over D26's download only iNaturalist has enough midnight records to test, 30 of 657 on the 1st against about 22 expected (p 0.047 at 0.01), so midnight on the 1st is not special to it; NABU's 18 timed records are all midnight, none on the 1st. Owner ruled "Keep the 1st (Recommended)" (RECORD -601, D97) and "Drop the check, keep them (Recommended)" (RECORD -605, D98). Part 2: the shared date step in both lists keeps every dated record (step kept, 0 dropped); T1 591,783 and R6 1,249,718 survivors; frozen T1 evidence unchanged; 375 passed; revert checks 7 and 6 bite | Independent review (D18), then the owner's merge word (D40) |
 | 2026-10-06 | T6 on branch t6-observation-layer after merging main 5540a2c. Every modelling choice was proposed and committed (9cd95df) before any count of the outcome; the owner ruled all nine as recommended (Forager RECORD -609), filed as D101 to D108, with the dispatch's benchmark premise corrected (the cited study used pines, not in D26). Built the effort surface (src/forager_forecast/effort.py, effort_evaluation.py; scripts/t6_fit.py): 879,576 outings in 43,035 cells; the Verify passes on both licence tracks; the weekend test's condition (i) holds by construction once the raw totals show it, the lichen season peaks in late April in the bulk bands, and the chosen pull sits at the grid's top, all for the planner. 416 passed, 17 of 17 reverts bite; count peak 1.19 GB, fit 224 MB. Report: docs/audits/2026-10-06-t6-completion-report.md |
+| 2026-10-09 | The PNW for Monday on branch t6b-pnw-monday (Forager RECORD -772 to -777): D119 filed and built (US cells of border tiles now), PNW mosaic, images, PMTiles and a page at /Forager/forecast/ on the zynergy-site preview, first checks on the PNW tiles, the OMS briefing (docs/briefings/2026-10-12-oms-briefing.md). Not checked: a phone, an independent review. Report: docs/audits/2026-10-09-pnw-monday-completion-report.md | The owner's word on the three held-back tiles (option a); review (D18); merges (D40) |
+| 2026-10-09 | D120 (owner, Forager RECORD -784, "1 yes"): a pixel in no country polygon that lies outside TreeMap's raster is no data for the US side; the three held-back PNW border tiles (256_-31_20, -30_20, -29_20) computed, every US cell in the PNW box now has its tile. Review F1 (RECORD -786) fixed on branch t6b-pnw-monday: tiles with Canadian cells only are no longer offered to the US-half stage, and a US-half line without files never counts as done. Report: docs/audits/2026-10-09-pnw-monday-completion-report.md, sections 12 and 13 | Re-review (D18), then the owner's merge word (D40) |

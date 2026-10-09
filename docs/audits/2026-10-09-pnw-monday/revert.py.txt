@@ -1,0 +1,120 @@
+"""D119 revert checks: each edit undoes one behaviour; the named tests must fail with a message
+specific to that edit. Strict (CLAUDE.md in Forager): restore from a copy saved before the edit,
+never from git; clear __pycache__; PYTHONDONTWRITEBYTECODE=1; refuse a run whose output shows a
+collection or import error, or whose edited file the interpreter did not see; check the restored
+file hashes to its pre-edit value. Run from the repository root:
+    systemd-run --user --scope -q -p MemoryMax=2G -p MemorySwapMax=0 \
+        .venv/bin/python docs/audits/2026-10-09-pnw-monday/revert.py.txt
+"""
+
+import hashlib
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+ROOT = Path.cwd()
+GUARD = os.environ.get("GUARD_TEST")  # the scratch refactor guard, outside the repository
+CHECKS = [
+    ("pending cells not marked", "src/forager_forecast/t6b_layers.py",
+     "        flags[name] = np.where(pending, FLAG_PENDING, flags[name]).astype(\"uint8\")",
+     "        flags[name] = flags[name].astype(\"uint8\")",
+     ["tests/test_t6b_layers.py::test_the_us_half_has_the_whole_tiles_us_cells_and_marks_canadian_cells_pending"]),
+    ("fill recomputes US cells instead of copying", "src/forager_forecast/t6b_layers.py",
+     "    bands = {n: np.where(canada, bands[n], half_v[n].astype(\"float64\")) for n in names}",
+     "    bands = {n: bands[n] for n in names}",
+     ["tests/test_t6b_layers.py::test_filling_the_canadian_cells_gives_the_whole_tile_and_leaves_the_us_half_alone"]),
+    ("fill accepts any file", "src/forager_forecast/t6b_layers.py",
+     "        if ds.tags().get(\"tile_state\") != US_HALF_STATE:",
+     "        if False:",
+     ["tests/test_t6b_layers.py::test_filling_refuses_a_file_that_is_not_a_us_half"]),
+    ("trees stage ignores the US half", "scripts/t6b_run.py",
+     "    if us_half_done(key):\n        result = fill_canadian_cells(",
+     "    if False:\n        result = fill_canadian_cells(",
+     ["tests/test_t6b_us_half_runner.py::test_the_us_half_runs_now_says_so_and_is_filled_later_without_change"]),
+    ("us-half stage offers whole tiles", "scripts/t6b_run.py",
+     "            and t[\"key\"] not in whole_done]",
+     "            ]",
+     ["tests/test_t6b_us_half_runner.py::test_the_us_half_runs_now_says_so_and_is_filled_later_without_change"]),
+    ("us-half stage takes any tile key", "scripts/t6b_run.py",
+     "        if unknown:\n            sys.exit(",
+     "        if False:\n            sys.exit(",
+     ["tests/test_t6b_us_half_runner.py::test_us_half_tiles_must_be_tiles_with_canadian_cells"]),
+    ("percent encoding at whole points", "src/forager_forecast/tiles.py",
+     "PERCENT_STEPS = 2 ", "PERCENT_STEPS = 1 ",
+     ["tests/test_tiles.py::test_the_percent_encoding_rounds_to_half_points_and_makes_no_data_transparent"]),
+    ("percent range not checked", "src/forager_forecast/tiles.py",
+     "    if (percent[valid] < -1e-6).any() or (percent[valid] > 100 + 1e-6).any():",
+     "    if False:",
+     ["tests/test_tiles.py::test_the_percent_encoding_rounds_to_half_points_and_makes_no_data_transparent"]),
+    ("D120: NONE pixel outside TreeMap refused again", "src/forager_forecast/t6b_layers.py",
+     "    if (outside & own & ~water & (pixel_side != SIDE_NONE)).any():",
+     "    if (outside & own & ~water).any():",
+     ["tests/test_t6b_layers.py::test_a_no_country_pixel_outside_treemap_is_no_data_and_a_us_pixel_still_refused"]),
+    ("D120: US pixel outside TreeMap accepted", "src/forager_forecast/t6b_layers.py",
+     "    if (outside & own & ~water & (pixel_side != SIDE_NONE)).any():",
+     "    if (outside & own & ~water & (pixel_side == 99)).any():",
+     ["tests/test_t6b_layers.py::test_a_no_country_pixel_outside_treemap_is_no_data_and_a_us_pixel_still_refused"]),
+    ("F1: us-half stage offers Canada-only tiles", "scripts/t6b_run.py",
+     "    keys = [k for k in keys if has_us_cells(k)]",
+     "    keys = [k for k in keys if True]",
+     ["tests/test_t6b_us_half_runner.py::test_the_us_half_stage_offers_only_tiles_with_both_sides"]),
+    ("F1: an ok line with no files counts as a US half", "scripts/t6b_run.py",
+     "    if not lines or not lines[-1].get(\"files\"):",
+     "    if not lines:",
+     ["tests/test_t6b_us_half_runner.py::test_an_ok_us_half_line_without_files_is_not_a_done_us_half"]),
+    ("refactor: share threshold moved", "src/forager_forecast/t6b_layers.py",
+     "    defined = valid & (total >= MIN_TOTAL_COVER_PCT)\n    side_flag",
+     "    defined = valid & (total > MIN_TOTAL_COVER_PCT + 5)\n    side_flag",
+     [GUARD] if GUARD else []),
+]
+
+
+def sha(p):
+    return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+
+
+results = []
+for name, path, old, new, tests in CHECKS:
+    if not tests:
+        results.append({"check": name, "status": "not run: no test named"})
+        continue
+    src = ROOT / path
+    before = sha(src)
+    saved = src.with_name(src.name + ".revert-saved")
+    shutil.copy2(src, saved)
+    text = src.read_text()
+    if text.count(old) != 1:
+        sys.exit(f"{name}: anchor found {text.count(old)} times")
+    try:
+        src.write_text(text.replace(old, new))
+        for d in ROOT.rglob("__pycache__"):
+            shutil.rmtree(d)
+        env = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
+        seen = subprocess.run([sys.executable, "-c", f"import sys; t=open({str(src)!r}).read(); "
+                               f"sys.exit(0 if {new!r} in t else 1)"], env=env)
+        out = subprocess.run([sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider",
+                              "-o", "pythonpath=tests", *tests], cwd=ROOT, env=env,
+                             capture_output=True, text=True).stdout
+        tail = out.strip().splitlines()[-1] if out.strip() else ""
+        errors = re.search(r"\berror", tail) or "ImportError" in out or "SyntaxError" in out
+        failed = re.findall(r"^FAILED (\S+)", out, re.M)
+        msgs = re.findall(r"^E\s+(.*)$", out, re.M)[:3]
+        if errors or seen.returncode:
+            status = "refused: collection or import error, or edit unseen"
+        else:
+            status = "bites" if failed else "does not bite"
+        results.append({"check": name, "file": path, "status": status, "summary": tail,
+                        "failed": failed, "first_messages": msgs})
+    finally:
+        shutil.copy2(saved, src)
+        saved.unlink()
+    if sha(src) != before:
+        sys.exit(f"{name}: restore does not match the pre-edit file")
+    results[-1]["restored_equal"] = True
+out = ROOT / os.environ.get("REVERT_OUT", "docs/audits/2026-10-09-pnw-monday/revert_results.json")
+out.write_text(json.dumps(results, indent=1) + "\n")
+print(json.dumps([(r["check"], r["status"]) for r in results], indent=1))

@@ -1,0 +1,161 @@
+{
+ "check": "seam",
+ "ok": null,
+ "bands": {
+  "total_cover_pct": {
+   "verdict": "no verdict, Canadian side pending",
+   "transects_with_a_border_step": 0,
+   "within_us_median_abs": 8.027115821838379,
+   "within_us_p95_abs": 37.920190274715424,
+   "within_ca_median_abs": NaN,
+   "border_steps": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  "share_Pseudotsuga": {
+   "verdict": "no verdict, Canadian side pending",
+   "transects_with_a_border_step": 0,
+   "within_us_median_abs": 0.04070577758830041,
+   "within_us_p95_abs": 0.129437658126335,
+   "within_ca_median_abs": NaN,
+   "border_steps": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  "share_conifer": {
+   "verdict": "no verdict, Canadian side pending",
+   "transects_with_a_border_step": 0,
+   "within_us_median_abs": 0.009032711386680603,
+   "within_us_p95_abs": 0.25450465343892564,
+   "within_ca_median_abs": NaN,
+   "border_steps": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  "share_broadleaf": {
+   "verdict": "no verdict, Canadian side pending",
+   "transects_with_a_border_step": 0,
+   "within_us_median_abs": 0.009032711081090383,
+   "within_us_p95_abs": 0.25450464116220234,
+   "within_ca_median_abs": NaN,
+   "border_steps": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  }
+ },
+ "peak_rss_mb": 1234.5,
+ "us_side_samples": {
+  "total_cover_pct": {
+   "samples": 2000,
+   "finite": 1974
+  },
+  "valid_fraction": {
+   "samples": 2000,
+   "finite": 2000
+  },
+  "source": {
+   "samples": 2000,
+   "finite": 2000,
+   "values": {
+    "1.0": 2000
+   }
+  }
+ },
+ "seconds": 6.0
+}

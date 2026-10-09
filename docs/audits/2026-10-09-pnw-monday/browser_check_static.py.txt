@@ -1,0 +1,59 @@
+"""Headless Firefox via geckodriver (stdlib only). Every layer at zooms 6, 8 and 10; two real
+pointer taps on the hemlock layer; the requests the page made."""
+import base64, json, subprocess, sys, time, urllib.request
+URL, OUT = sys.argv[1], sys.argv[2]
+gd = subprocess.Popen(["geckodriver", "--port", "4456"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+import socket
+for _ in range(60):
+    try:
+        socket.create_connection(("127.0.0.1", 4456), 1).close(); break
+    except OSError:
+        time.sleep(0.5)
+def call(method, path, body=None):
+    req = urllib.request.Request(f"http://127.0.0.1:4456{path}", method=method,
+        data=json.dumps(body).encode() if body is not None else None, headers={"Content-Type": "application/json"})
+    return json.loads(urllib.request.urlopen(req, timeout=120).read())["value"]
+rep = {"views": {}}
+try:
+    sid = call("POST", "/session", {"capabilities": {"alwaysMatch": {"browserName": "firefox",
+        "moz:firefoxOptions": {"args": ["-headless", "--width=1400", "--height=1000"]}}}})["sessionId"]
+    js = lambda src, args=(): call("POST", f"/session/{sid}/execute/sync", {"script": src, "args": list(args)})
+    def idle(t=90):
+        t0 = time.time()
+        while time.time() - t0 < t:
+            if js("const m=window.pnwMap; return !!(m && m.loaded() && m.areTilesLoaded() && document.body.dataset.ready==='1');"):
+                return round(time.time() - t0, 1)
+            time.sleep(0.5)
+        return None
+    call("POST", f"/session/{sid}/url", {"url": URL})
+    rep["first_idle_s"] = idle()
+    for layer in ["soil-ph", "tree-cover", "douglas-fir", "hemlock"]:
+        js("const r=document.querySelector(`input[value='${arguments[0]}']`); r.checked=true; r.dispatchEvent(new Event('change',{bubbles:true}));", [layer])
+        for z, c in ((6, [-118, 44.5]), (8, [-122.3, 48.6]), (10, [-122.27543, 48.77283])):
+            js("window.pnwMap.jumpTo({center: arguments[0], zoom: arguments[1]});", [c, z])
+            time.sleep(0.5)
+            t = idle()
+            open(f"{OUT}/{layer}-z{z}.png", "wb").write(base64.b64decode(call("GET", f"/session/{sid}/screenshot")))
+            rep["views"][f"{layer} z{z}"] = {"idle_s": t, "shown": js("return document.body.dataset.layer;")}
+    rep["taps"] = []
+    for lon, lat in ((-122.0, 45.0), (-122.27543, 48.77283)):
+        js("window.pnwMap.jumpTo({center: arguments[0], zoom: 8});", [[lon + 0.3, lat]]); idle()
+        js("document.getElementById('readout').textContent='';")
+        pt = js("const m=window.pnwMap; const p=m.project(arguments[0]); const r=m.getCanvas().getBoundingClientRect(); return [Math.round(r.left+p.x), Math.round(r.top+p.y)];", [[lon, lat]])
+        call("POST", f"/session/{sid}/actions", {"actions": [{"type": "pointer", "id": "f", "parameters": {"pointerType": "mouse"},
+            "actions": [{"type": "pointerMove", "x": pt[0], "y": pt[1], "origin": "viewport"}, {"type": "pointerDown", "button": 0}, {"type": "pointerUp", "button": 0}]}]})
+        time.sleep(2.5)
+        rep["taps"].append({"aim": [lat, lon], "readout": js("return document.getElementById('readout').textContent;"),
+                            "tap": js("return window.pnwLastTap || null;")})
+    rep["errors"] = js("return window.pnwErrors;")
+    res = js("return performance.getEntriesByType('resource').map(e=>e.name);")
+    rep["worker"] = [r for r in res if "worker" in r]
+    data = [r for r in res if "/data/" in r]
+    rep["data_requests"] = len(data)
+    rep["data_png"] = len([r for r in data if r.endswith(".png")])
+    rep["data_other"] = [r for r in data if not r.endswith(".png")]
+    rep["pmtiles_requests"] = len([r for r in res if "pmtiles" in r])
+    call("DELETE", f"/session/{sid}")
+finally:
+    gd.terminate()
+print(json.dumps(rep, indent=1))
