@@ -1,0 +1,29 @@
+"""Reviewer: the soil cells' native pixels read again from ISRIC's own VRTs over the network,
+compared with the stored native windows on the drive, and the stored windows' sha256 against
+their request records. Tiny windows only. Writes soil_remote.out.json."""
+import hashlib, json, sys
+from pathlib import Path
+import rasterio
+from rasterio.windows import Window
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import recompute as R
+HERE = Path(__file__).resolve().parent
+pre = json.loads((HERE / "prereg.json").read_text())["cells"]["soil"]
+out = []
+for cell in pre:
+    nat = R.T6B / "native/soil" / cell["soil_tile"]
+    req = json.loads((nat / "request.json").read_text())["layers"]
+    for rec in req:
+        local = nat / rec["file"]
+        sha_ok = hashlib.sha256(local.read_bytes()).hexdigest() == rec["sha256"]
+        with rasterio.open(local) as ds:
+            areas = R.pixel_areas(cell["col"], cell["row"], ds, ll_crs="EPSG:4326")
+            lv = R.read_px(ds, list(areas))
+        pw = rec["pixel_window"]
+        with rasterio.Env(GDAL_DISABLE_READDIR_ON_OPEN="EMPTY_DIR"):
+            with rasterio.open("/vsicurl/" + rec["source"]) as rs:
+                rv = {k: int(rs.read(1, window=Window(pw["col_off"] + k[1], pw["row_off"] + k[0], 1, 1))[0, 0]) for k in areas}
+        out.append({"cell": [cell["col"], cell["row"]], "file": rec["file"], "sha_matches_request": sha_ok,
+                    "pixels": len(areas), "remote_equals_local": all(int(lv[k]) == rv[k] for k in areas)})
+        print(out[-1], flush=True)
+(HERE / "soil_remote.out.json").write_text(json.dumps(out, indent=1) + "\n")

@@ -1,0 +1,271 @@
+{
+ "manifest_bytes": 1718736,
+ "manifest_sha256": "17757f3ada2366a9c18b9726262f0b93cdcccf80b4e71ee4e9478088bf566fd2",
+ "lines": 2964,
+ "kinds": {
+  "stage": 2,
+  "unit": 2931,
+  "section": 26,
+  "prepare": 5
+ },
+ "status_counts": {
+  "balsamFir|ok": 717,
+  "blackSpruce|ok": 8,
+  "broadleaf|ok": 8,
+  "douglasFir|ok": 2,
+  "soil|ok": 89,
+  "trees|ok": 2015,
+  "trees-us-half|ok": 92
+ },
+ "canadian_tiles_now": {
+  "256_-29_20": {
+   "trees_latest_status": null,
+   "scanfi_layer_status": {
+    "balsamFir": null,
+    "blackSpruce": null,
+    "broadleaf": null,
+    "douglasFir": null,
+    "jackPine": null,
+    "lodgepolePine": null,
+    "otherConiferous": null,
+    "ponderosaPine": null,
+    "tamarack": null,
+    "whiteRedPine": null,
+    "att_closure": null
+   }
+  },
+  "256_-30_19": {
+   "trees_latest_status": null,
+   "scanfi_layer_status": {
+    "balsamFir": null,
+    "blackSpruce": null,
+    "broadleaf": null,
+    "douglasFir": null,
+    "jackPine": null,
+    "lodgepolePine": null,
+    "otherConiferous": null,
+    "ponderosaPine": null,
+    "tamarack": null,
+    "whiteRedPine": null,
+    "att_closure": null
+   }
+  },
+  "256_-30_20": {
+   "trees_latest_status": null,
+   "scanfi_layer_status": {
+    "balsamFir": null,
+    "blackSpruce": null,
+    "broadleaf": null,
+    "douglasFir": null,
+    "jackPine": null,
+    "lodgepolePine": null,
+    "otherConiferous": null,
+    "ponderosaPine": null,
+    "tamarack": null,
+    "whiteRedPine": null,
+    "att_closure": null
+   }
+  },
+  "256_-30_21": {
+   "trees_latest_status": null,
+   "scanfi_layer_status": {
+    "balsamFir": null,
+    "blackSpruce": null,
+    "broadleaf": null,
+    "douglasFir": null,
+    "jackPine": null,
+    "lodgepolePine": null,
+    "otherConiferous": null,
+    "ponderosaPine": null,
+    "tamarack": null,
+    "whiteRedPine": null,
+    "att_closure": null
+   }
+  },
+  "256_-31_19": {
+   "trees_latest_status": null,
+   "scanfi_layer_status": {
+    "balsamFir": null,
+    "blackSpruce": null,
+    "broadleaf": null,
+    "douglasFir": null,
+    "jackPine": null,
+    "lodgepolePine": null,
+    "otherConiferous": null,
+    "ponderosaPine": null,
+    "tamarack": null,
+    "whiteRedPine": null,
+    "att_closure": null
+   }
+  },
+  "256_-31_20": {
+   "trees_latest_status": null,
+   "scanfi_layer_status": {
+    "balsamFir": null,
+    "blackSpruce": null,
+    "broadleaf": null,
+    "douglasFir": null,
+    "jackPine": null,
+    "lodgepolePine": null,
+    "otherConiferous": null,
+    "ponderosaPine": null,
+    "tamarack": null,
+    "whiteRedPine": null,
+    "att_closure": null
+   }
+  },
+  "256_-31_21": {
+   "trees_latest_status": null,
+   "scanfi_layer_status": {
+    "balsamFir": null,
+    "blackSpruce": null,
+    "broadleaf": null,
+    "douglasFir": null,
+    "jackPine": null,
+    "lodgepolePine": null,
+    "otherConiferous": null,
+    "ponderosaPine": null,
+    "tamarack": null,
+    "whiteRedPine": null,
+    "att_closure": null
+   }
+  },
+  "256_-32_20": {
+   "trees_latest_status": null,
+   "scanfi_layer_status": {
+    "balsamFir": null,
+    "blackSpruce": null,
+    "broadleaf": null,
+    "douglasFir": null,
+    "jackPine": null,
+    "lodgepolePine": null,
+    "otherConiferous": null,
+    "ponderosaPine": null,
+    "tamarack": null,
+    "whiteRedPine": null,
+    "att_closure": null
+   }
+  }
+ },
+ "units_with_failed_or_deferred_history": {},
+ "box_ok_lines_without_files": [],
+ "hash_sample": [
+  {
+   "layer": "trees",
+   "file": "trees_256_-19_7.tif",
+   "match": true
+  },
+  {
+   "layer": "trees",
+   "file": "trees_flags_256_-19_7.tif",
+   "match": true
+  },
+  {
+   "layer": "trees",
+   "file": "trees_256_-25_13.tif",
+   "match": true
+  },
+  {
+   "layer": "trees",
+   "file": "trees_flags_256_-25_13.tif",
+   "match": true
+  },
+  {
+   "layer": "trees",
+   "file": "trees_256_-25_5.tif",
+   "match": true
+  },
+  {
+   "layer": "trees",
+   "file": "trees_flags_256_-25_5.tif",
+   "match": true
+  },
+  {
+   "layer": "trees",
+   "file": "trees_256_-28_17.tif",
+   "match": true
+  },
+  {
+   "layer": "trees",
+   "file": "trees_flags_256_-28_17.tif",
+   "match": true
+  },
+  {
+   "layer": "trees",
+   "file": "trees_256_-32_12.tif",
+   "match": true
+  },
+  {
+   "layer": "trees",
+   "file": "trees_flags_256_-32_12.tif",
+   "match": true
+  },
+  {
+   "layer": "trees",
+   "file": "trees_256_-33_12.tif",
+   "match": true
+  },
+  {
+   "layer": "trees",
+   "file": "trees_flags_256_-33_12.tif",
+   "match": true
+  },
+  {
+   "layer": "trees-us-half",
+   "file": "trees_flags_us_half_256_-22_18.tif",
+   "match": true
+  },
+  {
+   "layer": "trees-us-half",
+   "file": "trees_us_half_256_-22_18.tif",
+   "match": true
+  },
+  {
+   "layer": "trees-us-half",
+   "file": "trees_flags_us_half_256_-23_18.tif",
+   "match": true
+  },
+  {
+   "layer": "trees-us-half",
+   "file": "trees_us_half_256_-23_18.tif",
+   "match": true
+  },
+  {
+   "layer": "trees-us-half",
+   "file": "trees_flags_us_half_256_-26_19.tif",
+   "match": true
+  },
+  {
+   "layer": "trees-us-half",
+   "file": "trees_us_half_256_-26_19.tif",
+   "match": true
+  },
+  {
+   "layer": "trees-us-half",
+   "file": "trees_flags_us_half_256_-27_19.tif",
+   "match": true
+  },
+  {
+   "layer": "trees-us-half",
+   "file": "trees_us_half_256_-27_19.tif",
+   "match": true
+  },
+  {
+   "layer": "soil",
+   "file": "soil_2048_-3_2.tif",
+   "match": true
+  },
+  {
+   "layer": "soil",
+   "file": "soil_2048_-4_1.tif",
+   "match": true
+  },
+  {
+   "layer": "soil",
+   "file": "soil_2048_-4_2.tif",
+   "match": true
+  }
+ ],
+ "hash_sample_matches": 23,
+ "problems": []
+}

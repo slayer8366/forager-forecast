@@ -1,0 +1,122 @@
+[
+ {
+  "cell": {
+   "col": -6019,
+   "row": 1541,
+   "lon": -115.43905,
+   "lat": 41.95288,
+   "country": 1,
+   "eco": 2,
+   "study": true,
+   "side": 1,
+   "in_box": true,
+   "tree_tile": "256_-24_6",
+   "soil_tile": "2048_-3_0"
+  },
+  "mine": {
+   "mean": {
+    "value": 6.929449201598448,
+    "fraction": 1.0,
+    "pixels": 4
+   },
+   "Q0.05": {
+    "value": 5.772075504611689,
+    "fraction": 1.0,
+    "pixels": 4
+   },
+   "Q0.95": {
+    "value": 8.183164963263497,
+    "fraction": 1.0,
+    "pixels": 4
+   }
+  },
+  "stored": {
+   "ph_mean_0_30cm": 6.929449081420898,
+   "ph_q05_0_30cm_approximate": 5.772075653076172,
+   "ph_q95_0_30cm_approximate": 8.183164596557617,
+   "valid_fraction_mean": 1.0,
+   "valid_fraction_q05": 1.0,
+   "valid_fraction_q95": 1.0
+  }
+ },
+ {
+  "cell": {
+   "col": -5790,
+   "row": 3769,
+   "lon": -116.235,
+   "lat": 46.66459,
+   "country": 1,
+   "eco": 2,
+   "study": true,
+   "side": 1,
+   "in_box": true,
+   "tree_tile": "256_-23_14",
+   "soil_tile": "2048_-3_1"
+  },
+  "mine": {
+   "mean": {
+    "value": 6.036764345111147,
+    "fraction": 0.8268663482080758,
+    "pixels": 4
+   },
+   "Q0.05": {
+    "value": 5.128703450326739,
+    "fraction": 0.8268663482080758,
+    "pixels": 4
+   },
+   "Q0.95": {
+    "value": 6.931944824509892,
+    "fraction": 0.8268663482080758,
+    "pixels": 4
+   }
+  },
+  "stored": {
+   "ph_mean_0_30cm": 6.036764621734619,
+   "ph_q05_0_30cm_approximate": 5.1287031173706055,
+   "ph_q95_0_30cm_approximate": 6.931945323944092,
+   "valid_fraction_mean": 0.826866626739502,
+   "valid_fraction_q05": 0.826866626739502,
+   "valid_fraction_q95": 0.826866626739502
+  }
+ },
+ {
+  "cell": {
+   "col": -6317,
+   "row": 2592,
+   "lon": -117.11595,
+   "lat": 43.99166,
+   "country": 1,
+   "eco": 2,
+   "study": true,
+   "side": 1,
+   "in_box": true,
+   "tree_tile": "256_-25_10",
+   "soil_tile": "2048_-4_1"
+  },
+  "mine": {
+   "mean": {
+    "value": 8.032410271737726,
+    "fraction": 1.0,
+    "pixels": 4
+   },
+   "Q0.05": {
+    "value": 6.641938373667597,
+    "fraction": 1.0,
+    "pixels": 4
+   },
+   "Q0.95": {
+    "value": 9.809505399513796,
+    "fraction": 1.0,
+    "pixels": 4
+   }
+  },
+  "stored": {
+   "ph_mean_0_30cm": 8.032410621643066,
+   "ph_q05_0_30cm_approximate": 6.641938209533691,
+   "ph_q95_0_30cm_approximate": 9.809505462646484,
+   "valid_fraction_mean": 1.0,
+   "valid_fraction_q05": 1.0,
+   "valid_fraction_q95": 1.0
+  }
+ }
+]

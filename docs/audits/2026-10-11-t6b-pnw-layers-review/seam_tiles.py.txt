@@ -1,0 +1,13 @@
+"""Reviewer: which tree tile each of T5's seam samples falls in (seam.py's own sample positions),
+and whether a transect's first north window lies wholly in the 8 tiles of tonight's --tiles.
+Run with the repository's src on the path. Output saved as seam_tiles.out.txt."""
+import sys; sys.path.insert(0, 'src')
+from forager_forecast.seam import transect_longitudes, sample_latitudes
+from forager_forecast.grid import cell_for_lonlat
+eight = {"256_-31_21", "256_-30_21", "256_-32_20", "256_-31_20", "256_-30_20", "256_-29_20",
+         "256_-31_19", "256_-30_19"}
+for t, lon in enumerate(transect_longitudes()):
+    n, s = sample_latitudes(lon)
+    kn = [f"256_{c.col//256}_{c.row//256}" for c in (cell_for_lonlat(lon, float(l)) for l in n)]
+    print(t, round(lon, 3), "north tiles:", sorted(set(kn)), "first window all in 8:",
+          all(k in eight for k in kn[:4]))

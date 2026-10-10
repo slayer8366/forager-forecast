@@ -1,0 +1,233 @@
+[
+ {
+  "cell": {
+   "col": -8054,
+   "row": 2513,
+   "lon": -122.58047,
+   "lat": 42.91489,
+   "country": 1,
+   "eco": 2,
+   "study": true,
+   "side": 1,
+   "in_box": true,
+   "tree_tile": "256_-32_9",
+   "soil_tile": "2048_-4_1"
+  },
+  "mine": {
+   "valid_fraction": 1.0,
+   "total_cover_pct": 58.68464415248558,
+   "pixels": 90,
+   "water_pixels": 0,
+   "not_own_pixels": 0,
+   "nalcms_classes": [
+    1,
+    8,
+    10
+   ],
+   "share_Pseudotsuga": 0.338747288871113,
+   "share_Tsuga": 0.1344556830167106,
+   "share_Picea": 0.0005163044612183456,
+   "share_Abies": 0.37823048171842805,
+   "share_Pinus": 0.09804480754471889,
+   "share_Quercus": 0.0,
+   "share_conifer": 0.9929465280333518,
+   "share_broadleaf": 0.007053471966647977
+  },
+  "stored_file": "trees_256_-32_9.tif",
+  "stored": {
+   "total_cover_pct": 58.68463134765625,
+   "valid_fraction": 1.0,
+   "source": 1.0,
+   "share_Pseudotsuga": 0.3387472331523895,
+   "share_Tsuga": 0.13445568084716797,
+   "share_Picea": 0.0005163032910786569,
+   "share_Abies": 0.37823042273521423,
+   "share_Pinus": 0.09804489463567734,
+   "share_Quercus": 0.0,
+   "share_conifer": 0.9929465055465698,
+   "share_broadleaf": 0.007053487002849579
+  },
+  "stored_flags": {
+   "flag_Pseudotsuga": 1.0,
+   "flag_Tsuga": 1.0,
+   "flag_Picea": 1.0,
+   "flag_Abies": 1.0,
+   "flag_Pinus": 1.0,
+   "flag_Quercus": 1.0,
+   "flag_conifer": 1.0,
+   "flag_broadleaf": 1.0
+  }
+ },
+ {
+  "cell": {
+   "col": -7099,
+   "row": 932,
+   "lon": -118.35128,
+   "lat": 40.19448,
+   "country": 1,
+   "eco": 2,
+   "study": true,
+   "side": 1,
+   "in_box": true,
+   "tree_tile": "256_-28_3",
+   "soil_tile": "2048_-4_0"
+  },
+  "mine": {
+   "valid_fraction": 1.0,
+   "total_cover_pct": 0.0,
+   "pixels": 90,
+   "water_pixels": 0,
+   "not_own_pixels": 0,
+   "nalcms_classes": [
+    8
+   ],
+   "share_Pseudotsuga": null,
+   "share_Tsuga": null,
+   "share_Picea": null,
+   "share_Abies": null,
+   "share_Pinus": null,
+   "share_Quercus": null,
+   "share_conifer": null,
+   "share_broadleaf": null
+  },
+  "stored_file": "trees_256_-28_3.tif",
+  "stored": {
+   "total_cover_pct": 0.0,
+   "valid_fraction": 1.0,
+   "source": 1.0,
+   "share_Pseudotsuga": NaN,
+   "share_Tsuga": NaN,
+   "share_Picea": NaN,
+   "share_Abies": NaN,
+   "share_Pinus": NaN,
+   "share_Quercus": NaN,
+   "share_conifer": NaN,
+   "share_broadleaf": NaN
+  },
+  "stored_flags": {
+   "flag_Pseudotsuga": 0.0,
+   "flag_Tsuga": 0.0,
+   "flag_Picea": 0.0,
+   "flag_Abies": 0.0,
+   "flag_Pinus": 0.0,
+   "flag_Quercus": 0.0,
+   "flag_conifer": 0.0,
+   "flag_broadleaf": 0.0
+  }
+ },
+ {
+  "cell": {
+   "col": -4658,
+   "row": 3499,
+   "lon": -112.2052,
+   "lat": 46.56122,
+   "country": 1,
+   "eco": 2,
+   "study": true,
+   "side": 1,
+   "in_box": true,
+   "tree_tile": "256_-19_13",
+   "soil_tile": "2048_-3_1"
+  },
+  "mine": {
+   "valid_fraction": 1.0,
+   "total_cover_pct": 0.0,
+   "pixels": 89,
+   "water_pixels": 0,
+   "not_own_pixels": 0,
+   "nalcms_classes": [
+    8,
+    10
+   ],
+   "share_Pseudotsuga": null,
+   "share_Tsuga": null,
+   "share_Picea": null,
+   "share_Abies": null,
+   "share_Pinus": null,
+   "share_Quercus": null,
+   "share_conifer": null,
+   "share_broadleaf": null
+  },
+  "stored_file": "trees_256_-19_13.tif",
+  "stored": {
+   "total_cover_pct": 0.0,
+   "valid_fraction": 1.0,
+   "source": 1.0,
+   "share_Pseudotsuga": NaN,
+   "share_Tsuga": NaN,
+   "share_Picea": NaN,
+   "share_Abies": NaN,
+   "share_Pinus": NaN,
+   "share_Quercus": NaN,
+   "share_conifer": NaN,
+   "share_broadleaf": NaN
+  },
+  "stored_flags": {
+   "flag_Pseudotsuga": 0.0,
+   "flag_Tsuga": 0.0,
+   "flag_Picea": 0.0,
+   "flag_Abies": 0.0,
+   "flag_Pinus": 0.0,
+   "flag_Quercus": 0.0,
+   "flag_conifer": 0.0,
+   "flag_broadleaf": 0.0
+  }
+ },
+ {
+  "cell": {
+   "col": -5839,
+   "row": 4283,
+   "lon": -116.78875,
+   "lat": 47.70617,
+   "country": 1,
+   "eco": 2,
+   "study": true,
+   "side": 1,
+   "in_box": true,
+   "tree_tile": "256_-23_16",
+   "soil_tile": "2048_-3_2"
+  },
+  "mine": {
+   "valid_fraction": 1.0,
+   "total_cover_pct": 0.0,
+   "pixels": 90,
+   "water_pixels": 0,
+   "not_own_pixels": 0,
+   "nalcms_classes": [
+    17
+   ],
+   "share_Pseudotsuga": null,
+   "share_Tsuga": null,
+   "share_Picea": null,
+   "share_Abies": null,
+   "share_Pinus": null,
+   "share_Quercus": null,
+   "share_conifer": null,
+   "share_broadleaf": null
+  },
+  "stored_file": "trees_256_-23_16.tif",
+  "stored": {
+   "total_cover_pct": 0.0,
+   "valid_fraction": 1.0,
+   "source": 1.0,
+   "share_Pseudotsuga": NaN,
+   "share_Tsuga": NaN,
+   "share_Picea": NaN,
+   "share_Abies": NaN,
+   "share_Pinus": NaN,
+   "share_Quercus": NaN,
+   "share_conifer": NaN,
+   "share_broadleaf": NaN
+  },
+  "stored_flags": {
+   "flag_Pseudotsuga": 0.0,
+   "flag_Tsuga": 0.0,
+   "flag_Picea": 0.0,
+   "flag_Abies": 0.0,
+   "flag_Pinus": 0.0,
+   "flag_Quercus": 0.0,
+   "flag_conifer": 0.0,
+   "flag_broadleaf": 0.0
+  }
+ }
+]
