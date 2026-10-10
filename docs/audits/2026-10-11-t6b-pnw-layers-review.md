@@ -198,6 +198,11 @@ re-derive: `mask.tif` (the CEC polygons burned by the pipeline).
 within 5e-7 pH and the valid fractions to within 3e-6 (one cell is 0.827 valid, so the no-data
 path is exercised), against tolerances of 0.01 and 0.005.
 
+**Soil, back to ISRIC** (`soil_remote.out.json`): the 27 stored native windows behind the 3 cells
+(9 layers each) hash to their request records, and each of the cells' 108 native pixels, read
+again from ISRIC's own VRTs over the network (`files.isric.org/soilgrids/latest/data/phh2o/`),
+equals the stored pixel. So the soil chain is checked from the producer's file to the tile.
+
 **Host trees, 4 pre-registered US cells** (`recompute_us.out.json`): all agree. But the sample was
 weak: 3 of the 4 have 0% cover (sagebrush steppe and, for the hand-picked "shore" cell, NALCMS
 class 17, urban: my guess missed the lake), so only one cell (256_-32_9, 58.68% cover, all eight

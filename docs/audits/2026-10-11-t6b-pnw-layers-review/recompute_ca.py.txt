@@ -1,0 +1,58 @@
+"""Reviewer: independent recompute of the pre-registered Canadian cells (prereg.json) from the
+whole SCANFI v2 layer files on the drive, NALCMS and mask.tif, with recompute.py's geometry.
+SCANFI no-data 255 is no crown (T5, D122's row); a pixel off Canada's side, on NALCMS water or
+unmapped, or past the raster, is no data (D112, D115, D122). Total = att_closure (D92); shares =
+class sums over the ten-class sum (D92). Writes recompute_ca.out.json."""
+import json, sys
+from pathlib import Path
+import numpy as np, rasterio
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import recompute as R
+HERE = Path(__file__).resolve().parent
+CLASSES = ("balsamFir", "blackSpruce", "broadleaf", "douglasFir", "jackPine", "lodgepolePine",
+           "otherConiferous", "ponderosaPine", "tamarack", "whiteRedPine")
+pre = json.loads((HERE / "prereg.json").read_text())["cells"]["trees_ca"]
+out = []
+for cell in pre:
+    col, row = cell["col"], cell["row"]
+    ref = rasterio.open(R.T6B / "scanfi_whole" / "att_closure.tif")
+    areas = R.pixel_areas(col, row, ref)
+    vals = {}
+    for name in (*CLASSES, "att_closure"):
+        with rasterio.open(R.T6B / "scanfi_whole" / f"{name}.tif") as ds:
+            assert ds.transform == ref.transform and ds.crs == ref.crs, name
+            v = R.read_px(ds, list(areas))
+            vals[name] = {k: (0.0 if int(x) == int(ds.nodata) else float(x)) for k, x in v.items()}
+    tot = sum(areas.values()); va = 0.0
+    acc = {"closure": 0.0, "sum10": 0.0, "douglasFir": 0.0, "conifer": 0.0, "broadleaf": 0.0}
+    water = notown = past = 0
+    for (r, c), a in areas.items():
+        if not (0 <= r < ref.height and 0 <= c < ref.width):
+            past += 1; continue
+        own, wat, lc = R.own_pixel(ref, r, c, "CA")
+        water += wat; notown += not own
+        if not own or wat:
+            continue
+        va += a
+        s10 = sum(vals[k][(r, c)] for k in CLASSES)
+        acc["closure"] += a * vals["att_closure"][(r, c)]
+        acc["sum10"] += a * s10
+        acc["douglasFir"] += a * vals["douglasFir"][(r, c)]
+        acc["broadleaf"] += a * vals["broadleaf"][(r, c)]
+        acc["conifer"] += a * (s10 - vals["broadleaf"][(r, c)])
+    frac = va / tot
+    valid = frac >= 0.5
+    cover = acc["closure"] / va if va else None
+    defined = valid and cover is not None and cover >= 10 and acc["sum10"] > 0
+    mine = {"valid_fraction": frac, "total_cover_pct": cover if valid else None,
+            "share_Pseudotsuga": acc["douglasFir"] / acc["sum10"] if defined else None,
+            "share_conifer": acc["conifer"] / acc["sum10"] if defined else None,
+            "share_broadleaf": acc["broadleaf"] / acc["sum10"] if defined else None,
+            "pixels": len(areas), "water_pixels": water, "not_own_pixels": notown,
+            "past_edge_pixels": past}
+    key = cell["tree_tile"]
+    out.append({"cell": cell, "mine": mine,
+                "stored": R.stored(R.T6B / "tiles/trees" / f"trees_{key}.tif", col, row),
+                "stored_flags": R.stored(R.T6B / "tiles/trees" / f"trees_flags_{key}.tif", col, row)})
+(HERE / "recompute_ca.out.json").write_text(json.dumps(out, indent=1, default=float) + "\n")
+print(json.dumps(out, indent=1, default=float))

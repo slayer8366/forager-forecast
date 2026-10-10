@@ -1,0 +1,64 @@
+"""Reviewer: the 8 Canadian tiles once landed. For each: the latest trees line ok with files, and
+every file hashing to it; the 11 SCANFI layer units ok and hashing (88 npz); for the 5 tiles with
+a US half, every non-Canadian cell of the whole file equal to the US-half file on every band and
+flag (D119's "unchanged"), the US-half file unchanged against its own manifest line, and the
+whole file's us_cells_from tag naming that hash; no pending (4) value left in the whole file.
+Writes canadian_tiles.out.json."""
+import hashlib, json
+from pathlib import Path
+import numpy as np, rasterio
+T6B = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b")
+HERE = Path(__file__).resolve().parent
+LAYERS = ("balsamFir", "blackSpruce", "broadleaf", "douglasFir", "jackPine", "lodgepolePine",
+          "otherConiferous", "ponderosaPine", "tamarack", "whiteRedPine", "att_closure")
+def sha(p):
+    return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+box = json.loads((HERE / "box_tiles.json").read_text())["tree"]
+eight = json.loads((HERE / "prereg.json").read_text())["hash_sample"]["canadian_tiles_all"]
+latest = {}
+for l in (T6B / "manifest.jsonl").read_text().splitlines():
+    e = json.loads(l)
+    if e.get("kind") == "unit":
+        latest[e["unit"]] = e
+res = {}
+for k in eight:
+    r = {}
+    e = latest.get(k)
+    r["trees_status"] = e and e.get("status")
+    r["trees_files_match"] = e and {n: sha(T6B / "tiles/trees" / n) == h for n, h in e.get("files", {}).items()}
+    r["trees_line"] = e and {x: e.get(x) for x in ("tile_state", "scanfi_route", "cells_in_study",
+                                                   "cells_valid", "cells_with_share", "us_cells_from",
+                                                   "ca_pixels_blank", "ca_water_pixels")}
+    lay = {}
+    for L in LAYERS:
+        u = latest.get(f"{L}:{k}")
+        lay[L] = u and (u.get("status"), all(sha(T6B / "scanfi_layers" / n) == h for n, h in u.get("files", {}).items()),
+                        u.get("past_scanfi_edge_pixels"))
+    r["layers"] = lay
+    if box[k]["tile_study_us"]:
+        hv = T6B / "tiles/trees_us_half" / f"trees_us_half_{k}.tif"
+        hf = T6B / "tiles/trees_us_half" / f"trees_flags_us_half_{k}.tif"
+        hl = latest.get(f"us-half:{k}")
+        r["us_half_unchanged"] = {n: sha(T6B / "tiles/trees_us_half" / n) == h for n, h in hl["files"].items()}
+        with rasterio.open(T6B / "tiles/trees" / f"trees_{k}.tif") as w, rasterio.open(hv) as h:
+            r["whole_tag_us_cells_from"] = w.tags().get("us_cells_from")
+            r["tag_hash_equals_manifest"] = w.tags().get("us_cells_from", "").split()[-1] == hl["files"][hv.name]
+            src = w.read(list(w.descriptions).index("source") + 1)
+            pend = h.read(list(h.descriptions).index("source") + 1) == 4
+            r["pending_cells_in_half"] = int(pend.sum())
+            r["pending_left_in_whole"] = int((src == 4).sum())
+            diff = {}
+            for i, n in enumerate(w.descriptions):
+                a, b = w.read(i + 1)[~pend], h.read(list(h.descriptions).index(n) + 1)[~pend]
+                diff[n] = int((~((a == b) | (np.isnan(a) & np.isnan(b)))).sum())
+            r["non_pending_cells_differing_values"] = diff
+        with rasterio.open(T6B / "tiles/trees" / f"trees_flags_{k}.tif") as w, rasterio.open(hf) as h:
+            diff = {}
+            for i, n in enumerate(w.descriptions):
+                a, b = w.read(i + 1)[~pend], h.read(list(h.descriptions).index(n) + 1)[~pend]
+                diff[n] = int((a != b).sum())
+            r["non_pending_cells_differing_flags"] = diff
+            r["pending_flag_left_in_whole"] = int(sum((w.read(i + 1) == 4).sum() for i in range(w.count)))
+    res[k] = r
+(HERE / "canadian_tiles.out.json").write_text(json.dumps(res, indent=1, default=str) + "\n")
+print(json.dumps(res, indent=1, default=str)[:8000])
