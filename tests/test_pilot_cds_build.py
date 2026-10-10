@@ -160,3 +160,79 @@ def test_store_files_build_score_and_match_independent_features(store):
     manifest = json.loads((week_dir / "manifest.json").read_text())
     assert manifest["weather_source"] == "copernicus"
     assert manifest["weather_through"] == "2026-10-04"
+
+
+def _calendar_model(path: Path):
+    import lightgbm as lgb
+
+    rng = np.random.default_rng(2)
+    x = rng.normal(size=(300, 4))
+    y = (x[:, 0] + rng.normal(size=300) > 0.5).astype(float)
+    booster = lgb.train(
+        {"objective": "binary", "verbose": -1, "seed": 1, "num_leaves": 4, "min_data_in_leaf": 5},
+        lgb.Dataset(x, y),
+        num_boost_round=10,
+    )
+    path.mkdir()
+    booster.save_model(str(path / "model.txt"))
+    (path / "model.json").write_text(json.dumps({"feature_names": NAMES[:4]}))
+    return booster
+
+
+def _score(store, *args):
+    return subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/pnw_pilot_score.py"),
+            "--week",
+            WEEK.id,
+            *args,
+            "--out",
+            str(store / "out"),
+        ],
+        capture_output=True,
+        text=True,
+        cwd=ROOT,
+    )
+
+
+def test_calendar_floor_scores_every_land_cell_without_weather(store):
+    booster = _calendar_model(store / "cal")
+    done = _score(
+        store,
+        "--land-from-store",
+        str(store / "cds"),
+        "--model",
+        str(store / "cal"),
+        "--kind",
+        "calendar",
+    )
+    assert done.returncode == 0, done.stderr
+    week_dir = store / "out" / "pnw-pilot" / "2026-10-05"
+    feats = json.loads((week_dir / "cantharellus.geojson").read_text())["features"]
+    got = {f["id"]: f["properties"] for f in feats}
+    assert sorted(got) == ["470_-1229", "470_-1230", "471_-1229"]  # 471_-1230 is sea
+    for cid, p in got.items():
+        la, lo = (int(v) for v in cid.split("_"))
+        row = calendar_place_features(WEEK.monday(), la / 10, lo / 10)
+        expected = float(booster.predict(np.array([list(row.values())]))[0])
+        assert p["chance"] == pytest.approx(expected, abs=5e-5)
+        assert p["weather_through"] is None and p["drivers"] == []
+    manifest = json.loads((week_dir / "manifest.json").read_text())
+    assert manifest["weather_source"] == "none"
+    assert manifest["model_kind"] == "calendar"
+    assert manifest["weather_through"] is None
+
+
+def test_the_floor_refuses_the_weather_model(store):
+    done = _score(
+        store,
+        "--land-from-store",
+        str(store / "cds"),
+        "--model",
+        str(store / "cal"),
+        "--kind",
+        "full",
+    )
+    assert done.returncode != 0
+    assert "scores the calendar model only" in done.stderr

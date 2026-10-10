@@ -33,7 +33,7 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).parent))
 from pnw_t1_fit import calendar_matrix  # noqa: E402
-from pnw_weather import weather_matrix  # noqa: E402
+from pnw_weather import _index, weather_matrix  # noqa: E402
 
 from forager_forecast import live_weather as lw  # noqa: E402
 from forager_forecast import pilot_output as po  # noqa: E402
@@ -122,6 +122,29 @@ def read_live_weather(weather_dir: Path, start: date, end: date):
     return per_cell, refused, batches
 
 
+def store_land_cells(cds_dir: Path) -> tuple[set[tuple[int, int]], str]:
+    """ERA5-Land's land cells in T1's box, from the first land file the store holds (either route):
+    a cell is land when its first day's 2 m temperature has a value. The mask does not change with
+    the day, so any delivered month gives it."""
+    import h5py  # noqa: PLC0415
+
+    files = sorted(cds_dir.glob("era5land-*.nc")) + sorted(
+        cds_dir.glob("hourly-era5land-*.daily.h5")
+    )
+    if not files:
+        raise SystemExit(f"no ERA5-Land file of T1's box in {cds_dir}")
+    with h5py.File(files[0]) as h:
+        lat, lon = _index(h["latitude"][:], 0.1), _index(h["longitude"][:], 0.1)
+        first = h["t2m"][0]
+    land = {
+        (int(la), int(lo))
+        for i, la in enumerate(lat)
+        for j, lo in enumerate(lon)
+        if np.isfinite(first[i, j])
+    }
+    return land, files[0].name
+
+
 def synthetic_model(model_dir: Path, kind: str) -> None:
     """A tiny booster on random data, with the feature list a real model of `kind` carries."""
     import lightgbm as lgb  # noqa: PLC0415
@@ -163,10 +186,19 @@ def main() -> int:
     ap.add_argument("--bridge", default="")
     ap.add_argument("--beats-calendar", choices=["true", "false", "null"], default="null")
     ap.add_argument("--t1-result", default="", help="JSON text of the builder's headline, or empty")
+    ap.add_argument(
+        "--land-from-store",
+        type=Path,
+        help="calendar model only: score every ERA5-Land land cell of the box, read from the "
+        "store's directory, with no weather (the floor output)",
+    )
     a = ap.parse_args()
-    if (a.weather is None) == (a.cds_npz is None):
-        raise SystemExit("give exactly one of --weather (Open-Meteo) or --cds-npz (Copernicus)")
-    source = "copernicus" if a.cds_npz else "open-meteo"
+    given = [x for x in (a.weather, a.cds_npz, a.land_from_store) if x is not None]
+    if len(given) != 1:
+        raise SystemExit("give exactly one of --weather, --cds-npz, --land-from-store")
+    if a.land_from_store and a.kind != "calendar":
+        raise SystemExit("--land-from-store has no weather, so it scores the calendar model only")
+    source = "copernicus" if a.cds_npz else "open-meteo" if a.weather else "none"
     import lightgbm as lgb  # noqa: PLC0415
 
     week = parse_week(a.week)
@@ -187,7 +219,14 @@ def main() -> int:
     pnw = next(b for b in BOXES if b.name == "pnw")
     box = lw.box_cells(pnw)
     batches = None
-    if source == "open-meteo":
+    mask_file = None
+    if source == "none":
+        has, mask_file = store_land_cells(a.land_from_store)
+        land = [c for c in box if (c.lat_tenths, c.lon_tenths) in has]
+        refused = {c: "no ERA5-Land value in the store" for c in box if c not in set(land)}
+        per_cell = set(land)
+        npz = None
+    elif source == "open-meteo":
         per_cell, refused, batches = read_live_weather(a.weather, start, end)
         npz = a.weather / f"weather_{week.id}.npz"
         arrays = po.weather_arrays(per_cell, start, end)
@@ -219,8 +258,13 @@ def main() -> int:
     ]
     cal_x, cal_names = calendar_matrix(rows) if rows else (np.zeros((0, 4)), CALENDAR_NAMES)
     assert cal_names == CALENDAR_NAMES
-    wx, wnames = weather_matrix(npz, rows) if rows else (np.zeros((0, 32)), feature_names())
-    complete = np.isfinite(wx).all(axis=1)
+    if npz is not None and rows:
+        wx, wnames = weather_matrix(npz, rows)
+    else:
+        wx, wnames = np.full((len(rows), 32), np.nan), feature_names()
+    # The weather model needs every window; the calendar model needs only a land cell, so a
+    # weather gap never removes a cell from the calendar output.
+    complete = np.isfinite(wx).all(axis=1) if a.kind == "full" else np.ones(len(rows), bool)
     x = np.hstack([cal_x, wx]) if a.kind == "full" else cal_x
     all_names = cal_names + (wnames if a.kind == "full" else [])
     if all_names != names:
@@ -236,7 +280,8 @@ def main() -> int:
     feats = []
     for k, i in enumerate(scored_idx):
         drv = po.drivers(all_names, x[i], contrib[k]) if contrib is not None else []
-        feats.append(po.cell_feature(land[i], monday, float(p[k]), end, model_version, drv))
+        through = end if a.kind == "full" else None
+        feats.append(po.cell_feature(land[i], monday, float(p[k]), through, model_version, drv))
 
     omitted = Counter()
     for c in box:
@@ -324,8 +369,8 @@ def main() -> int:
         ),
         "applicable_note": (
             "Cells are listed only when scored. A cell is left out when the weather source has "
-            "no ERA5-Land value for it (sea) or any of its 90 days is missing. No area-of-applicability "
-            "or training-range check (R7) has been run."
+            "no ERA5-Land value for it (sea), or, for the weather model, any of its 90 days is "
+            "missing. No area-of-applicability or training-range check (R7) has been run."
         ),
         "cells": {
             "in_box": len(box),
@@ -335,7 +380,12 @@ def main() -> int:
             "chance_median": float(np.median(chances)) if len(chances) else None,
             "chance_max": float(chances.max()) if len(chances) else None,
         },
-        "weather_through": end.isoformat(),
+        "weather_through": end.isoformat() if a.kind == "full" else None,
+        "weather_through_note": (
+            "null: the calendar model reads no weather."
+            if a.kind == "calendar"
+            else "the last day the windows read: the day before the week's Monday."
+        ),
         "weather_source": source,
         "weather": {
             "source": (
@@ -345,10 +395,13 @@ def main() -> int:
                 "time_zone utc+00:00, frequency 1_hourly: the products and requests training "
                 "used (owner, Forager RECORD -819)"
                 if source == "copernicus"
+                else "none: calendar model, land cells from the store's ERA5-Land grid"
+                if source == "none"
                 else "Open-Meteo historical archive, models=era5_seamless, elevation=nan, "
                 "cell_selection=nearest, timezone=UTC (D19, D21, D25)"
             ),
-            "npz_sha256": hashlib.sha256(Path(npz).read_bytes()).hexdigest(),
+            "npz_sha256": hashlib.sha256(Path(npz).read_bytes()).hexdigest() if npz else None,
+            "land_mask_from": mask_file,
             "days": [start.isoformat(), end.isoformat()],
             "open_meteo_batches": batches,
             "api_calls_by_pricing_rule": calls,

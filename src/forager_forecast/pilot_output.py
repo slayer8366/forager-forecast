@@ -189,7 +189,7 @@ def cell_feature(
     cell: Cell,
     week_start: date,
     chance: float,
-    weather_through: date,
+    weather_through: date | None,
     model_version: str,
     driver_list: list[dict],
     uncertainty: tuple[float, float] | None = None,
@@ -209,7 +209,7 @@ def cell_feature(
             "uncertainty_high": high,
             "applicable": True,
             "drivers": driver_list,
-            "weather_through": weather_through.isoformat(),
+            "weather_through": weather_through.isoformat() if weather_through else None,
             "model_version": model_version,
         },
     }
