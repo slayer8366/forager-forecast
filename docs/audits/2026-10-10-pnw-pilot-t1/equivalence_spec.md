@@ -47,3 +47,42 @@ means are taken from rounded hourly values, so they carry the same half-unit bou
 day, and the fit waits for the owner (D24: "must match within rounding" "before any model is fit";
 the paid-plan fallback is the owner's call). Nothing is re-sampled or loosened after a value is
 seen.
+
+---
+
+## Restated 2026-10-10, before any Open-Meteo body was read (review B2, Forager RECORD -818)
+
+The tolerance above is replaced. It is not edited above, so the original wording stands as
+written. Why: the parallel review (origin/pnw-pilot-t1-review `222e927`,
+`docs/audits/2026-10-10-pnw-pilot-t1-review.md`, B2) read Open-Meteo's own source
+(`Sources/App/Era5/Era5Variables.swift:148, :151, :156, :158`). Open-Meteo stores hourly ERA5
+quantised: temperature_2m and soil_temperature_0_to_7cm at 1/20 °C, precipitation at 0.1 mm per
+hour, soil moisture at 1/1000. Half a display unit cannot hold the same product under that
+storage. The owner's ruling (RECORD -818), verbatim: "Allow Open-Meteo's own rounding
+(Recommended)".
+
+A value now matches when the absolute difference is at most half Open-Meteo's storage step plus
+half its display unit, plus 1e-6:
+
+| Variable | Storage step | Display unit | Bound |
+|---|---|---|---|
+| Temperature (daily mean) | 0.05 °C | 0.1 °C | 0.075 °C |
+| Soil temperature (mean of 24 displayed hours) | 0.05 °C | 0.1 °C | 0.075 °C |
+| Soil moisture (mean of 24 displayed hours) | 0.001 | 0.001 | 0.001 m³/m³ |
+| Precipitation (daily sum) | 0.1 mm per hour, 24 hours | 0.1 mm | 24 × 0.05 + 0.05 = 1.25 mm |
+
+The precipitation bound is the rounding of its hours: each stored hour can be off by half its
+step, and the daily figure is displayed to 0.1 mm. Hourly `precipitation` is now also requested,
+for the convention test below. The span is extended by one day so that hour 24 (00:00 of the next
+day) exists.
+
+**Convention test (review B2 (c)).** Over the whole sample, the store's daily rain is compared
+with two sums of Open-Meteo's hourly rain: hours 00 to 23 of the UTC day, and hours 01 to 24.
+The test reports which is closer, by mean absolute difference and by the count of days where each
+is closer. This separates a shifted day boundary from rounding, which the bound cannot. It is
+reported and is not a pass condition.
+
+Pass, mismatch and stop are unchanged: any value beyond its bound is reported by variable, cell
+and day, and goes to the owner. **Status changed by RECORD -819** ("Copernicus for both
+(Recommended)"): the pilot trains and scores on the store's data, so this test is run to completion
+and reported, but it no longer gates the pilot fit. D24 and D19 are bent for the pilot only.
