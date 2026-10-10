@@ -28,7 +28,9 @@ import argparse
 import json
 import shutil
 import sys
+import threading
 import time
+from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -107,29 +109,58 @@ def is_licence_refusal(err: Exception) -> bool:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, required=True)
+    ap.add_argument("--workers", type=int, default=1)
+    ap.add_argument(
+        "--per-dataset",
+        type=int,
+        default=1,
+        help="requests in flight per dataset; the store rejects extra queued ones (observed)",
+    )
     args = ap.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
     import cdsapi  # noqa: PLC0415  (only this script needs it; run with --with cdsapi==0.7.7)
 
-    client = cdsapi.Client(quiet=True, progress=False)
     todo = list(units())
-    log(f"{len(todo)} units, T1 box {AREA} then {REST_AREAS}, out {args.out}")
-    for i, (name, dataset, request) in enumerate(todo, 1):
+    log(
+        f"{len(todo)} units, T1 box {AREA} then {REST_AREAS}, out {args.out},"
+        f" {args.workers} in flight"
+    )
+    stop = threading.Event()
+    slots = {
+        d: threading.Semaphore(args.per_dataset)
+        for d in (
+            "derived-era5-land-daily-statistics",
+            "derived-era5-single-levels-daily-statistics",
+        )
+    }
+    local = threading.local()
+
+    def one(i: int, name: str, dataset: str, request: dict) -> int:
         nc = args.out / f"{name}.nc"
         rec = args.out / f"{name}.request.json"
+        if stop.is_set():
+            return 0
         if nc.exists() and nc.stat().st_size > 0 and rec.exists():
             log(f"[{i}/{len(todo)}] {name} skip (done)")
-            continue
+            return 0
         free = shutil.disk_usage(args.out).free
         if free < MIN_FREE_BYTES:
             log(f"STOP: {free / 1024**3:.2f} GB free, under 3 GB")
+            stop.set()
             return 2
-        for attempt in range(1, 4):
+        if not hasattr(local, "client"):
+            local.client = cdsapi.Client(quiet=True, progress=False)
+        attempt = 0
+        while attempt < 3 and not stop.is_set():
+            attempt += 1
             requested_at = datetime.now(UTC).isoformat(timespec="seconds")
             t0 = time.monotonic()
             try:
                 tmp = nc.with_suffix(".nc.part")
-                client.retrieve(dataset, request).download(str(tmp))
+                with slots[dataset]:
+                    requested_at = datetime.now(UTC).isoformat(timespec="seconds")
+                    t0 = time.monotonic()
+                    local.client.retrieve(dataset, request).download(str(tmp))
                 tmp.rename(nc)
                 seconds = round(time.monotonic() - t0, 1)
                 rec.write_text(
@@ -142,23 +173,35 @@ def main() -> int:
                             "bytes": nc.stat().st_size,
                             "account": ACCOUNT,
                             "client": "cdsapi==0.7.7 via uv run --with",
+                            "in_flight": args.workers,
                         },
                         indent=2,
                     )
                     + "\n"
                 )
                 log(f"[{i}/{len(todo)}] {name} ok {seconds} s {nc.stat().st_size} B")
-                break
+                return 0
             except Exception as err:  # noqa: BLE001  every failure is logged and counted
+                if "temporarily limited" in str(err):
+                    # The store's per-dataset queue limit, not a fault of this request.
+                    log(f"[{i}/{len(todo)}] {name} queue limit; waiting 120 s (not an attempt)")
+                    attempt -= 1
+                    time.sleep(120)
+                    continue
                 log(f"[{i}/{len(todo)}] {name} attempt {attempt} FAILED: {err!r}")
                 if is_licence_refusal(err):
                     log("STOP: the store refused for a licence or terms reason; the owner must act")
+                    stop.set()
                     return 3
                 time.sleep(30 * attempt)
-        else:
-            log(f"[{i}/{len(todo)}] {name} gave up after 3 attempts; continuing, rerun to resume")
-    log("finished pass")
-    return 0
+        log(f"[{i}/{len(todo)}] {name} gave up after 3 attempts; continuing, rerun to resume")
+        return 1
+
+    # Units are submitted in order, so T1's box (and within it 2019 to 2025) goes out first.
+    with ThreadPoolExecutor(max_workers=args.workers) as pool:
+        codes = list(pool.map(lambda t: one(t[0], *t[1]), enumerate(todo, 1)))
+    log(f"finished pass: {codes.count(0)} ok or skipped, {codes.count(1)} gave up")
+    return max(codes) if any(c in (2, 3) for c in codes) else 0
 
 
 if __name__ == "__main__":
