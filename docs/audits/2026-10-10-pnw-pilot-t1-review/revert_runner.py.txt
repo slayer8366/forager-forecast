@@ -65,6 +65,16 @@ CHECKS = [
      "    start = seconds - 3600\n",
      "    start = seconds\n",
      ["tests/test_hourly_daily.py"]),
+    ("R11 daily temperature bound back to the superseded 0.05 (review S5)",
+     "scripts/pnw_equivalence.py",
+     '    "temperature": 0.075,\n',
+     '    "temperature": 0.05,\n',
+     ["tests/test_pnw_equivalence.py"]),
+    ("R12 the 8-day span compared as 8 days (review S5)",
+     "scripts/pnw_equivalence.py",
+     '"temperature": np.array(daily["temperature_2m_mean"][:SPAN_DAYS], float),',
+     '"temperature": np.array(daily["temperature_2m_mean"], float),',
+     ["tests/test_pnw_equivalence.py"]),
 ]
 
 only = set(sys.argv[1:])

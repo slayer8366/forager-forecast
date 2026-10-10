@@ -1,0 +1,20 @@
+"""Reviewer measurement (pass 2g): how often does one hour change each land variable by more than the
+hourly land-route bound (pnw_equivalence.HOURLY_TOL at d9d396d: 0.075 degC, 0.075 degC, 0.001)?
+If a variable rarely changes by more than its bound in an hour, offsets -1 and +1 match about as often
+as offset 0, and the check's "offset 0 matches more hours than either other" cannot discriminate.
+Reads, read-only, the builder's kept file cds/hourly-era5land-2019-01.hourly.nc (January only)."""
+from pathlib import Path
+
+import h5py
+import numpy as np
+
+with h5py.File(Path.home() / "Zynergy/forecast-data-pnw-pilot/cds/hourly-era5land-2019-01.hourly.nc", "r") as h:
+    for v, tol in (("t2m", 0.075), ("stl1", 0.075), ("swvl1", 0.001)):
+        a = h[v][:].astype(np.float64)
+        step = np.abs(np.diff(a, axis=0))
+        ok = np.isfinite(step)
+        frac = float((step[ok] > tol + 1e-6).mean())
+        # per point, over 192-hour windows: share of windows with no step over the bound
+        n = a.shape[0] // 192
+        w = step[: n * 192 - 1].reshape(-1) if False else None
+        print(v, "hourly steps", int(ok.sum()), "share over bound", round(frac, 4))
