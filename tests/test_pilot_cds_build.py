@@ -114,6 +114,10 @@ def test_store_files_build_score_and_match_independent_features(store):
             str(model),
             "--kind",
             "full",
+            "--copernicus-sources",
+            "era5_daily_sum,era5_land_daily",
+            "--accessed",
+            json.dumps({"era5_daily_sum": "10-Oct-2026", "era5_land_daily": "10-Oct-2026"}),
             "--out",
             str(store / "out"),
         ],
@@ -159,6 +163,8 @@ def test_store_files_build_score_and_match_independent_features(store):
         assert chance == pytest.approx(expected, abs=5e-5), cid
     manifest = json.loads((week_dir / "manifest.json").read_text())
     assert manifest["weather_source"] == "copernicus"
+    assert manifest["attribution_sources"] == ["era5_daily_sum", "era5_land_daily", "gbif_download"]
+    assert "Open-Meteo" not in manifest["attribution"]
     assert manifest["weather_through"] == "2026-10-04"
 
 
@@ -220,6 +226,9 @@ def test_calendar_floor_scores_every_land_cell_without_weather(store):
         assert p["weather_through"] is None and p["drivers"] == []
     manifest = json.loads((week_dir / "manifest.json").read_text())
     assert manifest["weather_source"] == "none"
+    assert manifest["attribution_sources"] == ["gbif_download"]
+    assert manifest["attribution"] == po.attribution({"gbif_download"})[0]
+    assert manifest["attribution_details"] == po.attribution({"gbif_download"})[1]
     assert manifest["model_kind"] == "calendar"
     assert manifest["weather_through"] is None
 
@@ -236,3 +245,20 @@ def test_the_floor_refuses_the_weather_model(store):
     )
     assert done.returncode != 0
     assert "scores the calendar model only" in done.stderr
+
+
+def test_calendar_refuses_copernicus_sources(store):
+    _calendar_model(store / "cal")
+    done = _score(
+        store,
+        "--land-from-store",
+        str(store / "cds"),
+        "--model",
+        str(store / "cal"),
+        "--kind",
+        "calendar",
+        "--copernicus-sources",
+        "era5_daily_sum",
+    )
+    assert done.returncode != 0
+    assert "reads no weather" in done.stderr

@@ -151,6 +151,8 @@ def test_scores_land_cells_with_the_model_on_features_built_independently(case):
     assert (manifest["pilot"], manifest["validated"], manifest["reviewed"]) == (True, False, False)
     assert manifest["beats_calendar"] is None and manifest["t1_result"] is None
     assert manifest["weather_bridge"] == "test"
+    assert manifest["attribution_sources"] == ["gbif_download", "open_meteo"]
+    assert "Copernicus" not in manifest["attribution"]
     blocks = sorted(p.name for p in (week_dir / "cantharellus").glob("*.geojson"))
     assert blocks == ["n47w123.geojson"]
     assert manifest["layers"][1]["blocks"] == ["n47w123"]

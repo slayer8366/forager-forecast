@@ -214,3 +214,58 @@ day, and it bites.
 - Whether Open-Meteo counts a multi-location request per location is unverified.
 - The temperature and soil features have not been compared between the two paths. No land month
   had been delivered at check time.
+
+## Addendum, 18:52 UTC: attribution follows what each output read
+
+**What was wrong.** The planner flagged a go-live blocker in the manifest's attribution, and the
+earlier "Output format" section was wrong on two points. That section stands as written; this
+addendum supersedes it.
+
+- At 18:43 the calendar floor's attribution credited Copernicus and Open-Meteo, although the
+  calendar model reads neither.
+- It did not cite the GBIF download its records come from.
+
+**What it does now.** Attribution is built from the sources an output actually read
+(`pilot_output.attribution`). The manifest carries them as `attribution_sources`.
+
+- **GBIF.** The citation is the one GBIF itself returns for the download (read, not from memory):
+  `https://api.gbif.org/v1/occurrence/download/0012112-260928105237408/citation`, read 2026-10-10,
+  "GBIF.org (6 October 2026) GBIF Occurrence Download https://doi.org/10.15468/dl.8jxmeb".
+  - The details line adds the 26 datasets and their licences (CC0 1.0, CC BY 4.0, CC BY-NC 4.0;
+    D29, D61), pointing at `docs/pulls/gbif-fungi-us-canada-2015-2025.datasets.json`.
+  - It also states that the download is provisional (test account).
+  - The scoring script refuses a real model unless the builder's
+    `docs/audits/2026-10-10-pnw-pilot-t1/records_summary.json` names download
+    0012112-260928105237408.
+- **Copernicus**, only for the products read: the weather model's training (from its model.json)
+  plus the scoring window's months (from `pnw_weather.build`'s `land_route_by_month`).
+  - Texts are taken from the evidence report under D53: daily statistics filled "... information
+    2024", the single-levels citation reading "single levels", and ERA5-Land hourly verbatim
+    "<2019>" if the hourly route was read.
+  - "(Accessed on DD-MMM-YYYY)" is filled from the store's `requested_at_utc` records. A product
+    with no access date is refused, not invented.
+- **Open-Meteo** is credited only when an output reads it. None does now.
+
+**Calendar floor re-published** at 18:51 UTC. Its attribution is the GBIF citation alone.
+
+- `cantharellus.geojson` is unchanged: sha256
+  c74ee7f06b2c1ed13a68438e92d488625932831705b5384b8811973a88ea99e7, the same features.
+- `manifest.json`: sha256 4debbc8ba4d218509c3e4cbb481cede92f40cc571ba7a5a65e30d63ffe61da05.
+
+**Tests.** The suite stands at 463 passed and 1 xfailed.
+
+- New: `tests/test_pilot_attribution.py` (6), seen failing first with AttributeError.
+- End-to-end assertions on `attribution_sources` were added for the calendar, Open-Meteo and
+  store paths, plus a refusal test for Copernicus sources on the calendar model.
+- Five revert checks all bite, each with a message specific to its edit:
+  - `['gbif_downlo... 'open_meteo'] == ['gbif_download']`
+  - `[] == ['gbif_download']`
+  - the calendar refusal check off: the run fails later on the missing access date, not with
+    its own message
+  - access-date check off: `KeyError: 'era5_daily_sum'`
+  - source filter off: `era5_land_hourly has no access date`
+
+**Open: the weather model's attribution cannot be written yet.** `pnw_pilot_publish.py --kind
+full` needs the full model's model.json to name the Copernicus products its training read. It
+accepts either `copernicus_sources` or the build summary's `land_route_by_month`. Without one of
+them it stops rather than guess.

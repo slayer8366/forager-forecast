@@ -18,9 +18,11 @@ repository, where the site draws it, after checking the pre-commit hook's 1 MB p
 """
 
 import argparse
+import json
 import shutil
 import subprocess
 import sys
+from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -37,6 +39,47 @@ BRIDGE = (
     "days as a cross-check only and is not used to score: its rain runs 4 to 8 percent below "
     "the store's (scoring branch feature check, 2019-10-07)."
 )
+
+
+DATASET_SOURCE = {
+    "derived-era5-land-daily-statistics": "era5_land_daily",
+    "reanalysis-era5-land": "era5_land_hourly",
+    "derived-era5-single-levels-daily-statistics": "era5_daily_sum",
+}
+
+
+def accessed_dates(store: Path, wanted: set[str]) -> dict[str, str]:
+    """Each product's access date for its citation, from the store's request records: one date,
+    or "first to last" when its files were requested on several days."""
+    days: dict[str, set] = {}
+    for rec in store.glob("*.request.json"):
+        r = json.loads(rec.read_text())
+        key = DATASET_SOURCE.get(r.get("dataset"))
+        if key in wanted and r.get("requested_at_utc"):
+            days.setdefault(key, set()).add(datetime.fromisoformat(r["requested_at_utc"]).date())
+    out = {}
+    for key, ds in days.items():
+        first, last = min(ds), max(ds)
+        out[key] = first.strftime("%d-%b-%Y") + (
+            "" if first == last else " to " + last.strftime("%d-%b-%Y")
+        )
+    return out
+
+
+def training_sources(model_json: dict) -> set[str]:
+    """The Copernicus products the weather model's training read, as its model.json records."""
+    if "copernicus_sources" in model_json:
+        return set(model_json["copernicus_sources"])
+    routes = model_json.get("land_route_by_month")
+    if routes:
+        out = {"era5_daily_sum"}
+        for route in routes.values():
+            out.add("era5_land_hourly" if route.startswith("hourly") else "era5_land_daily")
+        return out
+    raise SystemExit(
+        "model.json does not say which Copernicus products training read (copernicus_sources or "
+        "land_route_by_month); attribution cannot be written without guessing"
+    )
 
 
 def main() -> int:
@@ -78,7 +121,22 @@ def main() -> int:
         missing = {k: v for k, v in summary["days_missing_on_any_point_with_data"].items() if v}
         if missing:
             raise SystemExit(f"the store lacks window days: {missing}")
-        cmd += ["--cds-npz", str(npz), "--bridge", BRIDGE]
+        scoring = {"era5_daily_sum"} | {
+            "era5_land_hourly" if r.startswith("hourly") else "era5_land_daily"
+            for r in summary["land_route_by_month"].values()
+        }
+        read = scoring | training_sources(json.loads((model / "model.json").read_text()))
+        accessed = accessed_dates(a.store, read)
+        cmd += [
+            "--cds-npz",
+            str(npz),
+            "--bridge",
+            BRIDGE,
+            "--copernicus-sources",
+            ",".join(sorted(read)),
+            "--accessed",
+            json.dumps(accessed),
+        ]
     done = subprocess.run(cmd, cwd=REPO)
     if done.returncode:
         return done.returncode

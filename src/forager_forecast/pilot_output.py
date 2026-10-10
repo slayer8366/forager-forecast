@@ -225,3 +225,75 @@ def blocks(features: list[dict]) -> dict[str, dict]:
         lat_t, lon_t = (int(x) for x in f["id"].split("_"))
         by.setdefault(block_id(Cell(lat_t, lon_t)), []).append(f)
     return {k: collection(v) for k, v in sorted(by.items())}
+
+
+# Attribution (planner, 2026-10-10): each output names exactly the sources it read.
+# GBIF: the citation GBIF itself generates for the download,
+# https://api.gbif.org/v1/occurrence/download/0012112-260928105237408/citation, read 2026-10-10.
+GBIF_DOWNLOAD_KEY = "0012112-260928105237408"
+GBIF_CITATION = (
+    "GBIF.org (6 October 2026) GBIF Occurrence Download https://doi.org/10.15468/dl.8jxmeb"
+)
+GBIF_DETAIL = (
+    GBIF_CITATION + ". Occurrence records from 26 datasets, under CC0 1.0, CC BY 4.0 and CC BY-NC "
+    "4.0 (D29, D61); each dataset with its licence is listed in "
+    "docs/pulls/gbif-fungi-us-canada-2015-2025.datasets.json of slayer8366/forager-forecast. "
+    "The download is provisional (test account) and will be superseded by the business "
+    "account's identical request (docs/pulls/gbif-fungi-us-canada-2015-2025.doi.json)."
+)
+# Copernicus, by D53 (DECISIONS.md), texts copied from
+# docs/planning/evidence/2026-09-20-cowork-attribution-licence-grid-report.md: ERA5-Land hourly
+# verbatim; both daily-statistics datasets with the placeholders filled as "Contains modified
+# Copernicus Climate Change Service information 2024"; the single-levels daily-statistics data
+# citation reads "single levels" where the page reads "pressure levels". "(Accessed on
+# DD-MMM-YYYY)" is filled with the date the store's files were requested.
+COPERNICUS_DAILY = (
+    "Contains modified Copernicus Climate Change Service information 2024. Neither the European "
+    "Commission nor ECMWF is responsible for any use that may be made of the Copernicus "
+    "information or data it contains."
+)
+COPERNICUS_ERA5_LAND_HOURLY = (
+    "Generated using or contains modified Copernicus Climate Change Service information <2019>. "
+    "Neither the European Commission nor ECMWF is responsible for any use that may be made of the "
+    "Copernicus information or data it contains."
+)
+_DATA_CITATION = {
+    "era5_land_hourly": "Muñoz Sabater, J. (2019): ERA5-Land hourly data from 1950 to present. Copernicus Climate Change Service (C3S) Climate Data Store (CDS). DOI: 10.24381/cds.e2161bac (Accessed on DD-MMM-YYYY)",  # noqa: E501  (quoted verbatim from the evidence report)
+    "era5_land_daily": "Muñoz Sabater, J., Comyn-Platt, E., Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J., Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee, D., Thépaut, J-N., Cagnazo, C., Cucchi, M. (2024): ERA5-land post-processed daily-statistics from 1950 to present. Copernicus Climate Change Service (C3S) Climate Data Store (CDS), DOI: 10.24381/cds.e9c9c792 (Accessed on DD-MMM-YYYY)",  # noqa: E501  (quoted verbatim from the evidence report)
+    "era5_daily_sum": "Hersbach, H., Comyn-Platt, E., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J., Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee, D., Thépaut, J-N., Cagnazo, C., Cucchi, M. (2023): ERA5 post-processed daily-statistics on single levels from 1940 to present. Copernicus Climate Change Service (C3S) Climate Data Store (CDS), DOI: 10.24381/cds.4991cf48 (Accessed on DD-MMM-YYYY)",  # noqa: E501  (quoted verbatim from the evidence report)
+}
+_COPERNICUS_TEXT = {
+    "era5_land_hourly": COPERNICUS_ERA5_LAND_HOURLY,
+    "era5_land_daily": COPERNICUS_DAILY,
+    "era5_daily_sum": COPERNICUS_DAILY,
+}
+OPEN_METEO_CREDIT = "Weather data by Open-Meteo.com (https://open-meteo.com/), CC BY 4.0."
+SOURCES = ("gbif_download", *_DATA_CITATION, "open_meteo")
+
+
+def attribution(sources: set[str], accessed: dict[str, str] | None = None) -> tuple[str, list]:
+    """(display string, details) naming exactly `sources`. A Copernicus source needs its access
+    date (DD-Mon-YYYY) to fill the citation's placeholder; none is invented."""
+    unknown = set(sources) - set(SOURCES)
+    if unknown:
+        raise ValueError(f"unknown attribution sources {sorted(unknown)}")
+    accessed = accessed or {}
+    text: list[str] = []
+    details: list[str] = []
+    for key in SOURCES:
+        if key not in sources:
+            continue
+        if key == "gbif_download":
+            text.append(GBIF_CITATION + ".")
+            details.append(GBIF_DETAIL)
+        elif key == "open_meteo":
+            text.append(OPEN_METEO_CREDIT)
+            details.append(OPEN_METEO_CREDIT)
+        else:
+            if key not in accessed:
+                raise ValueError(f"{key} has no access date for its citation")
+            if _COPERNICUS_TEXT[key] not in text:
+                text.append(_COPERNICUS_TEXT[key])
+            citation = _DATA_CITATION[key].replace("DD-MMM-YYYY", accessed[key])
+            details.append(f"{_COPERNICUS_TEXT[key]} {citation}")
+    return " ".join(text), details

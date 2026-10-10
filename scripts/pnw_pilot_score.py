@@ -50,42 +50,9 @@ SIGHTING_CHANCE = (
     "at least one fungal observation of any kind there that week (D12). It is not the chance "
     "mushrooms are present, and not the chance you will find them."
 )
-COPERNICUS = (
-    "Contains modified Copernicus Climate Change Service information 2024. Neither the European "
-    "Commission nor ECMWF is responsible for any use that may be made of the Copernicus "
-    "information or data it contains."
+RECORDS_SUMMARY = (
+    Path(__file__).resolve().parents[1] / "docs/audits/2026-10-10-pnw-pilot-t1/records_summary.json"
 )
-OPEN_METEO = "Weather data by Open-Meteo.com (https://open-meteo.com/), CC BY 4.0."
-# D53, applied to the four datasets as docs/planning/evidence/
-# 2026-09-20-cowork-attribution-licence-grid-report.md quotes them. Training read the two
-# daily-statistics datasets through the Copernicus store; scoring reads ERA5-Land and ERA5 hourly
-# through Open-Meteo.
-ATTRIBUTION_DETAILS = [
-    "ERA5-Land (scoring weather, via Open-Meteo): Generated using or contains modified Copernicus "
-    "Climate Change Service information <2019>. Neither the European Commission nor ECMWF is "
-    "responsible for any use that may be made of the Copernicus information or data it contains. "
-    "Muñoz Sabater, J. (2019): ERA5-Land hourly data from 1950 to present. Copernicus Climate "
-    "Change Service (C3S) Climate Data Store (CDS). DOI: 10.24381/cds.e2161bac",
-    "ERA5 single levels (scoring rain, via Open-Meteo): Generated using or contains modified "
-    "Copernicus Climate Change Service information 2023. Neither the European Commission nor "
-    "ECMWF is responsible for any use that may be made of the Copernicus information or data it "
-    "contains. Hersbach, H. et al. (2023): ERA5 hourly data on single levels from 1940 to "
-    "present. Copernicus Climate Change Service (C3S) Climate Data Store (CDS), "
-    "DOI: 10.24381/cds.adbb2d47",
-    "ERA5-Land daily statistics (training weather): " + COPERNICUS + " Muñoz Sabater, J., "
-    "Comyn-Platt, E., Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz "
-    "Sabater, J., Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, "
-    "C., Dee, D., Thépaut, J-N., Cagnazo, C., Cucchi, M. (2024): ERA5-land post-processed "
-    "daily-statistics from 1950 to present. Copernicus Climate Change Service (C3S) Climate Data "
-    "Store (CDS), DOI: 10.24381/cds.e9c9c792",
-    "ERA5 single levels daily statistics (training rain): " + COPERNICUS + " Hersbach, H., "
-    "Comyn-Platt, E., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J., "
-    "Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee, D., "
-    "Thépaut, J-N., Cagnazo, C., Cucchi, M. (2023): ERA5 post-processed daily-statistics on single "
-    "levels from 1940 to present. Copernicus Climate Change Service (C3S) Climate Data Store "
-    "(CDS), DOI: 10.24381/cds.4991cf48",
-    "Weather served through Open-Meteo.com, CC BY 4.0.",
-]
 
 
 def log(msg: str) -> None:
@@ -187,6 +154,17 @@ def main() -> int:
     ap.add_argument("--beats-calendar", choices=["true", "false", "null"], default="null")
     ap.add_argument("--t1-result", default="", help="JSON text of the builder's headline, or empty")
     ap.add_argument(
+        "--copernicus-sources",
+        default="",
+        help="comma list of the Copernicus products the model's training and this scoring read "
+        "(era5_land_daily, era5_land_hourly, era5_daily_sum); needed when either read any",
+    )
+    ap.add_argument(
+        "--accessed",
+        default="{}",
+        help='JSON {source: "DD-Mon-YYYY"}: when the store files of each product were requested',
+    )
+    ap.add_argument(
         "--land-from-store",
         type=Path,
         help="calendar model only: score every ERA5-Land land cell of the box, read from the "
@@ -215,6 +193,23 @@ def main() -> int:
     digest = hashlib.sha256(model_txt).hexdigest()
     kind_label = "synthetic" if a.synthetic else a.kind
     model_version = f"pnw-pilot-t1-{kind_label}-{digest[:12]}"
+
+    sources = set()
+    if not a.synthetic:
+        # The records behind every real model: the builder's records pass names its zip.
+        zip_name = json.loads(RECORDS_SUMMARY.read_text())["zip"]
+        if po.GBIF_DOWNLOAD_KEY not in zip_name:
+            raise SystemExit(f"records came from {zip_name}, not download {po.GBIF_DOWNLOAD_KEY}")
+        sources.add("gbif_download")
+    if source == "open-meteo":
+        sources.add("open_meteo")
+    copernicus = {x for x in a.copernicus_sources.split(",") if x}
+    if source == "copernicus" and not copernicus:
+        raise SystemExit("--cds-npz needs --copernicus-sources naming the products read")
+    if a.kind == "calendar" and copernicus:
+        raise SystemExit("the calendar model reads no weather; --copernicus-sources is wrong here")
+    sources |= copernicus
+    attribution_text, attribution_details = po.attribution(sources, json.loads(a.accessed))
 
     pnw = next(b for b in BOXES if b.name == "pnw")
     box = lw.box_cells(pnw)
@@ -342,8 +337,9 @@ def main() -> int:
             "held-out years). The owner asked for this pilot to be shown regardless (Forager "
             "RECORD -814)."
         ),
-        "attribution": f"{COPERNICUS} {OPEN_METEO}",
-        "attribution_details": ATTRIBUTION_DETAILS,
+        "attribution": attribution_text,
+        "attribution_details": attribution_details,
+        "attribution_sources": sorted(sources),
         "layers": [
             {
                 "kind": "cells_combined",
