@@ -72,6 +72,31 @@ def done_units(manifest: Path, out_dir: Path) -> set[str]:
     return done
 
 
+# Forager RECORD -803, the owner: "Store it compressed (Recommended)". The repository's evidence
+# copy of the run manifest is gzipped; the repository's 1 MB per-file limit is unchanged. The
+# manifest on the drive stays plain JSON lines. The gzip header carries no name and no time, so
+# the same manifest always gives the same bytes and an unchanged manifest stages no change.
+EVIDENCE_MANIFEST = "manifest.jsonl.gz"
+
+
+def copy_manifest_evidence(manifest: Path, evidence_dir: Path) -> Path:
+    """Write ``manifest`` gzipped into ``evidence_dir`` and drop any uncompressed copy there."""
+    import gzip
+
+    evidence_dir = Path(evidence_dir)
+    evidence_dir.mkdir(parents=True, exist_ok=True)
+    out = evidence_dir / EVIDENCE_MANIFEST
+    partial = out.with_name(out.name + ".partial")
+    with open(partial, "wb") as raw, gzip.GzipFile(filename="", mode="wb", fileobj=raw,
+                                                   compresslevel=9, mtime=0) as gz:  # fmt: skip
+        gz.write(Path(manifest).read_bytes())
+    partial.rename(out)
+    plain = evidence_dir / "manifest.jsonl"
+    if plain.exists():
+        plain.unlink()
+    return out
+
+
 def next_stop(until_hhmm: str, now: datetime) -> datetime:
     """The next local time at HH:MM: today if still ahead, else tomorrow."""
     hh, mm = (int(x) for x in until_hhmm.split(":"))
