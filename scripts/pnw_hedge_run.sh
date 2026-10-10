@@ -19,11 +19,14 @@ YEARS=2019,2020,2021,2022,2023,2024,2025
 mkdir -p "$H/fits" "$H/equivalence"
 
 uv run python scripts/pnw_weather.py "$D/cds" "$W" > "$H/weather_build.log"
+# Review S9: the gate needs every non-sea 2019-2025 sample span, not however many have arrived.
 if ! uv run python scripts/pnw_equivalence.py "$D/records" "$W" "$D/cds" "$H/equivalence" \
-    --available > "$H/equivalence.log" 2>&1; then
-  echo "land-route check failed on the available spans; see $H/equivalence.log" >&2
+    --available --require-years 2019-2025 > "$H/equivalence.log" 2>&1; then
+  grep GATE "$H/equivalence.log" >&2 || true
+  echo "gate failed; see $H/equivalence.log" >&2
   exit 3
 fi
+grep GATE "$H/equivalence.log"
 for model in calendar full; do
   uv run python scripts/pnw_t1_fit.py --records "$D/records" --list t1_1000m --design primary \
     --model "$model" --weather "$W" --years "$YEARS" --out "$H/fits" --threads 4 \
