@@ -75,7 +75,7 @@ def main() -> int:
     grids = load(a.weather)
     om_dir = a.out / "open-meteo"
     om_dir.mkdir(parents=True, exist_ok=True)
-    rows, skipped, mismatches = [], [], []
+    rows, skipped, mismatches, convention, sea = [], [], [], [], []
     max_abs = {v: 0.0 for v in TOL}
     for cell, start in sample(a.records):
         end = start + timedelta(days=6)
@@ -92,13 +92,27 @@ def main() -> int:
             i = g.index.get(p)
             d0 = (start - g.start).days
             store[v] = None if i is None else g.values[i, d0 : d0 + 7]
-        complete = all(s is not None and not np.isnan(s).any() for s in store.values())
+        if any(
+            s is None or np.isnan(grids[v].values[grids[v].index[pts[v]]]).all()
+            for v, s in store.items()
+        ):
+            # Review B3: a sea point has no ERA5-Land value on any day; counted, never "incomplete".
+            sea.append(f"{cell.id} {start}")
+            continue
+        complete = all(not np.isnan(s).any() for s in store.values())
         if not complete:
             if a.available:
                 skipped.append(f"{cell.id} {start}")
                 continue
             raise SystemExit(f"store values missing for {cell.id} {start}..{end}: pull incomplete")
-        url = archive_request_url(cell, start, end)
+        # One extra day so hour 24 (00:00 of the next day) exists for the convention test, and
+        # hourly precipitation added; every D19/D25 pin is kept from archive_request_url.
+        url = archive_request_url(cell, start, end + timedelta(days=1)).replace(
+            "hourly=soil_temperature_0_to_7cm%2Csoil_moisture_0_to_7cm",
+            "hourly=soil_temperature_0_to_7cm%2Csoil_moisture_0_to_7cm%2Cprecipitation",
+        )
+        if "precipitation&" not in url and not url.endswith("precipitation"):
+            raise SystemExit(f"hourly precipitation not in the request: {url}")
         body = fetch(url, om_dir / f"{cell.id}_{start}.json")
         daily = body["daily"]
         hourly = body["hourly"]
@@ -131,16 +145,30 @@ def main() -> int:
                 )
                 if not ok:
                     mismatches.append(rows[-1])
+    st = np.array([c["store"] for c in convention])
+    a = np.abs(st - np.array([c["h00_23"] for c in convention]))
+    b = np.abs(st - np.array([c["h01_24"] for c in convention]))
+    convention_result = {
+        "days": len(convention),
+        "mean_abs_diff_hours_00_23": float(a.mean()) if len(a) else None,
+        "mean_abs_diff_hours_01_24": float(b.mean()) if len(b) else None,
+        "days_closer_00_23": int((a < b).sum()),
+        "days_closer_01_24": int((b < a).sum()),
+        "days_tied": int((a == b).sum()),
+    }
     result = {
         "written_utc": datetime.now(UTC).isoformat(timespec="seconds"),
         "partial": a.available,
         "spans_compared": len(rows) // 28,
         "spans_skipped_store_incomplete": skipped,
+        "spans_skipped_sea_point": sea,
         "values_compared": len(rows),
         "mismatches": len(mismatches),
         "max_abs_diff": max_abs,
         "tolerance": TOL,
         "pass": not mismatches and bool(rows),
+        "gate": "reported only; not the gate for the pilot fit (Forager RECORD -819)",
+        "rain_convention_test": convention_result,
         "first_mismatches": mismatches[:20],
     }
     name = "equivalence_partial" if a.available else "equivalence"

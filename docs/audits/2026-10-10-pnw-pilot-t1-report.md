@@ -27,7 +27,21 @@ planner on 2026-10-10.
   they hold 1,163 of the 1,235 Cantharellus survivors. Then 2014 (the warm-up months), then 2015 to
   2018. The point is that a fit on arrived years covers most of the positives, as the planner
   suggested.
-- Timing: PENDING.
+- First request: ERA5 precipitation for 2019 (a whole year, 335 KB) took 758 s from submit to
+  file.
+- The store caps queued requests per dataset. With 6 in flight on the ERA5-Land daily-statistics
+  dataset, every extra request was rejected: "Number queued requests for this dataset is
+  temporarily limited". The single-stream run had left its queued request (job 4ad790df) behind
+  when it was stopped, and it counted against the cap; it was dismissed. The pull now runs 2 per
+  dataset. A cap refusal waits 120 s and does not count as an attempt.
+- Second route (the planner's builder choice, 2026-10-10): the hourly `reanalysis-era5-land`
+  dataset, which has its own queue. It is aggregated to the daily-statistics definition (mean of
+  the 24 UTC hours, `hourly_daily.daily_means`, tested; revert check bites). The daily route walks
+  back from 2025-12. The hourly route takes the overlap month 2019-01, then walks forward from
+  2014-09. Each route skips months the other has. The weather builder records the route per month
+  (`land_route_by_month`). The overlap month is checked between routes with the equivalence
+  tolerances (`scripts/pnw_route_overlap.py`).
+- Per-month timings by route: PENDING.
 
 ## Records (observed)
 
@@ -84,3 +98,10 @@ D33), then 2019 72, 2020 107, 2021 115, 2022 89, 2023 97, 2024 301, 2025 309.
 ## D33 (3) and (4): allowed after Monday (RECORD -812); PENDING
 
 ## Not checked: PENDING
+
+## Corrections to commit messages (append only; the commits are not amended)
+
+- `9060ea6` names "3b0c0b1" as the commit where the weather builder started reading the hourly
+  route's files. That hash was written without being checked. The next commit's message corrects
+  it to "4f...", which is also unchecked and wrong. The commit is **`e2865eb`** ("weather builder
+  reads both ERA5-Land routes", read from `git log`).

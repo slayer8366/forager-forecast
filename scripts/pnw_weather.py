@@ -30,6 +30,13 @@ START = date(2014, 9, 1)
 END = date(2025, 12, 31)
 N_DAYS = (END - START).days + 1
 LAND = {"t2m": "temperature", "stl1": "soil_temperature", "swvl1": "soil_moisture"}
+# Unit conversion per source variable (review B1: soil moisture is m3 m-3 and takes no offset).
+TO_UNITS = {
+    "t2m": lambda a: a - 273.15,  # K -> °C
+    "stl1": lambda a: a - 273.15,  # K -> °C
+    "swvl1": lambda a: a,  # m3 m-3 as delivered
+    "tp": lambda a: a * 1000.0,  # m -> mm
+}
 
 
 def _days(h) -> np.ndarray:
@@ -60,22 +67,36 @@ def build(cds_dir: Path, out: Path, prefix: str = "") -> dict:
     pattern = re.compile(
         rf"^{re.escape(prefix)}(era5land-\d{{4}}-\d{{2}}|era5-precip-\d{{4}})\.nc$"
     )
-    for path in sorted(cds_dir.glob("*.nc")):
-        if not pattern.match(path.name):
-            continue
+    hourly_pattern = re.compile(r"^hourly-era5land-(\d{4}-\d{2})\.daily\.h5$")
+    routes: dict[str, str] = {}
+    # Hourly-route months first, so a month both routes delivered ends up with the
+    # daily-statistics values (D24's route as first planned); the overlap is checked apart.
+    paths = (
+        []
+        if prefix
+        else sorted(p for p in cds_dir.glob("*.daily.h5") if hourly_pattern.match(p.name))
+    )
+    paths += sorted(p for p in cds_dir.glob("*.nc") if pattern.match(p.name))
+    for path in paths:
+        hm = hourly_pattern.match(path.name)
+        if hm:
+            files["land_hourly_route"] = files.get("land_hourly_route", 0) + 1
+            routes[hm.group(1)] = "hourly reanalysis-era5-land, 24-hour UTC mean"
+        elif path.name.startswith(f"{prefix}era5land"):
+            routes[path.name[len(prefix) + 9 : len(prefix) + 16]] = "derived daily statistics"
         with h5py.File(path) as h:
             days = _days(h)
-            if path.name.startswith(f"{prefix}era5land"):
+            if hm or path.name.startswith(f"{prefix}era5land"):
                 files["land"] += 1
                 lat, lon = _index(h["latitude"][:], 0.1), _index(h["longitude"][:], 0.1)
-                pairs = [(k, LAND[k], 273.15) for k in LAND]
+                pairs = [(k, LAND[k]) for k in LAND]
             else:
                 files["precip"] += 1
                 lat, lon = _index(h["latitude"][:], 0.25), _index(h["longitude"][:], 0.25)
-                pairs = [("tp", "precipitation", None)]
-            for key, variable, kelvin in pairs:
+                pairs = [("tp", "precipitation")]
+            for key, variable in pairs:
                 data = h[key][:].astype(np.float64)  # [time, lat, lon]
-                data = data - kelvin if kelvin else data * 1000.0
+                data = TO_UNITS[key](data)
                 store = stores[variable]
                 for i, la in enumerate(lat):
                     for j, lo in enumerate(lon):
@@ -83,7 +104,11 @@ def build(cds_dir: Path, out: Path, prefix: str = "") -> dict:
                         ok = (days >= 0) & (days < N_DAYS)
                         series[days[ok]] = data[ok, i, j]
     arrays = {}
-    summary = {"files": files, "variables": {}}
+    summary = {
+        "files": files,
+        "land_route_by_month": dict(sorted(routes.items())),
+        "variables": {},
+    }
     for variable, store in stores.items():
         points = sorted(store)
         arrays[f"{variable}_points"] = np.array(points, dtype=np.int32).reshape(-1, 2)
@@ -127,6 +152,36 @@ def weather_matrix(npz: Path, rows) -> tuple[np.ndarray, list[str]]:
         "precipitation": quarter,
     }
     return window_matrix(grids, points, [r["scored"] for r in rows]), feature_names()
+
+
+def weather_status(npz: Path, rows, x: np.ndarray) -> list[str]:
+    """Why each row's weather is or is not complete (review B3).
+
+    "ok": every window has every day. "sea": the unit's ERA5-Land point is absent from the grid or
+    has no value on any day (sea or lake on ERA5-Land), or its ERA5 point is absent. "missing_days":
+    the point has data but a window reaches a day not delivered (a month not pulled yet)."""
+    grids = load(npz)
+    land_rows = {
+        v: grids[v].rows_for([(r["cell"].lat_tenths, r["cell"].lon_tenths) for r in rows])
+        for v in ("temperature", "soil_temperature", "soil_moisture")
+    }
+    quarter = [
+        quarter_cell_for(r["cell"].center_latitude, r["cell"].center_longitude) for r in rows
+    ]
+    precip_rows = grids["precipitation"].rows_for(
+        [(q.lat_quarters, q.lon_quarters) for q in quarter]
+    )
+    empty = {v: np.isnan(g.values).all(axis=1) for v, g in grids.items()}
+    status = []
+    for i in range(len(rows)):
+        if not np.isnan(x[i]).any():
+            status.append("ok")
+            continue
+        sea = any(land_rows[v][i] < 0 or empty[v][land_rows[v][i]] for v in land_rows) or (
+            precip_rows[i] < 0 or empty["precipitation"][precip_rows[i]]
+        )
+        status.append("sea" if sea else "missing_days")
+    return status
 
 
 if __name__ == "__main__":
