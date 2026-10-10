@@ -178,3 +178,25 @@ The file name says 2110Z; the run was at about 21:50 UTC.
   to 00 to 23 on 3. Mean absolute differences are 0.33 and 0.69 mm.
 - The re-fetched hourly months (2025-03, -04, -07, -12) came from the store's existing successful
   jobs, adopted in seconds. Their daily aggregates equal the originals exactly.
+
+## Review notes folded in (pnw-pilot-t1-review `d2655e9`)
+
+- **N13.** The one rain day 18% low in the early check is consistent with the scoring coder's
+  4 to 8% finding. It is not a measure of it. The summed rain ratio over every compared day is now
+  reported (`rain_level`, S6). It was 0.974 over the 7 days compared so far.
+- **N14.** In fits on 2019 to 2025, the early-2019 units whose windows reach into 2018 are dropped
+  as `missing_days` if 2018 has not arrived. They are counted in `weather_units_dropped`. The hedge
+  run waits for 2018-10 onward and rain 2018, so none should drop there.
+- **N8.** The coastal cells that read a land neighbour (RECORD -822) are listed in every fit
+  summary (`weather_units_dropped.neighbour_cells`). The equivalence result lists those it compared
+  (`hourly_land_route.neighbour_cells_compared`).
+- **N9.** For an adopted job, `requested_at_utc` is the time it was adopted, not the time it was
+  first submitted. `adopted_job` names the job, and the store's job record holds the submit time.
+  Stated in `pnw_cds_pull.py`'s docstring. D52 asks for the request's time; this records the time
+  this pull took it up.
+- **N1.** The docstring said the request is stored before the file is fetched. It is stored after.
+  Corrected.
+- **N3/N4. Traced.** Reading D26's zip by raw coordinates, 252,822 rows fall in T1's PNW box. That
+  is D72's predicate count. 4 of them are rows the loader refuses ("eventDate spans more than one
+  day", D66). 252,822 − 4 = 252,818, the `records_in_pnw_box` figure. Script `/tmp/pnwp_n4.py`,
+  run once, not committed.
