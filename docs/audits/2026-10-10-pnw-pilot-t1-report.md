@@ -159,3 +159,22 @@ D33), then 2019 72, 2020 107, 2021 115, 2022 89, 2023 97, 2024 301, 2025 309.
   comparison (hourly ERA5-Land aggregated by this code, against Open-Meteo's ERA5-Land daily
   values, within RECORD -818's restated tolerance) stands in for the route agreement check, as the
   planner set. One derived land month is still tried if a slot frees and the derived queue moves.
+
+## Early partial equivalence (one span, 21:50 UTC; labelled partial)
+
+Run on the spans whose land and rain had both arrived. That was one span (cell 492_-1246, from
+2019-01-08), because rain 2021-24 was not yet aggregated. Three spans of one cell (427_-1245)
+were skipped as a sea point. File: `2026-10-10-pnw-pilot-t1/equivalence_early_partial_2110Z.json`.
+The file name says 2110Z; the run was at about 21:50 UTC.
+
+- Hourly land route: offset 0 matches 192 of 192 hours for 2 m temperature, soil temperature and
+  soil moisture alike. Offsets −1 and +1 match 32 to 103 of 192. So the best offset is 0 on all
+  three. Partial pass, one span.
+- Daily (reported, not the gate): 27 of 28 values within bounds. Rain on 2019-01-08 was 11.36 mm
+  in the store against 9.3 mm from Open-Meteo (2.06 mm, over the 1.25 mm bound). That matches the
+  scoring coder's finding that Open-Meteo's rain runs 4 to 8% below the store's, which led to
+  RECORD -819.
+- Rain convention test (7 days): the store is closer to Open-Meteo's hours 01 to 24 on 4 days and
+  to 00 to 23 on 3. Mean absolute differences are 0.33 and 0.69 mm.
+- The re-fetched hourly months (2025-03, -04, -07, -12) came from the store's existing successful
+  jobs, adopted in seconds. Their daily aggregates equal the originals exactly.
