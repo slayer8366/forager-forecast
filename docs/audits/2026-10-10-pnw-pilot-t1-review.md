@@ -329,6 +329,35 @@ cannot produce a result.**
 **Suite at `eff52de`:** not re-run in full. R6 and R7 ran their own class each. The full suite runs
 in pass 2 once the fits finish, to leave the processor free.
 
+## Pass 2b: pull restructure and the coastal-cell measurement (read at `4fd6c09`, merged at this commit)
+
+**Coastal cells: every figure reproduced.**
+- Observed: `coastal_recount.out.txt`. It uses this branch's `primary_units` over the builder's
+  `records/t1_1000m.csv` and the 2019-01 hourly-route land file, both read-only.
+- Box points with values on every day: 2,387 of 3,116. The same count when values on any day are
+  enough, so the mask does not vary within the month.
+- Unit cells with no value: 182 of 2,043. Their cell-weeks: 8,704 of 53,186.
+- Positives in those cells: 189 of 1,139.
+- Cells with a land neighbour: 163, holding 188 positives.
+- Cited at report `4fd6c09`, "Coastal cells".
+
+**N8 (note, for whoever rules on the coast). The positives dropped are not a random sixth.**
+- They are the coastal cells. Inferred: those include coastal chanterelle country.
+- A headline fitted without them describes a smaller, inland-weighted population.
+- Whichever option is ruled, the report should give the headline's units and positives beside
+  53,186 and 1,139, and say which cells left.
+- If a neighbour's weather is borrowed, that is a change to D46's nearest-point rule for those
+  cells, and should be labelled as one.
+
+**N9 (note). Pull bookkeeping.**
+- (i) `cds_jobs._norm` sorts list values, so `area` [N, W, S, E] is compared as a set. Two
+  requests whose areas are permutations of each other would match. Harmless for these areas
+  (inferred).
+- (ii) For an adopted job, the hourly route's `requested_at_utc` is the adoption time
+  (`pnw_cds_hourly_pull.py`: `requested_at` is set before `cds_jobs.fetch`), not the time the job
+  was submitted. D52 asks for the latter. `cds_adopt_job.py` records `submitted_utc` correctly; the
+  hourly route does not.
+
 ## Pass 2
 
 Pending:

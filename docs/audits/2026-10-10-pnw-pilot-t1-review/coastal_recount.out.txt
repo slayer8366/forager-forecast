@@ -1,0 +1,5 @@
+box points 3116 all-days finite 2387 any finite 2387
+unit cells 2043 sea cells 182
+units 53186 sea units 8704
+positives 1139 sea positives 189
+sea cells with a land neighbour 163 their positives 188

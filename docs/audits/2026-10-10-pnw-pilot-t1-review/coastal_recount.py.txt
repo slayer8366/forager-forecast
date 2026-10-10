@@ -1,0 +1,40 @@
+"""Reviewer recount (pass 2b) of the builder's coastal-cell measurement (report at 4fd6c09):
+"2,387 of 3,116 box points carry values; 182 of 2,043 unit cells have no ERA5-Land value;
+8,704 of 53,186 cell-weeks and 189 of 1,139 positives; 163 of those cells have a land point among
+their 8 neighbours, holding 188 of the 189 positives."
+Reads, read-only: the builder's records/t1_1000m.csv and cds/hourly-era5land-2019-01.daily.h5.
+Units come from this branch's pnw_t1_fit.primary_units (the fit's own unit code). A point
+"carries values" when t2m, stl1 and swvl1 are all finite on every day of the month.
+"""
+import sys
+from collections import Counter
+from pathlib import Path
+
+import h5py
+import numpy as np
+
+sys.path.insert(0, str(Path.cwd() / "scripts"))
+from pnw_t1_fit import primary_units, read_records  # noqa: E402
+
+DATA = Path.home() / "Zynergy/forecast-data-pnw-pilot"
+rows = primary_units(read_records(DATA / "records/t1_1000m.csv"))
+with h5py.File(DATA / "cds/hourly-era5land-2019-01.daily.h5", "r") as h:
+    lat = np.rint(h["latitude"][:] * 10).astype(int)
+    lon = np.rint(h["longitude"][:] * 10).astype(int)
+    ok = np.ones((len(lat), len(lon)), bool)
+    any_ok = np.zeros((len(lat), len(lon)), bool)
+    for v in ("t2m", "stl1", "swvl1"):
+        a = h[v][:]
+        ok &= np.isfinite(a).all(axis=0)
+        any_ok |= np.isfinite(a).any(axis=0)
+land = {(int(la), int(lo)) for i, la in enumerate(lat) for j, lo in enumerate(lon) if ok[i, j]}
+print("box points", ok.size, "all-days finite", int(ok.sum()), "any finite", int(any_ok.sum()))
+cells = {(r["cell"].lat_tenths, r["cell"].lon_tenths) for r in rows}
+sea = {c for c in cells if c not in land}
+units = Counter((r["cell"].lat_tenths, r["cell"].lon_tenths) for r in rows)
+pos = Counter((r["cell"].lat_tenths, r["cell"].lon_tenths) for r in rows if r["y"] == 1)
+print("unit cells", len(cells), "sea cells", len(sea))
+print("units", len(rows), "sea units", sum(units[c] for c in sea))
+print("positives", sum(pos.values()), "sea positives", sum(pos[c] for c in sea))
+nb = {c for c in sea if any((c[0] + a, c[1] + b) in land for a in (-1, 0, 1) for b in (-1, 0, 1) if (a, b) != (0, 0))}
+print("sea cells with a land neighbour", len(nb), "their positives", sum(pos[c] for c in nb))
