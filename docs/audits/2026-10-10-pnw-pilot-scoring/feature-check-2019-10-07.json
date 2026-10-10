@@ -1,0 +1,136 @@
+{
+ "monday": "2019-10-07",
+ "cells": [
+  "426_-1227",
+  "477_-1218",
+  "478_-1212",
+  "484_-1220",
+  "488_-1248",
+  "492_-1213"
+ ],
+ "features": {
+  "temperature_mean_3d": {
+   "status": "unavailable: the store has no values yet"
+  },
+  "precipitation_sum_3d": {
+   "status": "OVER",
+   "max_abs_diff": 0.6952865600586051,
+   "bound": 0.15000100000000002
+  },
+  "soil_temperature_mean_3d": {
+   "status": "unavailable: the store has no values yet"
+  },
+  "soil_moisture_mean_3d": {
+   "status": "unavailable: the store has no values yet"
+  },
+  "temperature_mean_7d": {
+   "status": "unavailable: the store has no values yet"
+  },
+  "precipitation_sum_7d": {
+   "status": "OVER",
+   "max_abs_diff": 1.4034996032714844,
+   "bound": 0.350001
+  },
+  "soil_temperature_mean_7d": {
+   "status": "unavailable: the store has no values yet"
+  },
+  "soil_moisture_mean_7d": {
+   "status": "unavailable: the store has no values yet"
+  },
+  "temperature_mean_14d": {
+   "status": "unavailable: the store has no values yet"
+  },
+  "precipitation_sum_14d": {
+   "status": "OVER",
+   "max_abs_diff": 3.6263740539550895,
+   "bound": 0.7000010000000001
+  },
+  "soil_temperature_mean_14d": {
+   "status": "unavailable: the store has no values yet"
+  },
+  "soil_moisture_mean_14d": {
+   "status": "unavailable: the store has no values yet"
+  },
+  "temperature_mean_21d": {
+   "status": "unavailable: the store has no values yet"
+  },
+  "precipitation_sum_21d": {
+   "status": "OVER",
+   "max_abs_diff": 5.770597839355474,
+   "bound": 1.050001
+  },
+  "soil_temperature_mean_21d": {
+   "status": "unavailable: the store has no values yet"
+  },
+  "soil_moisture_mean_21d": {
+   "status": "unavailable: the store has no values yet"
+  },
+  "temperature_mean_28d": {
+   "status": "unavailable: the store has no values yet"
+  },
+  "precipitation_sum_28d": {
+   "status": "OVER",
+   "max_abs_diff": 8.17673568725587,
+   "bound": 1.400001
+  },
+  "soil_temperature_mean_28d": {
+   "status": "unavailable: the store has no values yet"
+  },
+  "soil_moisture_mean_28d": {
+   "status": "unavailable: the store has no values yet"
+  },
+  "temperature_mean_42d": {
+   "status": "unavailable: the store has no values yet"
+  },
+  "precipitation_sum_42d": {
+   "status": "OVER",
+   "max_abs_diff": 9.781300354003918,
+   "bound": 2.1000010000000002
+  },
+  "soil_temperature_mean_42d": {
+   "status": "unavailable: the store has no values yet"
+  },
+  "soil_moisture_mean_42d": {
+   "status": "unavailable: the store has no values yet"
+  },
+  "temperature_mean_56d": {
+   "status": "unavailable: the store has no values yet"
+  },
+  "precipitation_sum_56d": {
+   "status": "OVER",
+   "max_abs_diff": 13.88123626708986,
+   "bound": 2.8000010000000004
+  },
+  "soil_temperature_mean_56d": {
+   "status": "unavailable: the store has no values yet"
+  },
+  "soil_moisture_mean_56d": {
+   "status": "unavailable: the store has no values yet"
+  },
+  "temperature_mean_90d": {
+   "status": "unavailable: the store has no values yet"
+  },
+  "precipitation_sum_90d": {
+   "status": "OVER",
+   "max_abs_diff": 18.871787261962908,
+   "bound": 4.500001
+  },
+  "soil_temperature_mean_90d": {
+   "status": "unavailable: the store has no values yet"
+  },
+  "soil_moisture_mean_90d": {
+   "status": "unavailable: the store has no values yet"
+  }
+ },
+ "compared": 8,
+ "over_bound": [
+  "precipitation_sum_3d",
+  "precipitation_sum_7d",
+  "precipitation_sum_14d",
+  "precipitation_sum_21d",
+  "precipitation_sum_28d",
+  "precipitation_sum_42d",
+  "precipitation_sum_56d",
+  "precipitation_sum_90d"
+ ]
+}
