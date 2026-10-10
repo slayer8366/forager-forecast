@@ -593,6 +593,26 @@ two different points.**
   value, Open-Meteo's `era5_seamless` silently serves another product. RECORD -822's neighbour rule
   has no counterpart on Open-Meteo's side.
 
+## Pass 2k: notes folded into the builder's report (read at `1facf26`)
+
+**Closed:**
+- **N1:** the docstring is corrected.
+- **N8:** neighbour cells are listed in every fit summary and in the equivalence result.
+- **N9:** stated in the docstring and the report.
+- **N13:** the report now says "consistent with … not a measure of it". The summed ratio was 0.974
+  over 7 days.
+- **N14:** dropped units are counted, and the hedge waits for 2018-10 onward.
+
+**N3 and N4: traced by the builder, not verified by me.** The 4-row gap is put down to 4
+multi-day `eventDate` rows (252,822 by raw coordinates, less 4). The script was `/tmp/pnwp_n4.py`,
+"run once, not committed". I did not re-run a 2.5-million-row read while the pull and fits need the
+processor. Until that script is committed, the trace is a claim with no checkable source.
+
+**Still open:**
+- **S10:** the sea-point comparison; urgent, since the gate is affected.
+- **N10:** a north/south tie is untested.
+- **N15:** for T10.
+
 ## Pass 2
 
 Pending:
