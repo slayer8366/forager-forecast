@@ -15,6 +15,7 @@ def sha(p):
     return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 box = json.loads((HERE / "box_tiles.json").read_text())["tree"]
 eight = json.loads((HERE / "prereg.json").read_text())["hash_sample"]["canadian_tiles_all"]
+eight = eight + ["256_-27_20", "256_-28_20"]  # added to the run at 13:57 -07:00 for the seam (S1)
 latest = {}
 for l in (T6B / "manifest.jsonl").read_text().splitlines():
     e = json.loads(l)

@@ -52,7 +52,15 @@ should-fix findings and six notes follow. The Canadian 102,543 cells are not rev
 5): at the time of writing the night run had done 26 of its 88 SCANFI layer units and was
 paused by its PAUSE file at 13:22:57 -07:00 (manifest's last section line).
 
-## Findings
+## Update after pass 5 (2026-10-10, about 22:20 UTC): the Canadian tiles
+
+The night run resumed at 13:57 -07:00 with **10** tiles: the 8, plus 256_-27_20 and 256_-28_20, which
+the planner added after S1 (observed in the run's `--tiles`). It finished at 15:08:41 -07:00 with
+every unit done: scanfi-layers 84 ok in this start (110 in all) and trees 10 ok, 0 deferred, 0
+failed. The evidence commit is `04f0302` on `origin/t6b-pnw-scanfi`. **The verdict holds for the
+Canadian cells too.** S1's remedy (a) is now in place for the data, but the seam check has not been
+re-run: the PNW mosaic on the drive is still the 05:39 -07:00 build. S2 and S3 stand.
+
 
 ### Blocking
 
@@ -221,3 +229,52 @@ plots. 240 draws.
 - Flags: source 1 and every flag 1 where a share is defined; 0 where cover is 0. As D89 (3).
 
 **Largest difference over all 10 cells:** 1.3e-5 points of cover (256_-32_9), against 0.1.
+
+## Pass 5: the 10 Canadian tiles
+
+`canadian_tiles.py.txt` and `canadian_tiles.out.json` (all 10 tiles, no sampling);
+`recompute_ca.py.txt` and `recompute_ca.out.json`. The manifest was read after the section's last
+line (3,025 unit lines; 0 failed and 0 deferred anywhere).
+
+- **Lines and hashes.** All 10 tiles have a latest `trees` line, status ok. Their 20 files hash to
+  it. All 110 SCANFI layer units (11 by 10) have an ok line, and their 110 npz files hash to it.
+  None records `past_scanfi_edge_pixels`, as the edge audit predicted.
+- **Counts.** Each line's Canadian study count equals my mask count (`box_tiles.json`
+  `tile_study_ca`), for example 18,981 for 256_-29_20, 59,441 for 256_-27_20 and 41,773 for
+  256_-28_20.
+- **D119's "unchanged", on real files.** These are the 7 tiles with a US half: the 5 of the 8, plus
+  256_-27_20 and 256_-28_20.
+  - Each US-half file still hashes to its own manifest line.
+  - Each whole file's `us_cells_from` tag names that hash.
+  - Every non-pending cell of the whole file equals the US-half file on all 11 value bands and 8
+    flag bands: 0 cells differ.
+  - No pending value (4) is left in any whole file's source band or flag band.
+  - So the pnw-monday edge and ten-cell results on US cells carry over unchanged to these tiles.
+- **Independent recompute, 2 pre-registered Canadian cells.** They come from the whole SCANFI files:
+  att_closure for the total, and the ten classes for the shares (D92).
+  - 48.816 N, 124.224 W (256_-31_20): cover 58.1041 against stored 58.1041 (difference 8.8e-6).
+    Douglas-fir 0.39524, conifer 0.61905, broadleaf 0.38095, each within 4e-7.
+  - 48.959 N, 123.860 W (256_-30_20): cover 47.8701 (1.5e-6). Douglas-fir 0.64523, within 1e-7.
+  - Flags on both: 2 for Pseudotsuga, conifer and broadleaf; 3 (not available, D85, D89 (1)) for
+    Tsuga, Picea, Abies, Pinus and Quercus; source 2.
+  - Neither cell touches water or the SCANFI edge. A Canadian shore cell was not sampled, so D112
+    on the SCANFI side is covered by the code read and the synthetic test
+    (`tests/test_t6b_layers.py:292`), not by a real cell.
+- **Not checked:** the att_closure whole file's hash against its request (4.2 GB; skipped to keep
+  the drive and processor free). The values recomputed from it agree with the tiles, which shows
+  the tiles were built from this file, not that the file is SCANFI's.
+
+## What this review could not check
+
+- **The 49 N seam after tonight.** It needs the PNW mosaic rebuilt (`scripts/pnw_build.py
+  mosaic`, which writes to the drive), so it was not run here. Once it is rebuilt, the 25
+  transects can all get a border step (S1, remedy (a)).
+- **Canadian cells across a tile edge** (S3).
+- **The mask's polygons.** `mask.tif` was taken as given: my study and side rules are restated, but
+  the CEC polygons were not re-burned.
+- **Soil and US cells beyond the 13 recomputed,** and tiles outside the hash sample (beyond the 10
+  Canadian tiles, all checked).
+- **The test suite** was not run, to keep the processor free for the model fit.
+- **Old manifest lines.** 37 unit lines carry no `status` key. `done_units` reads them as ok
+  (`t6b_run.py:65`). All 37 are soil lines, inferred to predate the field. Two are box soil tiles,
+  2048_-4_2 and 2048_-3_2, and both were in the hash sample and matched (pass 2). Observed.

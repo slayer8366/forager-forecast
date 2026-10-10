@@ -1,0 +1,100 @@
+[
+ {
+  "cell": {
+   "col": -7720,
+   "row": 5321,
+   "lon": -124.22358,
+   "lat": 48.8163,
+   "country": 2,
+   "eco": 2,
+   "study": true,
+   "side": 2,
+   "in_box": true,
+   "tree_tile": "256_-31_20",
+   "soil_tile": "2048_-4_2"
+  },
+  "mine": {
+   "valid_fraction": 1.0,
+   "total_cover_pct": 58.10411332949717,
+   "share_Pseudotsuga": 0.39524341419060316,
+   "share_conifer": 0.6190503717681101,
+   "share_broadleaf": 0.3809496282318899,
+   "pixels": 90,
+   "water_pixels": 0,
+   "not_own_pixels": 0,
+   "past_edge_pixels": 0
+  },
+  "stored": {
+   "total_cover_pct": 58.104122161865234,
+   "valid_fraction": 1.0,
+   "source": 2.0,
+   "share_Pseudotsuga": 0.3952433168888092,
+   "share_Tsuga": NaN,
+   "share_Picea": NaN,
+   "share_Abies": NaN,
+   "share_Pinus": NaN,
+   "share_Quercus": NaN,
+   "share_conifer": 0.6190500259399414,
+   "share_broadleaf": 0.3809499442577362
+  },
+  "stored_flags": {
+   "flag_Pseudotsuga": 2.0,
+   "flag_Tsuga": 3.0,
+   "flag_Picea": 3.0,
+   "flag_Abies": 3.0,
+   "flag_Pinus": 3.0,
+   "flag_Quercus": 3.0,
+   "flag_conifer": 2.0,
+   "flag_broadleaf": 2.0
+  }
+ },
+ {
+  "cell": {
+   "col": -7604,
+   "row": 5356,
+   "lon": -123.86015,
+   "lat": 48.95928,
+   "country": 2,
+   "eco": 2,
+   "study": true,
+   "side": 2,
+   "in_box": true,
+   "tree_tile": "256_-30_20",
+   "soil_tile": "2048_-4_2"
+  },
+  "mine": {
+   "valid_fraction": 1.0,
+   "total_cover_pct": 47.870133980321555,
+   "share_Pseudotsuga": 0.6452326996522686,
+   "share_conifer": 0.9867572420801559,
+   "share_broadleaf": 0.0132427579198441,
+   "pixels": 89,
+   "water_pixels": 0,
+   "not_own_pixels": 0,
+   "past_edge_pixels": 0
+  },
+  "stored": {
+   "total_cover_pct": 47.87013244628906,
+   "valid_fraction": 1.0,
+   "source": 2.0,
+   "share_Pseudotsuga": 0.6452327966690063,
+   "share_Tsuga": NaN,
+   "share_Picea": NaN,
+   "share_Abies": NaN,
+   "share_Pinus": NaN,
+   "share_Quercus": NaN,
+   "share_conifer": 0.9867570996284485,
+   "share_broadleaf": 0.01324290968477726
+  },
+  "stored_flags": {
+   "flag_Pseudotsuga": 2.0,
+   "flag_Tsuga": 3.0,
+   "flag_Picea": 3.0,
+   "flag_Abies": 3.0,
+   "flag_Pinus": 3.0,
+   "flag_Quercus": 3.0,
+   "flag_conifer": 2.0,
+   "flag_broadleaf": 2.0
+  }
+ }
+]
