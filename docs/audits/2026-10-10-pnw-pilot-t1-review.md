@@ -613,6 +613,18 @@ processor. Until that script is committed, the trace is a claim with no checkabl
 - **N10:** a north/south tie is untested.
 - **N15:** for T10.
 
+## Pass 2l: S10 fixed (read at `f6bc9a3`)
+
+**S10 is closed.**
+- `request_cells` asks Open-Meteo for the land variables at the land point the store side reads
+  (the neighbour for a sea cell), and for rain at the cell centre.
+- The cache is keyed by the requested point, so no body fetched at a sea centre is reused.
+- Each row records `om_land_request`.
+- The new test covers both cases. It was read, not reverted.
+- Not observed on data yet: no store hourly month for cell 427_-1245's spans was checked by me.
+  The equivalence result will show the neighbour cell among `neighbour_cells_compared`, with its
+  hours inside the offset-0 counts.
+
 ## Pass 2
 
 Pending:
