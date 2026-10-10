@@ -86,3 +86,29 @@ Pass, mismatch and stop are unchanged: any value beyond its bound is reported by
 and day, and goes to the owner. **Status changed by RECORD -819** ("Copernicus for both
 (Recommended)"): the pilot trains and scores on the store's data, so this test is run to completion
 and reported, but it no longer gates the pilot fit. D24 and D19 are bent for the pilot only.
+
+---
+
+## Hourly land route, added 2026-10-10 before any Open-Meteo body was read (review S7)
+
+The planner set this as the land-route check, in place of the daily stand-in. No derived land
+month is available, because the derived queue did not move. At 0.075 °C, daily values cannot tell
+a one-hour day-boundary shift from rounding. Hourly values can, the way the rain check did.
+
+- For the same 36 spans, Open-Meteo is also asked for hourly `temperature_2m`,
+  `soil_temperature_0_to_7cm` and `soil_moisture_0_to_7cm`, pinned as above
+  (`models=era5_seamless`, D19; D25's two pins). Each is compared hour by hour with this pull's
+  hourly ERA5-Land files at the cell's own point, at offsets −1, 0 and +1 hour.
+- Bounds: 0.075 °C for both temperatures (half of Open-Meteo's 1/20 °C storage step plus half
+  its 0.1 °C display unit) and 0.001 m³/m³ for soil moisture (half of 1/1000 plus half of 0.001).
+- **Pass:** at offset 0 every compared hour matches, and offset 0 matches more hours than either
+  other offset. The result reports the matched and compared counts at each offset and the best
+  offset per variable. A fail stops the weather fit for the owner (`scripts/pnw_t1_run_all.sh`).
+- Hourly files deleted before 20:40 UTC (2025-03, -04, -07 and -12, all in the sample) are fetched
+  again (`--refetch-hourly`), so no span drops out for that reason.
+
+**Correction (append only).** `0caf56d`'s message says the daily bounds in
+`scripts/pnw_equivalence.py` were restated. The code edit did not apply (the replaced text did not
+match), and the script kept 0.05/0.0005 until the rewrite that follows this section. The review
+found it (S5), along with the 7 × 24 reshape of an 8-day span and a name clash (`a`) that would
+have crashed the summary. No Open-Meteo body had been read in that time.

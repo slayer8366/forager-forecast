@@ -56,6 +56,7 @@ OVERLAP = (2019, 1)
 # 2026-10-04. October stops at the 4th, the last day the planner named.
 SCORING_MONTHS = [(2026, 7), (2026, 8), (2026, 9), (2026, 10)]
 LAST_DAY = {(2026, 10): 4}
+REFETCH: set[tuple[int, int]] = set()
 
 
 def months():
@@ -105,6 +106,11 @@ def main() -> int:
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--workers", type=int, default=1)
     ap.add_argument(
+        "--refetch-hourly",
+        default="",
+        help="YYYY-MM list whose hourly files were deleted; fetch again for the hourly check",
+    )
+    ap.add_argument(
         "--scoring",
         action="store_true",
         help="the map's months 2026-07 to 2026-10-04 instead of T1's (planner, 2026-10-10)",
@@ -117,6 +123,9 @@ def main() -> int:
 
     local = threading.local()
     todo = SCORING_MONTHS if args.scoring else list(months())
+    if args.refetch_hourly:
+        todo = [tuple(int(x) for x in m.split("-")) for m in args.refetch_hourly.split(",")]
+        REFETCH.update(todo)
     log(f"hourly route: {len(todo)} months, box {AREA}, {args.workers} in flight")
 
     def run(item):
@@ -129,6 +138,12 @@ def main() -> int:
         name = f"hourly-era5land-{y}-{m:02d}"
         daily = args.out / f"{name}.daily.h5"
         rec = args.out / f"{name}.request.json"
+        refetch = (y, m) in REFETCH and not (args.out / f"{name}.hourly.nc").exists()
+        if refetch:
+            # The hourly file was deleted before 20:40; fetch it again for the hourly land-route
+            # check, aggregate to a side file and compare with the daily file already in use.
+            daily = args.out / f"{name}.daily.recheck.h5"
+            rec = args.out / f"{name}.refetch.request.json"
         if daily.exists() and rec.exists():
             log(f"[{i}/{len(todo)}] {name} skip (done)")
             return 0
@@ -161,8 +176,8 @@ def main() -> int:
                 sha = hashlib.sha256(hourly.read_bytes()).hexdigest()
                 size = hourly.stat().st_size
                 agg = aggregate(hourly, daily)
-                if (y, m) != OVERLAP:
-                    hourly.unlink()
+                # Hourly files are kept since 2026-10-10 20:40 UTC: the land-route check compares
+                # them hour by hour with Open-Meteo (review S7).
                 rec.write_text(
                     json.dumps(
                         {
@@ -172,7 +187,7 @@ def main() -> int:
                             "seconds": seconds,
                             "hourly_bytes": size,
                             "hourly_sha256": sha,
-                            "hourly_file_kept": (y, m) == OVERLAP,
+                            "hourly_file_kept": True,
                             "aggregated_to": daily.name,
                             "aggregation": agg,
                             "account": ACCOUNT,
