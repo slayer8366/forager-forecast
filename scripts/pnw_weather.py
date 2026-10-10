@@ -30,6 +30,13 @@ START = date(2014, 9, 1)
 END = date(2025, 12, 31)
 N_DAYS = (END - START).days + 1
 LAND = {"t2m": "temperature", "stl1": "soil_temperature", "swvl1": "soil_moisture"}
+# Unit conversion per source variable (review B1: soil moisture is m3 m-3 and takes no offset).
+TO_UNITS = {
+    "t2m": lambda a: a - 273.15,  # K -> °C
+    "stl1": lambda a: a - 273.15,  # K -> °C
+    "swvl1": lambda a: a,  # m3 m-3 as delivered
+    "tp": lambda a: a * 1000.0,  # m -> mm
+}
 
 
 def _days(h) -> np.ndarray:
@@ -82,14 +89,14 @@ def build(cds_dir: Path, out: Path, prefix: str = "") -> dict:
             if hm or path.name.startswith(f"{prefix}era5land"):
                 files["land"] += 1
                 lat, lon = _index(h["latitude"][:], 0.1), _index(h["longitude"][:], 0.1)
-                pairs = [(k, LAND[k], 273.15) for k in LAND]
+                pairs = [(k, LAND[k]) for k in LAND]
             else:
                 files["precip"] += 1
                 lat, lon = _index(h["latitude"][:], 0.25), _index(h["longitude"][:], 0.25)
-                pairs = [("tp", "precipitation", None)]
-            for key, variable, kelvin in pairs:
+                pairs = [("tp", "precipitation")]
+            for key, variable in pairs:
                 data = h[key][:].astype(np.float64)  # [time, lat, lon]
-                data = data - kelvin if kelvin else data * 1000.0
+                data = TO_UNITS[key](data)
                 store = stores[variable]
                 for i, la in enumerate(lat):
                     for j, lo in enumerate(lon):
@@ -145,6 +152,36 @@ def weather_matrix(npz: Path, rows) -> tuple[np.ndarray, list[str]]:
         "precipitation": quarter,
     }
     return window_matrix(grids, points, [r["scored"] for r in rows]), feature_names()
+
+
+def weather_status(npz: Path, rows, x: np.ndarray) -> list[str]:
+    """Why each row's weather is or is not complete (review B3).
+
+    "ok": every window has every day. "sea": the unit's ERA5-Land point is absent from the grid or
+    has no value on any day (sea or lake on ERA5-Land), or its ERA5 point is absent. "missing_days":
+    the point has data but a window reaches a day not delivered (a month not pulled yet)."""
+    grids = load(npz)
+    land_rows = {
+        v: grids[v].rows_for([(r["cell"].lat_tenths, r["cell"].lon_tenths) for r in rows])
+        for v in ("temperature", "soil_temperature", "soil_moisture")
+    }
+    quarter = [
+        quarter_cell_for(r["cell"].center_latitude, r["cell"].center_longitude) for r in rows
+    ]
+    precip_rows = grids["precipitation"].rows_for(
+        [(q.lat_quarters, q.lon_quarters) for q in quarter]
+    )
+    empty = {v: np.isnan(g.values).all(axis=1) for v, g in grids.items()}
+    status = []
+    for i in range(len(rows)):
+        if not np.isnan(x[i]).any():
+            status.append("ok")
+            continue
+        sea = any(land_rows[v][i] < 0 or empty[v][land_rows[v][i]] for v in land_rows) or (
+            precip_rows[i] < 0 or empty["precipitation"][precip_rows[i]]
+        )
+        status.append("sea" if sea else "missing_days")
+    return status
 
 
 if __name__ == "__main__":

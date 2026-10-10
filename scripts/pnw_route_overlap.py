@@ -4,8 +4,8 @@ Run:  uv run python scripts/pnw_route_overlap.py <cds dir> [YYYY-MM] > result.js
 
 Compares `hourly-era5land-<month>.daily.h5` (24-UTC-hour mean of the hourly dataset) with
 `era5land-<month>.nc` (the store's daily statistics) point by point and day by day. Tolerances
-are the equivalence test's (docs/audits/2026-10-10-pnw-pilot-t1/equivalence_spec.md): 0.05 K for
-both temperatures, 0.0005 m3 m-3 for soil moisture, plus 1e-6. Missing values must sit in the
+are fixed in TOL below before any overlap value was read (review S3): 0.001 K for both
+temperatures, 0.00001 m3 m-3 for soil moisture, plus 1e-6. Missing values must sit in the
 same places. Exit 0 when every value agrees.
 """
 
@@ -16,7 +16,10 @@ from pathlib import Path
 import h5py
 import numpy as np
 
-TOL = {"t2m": 0.05, "stl1": 0.05, "swvl1": 0.0005}
+# Fixed before the overlap month was compared (review S3): tighter than the Open-Meteo test,
+# since both sides are the store's own unquantised values from the same hourly fields; the
+# allowance is float32 storage and summation order (float32 spacing at 300 K is about 3e-5).
+TOL = {"t2m": 0.001, "stl1": 0.001, "swvl1": 0.00001}
 
 
 def main(cds: Path, month: str) -> int:
