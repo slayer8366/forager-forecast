@@ -46,5 +46,32 @@ def test_weather_status_tells_sea_from_a_month_not_pulled(tmp_path):
         {"cell": Cell(470, -1230), "scored": date(2019, 1, 2)},  # window reaches 2018: not pulled
         {"cell": Cell(400, -1100), "scored": date(2019, 1, 2)},  # no ERA5-Land point: sea
     ]
-    x, _ = pnw_weather.weather_matrix(tmp_path / "w.npz", rows)
-    assert pnw_weather.weather_status(tmp_path / "w.npz", rows, x) == ["missing_days", "sea"]
+    x, _, kind = pnw_weather.weather_matrix(tmp_path / "w.npz", rows)
+    assert kind == ["own", "none"]
+    assert pnw_weather.weather_status(tmp_path / "w.npz", rows, x, kind) == ["missing_days", "sea"]
+
+
+def test_a_cell_with_no_land_value_reads_its_nearest_land_neighbour(tmp_path):
+    """RECORD -822 through the real builder and weather_matrix: a cell whose own point is NaN on
+    every day takes the east neighbour (nearer than north at 47 N), flagged "neighbour"."""
+    from datetime import date
+
+    from forager_forecast.cells import Cell
+
+    with h5py.File(tmp_path / "era5land-2019-01.nc", "w") as h:
+        h["latitude"] = np.array([47.1, 47.0])
+        h["longitude"] = np.array([-123.0, -122.9])
+        t = h.create_dataset("valid_time", data=np.arange(31))
+        t.attrs["units"] = np.bytes_("days since 2019-01-01 00:00:00")
+        for k, base in (("t2m", 280.0), ("stl1", 281.0), ("swvl1", 0.3)):
+            a = np.full((31, 2, 2), base, dtype=np.float32)
+            a[:, 1, 0] = np.nan  # (47.0, -123.0): sea
+            a[:, 1, 1] = base + 1.0  # (47.0, -122.9): east neighbour, the nearest land
+            h[k] = a
+    write(tmp_path / "era5-precip-2019.nc", {"tp": 0.002}, 0.25)
+    pnw_weather.build(tmp_path, tmp_path / "w.npz")
+    rows = [{"cell": Cell(470, -1230), "scored": date(2019, 1, 10)}]
+    x, names, kind = pnw_weather.weather_matrix(tmp_path / "w.npz", rows)
+    assert kind == ["neighbour"]
+    assert x[0, names.index("temperature_mean_3d")] == pytest.approx(281.0 - 273.15, abs=1e-4)
+    assert x[0, names.index("soil_moisture_mean_3d")] == pytest.approx(1.3, abs=1e-6)
