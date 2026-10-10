@@ -35,6 +35,8 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime
 from pathlib import Path
 
+import cds_jobs
+
 from forager_forecast.t1_design import BOXES
 
 BOX = next(b for b in BOXES if b.name == "pnw")
@@ -115,6 +117,11 @@ def main() -> int:
     ap.add_argument("--workers", type=int, default=1)
     ap.add_argument("--only", default="", help="pull this one unit name only (overlap month)")
     ap.add_argument(
+        "--precip-only",
+        action="store_true",
+        help="T1-box precipitation only; land months go by the hourly route (2026-10-10, measured)",
+    )
+    ap.add_argument(
         "--per-dataset",
         type=int,
         default=1,
@@ -125,6 +132,8 @@ def main() -> int:
     import cdsapi  # noqa: PLC0415  (only this script needs it; run with --with cdsapi==0.7.7)
 
     todo = [u for u in units() if not args.only or u[0] == args.only]
+    if args.precip_only:
+        todo = [u for u in todo if u[0].startswith("era5-precip-")]
     log(
         f"{len(todo)} units, T1 box {AREA} then {REST_AREAS}, out {args.out},"
         f" {args.workers} in flight"
@@ -167,7 +176,7 @@ def main() -> int:
                 with slots[dataset]:
                     requested_at = datetime.now(UTC).isoformat(timespec="seconds")
                     t0 = time.monotonic()
-                    local.client.retrieve(dataset, request).download(str(tmp))
+                    adopted = cds_jobs.fetch(local.client, dataset, request, str(tmp))
                 tmp.rename(nc)
                 seconds = round(time.monotonic() - t0, 1)
                 rec.write_text(
@@ -180,6 +189,7 @@ def main() -> int:
                             "bytes": nc.stat().st_size,
                             "account": ACCOUNT,
                             "client": "cdsapi==0.7.7 via uv run --with",
+                            "adopted_job": adopted,
                             "in_flight": args.workers,
                         },
                         indent=2,
