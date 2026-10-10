@@ -508,6 +508,55 @@ beside a daily pass, is not reported.
   evaluates. That is labelled in its `model.json`; whether the map's banner carries it is the site
   track's to show, and was not checked here.
 
+## Pass 2i: the hedge run's gates and the early land-route check (read at `97a6610`, merged at this commit)
+
+**The gate order in `pnw_hedge_run.sh` (`a5b0be3`) holds.**
+1. `:21` builds the weather file.
+2. `:22-26` runs the equivalence with `--available` and exits 3 on any non-zero return. That
+   includes a land-route fail (`pnw_equivalence.py:295`) and a crash.
+3. Only then come the fits (`:27-32`), the comparison (`:33`) and the scoring model (`:35-37`).
+4. With `set -e`, a failed build stops it too.
+- With zero spans available the land-route gate fails, not passes: `n0` is 0, so `pass` is False
+  (`pnw_equivalence.py:258-260`). It cannot pass vacuously.
+- Both models get the same `--weather` and `--years`, so `pnw_t1_compare.py` compares one unit
+  set, and labels it PARTIAL.
+
+**The early land-route check (`equivalence_early_partial_2110Z.json`, `97a6610`) is as reported,
+but it is one span.**
+- Cell 492_-1246 from 2019-01-08.
+- Offset 0 matches 192/192 hours on t2m, stl1 and swvl1. Offsets −1 and +1 match 37 and 32, 103
+  and 96, 59 and 58.
+- So the best offset is 0 on all three. That agrees with the step-size measurement in pass 2g.
+- Of the other 35 spans, 32 were skipped as incomplete (24 of them start in 2019 to 2025) and 3 as
+  a sea point.
+
+**S8 (should-fix). The equivalence skips the sea-point cell the fit keeps.**
+- `pnw_equivalence.py:194-199` sets aside all three spans of cell 427_-1245 as a sea point.
+- Under RECORD -822 the fit reads that cell's land weather from its nearest land neighbour.
+- So 3 of 36 spans are never compared, and the neighbour path that 8,236 units use (pass 2c
+  prediction) is never checked against Open-Meteo.
+- **Fix:** compare those spans at the neighbour point the fit uses (`coastal.land_point`), or state
+  in the result that the sample is 33 spans and the neighbour path is unchecked.
+
+**S9 (should-fix). The hedge's land-route gate passes on however many spans have arrived.**
+- `pnw_hedge_run.sh:22-26` with `--available` passes on one span. It did so at 21:50Z.
+- 25 of the sample's 36 spans start in 2019 to 2025, which are the years the hedge fits.
+- **Fix:** require every non-sea 2019 to 2025 sample span to be compared before the hedge's fits
+  run, or at least print the number of spans compared beside the pass, so a one-span pass is not
+  read as the gate.
+
+**N13 (note). One day's 18% gap is not the 4 to 8% finding.**
+- Report `:173-176` says the one daily rain miss (11.36 against 9.3 mm, 18% low) "matches" the
+  scoring coder's 4 to 8% finding.
+- One day 18% low is consistent with an aggregate gap. It is not a measure of it.
+- S6's summed ratio over the sample would be the comparable figure.
+
+**N14 (note). The hedge's early-2019 units may drop.**
+- 2019's early units have 90-day windows that reach into 2018.
+- In a `--years` run, units whose windows reach unpulled months are dropped as `missing_days`.
+  They are counted, not refused (`pnw_t1_fit.py`, B3 fix).
+- The hedge's 2019 fold may hold fewer units than the all-years run's. The summary shows how many.
+
 ## Pass 2
 
 Pending:
