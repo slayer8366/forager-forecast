@@ -1,0 +1,2 @@
+URL dates: ['start_date=2020-01-06', 'end_date=2020-01-13']
+EXCEPTION ValueError cannot reshape array of size 192 into shape (7,24)

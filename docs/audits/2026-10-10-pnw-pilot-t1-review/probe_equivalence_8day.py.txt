@@ -1,0 +1,51 @@
+"""Reviewer probe (pass 2a): does scripts/pnw_equivalence.py at ab8d28f run one sample span to the end?
+
+No network and no builder data: sample(), load() and fetch() are replaced. The store grid holds one
+land point and one rain point with complete values; fetch() returns a body shaped as Open-Meteo
+answers the script's own URL (start to end + 1 day: 8 daily values, 192 hourly values per variable).
+Prints the URL's date range, then the first exception, or the result.
+"""
+import sys
+from datetime import date
+from pathlib import Path
+
+import numpy as np
+
+sys.path.insert(0, str(Path.cwd() / "scripts"))
+import pnw_equivalence as pe  # noqa: E402
+
+from forager_forecast.cells import Cell, quarter_cell_for  # noqa: E402
+from forager_forecast.daily_grid import DailyGrid  # noqa: E402
+
+cell = Cell(470, -1230)
+q = quarter_cell_for(47.0, -123.0)
+start = date(2020, 1, 6)
+N = 5000
+grids = {
+    v: DailyGrid(date(2014, 9, 1), {(470, -1230): 0}, np.full((1, N), val))
+    for v, val in (("temperature", 5.0), ("soil_temperature", 6.0), ("soil_moisture", 0.3))
+}
+grids["precipitation"] = DailyGrid(date(2014, 9, 1), {(q.lat_quarters, q.lon_quarters): 0}, np.full((1, N), 1.0))
+urls = []
+
+
+def fake_fetch(url, cache):
+    urls.append(url)
+    return {"latitude": 47.0, "longitude": -123.0,
+            "daily": {"temperature_2m_mean": [5.0] * 8, "precipitation_sum": [1.0] * 8},
+            "hourly": {"soil_temperature_0_to_7cm": [6.0] * 192,
+                       "soil_moisture_0_to_7cm": [0.3] * 192,
+                       "precipitation": [1.0 / 24] * 192}}
+
+
+pe.sample = lambda _records: [(cell, start)]
+pe.load = lambda _npz: grids
+pe.fetch = fake_fetch
+out = Path(sys.argv[1])
+sys.argv = ["pnw_equivalence.py", "unused", "unused.npz", str(out)]
+try:
+    code = pe.main()
+    print("exit", code, (out / "equivalence.json").read_text()[:600])
+except Exception as err:  # noqa: BLE001  the point of the probe is to print it
+    print("URL dates:", [p for p in urls[0].split("&") if "date" in p] if urls else None)
+    print("EXCEPTION", type(err).__name__, err)

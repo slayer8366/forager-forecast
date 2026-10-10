@@ -40,6 +40,16 @@ CHECKS = [
      "    skill = tm.brier_skill(pf, pc, y)\n",
      "    skill = float(np.mean([tm.brier_skill(pf[years == v], pc[years == v], y[years == v]) for v in sorted(set(years.tolist()))]))\n",
      ["tests/test_pnw_t1_compare.py"]),
+    ("R6 soil moisture given the kelvin offset again (review B1)",
+     "scripts/pnw_weather.py",
+     '"swvl1": lambda a: a,  # m3 m-3 as delivered',
+     '"swvl1": lambda a: a - 273.15,  # m3 m-3 as delivered',
+     ["tests/test_pnw_weather_units.py"]),
+    ("R7 a sea point read as a month not pulled (review B3)",
+     "scripts/pnw_weather.py",
+     'status.append("sea" if sea else "missing_days")',
+     'status.append("missing_days")',
+     ["tests/test_pnw_weather_units.py"]),
 ]
 
 only = set(sys.argv[1:])
