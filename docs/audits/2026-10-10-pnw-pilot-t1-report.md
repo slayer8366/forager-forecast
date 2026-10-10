@@ -142,3 +142,20 @@ D33), then 2019 72, 2020 107, 2021 115, 2022 89, 2023 97, 2024 301, 2025 309.
   route's files. That hash was written without being checked. The next commit's message corrects
   it to "4f...", which is also unchecked and wrong. The commit is **`e2865eb`** ("weather builder
   reads both ERA5-Land routes", read from `git log`).
+
+## Queue decisions (planner's go, option (c), 2026-10-10)
+
+- At 20:20:10 UTC the two derived daily-statistics jobs were dismissed. Both had been accepted and
+  never started:
+  - `d6ae24ed-c8b4-428a-ae21-cf65e9f47b3e`: the map's 2026 rain, submitted by the scoring coder.
+  - `8f202c97-fc95-4a8b-980d-2bc996fe7199`: rain 2025.
+  Their data comes by the verified hourly routes: rain 2025 in the hourly rain chunks, and the
+  map's months through `--scoring` (`61f9bf6`). The processes that waited on them were stopped.
+- Hourly ERA5-Land restarted with 4 workers at 20:20. It adopted its 2 in-flight jobs. Once the
+  remaining rain chunks are in, the rain worker's slot goes to land as well.
+- Why: per-job time rose from 389 to 896 s to about 1,860 s per month (20:02 to 20:06 UTC). At 2
+  in flight the land pull projected about 31 h.
+- Route check for land: if no derived land month can be had before the fit, D24's equivalence
+  comparison (hourly ERA5-Land aggregated by this code, against Open-Meteo's ERA5-Land daily
+  values, within RECORD -818's restated tolerance) stands in for the route agreement check, as the
+  planner set. One derived land month is still tried if a slot frees and the derived queue moves.
