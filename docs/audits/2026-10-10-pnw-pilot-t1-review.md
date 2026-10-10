@@ -389,6 +389,26 @@ in pass 2 once the fits finish, to leave the processor free.
 - The calendar fit of 18:24Z has no such check yet, and is to be refit on the weather unit set
   anyway.
 
+## Pass 2d: rain by the hourly route (read at `ff6d4f7`, merged at this commit)
+
+**What changed.**
+- RECORD -826 (owner: "Hourly, checked against 2019 (Recommended)") bends D54 for the pilot. Rain
+  years not yet delivered come from hourly ERA5 single levels, summed in code.
+- The code (`hourly_daily.daily_sums_previous_hour`) gives day d the stamps d 01:00 to d+1 00:00.
+  It cites the store's `time_shift` attribute on its daily file (D51 report).
+- The check tolerance is 1e-5 m on every point and day of 2019 against the store's own daily sum.
+  It is committed in `pnw_cds_precip_hourly.py` (`a5a981b`) before any comparison.
+- The other convention is shown as a diagnostic only.
+
+**Reviewer revert R10** (`revert_runner_pass2d.out.jsonl`): summing stamps 00:00 to 23:00 fails
+`test_accumulated_hours_sum_stamps_01_to_24` at the first day.
+
+**N11 (note).** That test checks the code's convention, not the store's. The evidence that 01:00
+to 24:00 is right is the 2019 check, which has not run yet. My pass-1 D51 pair (Open-Meteo against
+the store, 4 of 5 rain points off by 0.08 to 0.18 mm) does not separate convention from rounding,
+so it neither supports nor contradicts this choice. Pass 2 reads the check's output before
+anything summed is used.
+
 ## Pass 2
 
 Pending:
