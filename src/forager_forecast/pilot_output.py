@@ -52,6 +52,46 @@ _DRIVER_LABELS = {
 }
 
 
+# What the training grids hold after pnw_weather's conversion (°C, mm, m³/m³), as Open-Meteo
+# declares it, and the range a value in that unit can take in the PNW. A value outside the range
+# means a unit or offset went wrong (reviewer B1: a kelvin offset applied to soil moisture).
+OPEN_METEO_UNITS = {
+    ("daily_units", "temperature_2m_mean"): "°C",
+    ("daily_units", "precipitation_sum"): "mm",
+    ("hourly_units", "soil_temperature_0_to_7cm"): "°C",
+    ("hourly_units", "soil_moisture_0_to_7cm"): "m³/m³",
+}
+PLAUSIBLE = {
+    "temperature": (-60.0, 60.0),
+    "soil_temperature": (-60.0, 70.0),
+    "soil_moisture": (0.0, 1.0),
+    "precipitation": (0.0, 500.0),
+}
+
+
+class UnitMismatch(ValueError):
+    """A weather value is not in the unit the training grids hold."""
+
+
+def check_units(payload: dict) -> None:
+    for (section, variable), unit in OPEN_METEO_UNITS.items():
+        got = payload.get(section, {}).get(variable)
+        if got != unit:
+            raise UnitMismatch(f"{variable} arrived in {got!r}, the training grids hold {unit!r}")
+
+
+def check_ranges(arrays: Mapping[str, np.ndarray]) -> None:
+    """Every non-NaN value of each variable inside its plausible range, in the npz layout."""
+    for variable, (low, high) in PLAUSIBLE.items():
+        values = np.asarray(arrays[f"{variable}_values"], dtype=float)
+        finite = values[np.isfinite(values)]
+        if finite.size and (finite.min() < low or finite.max() > high):
+            raise UnitMismatch(
+                f"{variable} spans {finite.min():.4g} to {finite.max():.4g}, outside {low} to "
+                f"{high}: a unit or offset is wrong"
+            )
+
+
 class RainDisagrees(ValueError):
     """Two cells sharing one ERA5 point reported different rain for one day."""
 

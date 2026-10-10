@@ -113,6 +113,7 @@ def read_live_weather(weather_dir: Path, start: date, end: date):
             raise SystemExit(f"{body_path} does not match the hash in its request record")
         cells = [Cell(*map(int, cid.split("_"))) for cid in req["cells"]]
         for cell, item in lw.split_by_cell(cells, json.loads(raw)).items():
+            po.check_units(item)
             try:
                 per_cell[cell] = daily_weather_from_archive(item)
             except ArchiveGap as err:
@@ -178,7 +179,9 @@ def main() -> int:
     box = lw.box_cells(pnw)
     per_cell, refused, batches = read_live_weather(a.weather, start, end)
     npz = a.weather / f"weather_{week.id}.npz"
-    np.savez_compressed(npz, **po.weather_arrays(per_cell, start, end))
+    arrays = po.weather_arrays(per_cell, start, end)
+    po.check_ranges(arrays)
+    np.savez_compressed(npz, **arrays)
     land = sorted(per_cell)
     rows = [
         {"cell": c, "scored": monday, "lat": c.center_latitude, "lon": c.center_longitude}

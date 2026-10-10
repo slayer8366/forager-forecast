@@ -5,7 +5,7 @@ import hashlib
 import json
 import subprocess
 import sys
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import numpy as np
@@ -37,6 +37,12 @@ def payload(cell: Cell, rng, sea: bool = False, rain=None) -> dict:
     return {
         "latitude": cell.center_latitude,
         "longitude": cell.center_longitude,
+        "daily_units": {"time": "iso8601", "temperature_2m_mean": "°C", "precipitation_sum": "mm"},
+        "hourly_units": {
+            "time": "iso8601",
+            "soil_temperature_0_to_7cm": "°C",
+            "soil_moisture_0_to_7cm": "m³/m³",
+        },
         "daily": {
             "time": [d.isoformat() for d in days],
             "temperature_2m_mean": [v(rng.normal(12, 4)) for _ in days],
@@ -158,3 +164,17 @@ def test_a_model_whose_feature_order_differs_is_refused(case):
     done = run(tmp_path)
     assert done.returncode != 0
     assert "are not the full model's" in done.stderr
+
+
+def test_a_payload_in_another_unit_stops_the_run(case):
+    tmp_path, body, _booster = case
+    body[0]["hourly_units"]["soil_moisture_0_to_7cm"] = "%"
+    raw = tmp_path / "weather" / "raw"
+    data = json.dumps(body).encode()
+    (raw / "batch_000.json").write_bytes(data)
+    req = json.loads((raw / "batch_000.request.json").read_text())
+    req["sha256"] = hashlib.sha256(data).hexdigest()
+    (raw / "batch_000.request.json").write_text(json.dumps(req))
+    done = run(tmp_path)
+    assert done.returncode != 0
+    assert "soil_moisture_0_to_7cm arrived in '%'" in done.stderr

@@ -148,3 +148,39 @@ def test_blocks_hold_every_feature_once():
     b = po.blocks(feats)
     assert sorted(b) == ["n46w123", "n47w123"]
     assert sum(len(v["features"]) for v in b.values()) == 3
+
+
+def _units_payload():
+    return {
+        "daily_units": {"time": "iso8601", "temperature_2m_mean": "°C", "precipitation_sum": "mm"},
+        "hourly_units": {
+            "time": "iso8601",
+            "soil_temperature_0_to_7cm": "°C",
+            "soil_moisture_0_to_7cm": "m³/m³",
+        },
+    }
+
+
+def test_open_meteo_units_are_checked_per_variable():
+    po.check_units(_units_payload())
+    wrong = _units_payload()
+    wrong["daily_units"]["temperature_2m_mean"] = "°F"
+    with pytest.raises(po.UnitMismatch, match="temperature_2m_mean"):
+        po.check_units(wrong)
+    missing = _units_payload()
+    del missing["hourly_units"]["soil_moisture_0_to_7cm"]
+    with pytest.raises(po.UnitMismatch, match="soil_moisture_0_to_7cm"):
+        po.check_units(missing)
+
+
+def test_value_ranges_catch_a_kelvin_offset_on_soil_moisture():
+    arrays = po.weather_arrays(synthetic(np.random.default_rng(3)), START, END)
+    po.check_ranges(arrays)
+    bad = dict(arrays)
+    bad["soil_moisture_values"] = arrays["soil_moisture_values"] - 273.15  # reviewer's B1
+    with pytest.raises(po.UnitMismatch, match="soil_moisture"):
+        po.check_ranges(bad)
+    kelvin = dict(arrays)
+    kelvin["temperature_values"] = arrays["temperature_values"] + 273.15
+    with pytest.raises(po.UnitMismatch, match="temperature"):
+        po.check_ranges(kelvin)
