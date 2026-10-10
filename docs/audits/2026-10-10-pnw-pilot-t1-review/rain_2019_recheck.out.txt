@@ -1,0 +1,6 @@
+hourly time units b'seconds since 1970-01-01' shape (17544, 31, 17) tp attrs {'units': np.bytes_(b'm')}
+daily time units b'days since 2019-01-01 00:00:00' attrs {'_Netcdf4Coordinates': array([0], dtype=int32), 'CLASS': np.bytes_(b'DIMENSION_SCALE'), 'NAME': np.bytes_(b'valid_time'), '_Netcdf4Dimid': np.int32(0), 'long_name': np.bytes_(b'time'), 'standard_name': np.bytes_(b'time'), 'time_shift': np.bytes_(b'-1 days +23:00:00'), 'units': np.bytes_(b'days since 2019-01-01 00:00:00'), 'calendar': np.bytes_(b'proleptic_gregorian'), 'REFERENCE_LIST': array([(<HDF5 object reference>, 0)],
+      dtype={'names': ['dataset', 'dimension'], 'formats': ['O', '<u4'], 'offsets': [0, 8], 'itemsize': 16})}
+stamps 01..24 values 192355 over 1e-5 0 max 0.0 exactly equal 192355
+stamps 00..23 values 192355 over 1e-5 97562 max 0.008673667907714844 exactly equal 71792
+reference values exactly 0 47566 max ref mm 126.23882293701172

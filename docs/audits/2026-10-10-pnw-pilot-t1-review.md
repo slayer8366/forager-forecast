@@ -409,6 +409,28 @@ the store, 4 of 5 rain points off by 0.08 to 0.18 mm) does not separate conventi
 so it neither supports nor contradicts this choice. Pass 2 reads the check's output before
 anything summed is used.
 
+## Pass 2e: the 2019 rain check and the run order (read at `a8f85b9`, merged at this commit)
+
+**The 2019 rain check holds, reproduced by independent code.**
+- `rain_2019_recheck.py.txt` and its `.out.txt` share no code with `pnw_cds_precip_hourly.py`.
+- It read the builder's two files read-only.
+- Summing stamps 01:00 to 24:00 gives all 192,355 values (365 days × 527 points) **exactly equal**
+  to the store's daily sum: max difference 0.0. This includes the wet days; the largest is
+  126.2 mm, and 144,789 of the reference values are not zero.
+- Stamps 00:00 to 23:00 put 97,562 values over 1e-5 m, max 8.67 mm.
+- Both match `precip_hourly_vs_daily_2019.json` (`267e3ad`).
+- The daily file's `valid_time` carries `time_shift` "-1 days +23:00:00", as `hourly_daily` cites.
+- So the hourly rain route is the store's daily sum, and RECORD -826's condition is met. N11 is
+  closed.
+
+**Run order (`pnw_t1_run_all.sh`).**
+- `main` builds the weather file once, then fits calendar then full for the primary design, then
+  the random-date design, each with `--weather`, so both models share a unit set. It compares each.
+- `extras` is D33 (3) and (4).
+- One CPU job at a time. Every fit inherits the dirty-tree and missing-weather refusals.
+- **S5 is still open:** the equivalence script is not in the run order and is unchanged since
+  `ab8d28f`. -819 asks for its result to be reported.
+
 ## Pass 2
 
 Pending:
