@@ -1,0 +1,2 @@
+2b629c6febd5926d5adcc886bfc968736d766d2682c9fa41da451342f5cac43b  /mnt/work/scanfi-edge-scratch/pnw-after/mosaic/soil_pnw.tif
+0c8a7e974a2f18b628781b2678a1a21d9dceabdabb47cae8b140cfafee340293  /mnt/work/scanfi-edge-scratch/pnw-after/mosaic/trees_pnw.tif
