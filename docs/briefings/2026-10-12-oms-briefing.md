@@ -153,8 +153,8 @@ Where to see them: the map at https://zynergy-labs.com/Forager/forecast/, live s
 Figures from `docs/audits/2026-10-10-t6b-pnw-run/seam-after-10-tiles/mosaic-and-seam.out.txt`
 (branch `t6b-pnw-scanfi`, the mosaic with Canada filled) unless named otherwise. The map's input
 layers were redrawn from that mosaic with Canada filled on 2026-10-10 (Forager RECORD -839,
-zynergy-site branch `input-map-canada`); they are live once that branch is merged: **TO FILL** with
-the merge record, or say the map still shows Canada in grey. The four images on the drive were drawn
+zynergy-site branch `input-map-canada`), and went live on 2026-10-10 at 22:34 UTC (zynergy-site PR #9,
+merge 68d8ae0f, Forager RECORD -840). The four images on the drive were drawn
 on 2026-10-09, before any Canadian trees, and were not redrawn; the mosaic they were drawn from is
 kept on the drive as `forecast-data/pnw/mosaic-2026-10-09/`.
 
