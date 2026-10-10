@@ -98,3 +98,10 @@ D33), then 2019 72, 2020 107, 2021 115, 2022 89, 2023 97, 2024 301, 2025 309.
 ## D33 (3) and (4): allowed after Monday (RECORD -812); PENDING
 
 ## Not checked: PENDING
+
+## Corrections to commit messages (append only; the commits are not amended)
+
+- `9060ea6` names "3b0c0b1" as the commit where the weather builder started reading the hourly
+  route's files. That hash was written without being checked. The next commit's message corrects
+  it to "4f...", which is also unchecked and wrong. The commit is **`e2865eb`** ("weather builder
+  reads both ERA5-Land routes", read from `git log`).
