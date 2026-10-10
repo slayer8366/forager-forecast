@@ -626,9 +626,9 @@ def _cropped_scanfi(world, tmp_path, layer, keep_east_of_lon):
 
     src_path = world["d"] / f"scanfi_full_{layer}.tif"
     with rasterio.open(src_path) as src:
-        x, _ = Transformer.from_crs(
-            GEOGRAPHIC_CRS, src.crs.to_wkt(), always_xy=True
-        ).transform(keep_east_of_lon, 49.05)
+        x, _ = Transformer.from_crs(GEOGRAPHIC_CRS, src.crs.to_wkt(), always_xy=True).transform(
+            keep_east_of_lon, 49.05
+        )
         c0 = int((x - src.transform.c) // src.transform.a)
         win = Window(c0, 0, src.width - c0, src.height)
         data = src.read(1, window=win)
@@ -650,21 +650,31 @@ def test_a_tile_past_the_scanfi_edge_is_blank_there_and_read_where_scanfi_covers
                               d / "nalcms.tif", tmp_path / "whole")  # fmt: skip
     edge = scanfi_layer_tile(BIG, cropped, "balsamFir", d / "mask.tif", d / "nalcms.tif",
                              tmp_path / "edge")  # fmt: skip
-    assert whole["past_scanfi_edge_pixels"] == 0
+    assert "past_scanfi_edge_pixels" not in whole and "past_scanfi_edge" not in whole
     assert edge["past_scanfi_edge_pixels"] > 0
     assert "past the SCANFI raster" in edge["past_scanfi_edge"]
     name = f"scanfi_balsamFir_{BIG.key}.npz"
     with np.load(tmp_path / "whole" / name) as a, np.load(tmp_path / "edge" / name) as b:
         assert int(b["past_edge"]) == edge["past_scanfi_edge_pixels"]
-        assert int(b["blank"]) >= int(a["blank"]) + int(b["past_edge"]) - int(a["past_edge"])
+        assert int(a["past_edge"]) == 0
+        # The blank pixels are the whole raster's blank ones together with those past the edge.
+        assert max(int(a["blank"]), int(b["past_edge"])) <= int(b["blank"])
+        assert int(b["blank"]) <= int(a["blank"]) + int(b["past_edge"])
         lon, lat = _cells_lonlat()
+        with rasterio.open(cropped) as ds:
+            edge_x = ds.bounds.left
+            x, _ = Transformer.from_crs(GEOGRAPHIC_CRS, ds.crs.to_wkt(), always_xy=True).transform(
+                lon, lat
+            )
+        # A cell is about 250 m wide; 300 m from the edge it lies wholly on one side.
         north = lat > 49.002
-        west = north & (np.asarray(lon) < cut - 0.01)
-        east = north & (np.asarray(lon) > cut + 0.01)
+        west = north & (np.asarray(x) < edge_x - 300)
+        east = north & (np.asarray(x) > edge_x + 300)
         assert west.any() and east.any()
         # Past the edge: no data, not 0% crown, and no part of the cell's area is valid.
         assert np.isnan(b["value"][west]).all() and (b["fraction"][west] == 0).all()
-        assert np.isfinite(a["value"][west]).all()
+        # The same cells carry a crown cover from the whole raster, so blank is not "no change".
+        assert np.isfinite(a["value"][west]).sum() > 20
         # Where SCANFI covers the cell, the value is the one the whole raster gives.
         np.testing.assert_allclose(b["value"][east], a["value"][east], rtol=1e-6, equal_nan=True)
         np.testing.assert_array_equal(b["fraction"][east], a["fraction"][east])

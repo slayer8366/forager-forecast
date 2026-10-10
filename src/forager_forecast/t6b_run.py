@@ -119,9 +119,26 @@ def is_network_error(exc: BaseException) -> bool:
     return cause is not None and cause is not exc and is_network_error(cause)
 
 
+# D122 (Forager RECORD -805): the -642 call "non-network errors still stop it" is replaced. A unit
+# that raises anything else is recorded as failed, with its message, and the section carries on;
+# it is not done, so the next section tries it again. A worker killed outright (out of memory)
+# still breaks the process pool and ends the section: that is not an error inside the unit.
+TRACEBACK_CHARS = 2000
+
+
+def _failed(exc: BaseException, attempts: int, network_errors: list[str]) -> dict:
+    import traceback
+
+    text = "".join(traceback.format_exception(exc))
+    return {"status": "failed", "attempts": attempts, "network_errors": network_errors,
+            "error": f"{type(exc).__name__}: {exc}", "traceback": text[-TRACEBACK_CHARS:],
+            "files": {}}  # fmt: skip
+
+
 def attempt(work, unit: str, retry_delays=RETRY_DELAYS, deadline: float | None = None,
             sleep=time.sleep, now=time.time) -> dict:  # fmt: skip
-    """Run ``work(unit)``, retrying network errors; deferred if it still fails. Others raise."""
+    """Run ``work(unit)``, retrying network errors; deferred if it still fails. Any other error
+    fails this unit only (D122): its line carries the message and the traceback's end."""
     errors: list[str] = []
     for k in range(len(retry_delays) + 1):
         try:
@@ -129,7 +146,7 @@ def attempt(work, unit: str, retry_delays=RETRY_DELAYS, deadline: float | None =
             return {"status": "ok", "attempts": k + 1, "network_errors": errors, **result}
         except Exception as exc:
             if not is_network_error(exc):
-                raise
+                return _failed(exc, k + 1, errors)
             errors.append(f"{type(exc).__name__}: {exc}")
             if k == len(retry_delays):
                 break
@@ -183,6 +200,7 @@ def run_section(
     prepared: set[str | None] = set()
     finished: list[str] = []
     deferred: list[str] = []
+    failed: list[str] = []
     reason = None
 
     def record(unit: str, result: dict, seconds: float) -> None:
@@ -193,6 +211,9 @@ def run_section(
         })  # fmt: skip
         if result.get("status") == "deferred":
             deferred.append(unit)
+            return
+        if result.get("status") == "failed":
+            failed.append(unit)
             return
         finished.append(unit)
         group = group_of(unit)
@@ -250,14 +271,15 @@ def run_section(
                     record(unit, fut.result(), time.time() - t0)
     remaining = [u for u in units if u not in done and u not in finished]
     if reason is None and remaining:
-        reason = f"every tile tried; {len(deferred)} deferred after network errors"
+        reason = (f"every tile tried; {len(deferred)} deferred after network errors, "
+                  f"{len(failed)} failed")  # fmt: skip
     summary = {
         "kind": "section", "layer": layer,
         "started_at": datetime.fromtimestamp(started).astimezone().isoformat(timespec="seconds"),
         "ended_at": datetime.now().astimezone().isoformat(timespec="seconds"),
         "seconds": round(time.time() - started, 1), "units_total": len(units),
         "units_done_before": len(done), "units_done_now": len(finished),
-        "units_ok": len(finished), "units_deferred": len(deferred),
+        "units_ok": len(finished), "units_deferred": len(deferred), "units_failed": len(failed),
         "units_remaining": len(remaining), "stopped": reason or "all units done",
     }  # fmt: skip
     append_line(manifest, summary)
