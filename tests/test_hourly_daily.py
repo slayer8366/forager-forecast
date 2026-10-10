@@ -43,3 +43,19 @@ def test_a_nan_hour_makes_that_point_nan_not_a_23_hour_mean():
 def test_refuses_stamps_off_the_hour():
     with pytest.raises(ValueError):
         daily_means(np.array([1800], dtype=np.int64), np.ones((1, 1)))
+
+
+def test_accumulated_hours_sum_stamps_01_to_24():
+    from forager_forecast.hourly_daily import daily_sums_previous_hour
+
+    # Stamps 2019-01-01 00:00 to 2019-01-03 00:00 (49 stamps), value = hour index.
+    t = stamps(datetime(2019, 1, 1, tzinfo=UTC), 49)
+    v = np.arange(49, dtype=float).reshape(49, 1)
+    days, daily, incomplete = daily_sums_previous_hour(t, v)
+    # The 00:00 stamp of Jan 1 belongs to Dec 31 (incomplete); Jan 1 = stamps 1..24, Jan 2 =
+    # stamps 25..48.
+    assert days == [date(2018, 12, 31), date(2019, 1, 1), date(2019, 1, 2)]
+    assert np.isnan(daily[0, 0])
+    assert daily[1, 0] == pytest.approx(sum(range(1, 25)))
+    assert daily[2, 0] == pytest.approx(sum(range(25, 49)))
+    assert incomplete == 1

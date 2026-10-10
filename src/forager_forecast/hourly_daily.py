@@ -51,3 +51,39 @@ def daily_means(
         for d in unique
     ]
     return as_dates, out, incomplete
+
+
+def daily_sums_previous_hour(
+    epoch_seconds: np.ndarray, values: np.ndarray
+) -> tuple[list[date], np.ndarray, int]:
+    """Hourly ERA5 accumulations -> UTC daily sums (Forager RECORD -826, D52, D54).
+
+    ERA5 single-levels hourly total_precipitation is accumulated over the hour ending at its
+    stamp, so the UTC day d holds the stamps d 01:00 to d+1 00:00 (24 values). That is the
+    convention the store's daily-statistics product shows: its single-levels file carries
+    valid_time `time_shift` "-1 days +23:00:00" (grid positions report, D51). A day missing any
+    of its 24 stamps, or a point with a NaN among them, is NaN. Returns (days, daily[day, ...],
+    days_incomplete), over every day with at least one of its stamps present."""
+    if values.shape[0] != len(epoch_seconds):
+        raise ValueError("time axis and stamps differ in length")
+    seconds = epoch_seconds.astype(np.int64)
+    if np.any(seconds % 3600):
+        raise ValueError("stamps are not on whole hours")
+    # The hour each value accumulates over starts one hour before its stamp.
+    start = seconds - 3600
+    days = utc_days(start)
+    unique = np.unique(days)
+    out = np.full((len(unique), *values.shape[1:]), np.nan)
+    incomplete = 0
+    for k, d in enumerate(unique):
+        idx = np.where(days == d)[0]
+        hours = (start[idx] // 3600) % 24
+        if len(idx) != 24 or sorted(hours.tolist()) != list(range(24)):
+            incomplete += 1
+            continue
+        out[k] = values[idx].sum(axis=0)
+    as_dates = [
+        datetime.fromtimestamp(int(d.astype("datetime64[s]").astype(np.int64)), UTC).date()
+        for d in unique
+    ]
+    return as_dates, out, incomplete
