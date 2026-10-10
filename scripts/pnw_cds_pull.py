@@ -14,8 +14,9 @@ Run:  uv run --with cdsapi==0.7.7 python scripts/pnw_cds_pull.py --out <dir>
 - ERA5 single-levels daily statistics: daily_sum of total_precipitation, product_type reanalysis
   (D54). One request per year, all months.
 - time_zone utc+00:00 and frequency 1_hourly in every request (D52, as the grid-position pulls).
-- Order: 2019 to 2025 first, the years D33 (1) calls the PNW's useful data, then 2014 (the
-  warm-up months) and 2015 to 2018. The owner allowed training on years as they arrive
+- Order: newest month first, 2025-12 back to 2014-09, each year's precipitation request before its
+  months (planner, 2026-10-10). The hourly route walks forward from 2014-09 and the two meet; each
+  skips months the other has delivered. The owner allowed training on years as they arrive
   ("Train as it downloads if you need to", relayed by the planner on 2026-10-10).
 - Resumable: a unit whose NetCDF and `.request.json` both exist is skipped. Each request is
   stored with its UTC request time and the account (D52) before the file is fetched.
@@ -45,7 +46,9 @@ REST_AREAS = {
     "east": [49.5, -121.0, 40.0, -111.0],
     "south": [42.0, -125.0, 40.0, -121.0],
 }
-YEAR_ORDER = [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2014, 2015, 2016, 2017, 2018]
+# Newest first (planner, 2026-10-10): this route walks back from 2025 while the hourly route
+# (scripts/pnw_cds_hourly_pull.py) walks forward from 2014-09; each skips months the other has.
+YEAR_ORDER = [2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014]
 LAND_VARIABLES = ["2m_temperature", "soil_temperature_level_1", "volumetric_soil_water_layer_1"]
 MIN_FREE_BYTES = 3 * 1024**3
 ACCOUNT = (
@@ -80,7 +83,7 @@ def _units_for(prefix: str, area: list[float]):
                 "area": area,
             },
         )
-        for m in months:
+        for m in reversed(months):
             yield (
                 f"{prefix}era5land-{year}-{m:02d}",
                 "derived-era5-land-daily-statistics",
@@ -142,6 +145,9 @@ def main() -> int:
             return 0
         if nc.exists() and nc.stat().st_size > 0 and rec.exists():
             log(f"[{i}/{len(todo)}] {name} skip (done)")
+            return 0
+        if name.startswith("era5land-") and (args.out / f"hourly-{name}.daily.h5").exists():
+            log(f"[{i}/{len(todo)}] {name} skip (hourly route has it)")
             return 0
         free = shutil.disk_usage(args.out).free
         if free < MIN_FREE_BYTES:
