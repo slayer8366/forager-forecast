@@ -1,4 +1,6 @@
 {
+  "gbif_download_key": "0012112-260928105237408",
+  "gbif_doi": "10.15468/dl.8jxmeb",
   "zip": "/home/zynergy-labs/Zynergy/forager-forecast-d26/data/d26/downloads/0012112-260928105237408.zip",
   "zip_sha256": "c0d5f6a1a775ddb902f73ca2c1978946c056a4f326beb7e13349677c0f72b26c",
   "rows_read": 2493578,
@@ -7,7 +9,7 @@
     "eventDate spans more than one day": 23
   },
   "records_in_pnw_box": 252818,
-  "written_utc": "2026-10-10T18:12:37+00:00",
+  "written_utc": "2026-10-10T19:08:51+00:00",
   "lists": {
     "t1_1000m": {
       "source": 252818,
@@ -180,5 +182,5 @@
       "csv_sha256": "508918ec9f0587a474c8301d5e7df91c407f2e3f81ac45205d286ae96a99c1d0"
     }
   },
-  "seconds": 170.6
+  "seconds": 157.8
 }
