@@ -91,6 +91,16 @@ def compare_point(cell: Cell, has_value) -> tuple[tuple[int, int] | None, str]:
     return found[0], "neighbour" if found[1] else "own"
 
 
+def request_cells(cell: Cell, point: tuple[int, int], kind: str) -> tuple[Cell, Cell]:
+    """Review S10: (where Open-Meteo is asked for the land variables, where for rain). Land at the
+    ERA5-Land point the store side reads (the cell's own, or its -822 neighbour); rain at the cell
+    centre, whose nearest ERA5 quarter point is the one the fit reads. At a cell with no ERA5-Land
+    value Open-Meteo's era5_seamless serves another product (inferred: ERA5; review N15), so the
+    sea centre is never used for land."""
+    land = Cell(point[0], point[1]) if kind == "neighbour" else cell
+    return land, cell
+
+
 def sample(records_dir: Path):
     rows = primary_units(read_records(records_dir / "t1_1000m.csv"))
     cells = sorted({r["cell"] for r in rows}, key=lambda c: c.id)
@@ -247,8 +257,18 @@ def main() -> int:
                 skipped.append(f"{cell.id} {start}")
                 continue
             raise SystemExit(f"store values missing for {cell.id} from {start}: pull incomplete")
-        body = fetch(request_url(cell, start), om_dir / f"{cell.id}_{start}.json")
+        land_cell, rain_cell = request_cells(cell, point, kind)
+        # Cache keyed by the requested point (review S10), so a body fetched at a sea centre is
+        # never reused for the land comparison.
+        body = fetch(request_url(land_cell, start), om_dir / f"{land_cell.id}_{start}.json")
         om, hours, stamps = split_span(body)
+        if rain_cell != land_cell:
+            rain_body = fetch(
+                request_url(rain_cell, start), om_dir / f"{rain_cell.id}_{start}.json"
+            )
+            rain_om, rain_hours, _ = split_span(rain_body)
+            om["precipitation"] = rain_om["precipitation"]
+            hours["precipitation"] = rain_hours["precipitation"]
         compared.add((cell.id, start))
         rain_sum["store"] += float(np.sum(store["precipitation"]))
         rain_sum["open_meteo"] += float(np.sum(om["precipitation"]))
@@ -270,6 +290,7 @@ def main() -> int:
                         "cell": cell.id,
                         "land_point": list(point),
                         "land_point_kind": kind,
+                        "om_land_request": land_cell.id,
                         "om_cell": [body.get("latitude"), body.get("longitude")],
                         "day": str(start + timedelta(days=k)),
                         "variable": v,

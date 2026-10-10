@@ -80,3 +80,14 @@ def test_a_sea_cell_is_compared_at_its_land_neighbour():
     assert (point, kind) == ((427, -1244), "neighbour")
     assert eq.compare_point(Cell(427, -1245), {(427, -1245)}) == ((427, -1245), "own")
     assert eq.compare_point(Cell(427, -1245), set()) == (None, "none")
+
+
+def test_open_meteo_is_asked_land_at_the_neighbour_and_rain_at_the_cell():
+    """Review S10: a sea cell's land variables are requested at the land point the store side
+    reads; its rain stays at the cell centre (the quarter point the fit reads)."""
+    land, rain = eq.request_cells(Cell(427, -1245), (427, -1244), "neighbour")
+    assert land == Cell(427, -1244) and rain == Cell(427, -1245)
+    assert eq.request_cells(Cell(470, -1230), (470, -1230), "own") == (
+        Cell(470, -1230),
+        Cell(470, -1230),
+    )
