@@ -1,12 +1,15 @@
-# Review: the PNW pilot's T1 fit (D122), under the standing protocol (D18), run beside the build
+# Review: the PNW pilot's T1 fit (D123), under the standing protocol (D18), run beside the build
 
 - **Reviewed:** branch `pnw-pilot-t1`. Pass 1 read it at `5a527b7` (cut from main `36cc647`), then
   the three commits that landed while it was being written, to `bd49c03` (`1742544`, `8cfb43b`,
   `bd49c03`). Line cites are to `5a527b7` unless they say `bd49c03`.
+- **Numbering:** the pilot ruling was filed as D122 (`4d6e864`) and renumbered D123 (`544888c`).
+  The SCANFI edge ruling D122 (`f0c6065`) had been filed first. Every pilot-ruling citation in
+  this review reads D123. Commit messages, and code at `5a527b7`, still say D122.
 - **Protocol:** `docs/dispatch/2026-09-18-review-protocol.md`, checks 1 to 10.
 - **Dispatch:** `docs/dispatch/2026-09-18-t1-calendar-smoke-test.md` with its two amendments.
 - **Rulings read:** D5, D11, D12, D13, D24, D25, D26, D27, D28, D31, D33, D46, D52, D54, D72, D97,
-  D98, D100, D122 (`docs/planning/DECISIONS.md`), and Forager RECORD -806 to -816
+  D98, D100, D123 (`docs/planning/DECISIONS.md`), and Forager RECORD -806 to -816
   (`origin/records-after-173:RECORD.md`).
 - **Report reviewed:** `2026-10-10-pnw-pilot-t1-report.md` (draft, most sections PENDING).
 - **Reviewer:** a Claude session separate from the builder (D18). Worktree
@@ -157,7 +160,7 @@ been read yet.
 
 **S4. The "Train as it downloads" quote is not recorded.**
 - It is cited as the owner's in the report (`:7-8`) and in `pnw_cds_pull.py:17-19`.
-- It appears in neither D122 nor RECORD -806 to -816 (grep, no match).
+- It appears in neither D123 nor RECORD -806 to -816 (grep, no match).
 - It authorises partial-year fits, so it should be filed.
 
 ### Notes
@@ -188,8 +191,8 @@ been read yet.
 | 1 | Terms | **Holds.** No "fruiting probability". "Probability" appears only as the statistical argument name in `t1_model.py:55, :182-193`. The scoring model's label says "sighting chance (D12)" (`bd49c03`, `save_final_model`). |
 | 2 | Decisions | **Drift: B1 to B3** (D24's equivalence and D54's units). The hourly route is S3. D13: target-group negatives are `cell_weeks.py:43-61`, as used by `pnw_t1_fit.py:80-94`. D31: seed 20260918, 20 configurations from a committed grid, the same for both models, inner leave-one-year-out Brier on training years (`t1_model.py:89-139`). D33 (2): see the leakage table. D46 and D54: nearest point per grid (`cells.py`), rain at the quarter point nearest the cell centre (`pnw_weather.py:116-129`). D25: `open_meteo.py:59-60`. |
 | 3 | Fixed choices | **Holds.** See below. |
-| 4 | Scope | **Holds.** Features are calendar, place and the 32 windows only. No habitat. The East box is not pulled, by D122. |
-| 5 | Record | **Gap: S4.** D122 adds one row and edits none (`git diff 36cc647 -- DECISIONS.md`: 1 insertion). |
+| 4 | Scope | **Holds.** Features are calendar, place and the 32 windows only. No habitat. The East box is not pulled, by D123. |
+| 5 | Record | **Gap: S4.** D123 adds one row and edits none (`git diff 36cc647 -- DECISIONS.md`: 1 insertion). |
 | 6 | Data hygiene | **Holds.** No data in git. The pre-commit large-file guard runs. |
 | 7 | Claims cite | **Gap: S2, N6.** The report is a draft. |
 | 8 | Revert checks | **Holds.** Five reviewer reverts bite (below). |
@@ -248,8 +251,8 @@ been read yet.
 
 | Deviation | Authority | Labelled in code | Labelled in report |
 |---|---|---|---|
-| No East box | D122, -811 | `pnw_t1_records.py:6-7`, `pnw_cds_pull.py:7-8` | `:6` |
-| Weather pulled for the union box | D122, -812 | `pnw_cds_pull.py:39-45` | `:25` |
+| No East box | D123, -811 | `pnw_t1_records.py:6-7`, `pnw_cds_pull.py:7-8` | `:6` |
+| Weather pulled for the union box | D123, -812 | `pnw_cds_pull.py:39-45` | `:25` |
 | Partial-year fits | owner's "Train as it downloads", not recorded (S4) | `--years` → `partial`, "PARTIAL" (`pnw_t1_fit.py:142-145, :183-185`), carried by `pnw_t1_compare.py:45-48` | — |
 | Missing weather inside a run labelled "all years" | none | **no** (B3) | **no** |
 | D18 review after Monday | -812 | n/a | review now running beside the build |
@@ -430,6 +433,33 @@ anything summed is used.
 - One CPU job at a time. Every fit inherits the dirty-tree and missing-weather refusals.
 - **S5 is still open:** the equivalence script is not in the run order and is unchanged since
   `ab8d28f`. -819 asks for its result to be reported.
+
+## Pass 2f: queue decisions and the land route's stand-in check (read at `1f62e99`, merged at this commit)
+
+**The derived jobs are dismissed, and both weather variables now come only by hourly routes.**
+- Report "Queue decisions" (`:146-161` at `1f62e99`) names both dismissed jobs with their ids, and
+  the time, 20:20:10 UTC.
+- Rain by the hourly route is exactly the store's daily sum (pass 2e).
+- No derived land month has arrived (`cds/` listing), so the hourly-to-derived land check
+  (`pnw_route_overlap.py`, S3) has nothing to run on.
+
+**The stand-in is stated as such.**
+- Report `:158-161`: "D24's equivalence comparison … stands in for the route agreement check, as
+  the planner set". One derived land month is still tried if a slot frees.
+- **S7 (should-fix). The stand-in is weaker than the check it replaces, and cannot run today.**
+  - (i) Its tolerance is 0.075 °C (RECORD -818). The route check's is 0.001 K. A one-hour shift in
+    the land day boundary moves a daily mean by (T at 00:00 − T at 24:00)/24. Inferred: that is
+    usually under 0.075 °C, so the stand-in may not tell the conventions apart. The route check
+    would.
+  - (ii) The script that would run it, `pnw_equivalence.py`, crashes on its first span, and still
+    carries the superseded tolerances (S5, unchanged at `1f62e99`). The stand-in exists only on
+    paper until S5 is fixed. It is also not in `pnw_t1_run_all.sh`.
+  - The rain route needed its own exact check (pass 2e) because rain is accumulated.
+    Temperature and soil are instantaneous, and `hourly_daily.daily_means` uses stamps 00:00 to
+    23:00 (tested, `test_hourly_daily.py`). That is the store's daily-statistics definition as the
+    module cites it. That makes a boundary error less likely for land (inferred), not ruled out.
+  - The report's result section should say which check the land route actually passed, and its
+    tolerance.
 
 ## Pass 2
 
