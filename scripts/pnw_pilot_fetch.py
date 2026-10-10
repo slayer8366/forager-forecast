@@ -24,7 +24,7 @@ import sys
 import time
 import urllib.error
 import urllib.request
-from datetime import UTC, date, datetime
+from datetime import UTC, datetime
 from pathlib import Path
 
 from forager_forecast import live_weather as lw
@@ -178,7 +178,8 @@ def main() -> int:
                 log(f"batch {i}: {len(cells)} cells, {cost:.1f} calls, sha256 {digest[:12]}")
                 break
             log(
-                f"batch {i} attempt {attempt}: status {status} error {error} body {body_bytes[:200]!r}"
+                f"batch {i} attempt {attempt}: status {status} error {error}"
+                f" body {body_bytes[:200]!r}"
             )
             time.sleep(30 * attempt)
         else:
