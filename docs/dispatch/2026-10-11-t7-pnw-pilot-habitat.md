@@ -9,16 +9,23 @@ Forager RECORD -828 ("Write the T7 habitat-model plan"), for dispatch on 2026-10
 carries the dispatch date the planner gave. Base: forager-forecast `origin/main` at `36cc647`, read
 together with these unmerged branch tips: `d121-lean-start` `aec605d` (D121),
 `t6b-continental-layers` `cfbf50d` (T6b code, D111 to D120, the SCANFI D122),
-`pnw-pilot-t1` `a8f85b9` (the pilot D122), `pnw-first-fit-verify` `dd28648` (the verify report),
-`pnw-pilot-scoring` `9e24e67`. Forager RECORD read at `records-after-173` `9f6f2e02` (entries -806 to
--828). Data folders were listed (not read for values) at about 20:05 to 20:10 UTC on 2026-10-10.
+`pnw-pilot-t1` `a8f85b9` (the pilot ruling, filed there as D122 and being renumbered D123, see
+below), `pnw-first-fit-verify` `dd28648` (the verify report), `pnw-pilot-scoring` `9e24e67`. Forager
+RECORD read at `records-after-173` `9f6f2e02` (entries -806 to -828). Data folders were listed (not
+read for values) at about 20:05 to 20:10 UTC on 2026-10-10.
+
+**Amended 2026-10-10, about 20:30 UTC, before dispatch**, on Forager RECORD -832 (read at
+`records-after-173` `fcfac599`): the owner answered O2, O3, O5 and O6, and the planner settled O1.
+They are stated as decided below, quoting the owner. O4 and O7 stay open, with recommendations.
+RECORD -832 also sets: "T7 does not start before Monday", and O4 and O7 "come to the owner before T7
+starts".
 **Every cite is a premise to re-check. Anything in this file that names what exists on disk was true
 when listed and may have moved since.**
 
 **Writer (D38):** a coder session on this laptop, in its own worktree (suggested
 `~/Zynergy/forager-forecast-t7-pnw`). **Branch:** `t7-pnw-pilot`, base to be confirmed (open decision
-O7). **Review (D18).** **Merge (D40).** **Decision rows:** none until the duplicate D122 is resolved
-(open decision O1); then the next free number.
+O7). **Review (D18).** **Merge (D40).** **Decision rows:** the next free number after D123 (the
+pilot row's new number, answer A1 below), checked against every origin branch before the first is written.
 
 ## The machine: read this first
 
@@ -74,11 +81,12 @@ before the continent is committed to. Those measurements are evidence, below.
 
 ## The box, and why
 
-**Proposed: 40.0 to 49.0 N, 125.0 to 111.0 W, by cell centre**, the T6b PNW box (`PNW_BOX`,
-`origin/t6b-continental-layers:src/forager_forecast/pnw.py:30`). The owner confirms or picks
-another (open decision O2).
+**Decided: 40.0 to 49.0 N, 125.0 to 111.0 W, by cell centre**, the T6b PNW box (`PNW_BOX`,
+`origin/t6b-continental-layers:src/forager_forecast/pnw.py:30`), **once the 8 Canadian tiles are
+filled.** The owner, verbatim (Forager RECORD -832): "Test map's box, after the 8 tiles
+(Recommended)" (offered: T1's area; the union box). Answer A2 below.
 
-Why this one:
+Why it was recommended:
 - It is the only box whose habitat layers are, or are about to be, complete. Every US study cell in
   it has its tree tile (RECORD -785; the render's `mosaic.json` reads `cells_in_tiles_not_computed_yet:
   0`). Its 102,543 Canadian cells sit in 8 tiles that T6b is filling now (RECORD -828; the 8 tiles are
@@ -113,10 +121,10 @@ metadata read here; **read** means a file or record says so; nothing below was o
 | Soil pH, 0 to 30 cm | `DRIVE/t6b/tiles/soil/soil_2048_*.tif`, 89 files, 6 bands each (`ph_mean_0_30cm`, two approximate quantiles, three valid-fraction bands) | done continent-wide (RECORD -802: "soil 89/89"; 89 files observed) | D74, D80, D81 |
 | Host trees, whole tiles | `DRIVE/t6b/tiles/trees/trees_256_*.tif` plus `trees_flags_256_*.tif` | 2,015 tiles plus flags (observed; RECORD -802: "trees 2015/2015"). Bands `TREE_BANDS` (`t6b_layers.py:97`): `total_cover_pct`, `valid_fraction`, `source`, and shares of Pseudotsuga, Tsuga, Picea, Abies, Pinus, Quercus, conifer, broadleaf (`crown_cover.py:156-157`, on `t6b-continental-layers`) | D84 to D92, D112, D115, D116 |
 | Host trees, US halves of border tiles | `DRIVE/t6b/tiles/trees_us_half/` | 92 (observed; RECORD -802). Canadian cells carry flag 4 "pending" | D119, D120 |
-| Host trees, the box's 8 Canadian tiles | 256_-31_21, 256_-30_21, 256_-32_20, 256_-31_20, 256_-30_20, 256_-29_20, 256_-31_19, 256_-30_19 | **pending.** At 20:08 UTC none had a whole tree file and none a SCANFI layer file; 5 had US-half files, 3 are Canada-only (observed). T6b fills them under RECORD -828 | D118, D122 (SCANFI edge), D85, D89 |
+| Host trees, the box's 8 Canadian tiles | 256_-31_21, 256_-30_21, 256_-32_20, 256_-31_20, 256_-30_20, 256_-29_20, 256_-31_19, 256_-30_19 | **pending.** At 20:08 UTC none had a whole tree file and none a SCANFI layer file; 5 had US-half files, 3 are Canada-only (observed). T6b fills them under RECORD -828. T7 fits nothing until all 8 are in (A2) | D118, D122 (SCANFI edge), D85, D89 |
 | The PNW render | `DRIVE/pnw/mosaic/trees_pnw.tif` (10 bands), `soil_pnw.tif` (2 bands), 250 m, ESRI:102008 (metadata read) | built 2026-10-09 05:39 PDT, **before** Canada. Its tree file holds only Pseudotsuga, Tsuga, conifer and broadleaf shares, so it is a picture, not T7's input. Read the tiles, or rebuild a mosaic with every band | RECORD -772 to -785 |
 | Study-area mask | `DRIVE/t6b/mask.tif`, 2 bands: country (0 none, 1 US 48 and DC, 2 Canada, 3 Alaska Hawaii PR USVI, 4 Mexico) and ecoregion (0 in no polygon, 1 Tundra or Arctic Cordillera, 2 other) | done (metadata read) | D111, D113, D117 |
-| NALCMS land cover 2020, 30 m | `DRIVE/t6b/sources/nalcms/NA_NALCMS_landcover_2020v2_30m.tif` | present. Used today only inside the tree layer, where class 18 water and value 0 are no data (D112; `t6b_run.py:72`, `scripts/pnw_checks.py:38`). **No master-grid NALCMS layer exists** (`git grep -i nalcms` over src and scripts on `t6b-continental-layers`) | D112, D121 (open decision O5) |
+| NALCMS land cover 2020, 30 m | `DRIVE/t6b/sources/nalcms/NA_NALCMS_landcover_2020v2_30m.tif` | present. Used today only inside the tree layer, where class 18 water and value 0 are no data (D112; `t6b_run.py:72`, `scripts/pnw_checks.py:38`). **No master-grid NALCMS layer exists** (`git grep -i nalcms` over src and scripts on `t6b-continental-layers`). **Decided: a mask only, not an input** (A4 below), so none is built | D112, D121, RECORD -832 |
 | Ecoregions | `DRIVE/t6b/sources/terr_ecoregions_v2_level_iii_shapefile/` (CEC level III, v2) | present (observed) | D111, D117 |
 | Effort surface | `~/Zynergy/forager-forecast-t6/data/t6/{all,cc}/` (`cell_level.csv`, `year_level.csv`, `season.csv`, `day_type.csv`, `effort_manifest.json`) | present (observed). Ten sha256 equal to `docs/audits/2026-10-06-t6-fit/stored_surface_sha256.txt` (verify report :191, observed there). Read through `effort.EffortSurface.read` (`effort.py:633`, main); `effort(cell, week)` raises `NoEffortValue` for a cell outside the 43,035-cell frame or a week outside the 573 (`:618-624`) | D101 to D109; D107 leaves "the level at which T7 holds effort constant" to T7 |
 | Master grid and regrid | `grid.py`, `regrid.py`, `t4_layer.py` (main); T6b code on `t6b-continental-layers` (unmerged) | merged for T4; T6b code unmerged | D74, D115 |
@@ -128,8 +136,8 @@ Each is quoted from the rule it bends. The pilot takes it for this first fit onl
 keeps the rule.
 
 1. **D100**, TASKS.md:82: "T6b, so the model is fitted on continental layers, not the test areas T4
-   and T5 built". The pilot fits on one box. The pilot D122 (`origin/pnw-pilot-t1`, DECISIONS.md)
-   changes this clause "for this first fit only". Premise V3 checks that it reaches T7.
+   and T5 built". The pilot fits on one box. The pilot ruling (filed on `origin/pnw-pilot-t1` as
+   D122, becoming D123, answer A1 below) changes this clause "for this first fit only". Premise V3 checks that it reaches T7.
 2. **SPEC.md:15**: "One continental pipeline: static habitat layers on a 250 m equal-area grid". Bent
    in extent only. Same master grid, same layer code, same rules. **D5**, "North America is one
    pipeline and one grid", is kept.
@@ -139,8 +147,7 @@ keeps the rule.
    12 under 3. Seven of the 25 hold under 100 cell centres, and Colorado Plateaus holds 1. How many
    hold any chanterelle presence under R6 is not known until counted, so the number of usable blocks
    is a verify item (V9), and the level is open decision O4.
-4. **T7's Does, "for both groups"** (TASKS.md:83). Bent only if the owner rules chanterelles only
-   (open decision O3).
+4. **T7's Does, "for both groups"** (TASKS.md:83). **Kept**: the owner ruled both groups (A3 below).
 5. **SPEC.md:20**: "Validation by ecoregion and held-out year". Kept in form; T7 itself has no year
    split, since its layers are static. Say how held-out years enter, if at all.
 6. **D18** (DECISIONS.md:103): "A dependent task does not start until its prerequisite's review is
@@ -148,10 +155,12 @@ keeps the rule.
    269), and none was found for this dispatch either: no file under `docs/audits/` on any origin
    branch has both "t6b" and "review" in its name (searched 2026-10-10 about 20:20 UTC). The reviews
    on record cover `t6b-pnw-monday` only, and are recorded in Forager RECORD -786 and -788, not as a
-   filed review here. T7 on those layers bends D18 unless one is filed, or the
-   owner accepts it labelled unreviewed (open decision O6).
+   filed review here. **Decided: a review of the PNW box's T6b layers runs now, alongside** (A5
+   below), so D18 is met by a review in parallel rather than one filed first. That is the owner's
+   choice, not a bend T7 takes on its own: read the review's findings before proposing P4, and treat
+   any finding against a layer T7 uses as a stop.
 
-**Kept, not bent:** D5's gate and D12's meaning (pilot D122: "unchanged"); R6 (no record above 250 m
+**Kept, not bent:** D5's gate and D12's meaning (the pilot ruling: "unchanged"); R6 (no record above 250 m
 reaches habitat training); R8 (no percent at 250 m); D31's rule that a tuning grid is written into the
 repo before any fit; D121 (no layer beyond the lean set without a held-out comparison); D58.
 
@@ -161,20 +170,20 @@ Confirm or correct each premise, with a file and line or a command and its outpu
 fails is a finding, not something to fix quietly.
 
 - **V1. Base.** `git fetch origin`; name the base you cut from and confirm it holds T6b's code,
-  D121 and the pilot D122 (`git merge-base --is-ancestor`). Today no single branch holds all three:
-  `d121-lean-start` lacks both D122s, `t6b-continental-layers` lacks D121, `pnw-pilot-t1` lacks D121
-  and T6b. That is open decision O7; stop until the planner names the base.
-- **V2. The D122 collision.** Two different rows are numbered D122: the SCANFI edge ruling on
-  `t6b-scanfi-edge` and `t6b-continental-layers` (RECORD -805), and the pilot ruling on
-  `pnw-pilot-t1`, `pnw-pilot-scoring` and `pnw-pilot-t1-review` (RECORD -806 to -812). The pilot row
-  says "Numbered after D121", so it did not see the other. Confirm by `git show <branch>:docs/
-  planning/DECISIONS.md`. Write no D-row until it is resolved (O1). Cite either by branch and RECORD
-  number meanwhile.
-- **V3. The pilot ruling reaches T7.** Quote the pilot D122's scope words and RECORD -806's order
+  D121 and the pilot ruling (`git merge-base --is-ancestor`). When written, no single branch held all
+  three: `d121-lean-start` lacked both D122s, `t6b-continental-layers` lacked D121, `pnw-pilot-t1`
+  lacked D121 and T6b. That is open decision O7; stop until it is answered.
+- **V2. D122 and D123.** When written, two different rows were numbered D122: the SCANFI edge ruling
+  on `t6b-scanfi-edge` and `t6b-continental-layers` (RECORD -805), and the pilot ruling on
+  `pnw-pilot-t1`, `pnw-pilot-scoring` and `pnw-pilot-t1-review` (RECORD -806 to -812). The planner
+  settled it (A1 below): the edge ruling keeps D122, the pilot row becomes D123. Confirm on your base
+  that the renumbering has landed (the pilot row reads D123, with its note) and that no other row
+  holds D123. If it has not landed, cite the pilot ruling by branch and RECORD number, not by D-number.
+- **V3. The pilot ruling reaches T7.** Quote the pilot ruling's (D123's) scope words and RECORD -806's order
   ("then T7 to T9 on the PNW"), and say whether they cover T7 or only T1. If only T1, stop.
 - **V4. The 8 Canadian tiles.** Confirm on the drive that each now has a whole tree file and flags,
   that its manifest line is `ok`, and that no study cell in the box still carries flag 4 "pending".
-  Until then, nothing is fitted on the box (open decision O2 covers a US-only start).
+  Until then, nothing is fitted on the box (A2: "after the 8 tiles").
 - **V5. Every tree band, both sides.** Confirm which bands carry values in the Canadian cells. D85 and
   D89: Tsuga, Quercus, Pinus, Picea and Abies are "not available" on the Canadian side. Count, in the
   box, the cells with each share defined, by side. A share used as a covariate that is missing on one
@@ -186,9 +195,10 @@ fails is a finding, not something to fix quietly.
 - **V7. Soil in the box.** Confirm the soil tiles over the box, the count of cells with a mean (the
   render read 16,248,227 of 16,674,133, `mosaic.json`), and that you read `ph_mean_0_30cm` and its
   valid fraction under D74.
-- **V8. NALCMS.** Confirm no master-grid NALCMS layer exists. Say what using "the NALCMS land and
-  water mask" (D121) would need under each reading of O5: as a mask, already applied through D112 and
-  `mask.tif`; or as a land-cover covariate, a new regrid with its own class rule and check.
+- **V8. NALCMS.** Confirm no master-grid NALCMS layer exists, and that the mask D121 names is
+  already applied: water and unmapped pixels are no data in the tree layer (D112), and the study area
+  is `mask.tif`. Under A4 nothing new is built for it. If the mask turns out not to be applied
+  somewhere T7 reads, that is a finding, not something to build.
 - **V9. Presences.** Before any presence is counted, commit (a) the record list (R6 steps from
   `filters.py`), (b) the box test by cell centre, (c) the minimum number of presences per group and
   per validation block below which a block is "uninformative" (D33 used 30 positives per fold; say
@@ -215,8 +225,9 @@ fails is a finding, not something to fix quietly.
 Send these as one list, each with a recommendation, a reason and a source, **before any count of the
 outcome beyond V9's presence totals and before any fit**. This is how T6 ran (D101 to D108).
 
-- **P1. Groups.** Chanterelles (Cantharellus) and chicken of the woods (Laetiporus), or chanterelles
-  only (O3). Give V9's counts for both.
+- **P1. Groups.** Decided: chanterelles (Cantharellus) and chicken of the woods (Laetiporus), the
+  latter as the control (A3). Give V9's counts for both, and say what the control is meant to show
+  for a habitat model.
 - **P2. Presences.** The record list, key and box from V9. Whether presences are thinned to one per
   250 m cell (or per some other unit), and why.
 - **P3. Background.** How background points are drawn (count, seed 20260918 per D31, where from), and
@@ -317,30 +328,48 @@ Stop, report, and wait. Do not work around any of these.
   understood.
 - **T11** (vector companion and map client): D55 and D56's shapes, checked on a real phone.
 
+## Answered (Forager RECORD -832, 2026-10-10T20:20:02Z)
+
+These were open decisions O1, O2, O3, O5 and O6 when this dispatch was first written (commit
+`1199cee`). The owner's words are quoted from RECORD -832; the options offered are as it records them.
+
+- **A1 (was O1), the two D122 rows. The planner's call:** "the edge ruling keeps D122 (filed first);
+  the pilot row becomes D123 with a note." The builder is renumbering it (the coordinator's message,
+  2026-10-10). It changes no ruling.
+- **A2 (was O2), the box.** The owner: "Test map's box, after the 8 tiles (Recommended)" (offered:
+  T1's area; the union box). RECORD -832: "T7's pilot box is 40 to 49 N, 111 to 125 W once the 8
+  Canadian tiles are filled". The 49.0 to 49.5 N strip of T1's box stays outside T7.
+- **A3 (was O3), the groups.** The owner: "Chanterelles and chicken of the woods (Recommended)"
+  (offered: chanterelles only). RECORD -832: "both groups, chicken of the woods as the control".
+- **A4 (was O5), NALCMS.** The owner: "A mask only (Recommended)" (offered: a real input). RECORD
+  -832: "D121's "NALCMS land and water mask" is a mask, not an input."
+- **A5 (was O6), D18 for the T6b layers.** The owner: "Review now, alongside (Recommended)"
+  (offered: T7 runs labelled unreviewed). RECORD -832: "an independent review of the PNW box's T6b
+  layers runs now, in parallel".
+
+These answers are recorded in Forager's RECORD only. Whether any of them also needs a forecast
+D-row (A2 and A4 narrow how T7 reads D100 and D121) is the planner's to say; T7 does not write one
+on its own.
+
 ## Open decisions for the owner
 
-Listed separately so none is decided inside the build. Each needs a word before the step it gates.
+Each needs a word before T7 starts (RECORD -832: they "come to the owner before T7 starts").
 
-- **O1. The two D122 rows.** One number holds two rulings on different branches (V2). One must be
-  renumbered by a new row when the branches meet. Which, and when? (Planner's to propose; it changes
-  no ruling.)
-- **O2. The box, and whether to wait for Canada.** (a) 40 to 49 N, 111 to 125 W, after the 8 Canadian
-  tiles are in (recommended above); (b) the same box, US cells first, Canada added after (faster;
-  the first fit would not cover southern Vancouver Island and Delta); (c) T1's box, 42 to 49.5 N, 121
-  to 125 W, so habitat and the live map line up (needs Canadian tiles north of 49 N that are not
-  being filled; their number is not determined); (d) the union, 40 to 49.5 N (as (c), plus the
-  deserts).
-- **O3. Both groups or chanterelles only.** TASKS.md says both; the pilot's T1 is chanterelles only.
-  Chicken of the woods is the control (SPEC). The superseded T2 counts suggest a few hundred R6
-  records each in the PNW; V9 gives the real ones.
 - **O4. Which ecoregion level validation uses.** Nothing on record says which level R2 and T9 mean
-  (verify report :235-237). Level III gives more, smaller blocks with few presences each; level I
-  gives 5 blocks in the proposed box (3 in T1's).
-- **O5. What D121's "NALCMS land and water mask" means.** A mask only (already applied through D112's
-  water rule and the study mask), or a land-cover covariate (a new layer, its class rule, its check).
-- **O6. D18 for the T6b layers.** File an independent review of the T6b continental layers in the box
-  before T7 fits on them, or let T7 proceed labelled unreviewed, with the review to follow.
-- **O7. The base branch.** No branch holds T6b's code, D121 and the pilot ruling together (V1). The
-  planner names the base, or merges the needed branches first under D40. Suggested: cut from
-  `t6b-continental-layers` and merge `d121-lean-start` and the pilot's DECISIONS row in, once O1 is
-  settled.
+  (verify report :235-237). Level III gives 25 blocks in the box, many with few or no presences;
+  level I gives 5, one or two of them largely desert. **Recommended: level III as the blocks, with
+  the minimum from V9 fixed before counting, blocks under it marked uninformative and kept in the
+  pooled figure, and a level I summary reported beside.** Reasons: the ecoregion file on the drive
+  and D117's mask are level III; T9 will publish by ecoregion and is best tested at the level it may
+  publish at; and 5 blocks give too few folds for an interval worth reading. This is the
+  recommendation only; T9's publishing level is not decided by it.
+- **O7. The base branch.** When written, no branch held T6b's code, D121 and the pilot ruling
+  together (V1). RECORD -832 keeps it open as "T7's base branch, after the branches are merged in order". **Recommended
+  order**, each merge under D40 with every DECISIONS row and index row kept: (1) the builder's D123
+  renumbering lands on `pnw-pilot-t1`; (2) `d121-lean-start` merges into `t6b-continental-layers`
+  (it branched from it, so the one expected conflict is the DECISIONS table, D121 beside D122);
+  (3) the pilot's DECISIONS row (D123) reaches the same branch, by merging `pnw-pilot-t1` or by a
+  row-only commit, whichever the owner authorises; (4) T7's branch is cut from the result, and V1
+  confirms all three are ancestors. The alternative, cutting from `t6b-continental-layers` and
+  merging the other two into T7's own branch, keeps main's history simpler but buries the merges in
+  a task branch.
