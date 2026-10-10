@@ -613,3 +613,71 @@ def test_a_no_country_pixel_outside_treemap_is_no_data_and_a_us_pixel_still_refu
     assert np.isnan(values[0][west]).all()  # no data, not 0% cover
     assert (values[1][west] < 0.5).all()
     assert np.isfinite(values[0][east]).sum() > 20
+
+
+# D122 (owner, Forager RECORD -805): "Blank past the edge (Recommended)". A tile whose native
+# window reaches past the SCANFI raster reads the part SCANFI covers; the native pixels past the
+# edge are no data (blank, like water under D112), and the layer file and its manifest line say
+# how many pixels that was and why.
+
+
+def _cropped_scanfi(world, tmp_path, layer, keep_east_of_lon):
+    from rasterio.windows import Window
+
+    src_path = world["d"] / f"scanfi_full_{layer}.tif"
+    with rasterio.open(src_path) as src:
+        x, _ = Transformer.from_crs(GEOGRAPHIC_CRS, src.crs.to_wkt(), always_xy=True).transform(
+            keep_east_of_lon, 49.05
+        )
+        c0 = int((x - src.transform.c) // src.transform.a)
+        win = Window(c0, 0, src.width - c0, src.height)
+        data = src.read(1, window=win)
+        profile = {**src.profile, "width": win.width, "transform": src.window_transform(win)}
+    out = tmp_path / f"scanfi_cropped_{layer}.tif"
+    with rasterio.open(out, "w", **profile) as dst:
+        dst.write(data, 1)
+    return out
+
+
+def test_a_tile_past_the_scanfi_edge_is_blank_there_and_read_where_scanfi_covers(world, tmp_path):
+    from forager_forecast.t6b_layers import scanfi_layer_tile
+
+    d = world["d"]
+    w0, _, e0, _ = _lonlat_box(BIG.window, 0.0)
+    cut = w0 + 0.4 * (e0 - w0)  # SCANFI stops here; west of it the tile is past its raster
+    cropped = _cropped_scanfi(world, tmp_path, "balsamFir", cut)
+    whole = scanfi_layer_tile(BIG, d / "scanfi_full_balsamFir.tif", "balsamFir", d / "mask.tif",
+                              d / "nalcms.tif", tmp_path / "whole")  # fmt: skip
+    edge = scanfi_layer_tile(BIG, cropped, "balsamFir", d / "mask.tif", d / "nalcms.tif",
+                             tmp_path / "edge")  # fmt: skip
+    assert "past_scanfi_edge_pixels" not in whole and "past_scanfi_edge" not in whole
+    assert edge["past_scanfi_edge_pixels"] > 0
+    assert "past the SCANFI raster" in edge["past_scanfi_edge"]
+    name = f"scanfi_balsamFir_{BIG.key}.npz"
+    with np.load(tmp_path / "whole" / name) as a, np.load(tmp_path / "edge" / name) as b:
+        assert int(b["past_edge"]) == edge["past_scanfi_edge_pixels"]
+        assert int(a["past_edge"]) == 0
+        # The blank pixels are the whole raster's blank ones together with those past the edge.
+        assert max(int(a["blank"]), int(b["past_edge"])) <= int(b["blank"])
+        assert int(b["blank"]) <= int(a["blank"]) + int(b["past_edge"])
+        lon, lat = _cells_lonlat()
+        with rasterio.open(cropped) as ds:
+            edge_x = ds.bounds.left
+            x, _ = Transformer.from_crs(GEOGRAPHIC_CRS, ds.crs.to_wkt(), always_xy=True).transform(
+                lon, lat
+            )
+        # A cell is about 250 m wide; 300 m from the edge it lies wholly on one side.
+        north = lat > 49.002
+        west = north & (np.asarray(x) < edge_x - 300)
+        east = north & (np.asarray(x) > edge_x + 300)
+        assert west.any() and east.any()
+        # Past the edge: no data, not 0% crown, and no part of the cell's area is valid.
+        assert np.isnan(b["value"][west]).all() and (b["fraction"][west] == 0).all()
+        # The same cells carry a crown cover from the whole raster, so blank is not "no change".
+        assert np.isfinite(a["value"][west]).sum() > 20
+        # Where SCANFI covers the cell, the value is the one the whole raster gives.
+        np.testing.assert_allclose(b["value"][east], a["value"][east], rtol=1e-6, equal_nan=True)
+        np.testing.assert_array_equal(b["fraction"][east], a["fraction"][east])
+        # A cell the edge cuts through is averaged over its covered part only.
+        cut_cells = north & ~west & ~east
+        assert (b["fraction"][cut_cells] <= a["fraction"][cut_cells]).all()

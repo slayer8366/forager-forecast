@@ -1,0 +1,23 @@
+import json
+from pathlib import Path
+from forager_forecast.pnw import PNW_BOX, pnw_window
+from forager_forecast.t4_layer import box_mask
+from forager_forecast.t6b_layers import Tile
+from forager_forecast.t6b_mask import cells_in_study, read_mask, SIDE_CA, SIDE_US
+T6B = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b")
+pw = pnw_window()
+rows = []
+for t in json.loads((T6B / "tiles_trees.json").read_text()):
+    if not t["canada"]: continue
+    w = Tile(t["i"], t["j"], t["n"]).window
+    if w.right <= pw.left or w.left >= pw.right or w.top <= pw.bottom or w.bottom >= pw.top: continue
+    study, side = cells_in_study(w, *read_mask(T6B / "mask.tif", w))
+    inbox = box_mask(w, PNW_BOX)
+    ca = study & (side == SIDE_CA)
+    rows.append({"tile": t["key"], "ca_cells_in_box": int((ca & inbox).sum()), "ca_cells": int(ca.sum()),
+                 "us_cells": int((study & (side == SIDE_US)).sum())})
+    print(json.dumps(rows[-1]), flush=True)
+inb = [r for r in rows if r["ca_cells_in_box"] > 0]
+print("SUMMARY", json.dumps({"canadian_tiles_meeting_pnw_window": len(rows),
+      "with_canadian_cells_in_box": len(inb), "ca_cells_in_box": sum(r["ca_cells_in_box"] for r in rows),
+      "keys_in_box": [r["tile"] for r in inb]}))

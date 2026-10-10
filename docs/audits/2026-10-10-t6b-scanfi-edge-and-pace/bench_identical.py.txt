@@ -1,0 +1,27 @@
+"""Check: two real layers regridded together equal each regridded alone (bit for bit), 16-row strip."""
+import math, time
+from pathlib import Path
+import numpy as np, rasterio
+from rasterio.windows import from_bounds, Window
+from forager_forecast.grid import CELL_SIZE_M, GridWindow
+from forager_forecast.t5_layer import native_bounds, SCANFI_CRS_WKT, _to_native
+from forager_forecast.t6b_layers import Tile
+from forager_forecast.regrid import area_weighted_regrid_from_origin
+T6B = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b")
+w = Tile(13, 27, 256).window
+strip = GridWindow(w.left, w.top - 16 * CELL_SIZE_M, w.right, w.top)
+arrs = []
+for name in ("balsamFir", "blackSpruce"):
+    with rasterio.open(T6B / f"scanfi_whole/{name}.tif") as ds:
+        raw = from_bounds(*native_bounds(strip, SCANFI_CRS_WKT), transform=ds.transform)
+        c0, r0 = math.floor(raw.col_off), math.floor(raw.row_off)
+        c1, r1 = math.ceil(raw.col_off + raw.width), math.ceil(raw.row_off + raw.height)
+        t0 = time.perf_counter()
+        d = ds.read(1, window=Window(c0, r0, c1 - c0, r1 - r0)).astype("float64")
+        print(name, "read s", round(time.perf_counter() - t0, 3), "nonzero share", round(float((d > 0).mean()), 3))
+        d[d == ds.nodata] = 0.0; arrs.append(d); tr = ds.transform
+to = _to_native(SCANFI_CRS_WKT)
+v2, f2 = area_weighted_regrid_from_origin(np.stack(arrs), tr, c0, r0, to, strip)
+for k, a in enumerate(arrs):
+    v1, f1 = area_weighted_regrid_from_origin(a[None], tr, c0, r0, to, strip)
+    print(k, "identical:", np.array_equal(v1[0], v2[k], equal_nan=True) and np.array_equal(f1[0], f2[k]))

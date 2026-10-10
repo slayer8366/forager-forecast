@@ -9,7 +9,7 @@ Usage (repository root):
   hand finish. ``touch <drive>/forecast-data/t6b/PAUSE`` does the same at once (delete the file
   before the next section). Nothing restarts on its own.
 - Stages run in the order given and each resumes from the manifest. ``mask`` and ``plots`` run once.
-- At the end the manifest and this section's summary are copied to
+- At the end the manifest (gzipped, Forager RECORD -803) and this section's summary are copied to
   docs/audits/2026-10-07-t6b-run/, committed and pushed.
 """
 
@@ -50,6 +50,7 @@ from forager_forecast.t6b_mask import (
 )
 from forager_forecast.t6b_run import (
     append_line,
+    copy_manifest_evidence,
     done_units,
     next_stop,
     read_lines,
@@ -373,7 +374,7 @@ def stage_soil(until, workers: int, max_units: int | None = None) -> dict:
 def commit_progress(summaries: list[dict], evidence: Path = EVIDENCE) -> None:
     EVIDENCE = evidence  # noqa: N806
     EVIDENCE.mkdir(parents=True, exist_ok=True)
-    shutil.copy(MANIFEST, EVIDENCE / "manifest.jsonl")
+    copy_manifest_evidence(MANIFEST, EVIDENCE)  # gzipped (Forager RECORD -803)
     for name in ("mask.json", "tiles_trees.json", "tiles_soil.json"):
         if (T6B / name).exists():
             shutil.copy(T6B / name, EVIDENCE / name)
@@ -384,6 +385,7 @@ def commit_progress(summaries: list[dict], evidence: Path = EVIDENCE) -> None:
     done = sum(s.get("units_done_now", 0) for s in summaries)
     msg = (f"T6b run section: {done} tiles; " + "; ".join(
         f"{s.get('layer')}: {s.get('units_ok')} ok, {s.get('units_deferred')} deferred, "
+        f"{s.get('units_failed', 0)} failed, "
         f"{s.get('units_remaining')} left, {s.get('stopped')}" for s in summaries)
         + "\n\nCo-Authored-By: Claude <noreply@anthropic.com>")  # fmt: skip
     if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=REPO).returncode != 0:

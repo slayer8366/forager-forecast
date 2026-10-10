@@ -5,6 +5,8 @@ import hashlib
 import json
 from datetime import datetime, timedelta
 
+import pytest
+
 from forager_forecast.t6b_run import done_units, next_stop, read_lines, run_section
 
 
@@ -159,15 +161,15 @@ def test_a_server_error_is_a_network_error_and_a_client_error_is_not(tmp_path):
     s = _section(tmp_path, functools.partial(_flaky, out_dir=tmp_path, fail_times=1,
                                              error="http503", fail_unit="u0"))  # fmt: skip
     assert s["units_ok"] == 6
-    import urllib.error
-
-    import pytest
 
     other = tmp_path / "x"
     other.mkdir()
-    with pytest.raises(urllib.error.HTTPError):
-        _section(other, functools.partial(_flaky, out_dir=other, fail_times=1, error="http404",
+    # A client error is not retried: since D122 it fails that unit, on its first attempt.
+    s = _section(other, functools.partial(_flaky, out_dir=other, fail_times=1, error="http404",
                                           fail_unit="u0"))  # fmt: skip
+    line = [e for e in read_lines(other / "manifest.jsonl") if e.get("unit") == "u0"][0]
+    assert line["status"] == "failed" and line["attempts"] == 1
+    assert line["error"].startswith("HTTPError") and s["units_deferred"] == 0
 
 
 def test_a_tile_that_keeps_failing_is_deferred_and_the_section_carries_on(tmp_path):
@@ -193,12 +195,25 @@ def test_the_next_section_retries_deferred_tiles_before_new_ones(tmp_path):
     assert order == ["u0", "u1", "u2", "u3", "u4", "u4", "u5"]
 
 
-def test_a_non_network_error_still_stops_the_section(tmp_path):
-    import pytest
+# D122 (Forager RECORD -805, replacing the -642 call "non-network errors still stop it"): a unit
+# whose work raises anything else fails on its own. Its line says "failed" with the message, the
+# section carries on, and the unit is not done, so the next section tries it again.
 
-    with pytest.raises(ValueError, match="a real bug"):
-        _section(tmp_path, functools.partial(_flaky, out_dir=tmp_path, fail_times=1,
-                                             error="bug", fail_unit="u1"))  # fmt: skip
+
+@pytest.mark.parametrize("workers", [1, 2])
+def test_a_non_network_error_fails_that_unit_and_the_section_carries_on(tmp_path, workers):
+    work = functools.partial(_flaky, out_dir=tmp_path, fail_times=1, error="bug", fail_unit="u1")
+    s = _section(tmp_path, work, workers=workers)
+    assert s["units_ok"] == 5 and s["units_failed"] == 1 and s["units_deferred"] == 0
+    assert s["units_remaining"] == 1 and "1 failed" in s["stopped"]
+    lines = [e for e in read_lines(tmp_path / "manifest.jsonl") if e["kind"] == "unit"]
+    failed = [e for e in lines if e["status"] == "failed"]
+    assert [e["unit"] for e in failed] == ["u1"]
+    assert failed[0]["error"] == "ValueError: a real bug" and failed[0]["files"] == {}
+    assert "a real bug" in failed[0]["traceback"]
+    assert done_units(tmp_path / "manifest.jsonl", tmp_path) == set(UNITS) - {"u1"}
+    s2 = _section(tmp_path, functools.partial(_flaky, out_dir=tmp_path))
+    assert s2["units_ok"] == 1 and s2["units_remaining"] == 0
 
 
 def test_retries_stop_at_the_stop_time(tmp_path):

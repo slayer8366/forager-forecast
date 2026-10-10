@@ -532,6 +532,38 @@ def require_free_space(path: Path, needed: int) -> int:
     return free
 
 
+# D122 (owner, Forager RECORD -805): "Blank past the edge (Recommended)". A tile whose native
+# window reaches past the SCANFI raster reads the part SCANFI covers; each native pixel past the
+# raster's edge is no data, blanked like water (D112), so D74's half-area rule decides its cell.
+# The layer file and the unit's manifest line carry the count of such pixels and this note.
+PAST_EDGE_NOTE = (
+    "native pixels past the SCANFI raster's edge are no data, not no crown (D122, Forager RECORD "
+    "-805): SCANFI has no value there"
+)
+
+
+def _past_raster_edge(c0: int, r0: int, c1: int, r1: int, width: int, height: int) -> np.ndarray:
+    """True for each pixel of the window [c0, c1) x [r0, r1) that lies outside the raster."""
+    cols = np.arange(c0, c1)
+    rows = np.arange(r0, r1)
+    return ~(((rows >= 0) & (rows < height))[:, None] & ((cols >= 0) & (cols < width))[None, :])
+
+
+def _read_covered(ds, c0: int, r0: int, c1: int, r1: int) -> np.ndarray:
+    """Band 1 over the window, read only where the raster covers it. Pixels past the edge hold
+    the raster's no-data value and are blanked by the caller through ``_past_raster_edge``."""
+    if ds.nodata is None:
+        raise ValueError(f"{ds.name} declares no no-data value")
+    out = np.full((r1 - r0, c1 - c0), ds.nodata, dtype=ds.dtypes[0])
+    rc0, rr0 = max(c0, 0), max(r0, 0)
+    rc1, rr1 = min(c1, ds.width), min(r1, ds.height)
+    if rc1 > rc0 and rr1 > rr0:
+        out[rr0 - r0 : rr1 - r0, rc0 - c0 : rc1 - c0] = ds.read(
+            1, window=Window(rc0, rr0, rc1 - rc0, rr1 - rr0)
+        )
+    return out
+
+
 def scanfi_layer_tile(tile: Tile, layer_path: Path, layer: str, mask_path: Path,
                       nalcms_tif: Path, out_dir: Path) -> dict:  # fmt: skip
     """One SCANFI layer, read from its whole local file, regridded over one tile (D118).
@@ -549,9 +581,8 @@ def scanfi_layer_tile(tile: Tile, layer_path: Path, layer: str, mask_path: Path,
         raw = from_bounds(*native_bounds(window, SCANFI_CRS_WKT), transform=ds.transform)
         c0, r0 = math.floor(raw.col_off), math.floor(raw.row_off)
         c1, r1 = math.ceil(raw.col_off + raw.width), math.ceil(raw.row_off + raw.height)
-        if c0 < 0 or r0 < 0 or c1 > ds.width or r1 > ds.height:
-            raise ValueError(f"tile {tile.key} reaches past the SCANFI raster")
-        data = ds.read(1, window=Window(c0, r0, c1 - c0, r1 - r0))
+        past_edge = _past_raster_edge(c0, r0, c1, r1, ds.width, ds.height)
+        data = _read_covered(ds, c0, r0, c1, r1)
         full, nodata, crs = ds.transform, ds.nodata, ds.crs
     if nodata is None:
         raise ValueError(f"{layer_path} declares no no-data value")
@@ -561,7 +592,7 @@ def scanfi_layer_tile(tile: Tile, layer_path: Path, layer: str, mask_path: Path,
     own = _own_side(_pixel_side(lon, lat, mask_path), SIDE_CA)
     water = _water(lon, lat, nalcms_tif)
     del lon, lat
-    blank = ~own | water
+    blank = ~own | water | past_edge
     values[blank] = np.nan
     v, f = area_weighted_regrid_from_origin(values[None], full, c0, r0, _to_native(crs), window)
     out = Path(out_dir) / f"scanfi_{layer}_{tile.key}.npz"
@@ -570,9 +601,14 @@ def scanfi_layer_tile(tile: Tile, layer_path: Path, layer: str, mask_path: Path,
     np.savez_compressed(
         partial, value=v[0].astype("float32"), fraction=f[0].astype("float32"),
         blank=np.int64(blank.sum()), water=np.int64((water & own).sum()),
+        past_edge=np.int64(past_edge.sum()),
     )  # fmt: skip
     partial.rename(out)
-    return {"tile": tile.key, "layer": layer, "files": {out.name: _sha256(out)}}
+    result = {"tile": tile.key, "layer": layer, "files": {out.name: _sha256(out)}}
+    if past_edge.any():  # only then, to keep the manifest's lines short
+        result["past_scanfi_edge_pixels"] = int(past_edge.sum())
+        result["past_scanfi_edge"] = PAST_EDGE_NOTE
+    return result
 
 
 def _scanfi_part_from_layers(tile: Tile, layer_dir: Path):
