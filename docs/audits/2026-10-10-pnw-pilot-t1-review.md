@@ -557,6 +557,42 @@ but it is one span.**
   They are counted, not refused (`pnw_t1_fit.py`, B3 fix).
 - The hedge's 2019 fold may hold fewer units than the all-years run's. The summary shows how many.
 
+## Pass 2j: the S6, S8, S9 and N12 fixes (read at `b665caf`, merged at this commit)
+
+**Closed.**
+- **S9:** `--require-years 2019-2025`. The gate needs every non-sea 2019 to 2025 span compared, and
+  at least one (`spans_complete`). The hedge prints the GATE line.
+- **S6:** a summed rain ratio is in `rain_level`.
+- **N12:** the pass rule is the tested `land_route_pass`, including the tie and the
+  zero-compared cases.
+- The three new tests were read, not reverted.
+
+**S10 (should-fix, urgent: it will make the gate fail on a correct route). S8's fix compares
+two different points.**
+- `compare_point` moves the *store* side of a sea cell to its RECORD -822 land neighbour.
+- The *Open-Meteo* request is still made at the sea cell's own centre:
+  `fetch(request_url(cell, start), …)`, `pnw_equivalence.py:250` at `b665caf`.
+- **Observed** (`openmeteo_sea_point_probe.out.txt`, one request per model, 2016-11-17, cell
+  427_-1245 at 42.7, −124.5):
+  - `models=era5_seamless` returns values there: t2m 10.7, 10.2, 9.7.
+  - `models=era5_land` returns null.
+  - So for that cell, Open-Meteo's seamless series is not ERA5-Land. Inferred: it is ERA5's
+    0.25° field.
+- The hourly check then compares the store's ERA5-Land neighbour with Open-Meteo's other-product
+  value at the sea point. Offset 0 will not match every hour, so `land_route_pass` fails.
+- With `--require-years 2019-2025`, cell 427_-1245's 2023-02-20 span is required. Its other
+  spans (2016, 2018) are compared whenever their data are in. **The gate in both
+  `pnw_t1_run_all.sh` and `pnw_hedge_run.sh` would then stop the fit on a route that is correct.**
+- **Fix:**
+  - Request Open-Meteo's land variables at the neighbour point's coordinates.
+  - Keep rain at the cell centre's quarter point, since the neighbour's nearest 0.25° point can
+    differ.
+  - Key the cache by the requested point, not the cell id.
+  - Or leave neighbour cells out of the gate and report them apart.
+- **N15 (note, for T10).** The same observation bears on serving. For a cell with no ERA5-Land
+  value, Open-Meteo's `era5_seamless` silently serves another product. RECORD -822's neighbour rule
+  has no counterpart on Open-Meteo's side.
+
 ## Pass 2
 
 Pending:
