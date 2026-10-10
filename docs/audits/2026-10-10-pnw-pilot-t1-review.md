@@ -461,6 +461,40 @@ anything summed is used.
   - The report's result section should say which check the land route actually passed, and its
     tolerance.
 
+## Pass 2g: equivalence rewritten, with an hourly land-route check (read at `d9d396d`, merged at this commit)
+
+**S5 is closed.**
+- `split_span` takes the first 7 of 8 days and keeps all 192 hours (`pnw_equivalence.py:87-106`).
+- The restated bounds are in code (`:50-55`).
+- `convention` is filled (`:207-214`), and the argument clash is gone (`args`).
+- The spec's append-only correction (`equivalence_spec.md`, "Correction") names the failed edit in
+  `0caf56d`.
+- **Reviewer reverts** (`revert_runner_pass2g.out.jsonl`):
+  - R11 (temperature bound back to 0.05) fails `test_bounds_are_the_restated_ones`.
+  - R12 (8 days compared) fails the span test, "8 == 7".
+
+**S7 is closed by a stronger check than the one I asked for.**
+- The land route is now checked hour by hour against Open-Meteo at offsets −1, 0 and +1
+  (`:234-260`). The bounds are committed in the spec's "Hourly land route" section before any body
+  was read: no `equivalence/` directory existed at 20:39Z.
+- It passes only if offset 0 matches every compared hour and beats both other offsets.
+- It gates the fit (`pnw_t1_run_all.sh`, exit 3).
+- **Can it discriminate?** I measured how often one hour moves each variable past its bound, on
+  the kept 2019-01 hourly file (`hourly_step_sizes.out.txt`): t2m 87%, stl1 51%, swvl1 28% of
+  1,773,541 hourly steps. So a one-hour misalignment would lose matches on every variable. The
+  "beats both other offsets" condition is not a coin-toss on slow variables, at least in January.
+  Summer soil moisture is likely flatter; not measured.
+
+**N12 (note).**
+- (i) The pass rule (`:252-260`) is untested; it sits inside `main`.
+- (ii) It compares matched hours by absolute count, not by share. An offset with fewer compared
+  hours (store hours missing at a month edge) can lose on count alone. That would make the
+  discrimination condition easier to meet than it reads, never harder.
+
+**S6 is still open.** The rain convention test reports mean absolute differences per convention.
+The summed rain ratio (Open-Meteo over store), which would show RECORD -819's 4 to 8% level gap
+beside a daily pass, is not reported.
+
 ## Pass 2
 
 Pending:
