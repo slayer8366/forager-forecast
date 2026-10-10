@@ -9,9 +9,10 @@ not delivered by the daily-statistics route come from `reanalysis-era5-single-le
 (hourly_daily.daily_sums_previous_hour: day d = stamps d 01:00 to d+1 00:00).
 
 pull: year-array requests (the form takes `year` and `month` as arrays), T1's box, newest chunk
-first: 2019 to 2024 (2019 for the check), then 2014 to 2018, then the single stamp 2025-01-01
-00:00 that closes 2024-12-31. Each request is stored with its time and account (D52); jobs the
-store already holds are adopted (cds_jobs.fetch). Disk is checked first (3 GB stop line).
+first, two years per request (the size limit; see chunks()), 2019-2020 first for the check, then
+2014-09 to 2014-12, then the single stamp 2025-01-01 00:00 that closes 2024-12-31. Each request
+is stored with its time and account (D52); jobs the store already holds are adopted
+(cds_jobs.fetch). Disk is checked first (3 GB stop line).
 
 aggregate: reads every downloaded hourly file, merges stamps, writes
 `hourly-era5-precip-YYYY.daily.h5` per year with `tp` in m (as the daily-statistics file),
@@ -57,25 +58,29 @@ ALL_HOURS = [f"{h:02d}:00" for h in range(24)]
 
 
 def chunks():
+    """Two years per request: the store's size limit is 121,000 fields and one year of hourly
+    rain is 52,560 (client.estimate_costs, 2026-10-10; three years were refused, "cost limits
+    exceeded"). Newest first, 2019-2020 first for the check."""
     base = {"product_type": ["reanalysis"], "variable": ["total_precipitation"], "area": AREA}
     tail = {"data_format": "netcdf", "download_format": "unarchived"}
+    for first, last in ((2019, 2020), (2021, 2022), (2023, 2024), (2017, 2018), (2015, 2016)):
+        yield (
+            f"hourly-era5-precip-{first}-{last}",
+            {
+                **base,
+                "year": [str(y) for y in range(first, last + 1)],
+                "month": ALL_MONTHS,
+                "day": ALL_DAYS,
+                "time": ALL_HOURS,
+                **tail,
+            },
+        )
     yield (
-        "hourly-era5-precip-2019-2024",
+        "hourly-era5-precip-2014-09-12",
         {
             **base,
-            "year": [str(y) for y in range(2019, 2025)],
-            "month": ALL_MONTHS,
-            "day": ALL_DAYS,
-            "time": ALL_HOURS,
-            **tail,
-        },
-    )
-    yield (
-        "hourly-era5-precip-2014-2018",
-        {
-            **base,
-            "year": [str(y) for y in range(2014, 2019)],
-            "month": ALL_MONTHS,
+            "year": ["2014"],
+            "month": ["09", "10", "11", "12"],
             "day": ALL_DAYS,
             "time": ALL_HOURS,
             **tail,
