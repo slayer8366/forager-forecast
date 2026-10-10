@@ -23,6 +23,12 @@ fit() { # design list model
 if [ "$step" = main ]; then
   uv run python scripts/pnw_weather.py "$D/cds" "$W" > "$D/weather/build.log"
   cp "$W.summary.json" "$D/weather/t1_pnw.summary.json"
+  # D24 equivalence (reported) and the hourly land-route check (gates the fit; review S7).
+  if ! uv run python scripts/pnw_equivalence.py "$D/records" "$W" "$D/cds" "$D/equivalence" \
+      > "$D/equivalence.log" 2>&1; then
+    echo "land-route check failed or equivalence did not run; see $D/equivalence.log" >&2
+    exit 3
+  fi
   for design in primary secondary; do
     fit "$design" t1_1000m calendar
     fit "$design" t1_1000m full
