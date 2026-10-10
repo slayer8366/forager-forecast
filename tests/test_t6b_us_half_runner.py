@@ -162,3 +162,85 @@ def test_a_canada_only_tile_goes_from_waiting_to_a_whole_tile(runner, world):  #
     line = [e for e in read_lines(runner.MANIFEST) if e.get("kind") == "unit"][-1]
     assert line["unit"] == t.key and "us_cells_from" not in line
     assert (runner.TILES / "trees" / f"trees_{t.key}.tif").exists()
+
+
+# Forager RECORD -828: the PNW box's 8 Canadian tiles first. A tile filter for the scanfi-layers
+# and trees stages. A filtered scanfi-layers run must not delete a whole layer file: the runner
+# deletes a layer once every unit *in the list it was given* is done, and with a filtered list
+# that is after the filtered tiles, leaving the rest of the continent to download it again.
+
+
+def _small_tiles(world):  # noqa: F811
+    from forager_forecast.t6b_layers import Tile
+    from forager_forecast.t6b_mask import SIDE_CA, SIDE_US, cells_in_study, read_mask
+
+    out = []
+    for di in range(4):
+        for dj in range(4):
+            t = Tile(BIG.i * 4 + di, BIG.j * 4 + dj, 4)
+            study, side = cells_in_study(t.window, *read_mask(world["d"] / "mask.tif", t.window))
+            if study.any():
+                out.append({"key": t.key, "i": t.i, "j": t.j, "n": t.n,
+                            "canada": bool((side == SIDE_CA).any()),
+                            "us": bool((side == SIDE_US).any())})  # fmt: skip
+    return out
+
+
+def _whole_layers_on_drive(runner, world, tmp_path):  # noqa: F811
+    whole, requests = tmp_path / "scanfi_whole", tmp_path / "requests"
+    whole.mkdir()
+    requests.mkdir()
+    for layer in SCANFI_LAYERS:
+        (whole / f"{layer}.tif").symlink_to(world["d"] / f"scanfi_full_{layer}.tif")
+        (requests / f"scanfi_whole_{layer}.request.json").write_text("{}\n")
+    runner.SCANFI_WHOLE, runner.REQUESTS = whole, requests
+    return whole
+
+
+@pytest.mark.parametrize("filtered", [True, False])
+def test_a_tile_filter_runs_only_those_tiles_and_keeps_the_whole_layers(
+    runner,
+    world,  # noqa: F811
+    tmp_path,
+    filtered,
+):
+    tiles = _small_tiles(world)
+    canadian = [t for t in tiles if t["canada"]]
+    us_only = [t for t in tiles if not t["canada"]]
+    assert len(canadian) >= 2 and us_only
+    chosen = canadian[0]["key"]
+    runner.TREE_N = 4
+    (runner.T6B / "tiles_trees.json").write_text(json.dumps(tiles))
+    whole = _whole_layers_on_drive(runner, world, tmp_path)
+    if not filtered:
+        # Positive control for the trap: an unfiltered run given only this tile deletes the
+        # whole layers once it is done, as the run does once every Canadian tile is done.
+        (runner.T6B / "tiles_trees.json").write_text(
+            json.dumps([t for t in tiles if t["key"] == chosen])
+        )
+        s = runner.stage_scanfi_layers(None, 1)
+        assert s["units_ok"] == len(SCANFI_LAYERS)
+        assert not any((whole / f"{layer}.tif").exists() for layer in SCANFI_LAYERS)
+        return
+    s = runner.stage_scanfi_layers(None, 1, only_tiles={chosen})
+    assert s["units_total"] == len(SCANFI_LAYERS) and s["units_ok"] == len(SCANFI_LAYERS)
+    lines = read_lines(runner.MANIFEST)
+    assert {e["unit"].split(":")[1] for e in lines if e.get("kind") == "unit"} == {chosen}
+    assert not [e for e in lines if e.get("kind") == "cleanup"]
+    assert all((whole / f"{layer}.tif").exists() for layer in SCANFI_LAYERS)
+    other = canadian[1]["key"]
+    assert not list(runner.SCANFI_LAYER_TILES.glob(f"*_{other}.npz"))
+
+    trees = runner.stage_trees(None, 1, only_tiles={chosen})
+    assert trees["units_total"] == 1 and trees["units_ok"] == 1
+    done = [e["unit"] for e in read_lines(runner.MANIFEST)
+            if e.get("kind") == "unit" and e.get("layer") == "trees"]  # fmt: skip
+    assert done == [chosen]  # the US-only tiles waiting in the list were not offered
+    assert (runner.TILES / "trees" / f"trees_{chosen}.tif").exists()
+
+
+def test_a_tile_filter_must_name_tiles_with_canadian_cells(runner, world):  # noqa: F811
+    runner.TREE_N = 4
+    (runner.T6B / "tiles_trees.json").write_text(json.dumps(_small_tiles(world)))
+    with pytest.raises(SystemExit, match="not tiles with Canadian cells"):
+        runner.stage_scanfi_layers(None, 1, only_tiles={"4_0_0"})

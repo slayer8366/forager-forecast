@@ -4,6 +4,7 @@ Usage (repository root):
     systemd-run --user --scope -q -p MemoryMax=5G -p MemorySwapMax=0 \
         .venv/bin/python scripts/t6b_run.py --until 07:00
         [--stages mask,plots,soil,trees,trees-us-half] [--workers 2] [--us-half-tiles K1,K2]
+        [--tiles K1,K2]  (scanfi-layers and trees only; keeps the whole SCANFI layers)
 
 - ``--until HH:MM`` is local time, the next occurrence of it. No new tile starts after it; tiles in
   hand finish. ``touch <drive>/forecast-data/t6b/PAUSE`` does the same at once (delete the file
@@ -242,10 +243,25 @@ def scanfi_layer_unit(key: str) -> dict:
     )
 
 
-def stage_scanfi_layers(until, workers: int) -> dict:
+def _only(keys: list[str], only_tiles: set[str] | None, canadian: set[str]) -> list[str]:
+    """``keys`` cut to ``only_tiles``, which must all be tiles with Canadian cells."""
+    if only_tiles is None:
+        return keys
+    unknown = only_tiles - canadian
+    if unknown:
+        sys.exit(f"not tiles with Canadian cells: {sorted(unknown)}")
+    return [k for k in keys if k in only_tiles]
+
+
+def stage_scanfi_layers(until, workers: int, only_tiles: set[str] | None = None) -> dict:
     """D118: each SCANFI layer downloaded whole, one at a time, regridded over every Canadian
-    tree tile, then deleted. A download stops at the section's stop time and resumes next time."""
+    tree tile, then deleted. A download stops at the section's stop time and resumes next time.
+
+    With ``only_tiles`` (Forager RECORD -828, the PNW box's tiles first) only those tiles run and
+    no whole layer is deleted: the rest of the continent still needs it. Each layer stays on the
+    drive until an unfiltered section finishes it."""
     canadian = [t["key"] for t in tile_list(TREE_N, "trees") if t["canada"]]
+    canadian = _only(canadian, only_tiles, set(canadian))
     units = [f"{layer}:{key}" for layer in SCANFI_LAYERS for key in canadian]
     REQUESTS.mkdir(parents=True, exist_ok=True)
 
@@ -288,10 +304,12 @@ def stage_scanfi_layers(until, workers: int) -> dict:
             path.unlink()
         return {"scanfi_whole": "deleted, request kept"}
 
-    log(f"scanfi-layers: {len(SCANFI_LAYERS)} layers over {len(canadian)} Canadian tiles")
+    log(f"scanfi-layers: {len(SCANFI_LAYERS)} layers over {len(canadian)} Canadian tiles"
+        + (" (tile filter: whole layers kept)" if only_tiles is not None else ""))  # fmt: skip
     return run_section(units, scanfi_layer_unit, MANIFEST, SCANFI_LAYER_TILES, until=until,
                        pause_file=PAUSE, workers=workers, group_of=lambda u: u.split(":")[0],
-                       prepare=prepare, cleanup=cleanup, layer="scanfi-layers")  # fmt: skip
+                       prepare=prepare, cleanup=cleanup if only_tiles is None else None,
+                       layer="scanfi-layers")  # fmt: skip
 
 
 def soil_unit(key: str) -> dict:
@@ -308,7 +326,8 @@ def layers_ready(key: str) -> bool:
 
 
 def stage_trees(until, workers: int, max_units: int | None = None,
-                only_groups: set[str] | None = None) -> dict:  # fmt: skip
+                only_groups: set[str] | None = None,
+                only_tiles: set[str] | None = None) -> dict:  # fmt: skip
     """Tree tiles that can run now: every US-only tile, and a tile with Canadian cells once the
     whole-layer route (D118) has all eleven SCANFI layers for it. No windowed SCANFI fetch."""
     tiles = tile_list(TREE_N, "trees")
@@ -323,6 +342,9 @@ def stage_trees(until, workers: int, max_units: int | None = None,
     if only_groups:
         units = [u for u in units if super_key(u) in only_groups]
         log(f"trees: this section offers only super-windows {sorted(only_groups)}")
+    if only_tiles is not None:
+        units = _only(units, only_tiles, canadian)
+        log(f"trees: this section offers only tiles {sorted(only_tiles)}")
     units = _first_pending(units, TILES / "trees", max_units)
     return run_section(units, tree_unit, MANIFEST, TILES / "trees", until=until, pause_file=PAUSE,
                        workers=workers, layer="trees")  # fmt: skip
@@ -428,7 +450,14 @@ def main() -> None:
         default=None,
         help="a pause file other than T6b's own, for a run while T6b is paused",
     )
+    p.add_argument(
+        "--tiles",
+        default=None,
+        help="comma-separated tree tile keys with Canadian cells: the scanfi-layers and trees "
+        "stages run only these, and no whole SCANFI layer is deleted (Forager RECORD -828)",
+    )
     args = p.parse_args()
+    only_tiles = set(args.tiles.split(",")) if args.tiles else None
     if args.pause_file:
         global PAUSE
         PAUSE = Path(args.pause_file)
@@ -448,7 +477,7 @@ def main() -> None:
             elif stage == "plots":
                 stage_plots()
             elif stage == "scanfi-layers":
-                summaries.append(stage_scanfi_layers(until, args.workers))
+                summaries.append(stage_scanfi_layers(until, args.workers, only_tiles))
             elif stage == "trees":
                 summaries.append(
                     stage_trees(
@@ -456,6 +485,7 @@ def main() -> None:
                         args.workers,
                         args.max_tree_tiles,
                         set(args.tree_groups.split(",")) if args.tree_groups else None,
+                        only_tiles,
                     )
                 )
             elif stage == "trees-us-half":
