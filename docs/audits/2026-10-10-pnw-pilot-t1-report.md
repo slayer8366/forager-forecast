@@ -41,7 +41,29 @@ planner on 2026-10-10.
   2014-09. Each route skips months the other has. The weather builder records the route per month
   (`land_route_by_month`). The overlap month is checked between routes with the equivalence
   tolerances (`scripts/pnw_route_overlap.py`).
-- Per-month timings by route: PENDING.
+- Measured by 18:51 UTC: the hourly ERA5-Land month 2019-01 (10.1 MB) took 516 s from submit to
+  file, with 86 s of queue. The daily-statistics land jobs submitted at 18:30 had still not started
+  at 18:51 (store job list). The cap behaves per user, about 5 queued (inferred from the hourly
+  route's request being rejected while 5 derived jobs were queued).
+- Restructured at 18:52 (`f2f5a9f`): the hourly route carries every T1 land month, newest first,
+  with 2 in flight. The daily-statistics route keeps the yearly rain requests (`--precip-only`).
+  The overlap month 2019-01 is pulled by both routes. Jobs the store already holds are adopted, not
+  resubmitted (`cds_jobs.fetch`). Queued land jobs ea0cc73c and 7942cc54 were dismissed. The
+  scoring coder's rain job d6ae24ed (2026-07 to 2026-10) is adopted into
+  `cds/scoring-era5-precip-2026-07-10.nc` (`cds_adopt_job.py`).
+- Several months cannot go in one request: both ERA5-Land forms take `month` as one string (store
+  schema).
+- Per-month timings after the restructure: PENDING.
+
+## Coastal cells with no ERA5-Land value (measured, not yet ruled)
+
+On the 2019-01 land mask (2,387 of 3,116 box points carry values):
+- 182 of 2,043 unit cells have no ERA5-Land value.
+- 8,704 of 53,186 cell-weeks and 189 of 1,139 positives (16.6%) would be dropped as "sea" under B3.
+- 163 of those cells have an ERA5-Land land point among their 8 neighbours. They hold 188 of the
+  189 positives.
+
+The options went to the planner for the owner. Nothing has changed yet.
 
 ## Records (observed)
 
