@@ -1,0 +1,25 @@
+"""Measure: regrid cost for 1 band vs 11 bands over the same 64-row strip of a real tile
+(the overlap geometry is computed once per call either way). Values: balsamFir repeated."""
+import math, time, json
+from pathlib import Path
+import numpy as np, rasterio
+from rasterio.windows import from_bounds, Window
+from forager_forecast.grid import CELL_SIZE_M, GridWindow
+from forager_forecast.t5_layer import native_bounds, SCANFI_CRS_WKT, _to_native
+from forager_forecast.t6b_layers import Tile
+from forager_forecast.regrid import area_weighted_regrid_from_origin
+T6B = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b")
+tile = Tile(13, 27, 256); w = tile.window
+strip = GridWindow(w.left, w.top - 64 * CELL_SIZE_M, w.right, w.top)
+with rasterio.open(T6B / "scanfi_whole/balsamFir.tif") as ds:
+    raw = from_bounds(*native_bounds(strip, SCANFI_CRS_WKT), transform=ds.transform)
+    c0, r0 = math.floor(raw.col_off), math.floor(raw.row_off)
+    c1, r1 = math.ceil(raw.col_off + raw.width), math.ceil(raw.row_off + raw.height)
+    data = ds.read(1, window=Window(c0, r0, c1 - c0, r1 - r0)).astype("float64"); tr = ds.transform
+to = _to_native(SCANFI_CRS_WKT)
+out = {}
+for nb in (1, 11, 1):
+    t0 = time.process_time()
+    area_weighted_regrid_from_origin(np.stack([data] * nb), tr, c0, r0, to, strip)
+    out.setdefault(nb, []).append(round(time.process_time() - t0, 2))
+print(json.dumps({"strip_cells": strip.width * strip.height, "native_px": data.size, "cpu_s_by_bands": out}))

@@ -1,0 +1,49 @@
+"""Profile real SCANFI layer units (balsamFir), output to a scratch dir only. Read-only on the drive."""
+import json, os, resource, sys, time
+from pathlib import Path
+import numpy as np
+from forager_forecast import t6b_layers as L
+from forager_forecast import t6b_mask as M
+
+T6B = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b")
+OUT = Path("/mnt/work/scanfi-edge-scratch/profile_out")
+NALCMS = T6B / "sources/nalcms/NA_NALCMS_landcover_2020v2_30m.tif"
+
+def io_bytes():
+    d = dict(l.split(": ") for l in Path("/proc/self/io").read_text().splitlines())
+    return int(d["read_bytes"]), int(d["rchar"])
+
+PH = {}
+def timed(name, fn):
+    def w(*a, **k):
+        t0 = time.perf_counter(); r0 = resource.getrusage(resource.RUSAGE_SELF); b0 = io_bytes()
+        try:
+            return fn(*a, **k)
+        finally:
+            r1 = resource.getrusage(resource.RUSAGE_SELF); b1 = io_bytes()
+            p = PH.setdefault(name, {"wall": 0, "cpu": 0, "disk_read": 0, "rchar": 0, "calls": 0})
+            p["wall"] += time.perf_counter() - t0
+            p["cpu"] += (r1.ru_utime - r0.ru_utime) + (r1.ru_stime - r0.ru_stime)
+            p["disk_read"] += b1[0] - b0[0]; p["rchar"] += b1[1] - b0[1]; p["calls"] += 1
+    return w
+
+# Patch the names scanfi_layer_tile looks up in its module.
+L.read_mask = timed("mask_read(read_mask)", L.read_mask)
+L.cells_in_study = timed("cells_in_study", L.cells_in_study)
+L._read_covered = timed("scanfi_read", L._read_covered)
+L._pixel_lonlat = timed("pixel_lonlat", L._pixel_lonlat)
+L._pixel_side = timed("pixel_side", L._pixel_side)
+L._water = timed("water(NALCMS)", L._water)
+L.area_weighted_regrid_from_origin = timed("regrid", L.area_weighted_regrid_from_origin)
+L.np.savez_compressed = timed("write_npz", np.savez_compressed)
+L._sha256 = timed("sha256", L._sha256)
+
+key = sys.argv[1]
+n, i, j = (int(x) for x in key.split("_"))
+t0 = time.perf_counter(); r0 = resource.getrusage(resource.RUSAGE_SELF); b0 = io_bytes()
+res = L.scanfi_layer_tile(L.Tile(i, j, n), T6B / "scanfi_whole/balsamFir.tif", "balsamFir",
+                          T6B / "mask.tif", NALCMS, OUT)
+r1 = resource.getrusage(resource.RUSAGE_SELF); b1 = io_bytes()
+tot = {"wall": time.perf_counter() - t0, "cpu": (r1.ru_utime - r0.ru_utime) + (r1.ru_stime - r0.ru_stime),
+       "disk_read": b1[0] - b0[0], "rchar": b1[1] - b0[1], "maxrss_mb": r1.ru_maxrss / 1024}
+print(json.dumps({"tile": key, "total": tot, "phases": PH, "files": list(res["files"])}))
