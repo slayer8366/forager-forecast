@@ -60,12 +60,26 @@ def build(cds_dir: Path, out: Path, prefix: str = "") -> dict:
     pattern = re.compile(
         rf"^{re.escape(prefix)}(era5land-\d{{4}}-\d{{2}}|era5-precip-\d{{4}})\.nc$"
     )
-    for path in sorted(cds_dir.glob("*.nc")):
-        if not pattern.match(path.name):
-            continue
+    hourly_pattern = re.compile(r"^hourly-era5land-(\d{4}-\d{2})\.daily\.h5$")
+    routes: dict[str, str] = {}
+    # Hourly-route months first, so a month both routes delivered ends up with the
+    # daily-statistics values (D24's route as first planned); the overlap is checked apart.
+    paths = (
+        []
+        if prefix
+        else sorted(p for p in cds_dir.glob("*.daily.h5") if hourly_pattern.match(p.name))
+    )
+    paths += sorted(p for p in cds_dir.glob("*.nc") if pattern.match(p.name))
+    for path in paths:
+        hm = hourly_pattern.match(path.name)
+        if hm:
+            files["land_hourly_route"] = files.get("land_hourly_route", 0) + 1
+            routes[hm.group(1)] = "hourly reanalysis-era5-land, 24-hour UTC mean"
+        elif path.name.startswith(f"{prefix}era5land"):
+            routes[path.name[len(prefix) + 9 : len(prefix) + 16]] = "derived daily statistics"
         with h5py.File(path) as h:
             days = _days(h)
-            if path.name.startswith(f"{prefix}era5land"):
+            if hm or path.name.startswith(f"{prefix}era5land"):
                 files["land"] += 1
                 lat, lon = _index(h["latitude"][:], 0.1), _index(h["longitude"][:], 0.1)
                 pairs = [(k, LAND[k], 273.15) for k in LAND]
@@ -83,7 +97,11 @@ def build(cds_dir: Path, out: Path, prefix: str = "") -> dict:
                         ok = (days >= 0) & (days < N_DAYS)
                         series[days[ok]] = data[ok, i, j]
     arrays = {}
-    summary = {"files": files, "variables": {}}
+    summary = {
+        "files": files,
+        "land_route_by_month": dict(sorted(routes.items())),
+        "variables": {},
+    }
     for variable, store in stores.items():
         points = sorted(store)
         arrays[f"{variable}_points"] = np.array(points, dtype=np.int32).reshape(-1, 2)
