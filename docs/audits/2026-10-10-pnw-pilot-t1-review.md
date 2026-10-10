@@ -268,7 +268,74 @@ been read yet.
   not confirmed for the stored archive (B2 is marked inferred on that point).
 - ERA5-Land's sea mask over the eligible cells: not counted. That needs the land files.
 
+## Pass 2a: the builder's fixes to pass 1 (read at `ab8d28f`, merged into this branch at `eff52de`)
+
+**Rulings that landed meanwhile** (Forager RECORD, read on `origin/records-after-173`):
+- -818: the tolerance allows Open-Meteo's storage rounding, and "Train as it downloads" is now
+  recorded. That closes S4.
+- -819: the pilot trains and scores on Copernicus. The equivalence test runs and is reported, but
+  no longer gates the pilot fit. D24 and D19 are bent for the pilot only.
+
+**Each pass-1 finding, as fixed:**
+
+| Item | Fix | Status |
+|---|---|---|
+| B1 | `TO_UNITS` per variable (`9060ea6`, `pnw_weather.py`), plus `tests/test_pnw_weather_units.py` | **Closed.** Reviewer revert R6 (`swvl1` given −273.15 again) fails the units test with "Obtained: −272.85 … Expected: 0.3" (`revert_runner_pass2a.out.jsonl`). |
+| B3 | `build()` reads `hourly-era5land-*.daily.h5` (`e2865eb`). `weather_status` sorts each NaN unit as sea or missing days. The fit drops sea units, counts them by reason and year, and refuses missing days in a run not labelled partial. The calendar model takes the same `--weather` so both models hold the same units (`9060ea6`, `pnw_t1_fit.py`). | **Closed.** Reviewer revert R7 (every NaN read as missing days) fails `test_weather_status_tells_sea_from_a_month_not_pulled` at index 1. The fit's refusal path itself is read, not tested. The calendar fit of 18:24Z ran without `--weather`, so it must be refit on the weather unit set (RECORD -821 says so). `pnw_t1_compare.py` refuses the mismatch if it is not (R5's sibling test, `test_runs_on_different_units_are_refused`). |
+| S2 | The fit refuses a dirty tree and writes `commit` into every summary (`9060ea6`) | **Closed.** |
+| S3 | Overlap tolerance 0.001 K and 0.00001 m³/m³ fixed in `pnw_route_overlap.py` (`9060ea6`) | **Closed on timing.** The daily-statistics file for 2019-01 has not arrived (`cds/` listing, 18:43Z), so no overlap value was read. Note: the bound assumes both routes start from identically packed hourly fields. That is plausible but unverified, so a failure there should be read before it is acted on. |
+| S4 | RECORD -818 | **Closed.** |
+| N5 | Seeds added to `top_features` | **Closed.** |
+
+**New findings in the fixes.**
+
+**S5 (should-fix; it is not the pilot's gate since -819). `pnw_equivalence.py` at `ab8d28f`
+cannot produce a result.**
+- (i) **Observed:** it crashes on its first span. The request now runs to `end + 1 day` (`:110`),
+  so Open-Meteo returns 8 daily and 192 hourly values. `:122-127` still reshape to (7, 24), and
+  `:130` subtracts 8 values from 7. `probe_equivalence_8day.out.txt` (mocked inputs, no network):
+  `ValueError cannot reshape array of size 192 into shape (7,24)`. The Open-Meteo request is
+  made and cached before the crash.
+- (ii) **Read:** `TOL` at `:34-39` is still the superseded 0.05 / 0.05 / 0.05 / 0.0005. The
+  restated spec's bounds (0.075 °C, 0.075 °C, 0.001, 1.25 mm) are not in the code.
+- (iii) **Read:** `convention` is declared (`:78`) but never appended to, so the rain convention
+  test always reports 0 days.
+- (iv) **Read:** `:149` rebinds `a`, the parsed arguments, to a numpy array. `:161` and `:174-176`
+  then read `a.available` and `a.out`, which would raise after every request has been made.
+- -819 says this test "runs to completion and its result is reported". As written it cannot.
+- **Fix:** slice the first 7 days for the comparison, apply the restated bounds, fill
+  `convention`, and rename the array.
+
+**S6 (should-fix). A rain "pass" under the restated bound would not show equivalence.**
+- The bound is a worst case of 1.25 mm per day.
+- The scoring coder's check (RECORD -819) found Open-Meteo's rain 4 to 8% below the store's at
+  every one of 6 cells over 90 days: 249.3 against 268.2 mm, about 0.21 mm a day.
+- A level gap of that size passes the daily bound on most days. So a pass on rain could sit beside
+  a systematic gap that rounding cannot cause, since rounding is symmetric.
+- **Fix:** report the sample's summed rain ratio (Open-Meteo over store) and its sign test beside
+  the pass, so the reader sees the level as well as the bound.
+
+**N7 (note). "Before any Open-Meteo body was read" is narrower than it reads.**
+- The claim is in `0caf56d`'s message and the spec's restated header.
+- It holds for the equivalence sample: no `equivalence*/open-meteo/` exists.
+- But the scoring coder's Open-Meteo bodies were written from 18:34:15Z to 18:34:54Z
+  (`scoring/feature-check/`, file times), and -819's rain gap was recorded at 18:36:11Z. Both came
+  before the restated spec's commit (18:39:30Z).
+- -818's ruling (18:34:34Z) names the rain bound's form ("rain bounded by the rounding of its
+  hourly values"), and the committed bound follows mechanically from Open-Meteo's storage step. So
+  I read it as not tuned to those values (inferred). The header should still say Open-Meteo rain
+  values from outside the sample had been seen.
+
+**Suite at `eff52de`:** not re-run in full. R6 and R7 ran their own class each. The full suite runs
+in pass 2 once the fits finish, to leave the processor free.
+
 ## Pass 2
 
-Pending: the equivalence result, both fits, the headline and its interval, the per-fold table,
-and the random-date comparison, each traced to its output file and sample.
+Pending:
+- the equivalence result;
+- both fits on the weather unit set;
+- the headline and its interval;
+- the per-fold table;
+- the random-date comparison.
+
+Each will be traced to its output file and sample.
