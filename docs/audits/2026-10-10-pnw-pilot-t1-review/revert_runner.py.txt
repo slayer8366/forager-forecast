@@ -60,6 +60,11 @@ CHECKS = [
      "key = (d, -p[0], -p[1])",
      "key = (d, p[0], p[1])",
      ["tests/test_coastal.py"]),
+    ("R10 hourly rain summed over stamps 00:00 to 23:00 instead of 01:00 to 24:00 (RECORD -826)",
+     "src/forager_forecast/hourly_daily.py",
+     "    start = seconds - 3600\n",
+     "    start = seconds\n",
+     ["tests/test_hourly_daily.py"]),
 ]
 
 only = set(sys.argv[1:])
