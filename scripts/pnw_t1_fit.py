@@ -1,4 +1,4 @@
-"""T1's fit on the PNW box (T1 dispatch; D13, D31, D33; D122).
+"""T1's fit on the PNW box (T1 dispatch; D13, D31, D33; D123).
 
 Run:  uv run python scripts/pnw_t1_fit.py --records <records dir> --list t1_1000m
           --design primary|secondary --model calendar|full [--weather <daily npz>]

@@ -3,7 +3,7 @@
 **Status:** IN PROGRESS. The sections marked PENDING are not done yet. Nothing in this file is the
 T1 result until the "Result" section says so.
 **Branch:** `pnw-pilot-t1`, cut from origin/main `36cc647`.
-**Orders:** Forager RECORD -806, -807, -811 and -812 (filed here as D122), and -809 ("a standing
+**Orders:** Forager RECORD -806, -807, -811 and -812 (filed here as D123), and -809 ("a standing
 model ready before Monday"). The owner's "Train as it downloads if you need to" was relayed by the
 planner on 2026-10-10.
 **Verify report:** `2026-10-10-pnw-first-fit-verify-report.md`, on branch `pnw-first-fit-verify`.
@@ -15,7 +15,8 @@ planner on 2026-10-10.
   differ.
 - D24 equivalence sample and tolerance: `2026-10-10-pnw-pilot-t1/equivalence_spec.md`, commit
   `4d6e864`.
-- D122 (the pilot ruling), commit `4d6e864`.
+- D123 (the pilot ruling), commit `4d6e864`, where it was filed as D122. It was renumbered on
+  2026-10-10 because D122 is the SCANFI edge ruling (`f0c6065`, RECORD -805), filed first.
 
 ## Weather pull
 
