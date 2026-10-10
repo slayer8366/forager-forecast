@@ -149,7 +149,13 @@ def model_features(meta: dict) -> list[str]:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--week", required=True)
-    ap.add_argument("--weather", type=Path, required=True)
+    ap.add_argument("--weather", type=Path, help="Open-Meteo live-weather dir (cross-check)")
+    ap.add_argument(
+        "--cds-npz",
+        type=Path,
+        help="the store's daily statistics for the window, built by pnw_weather.build "
+        "(scripts/pnw_pilot_cds_build.py); the scoring source the owner chose (RECORD -819)",
+    )
     ap.add_argument("--model", type=Path, required=True)
     ap.add_argument("--kind", choices=["calendar", "full"], required=True)
     ap.add_argument("--out", type=Path, required=True)
@@ -158,6 +164,9 @@ def main() -> int:
     ap.add_argument("--beats-calendar", choices=["true", "false", "null"], default="null")
     ap.add_argument("--t1-result", default="", help="JSON text of the builder's headline, or empty")
     a = ap.parse_args()
+    if (a.weather is None) == (a.cds_npz is None):
+        raise SystemExit("give exactly one of --weather (Open-Meteo) or --cds-npz (Copernicus)")
+    source = "copernicus" if a.cds_npz else "open-meteo"
     import lightgbm as lgb  # noqa: PLC0415
 
     week = parse_week(a.week)
@@ -177,12 +186,33 @@ def main() -> int:
 
     pnw = next(b for b in BOXES if b.name == "pnw")
     box = lw.box_cells(pnw)
-    per_cell, refused, batches = read_live_weather(a.weather, start, end)
-    npz = a.weather / f"weather_{week.id}.npz"
-    arrays = po.weather_arrays(per_cell, start, end)
-    po.check_ranges(arrays)
-    np.savez_compressed(npz, **arrays)
-    land = sorted(per_cell)
+    batches = None
+    if source == "open-meteo":
+        per_cell, refused, batches = read_live_weather(a.weather, start, end)
+        npz = a.weather / f"weather_{week.id}.npz"
+        arrays = po.weather_arrays(per_cell, start, end)
+        po.check_ranges(arrays)
+        np.savez_compressed(npz, **arrays)
+        land = sorted(per_cell)
+    else:
+        npz = a.cds_npz
+        z = np.load(npz)
+        po.check_ranges(z)
+        z_start = date.fromisoformat(str(z["start"]))
+        if (
+            z_start > start
+            or (z_start - start).days + z["temperature_values"].shape[1] <= (end - start).days
+        ):
+            raise SystemExit(f"{npz} does not span {start} to {end}")
+        values = z["temperature_values"]
+        has = {
+            (int(la), int(lo))
+            for (la, lo), row in zip(z["temperature_points"], values, strict=True)
+            if np.isfinite(row).any()
+        }
+        land = [c for c in box if (c.lat_tenths, c.lon_tenths) in has]
+        refused = {c: "no ERA5-Land value in the store" for c in box if c not in set(land)}
+        per_cell = set(land)
     rows = [
         {"cell": c, "scored": monday, "lat": c.center_latitude, "lon": c.center_longitude}
         for c in land
@@ -211,7 +241,7 @@ def main() -> int:
     omitted = Counter()
     for c in box:
         if c in refused:
-            omitted["open_meteo_null_values_(sea_or_no_era5_land_value)"] += 1
+            omitted["no_era5_land_value_(sea)"] += 1
         elif c not in per_cell:
             omitted["not_fetched_yet"] += 1
     omitted["incomplete_weather_window"] += int((~complete).sum())
@@ -233,10 +263,10 @@ def main() -> int:
         block_names.append(bid)
 
     chances = np.array([f["properties"]["chance"] for f in feats]) if feats else np.zeros(0)
-    ledger = a.weather / "ledger.jsonl"
+    ledger = a.weather / "ledger.jsonl" if a.weather else None
     calls = (
         sum(json.loads(line)["cost"] for line in ledger.read_text().splitlines())
-        if ledger.exists()
+        if ledger and ledger.exists()
         else None
     )
     manifest = {
@@ -293,8 +323,8 @@ def main() -> int:
             "model, which reads no weather."
         ),
         "applicable_note": (
-            "Cells are listed only when scored. A cell is left out when Open-Meteo gave no "
-            "ERA5-Land value (sea) or any of its 90 days is missing. No area-of-applicability "
+            "Cells are listed only when scored. A cell is left out when the weather source has "
+            "no ERA5-Land value for it (sea) or any of its 90 days is missing. No area-of-applicability "
             "or training-range check (R7) has been run."
         ),
         "cells": {
@@ -306,11 +336,21 @@ def main() -> int:
             "chance_max": float(chances.max()) if len(chances) else None,
         },
         "weather_through": end.isoformat(),
+        "weather_source": source,
         "weather": {
-            "source": "Open-Meteo historical archive, models=era5_seamless, elevation=nan, "
-            "cell_selection=nearest, timezone=UTC (D19, D21, D25)",
+            "source": (
+                "Copernicus Climate Data Store: derived-era5-land-daily-statistics (daily_mean "
+                "of 2m_temperature, soil_temperature_level_1, volumetric_soil_water_layer_1) and "
+                "derived-era5-single-levels-daily-statistics (daily_sum of total_precipitation), "
+                "time_zone utc+00:00, frequency 1_hourly: the products and requests training "
+                "used (owner, Forager RECORD -819)"
+                if source == "copernicus"
+                else "Open-Meteo historical archive, models=era5_seamless, elevation=nan, "
+                "cell_selection=nearest, timezone=UTC (D19, D21, D25)"
+            ),
+            "npz_sha256": hashlib.sha256(Path(npz).read_bytes()).hexdigest(),
             "days": [start.isoformat(), end.isoformat()],
-            "batches": batches,
+            "open_meteo_batches": batches,
             "api_calls_by_pricing_rule": calls,
         },
         "weather_bridge": a.bridge or None,
