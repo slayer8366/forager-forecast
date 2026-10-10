@@ -29,6 +29,7 @@ import time
 from datetime import UTC, date, datetime
 from pathlib import Path
 
+import cds_jobs
 import h5py
 import numpy as np
 
@@ -51,13 +52,23 @@ ACCOUNT = (
     "not recorded"
 )
 OVERLAP = (2019, 1)
+# The prototype map's recent weather (Forager RECORD -814, planner 2026-10-10): 2026-07-01 to
+# 2026-10-04. October stops at the 4th, the last day the planner named.
+SCORING_MONTHS = [(2026, 7), (2026, 8), (2026, 9), (2026, 10)]
+LAST_DAY = {(2026, 10): 4}
 
 
 def months():
+    """Overlap month first, then every T1 month newest first (2025-12 back to 2014-09).
+
+    Since 2026-10-10 18:51 UTC this route carries all of T1's land months: derived
+    daily-statistics jobs sat queued over 20 minutes without starting, while hourly jobs started
+    within 90 s."""
     yield OVERLAP
-    for y in range(2014, 2019):
-        for m in range(9 if y == 2014 else 1, 13):
-            yield (y, m)
+    for y in range(2025, 2013, -1):
+        for m in range(12, (8 if y == 2014 else 0), -1):
+            if (y, m) != OVERLAP:
+                yield (y, m)
 
 
 def log(msg: str) -> None:
@@ -92,22 +103,38 @@ def aggregate(hourly: Path, out: Path) -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, required=True)
+    ap.add_argument("--workers", type=int, default=1)
+    ap.add_argument(
+        "--scoring",
+        action="store_true",
+        help="the map's months 2026-07 to 2026-10-04 instead of T1's (planner, 2026-10-10)",
+    )
     args = ap.parse_args()
+    import threading  # noqa: PLC0415
+    from concurrent.futures import ThreadPoolExecutor  # noqa: PLC0415
+
     import cdsapi  # noqa: PLC0415
 
-    client = cdsapi.Client(quiet=True, progress=False)
-    todo = list(months())
-    log(f"hourly route: {len(todo)} months, box {AREA}")
-    for i, (y, m) in enumerate(todo, 1):
+    local = threading.local()
+    todo = SCORING_MONTHS if args.scoring else list(months())
+    log(f"hourly route: {len(todo)} months, box {AREA}, {args.workers} in flight")
+
+    def run(item):
+        i, (y, m) = item
+        if not hasattr(local, "client"):
+            local.client = cdsapi.Client(quiet=True, progress=False)
+        return one(local.client, i, y, m)
+
+    def one(client, i, y, m):
         name = f"hourly-era5land-{y}-{m:02d}"
         daily = args.out / f"{name}.daily.h5"
         rec = args.out / f"{name}.request.json"
         if daily.exists() and rec.exists():
             log(f"[{i}/{len(todo)}] {name} skip (done)")
-            continue
+            return 0
         if (y, m) != OVERLAP and (args.out / f"era5land-{y}-{m:02d}.nc").exists():
             log(f"[{i}/{len(todo)}] {name} skip (daily route has it)")
-            continue
+            return 0
         free = shutil.disk_usage(args.out).free
         if free < MIN_FREE_BYTES:
             log(f"STOP: {free / 1024**3:.2f} GB free, under 3 GB")
@@ -116,7 +143,7 @@ def main() -> int:
             "variable": list(VARIABLES),
             "year": str(y),
             "month": f"{m:02d}",
-            "day": [f"{d:02d}" for d in range(1, 32)],
+            "day": [f"{d:02d}" for d in range(1, LAST_DAY.get((y, m), 31) + 1)],
             "time": [f"{h:02d}:00" for h in range(24)],
             "area": AREA,
             "data_format": "netcdf",
@@ -129,7 +156,7 @@ def main() -> int:
             t0 = time.monotonic()
             hourly = args.out / f"{name}.hourly.nc"
             try:
-                client.retrieve(DATASET, request).download(str(hourly))
+                adopted = cds_jobs.fetch(client, DATASET, request, str(hourly))
                 seconds = round(time.monotonic() - t0, 1)
                 sha = hashlib.sha256(hourly.read_bytes()).hexdigest()
                 size = hourly.stat().st_size
@@ -150,6 +177,7 @@ def main() -> int:
                             "aggregation": agg,
                             "account": ACCOUNT,
                             "client": "cdsapi==0.7.7 via uv run --with",
+                            "adopted_job": adopted,
                         },
                         indent=2,
                     )
@@ -170,8 +198,13 @@ def main() -> int:
                 time.sleep(30 * attempt)
         else:
             log(f"[{i}/{len(todo)}] {name} gave up after 3 attempts")
-    log("hourly route finished pass")
-    return 0
+            return 1
+        return 0
+
+    with ThreadPoolExecutor(max_workers=args.workers) as pool:
+        codes = list(pool.map(run, enumerate(todo, 1)))
+    log(f"hourly route finished pass: {codes.count(0)} ok or skipped, {codes.count(1)} gave up")
+    return max(codes) if any(c in (2, 3) for c in codes) else 0
 
 
 if __name__ == "__main__":

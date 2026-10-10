@@ -41,7 +41,43 @@ planner on 2026-10-10.
   2014-09. Each route skips months the other has. The weather builder records the route per month
   (`land_route_by_month`). The overlap month is checked between routes with the equivalence
   tolerances (`scripts/pnw_route_overlap.py`).
-- Per-month timings by route: PENDING.
+- Measured by 18:51 UTC: the hourly ERA5-Land month 2019-01 (10.1 MB) took 516 s from submit to
+  file, with 86 s of queue. The daily-statistics land jobs submitted at 18:30 had still not started
+  at 18:51 (store job list). The cap behaves per user, about 5 queued (inferred from the hourly
+  route's request being rejected while 5 derived jobs were queued).
+- Restructured at 18:52 (`f2f5a9f`): the hourly route carries every T1 land month, newest first,
+  with 2 in flight. The daily-statistics route keeps the yearly rain requests (`--precip-only`).
+  The overlap month 2019-01 is pulled by both routes. Jobs the store already holds are adopted, not
+  resubmitted (`cds_jobs.fetch`). Queued land jobs ea0cc73c and 7942cc54 were dismissed. The
+  scoring coder's rain job d6ae24ed (2026-07 to 2026-10) is adopted into
+  `cds/scoring-era5-precip-2026-07-10.nc` (`cds_adopt_job.py`).
+- Several months cannot go in one request: both ERA5-Land forms take `month` as one string (store
+  schema).
+- Per-month timings after the restructure: hourly ERA5-Land months took 389 to 896 s each, with
+  2 in flight, about 10 months an hour.
+- Rain (owner, RECORD -826, "Hourly, checked against 2019 (Recommended)"): years the derived route
+  had not delivered now come from hourly ERA5 single-levels `total_precipitation`. Day d is the
+  sum of stamps d 01:00 to d+1 00:00 (`hourly_daily.daily_sums_previous_hour`, tested; the revert
+  with no shift fails). The summing code and the tolerance (1e-5 m) were committed in `a5a981b`,
+  before the comparison. Requests cover two years each: the store's limit is 121,000 fields and
+  one year is 52,560 (`estimate_costs`), and three years were refused.
+- **2019 check (`267e3ad`): passes.** 192,355 values (365 days × 527 points), largest difference
+  0.0 m, NaN positions equal. Under the other convention (stamps 00 to 23), 97,562 values would
+  fall outside the tolerance, up to 8.7 mm. So the check discriminates. Result:
+  `2026-10-10-pnw-pilot-t1/precip_hourly_vs_daily_2019.json`.
+- Incident: a commit line that failed lint still launched the rain pull, three times in all. Job
+  adoption kept them to one queued job at the store. All three were killed and one restarted.
+  Nothing was duplicated.
+
+## Coastal cells with no ERA5-Land value (measured, not yet ruled)
+
+On the 2019-01 land mask (2,387 of 3,116 box points carry values):
+- 182 of 2,043 unit cells have no ERA5-Land value.
+- 8,704 of 53,186 cell-weeks and 189 of 1,139 positives (16.6%) would be dropped as "sea" under B3.
+- 163 of those cells have an ERA5-Land land point among their 8 neighbours. They hold 188 of the
+  189 positives.
+
+The options went to the planner for the owner. Nothing has changed yet.
 
 ## Records (observed)
 
@@ -98,3 +134,10 @@ D33), then 2019 72, 2020 107, 2021 115, 2022 89, 2023 97, 2024 301, 2025 309.
 ## D33 (3) and (4): allowed after Monday (RECORD -812); PENDING
 
 ## Not checked: PENDING
+
+## Corrections to commit messages (append only; the commits are not amended)
+
+- `9060ea6` names "3b0c0b1" as the commit where the weather builder started reading the hourly
+  route's files. That hash was written without being checked. The next commit's message corrects
+  it to "4f...", which is also unchecked and wrong. The commit is **`e2865eb`** ("weather builder
+  reads both ERA5-Land routes", read from `git log`).
