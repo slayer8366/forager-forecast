@@ -1,0 +1,83 @@
+"""Reviewer's strict revert runner (pass 1), per Forager CLAUDE.md's revert-check rules.
+
+For each check: save a byte copy of the file, apply one exact edit (the old text must occur once),
+run the named tests with a JUnit XML written to a fresh path, refuse to cite the run if pytest
+reports a collection or import error (exit code 2, 3 or 4, or any <error> element), restore from
+the saved copy (never from git), confirm sha256 equals the saved copy and the forward text is
+present again. Output: one JSON line per check.
+"""
+import hashlib
+import json
+import subprocess
+import sys
+import tempfile
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+CHECKS = [
+    ("R1 window shifted one day later (includes the scored day)",
+     "src/forager_forecast/daily_grid.py",
+     "r, a, b = rows[inside], lo[inside], d0[inside]",
+     "r, a, b = rows[inside], lo[inside] + 1, d0[inside] + 1",
+     ["tests/test_daily_grid.py"]),
+    ("R2 outer fit trains on the held-out year too",
+     "src/forager_forecast/t1_model.py",
+     "predictions[held] = fitter(best, x[~held], y[~held], x[held])",
+     "predictions[held] = fitter(best, x, y, x[held])",
+     ["tests/test_t1_model.py"]),
+    ("R3 inner tuning sees the outer held-out year",
+     "src/forager_forecast/t1_model.py",
+     "best, scores = inner_choice(configs, x[~held], y[~held], years[~held], fitter)",
+     "best, scores = inner_choice(configs, x, y, years, fitter)",
+     ["tests/test_t1_model.py"]),
+    ("R4 bootstrap resamples units, not cells",
+     "src/forager_forecast/t1_model.py",
+     "ids, inverse = np.unique(clusters, return_inverse=True)",
+     "ids, inverse = np.unique(np.arange(len(clusters)), return_inverse=True)",
+     ["tests/test_t1_model.py"]),
+    ("R5 headline is the mean of per-fold skills, not pooled",
+     "scripts/pnw_t1_compare.py",
+     "    skill = tm.brier_skill(pf, pc, y)\n",
+     "    skill = float(np.mean([tm.brier_skill(pf[years == v], pc[years == v], y[years == v]) for v in sorted(set(years.tolist()))]))\n",
+     ["tests/test_pnw_t1_compare.py"]),
+]
+
+only = set(sys.argv[1:])
+for name, path, old, new, tests in CHECKS:
+    if only and name.split()[0] not in only:
+        continue
+    p = Path(path)
+    saved = p.read_bytes()
+    sha = hashlib.sha256(saved).hexdigest()
+    text = saved.decode()
+    if text.count(old) != 1:
+        print(json.dumps({"check": name, "refused": f"old text occurs {text.count(old)} times"}))
+        continue
+    xml = Path(tempfile.mkdtemp()) / "junit.xml"
+    try:
+        p.write_text(text.replace(old, new))
+        proc = subprocess.run(
+            ["uv", "run", "pytest", "-q", "-p", "no:cacheprovider", f"--junitxml={xml}", *tests],
+            capture_output=True, text=True)
+    finally:
+        p.write_bytes(saved)
+    restored = hashlib.sha256(p.read_bytes()).hexdigest() == sha and old in p.read_text()
+    rec = {"check": name, "file": path, "exit": proc.returncode, "restored_equal": restored}
+    if proc.returncode in (2, 3, 4) or not xml.exists():
+        rec["refused"] = "collection/usage error or no XML; not cited"
+        rec["tail"] = proc.stdout[-800:]
+        print(json.dumps(rec)); continue
+    root = ET.parse(xml).getroot()
+    fails, errors = [], []
+    for tc in root.iter("testcase"):
+        for kind, bucket in (("failure", fails), ("error", errors)):
+            el = tc.find(kind)
+            if el is not None:
+                bucket.append({"test": tc.get("name"),
+                               "message": (el.get("message") or "")[:300]})
+    if errors:
+        rec["refused"] = "test errors present; not cited"
+    rec["tests"] = sum(1 for _ in root.iter("testcase"))
+    rec["failures"] = fails
+    rec["errors"] = errors
+    print(json.dumps(rec))

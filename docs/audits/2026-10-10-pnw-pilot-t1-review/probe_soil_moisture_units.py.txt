@@ -1,0 +1,35 @@
+"""Reviewer probe (pass 1): does scripts/pnw_weather.build() leave soil moisture in m3/m3?
+
+Writes one synthetic ERA5-Land daily-statistics file shaped as pnw_weather._days and build() read
+it (valid_time in days, latitude/longitude on the 0.1 grid, t2m/stl1/swvl1 in K, K, m3/m3) into a
+temporary directory, runs build() and load(), and prints the stored value of each variable.
+Expected if units are right: temperature 6.85, soil_temperature 7.85, soil_moisture 0.3.
+Synthetic data only; reads nothing of the builder's.
+"""
+import sys
+import tempfile
+from pathlib import Path
+
+import h5py
+import numpy as np
+
+sys.path.insert(0, str(Path.cwd() / "scripts"))
+import pnw_weather as pw  # noqa: E402
+
+with tempfile.TemporaryDirectory() as d:
+    d = Path(d)
+    with h5py.File(d / "era5land-2020-01.nc", "w") as h:
+        vt = h.create_dataset("valid_time", data=np.arange(3, dtype=np.int64))
+        vt.attrs["units"] = np.bytes_("days since 2020-01-01")
+        h.create_dataset("latitude", data=np.array([47.0]))
+        h.create_dataset("longitude", data=np.array([-123.0]))
+        h.create_dataset("t2m", data=np.full((3, 1, 1), 280.0))
+        h.create_dataset("stl1", data=np.full((3, 1, 1), 281.0))
+        h.create_dataset("swvl1", data=np.full((3, 1, 1), 0.3))
+    out = d / "w.npz"
+    pw.build(d, out)
+    grids = pw.load(out)
+    day = (np.datetime64("2020-01-01") - np.datetime64(pw.START.isoformat())).astype(int)
+    for v in ("temperature", "soil_temperature", "soil_moisture"):
+        g = grids[v]
+        print(v, round(float(g.values[g.index[(470, -1230)], day]), 6))
