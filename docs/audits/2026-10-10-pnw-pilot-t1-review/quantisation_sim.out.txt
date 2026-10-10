@@ -1,0 +1,6 @@
+temperature_2m_mean  P(|diff| > 0.05+1e-6) = 0.02447
+soil_temperature     P(|diff| > 0.05+1e-6) = 0.0
+precipitation_sum  2 wet hours P(|diff| > 0.05+1e-6) = 0.24829
+precipitation_sum  6 wet hours P(|diff| > 0.05+1e-6) = 0.4906
+precipitation_sum 12 wet hours P(|diff| > 0.05+1e-6) = 0.62321
+precipitation_sum 24 wet hours P(|diff| > 0.05+1e-6) = 0.7307

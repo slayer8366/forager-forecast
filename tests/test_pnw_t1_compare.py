@@ -1,6 +1,7 @@
 """scripts/pnw_t1_compare.py computes D33 (2)'s headline: one Brier skill pooled over every held-out
 unit of all folds, not an average of per-fold skills, and refuses runs that hold different units.
-Added by the D18 reviewer (docs/audits/2026-10-10-pnw-pilot-t1-review.md). Synthetic numbers only."""
+Added by the D18 reviewer (docs/audits/2026-10-10-pnw-pilot-t1-review.md). Synthetic numbers
+only."""
 
 import importlib.util
 import json

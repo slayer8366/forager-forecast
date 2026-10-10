@@ -1,0 +1,43 @@
+"""Reviewer check (pass 1): the only store-and-Open-Meteo pair already on disk before the pilot,
+from the D51 grid-positions task (2024-06-01, one day; not the pilot's equivalence sample, and
+read-only). For every Open-Meteo answer in docs/pulls/grid-positions/open-meteo-2024-06-01.json
+and the part 2 file, look up the store value at the returned grid point in the D51 NetCDF files
+and print the difference. The files are opened read-only in place.
+"""
+import json
+from pathlib import Path
+
+import h5py
+import numpy as np
+
+D = Path.home() / "Zynergy/forager-forecast-grid-positions-d51/data/grid-positions"
+land = h5py.File(D / "derived-era5-land-daily-statistics-2024-06-01.download", "r")
+single = h5py.File(D / "derived-era5-single-levels-daily-statistics-2024-06-01.download", "r")
+print("land vars", list(land), "single vars", list(single))
+
+
+def at(h, var, lat, lon, scale, offset):
+    la, lo = h["latitude"][:], h["longitude"][:]
+    i, j = np.argmin(np.abs(la - lat)), np.argmin(np.abs(lo - lon))
+    if abs(la[i] - lat) > 1e-4 or abs(lo[j] - lon) > 1e-4:
+        return None
+    return float(h[var][0, i, j]) * scale + offset
+
+
+files = [Path("docs/pulls/grid-positions/open-meteo-2024-06-01.json"), D / "open-meteo-part2-2024-06-01.json"]
+for f in files:
+    for r in json.loads(f.read_text())["requests"]:
+        resp = r.get("response") or {}
+        if "daily" not in resp:
+            continue
+        lat, lon = resp["latitude"], resp["longitude"]
+        model = r["url"].split("models=")[1].split("&")[0]
+        t = resp["daily"].get("temperature_2m_mean", [None])[0]
+        p = resp["daily"].get("precipitation_sum", [None])[0]
+        st = at(land, "t2m", lat, lon, 1.0, -273.15)
+        sp = at(single, "tp", lat, lon, 1000.0, 0.0)
+        print(f.name[:22], model, lat, lon,
+              "T om", t, "store", None if st is None else round(st, 4),
+              "diff", None if (t is None or st is None) else round(t - st, 4),
+              "| P om", p, "store", None if sp is None else round(sp, 4),
+              "diff", None if (p is None or sp is None) else round(p - sp, 4))
