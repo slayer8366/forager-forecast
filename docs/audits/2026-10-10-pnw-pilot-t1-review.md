@@ -495,6 +495,19 @@ anything summed is used.
 The summed rain ratio (Open-Meteo over store), which would show RECORD -819's 4 to 8% level gap
 beside a daily pass, is not reported.
 
+## Pass 2h: a subset-years scoring model for the map (read at `a23135f`)
+
+**A deviation, labelled.**
+- `--final-only --years` now saves a scoring model fitted on a subset of years under its own tag,
+  `…_years_<first>_<last>` (`pnw_t1_fit.py` at `a23135f`).
+- Its `model.json` says "fitted on <first>-<last> only; T1's all-years result pending" and
+  `partial_years: true`.
+- It has no held-out evaluation of its own, and the headline does not describe it, since that
+  comes from the all-years held-out predictions.
+- Added to the deviations above, in substance: the map may show a model on fewer years than T1
+  evaluates. That is labelled in its `model.json`; whether the map's banner carries it is the site
+  track's to show, and was not checked here.
+
 ## Pass 2
 
 Pending:
