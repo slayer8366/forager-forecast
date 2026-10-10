@@ -358,6 +358,37 @@ in pass 2 once the fits finish, to leave the processor free.
   was submitted. D52 asks for the latter. `cds_adopt_job.py` records `submitted_utc` correctly; the
   hourly route does not.
 
+## Pass 2c: the coastal ruling and the records rerun (read at `0aec3bd`, merged at this commit)
+
+**RECORD -822 holds as built.**
+- The owner ruled: "Nearest land neighbour (Recommended)".
+- `coastal.land_point` takes the cell's own point first, then the nearest of the 8 neighbours by
+  great-circle distance, then none. The key `(d, −lat, −lon)` breaks ties north, then east (D63).
+- `weather_matrix` gives each unit its class: own, neighbour or none.
+- The fit counts neighbour units, neighbour positives and neighbour cells, and saves `land_point`
+  per unit in the npz (`pnw_t1_fit.py` at `d16a231`).
+- **Reviewer reverts** (`revert_runner_pass2c.out.jsonl`):
+  - R8 (no neighbour ever) fails 3 tests. One of them is the end-to-end builder test: "['none'] ==
+    ['neighbour']".
+  - R9 (ties toward south-west) fails `test_tie_goes_east_then_north`.
+- **N10 (note).** Only the east/west tie is tested. A north/south tie flipped to south passes every
+  test, as R9 shows by failing on the east/west case alone.
+
+**Prediction for the weather unit set**, written before any weather fit summary exists
+(`coastal_recount.out.txt`, 2019-01 mask):
+- 19 cells have no land neighbour. They hold 468 units and 1 positive.
+- So a full-years fit with no missing days should hold 52,718 units and 1,138 positives.
+- 8,236 of those units should read a neighbour.
+- The 2019-01 mask is taken as every month's (inferred: ERA5-Land's land mask is fixed). If a
+  summary differs, the mask or the missing days are where to look.
+
+**Records rerun from committed code (`0aec3bd`): holds.**
+- The three CSV hashes in the committed summary are unchanged from `5a527b7`.
+- They equal `sha256sum` of the files on disk (observed).
+- So the first run's outputs are the committed code's, which closes S2 for records.
+- The calendar fit of 18:24Z has no such check yet, and is to be refit on the weather unit set
+  anyway.
+
 ## Pass 2
 
 Pending:

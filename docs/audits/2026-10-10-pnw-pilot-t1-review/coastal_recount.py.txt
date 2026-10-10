@@ -38,3 +38,7 @@ print("units", len(rows), "sea units", sum(units[c] for c in sea))
 print("positives", sum(pos.values()), "sea positives", sum(pos[c] for c in sea))
 nb = {c for c in sea if any((c[0] + a, c[1] + b) in land for a in (-1, 0, 1) for b in (-1, 0, 1) if (a, b) != (0, 0))}
 print("sea cells with a land neighbour", len(nb), "their positives", sum(pos[c] for c in nb))
+# Pass 2c addition: what RECORD -822's rule leaves dropped (cells with no land neighbour).
+dropped = sea - nb
+print("after -822: dropped cells", len(dropped), "units", sum(units[c] for c in dropped),
+      "positives", sum(pos[c] for c in dropped), "kept neighbour units", sum(units[c] for c in nb))

@@ -3,3 +3,4 @@ unit cells 2043 sea cells 182
 units 53186 sea units 8704
 positives 1139 sea positives 189
 sea cells with a land neighbour 163 their positives 188
+after -822: dropped cells 19 units 468 positives 1 kept neighbour units 8236
