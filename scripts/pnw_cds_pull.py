@@ -113,6 +113,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--workers", type=int, default=1)
+    ap.add_argument("--only", default="", help="pull this one unit name only (overlap month)")
     ap.add_argument(
         "--per-dataset",
         type=int,
@@ -123,7 +124,7 @@ def main() -> int:
     args.out.mkdir(parents=True, exist_ok=True)
     import cdsapi  # noqa: PLC0415  (only this script needs it; run with --with cdsapi==0.7.7)
 
-    todo = list(units())
+    todo = [u for u in units() if not args.only or u[0] == args.only]
     log(
         f"{len(todo)} units, T1 box {AREA} then {REST_AREAS}, out {args.out},"
         f" {args.workers} in flight"
