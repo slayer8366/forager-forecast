@@ -23,6 +23,7 @@ WEEK = IsoWeek(2026, 41)
 START, END = lw.window_span(WEEK)
 LAND = [Cell(470, -1230), Cell(471, -1230)]
 SEA = Cell(470, -1250)
+GAPPY = Cell(470, -1227)  # land, but one day of the 90 never arrived
 NAMES = ["doy_sin", "doy_cos", "latitude", "longitude", *feature_names()]
 
 
@@ -55,8 +56,16 @@ def payload(cell: Cell, rng, sea: bool = False, rain=None) -> dict:
 def case(tmp_path):
     rng = np.random.default_rng(20260918)
     rain = [round(float(r), 1) for r in rng.gamma(0.5, 4.0, size=(END - START).days + 1)]
-    cells = [*LAND, SEA]
+    cells = [*LAND, SEA, GAPPY]
     body = [payload(c, rng, sea=(c == SEA), rain=rain) for c in cells]
+    gap = body[3]
+    missing = (START + timedelta(days=10)).isoformat()
+    k = gap["daily"]["time"].index(missing)
+    for key in gap["daily"]:
+        del gap["daily"][key][k]
+    keep = [i for i, t in enumerate(gap["hourly"]["time"]) if not t.startswith(missing)]
+    for key in gap["hourly"]:
+        gap["hourly"][key] = [gap["hourly"][key][i] for i in keep]
     raw = tmp_path / "weather" / "raw"
     raw.mkdir(parents=True)
     data = json.dumps(body).encode()
@@ -118,7 +127,7 @@ def test_scores_land_cells_with_the_model_on_features_built_independently(case):
     week_dir = tmp_path / "out" / "pnw-pilot" / "2026-10-05"
     fc = json.loads((week_dir / "cantharellus.geojson").read_text())
     got = {f["id"]: f["properties"] for f in fc["features"]}
-    assert sorted(got) == sorted(c.id for c in LAND)  # the sea cell is left out
+    assert sorted(got) == sorted(c.id for c in LAND)  # the sea and gappy cells are left out
     monday = WEEK.monday()
     for i, cell in enumerate(LAND):
         daily = daily_weather_from_archive(body[i])
@@ -132,6 +141,7 @@ def test_scores_land_cells_with_the_model_on_features_built_independently(case):
     manifest = json.loads((week_dir / "manifest.json").read_text())
     assert manifest["cells"]["scored"] == 2
     assert manifest["cells"]["omitted"]["open_meteo_null_values_(sea_or_no_era5_land_value)"] == 1
+    assert manifest["cells"]["omitted"]["incomplete_weather_window"] == 1
     assert (manifest["pilot"], manifest["validated"], manifest["reviewed"]) == (True, False, False)
     assert manifest["beats_calendar"] is None and manifest["t1_result"] is None
     assert manifest["weather_bridge"] == "test"
