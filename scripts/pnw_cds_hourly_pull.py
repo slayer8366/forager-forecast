@@ -52,6 +52,10 @@ ACCOUNT = (
     "not recorded"
 )
 OVERLAP = (2019, 1)
+# The prototype map's recent weather (Forager RECORD -814, planner 2026-10-10): 2026-07-01 to
+# 2026-10-04. October stops at the 4th, the last day the planner named.
+SCORING_MONTHS = [(2026, 7), (2026, 8), (2026, 9), (2026, 10)]
+LAST_DAY = {(2026, 10): 4}
 
 
 def months():
@@ -100,6 +104,11 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--workers", type=int, default=1)
+    ap.add_argument(
+        "--scoring",
+        action="store_true",
+        help="the map's months 2026-07 to 2026-10-04 instead of T1's (planner, 2026-10-10)",
+    )
     args = ap.parse_args()
     import threading  # noqa: PLC0415
     from concurrent.futures import ThreadPoolExecutor  # noqa: PLC0415
@@ -107,7 +116,7 @@ def main() -> int:
     import cdsapi  # noqa: PLC0415
 
     local = threading.local()
-    todo = list(months())
+    todo = SCORING_MONTHS if args.scoring else list(months())
     log(f"hourly route: {len(todo)} months, box {AREA}, {args.workers} in flight")
 
     def run(item):
@@ -134,7 +143,7 @@ def main() -> int:
             "variable": list(VARIABLES),
             "year": str(y),
             "month": f"{m:02d}",
-            "day": [f"{d:02d}" for d in range(1, 32)],
+            "day": [f"{d:02d}" for d in range(1, LAST_DAY.get((y, m), 31) + 1)],
             "time": [f"{h:02d}:00" for h in range(24)],
             "area": AREA,
             "data_format": "netcdf",

@@ -99,15 +99,33 @@ def chunks():
     )
 
 
+def scoring_chunks():
+    """The map's rain, 2026-07-01 to 2026-10-04, by the same checked route (RECORD -826; planner,
+    2026-10-10, if d6ae24ed has not delivered). The 2026-10-05 00:00 stamp closes 2026-10-04."""
+    base = {"product_type": ["reanalysis"], "variable": ["total_precipitation"], "area": AREA}
+    tail = {"data_format": "netcdf", "download_format": "unarchived"}
+    yield "hourly-era5-precip-2026-07-09", {
+        **base, "year": ["2026"], "month": ["07", "08", "09"], "day": ALL_DAYS,
+        "time": ALL_HOURS, **tail,
+    }  # fmt: skip
+    yield "hourly-era5-precip-2026-10-01-04", {
+        **base, "year": ["2026"], "month": ["10"], "day": ["01", "02", "03", "04"],
+        "time": ALL_HOURS, **tail,
+    }  # fmt: skip
+    yield "hourly-era5-precip-2026-10-05T00", {
+        **base, "year": ["2026"], "month": ["10"], "day": ["05"], "time": ["00:00"], **tail,
+    }  # fmt: skip
+
+
 def log(msg: str) -> None:
     print(f"{datetime.now(UTC).isoformat(timespec='seconds')} {msg}", flush=True)
 
 
-def pull(out: Path) -> int:
+def pull(out: Path, scoring: bool = False) -> int:
     import cdsapi  # noqa: PLC0415
 
     client = cdsapi.Client(quiet=True, progress=False)
-    for name, request in chunks():
+    for name, request in scoring_chunks() if scoring else chunks():
         nc, rec = out / f"{name}.nc", out / f"{name}.request.json"
         if nc.exists() and rec.exists():
             log(f"{name} skip (done)")
@@ -251,9 +269,10 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("step", choices=["pull", "aggregate", "check"])
+    ap.add_argument("--scoring", action="store_true")
     a = ap.parse_args()
     if a.step == "pull":
-        sys.exit(pull(a.out))
+        sys.exit(pull(a.out, a.scoring))
     if a.step == "aggregate":
         print(json.dumps(aggregate(a.out), indent=2))
         sys.exit(0)
