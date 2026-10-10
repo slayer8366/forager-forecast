@@ -50,6 +50,16 @@ CHECKS = [
      'status.append("sea" if sea else "missing_days")',
      'status.append("missing_days")',
      ["tests/test_pnw_weather_units.py"]),
+    ("R8 a cell with no land value is dropped instead of reading a neighbour (RECORD -822)",
+     "src/forager_forecast/coastal.py",
+     "    return (best[1], True) if best else None",
+     "    return None",
+     ["tests/test_coastal.py", "tests/test_pnw_weather_units.py"]),
+    ("R9 neighbour ties go south-west instead of north-east (D63)",
+     "src/forager_forecast/coastal.py",
+     "key = (d, -p[0], -p[1])",
+     "key = (d, p[0], p[1])",
+     ["tests/test_coastal.py"]),
 ]
 
 only = set(sys.argv[1:])
