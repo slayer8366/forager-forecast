@@ -365,8 +365,11 @@ def copernicus_sources(weather: Path | None) -> list[str]:
         raise SystemExit(f"no build summary beside {weather}; rebuild with scripts/pnw_weather.py")
     summary = json.loads(summary_path.read_text())
     out = []
-    if summary["files"].get("precip", 0):
+    rain = set(summary.get("rain_route_by_year", {}).values())
+    if "derived daily sum" in rain:
         out.append("era5_daily_sum")
+    if any(r.startswith("hourly") for r in rain):
+        out.append("era5_hourly_precipitation")
     routes = set(summary.get("land_route_by_month", {}).values())
     if "derived daily statistics" in routes:
         out.append("era5_land_daily")

@@ -69,13 +69,19 @@ def build(cds_dir: Path, out: Path, prefix: str = "") -> dict:
         rf"^{re.escape(prefix)}(era5land-\d{{4}}-\d{{2}}|era5-precip-\d{{4}})\.nc$"
     )
     hourly_pattern = re.compile(r"^hourly-era5land-(\d{4}-\d{2})\.daily\.h5$")
+    rain_hourly_pattern = re.compile(r"^hourly-era5-precip-(\d{4})\.daily\.h5$")
     routes: dict[str, str] = {}
+    rain_routes: dict[str, str] = {}
     # Hourly-route months first, so a month both routes delivered ends up with the
     # daily-statistics values (D24's route as first planned); the overlap is checked apart.
     paths = (
         []
         if prefix
-        else sorted(p for p in cds_dir.glob("*.daily.h5") if hourly_pattern.match(p.name))
+        else sorted(
+            p
+            for p in cds_dir.glob("*.daily.h5")
+            if hourly_pattern.match(p.name) or rain_hourly_pattern.match(p.name)
+        )
     )
     paths += sorted(p for p in cds_dir.glob("*.nc") if pattern.match(p.name))
     for path in paths:
@@ -85,6 +91,10 @@ def build(cds_dir: Path, out: Path, prefix: str = "") -> dict:
             routes[hm.group(1)] = "hourly reanalysis-era5-land, 24-hour UTC mean"
         elif path.name.startswith(f"{prefix}era5land"):
             routes[path.name[len(prefix) + 9 : len(prefix) + 16]] = "derived daily statistics"
+        elif rm := rain_hourly_pattern.match(path.name):
+            rain_routes[rm.group(1)] = "hourly reanalysis-era5-single-levels, summed per UTC day"
+        else:
+            rain_routes[path.name[len(prefix) + 12 : len(prefix) + 16]] = "derived daily sum"
         with h5py.File(path) as h:
             days = _days(h)
             if hm or path.name.startswith(f"{prefix}era5land"):
@@ -108,6 +118,7 @@ def build(cds_dir: Path, out: Path, prefix: str = "") -> dict:
     summary = {
         "files": files,
         "land_route_by_month": dict(sorted(routes.items())),
+        "rain_route_by_year": dict(sorted(rain_routes.items())),
         "variables": {},
     }
     for variable, store in stores.items():
