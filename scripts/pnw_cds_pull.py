@@ -14,8 +14,9 @@ Run:  uv run --with cdsapi==0.7.7 python scripts/pnw_cds_pull.py --out <dir>
 - ERA5 single-levels daily statistics: daily_sum of total_precipitation, product_type reanalysis
   (D54). One request per year, all months.
 - time_zone utc+00:00 and frequency 1_hourly in every request (D52, as the grid-position pulls).
-- Order: 2019 to 2025 first, the years D33 (1) calls the PNW's useful data, then 2014 (the
-  warm-up months) and 2015 to 2018. The owner allowed training on years as they arrive
+- Order: newest month first, 2025-12 back to 2014-09, each year's precipitation request before its
+  months (planner, 2026-10-10). The hourly route walks forward from 2014-09 and the two meet; each
+  skips months the other has delivered. The owner allowed training on years as they arrive
   ("Train as it downloads if you need to", relayed by the planner on 2026-10-10).
 - Resumable: a unit whose NetCDF and `.request.json` both exist is skipped. Each request is
   stored with its UTC request time and the account (D52) before the file is fetched.
@@ -28,7 +29,9 @@ import argparse
 import json
 import shutil
 import sys
+import threading
 import time
+from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -43,7 +46,9 @@ REST_AREAS = {
     "east": [49.5, -121.0, 40.0, -111.0],
     "south": [42.0, -125.0, 40.0, -121.0],
 }
-YEAR_ORDER = [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2014, 2015, 2016, 2017, 2018]
+# Newest first (planner, 2026-10-10): this route walks back from 2025 while the hourly route
+# (scripts/pnw_cds_hourly_pull.py) walks forward from 2014-09; each skips months the other has.
+YEAR_ORDER = [2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014]
 LAND_VARIABLES = ["2m_temperature", "soil_temperature_level_1", "volumetric_soil_water_layer_1"]
 MIN_FREE_BYTES = 3 * 1024**3
 ACCOUNT = (
@@ -78,7 +83,7 @@ def _units_for(prefix: str, area: list[float]):
                 "area": area,
             },
         )
-        for m in months:
+        for m in reversed(months):
             yield (
                 f"{prefix}era5land-{year}-{m:02d}",
                 "derived-era5-land-daily-statistics",
@@ -107,29 +112,62 @@ def is_licence_refusal(err: Exception) -> bool:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, required=True)
+    ap.add_argument("--workers", type=int, default=1)
+    ap.add_argument("--only", default="", help="pull this one unit name only (overlap month)")
+    ap.add_argument(
+        "--per-dataset",
+        type=int,
+        default=1,
+        help="requests in flight per dataset; the store rejects extra queued ones (observed)",
+    )
     args = ap.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
     import cdsapi  # noqa: PLC0415  (only this script needs it; run with --with cdsapi==0.7.7)
 
-    client = cdsapi.Client(quiet=True, progress=False)
-    todo = list(units())
-    log(f"{len(todo)} units, T1 box {AREA} then {REST_AREAS}, out {args.out}")
-    for i, (name, dataset, request) in enumerate(todo, 1):
+    todo = [u for u in units() if not args.only or u[0] == args.only]
+    log(
+        f"{len(todo)} units, T1 box {AREA} then {REST_AREAS}, out {args.out},"
+        f" {args.workers} in flight"
+    )
+    stop = threading.Event()
+    slots = {
+        d: threading.Semaphore(args.per_dataset)
+        for d in (
+            "derived-era5-land-daily-statistics",
+            "derived-era5-single-levels-daily-statistics",
+        )
+    }
+    local = threading.local()
+
+    def one(i: int, name: str, dataset: str, request: dict) -> int:
         nc = args.out / f"{name}.nc"
         rec = args.out / f"{name}.request.json"
+        if stop.is_set():
+            return 0
         if nc.exists() and nc.stat().st_size > 0 and rec.exists():
             log(f"[{i}/{len(todo)}] {name} skip (done)")
-            continue
+            return 0
+        if name.startswith("era5land-") and (args.out / f"hourly-{name}.daily.h5").exists():
+            log(f"[{i}/{len(todo)}] {name} skip (hourly route has it)")
+            return 0
         free = shutil.disk_usage(args.out).free
         if free < MIN_FREE_BYTES:
             log(f"STOP: {free / 1024**3:.2f} GB free, under 3 GB")
+            stop.set()
             return 2
-        for attempt in range(1, 4):
+        if not hasattr(local, "client"):
+            local.client = cdsapi.Client(quiet=True, progress=False)
+        attempt = 0
+        while attempt < 3 and not stop.is_set():
+            attempt += 1
             requested_at = datetime.now(UTC).isoformat(timespec="seconds")
             t0 = time.monotonic()
             try:
                 tmp = nc.with_suffix(".nc.part")
-                client.retrieve(dataset, request).download(str(tmp))
+                with slots[dataset]:
+                    requested_at = datetime.now(UTC).isoformat(timespec="seconds")
+                    t0 = time.monotonic()
+                    local.client.retrieve(dataset, request).download(str(tmp))
                 tmp.rename(nc)
                 seconds = round(time.monotonic() - t0, 1)
                 rec.write_text(
@@ -142,23 +180,35 @@ def main() -> int:
                             "bytes": nc.stat().st_size,
                             "account": ACCOUNT,
                             "client": "cdsapi==0.7.7 via uv run --with",
+                            "in_flight": args.workers,
                         },
                         indent=2,
                     )
                     + "\n"
                 )
                 log(f"[{i}/{len(todo)}] {name} ok {seconds} s {nc.stat().st_size} B")
-                break
+                return 0
             except Exception as err:  # noqa: BLE001  every failure is logged and counted
+                if "temporarily limited" in str(err):
+                    # The store's per-dataset queue limit, not a fault of this request.
+                    log(f"[{i}/{len(todo)}] {name} queue limit; waiting 120 s (not an attempt)")
+                    attempt -= 1
+                    time.sleep(120)
+                    continue
                 log(f"[{i}/{len(todo)}] {name} attempt {attempt} FAILED: {err!r}")
                 if is_licence_refusal(err):
                     log("STOP: the store refused for a licence or terms reason; the owner must act")
+                    stop.set()
                     return 3
                 time.sleep(30 * attempt)
-        else:
-            log(f"[{i}/{len(todo)}] {name} gave up after 3 attempts; continuing, rerun to resume")
-    log("finished pass")
-    return 0
+        log(f"[{i}/{len(todo)}] {name} gave up after 3 attempts; continuing, rerun to resume")
+        return 1
+
+    # Units are submitted in order, so T1's box (and within it 2019 to 2025) goes out first.
+    with ThreadPoolExecutor(max_workers=args.workers) as pool:
+        codes = list(pool.map(lambda t: one(t[0], *t[1]), enumerate(todo, 1)))
+    log(f"finished pass: {codes.count(0)} ok or skipped, {codes.count(1)} gave up")
+    return max(codes) if any(c in (2, 3) for c in codes) else 0
 
 
 if __name__ == "__main__":
