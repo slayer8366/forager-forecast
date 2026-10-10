@@ -165,8 +165,8 @@ def main() -> int:
     if args.weather:
         from pnw_weather import weather_matrix, weather_status  # noqa: PLC0415
 
-        wx, wnames = weather_matrix(args.weather, rows)
-        status = weather_status(args.weather, rows, wx)
+        wx, wnames, kind = weather_matrix(args.weather, rows)
+        status = weather_status(args.weather, rows, wx, kind)
         nan_by_feature = {n: int(np.isnan(wx[:, j]).sum()) for j, n in enumerate(wnames)}
         by_reason_year: dict[str, dict[str, int]] = {}
         for r, st in zip(rows, status, strict=True):
@@ -177,8 +177,25 @@ def main() -> int:
         dropped_cells = sorted(
             {r["cell"].id for r, st in zip(rows, status, strict=True) if st == "sea"}
         )
+        kept_kind = [k for k, st in zip(kind, status, strict=True) if st == "ok"]
         weather_drops = {
             "units_before": len(rows),
+            "kept_land_point_own": kept_kind.count("own"),
+            "kept_land_point_neighbour_RECORD_822": kept_kind.count("neighbour"),
+            "kept_neighbour_positives": int(
+                sum(
+                    r["y"]
+                    for r, k, st in zip(rows, kind, status, strict=True)
+                    if st == "ok" and k == "neighbour"
+                )
+            ),
+            "neighbour_cells": sorted(
+                {
+                    r["cell"].id
+                    for r, k, st in zip(rows, kind, status, strict=True)
+                    if st == "ok" and k == "neighbour"
+                }
+            ),
             "dropped_by_reason_and_year": by_reason_year,
             "dropped_positives": int(
                 sum(r["y"] for r, st in zip(rows, status, strict=True) if st != "ok")
@@ -194,6 +211,9 @@ def main() -> int:
         keep_mask = np.array([st == "ok" for st in status])
         rows = [r for r, k in zip(rows, keep_mask, strict=True) if k]
         wx = wx[keep_mask]
+        for r, k in zip(rows, kept_kind, strict=True):
+            r["land_point"] = k
+        weather_drops["copernicus_sources"] = copernicus_sources(args.weather)
         log(f"weather: kept {len(rows)}, dropped {weather_drops['dropped_by_reason_and_year']}")
     x, names = calendar_matrix(rows)
     if args.model == "full":
@@ -225,6 +245,7 @@ def main() -> int:
         year=years,
         y=y,
         p=predictions,
+        land_point=np.array([r.get("land_point", "") for r in rows]),
     )
     importance = {}
     if args.model == "full":
@@ -322,6 +343,7 @@ def save_final_model(configs, x, y, years, names, fitter, args, tag) -> None:
         "units": int(len(y)),
         "positives": int(y.sum()),
         "weather_npz": str(args.weather) if args.weather else None,
+        "copernicus_sources": copernicus_sources(args.weather) if args.weather else [],
         "commit": commit,
         "working_tree_dirty": bool(dirty),
         "written_utc": datetime.now(UTC).isoformat(timespec="seconds"),
@@ -329,6 +351,28 @@ def save_final_model(configs, x, y, years, names, fitter, args, tag) -> None:
     }
     (out / "model.json").write_text(json.dumps(meta, indent=2) + "\n")
     log(f"final model saved to {out} ({best['id']})")
+
+
+def copernicus_sources(weather: Path | None) -> list[str]:
+    """The store products this weather file was built from, from its build summary
+    (`<npz>.summary.json`, written by pnw_weather.py): era5_daily_sum (ERA5 single-levels daily
+    statistics, rain), era5_land_daily (ERA5-Land daily statistics), era5_land_hourly (hourly
+    ERA5-Land aggregated to the UTC day). Only those actually read. Refuses without the summary."""
+    if weather is None:
+        return []
+    summary_path = Path(str(weather) + ".summary.json")
+    if not summary_path.exists():
+        raise SystemExit(f"no build summary beside {weather}; rebuild with scripts/pnw_weather.py")
+    summary = json.loads(summary_path.read_text())
+    out = []
+    if summary["files"].get("precip", 0):
+        out.append("era5_daily_sum")
+    routes = set(summary.get("land_route_by_month", {}).values())
+    if "derived daily statistics" in routes:
+        out.append("era5_land_daily")
+    if any(r.startswith("hourly") for r in routes):
+        out.append("era5_land_hourly")
+    return out
 
 
 def code_state() -> tuple[str, str]:

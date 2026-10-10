@@ -24,6 +24,7 @@ import h5py
 import numpy as np
 
 from forager_forecast.cells import quarter_cell_for
+from forager_forecast.coastal import land_point
 from forager_forecast.daily_grid import DailyGrid, feature_names, window_matrix
 
 START = date(2014, 9, 1)
@@ -138,9 +139,33 @@ def load(npz: Path) -> dict[str, DailyGrid]:
     return grids
 
 
-def weather_matrix(npz: Path, rows) -> tuple[np.ndarray, list[str]]:
+def land_has_value(grids: dict[str, DailyGrid]) -> set[tuple[int, int]]:
+    """ERA5-Land points carrying a value on some day for all three land variables."""
+    sets = []
+    for v in ("temperature", "soil_temperature", "soil_moisture"):
+        g = grids[v]
+        has = ~np.isnan(g.values).all(axis=1) if len(g.values) else np.zeros(0, bool)
+        sets.append({p for p, i in g.index.items() if has[i]})
+    return set.intersection(*sets)
+
+
+def weather_matrix(npz: Path, rows) -> tuple[np.ndarray, list[str], list[str]]:
+    """The 32 window features per row, and each row's land-point class: "own" (its cell's own
+    ERA5-Land point), "neighbour" (a cell with no land value of its own, filled from the nearest
+    land neighbour, Forager RECORD -822, coastal.land_point) or "none" (no land point within one
+    cell; its land features stay NaN and the caller drops it, counted)."""
     grids = load(npz)
-    land = [(r["cell"].lat_tenths, r["cell"].lon_tenths) for r in rows]
+    has = land_has_value(grids)
+    land, kind = [], []
+    for r in rows:
+        cell = (r["cell"].lat_tenths, r["cell"].lon_tenths)
+        found = land_point(cell, has)
+        if found is None:
+            land.append(cell)
+            kind.append("none")
+        else:
+            land.append(found[0])
+            kind.append("neighbour" if found[1] else "own")
     quarter = []
     for r in rows:
         q = quarter_cell_for(r["cell"].center_latitude, r["cell"].center_longitude)
@@ -151,36 +176,31 @@ def weather_matrix(npz: Path, rows) -> tuple[np.ndarray, list[str]]:
         "soil_moisture": land,
         "precipitation": quarter,
     }
-    return window_matrix(grids, points, [r["scored"] for r in rows]), feature_names()
+    x = window_matrix(grids, points, [r["scored"] for r in rows])
+    return x, feature_names(), kind
 
 
-def weather_status(npz: Path, rows, x: np.ndarray) -> list[str]:
-    """Why each row's weather is or is not complete (review B3).
+def weather_status(npz: Path, rows, x: np.ndarray, kind: list[str]) -> list[str]:
+    """Why each row's weather is or is not complete (review B3, RECORD -822).
 
-    "ok": every window has every day. "sea": the unit's ERA5-Land point is absent from the grid or
-    has no value on any day (sea or lake on ERA5-Land), or its ERA5 point is absent. "missing_days":
-    the point has data but a window reaches a day not delivered (a month not pulled yet)."""
+    "ok": every window has every day (from its own point or a land neighbour). "sea": no ERA5-Land
+    land point within one cell, or the cell's ERA5 point is absent. "missing_days": the point has
+    data but a window reaches a day not delivered (a month not pulled yet)."""
     grids = load(npz)
-    land_rows = {
-        v: grids[v].rows_for([(r["cell"].lat_tenths, r["cell"].lon_tenths) for r in rows])
-        for v in ("temperature", "soil_temperature", "soil_moisture")
-    }
     quarter = [
         quarter_cell_for(r["cell"].center_latitude, r["cell"].center_longitude) for r in rows
     ]
-    precip_rows = grids["precipitation"].rows_for(
-        [(q.lat_quarters, q.lon_quarters) for q in quarter]
-    )
-    empty = {v: np.isnan(g.values).all(axis=1) for v, g in grids.items()}
+    g = grids["precipitation"]
+    precip_rows = g.rows_for([(q.lat_quarters, q.lon_quarters) for q in quarter])
+    precip_empty = np.isnan(g.values).all(axis=1) if len(g.values) else np.zeros(0, bool)
     status = []
     for i in range(len(rows)):
         if not np.isnan(x[i]).any():
             status.append("ok")
-            continue
-        sea = any(land_rows[v][i] < 0 or empty[v][land_rows[v][i]] for v in land_rows) or (
-            precip_rows[i] < 0 or empty["precipitation"][precip_rows[i]]
-        )
-        status.append("sea" if sea else "missing_days")
+        elif kind[i] == "none" or precip_rows[i] < 0 or precip_empty[precip_rows[i]]:
+            status.append("sea")
+        else:
+            status.append("missing_days")
     return status
 
 
@@ -190,5 +210,7 @@ if __name__ == "__main__":
     ap.add_argument("out", type=Path)
     ap.add_argument("--prefix", default="")
     a = ap.parse_args()
-    print(json.dumps(build(a.cds_dir, a.out, a.prefix), indent=2))
+    summary = build(a.cds_dir, a.out, a.prefix)
+    Path(str(a.out) + ".summary.json").write_text(json.dumps(summary, indent=2) + "\n")
+    print(json.dumps(summary, indent=2))
     sys.exit(0)

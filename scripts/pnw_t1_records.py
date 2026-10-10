@@ -36,6 +36,9 @@ from forager_forecast.records.filters import (
 from forager_forecast.records.occurrence import OccurrenceLoader, read_occurrence_rows
 from forager_forecast.t1_design import CANTHARELLUS_GENUS_KEY, box_of
 
+# D26's download (docs/pulls/gbif-fungi-us-canada-2015-2025.doi.json); the zip's sha256 is checked.
+GBIF_DOWNLOAD_KEY = "0012112-260928105237408"
+GBIF_DOI = "10.15468/dl.8jxmeb"
 CC_LICENSES = {"CC0_1_0", "CC_BY_4_0"}
 UNCERTAINTY_STEP = "coordinate uncertainty present and at most 1,000 m"
 
@@ -86,6 +89,8 @@ def main(zip_path: Path, expected_sha: str, out_dir: Path) -> None:
                 box_records.append(record)
     out_dir.mkdir(parents=True, exist_ok=True)
     summary = {
+        "gbif_download_key": GBIF_DOWNLOAD_KEY,
+        "gbif_doi": GBIF_DOI,
         "zip": str(zip_path),
         "zip_sha256": h.hexdigest(),
         "rows_read": loader.rows_read,
