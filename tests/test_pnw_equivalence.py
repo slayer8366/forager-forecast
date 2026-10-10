@@ -58,3 +58,25 @@ def test_request_keeps_the_pins_and_asks_eight_days_of_hours():
         assert pin in url
     assert "start_date=2019-01-01" in url and "end_date=2019-01-08" in url
     assert "hourly=temperature_2m%2Csoil_temperature_0_to_7cm%2Csoil_moisture_0_to_7cm%2C" in url
+
+
+def test_land_route_pass_needs_every_hour_at_offset_0_and_a_strict_best():
+    ok = {"t2m": {-1: [30, 192], 0: [192, 192], 1: [40, 192]}}
+    assert eq.land_route_pass(ok)
+    assert not eq.land_route_pass({"t2m": {-1: [30, 192], 0: [191, 192], 1: [40, 192]}})
+    assert not eq.land_route_pass({"t2m": {-1: [192, 192], 0: [192, 192], 1: [40, 192]}})
+    assert not eq.land_route_pass({"t2m": {-1: [0, 0], 0: [0, 0], 1: [0, 0]}})
+
+
+def test_gate_requires_every_required_span():
+    required = {("a", date(2019, 1, 1)), ("b", date(2020, 1, 1))}
+    assert eq.spans_complete(required, compared=required)
+    assert not eq.spans_complete(required, compared={("a", date(2019, 1, 1))})
+    assert not eq.spans_complete(set(), compared=set())
+
+
+def test_a_sea_cell_is_compared_at_its_land_neighbour():
+    point, kind = eq.compare_point(Cell(427, -1245), {(427, -1244), (428, -1245)})
+    assert (point, kind) == ((427, -1244), "neighbour")
+    assert eq.compare_point(Cell(427, -1245), {(427, -1245)}) == ((427, -1245), "own")
+    assert eq.compare_point(Cell(427, -1245), set()) == (None, "none")

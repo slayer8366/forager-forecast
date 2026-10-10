@@ -37,9 +37,10 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).parent))
 from pnw_t1_fit import primary_units, read_records  # noqa: E402
-from pnw_weather import load  # noqa: E402
+from pnw_weather import land_has_value, load  # noqa: E402
 
 from forager_forecast.cells import Cell, quarter_cell_for  # noqa: E402
+from forager_forecast.coastal import land_point  # noqa: E402
 from forager_forecast.open_meteo import archive_request_url  # noqa: E402
 
 SEED = 20260918
@@ -64,6 +65,30 @@ OM_HOURLY = {
 }
 OFFSETS = (-1, 0, 1)
 EPS = 1e-6
+
+
+def land_route_pass(counts: dict) -> bool:
+    """Review S7 and N12: for every variable, offset 0 matches every compared hour (at least one)
+    and matches strictly more hours than any other offset."""
+    for by_offset in counts.values():
+        m0, n0 = by_offset[0]
+        if not (n0 and m0 == n0 and all(by_offset[o][0] < m0 for o in by_offset if o != 0)):
+            return False
+    return True
+
+
+def spans_complete(required: set, compared: set) -> bool:
+    """Review S9: the gate needs every required span compared, and at least one required."""
+    return bool(required) and required <= compared
+
+
+def compare_point(cell: Cell, has_value) -> tuple[tuple[int, int] | None, str]:
+    """Review S8: the ERA5-Land point a sample cell is compared at, the same one the fit reads
+    (coastal.land_point, Forager RECORD -822): its own, a land neighbour, or none."""
+    found = land_point((cell.lat_tenths, cell.lon_tenths), has_value)
+    if found is None:
+        return None, "none"
+    return found[0], "neighbour" if found[1] else "own"
 
 
 def sample(records_dir: Path):
@@ -148,13 +173,13 @@ class HourlyStore:
                 self.cache[ym] = (t, lat_i, lon_i, data)
         return self.cache[ym]
 
-    def value(self, v: str, cell: Cell, epoch: int) -> float | None:
+    def value(self, v: str, point: tuple[int, int], epoch: int) -> float | None:
         m = self.month(datetime.fromtimestamp(epoch, UTC).strftime("%Y-%m"))
         if m is None:
             return None
         t, lat, lon, data = m
         k = int(np.searchsorted(t, epoch))
-        i, j = lat.get(cell.lat_tenths), lon.get(cell.lon_tenths)
+        i, j = lat.get(point[0]), lon.get(point[1])
         if k >= len(t) or t[k] != epoch or i is None or j is None:
             return None
         x = data[v][k, i, j]
@@ -168,8 +193,21 @@ def main() -> int:
     ap.add_argument("cds", type=Path)
     ap.add_argument("out", type=Path)
     ap.add_argument("--available", action="store_true")
+    ap.add_argument(
+        "--require-years",
+        default="",
+        help="e.g. 2019-2025: the gate needs every non-sea sample span starting in these years",
+    )
     args = ap.parse_args()
     grids = load(args.weather)
+    has = land_has_value(grids)
+    req_years = (
+        set(range(int(args.require_years[:4]), int(args.require_years[-4:]) + 1))
+        if args.require_years
+        else set()
+    )
+    required, compared, kinds = set(), set(), {}
+    rain_sum = {"store": 0.0, "open_meteo": 0.0}
     hourly_store = HourlyStore(args.cds)
     om_dir = args.out / "open-meteo"
     om_dir.mkdir(parents=True, exist_ok=True)
@@ -179,10 +217,17 @@ def main() -> int:
     hourly_missing = 0
     for cell, start in sample(args.records):
         q = quarter_cell_for(cell.center_latitude, cell.center_longitude)
+        point, kind = compare_point(cell, has)
+        kinds[cell.id] = kind
+        if point is None:
+            sea.append(f"{cell.id} {start}")  # no land point within one cell; counted apart
+            continue
+        if start.year in req_years:
+            required.add((cell.id, start))
         pts = {
-            "temperature": (cell.lat_tenths, cell.lon_tenths),
-            "soil_temperature": (cell.lat_tenths, cell.lon_tenths),
-            "soil_moisture": (cell.lat_tenths, cell.lon_tenths),
+            "temperature": point,
+            "soil_temperature": point,
+            "soil_moisture": point,
             "precipitation": (q.lat_quarters, q.lon_quarters),
         }
         store = {}
@@ -204,6 +249,9 @@ def main() -> int:
             raise SystemExit(f"store values missing for {cell.id} from {start}: pull incomplete")
         body = fetch(request_url(cell, start), om_dir / f"{cell.id}_{start}.json")
         om, hours, stamps = split_span(body)
+        compared.add((cell.id, start))
+        rain_sum["store"] += float(np.sum(store["precipitation"]))
+        rain_sum["open_meteo"] += float(np.sum(om["precipitation"]))
         for k in range(SPAN_DAYS):
             convention.append(
                 {
@@ -220,6 +268,8 @@ def main() -> int:
                 rows.append(
                     {
                         "cell": cell.id,
+                        "land_point": list(point),
+                        "land_point_kind": kind,
                         "om_cell": [body.get("latitude"), body.get("longitude")],
                         "day": str(start + timedelta(days=k)),
                         "variable": v,
@@ -236,7 +286,7 @@ def main() -> int:
             for h, epoch in enumerate(epochs):
                 om_value = hours[om_name][h]
                 for o in OFFSETS:
-                    sv = hourly_store.value(v, cell, epoch + 3600 * o)
+                    sv = hourly_store.value(v, point, epoch + 3600 * o)
                     if sv is None or np.isnan(om_value):
                         if o == 0:
                             hourly_missing += 1
@@ -248,16 +298,15 @@ def main() -> int:
     d00 = np.abs(st - np.array([c["h00_23"] for c in convention]))
     d01 = np.abs(st - np.array([c["h01_24"] for c in convention]))
     hourly_result = {}
-    land_route_pass = True
     for v, counts in hourly_counts.items():
         best = max(OFFSETS, key=lambda o, c=counts: (c[o][0], o == 0))
         hourly_result[v] = {
             "matched_compared_by_offset_hours": {str(o): counts[o] for o in OFFSETS},
             "best_offset_hours": best,
         }
-        m0, n0 = counts[0]
-        if not (n0 and m0 == n0 and all(counts[o][0] < m0 for o in OFFSETS if o != 0)):
-            land_route_pass = False
+    land_pass = land_route_pass(hourly_counts)
+    complete = spans_complete(required, compared) if req_years else None
+    gate = land_pass and (complete is not False)
     result = {
         "written_utc": datetime.now(UTC).isoformat(timespec="seconds"),
         "partial": args.available,
@@ -284,7 +333,22 @@ def main() -> int:
             "tolerance": HOURLY_TOL,
             "hours_without_store_value_at_offset_0": hourly_missing,
             "by_variable": hourly_result,
-            "pass": land_route_pass,
+            "pass": land_pass,
+            "neighbour_cells_compared": sorted(c for c, k in kinds.items() if k == "neighbour"),
+        },
+        "rain_level": {
+            "store_sum_mm": rain_sum["store"],
+            "open_meteo_sum_mm": rain_sum["open_meteo"],
+            "ratio_open_meteo_over_store": (
+                rain_sum["open_meteo"] / rain_sum["store"] if rain_sum["store"] else None
+            ),
+        },
+        "gate": {
+            "required_years": sorted(req_years),
+            "required_spans": len(required),
+            "compared_required_spans": len(required & compared),
+            "spans_complete": complete,
+            "pass": gate,
         },
         "first_daily_mismatches": mismatches[:20],
     }
@@ -292,7 +356,11 @@ def main() -> int:
     (args.out / f"{name}.json").write_text(json.dumps(result, indent=2) + "\n")
     (args.out / f"{name}_values.json").write_text(json.dumps(rows) + "\n")
     print(json.dumps({k: v for k, v in result.items() if k != "first_daily_mismatches"}, indent=1))
-    return 0 if result["hourly_land_route"]["pass"] else 1
+    print(
+        f"GATE {'PASS' if gate else 'FAIL'}: land route {land_pass}, required spans "
+        f"{len(required & compared)}/{len(required)} compared"
+    )
+    return 0 if gate else 1
 
 
 if __name__ == "__main__":
