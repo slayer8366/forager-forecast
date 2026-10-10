@@ -146,7 +146,7 @@ def test_scores_land_cells_with_the_model_on_features_built_independently(case):
         assert len(got[cell.id]["drivers"]) == 3
     manifest = json.loads((week_dir / "manifest.json").read_text())
     assert manifest["cells"]["scored"] == 2
-    assert manifest["cells"]["omitted"]["no_era5_land_value_(sea)"] == 1
+    assert manifest["cells"]["omitted"]["no_era5_land_value_at_cell_or_neighbour_(sea)"] == 1
     assert manifest["cells"]["omitted"]["incomplete_weather_window"] == 1
     assert (manifest["pilot"], manifest["validated"], manifest["reviewed"]) == (True, False, False)
     assert manifest["beats_calendar"] is None and manifest["t1_result"] is None

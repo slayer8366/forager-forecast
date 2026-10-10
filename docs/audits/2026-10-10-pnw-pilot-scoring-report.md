@@ -269,3 +269,43 @@ addendum supersedes it.
 full` needs the full model's model.json to name the Copernicus products its training read. It
 accepts either `copernicus_sources` or the build summary's `land_route_by_month`. Without one of
 them it stops rather than guess.
+
+## Addendum, 20:20 UTC: merged the builder's land rule and B1 fix
+
+**What changed on the builder's branch.** Merged `origin/pnw-pilot-t1` at a8f85b9 (merge commit
+3c04465). It brought three changes:
+
+- B1 is fixed. `swvl1` is now taken as delivered, `scripts/pnw_weather.py:38`. The xfail marker
+  is off, and the store-path test passes as a plain test.
+- `weather_matrix` now returns a third value: where each cell's land point comes from.
+- The coastal rule, owner's ruling in Forager RECORD -822: a cell with no ERA5-Land value reads
+  its nearest land neighbour (`coastal.land_point`).
+
+**What the merge broke, and the fixes.** The merge turned 7 tests red.
+
+- Three of them were the builder's own `test_pnw_weather_units.py`, which pass when run alone.
+  The cause was mine: `build_window` set `pnw_weather`'s module constants and never restored
+  them. Every later test in the same process then built on a 90-day 2026 range. It now restores
+  them in a `finally`, and a test checks this. That test's revert check fails with the message
+  `(... 2026, 10, 4), 90) == (... 12, 31), 4140)`.
+- Scoring now uses the builder's land rule for both models, so the calendar and the weather
+  outputs cover the same cells as training. Revert check: an own-point-only mask fails the
+  calendar test.
+- The manifest counts cells filled from a neighbour.
+- Attribution now covers hourly ERA5 rain (`era5_hourly_precipitation`, ERA5 single levels with
+  the year filled as 2023 per D53).
+- `pnw_pilot_publish.py --kind full` reads the scoring window's sources through the builder's
+  `pnw_t1_fit.copernicus_sources`, and the training sources from the model.json's
+  `copernicus_sources`.
+
+**Calendar floor re-published at 20:18 UTC.**
+
+- 2,618 cells: 231 of them from a land neighbour, 498 without a land point.
+- Chance from 0.0107 to 0.1677, median 0.0389.
+- `cantharellus.geojson` is 1,026,074 bytes, sha256
+  6a4a3536b0676d2906450879f2c10c2469a53257eef53a82a86bbb4049687c84. That is under the 1 MB
+  guard, but close: a weather-model file with drivers will exceed it and stay outside the
+  repository.
+- `manifest.json`: sha256 92b3049626d560370afbf50ed2d21e64e542ec4abce6fb8cf5ec0b5dc4987417.
+
+**Suite:** 473 passed.

@@ -28,10 +28,14 @@ from forager_forecast.cells import IsoWeek  # noqa: E402
 
 def build_window(cds_dir: Path, out: Path, week: IsoWeek) -> dict:
     start, end = lw.window_span(week)
-    pnw_weather.START = start
-    pnw_weather.END = end
-    pnw_weather.N_DAYS = (end - start).days + 1
-    summary = pnw_weather.build(cds_dir, out)
+    saved = (pnw_weather.START, pnw_weather.END, pnw_weather.N_DAYS)
+    try:
+        pnw_weather.START = start
+        pnw_weather.END = end
+        pnw_weather.N_DAYS = (end - start).days + 1
+        summary = pnw_weather.build(cds_dir, out)
+    finally:  # module state is shared with every later caller in this process
+        pnw_weather.START, pnw_weather.END, pnw_weather.N_DAYS = saved
     z = np.load(out)
     po.check_ranges(z)
     missing = {}
@@ -42,6 +46,9 @@ def build_window(cds_dir: Path, out: Path, week: IsoWeek) -> dict:
         missing[v] = [str(start + timedelta(days=int(d))) for d in np.where(gaps)[0]]
     summary["window"] = [start.isoformat(), end.isoformat()]
     summary["days_missing_on_any_point_with_data"] = missing
+    # Beside the npz, as pnw_weather's own __main__ writes it, so pnw_t1_fit.copernicus_sources
+    # reads which store products this window came from.
+    Path(str(out) + ".summary.json").write_text(json.dumps(summary, indent=2) + "\n")
     return summary
 
 

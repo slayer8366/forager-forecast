@@ -1,5 +1,5 @@
 {
- "published_at": "2026-10-10T18:51:46+00:00",
+ "published_at": "2026-10-10T20:18:18+00:00",
  "pilot": true,
  "validated": false,
  "reviewed": false,
@@ -59,10 +59,12 @@
     "n45w122",
     "n45w123",
     "n45w124",
+    "n45w125",
     "n46w121",
     "n46w122",
     "n46w123",
     "n46w124",
+    "n46w125",
     "n47w121",
     "n47w122",
     "n47w123",
@@ -88,13 +90,15 @@
  "applicable_note": "Cells are listed only when scored. A cell is left out when the weather source has no ERA5-Land value for it (sea), or, for the weather model, any of its 90 days is missing. No area-of-applicability or training-range check (R7) has been run.",
  "cells": {
   "in_box": 3116,
-  "scored": 2387,
+  "scored": 2618,
+  "scored_from_a_land_neighbour": 231,
+  "land_rule": "a cell with no ERA5-Land value of its own reads its nearest land neighbour (owner, Forager RECORD -822; forager_forecast.coastal.land_point), as in training",
   "omitted": {
-   "no_era5_land_value_(sea)": 729,
+   "no_era5_land_value_at_cell_or_neighbour_(sea)": 498,
    "incomplete_weather_window": 0
   },
   "chance_min": 0.0107,
-  "chance_median": 0.0384,
+  "chance_median": 0.0389,
   "chance_max": 0.1677
  },
  "weather_through": null,

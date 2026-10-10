@@ -117,8 +117,8 @@ def main() -> int:
     np.savez_compressed(live_npz, **arrays)
 
     rows = [{"cell": c, "scored": a.monday} for c in cells]
-    train_x, names = weather_matrix(a.cds_npz, rows)
-    serve_x, names2 = weather_matrix(live_npz, rows)
+    train_x, names, _k1 = weather_matrix(a.cds_npz, rows)
+    serve_x, names2, _k2 = weather_matrix(live_npz, rows)
     assert names == names2 == feature_names()
     report = {"monday": a.monday.isoformat(), "cells": [c.id for c in cells], "features": {}}
     over = []

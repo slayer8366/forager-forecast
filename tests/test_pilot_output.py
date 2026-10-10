@@ -46,7 +46,7 @@ def test_features_through_the_training_path_equal_window_features_on_the_same_da
     np.savez_compressed(npz, **po.weather_arrays(per_cell, START, END))
     monday = date(2026, 10, 5)
     rows = [{"cell": c, "scored": monday} for c in CELLS]
-    x, names = weather_matrix(npz, rows)
+    x, names, _kind = weather_matrix(npz, rows)
     assert names == feature_names()
     for r, c in enumerate(CELLS):
         expected = window_features(per_cell[c], monday)
@@ -59,7 +59,7 @@ def test_a_missing_day_makes_the_cell_nan_never_a_shorter_window(tmp_path):
     del per_cell[CELLS[2]][date(2026, 9, 1)]
     npz = tmp_path / "live.npz"
     np.savez_compressed(npz, **po.weather_arrays(per_cell, START, END))
-    x, names = weather_matrix(npz, [{"cell": c, "scored": date(2026, 10, 5)} for c in CELLS])
+    x, names, _kind = weather_matrix(npz, [{"cell": c, "scored": date(2026, 10, 5)} for c in CELLS])
     assert np.isfinite(x[:2]).all()
     assert np.isnan(x[2, names.index("temperature_mean_56d")])
     assert np.isfinite(x[2, names.index("temperature_mean_28d")])  # 28d starts 2026-09-07

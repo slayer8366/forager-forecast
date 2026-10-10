@@ -33,11 +33,12 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).parent))
 from pnw_t1_fit import calendar_matrix  # noqa: E402
-from pnw_weather import _index, weather_matrix  # noqa: E402
+from pnw_weather import _index, land_has_value, load, weather_matrix  # noqa: E402
 
 from forager_forecast import live_weather as lw  # noqa: E402
 from forager_forecast import pilot_output as po  # noqa: E402
 from forager_forecast.cells import Cell, IsoWeek  # noqa: E402
+from forager_forecast.coastal import land_point  # noqa: E402
 from forager_forecast.daily_grid import feature_names  # noqa: E402
 from forager_forecast.open_meteo import ArchiveGap, daily_weather_from_archive  # noqa: E402
 from forager_forecast.t1_design import BOXES  # noqa: E402
@@ -110,6 +111,17 @@ def store_land_cells(cds_dir: Path) -> tuple[set[tuple[int, int]], str]:
         if np.isfinite(first[i, j])
     }
     return land, files[0].name
+
+
+def land_cells(box, has) -> tuple[list, dict]:
+    """Box cells with a land point (their own or a neighbour's, RECORD -822), and the rest."""
+    land, refused = [], {}
+    for c in box:
+        if land_point((c.lat_tenths, c.lon_tenths), has) is None:
+            refused[c] = "no ERA5-Land value at the cell or any neighbour"
+        else:
+            land.append(c)
+    return land, refused
 
 
 def synthetic_model(model_dir: Path, kind: str) -> None:
@@ -217,8 +229,7 @@ def main() -> int:
     mask_file = None
     if source == "none":
         has, mask_file = store_land_cells(a.land_from_store)
-        land = [c for c in box if (c.lat_tenths, c.lon_tenths) in has]
-        refused = {c: "no ERA5-Land value in the store" for c in box if c not in set(land)}
+        land, refused = land_cells(box, has)
         per_cell = set(land)
         npz = None
     elif source == "open-meteo":
@@ -238,14 +249,7 @@ def main() -> int:
             or (z_start - start).days + z["temperature_values"].shape[1] <= (end - start).days
         ):
             raise SystemExit(f"{npz} does not span {start} to {end}")
-        values = z["temperature_values"]
-        has = {
-            (int(la), int(lo))
-            for (la, lo), row in zip(z["temperature_points"], values, strict=True)
-            if np.isfinite(row).any()
-        }
-        land = [c for c in box if (c.lat_tenths, c.lon_tenths) in has]
-        refused = {c: "no ERA5-Land value in the store" for c in box if c not in set(land)}
+        land, refused = land_cells(box, land_has_value(load(npz)))
         per_cell = set(land)
     rows = [
         {"cell": c, "scored": monday, "lat": c.center_latitude, "lon": c.center_longitude}
@@ -254,9 +258,12 @@ def main() -> int:
     cal_x, cal_names = calendar_matrix(rows) if rows else (np.zeros((0, 4)), CALENDAR_NAMES)
     assert cal_names == CALENDAR_NAMES
     if npz is not None and rows:
-        wx, wnames = weather_matrix(npz, rows)
+        wx, wnames, point_kind = weather_matrix(npz, rows)
     else:
         wx, wnames = np.full((len(rows), 32), np.nan), feature_names()
+        point_kind = [
+            "neighbour" if land_point((c.lat_tenths, c.lon_tenths), has)[1] else "own" for c in land
+        ]
     # The weather model needs every window; the calendar model needs only a land cell, so a
     # weather gap never removes a cell from the calendar output.
     complete = np.isfinite(wx).all(axis=1) if a.kind == "full" else np.ones(len(rows), bool)
@@ -281,10 +288,13 @@ def main() -> int:
     omitted = Counter()
     for c in box:
         if c in refused:
-            omitted["no_era5_land_value_(sea)"] += 1
+            omitted["no_era5_land_value_at_cell_or_neighbour_(sea)"] += 1
         elif c not in per_cell:
             omitted["not_fetched_yet"] += 1
     omitted["incomplete_weather_window"] += int((~complete).sum())
+    from_neighbour = sum(
+        1 for i in range(len(land)) if complete[i] and point_kind[i] == "neighbour"
+    )
 
     week_dir = a.out / "pnw-pilot" / monday.isoformat()
     block_dir = week_dir / "cantharellus"
@@ -371,6 +381,11 @@ def main() -> int:
         "cells": {
             "in_box": len(box),
             "scored": len(feats),
+            "scored_from_a_land_neighbour": from_neighbour,
+            "land_rule": (
+                "a cell with no ERA5-Land value of its own reads its nearest land neighbour "
+                "(owner, Forager RECORD -822; forager_forecast.coastal.land_point), as in training"
+            ),
             "omitted": dict(omitted),
             "chance_min": float(chances.min()) if len(chances) else None,
             "chance_median": float(np.median(chances)) if len(chances) else None,

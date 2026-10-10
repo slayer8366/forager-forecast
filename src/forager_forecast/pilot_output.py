@@ -257,12 +257,19 @@ COPERNICUS_ERA5_LAND_HOURLY = (
     "Neither the European Commission nor ECMWF is responsible for any use that may be made of the "
     "Copernicus information or data it contains."
 )
+COPERNICUS_ERA5_HOURLY = (
+    "Generated using or contains modified Copernicus Climate Change Service information 2023. "
+    "Neither the European Commission nor ECMWF is responsible for any use that may be made of the "
+    "Copernicus information or data it contains."
+)  # D53: the page omits the year; filled as 2023
 _DATA_CITATION = {
+    "era5_hourly_precipitation": "Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J., Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee, D., Thépaut, J-N. (2023): ERA5 hourly data on single levels from 1940 to present. Copernicus Climate Change Service (C3S) Climate Data Store (CDS), DOI: 10.24381/cds.adbb2d47 (Accessed on DD-MMM-YYYY)",  # noqa: E501  (quoted verbatim from the evidence report)
     "era5_land_hourly": "Muñoz Sabater, J. (2019): ERA5-Land hourly data from 1950 to present. Copernicus Climate Change Service (C3S) Climate Data Store (CDS). DOI: 10.24381/cds.e2161bac (Accessed on DD-MMM-YYYY)",  # noqa: E501  (quoted verbatim from the evidence report)
     "era5_land_daily": "Muñoz Sabater, J., Comyn-Platt, E., Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J., Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee, D., Thépaut, J-N., Cagnazo, C., Cucchi, M. (2024): ERA5-land post-processed daily-statistics from 1950 to present. Copernicus Climate Change Service (C3S) Climate Data Store (CDS), DOI: 10.24381/cds.e9c9c792 (Accessed on DD-MMM-YYYY)",  # noqa: E501  (quoted verbatim from the evidence report)
     "era5_daily_sum": "Hersbach, H., Comyn-Platt, E., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J., Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee, D., Thépaut, J-N., Cagnazo, C., Cucchi, M. (2023): ERA5 post-processed daily-statistics on single levels from 1940 to present. Copernicus Climate Change Service (C3S) Climate Data Store (CDS), DOI: 10.24381/cds.4991cf48 (Accessed on DD-MMM-YYYY)",  # noqa: E501  (quoted verbatim from the evidence report)
 }
 _COPERNICUS_TEXT = {
+    "era5_hourly_precipitation": COPERNICUS_ERA5_HOURLY,
     "era5_land_hourly": COPERNICUS_ERA5_LAND_HOURLY,
     "era5_land_daily": COPERNICUS_DAILY,
     "era5_daily_sum": COPERNICUS_DAILY,

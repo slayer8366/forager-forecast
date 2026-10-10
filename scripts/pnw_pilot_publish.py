@@ -27,6 +27,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from pnw_pilot_cds_build import build_window  # noqa: E402
+from pnw_t1_fit import copernicus_sources  # noqa: E402
 
 from forager_forecast.cells import IsoWeek  # noqa: E402
 
@@ -45,6 +46,7 @@ DATASET_SOURCE = {
     "derived-era5-land-daily-statistics": "era5_land_daily",
     "reanalysis-era5-land": "era5_land_hourly",
     "derived-era5-single-levels-daily-statistics": "era5_daily_sum",
+    "reanalysis-era5-single-levels": "era5_hourly_precipitation",
 }
 
 
@@ -67,18 +69,13 @@ def accessed_dates(store: Path, wanted: set[str]) -> dict[str, str]:
 
 
 def training_sources(model_json: dict) -> set[str]:
-    """The Copernicus products the weather model's training read, as its model.json records."""
-    if "copernicus_sources" in model_json:
+    """The Copernicus products the weather model's training read, as its model.json records them
+    (pnw_t1_fit.copernicus_sources, written at fit time)."""
+    if model_json.get("copernicus_sources"):
         return set(model_json["copernicus_sources"])
-    routes = model_json.get("land_route_by_month")
-    if routes:
-        out = {"era5_daily_sum"}
-        for route in routes.values():
-            out.add("era5_land_hourly" if route.startswith("hourly") else "era5_land_daily")
-        return out
     raise SystemExit(
-        "model.json does not say which Copernicus products training read (copernicus_sources or "
-        "land_route_by_month); attribution cannot be written without guessing"
+        "model.json does not say which Copernicus products training read (copernicus_sources); "
+        "attribution cannot be written without guessing"
     )
 
 
@@ -121,10 +118,7 @@ def main() -> int:
         missing = {k: v for k, v in summary["days_missing_on_any_point_with_data"].items() if v}
         if missing:
             raise SystemExit(f"the store lacks window days: {missing}")
-        scoring = {"era5_daily_sum"} | {
-            "era5_land_hourly" if r.startswith("hourly") else "era5_land_daily"
-            for r in summary["land_route_by_month"].values()
-        }
+        scoring = set(copernicus_sources(npz))  # the builder's reading of the build summary
         read = scoring | training_sources(json.loads((model / "model.json").read_text()))
         accessed = accessed_dates(a.store, read)
         cmd += [

@@ -32,6 +32,12 @@ LAT = np.array([47.1, 47.0])  # descending, as the store delivers
 LON = np.array([-123.0, -122.9])
 QLAT = np.array([47.25, 47.0])
 QLON = np.array([-123.0, -122.75])
+# Cells with a land point under RECORD -822: the 4 x 4 block 46.9 to 47.2 N, 123.1 to 122.8 W
+# around the 2 x 2 delivered points, less 472_-1231, whose only neighbour in the block is the
+# sea point 471_-1230.
+BLOCK = sorted(
+    f"{a}_{b}" for a in range(469, 473) for b in range(-1231, -1227) if (a, b) != (472, -1231)
+)
 NAMES = ["doy_sin", "doy_cos", "latitude", "longitude", *feature_names()]
 
 
@@ -72,13 +78,6 @@ def store(tmp_path):
     return tmp_path
 
 
-@pytest.mark.xfail(
-    strict=True,
-    raises=po.UnitMismatch,
-    reason="reviewer B1: pnw_weather.build subtracts 273.15 from soil moisture; the range check "
-    "must stop scoring until the builder's fix lands (strict: an XPASS fails the suite, so the "
-    "marker comes off when the fix arrives)",
-)
 def test_store_files_build_score_and_match_independent_features(store):
     npz = store / "w41.npz"
     summary = build_window(store / "cds", npz, WEEK)
@@ -131,15 +130,25 @@ def test_store_files_build_score_and_match_independent_features(store):
         f["id"]: f["properties"]["chance"]
         for f in json.loads((week_dir / "cantharellus.geojson").read_text())["features"]
     }
-    # Box cells only: of the four synthetic cells, (471, -1230) is sea; the rest are scored.
-    assert sorted(got) == ["470_-1229", "470_-1230", "471_-1229"]
+    # Of the four synthetic cells (471, -1230) has no ERA5-Land value; it reads its nearest land
+    # neighbour (RECORD -822). Worked by hand: from 47.1, -123.0, the point 47.1, -122.9 is 7.6 km
+    # away and 47.0, -123.0 is 11.1 km, so it reads (471, -1229).
+    # The 12 box cells around the delivered 2 x 2 points have no point of their own either, so
+    # they read a delivered neighbour too (BLOCK, 15 cells). Their chances are checked through
+    # the 4 delivered cells only.
+    assert sorted(got) == BLOCK
+    reads = {"471_-1230": (471, -1229)}
+    got = {
+        k: v for k, v in got.items() if k in ("470_-1229", "470_-1230", "471_-1229", "471_-1230")
+    }
     with h5py.File(store / "cds" / "era5-precip-2026.nc") as h:
         tp = h["tp"][:].astype(np.float64) * 1000.0
     for cid, chance in got.items():
         la, lo = (int(v) for v in cid.split("_"))
+        pla, plo = reads.get(cid, (la, lo))
         i, j = (
-            list(np.round(LAT * 10).astype(int)).index(la),
-            list(np.round(LON * 10).astype(int)).index(lo),
+            list(np.round(LAT * 10).astype(int)).index(pla),
+            list(np.round(LON * 10).astype(int)).index(plo),
         )
         daily = {}
         for month in (7, 8, 9, 10):
@@ -217,7 +226,9 @@ def test_calendar_floor_scores_every_land_cell_without_weather(store):
     week_dir = store / "out" / "pnw-pilot" / "2026-10-05"
     feats = json.loads((week_dir / "cantharellus.geojson").read_text())["features"]
     got = {f["id"]: f["properties"] for f in feats}
-    assert sorted(got) == ["470_-1229", "470_-1230", "471_-1229"]  # 471_-1230 is sea
+    # Cells with no value of their own read a delivered land neighbour (RECORD -822): the 2 x 2
+    # delivered points and the 12 cells around them.
+    assert sorted(got) == BLOCK
     for cid, p in got.items():
         la, lo = (int(v) for v in cid.split("_"))
         row = calendar_place_features(WEEK.monday(), la / 10, lo / 10)
@@ -262,3 +273,13 @@ def test_calendar_refuses_copernicus_sources(store):
     )
     assert done.returncode != 0
     assert "reads no weather" in done.stderr
+
+
+def test_building_a_window_leaves_the_training_builder_as_it_was(store):
+    import pnw_weather
+
+    before = (pnw_weather.START, pnw_weather.END, pnw_weather.N_DAYS)
+    build_window(store / "cds", store / "w.npz", WEEK)
+    assert (pnw_weather.START, pnw_weather.END, pnw_weather.N_DAYS) == before
+    summary = json.loads((store / "w.npz.summary.json").read_text())
+    assert summary["window"] == [START.isoformat(), END.isoformat()]
