@@ -53,7 +53,21 @@ planner on 2026-10-10.
   `cds/scoring-era5-precip-2026-07-10.nc` (`cds_adopt_job.py`).
 - Several months cannot go in one request: both ERA5-Land forms take `month` as one string (store
   schema).
-- Per-month timings after the restructure: PENDING.
+- Per-month timings after the restructure: hourly ERA5-Land months took 389 to 896 s each, with
+  2 in flight, about 10 months an hour.
+- Rain (owner, RECORD -826, "Hourly, checked against 2019 (Recommended)"): years the derived route
+  had not delivered now come from hourly ERA5 single-levels `total_precipitation`. Day d is the
+  sum of stamps d 01:00 to d+1 00:00 (`hourly_daily.daily_sums_previous_hour`, tested; the revert
+  with no shift fails). The summing code and the tolerance (1e-5 m) were committed in `a5a981b`,
+  before the comparison. Requests cover two years each: the store's limit is 121,000 fields and
+  one year is 52,560 (`estimate_costs`), and three years were refused.
+- **2019 check (`267e3ad`): passes.** 192,355 values (365 days × 527 points), largest difference
+  0.0 m, NaN positions equal. Under the other convention (stamps 00 to 23), 97,562 values would
+  fall outside the tolerance, up to 8.7 mm. So the check discriminates. Result:
+  `2026-10-10-pnw-pilot-t1/precip_hourly_vs_daily_2019.json`.
+- Incident: a commit line that failed lint still launched the rain pull, three times in all. Job
+  adoption kept them to one queued job at the store. All three were killed and one restarted.
+  Nothing was duplicated.
 
 ## Coastal cells with no ERA5-Land value (measured, not yet ruled)
 
