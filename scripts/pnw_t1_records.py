@@ -4,7 +4,7 @@ Run:  uv run python scripts/pnw_t1_records.py <download.zip> <expected sha256> <
 
 Checks the zip's sha256 first. Reads occurrence.txt out of the zip (never extracted). Keeps the
 records whose coordinates fall in T1's PNW box (t1_design.box_of), since only the PNW is fitted
-(D122). Then runs three step lists over those records, each in its own Pipeline:
+(D123). Then runs three step lists over those records, each in its own Pipeline:
 
 - `t1_1000m`: t1_steps() as it is (the headline, D33).
 - `t1_5000m`: t1_steps() with the uncertainty limit at 5,000 m (D33 (3) sensitivity).
