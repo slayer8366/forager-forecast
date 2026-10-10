@@ -1,0 +1,184 @@
+{
+  "zip": "/home/zynergy-labs/Zynergy/forager-forecast-d26/data/d26/downloads/0012112-260928105237408.zip",
+  "zip_sha256": "c0d5f6a1a775ddb902f73ca2c1978946c056a4f326beb7e13349677c0f72b26c",
+  "rows_read": 2493578,
+  "unloadable": {
+    "eventDate does not name a calendar day": 9604,
+    "eventDate spans more than one day": 23
+  },
+  "records_in_pnw_box": 252818,
+  "written_utc": "2026-10-10T18:12:37+00:00",
+  "lists": {
+    "t1_1000m": {
+      "source": 252818,
+      "steps": [
+        {
+          "step": "inside a T1 box",
+          "before": 252818,
+          "dropped": 0,
+          "after": 252818
+        },
+        {
+          "step": "year 2015 to 2025",
+          "before": 252818,
+          "dropped": 0,
+          "after": 252818
+        },
+        {
+          "step": "not user-obscured",
+          "before": 252818,
+          "dropped": 16912,
+          "after": 235906
+        },
+        {
+          "step": "coordinate uncertainty present and at most 1,000 m",
+          "before": 235906,
+          "dropped": 71645,
+          "after": 164261
+        },
+        {
+          "step": "date kept as given (D97, D98)",
+          "before": 164261,
+          "dropped": 0,
+          "after": 164261
+        },
+        {
+          "step": "one record per taxon, cell and day",
+          "before": 164261,
+          "dropped": 20116,
+          "after": 144145
+        }
+      ],
+      "survivors": 144145,
+      "cantharellus_survivors": 1235,
+      "cantharellus_by_year": {
+        "2015": 3,
+        "2016": 8,
+        "2017": 12,
+        "2018": 29,
+        "2019": 81,
+        "2020": 111,
+        "2021": 122,
+        "2022": 98,
+        "2023": 99,
+        "2024": 346,
+        "2025": 326
+      },
+      "csv_sha256": "3e39ff9de69f61dd0e78e2803d152ef25d0196268c4300d2c63b4e0b3cdfe7c5"
+    },
+    "t1_5000m": {
+      "source": 252818,
+      "steps": [
+        {
+          "step": "inside a T1 box",
+          "before": 252818,
+          "dropped": 0,
+          "after": 252818
+        },
+        {
+          "step": "year 2015 to 2025",
+          "before": 252818,
+          "dropped": 0,
+          "after": 252818
+        },
+        {
+          "step": "not user-obscured",
+          "before": 252818,
+          "dropped": 16912,
+          "after": 235906
+        },
+        {
+          "step": "coordinate uncertainty present and at most 5,000 m",
+          "before": 235906,
+          "dropped": 56073,
+          "after": 179833
+        },
+        {
+          "step": "date kept as given (D97, D98)",
+          "before": 179833,
+          "dropped": 0,
+          "after": 179833
+        },
+        {
+          "step": "one record per taxon, cell and day",
+          "before": 179833,
+          "dropped": 22601,
+          "after": 157232
+        }
+      ],
+      "survivors": 157232,
+      "cantharellus_survivors": 1487,
+      "cantharellus_by_year": {
+        "2015": 6,
+        "2016": 11,
+        "2017": 17,
+        "2018": 34,
+        "2019": 101,
+        "2020": 143,
+        "2021": 156,
+        "2022": 120,
+        "2023": 123,
+        "2024": 409,
+        "2025": 367
+      },
+      "csv_sha256": "1c0ab0ab27ab38444a461f0e0104838098a24976481a82236788e19ce4b99ab6"
+    },
+    "t1_1000m_cc": {
+      "source": 41641,
+      "steps": [
+        {
+          "step": "inside a T1 box",
+          "before": 41641,
+          "dropped": 0,
+          "after": 41641
+        },
+        {
+          "step": "year 2015 to 2025",
+          "before": 41641,
+          "dropped": 0,
+          "after": 41641
+        },
+        {
+          "step": "not user-obscured",
+          "before": 41641,
+          "dropped": 1961,
+          "after": 39680
+        },
+        {
+          "step": "coordinate uncertainty present and at most 1,000 m",
+          "before": 39680,
+          "dropped": 10699,
+          "after": 28981
+        },
+        {
+          "step": "date kept as given (D97, D98)",
+          "before": 28981,
+          "dropped": 0,
+          "after": 28981
+        },
+        {
+          "step": "one record per taxon, cell and day",
+          "before": 28981,
+          "dropped": 4783,
+          "after": 24198
+        }
+      ],
+      "survivors": 24198,
+      "cantharellus_survivors": 109,
+      "cantharellus_by_year": {
+        "2016": 1,
+        "2017": 4,
+        "2018": 2,
+        "2019": 6,
+        "2020": 10,
+        "2021": 12,
+        "2022": 9,
+        "2023": 4,
+        "2024": 35,
+        "2025": 26
+      },
+      "csv_sha256": "508918ec9f0587a474c8301d5e7df91c407f2e3f81ac45205d286ae96a99c1d0"
+    }
+  },
+  "seconds": 170.6
+}
