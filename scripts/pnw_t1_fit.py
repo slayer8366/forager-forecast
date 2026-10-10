@@ -231,6 +231,14 @@ def main() -> int:
     tag = f"{args.design}_{args.list}_{args.model}"
     if not partial:
         save_final_model(configs, x, y, years, names, fitter, args, tag)
+    elif args.final_only:
+        # A scoring model on a subset of years, for the map only (planner's option (1),
+        # 2026-10-10): saved under its own tag and labelled, never the T1 result.
+        yrs = sorted(set(years.tolist()))
+        save_final_model(
+            configs, x, y, years, names, fitter, args, f"{tag}_years_{yrs[0]}_{yrs[-1]}",
+            label=f"fitted on {yrs[0]}-{yrs[-1]} only; T1's all-years result pending",
+        )  # fmt: skip
     if args.final_only:
         return 0
 
@@ -295,7 +303,7 @@ def main() -> int:
     return 0
 
 
-def save_final_model(configs, x, y, years, names, fitter, args, tag) -> None:
+def save_final_model(configs, x, y, years, names, fitter, args, tag, label: str = "") -> None:
     """The model the map scores with: one fit on every year, with the configuration the same
     inner leave-one-year-out rule picks over all years (tm.inner_choice). Not an evaluation
     result; it never feeds the headline, which comes only from held-out predictions."""
@@ -347,7 +355,9 @@ def save_final_model(configs, x, y, years, names, fitter, args, tag) -> None:
         "commit": commit,
         "working_tree_dirty": bool(dirty),
         "written_utc": datetime.now(UTC).isoformat(timespec="seconds"),
-        "label": "unvalidated pilot, unreviewed; sighting chance (D12)",
+        "label": "unvalidated pilot, unreviewed; sighting chance (D12)"
+        + (f"; {label}" if label else ""),
+        "partial_years": bool(label),
     }
     (out / "model.json").write_text(json.dumps(meta, indent=2) + "\n")
     log(f"final model saved to {out} ({best['id']})")
