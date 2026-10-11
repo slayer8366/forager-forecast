@@ -23,16 +23,24 @@ the calendar. Two lines are pending by design: the 5,000 m run, and what the map
 Some earlier lines in this file were written before the result and the review (for example "not
 reviewed" under "What it does not show"); they are left as written, for the owner to rule on.
 
+**Updated 2026-10-11** (about 20:10 UTC) on Forager RECORD -875 ("Update them to match the record
+(Recommended)"): the nine lines listed under the previous note are brought up to date with the
+record, facts only. "In one paragraph", the gate under "What the system will be", two rows of "What
+exists today", the pilot map's notes, the D33 (5) rule, the rain-gap line, the sources line and four
+lines of "What not to say" changed; each names its source in place.
+
 ## In one paragraph
 
 The system will give a weekly **sighting chance** for a group of mushrooms in a weather cell, an area
 about 11 km across (SPEC.md). It does not do that for the continent yet. What exists: soil acidity
 across the United States and Canada at 250 m; host trees for every US cell; a measure of where and
 when people report fungi at all; and, since 2026-10-10, a **pilot** for chanterelles in western
-Oregon and Washington, shown on the map at `/Forager/forecast/` and labelled unvalidated and
-unreviewed. Today the pilot shows a calendar: what the date and the place alone say. A model that
-also reads the weather is expected on Sunday 2026-10-11 and is the pilot's real test: does it beat
-the calendar on years it was not fitted to?
+Oregon and Washington, shown on the map at `/Forager/forecast/` and labelled a pilot, not validated.
+The model that also reads the weather was fitted on 2026-10-11 and was the pilot's real test: on
+years it was not fitted to, it did very slightly worse than a calendar that knows only the date and
+the place (see "How the pilot's result will be stated"; an independent review reproduced the
+figures). The owner ruled that the demo shows it, labelled as not beating the calendar (Forager
+RECORD -861). Until scoring publishes it, the map shows the calendar.
 
 ## What the system will be
 
@@ -43,7 +51,10 @@ the calendar on years it was not fitted to?
 - **The gate.** A region is shown only after the model beats a seasonal calendar, one that knows
   only the date and the region, on years it was not fitted to (D5, R2). The owner's words when this
   was confirmed: "We must maintain rigorous quality standards at all times" (D18). If no region
-  beats the calendar, that result is written up as the outcome (SPEC.md, phase 1 done).
+  beats the calendar, that result is written up as the outcome (SPEC.md, phase 1 done). For the
+  PNW pilot only, the owner bent this for a labelled demo: it is shown whether or not it beats the
+  calendar, with the map saying which (Forager RECORD -814). The weather model did not beat it, and
+  the demo shows it labelled that way (-861). Nothing is published as validated.
 - **The order.** Chanterelles first, chicken of the woods beside them as a control, morels for
   spring 2027 as two models, then king boletes; matsutake is on hold (START_HERE.md).
 - **The parts.** Habitat (soil, host trees), a weather trigger, and an observation model for where
@@ -62,8 +73,8 @@ As of 2026-10-10, about 20:30 UTC.
 | Host trees, 250 m, United States | **Done** on the evening of 2026-10-09: all 2,015 tiles that hold only US cells, plus the US half of all 92 tiles that straddle the border | Forager RECORD -802 ("trees 2015/2015, trees-us-half 92/92"); D119 |
 | Host trees, 250 m, Canada | **Done for the Pacific Northwest box** on 2026-10-10: the Canadian source (SCANFI v2) read for the 8 tiles inside the box plus the 2 border tiles the seam check needs; all 102,543 Canadian cells in the box (southern Vancouver Island, the Gulf Islands, Delta) computed, none pending. The rest of Canada waits until the pilot map is done | Forager RECORD -815, -835, -838; `docs/audits/2026-10-10-t6b-pnw-run/seam-after-10-tiles/` (branch `t6b-pnw-scanfi`) |
 | Weather history for the pilot | Downloading from the Copernicus Climate Data Store (ERA5-Land and ERA5) for 40 to 49.5 N, 111 to 125 W. The rain route was checked against the store's own daily totals for 2019: all 192,355 values equal | Forager RECORD -812, -826, -827; D24 |
-| The pilot map | **Live** at https://zynergy-labs.com/Forager/forecast/ since 2026-10-10, 18:59 UTC: the calendar model for chanterelles (see the next section) | Forager RECORD -825 (zynergy-site PR #8) |
-| The weather model for the pilot | **Expected Sunday 2026-10-11**, about 05:00 to 06:00 PDT by the builder's estimate, if the data store keeps its pace; then scored and put on the map | Forager RECORD -827, -817 |
+| The pilot map | **Live** at https://zynergy-labs.com/Forager/forecast/ since 2026-10-10, 18:59 UTC: the calendar model for chanterelles (see the next section), until scoring publishes the weather model (row updated 2026-10-11) | Forager RECORD -825 (zynergy-site PR #8), -861 |
+| The weather model for the pilot | **Fitted 2026-10-11** on all years, 2015 to 2025, and independently reviewed: it did not beat the calendar (see "How the pilot's result will be stated"). Scoring for the map is pending (row updated 2026-10-11) | builder's report `docs/audits/2026-10-10-pnw-pilot-t1-report.md` (`pnw-pilot-t1` `f73b800`, lines 288-298); review pass 2 (`pnw-pilot-t1-review` `79b8b17`); Forager RECORD -861 |
 | Habitat model, calibration, nightly job (T7 to T11) | Not started. A plan for the habitat model on the pilot box is written, not yet run | `docs/dispatch/2026-10-11-t7-pnw-pilot-habitat.md`; TASKS.md |
 
 ## The pilot map
@@ -85,10 +96,17 @@ country" (Forager RECORD -807).
 - What the number means, in D12's words: "the chance the group is reported in a weather cell and
   week, given at least one fungal observation of any kind there that week."
 - **Today it is the calendar.** The map's own note: "Calendar model: day of year and place only. It
-  knows nothing about this year's weather." When the weather model is scored, it replaces the
-  calendar on the map, as a data update under the owner's approval in Forager RECORD -817.
-- The banner says pilot, not validated, not reviewed. The owner asked for it to be shown whether or
-  not it beats the calendar, with the map saying which (Forager RECORD -814, confirmed in -824).
+  knows nothing about this year's weather." When scoring publishes the weather model, it replaces
+  the calendar on the map, as a data update under the owner's approval in Forager RECORD -817,
+  labelled as not beating the calendar (-861).
+- Today the banner says pilot, not validated, not reviewed. With the weather model, the status line
+  reads, in the owner's wording: "Pilot, not yet validated. Its figures were checked by an
+  independent review. Shown whether or not it beats the seasonal calendar." The result line reads:
+  "Tested on years it wasn't trained on (2015 to 2025, one year left out at a time), it did very
+  slightly worse than the seasonal calendar alone. Brier skill −0.0035 (95% range −0.0066 to
+  −0.0001). An independent review reproduced these figures." (Forager RECORD -863). The owner asked
+  for it to be shown whether or not it beats the calendar, with the map saying which (Forager
+  RECORD -814, confirmed in -824).
 
 **What it does not show.**
 - Not whether chanterelles are fruiting, and not where they are. It is about reports from a cell in a
@@ -97,11 +115,21 @@ country" (Forager RECORD -807).
 - No region has passed the gate. Under D5 nothing is published as validated, and the map lists no
   passed region.
 - Nothing outside the box, and no other mushroom group.
-- Not reviewed. A second agent is reviewing the pilot's T1 work in parallel (Forager RECORD -816,
-  -818).
+- Not validated. It is reviewed: the independent review (D18) filed pass 2 on 2026-10-11, and every
+  figure it set out to recompute reproduces (`pnw-pilot-t1-review` `79b8b17`, "## Pass 2"; Forager
+  RECORD -861).
 - Weather for the weeks ahead. The pilot reads the Copernicus history for both training and the map
-  (Forager RECORD -819). A weekly live version needs its own weather route, and a gap of about 4 to
-  8% in rain totals between two routes to the same reanalysis is still being looked into.
+  (Forager RECORD -819). A weekly live version needs its own weather route. Two rain figures, from
+  different samples, describe the difference between the other weather service and the Copernicus
+  store; they are not one figure:
+  - **4 to 8% lower**: the other service's rain totals against the store's daily sums, at every one
+    of 6 cells over the 90 days to Monday 2019-10-07 (for example 249.3 against 268.2 mm) (Forager
+    RECORD -819). Explained on summer 2019 (6 cells, 540 cell-days) as an hour offset plus a cut of
+    every hour under 0.1 mm, the cut being the whole level gap; winter, snow and the newest weeks
+    untested, and what the live route does about it is not decided (-833).
+  - **0.982** (1,251.7 mm against 1,274.4 mm, about 2% lower): the summed rain of D24's comparison
+    sample, 1,008 daily values over 252 days, run with the pilot's fits (builder's report, lines
+    278-286; Forager RECORD -855).
 
 ## How the pilot's result will be stated
 
@@ -109,6 +137,10 @@ The test is T1's design (D13, D33), run on the pilot box: a model that reads wea
 the calendar model, scored on years each fit did not see, one year held out at a time. The headline is
 one pooled figure, not an average of years (D33 (2)). Rule, fixed before any fit (D33 (5)): if the
 interval includes zero, the verdict is "not shown", and the region stays off the published map.
+The pilot's interval is wholly below zero, which the review reads as a stronger failure to beat the
+calendar (review pass 2, item 3). No region is published as validated. The labelled demo still
+shows the weather model, marked as not beating the calendar, under the owner's rulings in Forager
+RECORD -814 and -861.
 
 **The headline** (filled 2026-10-11; sources [S1] to [S12] are listed at the end of this section):
 - Brier skill of the weather model against the calendar, pooled over every held-out cell-week, 2015
@@ -184,8 +216,10 @@ flatters any model (D13). The two designs agree that the weather adds no skill t
   review." (Forager RECORD -861, -863). Until scoring publishes, the live map still shows the
   calendar [S12].
 
-Source for every figure above: `docs/audits/2026-10-10-pnw-pilot-t1-report.md` on `pnw-pilot-t1`,
-once its "Result" section says it is the result (the draft's own rule, line 3-4).
+Source for every figure above: listed below. The builder's report at `f73b800` still says "IN
+PROGRESS" at its head and has no section named "Result"; its section "Primary design, all years,
+2015 to 2025: the T1 result" (line 288) gives these figures, the review reproduced them, and Forager
+RECORD -861 and -863 treat them as the result (updated 2026-10-11, RECORD -875).
 
 **Sources for the filled lines** (read 2026-10-11, about 20:00 UTC; "re-derived" means recomputed
 here from the held-out predictions with a small script, "quoted" means taken as written):
@@ -299,14 +333,20 @@ value was read):
 
 ## What not to say
 
-- Not "the forecast", not "where mushrooms are". These are inputs, unreviewed.
+- Not "the forecast" without "pilot", and not "where mushrooms are". The owner's title for the demo
+  page is "Forager mushroom forecast: Pacific Northwest pilot" (Forager RECORD -858). The soil and
+  tree layers are "Model inputs … Not a forecast on their own" (the page wording in -860).
 - No percentage for any spot. The 250 m layers carry no percent (D12).
 - **On the pilot:**
   - Not "it works", "it predicts" or "it beat the calendar" unless the filled-in interval is wholly
     above zero. If it includes zero, say "not shown yet": the test could not tell the weather model
-    from the calendar on this many records.
-  - Not "validated" or "reviewed". The map says neither, and both are true until the review is filed
-    and the gate is passed.
+    from the calendar on this many records. If it is wholly below zero, as the PNW pilot's is, say
+    so plainly: on years it had not seen, the weather model did very slightly worse than the
+    seasonal calendar alone (the owner's banner wording, Forager RECORD -863). Not "nearly", not
+    "not shown yet".
+  - Not "validated". The gate is not passed. "Reviewed" only in the banner's sense: "Its figures
+    were checked by an independent review" (Forager RECORD -863); the review filed pass 2 on
+    2026-10-11.
   - No calendar-only figure as if it were the pilot's result. The headline compares two models; a
     score for one model alone says little.
   - Not "this week". The pilot shows the week of 5 October.
@@ -316,4 +356,5 @@ value was read):
     -819).
   - Not the wording D12 rules out for the number, nor any phrasing about the odds of a person
     finding mushrooms. The number is a sighting chance, about reports.
-  - No figure from a TO FILL line until the builder's final report gives it.
+  - Only the figures in "How the pilot's result will be stated", with their sources. The two lines
+    marked pending there (the 5,000 m run, the map on Monday) have no figure to quote yet.
