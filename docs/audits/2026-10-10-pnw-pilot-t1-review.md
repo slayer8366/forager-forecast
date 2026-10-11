@@ -815,3 +815,32 @@ Yet nothing in `models/primary_t1_1000m_full/model.json` or
 
 **Verdict, item 3:** the headline and its interval reproduce. The result is that the full model
 is worse than the calendar baseline on held-out years.
+
+### Item 4: the per-fold table (read at `7d19c66`)
+
+**Recomputed** from the npz arrays (`pass2_headline_main.out.txt`, "per fold"). Every row matches
+the builder's `folds` in `fits/primary_t1_1000m_comparison.json`: units, positives, the
+informative flag (30 positives or more), and skill to 1e-12.
+
+| year | units | positives | informative | skill |
+|---|---|---|---|---|
+| 2015 | 391 | 3 | no | +0.0173 |
+| 2016 | 580 | 7 | no | −0.0125 |
+| 2017 | 842 | 12 | no | −0.0202 |
+| 2018 | 1,670 | 27 | no | −0.0189 |
+| 2019 | 2,965 | 72 | yes | −0.0093 |
+| 2020 | 5,329 | 107 | yes | +0.0015 |
+| 2021 | 6,315 | 115 | yes | +0.0027 |
+| 2022 | 6,482 | 89 | yes | +0.0048 |
+| 2023 | 8,297 | 97 | yes | +0.0080 |
+| 2024 | 9,342 | 300 | yes | −0.0063 |
+| 2025 | 10,505 | 309 | yes | −0.0080 |
+
+- 2015 to 2018 are marked uninformative, as D33 (2) requires.
+- 4 of the 7 informative folds favour the weather model.
+- The two folds with the most positives (2024 and 2025, 609 of 1,138) favour the calendar model,
+  and they dominate the pooled figure.
+- Pooled over the informative folds alone, the skill is −0.0030 (49,235 units). The four thin
+  folds do not drive the negative headline. They are only reported here; D33 pools all years.
+
+**Verdict, item 4:** the table reproduces and is marked as D33 (2) requires.
