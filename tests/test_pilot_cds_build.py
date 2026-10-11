@@ -399,3 +399,9 @@ def test_calendar_weather_source_text_is_unchanged(store):
     assert manifest["weather"]["source"] == (
         "none: calendar model, land cells from the store's ERA5-Land grid"
     )
+
+
+def test_weather_source_note_is_appended_to_the_full_models_source(store):
+    note = "Window days 2026-07-07 to 2026-07-31 are the store's final data (expver 0001)."
+    text = _full_manifest(store, "--weather-source-note", note)["weather"]["source"]
+    assert text.endswith(" " + note)

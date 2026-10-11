@@ -205,6 +205,12 @@ def main() -> int:
     ap.add_argument("--beats-calendar", choices=["true", "false", "null"], default="null")
     ap.add_argument("--t1-result", default="", help="JSON text of the builder's headline, or empty")
     ap.add_argument(
+        "--weather-source-note",
+        default="",
+        help="one sentence appended to weather.source for the weather model (the window days' "
+        "final or preliminary data, from pnw_pilot_publish.version_sentence)",
+    )
+    ap.add_argument(
         "--reviewed",
         choices=["true", "false"],
         default="false",
@@ -446,7 +452,7 @@ def main() -> int:
         "weather_source": source,
         "weather": {
             "source": (
-                copernicus_source_text(npz, meta)
+                " ".join(x for x in (copernicus_source_text(npz, meta), a.weather_source_note) if x)
                 if source == "copernicus"
                 else "none: calendar model, land cells from the store's ERA5-Land grid"
                 if source == "none"

@@ -58,3 +58,54 @@ def test_publish_passes_reviewed_through_to_scoring(monkeypatch):
     assert pnw_pilot_publish.main() == 7
     cmd = seen["cmd"]
     assert cmd[cmd.index("--reviewed") + 1] == "true"
+
+
+def _hourly(path: Path, t0: str, hours: int, expver: list[str], var: str) -> None:
+    import h5py
+    import numpy as np
+
+    start = int(np.datetime64(t0, "s").astype(np.int64))
+    with h5py.File(path, "w") as h:
+        h["valid_time"] = np.arange(start, start + 3600 * hours, 3600, dtype=np.int64)
+        h["valid_time"].attrs["units"] = np.bytes_("seconds since 1970-01-01")
+        h["expver"] = np.array([e.encode() for e in expver])
+        h[var] = np.zeros((hours, 1, 1))
+
+
+def test_window_versions_sentence_reads_expver_by_utc_day(tmp_path):
+    import zipfile
+    from datetime import date
+
+    from pnw_pilot_publish import version_sentence, window_versions
+
+    # Land: 2 days, final; then a zip delivery whose t2m turns preliminary at day 3's 01:00.
+    _hourly(tmp_path / "hourly-era5land-2026-07.hourly.nc", "2026-07-30T00", 48, ["0001"] * 48,
+            "t2m")  # fmt: skip
+    _hourly(tmp_path / "a.nc", "2026-08-01T00", 48, ["0005"] * 48, "stl1")
+    _hourly(tmp_path / "b.nc", "2026-08-01T00", 48, ["0001"] + ["0005"] * 47, "t2m")
+    with zipfile.ZipFile(tmp_path / "hourly-era5land-2026-08.hourly.zip", "w") as z:
+        z.write(tmp_path / "a.nc", "data_0.nc")
+        z.write(tmp_path / "b.nc", "data_1.nc")
+    # Rain: stamps d 01:00 to d+1 00:00 make day d; the 2026-08-01 00:00 stamp closes 07-31.
+    _hourly(tmp_path / "hourly-era5-precip-2026-07-09.nc", "2026-07-30T01", 96,
+            ["0001"] * 48 + ["0005"] * 48, "tp")  # fmt: skip
+    got = window_versions(tmp_path, date(2026, 7, 30), date(2026, 8, 2))
+    assert got == {
+        date(2026, 7, 30): {"0001"},
+        date(2026, 7, 31): {"0001"},
+        date(2026, 8, 1): {"0001", "0005"},
+        date(2026, 8, 2): {"0005"},
+    }
+    assert version_sentence(got) == (
+        "Window days 2026-07-30 to 2026-07-31 are the store's final data (expver 0001); "
+        "2026-08-01 to 2026-08-02 are its preliminary data (expver 0005), which can be revised."
+    )
+
+
+def test_a_window_day_with_no_version_is_said_so():
+    from datetime import date
+
+    from pnw_pilot_publish import version_sentence
+
+    s = version_sentence({date(2026, 7, 7): {"0001"}, date(2026, 7, 8): set()})
+    assert "2026-07-08 has no recorded data version" in s

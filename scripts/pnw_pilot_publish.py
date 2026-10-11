@@ -22,13 +22,16 @@ import json
 import shutil
 import subprocess
 import sys
-from datetime import datetime
+import tempfile
+import zipfile
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from pnw_pilot_cds_build import build_window  # noqa: E402
 from pnw_t1_fit import copernicus_sources  # noqa: E402
 
+from forager_forecast import live_weather as lw  # noqa: E402
 from forager_forecast.cells import IsoWeek  # noqa: E402
 
 DATA = Path.home() / "Zynergy" / "forecast-data-pnw-pilot"
@@ -68,6 +71,65 @@ def accessed_dates(record_dirs: list[Path], wanted: set[str]) -> dict[str, str]:
             "" if first == last else " to " + last.strftime("%d-%b-%Y")
         )
     return out
+
+
+def _stamp_versions(path: Path, shift_hours: int, out: dict, start: date, end: date) -> None:
+    import h5py  # noqa: PLC0415
+    import numpy as np  # noqa: PLC0415
+
+    with h5py.File(path) as h:
+        if "expver" not in h:
+            return
+        t = h["valid_time"][:].astype(np.int64) - 3600 * shift_hours
+        for stamp, ver in zip(t, h["expver"][:], strict=True):
+            day = date(1970, 1, 1) + timedelta(days=int(stamp // 86400))
+            if start <= day <= end:
+                out[day].add(ver.decode() if isinstance(ver, bytes) else str(ver))
+
+
+def window_versions(store: Path, start: date, end: date) -> dict[date, set[str]]:
+    """The store's data versions (expver: 0001 final, 0005 preliminary) behind each window day,
+    read from the hourly files' own expver: ERA5-Land by UTC day of the stamp (zip deliveries read
+    member by member), hourly rain by the day its stamp closes (d 01:00 to d+1 00:00)."""
+    out = {start + timedelta(days=i): set() for i in range((end - start).days + 1)}
+    for path in sorted(store.glob("hourly-era5land-*.hourly.nc")):
+        if not zipfile.is_zipfile(path):
+            _stamp_versions(path, 0, out, start, end)
+    for path in sorted(store.glob("hourly-era5land-*.hourly.zip")):
+        with tempfile.TemporaryDirectory() as tmp, zipfile.ZipFile(path) as z:
+            for name in sorted(z.namelist()):
+                _stamp_versions(Path(z.extract(name, tmp)), 0, out, start, end)
+    for path in sorted(store.glob("hourly-era5-precip-*.nc")):
+        _stamp_versions(path, 1, out, start, end)
+    return out
+
+
+def version_sentence(versions: dict[date, set[str]]) -> str:
+    """One sentence on which window days are final and which preliminary; a day with any
+    preliminary hour counts as preliminary."""
+    kinds = []
+    for day in sorted(versions):
+        v = versions[day]
+        kinds.append((day, "none" if not v else "prelim" if v - {"0001"} else "final"))
+    runs: list[list] = []
+    for day, kind in kinds:
+        if runs and runs[-1][0] == kind:
+            runs[-1][2] = day
+        else:
+            runs.append([kind, day, day])
+    span = {k: [f"{a} to {b}" if a != b else str(a) for kk, a, b in runs if kk == k]
+            for k in ("final", "prelim", "none")}  # fmt: skip
+    parts = []
+    if span["final"]:
+        parts.append(f"Window days {', '.join(span['final'])} are the store's final data "
+                     "(expver 0001)")  # fmt: skip
+    if span["prelim"]:
+        lead = "" if parts else "Window days "
+        parts.append(f"{lead}{', '.join(span['prelim'])} are {'its' if parts else 'the store\'s'} "
+                     "preliminary data (expver 0005), which can be revised")  # fmt: skip
+    if span["none"]:
+        parts.append(f"{', '.join(span['none'])} has no recorded data version")
+    return "; ".join(parts) + "."
 
 
 def training_sources(model_json: dict) -> set[str]:
@@ -127,6 +189,8 @@ def main() -> int:
         scoring = set(copernicus_sources(npz))  # the builder's reading of the build summary
         read = scoring | training_sources(json.loads((model / "model.json").read_text()))
         accessed = accessed_dates([a.store, a.ts], read)
+        start, end = lw.window_span(week)
+        note = version_sentence(window_versions(a.store, start, end))
         cmd += [
             "--cds-npz",
             str(npz),
@@ -136,6 +200,8 @@ def main() -> int:
             ",".join(sorted(read)),
             "--accessed",
             json.dumps(accessed),
+            "--weather-source-note",
+            note,
         ]
     done = subprocess.run(cmd, cwd=REPO)
     if done.returncode:
