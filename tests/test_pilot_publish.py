@@ -132,9 +132,9 @@ def test_a_single_stamp_file_with_scalar_expver_is_read(tmp_path):
 def test_the_bridge_text_is_the_owners_plain_wording():
     from pnw_pilot_publish import BRIDGE
 
-    # Forager RECORD -893, verbatim: no record numbers and no service name.
+    # Forager RECORD -893, amended by -895 ("this week" never appears), verbatim.
     assert BRIDGE == (
-        "This week's weather comes from the Copernicus climate archive, the same sources the model "
-        "was trained on. A second weather service was checked for the same days but isn't used for "
-        "scoring."
+        "This forecast's weather comes from the Copernicus climate archive, the same sources the "
+        "model was trained on. A second weather service was checked for the same days but isn't "
+        "used for scoring."
     )

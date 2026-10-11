@@ -37,12 +37,12 @@ from forager_forecast.cells import IsoWeek  # noqa: E402
 DATA = Path.home() / "Zynergy" / "forecast-data-pnw-pilot"
 REPO = Path(__file__).resolve().parents[1]
 LIMIT = 1024 * 1024
-# The banner's weather line, the owner's wording verbatim (Forager RECORD -893). The technical
+# The banner's weather line, the owner's wording verbatim (Forager RECORD -893, -895). The technical
 # detail is in the manifest's weather.source.
 BRIDGE = (
-    "This week's weather comes from the Copernicus climate archive, the same sources the model "
-    "was trained on. A second weather service was checked for the same days but isn't used for "
-    "scoring."
+    "This forecast's weather comes from the Copernicus climate archive, the same sources the "
+    "model was trained on. A second weather service was checked for the same days but isn't used "
+    "for scoring."
 )
 
 
