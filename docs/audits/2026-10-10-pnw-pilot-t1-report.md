@@ -159,3 +159,68 @@ D33), then 2019 72, 2020 107, 2021 115, 2022 89, 2023 97, 2024 301, 2025 309.
   comparison (hourly ERA5-Land aggregated by this code, against Open-Meteo's ERA5-Land daily
   values, within RECORD -818's restated tolerance) stands in for the route agreement check, as the
   planner set. One derived land month is still tried if a slot frees and the derived queue moves.
+
+## Early partial equivalence (one span, 21:50 UTC; labelled partial)
+
+Run on the spans whose land and rain had both arrived. That was one span (cell 492_-1246, from
+2019-01-08), because rain 2021-24 was not yet aggregated. Three spans of one cell (427_-1245)
+were skipped as a sea point. File: `2026-10-10-pnw-pilot-t1/equivalence_early_partial_2110Z.json`.
+The file name says 2110Z; the run was at about 21:50 UTC.
+
+- Hourly land route: offset 0 matches 192 of 192 hours for 2 m temperature, soil temperature and
+  soil moisture alike. Offsets −1 and +1 match 32 to 103 of 192. So the best offset is 0 on all
+  three. Partial pass, one span.
+- Daily (reported, not the gate): 27 of 28 values within bounds. Rain on 2019-01-08 was 11.36 mm
+  in the store against 9.3 mm from Open-Meteo (2.06 mm, over the 1.25 mm bound). That matches the
+  scoring coder's finding that Open-Meteo's rain runs 4 to 8% below the store's, which led to
+  RECORD -819.
+- Rain convention test (7 days): the store is closer to Open-Meteo's hours 01 to 24 on 4 days and
+  to 00 to 23 on 3. Mean absolute differences are 0.33 and 0.69 mm.
+- The re-fetched hourly months (2025-03, -04, -07, -12) came from the store's existing successful
+  jobs, adopted in seconds. Their daily aggregates equal the originals exactly.
+
+## Review notes folded in (pnw-pilot-t1-review `d2655e9`)
+
+- **N13.** The one rain day 18% low in the early check is consistent with the scoring coder's
+  4 to 8% finding. It is not a measure of it. The summed rain ratio over every compared day is now
+  reported (`rain_level`, S6). It was 0.974 over the 7 days compared so far.
+- **N14.** In fits on 2019 to 2025, the early-2019 units whose windows reach into 2018 are dropped
+  as `missing_days` if 2018 has not arrived. They are counted in `weather_units_dropped`. The hedge
+  run waits for 2018-10 onward and rain 2018, so none should drop there.
+- **N8.** The coastal cells that read a land neighbour (RECORD -822) are listed in every fit
+  summary (`weather_units_dropped.neighbour_cells`). The equivalence result lists those it compared
+  (`hourly_land_route.neighbour_cells_compared`).
+- **N9.** For an adopted job, `requested_at_utc` is the time it was adopted, not the time it was
+  first submitted. `adopted_job` names the job, and the store's job record holds the submit time.
+  Stated in `pnw_cds_pull.py`'s docstring. D52 asks for the request's time; this records the time
+  this pull took it up.
+- **N1.** The docstring said the request is stored before the file is fetched. It is stored after.
+  Corrected.
+- **N3/N4. Traced.** Reading D26's zip by raw coordinates, 252,822 rows fall in T1's PNW box. That
+  is D72's predicate count. 4 of them are rows the loader refuses ("eventDate spans more than one
+  day", D66). 252,822 − 4 = 252,818, the `records_in_pnw_box` figure. Script `/tmp/pnwp_n4.py`,
+  run once, not committed.
+
+## Third land route: the store's point time series (2026-10-11, builder's choice)
+
+- **Why.** From the store's job list: this account's gridded ERA5-Land jobs ran one at a time,
+  about 4 to 5 min each, after 20 to 100 min in the queue. That gave 2 to 3 months an hour, with
+  about 30 h left at 00:30 UTC.
+- **What.** `reanalysis-era5-land-timeseries` serves one point for the whole period. The form takes
+  `location` and `date`; the process description lists only `area`, and requests by `area` failed
+  with MultiAdaptorNoDataError. One request per land point covers 2014-09-01 to 2025-12-31 and all
+  three variables. The reply is a zip of three NetCDF files, 3.6 MB, in about 29 to 40 s.
+- **Same product, checked.** At 47.0, −123.0 its hourly values equal the gridded hourly files on
+  all 50,472 compared hours (every gridded month held then): largest difference 0.00025 K for the
+  two temperatures and 0 for soil moisture (float32 packing).
+- **Points.** 1,870: every ERA5-Land point a T1 unit reads (its own, or its RECORD -822 neighbour,
+  on the land mask of the delivered 2019-01 file), plus the equivalence sample's 12 points, whose
+  hourly zips are kept for the hourly land-route check. Daily means use the same 24-UTC-hour
+  definition (`hourly_daily.daily_means`).
+- **Assembly.** `scripts/pnw_ts_assemble.py` writes one gridded daily file. The builder reads it at
+  the lowest precedence, so gridded months win where both exist (tested; the revert check bites).
+  `land_route_by_month` names the route per month.
+- **Pace.** With 4 in flight, 31 points in 7 min, about 265 an hour. At that rate the pull ends
+  about 07:45 UTC Sunday.
+- **Gridded jobs dismissed.** fb28d705, bc01764e and 311e6e4c at 00:40:39 UTC; ed826b8b (2023-06)
+  at about 00:36 to free a slot for the probe. The 30 gridded months already delivered stay in use.

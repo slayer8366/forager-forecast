@@ -1,0 +1,95 @@
+{
+  "tolerance": {
+    "t2m": 0.001,
+    "stl1": 0.001,
+    "swvl1": 1e-05
+  },
+  "gridded_files": 29,
+  "all": {
+    "points": 39,
+    "failed": 0,
+    "values_compared": 103428
+  },
+  "own_points": {
+    "points": 37,
+    "failed": 0,
+    "values_compared": 98124
+  },
+  "neighbour_points_RECORD_822": {
+    "points": 2,
+    "failed": 0,
+    "values_compared": 5304
+  },
+  "sea_adjacent_points": {
+    "points": 16,
+    "failed": 0,
+    "values_compared": 42432
+  },
+  "sample_points_kept_hourly": {
+    "points": 0,
+    "failed": 0,
+    "values_compared": 0
+  },
+  "worst_point_by_variable": {
+    "t2m": {
+      "max_abs": 0.000152587890625,
+      "point": "420_-1225"
+    },
+    "stl1": {
+      "max_abs": 0.000156402587890625,
+      "point": "420_-1221"
+    },
+    "swvl1": {
+      "max_abs": 1.9868214962137642e-08,
+      "point": "420_-1228"
+    }
+  },
+  "failed_points": [],
+  "snap_probe": [
+    {
+      "requested": [
+        47.03,
+        -123.04
+      ],
+      "returned": [
+        47.0,
+        -123.0
+      ],
+      "nearest_grid_point": [
+        47.0,
+        -123.0
+      ],
+      "same": true
+    },
+    {
+      "requested": [
+        47.07,
+        -123.06
+      ],
+      "returned": [
+        47.1,
+        -123.1
+      ],
+      "nearest_grid_point": [
+        47.1,
+        -123.1
+      ],
+      "same": true
+    },
+    {
+      "requested": [
+        45.449,
+        -122.651
+      ],
+      "returned": [
+        45.4,
+        -122.7
+      ],
+      "nearest_grid_point": [
+        45.4,
+        -122.7
+      ],
+      "same": true
+    }
+  ]
+}

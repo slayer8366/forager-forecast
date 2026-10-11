@@ -19,7 +19,9 @@ Run:  uv run --with cdsapi==0.7.7 python scripts/pnw_cds_pull.py --out <dir>
   skips months the other has delivered. The owner allowed training on years as they arrive
   ("Train as it downloads if you need to", relayed by the planner on 2026-10-10).
 - Resumable: a unit whose NetCDF and `.request.json` both exist is skipped. Each request is
-  stored with its UTC request time and the account (D52) before the file is fetched.
+  stored with its UTC request time and the account (D52) after its file has arrived (review N1);
+  a failed attempt leaves only its log line. For an adopted job, requested_at_utc is the time it
+  was adopted, not the time it was first submitted (review N9); `adopted_job` names the job.
 - Stops before any request if the output disk has less than 3 GB free.
 - Retries a failed unit three times with backoff. A refusal that names a licence or terms stops
   the whole run at once, with the message, since that needs the owner.
