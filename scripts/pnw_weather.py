@@ -84,9 +84,18 @@ def build(cds_dir: Path, out: Path, prefix: str = "") -> dict:
         )
     )
     paths += sorted(p for p in cds_dir.glob("*.nc") if pattern.match(p.name))
+    # The time-series route's assembled file first: lowest precedence (scripts/pnw_ts_assemble.py).
+    ts_file = cds_dir / "ts-era5land-t1box.daily.h5"
+    if not prefix and ts_file.exists():
+        paths = [ts_file, *paths]
     for path in paths:
-        hm = hourly_pattern.match(path.name)
-        if hm:
+        hm = hourly_pattern.match(path.name) or (path.name == "ts-era5land-t1box.daily.h5")
+        if path.name == "ts-era5land-t1box.daily.h5":
+            files["land_timeseries_route"] = 1
+            for y in range(2014, 2026):
+                for m in range(9 if y == 2014 else 1, 13):
+                    routes[f"{y}-{m:02d}"] = "reanalysis-era5-land-timeseries, 24-hour UTC mean"
+        elif hm:
             files["land_hourly_route"] = files.get("land_hourly_route", 0) + 1
             routes[hm.group(1)] = "hourly reanalysis-era5-land, 24-hour UTC mean"
         elif path.name.startswith(f"{prefix}era5land"):

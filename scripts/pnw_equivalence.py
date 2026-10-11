@@ -183,10 +183,37 @@ class HourlyStore:
                 self.cache[ym] = (t, lat_i, lon_i, data)
         return self.cache[ym]
 
+    def point_series(self, point: tuple[int, int]):
+        """The time-series route's kept hourly zip for a sample point (pnw_cds_timeseries.py), as
+        {var: {epoch: value}}, or None."""
+        key = f"ts:{point}"
+        if key not in self.cache:
+            z = self.cds.parent / "ts" / f"pt_{point[0]}_{point[1]}.zip"
+            if not z.exists():
+                self.cache[key] = None
+            else:
+                import io  # noqa: PLC0415
+                import zipfile  # noqa: PLC0415
+
+                series = {}
+                with zipfile.ZipFile(z) as zf:
+                    for name in zf.namelist():
+                        with h5py.File(io.BytesIO(zf.read(name))) as h:
+                            var = next(k for k in h if k in HOURLY_TOL)
+                            t = h["valid_time"][:].astype(np.int64) * 3600
+                            a = h[var][:].astype(np.float64)
+                            a = a - 273.15 if var in ("t2m", "stl1") else a
+                            series[var] = dict(zip(t.tolist(), a.tolist(), strict=True))
+                self.cache[key] = series
+        return self.cache[key]
+
     def value(self, v: str, point: tuple[int, int], epoch: int) -> float | None:
         m = self.month(datetime.fromtimestamp(epoch, UTC).strftime("%Y-%m"))
         if m is None:
-            return None
+            # Months the gridded hourly route did not pull: the time-series route's hourly values.
+            series = self.point_series(point)
+            x = None if series is None else series[v].get(epoch)
+            return None if x is None or np.isnan(x) else float(x)
         t, lat, lon, data = m
         k = int(np.searchsorted(t, epoch))
         i, j = lat.get(point[0]), lon.get(point[1])

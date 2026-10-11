@@ -75,3 +75,28 @@ def test_a_cell_with_no_land_value_reads_its_nearest_land_neighbour(tmp_path):
     assert kind == ["neighbour"]
     assert x[0, names.index("temperature_mean_3d")] == pytest.approx(281.0 - 273.15, abs=1e-4)
     assert x[0, names.index("soil_moisture_mean_3d")] == pytest.approx(1.3, abs=1e-6)
+
+
+def test_timeseries_file_is_read_and_gridded_files_win_where_both_exist(tmp_path):
+    from datetime import date
+
+    lat = np.arange(495, 419, -1) / 10
+    lon = np.arange(-1250, -1209, 1) / 10
+    n = (date(2025, 12, 31) - date(2014, 9, 1)).days + 1
+    with h5py.File(tmp_path / "ts-era5land-t1box.daily.h5", "w") as h:
+        h["latitude"], h["longitude"] = lat, lon
+        t = h.create_dataset("valid_time", data=np.arange(n))
+        t.attrs["units"] = np.bytes_("days since 2014-09-01")
+        for k, v in (("t2m", 290.0), ("stl1", 291.0), ("swvl1", 0.2)):
+            h[k] = np.full((n, len(lat), len(lon)), v, dtype=np.float32)
+    write(tmp_path / "era5land-2019-01.nc", {"t2m": 280.0, "stl1": 281.0, "swvl1": 0.3}, 0.1)
+    write(tmp_path / "era5-precip-2019.nc", {"tp": 0.002}, 0.25)
+    summary = pnw_weather.build(tmp_path, tmp_path / "w.npz")
+    g = pnw_weather.load(tmp_path / "w.npz")
+    i = g["temperature"].index[(470, -1230)]
+    d19 = (date(2019, 1, 1) - date(2014, 9, 1)).days
+    d18 = (date(2018, 6, 1) - date(2014, 9, 1)).days
+    assert g["temperature"].values[i, d19] == pytest.approx(6.85, abs=1e-4)  # gridded wins
+    assert g["temperature"].values[i, d18] == pytest.approx(16.85, abs=1e-4)  # time series
+    assert summary["land_route_by_month"]["2019-01"] == "derived daily statistics"
+    assert summary["land_route_by_month"]["2018-06"].startswith("reanalysis-era5-land-timeseries")
