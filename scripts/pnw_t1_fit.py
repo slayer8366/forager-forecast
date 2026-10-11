@@ -135,7 +135,13 @@ def main() -> int:
         help="skip the evaluation; only fit and save the all-years model for scoring",
     )
     ap.add_argument("--models", type=Path, default=MODELS_DIR)
+    ap.add_argument(
+        "--gate-record",
+        type=Path,
+        help="the equivalence gate's record (pnw_gate_override.py), copied into every output",
+    )
     args = ap.parse_args()
+    args.gate = load_gate_record(args.gate_record)
     started = time.monotonic()
     commit, dirty = code_state()
     if dirty:
@@ -289,6 +295,7 @@ def main() -> int:
         "commit": commit,
         "weather_npz": str(args.weather) if args.weather else None,
         "weather_units_dropped": weather_drops,
+        "land_route_gate": args.gate,
         "threads": args.threads,
         "seconds": round(time.monotonic() - started, 1),
         "peak_rss_mb": round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024, 1),
@@ -352,6 +359,7 @@ def save_final_model(configs, x, y, years, names, fitter, args, tag, label: str 
         "positives": int(y.sum()),
         "weather_npz": str(args.weather) if args.weather else None,
         "copernicus_sources": copernicus_sources(args.weather) if args.weather else [],
+        "land_route_gate": args.gate,
         "commit": commit,
         "working_tree_dirty": bool(dirty),
         "written_utc": datetime.now(UTC).isoformat(timespec="seconds"),
@@ -361,6 +369,20 @@ def save_final_model(configs, x, y, years, names, fitter, args, tag, label: str 
     }
     (out / "model.json").write_text(json.dumps(meta, indent=2) + "\n")
     log(f"final model saved to {out} ({best['id']})")
+
+
+def load_gate_record(path: Path | None) -> dict | None:
+    """The equivalence gate's record, as pnw_gate_override.py wrote it, to be carried in each fit
+    summary and model.json (Forager RECORD -854: the failing hour travels with the model). Refuses
+    a missing file, and a record that says the chain was not to go on."""
+    if path is None:
+        return None
+    if not path.exists():
+        raise SystemExit(f"--gate-record {path} does not exist")
+    record = json.loads(path.read_text())
+    if record.get("proceed") is not True:
+        raise SystemExit(f"--gate-record {path} says stop: {record.get('stop')}")
+    return record
 
 
 def copernicus_sources(weather: Path | None) -> list[str]:
