@@ -38,8 +38,9 @@ DATA = Path.home() / "Zynergy" / "forecast-data-pnw-pilot"
 REPO = Path(__file__).resolve().parents[1]
 LIMIT = 1024 * 1024
 BRIDGE = (
-    "None. The week is scored from the Copernicus store's daily statistics, the products "
-    "training used (owner, Forager RECORD -819). Open-Meteo's archive was fetched for the same "
+    "None. The week is scored from the Copernicus store, by products training also read "
+    "(owner, Forager RECORD -819; route, RECORD -829); weather.source names them. Open-Meteo's "
+    "archive was fetched for the same "
     "days as a cross-check only and is not used to score: its rain runs 4 to 8 percent below "
     "the store's (scoring branch feature check, 2019-10-07)."
 )

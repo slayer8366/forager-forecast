@@ -32,7 +32,7 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).parent))
-from pnw_t1_fit import calendar_matrix, copernicus_sources  # noqa: E402
+from pnw_t1_fit import calendar_matrix  # noqa: E402
 from pnw_weather import _index, land_has_value, load, weather_matrix  # noqa: E402
 
 from forager_forecast import live_weather as lw  # noqa: E402
@@ -67,13 +67,40 @@ def products(keys) -> str:
     return "; ".join(PRODUCT_TEXT[k] for k in sorted(keys)) + "."
 
 
-def copernicus_source_text(npz: Path, meta: dict) -> str:
+def window_sources(npz: Path, start: date, end: date) -> list[str]:
+    """The store products the window itself read, from the build summary's routes for the window's
+    years (rain) and months (land) only; the summary lists every month in the store. Same route
+    names as pnw_t1_fit.copernicus_sources."""
+    summary = json.loads(Path(str(npz) + ".summary.json").read_text())
+    years = {str(y) for y in range(start.year, end.year + 1)}
+    months = set()
+    d = start.replace(day=1)
+    while d <= end:
+        months.add(f"{d.year}-{d.month:02d}")
+        d = d.replace(year=d.year + (d.month == 12), month=d.month % 12 + 1)
+    rain = {v for k, v in summary.get("rain_route_by_year", {}).items() if k in years}
+    land = {v for k, v in summary.get("land_route_by_month", {}).items() if k in months}
+    out = []
+    if "derived daily sum" in rain:
+        out.append("era5_daily_sum")
+    if any(r.startswith("hourly") for r in rain):
+        out.append("era5_hourly_precipitation")
+    if "derived daily statistics" in land:
+        out.append("era5_land_daily")
+    if any(r.startswith("hourly") for r in land):
+        out.append("era5_land_hourly")
+    if any(r.startswith("reanalysis-era5-land-timeseries") for r in land):
+        out.append("era5_land_timeseries")
+    return sorted(out)
+
+
+def copernicus_source_text(npz: Path, meta: dict, start: date, end: date) -> str:
     """weather.source for the weather model: what the scoring window read (the window's build
     summary) and what training read (model.json copernicus_sources), each stated, not assumed."""
     trained = meta.get("copernicus_sources")
     return (
         "Copernicus Climate Data Store (owner, Forager RECORD -819). Scoring window read: "
-        + products(copernicus_sources(npz))
+        + products(window_sources(npz, start, end))
         + " Training read: "
         + (products(trained) if trained else "not recorded in model.json.")
     )
@@ -452,7 +479,11 @@ def main() -> int:
         "weather_source": source,
         "weather": {
             "source": (
-                " ".join(x for x in (copernicus_source_text(npz, meta), a.weather_source_note) if x)
+                " ".join(
+                    x
+                    for x in (copernicus_source_text(npz, meta, start, end), a.weather_source_note)
+                    if x
+                )
                 if source == "copernicus"
                 else "none: calendar model, land cells from the store's ERA5-Land grid"
                 if source == "none"

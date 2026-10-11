@@ -127,3 +127,10 @@ def test_a_single_stamp_file_with_scalar_expver_is_read(tmp_path):
     assert window_versions(tmp_path, date(2026, 10, 4), date(2026, 10, 4)) == {
         date(2026, 10, 4): {"0005"}
     }
+
+
+def test_the_bridge_text_no_longer_claims_daily_statistics_only():
+    from pnw_pilot_publish import BRIDGE
+
+    assert "daily statistics" not in BRIDGE
+    assert "weather.source" in BRIDGE

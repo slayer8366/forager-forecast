@@ -405,3 +405,19 @@ def test_weather_source_note_is_appended_to_the_full_models_source(store):
     note = "Window days 2026-07-07 to 2026-07-31 are the store's final data (expver 0001)."
     text = _full_manifest(store, "--weather-source-note", note)["weather"]["source"]
     assert text.endswith(" " + note)
+
+
+def test_scoring_window_products_come_from_window_months_only(store):
+    # The build summary lists the route of every month and year in the store; only the window's
+    # count as what scoring read.
+    npz = store / "w41.npz"
+    build_window(store / "cds", npz, WEEK)
+    summary_path = Path(str(npz) + ".summary.json")
+    s = json.loads(summary_path.read_text())
+    s["land_route_by_month"]["2019-01"] = "reanalysis-era5-land-timeseries, 24-hour UTC mean"
+    s["rain_route_by_year"]["2019"] = "hourly reanalysis-era5-single-levels, summed per UTC day"
+    summary_path.write_text(json.dumps(s))
+    import pnw_pilot_score
+
+    keys = pnw_pilot_score.window_sources(npz, START, END)
+    assert keys == ["era5_daily_sum", "era5_land_daily"]
