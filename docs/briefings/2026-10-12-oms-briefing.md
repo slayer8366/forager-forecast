@@ -15,6 +15,14 @@ the Canadian host trees are in, so "What exists today" (the Canada row) and "Wha
 show" (counts, hemlock in Canada, the 49 N seam) now read the completed mosaic. One **TO FILL**
 added: whether the redrawn map is live.
 
+**Updated 2026-10-11** (about 20:05 UTC) by a writer on the planner's dispatch
+`docs/dispatch/2026-10-11-oms-briefing-fill.md`: every blank in "How the pilot's result will be
+stated" is filled from the builder's final fits, the independent review's pass 2 and Forager RECORD
+-854, -855, -861 and -863, with a sources list there. The result: the weather model did not beat
+the calendar. Two lines are pending by design: the 5,000 m run, and what the map shows on Monday.
+Some earlier lines in this file were written before the result and the review (for example "not
+reviewed" under "What it does not show"); they are left as written, for the owner to rule on.
+
 ## In one paragraph
 
 The system will give a weekly **sighting chance** for a group of mushrooms in a weather cell, an area
@@ -102,49 +110,117 @@ the calendar model, scored on years each fit did not see, one year held out at a
 one pooled figure, not an average of years (D33 (2)). Rule, fixed before any fit (D33 (5)): if the
 interval includes zero, the verdict is "not shown", and the region stays off the published map.
 
-**The headline (TO FILL):**
+**The headline** (filled 2026-10-11; sources [S1] to [S12] are listed at the end of this section):
 - Brier skill of the weather model against the calendar, pooled over every held-out cell-week, 2015
-  to 2025: **TO FILL** (a single figure, three decimals).
-- Its 95% interval, from a bootstrap clustered by cell: **TO FILL to TO FILL**.
-- Verdict under D33 (5): **TO FILL** ("not shown" if the interval includes zero; otherwise say
-  plainly which side of zero the whole interval is on).
-- In one plain sentence for the room: **TO FILL**.
+  to 2025: **−0.004** (−0.0035 to four places). 52,718 cell-weeks, 1,138 of them with a chanterelle
+  report, in 2,024 cells [S1, S2, S3].
+- Its 95% interval, from a bootstrap clustered by cell: **−0.0066 to −0.0001** (the builder's run,
+  with the seed fixed before the fit) [S1, S2]. The independent review's own resampling gives
+  −0.0068 to −0.0002, and none of its 50 seeds reaches zero [S4].
+- Verdict under D33 (5): **the whole interval is below zero.** So this is not "not shown": on years
+  it was not fitted to, the weather model scored worse than the calendar. The difference is small;
+  the upper end of the interval is 0.0001 from zero [S1, S4]. D33 (5) names only the case of an
+  interval that includes zero; by the reviewer's reading of D5, a wholly negative one means the
+  model has not passed the gate for the PNW, and no region is published as validated [S4].
+- In one plain sentence for the room: **Tested on eleven years one at a time, each time on a year it
+  had not been trained on, the model that reads the weather did very slightly worse than a calendar
+  that knows only the date and the place, so it has not shown that the weather helps.**
+- What the pilot is still worth, from the same sources: the whole chain ran end to end on the
+  Pacific Northwest, which is what the owner set the pilot up to learn before committing to the
+  continent (Forager RECORD -807); an independent review reproduced every figure with its own code
+  [S4]; and the test caught a model that did not beat the calendar, as it was built to.
 
-**Per held-out year (TO FILL):**
+**Per held-out year** [S2, S3, S5]:
 
 | Year held out | Positive cell-weeks | Brier skill against the calendar | Informative? |
 |---|---|---|---|
-| 2015 | TO FILL | TO FILL | TO FILL |
-| 2016 | TO FILL | TO FILL | TO FILL |
-| 2017 | TO FILL | TO FILL | TO FILL |
-| 2018 | TO FILL | TO FILL | TO FILL |
-| 2019 | TO FILL | TO FILL | TO FILL |
-| 2020 | TO FILL | TO FILL | TO FILL |
-| 2021 | TO FILL | TO FILL | TO FILL |
-| 2022 | TO FILL | TO FILL | TO FILL |
-| 2023 | TO FILL | TO FILL | TO FILL |
-| 2024 | TO FILL | TO FILL | TO FILL |
-| 2025 | TO FILL | TO FILL | TO FILL |
+| 2015 | 3 | +0.0173 | no |
+| 2016 | 7 | −0.0125 | no |
+| 2017 | 12 | −0.0202 | no |
+| 2018 | 27 | −0.0189 | no |
+| 2019 | 72 | −0.0093 | yes |
+| 2020 | 107 | +0.0015 | yes |
+| 2021 | 115 | +0.0027 | yes |
+| 2022 | 89 | +0.0048 | yes |
+| 2023 | 97 | +0.0080 | yes |
+| 2024 | 300 | −0.0063 | yes |
+| 2025 | 309 | −0.0080 | yes |
 
 A year with fewer than 30 positive cell-weeks is marked uninformative (D33 (2)). The builder's draft
 expects 2015 to 2018 to be under 30, but that count was taken before the coastal-cell ruling
 (Forager RECORD -822) and is not the result; take the figures from the final report only.
+(Filled from the final fits: 2015 to 2018 are under 30. The weather model did better in 4 of the 7
+informative years; the two years with the most reports, 2024 and 2025, hold 609 of the 1,138 and
+favour the calendar, and they carry the pooled figure [S5]. Positive counts here are after 468
+sea-point cell-weeks were dropped, 1 of them positive, so 2024 reads 300, not the draft's 301 [S1,
+S6].)
 
-**The secondary comparison (TO FILL):** the same test with random dates as the "no report" side, as
-D13 requires beside the main design. Brier skill against the calendar: **TO FILL**, interval **TO
-FILL to TO FILL**. It is a comparison only: a calendar also beats random dates, so this design
-flatters any model (D13).
+**The secondary comparison:** the same test with random dates as the "no report" side, as
+D13 requires beside the main design. Brier skill against the calendar: **−0.002** (−0.0022),
+interval **−0.0075 to 0.0031**: "not shown", since the interval includes zero (16,042 cell-weeks,
+1,234 positive, 504 cells) [S3, S7]. It is a comparison only: a calendar also beats random dates, so this design
+flatters any model (D13). The two designs agree that the weather adds no skill that can be shown.
 
-**Also to report, each as one line (TO FILL):**
+**Also to report, each as one line:**
 - The weather data check against Open-Meteo (D24), reported, not used as the gate for the pilot
-  (Forager RECORD -819): **TO FILL**.
-- The 5,000 m sensitivity run (D33 (3)): **TO FILL**.
-- The run on CC0 and CC BY records only (D33 (4)): **TO FILL**.
-- The parallel review (D18): **TO FILL** (filed and what it found, or still running).
-- What the map shows on Monday: **TO FILL** (the weather model, or still the calendar, and why).
+  (Forager RECORD -819): **day by day, 30 of 1,008 compared values differed beyond tolerance, all of
+  them rain (summed rain 1,251.7 mm against 1,274.4 mm, a ratio of 0.982); hour by hour, the land
+  check failed on one hour of 6,912 (air temperature, one cell, 2025-12-12 11:00 UTC, about
+  0.00005 °C past its bound), and the owner ruled to fit past it with the failure kept on record
+  (Forager RECORD -854, -855). The reviewer showed the miss is a rounding effect: modelling the
+  other service's rounding reproduces its value on all 13,824 temperature hours checked** [S8, S9].
+- The 5,000 m sensitivity run (D33 (3)): **pending. It stopped because 22 of its cell-weeks lack
+  weather; the 34 missing points have not been requested yet, and wait behind the scoring
+  pull** [S10].
+- The run on CC0 and CC BY records only (D33 (4)): **"not shown": skill −0.0006, interval −0.0058 to
+  0.0049, on 9,640 cell-weeks with only 102 positive; only one year (2024) has 30 or more** [S3,
+  S11].
+- The parallel review (D18): **filed (pass 2, 2026-10-11). Every figure it set out to recompute
+  reproduces. It blocks publishing the weather model as having passed (B4: it does not beat the
+  calendar) and found the extra runs had stopped without saying so (S11)** [S4].
+- What the map shows on Monday: **pending: scoring publishes later today.** The owner's ruling is
+  that the demo shows the all-years weather model, labelled as not beating the seasonal calendar,
+  with the status line "Pilot, not yet validated. Its figures were checked by an independent
+  review." (Forager RECORD -861, -863). Until scoring publishes, the live map still shows the
+  calendar [S12].
 
 Source for every figure above: `docs/audits/2026-10-10-pnw-pilot-t1-report.md` on `pnw-pilot-t1`,
 once its "Result" section says it is the result (the draft's own rule, line 3-4).
+
+**Sources for the filled lines** (read 2026-10-11, about 20:00 UTC; "re-derived" means recomputed
+here from the held-out predictions with a small script, "quoted" means taken as written):
+- [S1] Builder's report, `docs/audits/2026-10-10-pnw-pilot-t1-report.md` on `pnw-pilot-t1` at
+  `f73b800`, lines 288-298 (units, Brier, skill, interval, "worse"). Quoted.
+- [S2] `~/Zynergy/forecast-data-pnw-pilot/fits/primary_t1_1000m_comparison.json`: skill
+  −0.0035360, interval [−0.006569, −0.000100], verdict "worse", label "T1 result", folds. Quoted.
+- [S3] Held-out predictions `fits/{primary_t1_1000m, secondary_t1_1000m,
+  primary_t1_1000m_cc}_{calendar,full}.npz`: pooled skill −0.003536, −0.002213 and −0.000613, the
+  unit, positive and cell counts, and every per-year skill and positive count. Re-derived. The
+  intervals were not re-derived here.
+- [S4] Independent review, `docs/audits/2026-10-10-pnw-pilot-t1-review.md` on
+  `pnw-pilot-t1-review` at `79b8b17`, "## Pass 2": item 3, lines 766-817 (headline table at
+  779-780, seeds at 785-787, the D5 reading at 795-800, B4 at 804); verdict, lines 914-948.
+  Quoted.
+- [S5] Builder's report lines 300-312 (per-year table); review lines 819-845 (per-fold table,
+  4 of 7, 609 of 1,138). Quoted, and checked against [S3].
+- [S6] Builder's report lines 106-113 (the draft's 53,186 units, 1,139 positive, 2024 at 301) and
+  lines 290-291 (468 sea-point units dropped, 1 positive). Quoted.
+- [S7] Builder's report lines 317-321; review lines 848-857 (reviewer's interval −0.0074 to
+  0.0033). Quoted.
+- [S8] Builder's report lines 278-286 (the daily comparison); review item 1, lines 667-739
+  (gate counts at 678, the failing hour at 682-686, 13,824 hours at 707-708, daily recount at
+  720). Quoted.
+- [S9] Forager RECORD -854 (the owner's "Option 1") and -855 (30 of 1,008, correcting "20"),
+  `RECORD.md` on `records-after-173`. -862 corrects -854's route gap from 0.00016 K to 0.00024 K
+  hour by hour; neither figure is used above. Quoted.
+- [S10] Builder's report lines 335-345 (the stop) and 374-381 (34 points, no request made);
+  `~/Zynergy/forecast-data-pnw-pilot/` holds `d33_3.sh` and no D33 (3) fit log or comparison.
+  Quoted; the data folder was observed.
+- [S11] Builder's report lines 357-372; `fits/primary_t1_1000m_cc_comparison.json`. Quoted, and
+  the point estimate checked against [S3].
+- [S12] Forager RECORD -861 and -863. `pnw-pilot-scoring` at `d3ae769` has pulled the week's
+  window weather and has not published the weather model; its report still records only the
+  calendar floor as published. Observed.
 
 ## What the PNW images show, and what they do not
 
