@@ -350,6 +350,9 @@ def main() -> int:
         "attribution": attribution_text,
         "attribution_details": attribution_details,
         "attribution_sources": sorted(sources),
+        "gate_record_attribution": (
+            po.GATE_RECORD_ATTRIBUTION if meta.get("land_route_gate") is not None else None
+        ),
         "layers": [
             {
                 "kind": "cells_combined",

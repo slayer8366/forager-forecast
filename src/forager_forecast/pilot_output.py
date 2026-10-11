@@ -286,6 +286,14 @@ _COPERNICUS_TEXT = {
     "era5_land_timeseries": COPERNICUS_ERA5_LAND_TIMESERIES,
 }
 OPEN_METEO_CREDIT = "Weather data by Open-Meteo.com (https://open-meteo.com/), CC BY 4.0."
+# The land-route gate record embedded from model.json holds that service's values: the comparison
+# the gate made, not scoring or training inputs. Credited apart from the scoring attribution
+# (planner, Forager RECORD -863).
+GATE_RECORD_ATTRIBUTION = (
+    OPEN_METEO_CREDIT + " Its values appear only in model.model_json.land_route_gate, the record "
+    "of the check the training weather was compared against; they are not scoring or training "
+    "inputs."
+)
 SOURCES = ("gbif_download", *_DATA_CITATION, "open_meteo")
 
 

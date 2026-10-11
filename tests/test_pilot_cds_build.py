@@ -283,3 +283,63 @@ def test_building_a_window_leaves_the_training_builder_as_it_was(store):
     assert (pnw_weather.START, pnw_weather.END, pnw_weather.N_DAYS) == before
     summary = json.loads((store / "w.npz.summary.json").read_text())
     assert summary["window"] == [START.isoformat(), END.isoformat()]
+
+
+GATE = {
+    "gate_pass": False,
+    "override_given": "Forager RECORD -854",
+    "failing_hours": [{"variable": "t2m", "store": 5.424951, "open_meteo": 5.5}],
+}
+
+
+def _full_model(path: Path, **meta):
+    import lightgbm as lgb
+
+    rng = np.random.default_rng(3)
+    x = rng.normal(size=(300, len(NAMES)))
+    y = (x[:, 5] + rng.normal(size=300) > 0.5).astype(float)
+    booster = lgb.train(
+        {"objective": "binary", "verbose": -1, "seed": 1, "num_leaves": 4, "min_data_in_leaf": 5},
+        lgb.Dataset(x, y),
+        num_boost_round=10,
+    )
+    path.mkdir()
+    booster.save_model(str(path / "model.txt"))
+    (path / "model.json").write_text(json.dumps({"feature_names": NAMES, **meta}))
+
+
+def _full_manifest(store, *extra, **meta):
+    npz = store / "w41.npz"
+    build_window(store / "cds", npz, WEEK)
+    _full_model(store / "full", **meta)
+    done = _score(
+        store,
+        "--cds-npz",
+        str(npz),
+        "--model",
+        str(store / "full"),
+        "--kind",
+        "full",
+        "--copernicus-sources",
+        "era5_daily_sum,era5_land_daily",
+        "--accessed",
+        json.dumps({"era5_daily_sum": "10-Oct-2026", "era5_land_daily": "10-Oct-2026"}),
+        *extra,
+    )
+    assert done.returncode == 0, done.stderr
+    return json.loads((store / "out" / "pnw-pilot" / "2026-10-05" / "manifest.json").read_text())
+
+
+def test_a_gate_record_in_the_model_is_credited_at_top_level(store):
+    # The embedded gate record carries the comparison service's values (Forager RECORD -863):
+    # they stay, credited as that service's licence requires, apart from the scoring attribution.
+    manifest = _full_manifest(store, land_route_gate=GATE)
+    assert manifest["model"]["model_json"]["land_route_gate"] == GATE
+    assert manifest["gate_record_attribution"].startswith(po.OPEN_METEO_CREDIT)
+    assert "model.model_json.land_route_gate" in manifest["gate_record_attribution"]
+    assert "Open-Meteo" not in manifest["attribution"]
+    assert "open_meteo" not in manifest["attribution_sources"]
+
+
+def test_no_gate_record_means_no_gate_credit(store):
+    assert _full_manifest(store)["gate_record_attribution"] is None
