@@ -21,7 +21,9 @@ fit() { # design list model
 }
 
 if [ "$step" = main ]; then
-  uv run python scripts/pnw_ts_assemble.py "$D" > "$D/ts_assemble.log"
+  # Every time-series point against the gridded months; failing points are left out (2026-10-11).
+uv run python scripts/pnw_ts_check.py "$D" > "$D/ts_check.log" || echo "ts check: some points failed; see $D/ts_check.json" >&2
+uv run python scripts/pnw_ts_assemble.py "$D" > "$D/ts_assemble.log"
 uv run python scripts/pnw_cds_precip_hourly.py --out "$D/cds" aggregate > "$D/rain_aggregate.log"
 uv run python scripts/pnw_weather.py "$D/cds" "$W" > "$D/weather/build.log"
   cp "$W.summary.json" "$D/weather/t1_pnw.summary.json"

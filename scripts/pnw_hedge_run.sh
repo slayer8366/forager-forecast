@@ -18,6 +18,8 @@ W=$H/weather.npz
 YEARS=2019,2020,2021,2022,2023,2024,2025
 mkdir -p "$H/fits" "$H/equivalence"
 
+# Every time-series point against the gridded months; failing points are left out (2026-10-11).
+uv run python scripts/pnw_ts_check.py "$D" > "$D/ts_check.log" || echo "ts check: some points failed; see $D/ts_check.json" >&2
 uv run python scripts/pnw_ts_assemble.py "$D" > "$D/ts_assemble.log"
 uv run python scripts/pnw_cds_precip_hourly.py --out "$D/cds" aggregate > "$D/rain_aggregate.log"
 uv run python scripts/pnw_weather.py "$D/cds" "$W" > "$H/weather_build.log"

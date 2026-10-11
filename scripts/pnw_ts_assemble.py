@@ -23,7 +23,12 @@ LONS = np.arange(-1250, -1209, 1)  # tenths, -125.0 to -121.0
 
 
 def main(d: Path) -> int:
-    files = sorted((d / "ts").glob("pt_*.daily.npz"))
+    failed_file = d / "ts" / "failed_points.json"
+    failed = set(json.loads(failed_file.read_text())) if failed_file.exists() else set()
+    if not failed_file.exists():
+        raise SystemExit("run scripts/pnw_ts_check.py first: no failed_points.json")
+    # Points that failed the check against the gridded months are left out (planner, 2026-10-11).
+    files = [f for f in sorted((d / "ts").glob("pt_*.daily.npz")) if f.name[3:-10] not in failed]
     if not files:
         print("no points yet")
         return 1
@@ -58,7 +63,7 @@ def main(d: Path) -> int:
             o[v] = a
         o.attrs["route"] = np.bytes_("reanalysis-era5-land-timeseries, mean of 24 UTC hours")
     tmp.rename(target)
-    print(json.dumps({"points": placed, "days": n, "file": str(target)}))
+    print(json.dumps({"points": placed, "left_out_failed": sorted(failed), "days": n}))
     return 0
 
 
