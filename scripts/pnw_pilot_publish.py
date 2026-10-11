@@ -80,8 +80,9 @@ def _stamp_versions(path: Path, shift_hours: int, out: dict, start: date, end: d
     with h5py.File(path) as h:
         if "expver" not in h:
             return
-        t = h["valid_time"][:].astype(np.int64) - 3600 * shift_hours
-        for stamp, ver in zip(t, h["expver"][:], strict=True):
+        # A one-stamp request comes back with scalar valid_time and expver.
+        t = np.atleast_1d(h["valid_time"][()]).astype(np.int64) - 3600 * shift_hours
+        for stamp, ver in zip(t, np.atleast_1d(h["expver"][()]), strict=True):
             day = date(1970, 1, 1) + timedelta(days=int(stamp // 86400))
             if start <= day <= end:
                 out[day].add(ver.decode() if isinstance(ver, bytes) else str(ver))

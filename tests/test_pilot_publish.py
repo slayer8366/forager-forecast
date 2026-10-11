@@ -109,3 +109,21 @@ def test_a_window_day_with_no_version_is_said_so():
 
     s = version_sentence({date(2026, 7, 7): {"0001"}, date(2026, 7, 8): set()})
     assert "2026-07-08 has no recorded data version" in s
+
+
+def test_a_single_stamp_file_with_scalar_expver_is_read(tmp_path):
+    # The store writes a one-stamp request (e.g. 2026-10-05 00:00, closing 10-04) with a scalar
+    # valid_time and expver.
+    from datetime import date
+
+    import h5py
+    import numpy as np
+    from pnw_pilot_publish import window_versions
+
+    with h5py.File(tmp_path / "hourly-era5-precip-2026-10-05T00.nc", "w") as h:
+        h["valid_time"] = np.int64(int(np.datetime64("2026-10-05T00", "s").astype(np.int64)))
+        h["expver"] = np.bytes_("0005")
+        h["tp"] = np.zeros((1, 1))
+    assert window_versions(tmp_path, date(2026, 10, 4), date(2026, 10, 4)) == {
+        date(2026, 10, 4): {"0005"}
+    }
