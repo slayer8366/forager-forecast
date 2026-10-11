@@ -74,13 +74,26 @@ def land_mask(hourly_nc: Path) -> set[tuple[int, int]]:
     }
 
 
-def points_needed(records: Path, has: set) -> tuple[list[tuple[int, int]], set]:
-    rows = primary_units(read_records(records / "t1_1000m.csv"))
+def list_points(records: Path, has: set, lists: tuple[str, ...]) -> set[tuple[int, int]]:
+    """The ERA5-Land points the primary units of the named record lists read: each cell's own
+    point, or its nearest land neighbour (coastal.land_point, Forager RECORD -822)."""
     pts = set()
-    for cell in {r["cell"] for r in rows}:
-        found = land_point((cell.lat_tenths, cell.lon_tenths), has)
-        if found:
-            pts.add(found[0])
+    for name in lists:
+        rows = primary_units(read_records(records / f"{name}.csv"))
+        for cell in {r["cell"] for r in rows}:
+            found = land_point((cell.lat_tenths, cell.lon_tenths), has)
+            if found:
+                pts.add(found[0])
+    return pts
+
+
+def points_needed(
+    records: Path, has: set, lists: tuple[str, ...] = ("t1_1000m",)
+) -> tuple[list[tuple[int, int]], set]:
+    """Points for the named lists (default the 1,000 m list alone, as pulled on 2026-10-11) plus
+    the equivalence sample's, and the sample's points whose hourly zips are kept. --lists
+    t1_1000m,t1_5000m adds the 5,000 m list's points for D33 (3) (planner, after RECORD -861)."""
+    pts = list_points(records, has, lists)
     keep = set()
     for cell, _start in sample(records):
         p, _kind = compare_point(cell, has)
@@ -120,13 +133,18 @@ def main() -> int:
     ap.add_argument("--mask-from", type=Path, required=True)
     ap.add_argument("--workers", type=int, default=1)
     ap.add_argument("--limit", type=int, default=0, help="first N points only (a probe)")
+    ap.add_argument(
+        "--lists",
+        default="t1_1000m",
+        help="comma-separated record lists whose points to pull (default t1_1000m)",
+    )
     args = ap.parse_args()
     import cdsapi  # noqa: PLC0415
 
     ts = args.out / "ts"
     ts.mkdir(parents=True, exist_ok=True)
     has = land_mask(args.mask_from)
-    pts, keep = points_needed(args.records, has)
+    pts, keep = points_needed(args.records, has, tuple(args.lists.split(",")))
     if args.limit:
         pts = pts[: args.limit]
     log(f"timeseries route: {len(pts)} points ({len(keep)} kept hourly), {args.workers} in flight")
