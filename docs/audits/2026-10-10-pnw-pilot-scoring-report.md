@@ -309,3 +309,127 @@ them it stops rather than guess.
 - `manifest.json`: sha256 92b3049626d560370afbf50ed2d21e64e542ec4abce6fb8cf5ec0b5dc4987417.
 
 **Suite:** 473 passed.
+
+## Scoring step 4, 2026-10-11: the weather model published for 2026-W41
+
+Dispatch: pnw-pilot-plans 8e3009b, `docs/dispatch/2026-10-11-pnw-pilot-scoring-step4.md`. Rulings:
+Forager RECORD -854 (gate override), -861 (the weather model on the demo, labelled), -863 (banner
+wording; the planner's technical calls). Base: this branch at 60c4285; pnw-pilot-t1 7d19c66 merged
+at deca36a. The merge commit lacks the co-author line. It is recorded here and was not amended.
+
+**Published.** `~/Zynergy/forecast-data-pnw-pilot/scoring/out/pnw-pilot/2026-10-05/`, written
+2026-10-11T22:43:38Z by `pnw_pilot_publish.py --kind full --repo-copy --beats-calendar false
+--reviewed true --t1-result "<the owner's wording, RECORD -863>"`.
+
+- `cantharellus.geojson`: 1,594,691 bytes, sha256
+  ac6038d39114e28c618bd5afc6c512f75dbdaf9b60d5aab8837c33a8d121a395. It is over the 1 MB guard,
+  so `--repo-copy` refused it as designed and exited 1 after scoring. `samples/pnw-pilot/2026-10-05/`
+  still holds the calendar floor.
+- `manifest.json`: 14,242 bytes, sha256
+  f0c43c6a081ffc3f0f7912167eb958a61ebe446a938a97bc8a06036443c9f44c. A copy is at
+  `docs/audits/2026-10-10-pnw-pilot-scoring/window-2026-W41/published-manifest-full.json`.
+- 40 block files, 1,596,290 bytes in total.
+- The same week directory held the calendar floor's output, and this run overwrote it. The floor
+  is still in the repository copy.
+
+**Checks, read from the published files.**
+
+- Cells: 2,618 scored of 3,116, the same as the calendar floor's 2,618.
+  - 231 are from a land neighbour, as in the floor.
+  - 498 are omitted as sea. 0 are omitted for an incomplete weather window.
+  - 2,618 unique ids in the combined file and 2,618 across the blocks.
+  - Every feature has week 2026-10-05 and weather through 2026-10-04.
+  - Chance runs from 0.0067 to 0.1571, median 0.0411.
+- Fields: pilot true, validated false, reviewed true. model_kind full. beats_calendar false.
+  regions_published empty.
+  - status_label and t1_result are the owner's wording, verbatim.
+  - Model `pnw-pilot-t1-full-cd0c66a65752`.
+- Attribution sources: era5_daily_sum, era5_hourly_precipitation, era5_land_hourly,
+  era5_land_timeseries and gbif_download.
+  - These are what training read (model.json `copernicus_sources`) together with what the window
+    read, which is a subset of them.
+  - Copernicus texts: 2023 (hourly single levels), <2019> (hourly ERA5-Land), 2024 (daily
+    statistics) and 2025 (time series), plus the GBIF citation.
+- Values from the free weather API: two keys, `open_meteo` and `open_meteo_body_raw` (both 5.5),
+  under `model.model_json.land_route_gate.failing_hours[0]`.
+  - There is also one null key, `weather.open_meteo_batches`.
+  - The service's name appears in text twice: in `gate_record_attribution` (its credit) and in
+    `weather_bridge` (the cross-check sentence). Neither carries a value.
+  - The geojson files have no mention of it.
+  - Under RECORD -863 the gate record's values stay. The -819 rule covers scoring and training
+    inputs.
+- The forbidden-terms check in the script passed.
+- The embedded model.json `label` still reads "unvalidated pilot, unreviewed; sighting chance
+  (D12)". It is the builder's file, left as written.
+
+**weather.source, as published:** "Copernicus Climate Data Store (owner, Forager RECORD -819).
+Scoring window read: reanalysis-era5-single-levels (hourly total_precipitation, summed per UTC day
+from the 01:00 stamp to the next day's 00:00 stamp); reanalysis-era5-land (hourly 2m_temperature,
+soil_temperature_level_1, volumetric_soil_water_layer_1, averaged over the 24 UTC hours of each
+day). Training read: derived-era5-single-levels-daily-statistics (daily_sum of
+total_precipitation; time_zone utc+00:00, frequency 1_hourly); reanalysis-era5-single-levels
+(...); reanalysis-era5-land (...); reanalysis-era5-land-timeseries (point series of the same three
+ERA5-Land variables, averaged over the 24 UTC hours of each day). Window days 2026-07-07 to
+2026-07-31 are the store's final data (expver 0001); 2026-08-01 to 2026-10-04 are its preliminary
+data (expver 0005), which can be revised."
+
+**Window weather (RECORD -863; route by RECORD -829, confirmed by the planner 2026-10-11).**
+
+- Job d6ae24ed no longer exists: the store answers 404. It had been dismissed at 2026-10-10
+  20:20:10Z (builder's report, "Queue decisions").
+- I pulled through the builder's `--scoring` routes: hourly ERA5-Land 2026-07 to 2026-10-04 and
+  hourly ERA5 rain 2026-07-01 to the 2026-10-05 00:00 stamp.
+- Queue waits:
+  - Land jobs were submitted at 17:17Z. The first started at 18:27Z, and all had finished by 19:08Z.
+  - Rain July to September took 97 min from submit to file.
+  - Rain October 1 to 4 took 135 min, ending 21:32Z.
+  - The closing stamp landed at 22:39Z.
+- The store delivered August as a zip of two NetCDF files, although the request said unarchived.
+  - The members were split by data version: swvl1 and stl1 all preliminary; t2m final for
+    08-01T00 and preliminary after.
+  - `scripts/pnw_split_delivery.py` merged them. All 31 days complete; no new request (job
+    08142ab0 adopted).
+- Every land month aggregated with 0 incomplete days.
+- Rain aggregation wrote 96 days for 2026. The 2014 to 2025 daily rain files were unchanged: 12 of
+  12 `sha256sum -c` OK against checksums taken before the pull.
+- The pull's wrapper hit my shell's 2 h limit at 19:17Z. The rain step was restarted as a user
+  service and adopted its queued job.
+- The closing stamp was also fetched by a one-off beside it. Both runs adopted the same job, and the
+  record kept is the rain step's.
+- Request records and logs: `docs/audits/2026-10-10-pnw-pilot-scoring/window-2026-W41/`.
+
+**Code (tests first for each).**
+
+| Commit | Change |
+|---|---|
+| 57234aa | The time-series product is cited with the publisher's text (CC-BY-4.0), and access dates are read from ts/ too |
+| 897e567 | `gate_record_attribution` added |
+| 15a6d58 | `--reviewed` added |
+| 2b1573f | weather.source names what training read |
+| 963d208 | Zip-delivery merge |
+| f7fc21e | The final/preliminary sentence |
+| 22a01c8 | Scalar coordinates of a one-stamp file |
+| 4a5faea | Window products from the window's months only; bridge text corrected |
+
+- Revert check, for 57234aa: I dropped the dataset-table entry. 9 tests ran with 2 failures naming
+  era5_land_timeseries, 0 errors and no collection errors. The file was restored from a saved copy,
+  byte-identical, and the forward change confirmed present.
+- Suite: 513 passed.
+
+**Wrong figures caught before the final publish.** A first full publish at 22:41:42Z, superseded
+at 22:43:38Z, wrote two wrong things:
+
+1. weather.source said the window read the daily-sum and time-series products. The build summary
+   lists the route of every month in the store, and the builder's `copernicus_sources` counts them
+   all. Fixed in 4a5faea.
+2. weather_bridge said the week was scored from "the store's daily statistics". That text dates
+   from before RECORD -829. Corrected in the same commit.
+
+The cell file's sha256 is the same in both runs, so the scores did not change.
+
+**Not verified.**
+
+- The chances were not recomputed independently on the real window. The store-path test recomputes
+  them on synthetic files.
+- The site does not read `gate_record_attribution`, so the credit is not on the page.
+- No site change and no Gradle build were made.

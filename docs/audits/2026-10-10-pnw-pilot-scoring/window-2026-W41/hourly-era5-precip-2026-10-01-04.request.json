@@ -1,0 +1,63 @@
+{
+  "dataset": "reanalysis-era5-single-levels",
+  "request": {
+    "product_type": [
+      "reanalysis"
+    ],
+    "variable": [
+      "total_precipitation"
+    ],
+    "area": [
+      49.5,
+      -125.0,
+      42.0,
+      -121.0
+    ],
+    "year": [
+      "2026"
+    ],
+    "month": [
+      "10"
+    ],
+    "day": [
+      "01",
+      "02",
+      "03",
+      "04"
+    ],
+    "time": [
+      "00:00",
+      "01:00",
+      "02:00",
+      "03:00",
+      "04:00",
+      "05:00",
+      "06:00",
+      "07:00",
+      "08:00",
+      "09:00",
+      "10:00",
+      "11:00",
+      "12:00",
+      "13:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "17:00",
+      "18:00",
+      "19:00",
+      "20:00",
+      "21:00",
+      "22:00",
+      "23:00"
+    ],
+    "data_format": "netcdf",
+    "download_format": "unarchived"
+  },
+  "requested_at_utc": "2026-10-11T19:17:29+00:00",
+  "seconds": 8087.2,
+  "bytes": 51633,
+  "adopted_job": "20052633-a831-49c0-87eb-e7aff2dd78cc",
+  "account": "the CDS test account (D43): the ECMWF login recorded at docs/planning/evidence/cds-credentials-report.md:37; key read by cdsapi from ~/.cdsapirc, not recorded",
+  "client": "cdsapi==0.7.7 via uv run --with"
+}
