@@ -1,0 +1,24 @@
+"""Reviewer pass 2, item 3: how close the headline interval's upper end sits to zero.
+The same cell-resample interval as headline_recompute.py, under 50 seeds (1,000 draws each),
+and once with 20,000 draws. Run: uv run python interval_seeds.py <fits dir> <prefix>"""
+import sys
+from pathlib import Path
+import numpy as np
+F, prefix = Path(sys.argv[1]), sys.argv[2]
+c = np.load(F / f"{prefix}_calendar.npz"); f = np.load(F / f"{prefix}_full.npz")
+y, pc, pf = c["y"], c["p"], f["p"]
+cells, inv = np.unique(c["cell"], return_inverse=True)
+sc = np.bincount(inv, (pc - y) ** 2); sf = np.bincount(inv, (pf - y) ** 2); k = len(cells)
+def interval(seed, n):
+    rng = np.random.Generator(np.random.PCG64(seed))
+    idx = rng.integers(0, k, (n, k))
+    d = 1 - sf[idx].sum(1) / sc[idx].sum(1)
+    return np.percentile(d, [2.5, 97.5]), float(np.mean(d >= 0))
+his = []
+for s in range(1, 51):
+    (lo, hi), _ = interval(s, 1000); his.append(hi)
+his = np.array(his)
+print(f"{prefix}: upper end over 50 seeds x 1,000 draws: min {his.min():.6f} median "
+      f"{np.median(his):.6f} max {his.max():.6f}; seeds whose interval reaches zero: {(his >= 0).sum()} of 50")
+(lo, hi), above = interval(12345, 20000)
+print(f"{prefix}: 20,000 draws: [{lo:.6f}, {hi:.6f}]; share of draws at or above zero {above:.4f}")

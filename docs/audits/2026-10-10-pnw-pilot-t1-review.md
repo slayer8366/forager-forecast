@@ -762,3 +762,56 @@ predictions in each `<prefix>_{calendar,full}.npz` and nothing of the builder's 
 
 **Verdict, item 2:** both fits hold the predicted unit set, and the hedge is labelled partial.
 Holds.
+
+### Item 3: the headline and its interval (read at `7d19c66`)
+
+The T1 headline is the all-years run only (D33 (2)): `fits/primary_t1_1000m_comparison.json`,
+labelled "T1 result", `partial` false in both fits. It is pooled over all 52,718 held-out
+cell-weeks from 11 leave-one-year-out folds, with the interval from resampling cells.
+
+**Recomputed** (`pass2_headline_main.out.txt`). My interval uses my own resampling code and seed,
+not `tm.clustered_bootstrap_skill`:
+
+| | builder | reviewer |
+|---|---|---|
+| Brier, calendar | 0.020609110 | 0.020609110 |
+| Brier, full | 0.020681984 | 0.020681984 |
+| Brier skill (full against calendar) | −0.003536 | −0.003536 |
+| 95% interval (1,000 cell resamples) | [−0.006569, −0.000100] | [−0.006777, −0.000196] |
+| AUC calendar / full | 0.7918 / 0.7828 | 0.7918 / 0.7828 |
+| verdict | "worse" | the interval lies wholly below zero |
+
+**How close the upper end sits to zero** (`pass2_interval_seeds.out.txt`):
+- Over 50 seeds of 1,000 draws each, the upper end runs from −0.00064 to −0.00006. No seed's
+  interval reaches zero.
+- With 20,000 draws the interval is [−0.00680, −0.00027], and 1.6% of draws are at or above zero.
+- The builder's −0.00010 is inside the spread across seeds. The sign of the upper end does not
+  depend on the seed.
+
+**What the headline says.** On held-out years, the weather model predicts worse than the
+calendar-and-place baseline. The difference is small, but the 95% interval lies wholly below zero.
+
+**What the rulings say about it:**
+- D5: "Each ecoregion is published only after it beats a calendar baseline on held-out years."
+- D33 (5) names only the case of an interval that includes zero ("not shown", off the map under
+  D5).
+- A wholly negative interval is a stronger failure to beat the baseline. So by my reading, D5
+  rules the full model off the map for the PNW. That is a reading of D5, not a ruling, and the
+  owner decides.
+- The hedge (2019 to 2025, PARTIAL, not the headline) gives −0.002909 with my interval
+  [−0.0077, 0.0012] ("not shown"). It does not change this, and under D33 it could not.
+
+**B4 (blocking, for publication only; the computation holds).** The T1 headline is "worse".
+Yet nothing in `models/primary_t1_1000m_full/model.json` or
+`models/primary_t1_1000m_full_years_2019_2025/model.json` says so:
+- Both were written before the comparison ran (15:58Z and 15:44Z, against 16:29Z for the main
+  comparison).
+- They carry the label "unvalidated pilot, unreviewed", the gate record and the sources, and no
+  verdict.
+- So a scoring or publishing step reading only `model.json` would publish a full model that fails
+  D5's test.
+- **The owner decides** whether the full model is withheld, or the calendar model shown, or
+  something else. This review does not pick.
+
+**Verdict, item 3:** the headline and its interval reproduce. The result is that the full model
+is worse than the calendar baseline on held-out years.
