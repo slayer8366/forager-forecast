@@ -385,6 +385,8 @@ def copernicus_sources(weather: Path | None) -> list[str]:
         out.append("era5_land_daily")
     if any(r.startswith("hourly") for r in routes):
         out.append("era5_land_hourly")
+    if any(r.startswith("reanalysis-era5-land-timeseries") for r in routes):
+        out.append("era5_land_timeseries")
     return out
 
 

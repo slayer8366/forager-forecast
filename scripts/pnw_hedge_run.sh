@@ -18,6 +18,8 @@ W=$H/weather.npz
 YEARS=2019,2020,2021,2022,2023,2024,2025
 mkdir -p "$H/fits" "$H/equivalence"
 
+uv run python scripts/pnw_ts_assemble.py "$D" > "$D/ts_assemble.log"
+uv run python scripts/pnw_cds_precip_hourly.py --out "$D/cds" aggregate > "$D/rain_aggregate.log"
 uv run python scripts/pnw_weather.py "$D/cds" "$W" > "$H/weather_build.log"
 # Review S9: the gate needs every non-sea 2019-2025 sample span, not however many have arrived.
 if ! uv run python scripts/pnw_equivalence.py "$D/records" "$W" "$D/cds" "$H/equivalence" \

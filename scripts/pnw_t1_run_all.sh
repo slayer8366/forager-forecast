@@ -21,7 +21,9 @@ fit() { # design list model
 }
 
 if [ "$step" = main ]; then
-  uv run python scripts/pnw_weather.py "$D/cds" "$W" > "$D/weather/build.log"
+  uv run python scripts/pnw_ts_assemble.py "$D" > "$D/ts_assemble.log"
+uv run python scripts/pnw_cds_precip_hourly.py --out "$D/cds" aggregate > "$D/rain_aggregate.log"
+uv run python scripts/pnw_weather.py "$D/cds" "$W" > "$D/weather/build.log"
   cp "$W.summary.json" "$D/weather/t1_pnw.summary.json"
   # D24 equivalence (reported) and the hourly land-route check (gates the fit; review S7).
   if ! uv run python scripts/pnw_equivalence.py "$D/records" "$W" "$D/cds" "$D/equivalence" \
