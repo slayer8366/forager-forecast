@@ -97,6 +97,31 @@ def chunks():
             **tail,
         },
     )
+    # Rain 2025 and the stamp that closes 2025-12-31. 267e3ad's message said these were added;
+    # that edit did not apply (its anchor text did not match the formatted code) and was not
+    # checked. Added here on 2026-10-11; the derived 2025 job was dismissed at 20:20:10 UTC.
+    yield (
+        "hourly-era5-precip-2025",
+        {
+            **base,
+            "year": ["2025"],
+            "month": ALL_MONTHS,
+            "day": ALL_DAYS,
+            "time": ALL_HOURS,
+            **tail,
+        },
+    )
+    yield (
+        "hourly-era5-precip-2026-01-01T00",
+        {
+            **base,
+            "year": ["2026"],
+            "month": ["01"],
+            "day": ["01"],
+            "time": ["00:00"],
+            **tail,
+        },
+    )
 
 
 def scoring_chunks():
