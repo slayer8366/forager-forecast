@@ -353,3 +353,29 @@ soil_temperature_mean_90d, precipitation_sum_42d, precipitation_sum_3d, soil_moi
 - Whether the "worse" verdict is robust to the bootstrap seed. One seed was used, as fixed.
 - The two D33 runs.
 - Scoring with any of these models, publishing, the map: these belong to other dispatches.
+
+### D33 (4): CC0 and CC BY records only (run 2026-10-11 17:19 to 17:35 UTC)
+
+- **How it ran:** on the planner's call after RECORD -861, alone, through the same commands as
+  `pnw_t1_run_all.sh extras` (driver `d33_4.sh` in the data folder, with an ERR trap). It ran
+  under the 5G cap at commit fa6e89e with main's gate record. The fit summaries and
+  `models/primary_t1_1000m_cc_full/model.json` carry `land_route_gate` (override used, the
+  2025-12-12T11:00 hour).
+- **Data:** primary design, all years. 9,689 units, of which 49 were dropped as sea points.
+  9,640 units kept, 102 positive, 1,152 cells.
+- **Brier:** calendar 0.01040, weather model 0.01040.
+- **Skill against the calendar:** −0.0006, interval −0.0058 to 0.0049.
+- **Verdict:** "not shown". `pnw_t1_compare.py` labels any all-years run "T1 result"; this is the
+  D33 (4) sensitivity run, not the headline.
+- **AUC:** calendar 0.793, weather model 0.772.
+- **Per year:** only 2024 (30 positives) is informative. The other years have 0 to 24 positives:
+  2015 0, 2016 1, 2017 4, 2018 2, 2019 6, 2020 11, 2021 11, 2022 9, 2023 4, 2025 24.
+
+### D33 (3): waiting on the 5,000 m list's points
+
+`scripts/pnw_cds_timeseries.py --lists t1_1000m,t1_5000m` (ffd5b88) would request 34 points:
+1,904 against the 1,870 on disk. 21 of them carry the 22 units that lack weather. The other 13
+are 5,000 m cells whose windows lie inside the gridded months, which take precedence, so those 13
+change no value. All 34 are to be pulled (planner's call). The land mask comes from the gridded
+months, which already cover every land point, so no neighbour choice changes. No request has been
+made. It waits until the scoring pull finishes.
