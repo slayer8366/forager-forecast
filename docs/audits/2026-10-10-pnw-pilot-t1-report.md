@@ -379,3 +379,36 @@ are 5,000 m cells whose windows lie inside the gridded months, which take preced
 change no value. All 34 are to be pulled (planner's call). The land mask comes from the gridded
 months, which already cover every land point, so no neighbour choice changes. No request has been
 made. It waits until the scoring pull finishes.
+
+### D33 (3): the 5,000 m list (run 2026-10-11 22:41 to 23:44 UTC)
+
+This supersedes the "waiting" note above, which stays as written. Driver: `d33_3.sh` in the data
+folder (ERR trap; this run did not fail, so its FAILED line has still not fired in a real run). Run
+under the 5G cap at commit f73b800, with main's gate record.
+
+- **Pull:** started 22:41:08 UTC, with `--lists t1_1000m,t1_5000m` and 4 in flight. It finished at
+  22:55:42: "1904/1904 points done, 0 gave up". 34 new points, one request each.
+- **Check against the gridded months:** 1,904 points, 0 failed, 5,049,408 values compared. It now
+  reads 33 gridded files, because the scoring pull's four 2026 months (2026-07 to 2026-10) are in
+  the same folder. Assembly: 1,904 points, none left out.
+- **Weather, its own file** `weather/t1_pnw_d33_3.npz`; `t1_pnw.npz` is untouched. I compared the
+  two files on every point and day they share: they are identical (largest difference 0.0, no
+  value lost). The new file fills 110,704 more land point-days for each of the three land
+  variables, and none for rain.
+  - Its summary also lists the four 2026 land months and a 2026 rain route. Both are outside the
+    file's day axis, which ends 2025-12-31 (4,140 days), and no unit reads them.
+- **Units:** 57,418 before weather, 491 dropped as sea points (1 positive), 56,927 kept, 1,365
+  positive, 2,060 cells, 8,826 of them reading a RECORD -822 neighbour. The 22 units that refused
+  at 16:54 are all kept (56,905 + 22). No unit was dropped for missing weather.
+- **Brier:** calendar 0.02267, weather model 0.02285.
+- **Skill against the calendar:** **−0.0080**, interval **−0.0120 to −0.0044**.
+- **Verdict (script):** "worse". The whole interval is below zero, the same direction as the
+  1,000 m primary result.
+- **AUC:** calendar 0.802, weather model 0.785.
+- **Per year** (* = under 30 positives, uninformative): 2015 6* −0.0155, 2016 10* 0.0103,
+  2017 17* −0.0040, 2018 32 −0.0194, 2019 91 −0.0161, 2020 133 −0.0098, 2021 145 −0.0021,
+  2022 108 −0.0132, 2023 121 0.0034, 2024 354 −0.0074, 2025 348 −0.0105.
+- **Model:** `models/primary_t1_5000m_full/model.json` carries `land_route_gate` and
+  `copernicus_sources`.
+- **Not checked:** whether the 13 extra points' time series (windows wholly in gridded months)
+  agree beyond the time-series check above.
