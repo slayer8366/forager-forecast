@@ -224,3 +224,133 @@ The file name says 2110Z; the run was at about 21:50 UTC.
   about 07:45 UTC Sunday.
 - **Gridded jobs dismissed.** fb28d705, bc01764e and 311e6e4c at 00:40:39 UTC; ed826b8b (2023-06)
   at about 00:36 to free a slot for the probe. The 30 gridded months already delivered stay in use.
+
+## Gate override and the fits (2026-10-11, Forager RECORD -854, -855)
+
+Dispatch: `docs/dispatch/2026-10-11-pnw-pilot-gate-override-restart.md` (0eba532). Base verified
+against the remote: `ae4f1e9` plus that dispatch commit only. Code for the run: `7d19c66`. Every
+fit and model below records commit `7d19c66` and `working_tree_dirty: false`.
+
+**The gate: failed, and the fail stands.** The hourly land-route check (`land_route_pass`,
+`scripts/pnw_equivalence.py:70`) failed in all four runs: the two that stopped at 14:17 and 14:19
+UTC, and the two rerun inside this chain at 15:28 (hedge) and 15:44 (main). Each time t2m at
+offset 0 matched 6,911 of 6,912 hours. stl1 and swvl1 matched 6,912 of 6,912 hours. In t2m,
+offset −1 matched 762 hours and offset +1 matched 675; in stl1, 2,356 and 2,218; in swvl1, 4,149
+and 4,133. 36 spans were compared and none was skipped. The only sea-adjacent cell compared, at its
+RECORD -822 neighbour, was 427_-1245. The hedge run compared all 25 of its 25 required spans.
+`pnw_equivalence.py` is byte-identical to `ae4f1e9`. Its `"pass": false` is in
+`equivalence/equivalence.json` and `hedge/equivalence/equivalence_partial.json` as written.
+
+**The one failing hour, reproduced with code written for this check** (`scripts/pnw_land_route_failures.py`,
+903a170). The code reads only cached responses and re-reads each failing value straight from its file.
+- **Hour:** t2m, cell 493_-1250, its own land point [493, −1250], 2025-12-12T11:00 UTC.
+- **Store:** 5.424951 °C (278.574951 K, `hourly-era5land-2025-12.hourly.nc`).
+- **Open-Meteo:** 5.5 °C.
+- **Difference:** 0.0750488, against the bound 0.075 + 1e-6.
+- **Same hour in both runs.** It is the only failing hour in either run
+  (`docs/audits/2026-10-11-gate-override/land_route_failures_{hedge,main}.json`). The main and
+  hedge runs fetched separate copies of the 39 responses, and the copies differ only in
+  `generationtime_ms`.
+- **Observed, bearing on the rounding explanation:** the other Copernicus route (the point time
+  series) gives 278.575012 K = 5.425012 °C for the same point and hour. That is just above the
+  5.425 midpoint, and against it the difference would be 0.074988, which passes. The two routes
+  straddle the midpoint at exactly this hour. How Open-Meteo rounds was not read. RECORD -854 asks
+  the reviewer to check that independently.
+
+**The override** (`scripts/pnw_gate_override.py`, 7d19c66). This is a separate step after the gate.
+- **What it does:** the run scripts take `--override "Forager RECORD -854"`. The step writes a gate
+  record: `gate_record.json` (main) and `hedge/gate_record.json`.
+- **When it goes on:** only when the override is exactly that string, every required span was
+  compared, and the failing hours agree with the run's own offset-0 counts and are exactly the
+  ruled hour.
+- **When it stops (exit 3):** in every other case, and always when no override is given.
+- **Override with a passing gate:** recorded as unused.
+- **Fits:** every fit summary and every `model.json` carries the record as `land_route_gate`. That
+  covers `gate_pass: false`, the override text and the failing hour with both values, including
+  `models/primary_t1_1000m_full/model.json`.
+- **Decided beyond the dispatch's letter:** binding the override to the ruled hour.
+- **Tests:** 11 tests, run through the command the scripts call. The suite is 458 passed.
+- **Revert check:** I changed the no-override branch to go on, after saving a copy. The run
+  collected cleanly (10 passed, 1 failed). The only failure was
+  `test_a_fail_with_no_override_stops_with_exit_3` at `assert code == 3`. I restored from the
+  saved copy, confirmed it with cmp, and the tests went back to 11 passed.
+
+**The D24 daily comparison (reported, not the gate, RECORD -819).**
+- **Result:** 30 mismatches of 1,008 compared values, all precipitation. Earlier dispatch text gave
+  20; that was the length of the first-20 list (RECORD -855).
+- **Largest differences:** temperature 0.056 °C, soil temperature 0.068 °C, soil moisture 0.0003,
+  rain 5.005 mm.
+- **Summed rain:** Open-Meteo / store = 0.982 (1,251.7 mm against 1,274.4 mm).
+- **Rain convention:** over 252 days, the store is closer to Open-Meteo's hours 01–24 on 92 days
+  and to hours 00–23 on 24 days; 136 days tie. The mean absolute differences are 0.107 and
+  0.455 mm.
+
+**Primary design, all years, 2015 to 2025: the T1 result** (`fits/primary_t1_1000m_comparison.log`).
+- **Units:** 52,718 cell-weeks, 1,138 positive, 2,024 cells.
+- **Weather drops:** 468 units were dropped as sea points (1 of them positive). Of the units kept,
+  44,482 read their own land point and 8,236 read a RECORD -822 neighbour (188 of those positive).
+- **Brier:** calendar 0.02061, weather model 0.02068.
+- **Pooled Brier skill against the calendar:** **−0.004** (−0.0035). Its 95% interval, from 1,000
+  resamples of cells, is **−0.0066 to −0.0001**.
+- **Verdict (script):** "worse". The whole interval is below zero, so under D33 (5) this is not
+  "not shown": the weather model scored worse than the calendar on held-out years. The upper end is
+  0.0001 from zero.
+- **AUC:** calendar 0.792, weather model 0.783.
+
+| Year held out | Positive cell-weeks | Brier skill against the calendar | Informative? |
+|---|---|---|---|
+| 2015 | 3 | 0.0173 | no |
+| 2016 | 7 | −0.0125 | no |
+| 2017 | 12 | −0.0202 | no |
+| 2018 | 27 | −0.0189 | no |
+| 2019 | 72 | −0.0093 | yes |
+| 2020 | 107 | 0.0015 | yes |
+| 2021 | 115 | 0.0027 | yes |
+| 2022 | 89 | 0.0048 | yes |
+| 2023 | 97 | 0.0080 | yes |
+| 2024 | 300 | −0.0063 | yes |
+| 2025 | 309 | −0.0080 | yes |
+
+Top features by gain in the weather model: doy_sin, longitude, latitude,
+soil_temperature_mean_90d, precipitation_sum_42d, precipitation_sum_3d, soil_moisture_mean_90d.
+
+**Random-date design (D13; a comparison only)** (`fits/secondary_t1_1000m_comparison.log`).
+- **Units:** 16,042, 1,234 positive, 504 cells; 13 units dropped as sea points.
+- **Skill:** −0.0022, interval −0.0075 to 0.0031.
+- **Verdict:** "not shown".
+- **AUC:** calendar 0.793, weather model 0.804.
+
+**The 2019–2025 hedge (PARTIAL, not the T1 result)** (`hedge/fits/comparison.log`).
+- **Units:** 49,235, 1,089 positive.
+- **Skill:** −0.0029, interval −0.0073 to 0.0011.
+- **Verdict:** "not shown".
+- **Its model:** `models/primary_t1_1000m_full_years_2019_2025`.
+
+**Scoring models.**
+- **`models/primary_t1_1000m_full/model.json`:** written 15:58:06 UTC, config c10, years 2015 to
+  2025. It holds `copernicus_sources` (era5_daily_sum, era5_hourly_precipitation, era5_land_hourly,
+  era5_land_timeseries) and `land_route_gate`.
+- **Other models carrying the gate record:** `secondary_t1_1000m_full` and the hedge model.
+
+**D33 (3) and (4): not run.**
+- **What happened:** `pnw_t1_run_all.sh extras` started at 16:54:20 UTC. Its first fit (5,000 m
+  list, calendar) refused at 16:54:23: "weather missing for 22 units (months not pulled)".
+- **Why:** the 22 units sit in 21 cells that are in the 5,000 m list but not the 1,000 m list. The
+  time-series pull fetched only the points the 1,000 m list reads
+  (`pnw_cds_timeseries.points_needed` reads `t1_1000m.csv`). So these 21 points have land
+  values only in the 29 gridded months, and each of these units' windows reaches some of the
+  other 107 months.
+- **D33 (4) (the CC0/CC BY list):** has no missing units. It was not reached, because the extras
+  loop stops at the first failure.
+- **Chain log:** recorded no failure line. A copy with an ERR trap that writes one is now
+  `scripts/pnw_override_chain.sh`.
+- **My error:** my own wait loop matched its own command line (`pgrep -f override_chain.sh`), so I
+  did not see the stop. The independent reviewer found it.
+
+**Not checked.**
+- Open-Meteo's rounding (for the reviewer, RECORD -854).
+- The time-series route's values at any other hour of the sample.
+- Whether the "worse" verdict is robust to the bootstrap seed. One seed was used, as fixed.
+- The two D33 runs.
+- Scoring with any of these models, publishing, the map: these belong to other dispatches.
+- The real-inset and device questions don't apply here.
