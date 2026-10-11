@@ -625,6 +625,15 @@ processor. Until that script is committed, the trace is a claim with no checkabl
   The equivalence result will show the neighbour cell among `neighbour_cells_compared`, with its
   hours inside the offset-0 counts.
 
+## State at hand-back (2026-10-11 00:13 UTC)
+
+- No pilot commit since `f6bc9a3` (15:07 PDT).
+- The hourly pull is still running, and was retrying a DNS failure at the time (`pull_hourly.log`,
+  last lines).
+- Local fit outputs exist but are not pushed, and were not reviewed: the primary and secondary
+  calendar fits, and `final_calendar.log`.
+- The pass-2 items below need a new review session once results are pushed.
+
 ## Pass 2
 
 Pending:
