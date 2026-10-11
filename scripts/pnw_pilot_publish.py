@@ -92,6 +92,7 @@ def main() -> int:
     ap.add_argument("--repo-copy", action="store_true")
     ap.add_argument("--beats-calendar", choices=["true", "false", "null"], default="null")
     ap.add_argument("--t1-result", default="")
+    ap.add_argument("--reviewed", choices=["true", "false"], default="false")
     a = ap.parse_args()
     year, wk = a.week.split("-W")
     week = IsoWeek(int(year), int(wk))
@@ -111,6 +112,8 @@ def main() -> int:
         a.beats_calendar,
         "--t1-result",
         a.t1_result,
+        "--reviewed",
+        a.reviewed,
     ]
     if a.kind == "calendar":
         cmd += ["--land-from-store", str(a.store)]

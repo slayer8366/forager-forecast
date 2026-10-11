@@ -36,3 +36,25 @@ def test_a_product_requested_over_several_days_gets_a_range(tmp_path):
     assert accessed_dates([ts], {"era5_land_timeseries"}) == {
         "era5_land_timeseries": "10-Oct-2026 to 11-Oct-2026"
     }
+
+
+def test_publish_passes_reviewed_through_to_scoring(monkeypatch):
+    import pnw_pilot_publish
+
+    seen = {}
+
+    def fake_run(cmd, cwd=None):
+        seen["cmd"] = cmd
+        return type("Done", (), {"returncode": 7})()
+
+    monkeypatch.setattr(pnw_pilot_publish.subprocess, "run", fake_run)
+    monkeypatch.setattr(sys, "argv", ["pnw_pilot_publish.py", "--kind", "calendar"])
+    assert pnw_pilot_publish.main() == 7
+    cmd = seen["cmd"]
+    assert cmd[cmd.index("--reviewed") + 1] == "false"
+    monkeypatch.setattr(
+        sys, "argv", ["pnw_pilot_publish.py", "--kind", "calendar", "--reviewed", "true"]
+    )
+    assert pnw_pilot_publish.main() == 7
+    cmd = seen["cmd"]
+    assert cmd[cmd.index("--reviewed") + 1] == "true"

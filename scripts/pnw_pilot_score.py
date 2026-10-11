@@ -46,6 +46,12 @@ from forager_forecast.t1_design import BOXES  # noqa: E402
 CALENDAR_NAMES = ["doy_sin", "doy_cos", "latitude", "longitude"]
 FORBIDDEN = ("fruiting probability", "probability of finding", "chance of finding")
 
+STATUS_LABEL = {
+    "false": "Unvalidated pilot. Unreviewed. Shown whether or not it beats the calendar.",
+    # The owner's wording, verbatim (Forager RECORD -863).
+    "true": "Pilot, not yet validated. Its figures were checked by an independent review. Shown "
+    "whether or not it beats the seasonal calendar.",
+}
 SIGHTING_CHANCE = (
     "Sighting chance: the chance chanterelles are reported in this weather cell this week, given "
     "at least one fungal observation of any kind there that week (D12). It is not the chance "
@@ -165,6 +171,12 @@ def main() -> int:
     ap.add_argument("--bridge", default="")
     ap.add_argument("--beats-calendar", choices=["true", "false", "null"], default="null")
     ap.add_argument("--t1-result", default="", help="JSON text of the builder's headline, or empty")
+    ap.add_argument(
+        "--reviewed",
+        choices=["true", "false"],
+        default="false",
+        help="true once the independent review's figures reproduce (Forager RECORD -861)",
+    )
     ap.add_argument(
         "--copernicus-sources",
         default="",
@@ -323,10 +335,8 @@ def main() -> int:
         "published_at": datetime.now(UTC).isoformat(timespec="seconds"),
         "pilot": True,
         "validated": False,
-        "reviewed": False,
-        "status_label": (
-            "Unvalidated pilot. Unreviewed. Shown whether or not it beats the calendar."
-        ),
+        "reviewed": a.reviewed == "true",
+        "status_label": STATUS_LABEL[a.reviewed],
         "model_kind": kind_label,
         "model_kind_note": {
             "synthetic": "SYNTHETIC SAMPLE: a tiny model on random numbers, for drawing only. "

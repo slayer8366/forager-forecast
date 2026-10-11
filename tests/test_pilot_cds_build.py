@@ -343,3 +343,23 @@ def test_a_gate_record_in_the_model_is_credited_at_top_level(store):
 
 def test_no_gate_record_means_no_gate_credit(store):
     assert _full_manifest(store)["gate_record_attribution"] is None
+
+
+REVIEWED_LABEL = (
+    "Pilot, not yet validated. Its figures were checked by an independent review. Shown whether "
+    "or not it beats the seasonal calendar."
+)  # the owner's wording, verbatim (Forager RECORD -863)
+
+
+def test_reviewed_true_sets_the_field_and_the_owners_label(store):
+    manifest = _full_manifest(store, "--reviewed", "true")
+    assert (manifest["pilot"], manifest["validated"], manifest["reviewed"]) == (True, False, True)
+    assert manifest["status_label"] == REVIEWED_LABEL
+
+
+def test_reviewed_defaults_to_false_with_the_label_unchanged(store):
+    manifest = _full_manifest(store)
+    assert manifest["reviewed"] is False
+    assert manifest["status_label"] == (
+        "Unvalidated pilot. Unreviewed. Shown whether or not it beats the calendar."
+    )
