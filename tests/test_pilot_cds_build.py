@@ -363,3 +363,39 @@ def test_reviewed_defaults_to_false_with_the_label_unchanged(store):
     assert manifest["status_label"] == (
         "Unvalidated pilot. Unreviewed. Shown whether or not it beats the calendar."
     )
+
+
+def test_full_weather_source_names_what_scoring_and_training_each_read(store):
+    trained = ["era5_daily_sum", "era5_hourly_precipitation", "era5_land_hourly",
+               "era5_land_timeseries"]  # fmt: skip
+    text = _full_manifest(store, copernicus_sources=trained)["weather"]["source"]
+    scoring, training = text.split("Training read: ")
+    # The fixture's window comes from the two daily-statistics products.
+    assert "derived-era5-land-daily-statistics" in scoring
+    assert "derived-era5-single-levels-daily-statistics" in scoring
+    assert "reanalysis-era5-land " not in scoring and "timeseries" not in scoring
+    for name in ("derived-era5-single-levels-daily-statistics", "reanalysis-era5-single-levels ",
+                 "reanalysis-era5-land ", "reanalysis-era5-land-timeseries"):  # fmt: skip
+        assert name in training, name
+    assert "derived-era5-land-daily-statistics" not in training
+    assert "the products and requests training used" not in text
+
+
+def test_full_weather_source_says_so_when_training_sources_are_not_recorded(store):
+    text = _full_manifest(store)["weather"]["source"]
+    assert "Training read: not recorded in model.json" in text
+
+
+def test_calendar_weather_source_text_is_unchanged(store):
+    _calendar_model(store / "cal")
+    done = _score(
+        store, "--land-from-store", str(store / "cds"), "--model", str(store / "cal"),
+        "--kind", "calendar",
+    )  # fmt: skip
+    assert done.returncode == 0, done.stderr
+    manifest = json.loads(
+        (store / "out" / "pnw-pilot" / "2026-10-05" / "manifest.json").read_text()
+    )
+    assert manifest["weather"]["source"] == (
+        "none: calendar model, land cells from the store's ERA5-Land grid"
+    )

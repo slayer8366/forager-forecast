@@ -32,7 +32,7 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).parent))
-from pnw_t1_fit import calendar_matrix  # noqa: E402
+from pnw_t1_fit import calendar_matrix, copernicus_sources  # noqa: E402
 from pnw_weather import _index, land_has_value, load, weather_matrix  # noqa: E402
 
 from forager_forecast import live_weather as lw  # noqa: E402
@@ -45,6 +45,39 @@ from forager_forecast.t1_design import BOXES  # noqa: E402
 
 CALENDAR_NAMES = ["doy_sin", "doy_cos", "latitude", "longitude"]
 FORBIDDEN = ("fruiting probability", "probability of finding", "chance of finding")
+
+# What each store product is, for weather.source (routes as built in scripts/pnw_weather.py,
+# pnw_cds_hourly_pull.py, pnw_cds_precip_hourly.py and pnw_cds_timeseries.py).
+PRODUCT_TEXT = {
+    "era5_land_daily": "derived-era5-land-daily-statistics (daily_mean of 2m_temperature, "
+    "soil_temperature_level_1, volumetric_soil_water_layer_1; time_zone utc+00:00, frequency "
+    "1_hourly)",
+    "era5_daily_sum": "derived-era5-single-levels-daily-statistics (daily_sum of "
+    "total_precipitation; time_zone utc+00:00, frequency 1_hourly)",
+    "era5_land_hourly": "reanalysis-era5-land (hourly 2m_temperature, soil_temperature_level_1, "
+    "volumetric_soil_water_layer_1, averaged over the 24 UTC hours of each day)",
+    "era5_hourly_precipitation": "reanalysis-era5-single-levels (hourly total_precipitation, "
+    "summed per UTC day from the 01:00 stamp to the next day's 00:00 stamp)",
+    "era5_land_timeseries": "reanalysis-era5-land-timeseries (point series of the same three "
+    "ERA5-Land variables, averaged over the 24 UTC hours of each day)",
+}
+
+
+def products(keys) -> str:
+    return "; ".join(PRODUCT_TEXT[k] for k in sorted(keys)) + "."
+
+
+def copernicus_source_text(npz: Path, meta: dict) -> str:
+    """weather.source for the weather model: what the scoring window read (the window's build
+    summary) and what training read (model.json copernicus_sources), each stated, not assumed."""
+    trained = meta.get("copernicus_sources")
+    return (
+        "Copernicus Climate Data Store (owner, Forager RECORD -819). Scoring window read: "
+        + products(copernicus_sources(npz))
+        + " Training read: "
+        + (products(trained) if trained else "not recorded in model.json.")
+    )
+
 
 STATUS_LABEL = {
     "false": "Unvalidated pilot. Unreviewed. Shown whether or not it beats the calendar.",
@@ -413,11 +446,7 @@ def main() -> int:
         "weather_source": source,
         "weather": {
             "source": (
-                "Copernicus Climate Data Store: derived-era5-land-daily-statistics (daily_mean "
-                "of 2m_temperature, soil_temperature_level_1, volumetric_soil_water_layer_1) and "
-                "derived-era5-single-levels-daily-statistics (daily_sum of total_precipitation), "
-                "time_zone utc+00:00, frequency 1_hourly: the products and requests training "
-                "used (owner, Forager RECORD -819)"
+                copernicus_source_text(npz, meta)
                 if source == "copernicus"
                 else "none: calendar model, land cells from the store's ERA5-Land grid"
                 if source == "none"
