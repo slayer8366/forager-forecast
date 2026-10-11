@@ -1,0 +1,69 @@
+{
+  "dataset": "reanalysis-era5-land",
+  "request": {
+    "variable": [
+      "2m_temperature",
+      "soil_temperature_level_1",
+      "volumetric_soil_water_layer_1"
+    ],
+    "year": "2026",
+    "month": "10",
+    "day": [
+      "01",
+      "02",
+      "03",
+      "04"
+    ],
+    "time": [
+      "00:00",
+      "01:00",
+      "02:00",
+      "03:00",
+      "04:00",
+      "05:00",
+      "06:00",
+      "07:00",
+      "08:00",
+      "09:00",
+      "10:00",
+      "11:00",
+      "12:00",
+      "13:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "17:00",
+      "18:00",
+      "19:00",
+      "20:00",
+      "21:00",
+      "22:00",
+      "23:00"
+    ],
+    "area": [
+      49.5,
+      -125.0,
+      42.0,
+      -121.0
+    ],
+    "data_format": "netcdf",
+    "download_format": "unarchived"
+  },
+  "requested_at_utc": "2026-10-11T17:17:09+00:00",
+  "seconds": 6698.0,
+  "hourly_bytes": 1335581,
+  "hourly_sha256": "00fd342755a9a573c6f3b1e81b6a44d0d3530d9da677453908ee0bc9cc1a52cb",
+  "hourly_file_kept": true,
+  "aggregated_to": "hourly-era5land-2026-10.daily.h5",
+  "aggregation": {
+    "days": 4,
+    "incomplete_days": {
+      "t2m": 0,
+      "stl1": 0,
+      "swvl1": 0
+    }
+  },
+  "account": "the CDS test account (D43): the ECMWF login recorded at docs/planning/evidence/cds-credentials-report.md:37; key read by cdsapi from ~/.cdsapirc, not recorded",
+  "client": "cdsapi==0.7.7 via uv run --with",
+  "adopted_job": null
+}
