@@ -353,4 +353,3 @@ soil_temperature_mean_90d, precipitation_sum_42d, precipitation_sum_3d, soil_moi
 - Whether the "worse" verdict is robust to the bootstrap seed. One seed was used, as fixed.
 - The two D33 runs.
 - Scoring with any of these models, publishing, the map: these belong to other dispatches.
-- The real-inset and device questions don't apply here.
