@@ -736,3 +736,29 @@ requirement is empty there. The hedge's record has `true`.
 **Verdict, item 1:** the equivalence result and the failing hour reproduce exactly. The rounding
 explanation holds on the data, beyond what RECORD -855 claimed ("supports without proving"). Two
 parts remain inferences about the other service's internals, as listed above.
+
+### Item 2: both fits on the weather unit set, hedge and main (read at `7d19c66`)
+
+**Recomputed** with my own code (`pass2_headline_recompute.py.txt`; outputs
+`pass2_headline_main.out.txt` and `pass2_headline_hedge.out.txt`). It reads the held-out
+predictions in each `<prefix>_{calendar,full}.npz` and nothing of the builder's but those arrays.
+- **Main run, primary design** (`fits/primary_t1_1000m_{calendar,full}.npz`, commit `7d19c66`
+  in both summaries):
+  - **52,718 units and 1,138 positives in both fits, with the same units, labels and order.**
+  - That is exactly pass 1's prediction (line 383), written before any weather summary existed.
+  - 8,236 units read a neighbour, also exactly as predicted. They hold 188 positives.
+  - 2,024 cells. The prediction is met, so neither the land mask nor missing days removed
+    anything unexpected.
+- **Hedge run, primary design** (`hedge/fits/`):
+  - 49,235 units and 1,089 positives on 2019 to 2025, the same in both fits. 7,628 units read a
+    neighbour.
+  - Every 2019 to 2025 fold holds the same units and positives as the main run's fold for that
+    year (2,965/72 for 2019, and so on). So N14's possible 2019 drop did not happen.
+  - Both summaries say `partial: true` and "PARTIAL: a fit on a subset of years, not the T1
+    result".
+- **Fold year:** units dated 29 to 31 December sit in the next year's fold (322 units). That is
+  the ISO year, as `pnw_t1_fit.py:8-10` states for the primary design. Not a fault.
+- Brier and AUC for every fit reproduce the builder's to the printed precision.
+
+**Verdict, item 2:** both fits hold the predicted unit set, and the hedge is labelled partial.
+Holds.

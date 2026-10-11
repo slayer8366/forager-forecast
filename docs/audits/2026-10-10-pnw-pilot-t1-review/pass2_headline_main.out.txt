@@ -1,0 +1,42 @@
+== primary_t1_1000m
+  same units and labels in both runs: True; unit year == fold year: False; unit cell == cell: True
+  units 52718 positives 1138 cells 2024 (builder 52718 1138 2024)
+  land_point classes: {np.str_('neighbour'): 8236, np.str_('own'): 44482}; positives on neighbour units 188
+  brier calendar 0.020609110 full 0.020681984 (builder 0.020609110 0.020681984)
+  skill -0.003536 (builder -0.003536)
+  my 95% cell-resample interval [-0.006777, -0.000196] (builder -0.006569, -0.000100); share of my draws below 0: 0.977
+  auc calendar 0.791807 full 0.782758 (builder 0.791807 0.782758)
+  per fold (year units positives informative>=30 brier_cal brier_full skill | builder match):
+    2015    391    3 False 0.008535 0.008387 +0.017347 | True
+    2016    580    7 False 0.011984 0.012133 -0.012453 | True
+    2017    842   12 False 0.013388 0.013659 -0.020175 | True
+    2018   1670   27 False 0.015641 0.015937 -0.018901 | True
+    2019   2965   72 True  0.022917 0.023129 -0.009254 | True
+    2020   5329  107 True  0.019366 0.019337 +0.001505 | True
+    2021   6315  115 True  0.017606 0.017559 +0.002686 | True
+    2022   6482   89 True  0.013081 0.013018 +0.004762 | True
+    2023   8297   97 True  0.011781 0.011687 +0.007960 | True
+    2024   9342  300 True  0.030144 0.030332 -0.006257 | True
+    2025  10505  309 True  0.027826 0.028049 -0.007995 | True
+  pooled skill over informative folds only: -0.002977 (49235 units)
+== secondary_t1_1000m
+  same units and labels in both runs: True; unit year == fold year: True; unit cell == cell: True
+  units 16042 positives 1234 cells 504 (builder 16042 1234 504)
+  land_point classes: {np.str_('neighbour'): 2613, np.str_('own'): 13429}; positives on neighbour units 201
+  brier calendar 0.065740309 full 0.065885801 (builder 0.065740309 0.065885801)
+  skill -0.002213 (builder -0.002213)
+  my 95% cell-resample interval [-0.007393, 0.003270] (builder -0.007470, 0.003062); share of my draws below 0: 0.778
+  auc calendar 0.793393 full 0.804458 (builder 0.793393 0.804458)
+  per fold (year units positives informative>=30 brier_cal brier_full skill | builder match):
+    2015   1368    3 False 0.013266 0.016073 -0.211602 | True
+    2016   1399    8 False 0.015815 0.021352 -0.350099 | True
+    2017   1355   12 False 0.017627 0.019279 -0.093702 | True
+    2018   1401   29 False 0.026384 0.026987 -0.022870 | True
+    2019   1432   81 True  0.051310 0.051067 +0.004736 | True
+    2020   1397  111 True  0.063479 0.063240 +0.003765 | True
+    2021   1507  122 True  0.066312 0.066986 -0.010165 | True
+    2022   1461   98 True  0.057141 0.056397 +0.013026 | True
+    2023   1432   99 True  0.057811 0.057945 -0.002322 | True
+    2024   1636  345 True  0.164405 0.161125 +0.019955 | True
+    2025   1654  326 True  0.154873 0.150999 +0.025013 | True
+  pooled skill over informative folds only: +0.012937 (10519 units)

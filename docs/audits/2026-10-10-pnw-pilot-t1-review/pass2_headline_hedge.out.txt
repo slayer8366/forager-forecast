@@ -1,0 +1,17 @@
+== primary_t1_1000m
+  same units and labels in both runs: True; unit year == fold year: False; unit cell == cell: True
+  units 49235 positives 1089 cells 2009 (builder 49235 1089 2009)
+  land_point classes: {np.str_('neighbour'): 7628, np.str_('own'): 41607}; positives on neighbour units 183
+  brier calendar 0.021085430 full 0.021146762 (builder 0.021085430 0.021146762)
+  skill -0.002909 (builder -0.002909)
+  my 95% cell-resample interval [-0.007666, 0.001209] (builder -0.007335, 0.001137); share of my draws below 0: 0.899
+  auc calendar 0.786965 full 0.784504 (builder 0.786965 0.784504)
+  per fold (year units positives informative>=30 brier_cal brier_full skill | builder match):
+    2019   2965   72 True  0.023018 0.023269 -0.010908 | True
+    2020   5329  107 True  0.019325 0.019341 -0.000820 | True
+    2021   6315  115 True  0.017621 0.017609 +0.000629 | True
+    2022   6482   89 True  0.013058 0.013027 +0.002337 | True
+    2023   8297   97 True  0.011765 0.011705 +0.005105 | True
+    2024   9342  300 True  0.030070 0.030194 -0.004107 | True
+    2025  10505  309 True  0.027841 0.028012 -0.006166 | True
+  pooled skill over informative folds only: -0.002909 (49235 units)
