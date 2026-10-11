@@ -450,3 +450,19 @@ The cell file's sha256 is the same in both runs, so the scores did not change.
   byte. They are cut from the same features as the identical combined file.
 - Correction to the free-weather-API check above: after this change, the service's name in text
   appears only in `gate_record_attribution`.
+
+**Republished 2026-10-11T23:41:25Z for "This forecast's weather" (Forager RECORD -895, commit
+92cd265, test first).**
+
+- `cantharellus.geojson`: still byte-identical, sha256 ac6038d3...a395. The 40 block files were
+  also byte-identical (`sha256sum -c` against hashes taken just before this run).
+- New `manifest.json`: 14,085 bytes, sha256
+  aae1e57bdbcd169d89ba9f9899891f383f3ae398b0827ef72b50418383d7ae22.
+- **Slip:** a weather fit (`pnw_t1_fit.py --list t1_5000m`, pids 845648/845651) was running when
+  this publish ran. My check printed the fact but did not stop the command. The publish ran under
+  the 5G cap and took seconds.
+- **Not changed, reported:** "this week" still appears once in the manifest, in
+  `sighting_chance_meaning` (D12's definition, `SIGHTING_CHANCE` in scripts/pnw_pilot_score.py:116).
+  - That field is published already, the same text as in the calendar manifest the site serves.
+  - The site's pilot.js does not read it.
+  - Changing it would reword a published definition, so the decision is the owner's.

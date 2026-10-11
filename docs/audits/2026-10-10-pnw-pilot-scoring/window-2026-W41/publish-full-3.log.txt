@@ -1,0 +1,4 @@
+2026-10-11T23:41:25+00:00 full: 2618 cells scored of 3116, omitted {'no_era5_land_value_at_cell_or_neighbour_(sea)': 498, 'incomplete_weather_window': 0}; 42 files, 3205066 bytes under /home/zynergy-labs/Zynergy/forecast-data-pnw-pilot/scoring/out/pnw-pilot/2026-10-05
+2026-10-11T23:41:25+00:00   pnw-pilot/2026-10-05/cantharellus.geojson sha256 ac6038d39114e28c618bd5afc6c512f75dbdaf9b60d5aab8837c33a8d121a395
+2026-10-11T23:41:25+00:00   pnw-pilot/2026-10-05/manifest.json sha256 aae1e57bdbcd169d89ba9f9899891f383f3ae398b0827ef72b50418383d7ae22
+over the repository's 1 MB limit, not copied: [PosixPath('/home/zynergy-labs/Zynergy/forecast-data-pnw-pilot/scoring/out/pnw-pilot/2026-10-05/cantharellus.geojson')]
