@@ -644,3 +644,95 @@ Pending:
 - the random-date comparison.
 
 Each will be traced to its output file and sample.
+
+Pass 2 is written below, item by item, against `pnw-pilot-t1` at `7d19c66` (merged into this
+branch at `398347b`). Base verified against the remote before starting: `pnw-pilot-t1-review` at
+`3e5aa7d`, `pnw-pilot-t1` at `7d19c66`. The data read are in
+`~/Zynergy/forecast-data-pnw-pilot/`, read in place, never written. Scripts and outputs are in
+`2026-10-10-pnw-pilot-t1-review/pass2_*`.
+
+**State found at 16:58 UTC, a wrong premise in the dispatch.** The planner's note said the extras
+run was in progress. It is not: it stopped about three seconds after it started.
+- `override_chain.log` ends at "16:54:20Z extras", with no "extras exit" line and no "chain
+  finished". No fit process, chain shell or run script is running (`ps`, observed).
+- `fits/primary_t1_5000m_calendar.log` holds two lines: "57418 units, 1366 positive", then
+  "weather missing for 22 units (months not pulled); a run over all years refuses them (review
+  B3)".
+- So the first extras fit (D33 (3), the 5,000 m list) refused to start under the B3 guard, and
+  `set -euo pipefail` in `override_chain.sh` ended the chain before it wrote an exit line. Inferred:
+  the 5,000 m list reaches cells, or days, whose weather the 1,000 m pull never fetched. D33 (3)
+  and (4) have no output. Item 5 below covers what can be checked (the random-date comparison,
+  which ran in main).
+
+### Item 1: the equivalence result, the failing hour and the override (RECORD -854)
+
+**Recomputed** with my own code (`pass2_rounding_check.py.txt`), which imports nothing from the
+builder. It reads the 36 cached Open-Meteo bodies the main run used
+(`equivalence/open-meteo/`), the gridded hourly months (`cds/hourly-era5land-YYYY-MM.hourly.nc`)
+and the time-series zips (`ts/pt_*.zip`) directly. The three `427_-1245_*` bodies are that sea
+cell's rain requests at its centre; its land variables come from `427_-1244_*` (RECORD -822, S10).
+The hedge's cached bodies hold the same hourly and daily data as the main run's, all 39 compared
+field by field, and both runs read the same store files. So one recomputation covers both runs.
+
+**The gate's figures reproduce exactly** (`pass2_rounding_check.out.txt`):
+- Offset-0 matched/compared: t2m 6,911/6,912, stl1 6,912/6,912, swvl1 6,912/6,912.
+- Offsets −1 and +1: t2m 762 and 675, stl1 2,356 and 2,218, swvl1 4,149 and 4,133.
+- These equal `equivalence/equivalence.json`, the hedge's `equivalence.log` and both
+  `gate_record.json` files.
+- **One failing hour, the same in both runs:** t2m, cell `493_-1250` (own land point),
+  2025-12-12T11:00 UTC.
+  - Store (gridded month) 5.424951 °C, Open-Meteo 5.5 °C.
+  - Difference 0.0750488, bound 0.075001.
+  - The time-series route gives 5.425012 °C for the same hour.
+- The gate code is byte-identical to `ae4f1e9`: `scripts/pnw_equivalence.py` is not in
+  `git diff ae4f1e9 7d19c66`. `land_route_pass`, `HOURLY_TOL` and `EPS` are unchanged, and the
+  gate still writes `"pass": false`.
+
+**The rounding explanation holds. It is tested on every compared hour, not only argued from the
+one that failed.** I modelled Open-Meteo's temperature as the store value rounded to 0.05 °C,
+then shown at 0.1 °C with halves going up, and checked that model against every hour:
+- Applied to the **time-series route's** value, the model predicts Open-Meteo's number exactly
+  for **6,912 of 6,912** t2m hours and **6,912 of 6,912** stl1 hours.
+- Applied to the **gridded route's** value (2,112 hours where a gridded month exists), it
+  predicts 2,110 of 2,112 for each variable. The four misses (two t2m, two stl1):
+  - each lies within 0.00005 °C of a 0.05 °C rounding midpoint;
+  - in each, the time-series value lies on the other side of that midpoint;
+  - in each, Open-Meteo shows the time-series side's rounding.
+- The failing hour is one of those four. The other three miss by 0.025 °C on display, well
+  inside the bound. Only this one lands on the far side of the bound.
+- Where both routes hold the same hour (about 1,750 hours per variable), they differ by 0.5 to 4
+  units of 2⁻¹⁴ K, up to 0.00024 K.
+
+**What holds and what is inferred:**
+- **Observed:** a 0.05-then-0.1 double rounding of the time-series route's value reproduces every
+  one of 13,824 temperature hours, including the failing one. So 0.075 is the bound for that
+  scheme's worst case, and the one failure comes from which Copernicus route the store read
+  that month, not from a misaligned or wrong value.
+- **Inferred, not checkable from here:** that Open-Meteo stores at 0.05 °C. Also that its own
+  source decodes like the time-series route.
+- **A carried figure, corrected.** RECORD -854's "the two Copernicus routes differ by up to
+  0.00016 K (`ts_check.log`)" is a daily-mean figure: `pnw_ts_check.py` compares daily means
+  (docstring `:5-9`). Hour by hour, on this sample, the routes differ by up to 0.00024 K. That
+  widens the room for a flip, so it does not weaken the explanation. It is still the wrong figure
+  to quote for one hour.
+
+**The daily comparison (D24, reported, not gating) also reproduces**
+(`pass2_daily_recount.py.txt`, `.out.txt`): **30 mismatches of 1,008 values, all precipitation.**
+- The Open-Meteo side was re-read from the bodies: 0 differ from `equivalence_values.json`.
+- The land store side was recomputed as 24-hour UTC means of the time-series route: 0 differ.
+- The match flags were recomputed with the committed tolerances: 0 differ.
+- The rain store side was **not** recomputed; it is the builder's.
+- This agrees with RECORD -855.
+
+**The override path** (`scripts/pnw_gate_override.py`) goes on only when all of these hold:
+- the override string is exactly "Forager RECORD -854";
+- the failing hours equal `RULED_HOURS`, the one hour above;
+- the failures file agrees with the run's offset-0 counts.
+
+Both runs' records say `"gate_pass": false`, name the hour, and say `"override": "used: …"`.
+The main run's record has `spans_complete: null`: main requires no years, so the gate's span
+requirement is empty there. The hedge's record has `true`.
+
+**Verdict, item 1:** the equivalence result and the failing hour reproduce exactly. The rounding
+explanation holds on the data, beyond what RECORD -855 claimed ("supports without proving"). Two
+parts remain inferences about the other service's internals, as listed above.
