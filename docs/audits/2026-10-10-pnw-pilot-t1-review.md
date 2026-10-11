@@ -910,3 +910,39 @@ saved copy, never from git.
 - Every model and fit summary carries the gate failure, the override and the hour.
 - The daily count is not in `model.json`, which nothing required.
 - The builder's report does not carry the labels yet.
+
+## Pass 2 verdict (read at `7d19c66`, 2026-10-11)
+
+**Every figure I set out to recompute reproduces.** The weather model does not beat the calendar
+baseline: the T1 headline is negative, with an interval wholly below zero.
+
+**Blocking:**
+- **B4.** The T1 headline (all years, D33 (2)) is skill −0.0035, 95% interval about −0.0067 to
+  −0.0001 (the builder's and mine agree; no seed of 50 reaches zero). Under D5 as I read it, the
+  full model may not be published for the PNW.
+  - Neither full-model `model.json`, the all-years one or the 2019 to 2025 scoring model, says so.
+  - So the scoring and site dispatches, which start from those files, would publish it.
+  - What to publish instead (nothing, the calendar model, or a labelled exception) is the owner's
+    call.
+  - This blocks publication only. The computation itself holds.
+
+**Should-fix:**
+- **S11.** The extras run (D33 (3) and (4), RECORD -828) refused at its first fit: 22 units have
+  no weather. The chain then stopped with no exit line, so its log reads as a run in progress.
+- The builder's report section for the override (gate-override dispatch, step 3) is not pushed.
+  The report at `7d19c66` does not carry the gate failure, the override or the 30-of-1,008 count.
+
+**Notes:**
+- RECORD -854 quotes `ts_check.log`'s 0.00016 K as the hourly gap between the two Copernicus
+  routes. It is a daily-mean figure. Hour by hour the gap reaches 0.00024 K on the sample. This
+  does not change the explanation.
+- The rounding explanation holds on every hour, which is more than RECORD -855's "supports without
+  proving". A 0.05 °C then 0.1 °C rounding of the time-series route's value gives Open-Meteo's
+  number for 13,824 of 13,824 temperature hours. The gridded route's four misses all sit within
+  0.00005 °C of a midpoint, the failing hour among them. Still inferred: Open-Meteo's internal
+  storage step and source.
+- N10 (north/south tie untested) and N15 (for T10) stay open from pass 1.
+
+**May the full model be published as reviewed? No.** Its held-out skill against the calendar
+baseline is negative, with an interval below zero, so it fails D5's test. Whether anything else
+is shown instead is for the owner.
