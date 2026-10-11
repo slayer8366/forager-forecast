@@ -200,3 +200,27 @@ The file name says 2110Z; the run was at about 21:50 UTC.
   is D72's predicate count. 4 of them are rows the loader refuses ("eventDate spans more than one
   day", D66). 252,822 − 4 = 252,818, the `records_in_pnw_box` figure. Script `/tmp/pnwp_n4.py`,
   run once, not committed.
+
+## Third land route: the store's point time series (2026-10-11, builder's choice)
+
+- **Why.** From the store's job list: this account's gridded ERA5-Land jobs ran one at a time,
+  about 4 to 5 min each, after 20 to 100 min in the queue. That gave 2 to 3 months an hour, with
+  about 30 h left at 00:30 UTC.
+- **What.** `reanalysis-era5-land-timeseries` serves one point for the whole period. The form takes
+  `location` and `date`; the process description lists only `area`, and requests by `area` failed
+  with MultiAdaptorNoDataError. One request per land point covers 2014-09-01 to 2025-12-31 and all
+  three variables. The reply is a zip of three NetCDF files, 3.6 MB, in about 29 to 40 s.
+- **Same product, checked.** At 47.0, −123.0 its hourly values equal the gridded hourly files on
+  all 50,472 compared hours (every gridded month held then): largest difference 0.00025 K for the
+  two temperatures and 0 for soil moisture (float32 packing).
+- **Points.** 1,870: every ERA5-Land point a T1 unit reads (its own, or its RECORD -822 neighbour,
+  on the land mask of the delivered 2019-01 file), plus the equivalence sample's 12 points, whose
+  hourly zips are kept for the hourly land-route check. Daily means use the same 24-UTC-hour
+  definition (`hourly_daily.daily_means`).
+- **Assembly.** `scripts/pnw_ts_assemble.py` writes one gridded daily file. The builder reads it at
+  the lowest precedence, so gridded months win where both exist (tested; the revert check bites).
+  `land_route_by_month` names the route per month.
+- **Pace.** With 4 in flight, 31 points in 7 min, about 265 an hour. At that rate the pull ends
+  about 07:45 UTC Sunday.
+- **Gridded jobs dismissed.** fb28d705, bc01764e and 311e6e4c at 00:40:39 UTC; ed826b8b (2023-06)
+  at about 00:36 to free a slot for the probe. The 30 gridded months already delivered stay in use.
