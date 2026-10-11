@@ -18,3 +18,10 @@ Any banner field missing or wrong; the preview failing its check; a file over th
 ## Not in scope
 
 Merging; the forecast code; the Forager app.
+
+## Amendment (Forager RECORD -877, -878)
+
+- The base moved: zynergy-site main is now cb596aad (PR #10: own street map, slider, demo text). Cut from it.
+- In the same site change, two text fixes, verbatim from the owner's ruling: in the intro, "the weekly chance of chanterelles being found" becomes "the weekly chance of chanterelles being reported"; in the guide, "Not validated and not reviewed" becomes "Not validated. Its figures were checked by an independent review." Re-read the surrounding sentences so each still reads correctly, and report any other line those two edits leave inconsistent.
+- The merge is on the owner's word (text changes go beyond -817's data-drop approval).
+- Production adds a hosting-analytics script that the site's script-src refuses. It predates PR #10 (RECORD -877). Don't fix it in this change, and don't count its console error as this change's failure; report it separately.
