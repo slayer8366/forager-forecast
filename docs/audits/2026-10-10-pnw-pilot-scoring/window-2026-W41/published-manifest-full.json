@@ -1,5 +1,5 @@
 {
- "published_at": "2026-10-11T22:43:38+00:00",
+ "published_at": "2026-10-11T22:48:19+00:00",
  "pilot": true,
  "validated": false,
  "reviewed": true,
@@ -124,7 +124,7 @@
   "open_meteo_batches": null,
   "api_calls_by_pricing_rule": null
  },
- "weather_bridge": "None. The week is scored from the Copernicus store, by products training also read (owner, Forager RECORD -819; route, RECORD -829); weather.source names them. Open-Meteo's archive was fetched for the same days as a cross-check only and is not used to score: its rain runs 4 to 8 percent below the store's (scoring branch feature check, 2019-10-07).",
+ "weather_bridge": "This week's weather comes from the Copernicus climate archive, the same sources the model was trained on. A second weather service was checked for the same days but isn't used for scoring.",
  "model": {
   "version": "pnw-pilot-t1-full-cd0c66a65752",
   "model_txt_sha256": "cd0c66a6575258df065f2e65d2a7ac2d4c85d6dc07fc57aabcaaa7db2f617ed2",

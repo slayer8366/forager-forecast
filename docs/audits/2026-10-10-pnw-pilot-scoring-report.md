@@ -433,3 +433,20 @@ The cell file's sha256 is the same in both runs, so the scores did not change.
   them on synthetic files.
 - The site does not read `gate_record_attribution`, so the credit is not on the page.
 - No site change and no Gradle build were made.
+
+**Republished 2026-10-11T22:48:19Z for the owner's banner weather line (Forager RECORD -893, commit
+6f28021, test first).**
+
+- `weather_bridge` now reads, verbatim: "This week's weather comes from the Copernicus climate
+  archive, the same sources the model was trained on. A second weather service was checked for the
+  same days but isn't used for scoring." The calendar model passes no bridge (null), so it is
+  unchanged.
+- `cantharellus.geojson`: byte-identical to the 22:43:38Z file, sha256
+  ac6038d39114e28c618bd5afc6c512f75dbdaf9b60d5aab8837c33a8d121a395.
+- New `manifest.json`: 14,081 bytes, sha256
+  b94a15023d26450ff1b676ad59c31ce66cf71bcea906c4c363c8b02242f38759. Same path; the repository
+  copy is replaced.
+- I did not keep the earlier block files' hashes, so the 40 block files were not compared byte for
+  byte. They are cut from the same features as the identical combined file.
+- Correction to the free-weather-API check above: after this change, the service's name in text
+  appears only in `gate_record_attribution`.
