@@ -262,17 +262,28 @@ COPERNICUS_ERA5_HOURLY = (
     "Neither the European Commission nor ECMWF is responsible for any use that may be made of the "
     "Copernicus information or data it contains."
 )  # D53: the page omits the year; filled as 2023
+# The point time-series route (reanalysis-era5-land-timeseries) is its own catalogue entry. Its
+# citation and attribution are the publisher's text, verbatim, fetched 2026-10-11 from the store's
+# catalogue page (licence CC-BY-4.0); copy kept at
+# docs/audits/2026-10-10-pnw-pilot-scoring/era5-land-timeseries-citation-2026-10-11.json.
+COPERNICUS_ERA5_LAND_TIMESERIES = (
+    "Generated using or contains modified Copernicus Climate Change Service information 2025. "
+    "Neither the European Commission nor ECMWF is responsible for any use that may be made of the "
+    "Copernicus information or data it contains."
+)
 _DATA_CITATION = {
     "era5_hourly_precipitation": "Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J., Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee, D., Thépaut, J-N. (2023): ERA5 hourly data on single levels from 1940 to present. Copernicus Climate Change Service (C3S) Climate Data Store (CDS), DOI: 10.24381/cds.adbb2d47 (Accessed on DD-MMM-YYYY)",  # noqa: E501  (quoted verbatim from the evidence report)
     "era5_land_hourly": "Muñoz Sabater, J. (2019): ERA5-Land hourly data from 1950 to present. Copernicus Climate Change Service (C3S) Climate Data Store (CDS). DOI: 10.24381/cds.e2161bac (Accessed on DD-MMM-YYYY)",  # noqa: E501  (quoted verbatim from the evidence report)
     "era5_land_daily": "Muñoz Sabater, J., Comyn-Platt, E., Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J., Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee, D., Thépaut, J-N., Cagnazo, C., Cucchi, M. (2024): ERA5-land post-processed daily-statistics from 1950 to present. Copernicus Climate Change Service (C3S) Climate Data Store (CDS), DOI: 10.24381/cds.e9c9c792 (Accessed on DD-MMM-YYYY)",  # noqa: E501  (quoted verbatim from the evidence report)
     "era5_daily_sum": "Hersbach, H., Comyn-Platt, E., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J., Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee, D., Thépaut, J-N., Cagnazo, C., Cucchi, M. (2023): ERA5 post-processed daily-statistics on single levels from 1940 to present. Copernicus Climate Change Service (C3S) Climate Data Store (CDS), DOI: 10.24381/cds.4991cf48 (Accessed on DD-MMM-YYYY)",  # noqa: E501  (quoted verbatim from the evidence report)
+    "era5_land_timeseries": "Copernicus Climate Change Service, Climate Data Store, (2025): ERA5 Land hourly time-series data from 1950 to present. Copernicus Climate Change Service (C3S) Climate Data Store (CDS). DOI: 10.24381/ee82e357 (Accessed on DD-MMM-YYYY)",  # noqa: E501  (the publisher's text, link markup removed)
 }
 _COPERNICUS_TEXT = {
     "era5_hourly_precipitation": COPERNICUS_ERA5_HOURLY,
     "era5_land_hourly": COPERNICUS_ERA5_LAND_HOURLY,
     "era5_land_daily": COPERNICUS_DAILY,
     "era5_daily_sum": COPERNICUS_DAILY,
+    "era5_land_timeseries": COPERNICUS_ERA5_LAND_TIMESERIES,
 }
 OPEN_METEO_CREDIT = "Weather data by Open-Meteo.com (https://open-meteo.com/), CC BY 4.0."
 SOURCES = ("gbif_download", *_DATA_CITATION, "open_meteo")

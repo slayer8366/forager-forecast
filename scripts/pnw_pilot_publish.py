@@ -47,14 +47,16 @@ DATASET_SOURCE = {
     "reanalysis-era5-land": "era5_land_hourly",
     "derived-era5-single-levels-daily-statistics": "era5_daily_sum",
     "reanalysis-era5-single-levels": "era5_hourly_precipitation",
+    "reanalysis-era5-land-timeseries": "era5_land_timeseries",
 }
 
 
-def accessed_dates(store: Path, wanted: set[str]) -> dict[str, str]:
-    """Each product's access date for its citation, from the store's request records: one date,
-    or "first to last" when its files were requested on several days."""
+def accessed_dates(record_dirs: list[Path], wanted: set[str]) -> dict[str, str]:
+    """Each product's access date for its citation, from the request records in record_dirs (the
+    store, and ts/ for the point time series): one date, or "first to last" when its files were
+    requested on several days."""
     days: dict[str, set] = {}
-    for rec in store.glob("*.request.json"):
+    for rec in (r for d in record_dirs for r in d.glob("*.request.json")):
         r = json.loads(rec.read_text())
         key = DATASET_SOURCE.get(r.get("dataset"))
         if key in wanted and r.get("requested_at_utc"):
@@ -84,6 +86,7 @@ def main() -> int:
     ap.add_argument("--kind", choices=["calendar", "full"], required=True)
     ap.add_argument("--week", default="2026-W41")
     ap.add_argument("--store", type=Path, default=DATA / "cds")
+    ap.add_argument("--ts", type=Path, default=DATA / "ts", help="the point time-series records")
     ap.add_argument("--models", type=Path, default=DATA / "models")
     ap.add_argument("--out", type=Path, default=DATA / "scoring" / "out")
     ap.add_argument("--repo-copy", action="store_true")
@@ -120,7 +123,7 @@ def main() -> int:
             raise SystemExit(f"the store lacks window days: {missing}")
         scoring = set(copernicus_sources(npz))  # the builder's reading of the build summary
         read = scoring | training_sources(json.loads((model / "model.json").read_text()))
-        accessed = accessed_dates(a.store, read)
+        accessed = accessed_dates([a.store, a.ts], read)
         cmd += [
             "--cds-npz",
             str(npz),

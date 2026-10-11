@@ -51,3 +51,23 @@ def test_a_copernicus_source_without_an_access_date_is_refused():
 def test_an_unknown_source_is_refused():
     with pytest.raises(ValueError, match="unknown"):
         po.attribution({"gbif_download", "daymet"})
+
+
+def test_time_series_route_is_cited_with_its_own_catalogue_entry():
+    # The publisher's own text for reanalysis-era5-land-timeseries, fetched 2026-10-11
+    # (docs/audits/2026-10-10-pnw-pilot-scoring/era5-land-timeseries-citation-2026-10-11.json).
+    text, details = po.attribution(
+        {"gbif_download", "era5_land_timeseries"}, {"era5_land_timeseries": "11-Oct-2026"}
+    )
+    joined = " ".join(details)
+    assert (
+        "Copernicus Climate Change Service, Climate Data Store, (2025): ERA5 Land hourly "
+        "time-series data from 1950 to present. Copernicus Climate Change Service (C3S) Climate "
+        "Data Store (CDS). DOI: 10.24381/ee82e357 (Accessed on 11-Oct-2026)"
+    ) in joined
+    assert (
+        "Generated using or contains modified Copernicus Climate Change Service information 2025."
+        in text
+    )
+    # The gridded hourly product is a different catalogue entry and is not cited for it.
+    assert "10.24381/cds.e2161bac" not in joined
