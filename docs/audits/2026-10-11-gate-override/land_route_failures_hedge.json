@@ -1,0 +1,43 @@
+{
+ "run_utc": "2026-10-11T15:22:11+00:00",
+ "weather": "/home/zynergy-labs/Zynergy/forecast-data-pnw-pilot/hedge/weather.npz",
+ "om_dir": "/home/zynergy-labs/Zynergy/forecast-data-pnw-pilot/hedge/equivalence/open-meteo",
+ "spans_compared": 36,
+ "offset0_matched_compared": {
+  "t2m": [
+   6911,
+   6912
+  ],
+  "stl1": [
+   6912,
+   6912
+  ],
+  "swvl1": [
+   6912,
+   6912
+  ]
+ },
+ "failing_hours": [
+  {
+   "variable": "t2m",
+   "cell": "493_-1250",
+   "land_point": [
+    493,
+    -1250
+   ],
+   "land_point_kind": "own",
+   "span_start": "2025-12-06",
+   "body": "493_-1250_2025-12-06.json",
+   "hour_utc": "2025-12-12T11:00",
+   "store": 5.424951171875023,
+   "store_direct": 5.424951171875023,
+   "store_raw_file_value": 278.574951171875,
+   "store_source": "hourly-era5land-2025-12.hourly.nc",
+   "time_series_route": 5.425012207031273,
+   "open_meteo": 5.5,
+   "open_meteo_body_raw": 5.5,
+   "abs_diff": 0.07504882812497726,
+   "bound": 0.075001
+  }
+ ]
+}
