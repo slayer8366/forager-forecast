@@ -844,3 +844,69 @@ informative flag (30 positives or more), and skill to 1e-12.
   folds do not drive the negative headline. They are only reported here; D33 pools all years.
 
 **Verdict, item 4:** the table reproduces and is marked as D33 (2) requires.
+
+### Item 5: the random-date comparison, and D33 (3) and (4) (RECORD -828)
+
+**The random-date comparison (D13, secondary design) ran in main and reproduces**
+(`pass2_headline_main.out.txt`):
+- `fits/secondary_t1_1000m_comparison.json`: 16,042 units, 1,234 positives, 504 cells, the same
+  units in both fits.
+- Skill −0.002213. Builder's interval [−0.00747, 0.00306], mine [−0.00739, 0.00327]: "not
+  shown".
+- AUC calendar 0.7934, full 0.8045. All per-fold rows match.
+- It is a comparison only (D13), not the headline. The two designs agree that weather adds no
+  shown skill.
+
+**D33 (3) (the 5,000 m list) and D33 (4) (the commercial-safe list) have no result.**
+- The extras run refused at its first fit, as recorded at the head of pass 2: "weather missing
+  for 22 units (months not pulled)", under the B3 guard.
+- The chain then stopped silently, with no exit line in `override_chain.log`.
+- RECORD -828's extra runs are therefore not done. D33 (4) never started, since it runs after
+  (3) in `pnw_t1_run_all.sh extras`.
+- **S11 (should-fix):**
+  - `override_chain.sh` logs an exit line only on success. Under `set -e` a failure leaves the log
+    looking like a run in progress, which is how the planner read it.
+  - Inferred, not traced: the 5,000 m list reaches cells whose weather the pull, built for the
+    1,000 m list, never fetched.
+  - Which 22 units, and whether to pull their weather or drop them, is a decision for the planner.
+    It touches a fixed sample.
+
+**Verdict, item 5:** the random-date comparison holds ("not shown"). D33 (3) and (4) cannot be
+reviewed: there is no output.
+
+### Item 6: the labels (RECORD -854, -855)
+
+**Read, in every `models/*/model.json`** (five: primary calendar, primary full, the 2019 to 2025
+scoring model, secondary calendar, secondary full; all commit `7d19c66`):
+- Each holds `land_route_gate` with `gate_pass: false`, `override: "used: Forager RECORD -854
+  …"`, and the failing hour (t2m, `493_-1250`, 2025-12-12T11:00, store 5.424951, Open-Meteo 5.5).
+- `models/primary_t1_1000m_full/model.json` also has `copernicus_sources` (four products).
+- The 2019 to 2025 model says `partial_years: true` and "fitted on 2019-2025 only".
+- The six fit summaries (main and hedge) carry the same `land_route_gate`.
+
+**Not carried:**
+- No `model.json` carries the D24 daily count (30 of 1,008, all rain). Nothing required it there:
+  RECORD -854 asks for the failing hour. The count is in `equivalence.json` and in this review
+  (item 1).
+- No `model.json` carries the T1 verdict (B4).
+- The builder's report section for the override (gate-override dispatch, step 3) is not on the
+  remote. `docs/audits/2026-10-10-pnw-pilot-t1-report.md` at `7d19c66` does not mention RECORD
+  -854. So the report does not yet carry either label.
+
+**Reviewer's revert check** (`revert_runner_pass2.py.txt`, the pass-1 runner with two checks
+added; output `revert_runner_pass2.out.jsonl`). It saves a byte copy, makes one edit, and runs the
+tests with a fresh JUnit XML. It refuses any run with collection errors. It restores from the
+saved copy, never from git.
+- Forward run first: `tests/test_pnw_gate_override.py`, 11 passed.
+- **R13** (`load_gate_record` no longer refuses a stop record): exit 1, 11 tests, no errors. It
+  fails `test_the_fit_carries_a_go_record_and_refuses_a_stop_record` with "DID NOT RAISE
+  SystemExit".
+- **R14** (a gate fail with no override returns 0): exit 1, 11 tests, no errors. It fails
+  `test_a_fail_with_no_override_stops_with_exit_3` with "assert 0 == 3".
+- Each failure is specific to its own edit. Both files were restored byte-equal, the forward
+  text was confirmed present, and `git status` was clean afterwards.
+
+**Verdict, item 6:**
+- Every model and fit summary carries the gate failure, the override and the hour.
+- The daily count is not in `model.json`, which nothing required.
+- The builder's report does not carry the labels yet.
