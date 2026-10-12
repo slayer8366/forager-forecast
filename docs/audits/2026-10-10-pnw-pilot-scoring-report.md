@@ -466,3 +466,18 @@ The cell file's sha256 is the same in both runs, so the scores did not change.
   - That field is published already, the same text as in the calendar manifest the site serves.
   - The site's pilot.js does not read it.
   - Changing it would reword a published definition, so the decision is the owner's.
+
+**Republished 2026-10-12T00:48:38Z with `base_rate` (owner, Forager RECORD -901; commit 949a5cf,
+tests first).** No fit was running; the command checks and stops if one is.
+
+- Figures read from the model's own files: `models/primary_t1_1000m_full/model.json` gives units
+  52,718 and positives 1,138. The comparison file `fits/primary_t1_1000m_comparison.json` gives the
+  same, and so does the calendar model.json.
+- As published: `{"positives": 1138, "units": 52718, "rate": 0.021586554876892143, "source":
+  "model.json positives and units (primary_t1_1000m_full, 2015 to 2025): every cell-week of the
+  design, each held out once in the leave-one-year-out test"}`.
+- The calendar model's own model.json carries the same figures, so a calendar republish would carry
+  the field too. The calendar was not republished.
+- `cantharellus.geojson` and the 40 block files: byte-identical (ac6038d3...a395).
+- New `manifest.json`: 14,341 bytes, sha256
+  074879ffa7c53a04a22f5613e31abd8798e1ef53d53aa68c238d56587a994043.
