@@ -26,25 +26,32 @@ figure it checked. No outside scientist has reviewed the model.
 what the pilot was for, before committing to the continent. The test did its job: it caught a model
 that did not beat the calendar.
 
-**Before showing the page.** Check the live page on Monday morning before leaving.
+**What the colours mean.** Each cell is coloured and named by how its chance compares with the
+average week across the year, which is about 2%: Below average, About average, Above average (1.5 to
+3 times), High (3 to 5 times) or Very high (5 times or more). Tapping a cell leads with its rating,
+for example "Very high: about 7.2 times the average week across the year.", with the sighting
+chance in smaller type underneath. The percent itself is low even at the peak of the season,
+because it is the chance that a chanterelle is among the fungi reported from that cell in a week,
+and most fungus reports are of other species; so even a prime cell reads in the teens (the highest
+this week is about 16%).
+
+**Before showing the page.** The weather model is live on the page. Check it on Monday morning
+before leaving.
 - It opens on the soil pH layer. The forecast is under "Sighting chance (pilot)" in the layer list.
-- The weather model's map data for the week of 5 October is published; the page change that shows
-  it is on a preview and goes live only on the owner's word. If it is live by the meeting, that
-  layer shows the weather model and its banner reads "Pilot model. Not validated. Reviewed. Not the
-  forecast.", with the test result (it did very slightly worse than the seasonal calendar) under
-  "About this run". If not, it still shows the calendar, with the note "Calendar model: day of year
-  and place only."
-- Either way it shows the week of 5 October, not this week.
-- The page's intro says "the weekly chance of chanterelles being found". It changes to "being
-  reported" with the next data update, and its guide's "Not validated and not reviewed" changes to
-  "Not validated. Its figures were checked by an independent review." Until that update is live, the
-  page says the old words.
+- The banner reads "Pilot model. Not validated. Reviewed. Not the forecast.", then "Pilot, not yet
+  validated. Its figures were checked by an independent review. Shown whether or not it beats the
+  seasonal calendar." On a phone it is one line until tapped. The test result (it did very slightly
+  worse than the seasonal calendar) is under "About this run".
+- It shows the week of 5 October, not this week.
 
 **Say.**
 - "A pilot, not validated." "It's about reports: the chance chanterelles get reported from an area in
   a week when people reported some fungus there."
 - "Tested on years it hadn't seen, the weather model did no better than the seasonal calendar."
 - "The figures were rechecked by a second automated reviewer; no outside scientist has reviewed it."
+- For a tapped cell: "In the week of 5 October, this cell's chance of a chanterelle report is about 7
+  times the average week across the year." It is a comparison of report chances, not a probability
+  of finding chanterelles.
 
 **Don't say.**
 - Not "it works", "it predicts" or "it beat the calendar". Not "nearly", and not "the weather makes
@@ -105,6 +112,12 @@ record, facts only. "In one paragraph", the gate under "What the system will be"
 exists today", the pilot map's notes, the D33 (5) rule, the rain-gap line, the sources line and four
 lines of "What not to say" changed; each names its source in place.
 
+**Updated 2026-10-12** (about 02:35 UTC) on Forager RECORD -901, -902, -903 and -907, with -899 and
+-900: the card explains the five ratings against the average week and why the percent is low, and
+"Say" gains the honest framing for a tapped cell; the appendix describes the live page: the weather
+model live since 00:27 UTC, the ratings since 01:21 UTC, the banner with the owner's status line
+under it, the readout, the 2,618 cells, and the intro and guide wording now live.
+
 **Updated 2026-10-11** (about 23:50 UTC) on Forager RECORD -875, -893, -896 and -897: the 5,000 m
 run (D33 (3)) is filled with its result, marked not reviewed, here and in one sentence on the card;
 the map's state now says the weather model is published for the week of 5 October and waits on the
@@ -136,8 +149,8 @@ the place (see "The pilot's result"; an independent review reproduced every head
 checked). The "independent review" is a second automated reviewer, working separately from the
 builder with its own code; no outside scientist has reviewed the model (D18;
 `docs/audits/2026-10-11-oms-briefing-review.md`, finding 2). The owner ruled that the demo shows it, labelled as not beating the calendar (Forager
-RECORD -861). Its map data for the week of 5 October is published and waits on the site merge, on
-the owner's word; until that is live, the map shows the calendar (Forager RECORD -893, -896).
+RECORD -861). It is live on the page for the week of 5 October since 2026-10-12 00:27 UTC, and since
+01:21 UTC its cells are rated against the average week (Forager RECORD -893, -896, -900, -907).
 
 ## What the system will be
 
@@ -171,19 +184,19 @@ which were updated on 2026-10-11.
 | Host trees, 250 m, United States | **Done** on the evening of 2026-10-09: all 2,015 tiles that hold only US cells, plus the US half of all 92 tiles that straddle the border | Forager RECORD -802 ("trees 2015/2015, trees-us-half 92/92"); D119 |
 | Host trees, 250 m, Canada | **Done for the Pacific Northwest box** on 2026-10-10: the Canadian source (SCANFI v2) read for the 8 tiles inside the box plus the 2 border tiles the seam check needs; all 102,543 Canadian cells in the box (southern Vancouver Island, the Gulf Islands, Delta) computed, none pending. The rest of Canada waits until the pilot map is done | Forager RECORD -815, -835, -838; `docs/audits/2026-10-10-t6b-pnw-run/seam-after-10-tiles/` (branch `t6b-pnw-scanfi`) |
 | Weather history for the pilot | Downloaded for training from the Copernicus Climate Data Store (ERA5-Land and ERA5) for 40 to 49.5 N, 111 to 125 W; the fits ran on 2026-10-11. The rain route was checked against the store's own daily totals for 2019: all 192,355 values equal. The map week's window weather (July to 4 October 2026) is on the data drive for scoring; the 34 points for the 5,000 m run were pulled on 2026-10-11, 1,904 of 1,904 points on disk, 0 failed (row updated 2026-10-11; Forager RECORD -897) | Forager RECORD -812, -826, -827, -863; D24; builder's report (`pnw-pilot-t1` `f73b800`) lines 288-298 and 374-381; `forecast-data-pnw-pilot/cds/hourly-era5land-2026-{07..10}` observed 2026-10-11 |
-| The pilot map | **Live** at https://zynergy-labs.com/Forager/forecast/ since 2026-10-10, 18:59 UTC: the calendar model for chanterelles (see the next section), until the site change carrying the published weather model goes live on the owner's word (row updated 2026-10-11) | Forager RECORD -825 (zynergy-site PR #8), -861, -893, -896 |
-| The weather model for the pilot | **Fitted 2026-10-11** on all years, 2015 to 2025, and independently reviewed: it did not beat the calendar (see "The pilot's result"). Scored for the week of 5 October and published; the site change that shows it waits on the owner's word (row updated 2026-10-11) | builder's report `docs/audits/2026-10-10-pnw-pilot-t1-report.md` (`pnw-pilot-t1` `f73b800`, lines 288-298); review pass 2 (`pnw-pilot-t1-review` `79b8b17`); Forager RECORD -861, -893, -896 |
+| The pilot map | **Live** at https://zynergy-labs.com/Forager/forecast/ since 2026-10-10, 18:59 UTC: the calendar model until 2026-10-12 00:27 UTC; since then the weather model for the week of 5 October (zynergy-site PR #11), with cells rated against the average week since 01:21 UTC (PR #12) (row updated 2026-10-12) | Forager RECORD -825 (zynergy-site PR #8), -861, -893, -896, -900, -907 |
+| The weather model for the pilot | **Fitted 2026-10-11** on all years, 2015 to 2025, and independently reviewed: it did not beat the calendar (see "The pilot's result"). Scored for the week of 5 October, published, and live on the page since 2026-10-12 00:27 UTC (row updated 2026-10-12) | builder's report `docs/audits/2026-10-10-pnw-pilot-t1-report.md` (`pnw-pilot-t1` `f73b800`, lines 288-298); review pass 2 (`pnw-pilot-t1-review` `79b8b17`); Forager RECORD -861, -893, -896, -900 |
 | Habitat model, calibration, nightly job (T7 to T11) | Not started. A plan for the habitat model on the pilot box is written, not yet run | `docs/dispatch/2026-10-11-t7-pnw-pilot-habitat.md`; TASKS.md |
 
 ## The pilot map
 
 **Where:** https://zynergy-labs.com/Forager/forecast/, the layer "Sighting chance (pilot)" (Forager
 RECORD -825). The page opens on the soil pH layer; the forecast appears only after choosing
-"Sighting chance (pilot)" in the layer list (Forager RECORD -858; the page's intro). The intro now
-reads "the weekly chance of chanterelles being found"; it changes to "being reported" with the next
-data update, and the page guide's "Not validated and not reviewed" changes to "Not validated. Its
-figures were checked by an independent review." Both go in one site change with this week's data,
-merged on the owner's word (Forager RECORD -878).
+"Sighting chance (pilot)" in the layer list (Forager RECORD -858; the page's intro). The intro
+reads "the weekly chance of chanterelles being reported", and the page guide reads "A pilot. Not
+validated. Its figures were checked by an independent review." Both changed with the week's data,
+live since 2026-10-12 00:27 UTC (Forager RECORD -878, -900; zynergy-site `main` `e1c3f8a`,
+`Forager/forecast/index.html:46, 183`).
 
 **Why a pilot.** The owner chose to try the whole chain on the Pacific Northwest before committing to
 the continent: "The PNW can be our pilot run so we know how it works before we commit to the entire
@@ -192,24 +205,33 @@ country" (Forager RECORD -807).
 **What it shows.**
 - A **sighting chance** for chanterelles per weather cell of 0.1° (about 11 km by 8 km here), for the
   box 42 to 49.5 N, 121 to 125 W (T1's box, `t1_design.py:35`): the coast and the Cascades from the
-  Klamath Mountains to southern British Columbia. 2,387 cells are drawn (the live data file, read
-  2026-10-10). This changes with the next data update: the calendar re-published with the coastal
-  rule has 2,618 cells (Forager RECORD -833).
+  Klamath Mountains to southern British Columbia. 2,618 of the box's 3,116 cells are scored and
+  drawn (Forager RECORD -893). Before the weather model went live, the calendar file drew 2,387
+  (the live data file, read 2026-10-10).
 - The **week of 5 October 2026** (ISO week 2026-W41), not this week. It was chosen because the
   weather archive held every day through 4 October (Forager RECORD -818).
 - What the number means, in D12's words: "the chance the group is reported in a weather cell and
   week, given at least one fungal observation of any kind there that week."
-- **Today it is the calendar.** The map's own note: "Calendar model: day of year and place only. It
-  knows nothing about this year's weather." When the site change carrying the published weather model goes live (Forager RECORD -893, -896), it replaces
-  the calendar on the map, as a data update under the owner's approval in Forager RECORD -817,
-  labelled as not beating the calendar (-861).
-- Today the banner says pilot, not validated, not reviewed. The weather model's data, published for
-  the week of 5 October, carries the status line in the owner's wording: "Pilot, not yet validated.
-  Its figures were checked by an independent review. Shown whether or not it beats the seasonal
-  calendar." (Forager RECORD -863, -893). The preview page does not display that line: its banner
-  reads "Pilot model. Not validated. Reviewed. Not the forecast." (zynergy-site
-  `pnw-pilot-w41-drop` `8c3a2f8`, `Forager/forecast/pilot.js:182-187`, with the published values
-  pilot true, validated false, reviewed true). Under "About this run" it shows the result line:
+- **It is the weather model.** It replaced the calendar on the map on 2026-10-12 at 00:27 UTC, as
+  a data update under the owner's approval in Forager RECORD -817, labelled as not beating the
+  calendar (-861, -900).
+- **Ratings against the average week** (Forager RECORD -901, -902, -903, live since 2026-10-12
+  01:21 UTC, -907). The average week is the share of tested cell-weeks with a chanterelle report in
+  the model's own all-years test: 1,138 of 52,718, about 2% (2.16%). Each cell's chance is divided
+  by it and the cell is coloured and named by the result, with cut-offs fixed before the map was
+  seen with them: Below average (under 0.67 times), About average (0.67 to under 1.5), Above
+  average (1.5 to under 3), High (3 to under 5), Very high (5 or more). The legend notes "Average
+  week across the year: about 2%." A tapped cell leads with the rating, for example "Very high:
+  about 7.2 times the average week across the year." (the number cut, not rounded, to one decimal
+  so it never crosses into the next band), then "Sighting chance 16%" in smaller type and D12's
+  definition underneath (zynergy-site `main` `e1c3f8a`, `Forager/forecast/pilot.js:41-51, 170-172,
+  346, 362-374`). For the week of 5 October, of 2,618 cells: Below average 9.1%, About average
+  27.6%, Above average 43.8%, High 17.6%, Very high 1.8% (Forager RECORD -903).
+- **The banner** reads "Pilot model. Not validated. Reviewed. Not the forecast.", then the owner's
+  status line: "Pilot, not yet validated. Its figures were checked by an independent review. Shown
+  whether or not it beats the seasonal calendar." (Forager RECORD -863, -899). On a phone it is one
+  line, "Pilot model. Not validated. Reviewed. Week of 5 October.", until tapped (-899;
+  `pilot.js:205-240`). Under "About this run" it shows the result line:
   "Tested on years it wasn't trained on (2015 to 2025, one year left out at a time), it did very
   slightly worse than the seasonal calendar alone. Brier skill −0.0035 (95% range −0.0066 to
   −0.0001). An independent review reproduced these figures." (Forager RECORD -863). The owner asked
@@ -332,12 +354,11 @@ including 2024 (+0.0200) and 2025 (+0.0250), and its AUC is higher, 0.804 agains
   instead is the owner's call. The owner then ruled to show it on the demo, labelled as not beating
   the calendar (Forager RECORD -861). It also found the extra runs had stopped without saying so
   (S11)** [S4; review lines 920-927].
-- What the map shows on Monday: **the weather model is published for the week of 5 October and
-  waits on the site merge, which goes live only on the owner's word. If the page shows the weather
-  model on Monday, its banner reads "Pilot model. Not validated. Reviewed. Not the forecast.", and
-  the test result under "About this run" says it did very slightly worse than the seasonal
-  calendar. If not, the map still shows the calendar. Check the live banner on Monday morning
-  before leaving** [S12].
+- What the map shows on Monday: **the weather model for the week of 5 October, live since
+  2026-10-12 00:27 UTC, with cells rated against the average week since 01:21 UTC. Its banner
+  reads "Pilot model. Not validated. Reviewed. Not the forecast." with the owner's status line
+  under it, and the test result under "About this run" says it did very slightly worse than the
+  seasonal calendar. Check the live page on Monday morning before leaving** [S12].
 
 Source for every figure above: listed below. The builder's report at `f73b800` still says "IN
 PROGRESS" at its head and has no section named "Result"; its section "Primary design, all years,
@@ -377,9 +398,12 @@ here from the held-out predictions with a small script, "quoted" means taken as 
 - [S11] Builder's report lines 357-372; `fits/primary_t1_1000m_cc_comparison.json`. Quoted, and
   the point estimate checked against [S3].
 - [S12] Forager RECORD -861, -863, -893 (the weather model published for 2026-W41; the site drop
-  merged on the owner's word) and -896 (republished, cells unchanged). The banner text is read
-  from zynergy-site `pnw-pilot-w41-drop` at `8c3a2f8`, `Forager/forecast/pilot.js:182-187`; that
-  file does not reference the manifest's status line. Quoted and observed.
+  merged on the owner's word), -896 (republished, cells unchanged), -899 (the status line shown
+  under the banner heading), -900 (PR #11 merged, live 2026-10-12 00:27 UTC) and -907 (PR #12,
+  the ratings, live 01:21 UTC). The banner and readout text are read from zynergy-site `main` at
+  `e1c3f8a`, `Forager/forecast/pilot.js`. At `8c3a2f8` (the earlier preview) the page did not show
+  the status line; -899 added it before the merge. Quoted and observed; the live page itself was
+  not opened here.
 
 ## What the PNW images show, and what they do not
 
@@ -481,7 +505,7 @@ value was read):
   - Not that it uses live weather or a second weather service's archive. It reads the Copernicus history (Forager RECORD
     -819).
   - Not the wording D12 rules out for the number, nor any phrasing about the odds of a person
-    finding mushrooms. The number is a sighting chance, about reports. The page's intro says "being
-    found" until the next data update changes it to "being reported" (Forager RECORD -878).
+    finding mushrooms. The number is a sighting chance, about reports. Since 2026-10-12 the
+    page's intro says "being reported" (Forager RECORD -878, -900).
   - Only the figures in "The pilot's result", with their sources. The 5,000 m run's figures are
     not reviewed; say so if quoting them.
