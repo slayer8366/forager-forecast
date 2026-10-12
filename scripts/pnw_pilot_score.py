@@ -106,6 +106,23 @@ def copernicus_source_text(npz: Path, meta: dict, start: date, end: date) -> str
     )
 
 
+def base_rate(meta: dict) -> dict | None:
+    """The average week the page compares each cell with (owner, Forager RECORD -901): positives
+    over units of the model's own design, as its model.json records them. None when it does not."""
+    units, positives = meta.get("units"), meta.get("positives")
+    if not isinstance(units, int) or not isinstance(positives, int) or units <= 0:
+        return None
+    years = meta.get("years") or []
+    span = f", {min(years)} to {max(years)}" if years else ""
+    return {
+        "positives": positives,
+        "units": units,
+        "rate": positives / units,
+        "source": f"model.json positives and units ({meta.get('tag', 'model')}{span}): every "
+        "cell-week of the design, each held out once in the leave-one-year-out test",
+    }
+
+
 STATUS_LABEL = {
     "false": "Unvalidated pilot. Unreviewed. Shown whether or not it beats the calendar.",
     # The owner's wording, verbatim (Forager RECORD -863).
@@ -426,6 +443,7 @@ def main() -> int:
         "attribution": attribution_text,
         "attribution_details": attribution_details,
         "attribution_sources": sorted(sources),
+        "base_rate": base_rate(meta),
         "gate_record_attribution": (
             po.GATE_RECORD_ATTRIBUTION if meta.get("land_route_gate") is not None else None
         ),

@@ -421,3 +421,17 @@ def test_scoring_window_products_come_from_window_months_only(store):
 
     keys = pnw_pilot_score.window_sources(npz, START, END)
     assert keys == ["era5_daily_sum", "era5_land_daily"]
+
+
+def test_base_rate_is_read_from_the_models_own_figures(store):
+    # Forager RECORD -901: the page compares each cell with the average week, positives over units
+    # of the all-years design, read from model.json.
+    manifest = _full_manifest(store, units=52718, positives=1138, years=[2015, 2025])
+    br = manifest["base_rate"]
+    assert (br["positives"], br["units"]) == (1138, 52718)
+    assert br["rate"] == pytest.approx(1138 / 52718)
+    assert "model.json" in br["source"] and "positives" in br["source"]
+
+
+def test_no_figures_in_the_model_means_no_base_rate(store):
+    assert _full_manifest(store)["base_rate"] is None
