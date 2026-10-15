@@ -481,3 +481,42 @@ tests first).** No fit was running; the command checks and stops if one is.
 - `cantharellus.geojson` and the 40 block files: byte-identical (ac6038d3...a395).
 - New `manifest.json`: 14,341 bytes, sha256
   074879ffa7c53a04a22f5613e31abd8798e1ef53d53aa68c238d56587a994043.
+
+## 2026-W42, step 0 (2026-10-15 UTC): stopped, the store does not yet have the window
+
+Dispatch: the planner's message under Forager RECORD -1034 (the owner, verbatim: "Publish this week's
+pilot meanwhile"). Branch pnw-pilot-w42 from main a79d667. Nothing was pulled, scored or published
+for W42.
+
+**W41 reproduces from its inputs on main.** At 2026-10-15T04:47:11Z, `pnw_pilot_publish.py --kind
+full --week 2026-W41 --beats-calendar false --reviewed true --t1-result <W41's t1_result>` with
+`--out /tmp/w41-repro/out` (nice 10, 5G cap, no fit running):
+
+- 2,618 of 3,116 cells scored, 231 from a land neighbour, 498 sea, 0 incomplete.
+- `cantharellus.geojson` and all 40 block files byte-identical to the published W41 directory
+  (`sha256sum` of every file; cells ac6038d3...a395).
+- `manifest.json` differs only in `published_at`: with that one value set back to
+  2026-10-12T00:48:38+00:00 it hashes to 074879ff...4043, the published and live file.
+- The run rewrites `scoring/cds-npz/weather_2026-W41.npz` in place; it came out byte-identical
+  (0c49371a...7396, the hash in W41's manifest), checked against a copy taken before the run.
+
+**Why it stopped.** W42's window (`live_weather.window_span`) is 2026-07-14 to 2026-10-11, and rain
+also needs the 2026-10-12 00:00 stamp. At 04:46Z the store's catalogue gave both
+`reanalysis-era5-land` and `reanalysis-era5-single-levels` a temporal extent ending
+2026-10-09T00:00:00Z (catalogue updated 2026-10-15T00:00Z), and the constraints service listed
+October days 01 to 09 only. 2026-10-10, 2026-10-11 and the closing rain stamp are not published
+yet. The window cannot be built, and `pnw_pilot_publish.py` would stop on missing days.
+When they appear is inferred, not checked: about one day per daily update, so the land days around
+2026-10-17 and the closing stamp around 2026-10-18.
+
+**Also found, for the run when it happens.**
+
+- The two pull scripts' scoring routes are fixed to W41: `scripts/pnw_cds_hourly_pull.py:57-58`
+  (`SCORING_MONTHS`, `LAST_DAY = {(2026, 10): 4}`) and `scripts/pnw_cds_precip_hourly.py:127-141`
+  (`scoring_chunks`, ending at the 2026-10-05T00 stamp). Pulling W42 needs a change to them (pull
+  only, not the model, copy or labels).
+- The store's `hourly-era5land-2026-10.*` files hold 2026-10-01 to 04. A W42 pull of October under
+  the same name replaces them and their request record.
+- The citation access dates in `attribution_details` come from the store's request records, so a
+  new pull moves them (W41: "Accessed on 10-Oct-2026 to 11-Oct-2026" for the two hourly products).
+  That field cannot stay identical to W41's.
