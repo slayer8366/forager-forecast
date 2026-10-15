@@ -1,0 +1,48 @@
+"""D18 review of t6b-host-genera: genus strings in the TreeMap 2023 tree table, read only.
+
+Counts rows and live trees of 5 in and up (STATUSCD 1, DIA >= 5, TPA_UNADJ > 0) for every
+SCIENTIFIC_NAME whose first word is a tier A or tier B genus or a known synonym or segregate
+(Notholithocarpus, Castanopsis, Castanea), with the SPCD codes seen, so a genus split across two
+strings would show. The pipeline takes the genus as the first word of SCIENTIFIC_NAME
+(t6b_layers.build_plot_table). Usage: genus_strings.py <out.json>.
+"""
+
+import csv
+import io
+import json
+import sys
+import zipfile
+from collections import defaultdict
+from pathlib import Path
+
+ZIP = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t5/"
+           "treemap2023/RDS-2026-0038.zip")  # fmt: skip
+WANT = {"Larix", "Betula", "Populus", "Alnus", "Lithocarpus", "Notholithocarpus", "Chrysolepis",
+        "Castanopsis", "Castanea", "Arbutus", "Fagus", "Carya", "Tilia", "Ostrya", "Carpinus"}  # fmt: skip
+
+
+def main(out_path):
+    rows = defaultdict(int)
+    live = defaultdict(int)
+    names = defaultdict(lambda: defaultdict(int))
+    with zipfile.ZipFile(ZIP) as z, z.open("Data/TreeMap2023_CONUS_Tree_Table.csv") as f:
+        for r in csv.DictReader(io.TextIOWrapper(f, encoding="utf-8-sig")):
+            sci = r["SCIENTIFIC_NAME"]
+            g = sci.split()[0] if sci else ""
+            if g not in WANT:
+                continue
+            rows[g] += 1
+            names[g][f"{r['SPCD']} {sci}"] += 1
+            try:
+                ok = r["STATUSCD"] == "1" and float(r["DIA"]) >= 5 and float(r["TPA_UNADJ"]) > 0
+            except ValueError:
+                ok = False
+            live[g] += ok
+    out = {g: {"rows": rows.get(g, 0), "live_5in": live.get(g, 0),
+               "names": dict(sorted(names[g].items()))} for g in sorted(WANT)}  # fmt: skip
+    Path(out_path).write_text(json.dumps(out, indent=1) + "\n")
+    print(json.dumps({g: (v["rows"], v["live_5in"]) for g, v in out.items()}))
+
+
+if __name__ == "__main__":
+    main(sys.argv[1])

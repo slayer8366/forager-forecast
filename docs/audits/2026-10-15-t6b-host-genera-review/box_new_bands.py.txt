@@ -1,0 +1,224 @@
+"""D18 review of t6b-host-genera: the 13 new tree bands over every PNW box tile, read only.
+
+Usage (repository root): python box_new_bands.py <out.json>. Reads the drive; writes only <out.json>.
+
+Sample rule, fixed in this docstring before any new-band value was read by this reviewer (the
+T7 verify report's V5 counts had been read):
+- Every one of the box's tree tiles (whole file, else US half), every box study cell.
+- Ten-cell sample for recompute_new.py, seed 20261015, uniform reservoir sampling over box US
+  study cells: one cell for each tier A genus (Larix, Betula, Populus, Alnus, Lithocarpus,
+  Chrysolepis, Arbutus) among cells whose stored share of that genus is at least 0.05; two cells
+  among cells with total_cover_pct at least 10 (an old, reviewed band, so not selected on any
+  new value); one cell in a US-half file with total_cover_pct at least 10.
+
+Per cell checks (US box study cells): the file's band_layout tag; share_ecm_hosts against the sum
+of the 18 genus shares; the 18 genus shares summing to at most 1; each new share in [0, 1]; every
+new share defined exactly where share_Pseudotsuga is; each new flag equal to Pseudotsuga's flag.
+Canadian box study cells: every new share NaN and every new flag 3 (not available).
+Per CEC level III ecoregion (burned by cell centre with t6b_mask._burn, as the mask and the T7
+verify did): for each new band, cells with a defined share, the mean share, cells above 0 and
+above 0.1.
+"""
+
+import json
+import struct
+import sys
+import time
+from collections import defaultdict
+from pathlib import Path
+
+import numpy as np
+import rasterio
+
+from forager_forecast.grid import GridWindow
+from forager_forecast.pnw import PNW_BOX, pnw_window
+from forager_forecast.t4_layer import box_mask
+from forager_forecast.t6b_layers import tiles_over
+from forager_forecast.t6b_mask import (
+    SIDE_CA,
+    SIDE_US,
+    _burn,
+    _to_grid,
+    cells_in_study,
+    read_mask,
+    read_shapefile,
+)
+
+T6B = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b")
+MASK = T6B / "mask.tif"
+L3 = (T6B / "sources/terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data"
+      / "NA_Terrestrial_Ecoregions_v2_level3.shp")  # fmt: skip
+LAYOUT = "t6b-bands-f4e9b848ba51"
+OLD_GENERA = ("Pseudotsuga", "Tsuga", "Picea", "Abies", "Pinus", "Quercus")
+TIER_A = ("Larix", "Betula", "Populus", "Alnus", "Lithocarpus", "Chrysolepis", "Arbutus")
+TIER_B = ("Fagus", "Carya", "Tilia", "Ostrya", "Carpinus")
+NEW = (*TIER_A, *TIER_B, "ecm_hosts")
+GENERA = (*OLD_GENERA, *TIER_A, *TIER_B)
+SEED = 20261015
+
+
+def read_dbf(path, names):
+    with open(path, "rb") as f:
+        count, hl, rl = struct.unpack("<IHH", f.read(32)[4:12])
+        fields = []
+        while True:
+            d = f.read(32)
+            if not d or d[0] == 0x0D:
+                break
+            fields.append((d[:11].split(b"\0")[0].decode("ascii"), d[16]))
+        f.seek(hl)
+        out = {n: [] for n in names}
+        for _ in range(count):
+            rec = f.read(rl)
+            p = 1
+            for n, s in fields:
+                if n in out:
+                    out[n].append(rec[p : p + s].decode("utf-8").strip())
+                p += s
+    return out
+
+
+def files_for(key):
+    whole = T6B / "tiles/trees" / f"trees_{key}.tif"
+    if whole.exists():
+        return whole, T6B / "tiles/trees" / f"trees_flags_{key}.tif", "whole"
+    half = T6B / "tiles/trees_us_half" / f"trees_us_half_{key}.tif"
+    if half.exists():
+        return half, T6B / "tiles/trees_us_half" / f"trees_flags_us_half_{key}.tif", "us_half"
+    return None, None, None
+
+
+class Reservoir:
+    def __init__(self, rng):
+        self.rng, self.n, self.item = rng, 0, None
+
+    def offer(self, items):
+        for it in items:
+            self.n += 1
+            if self.rng.integers(self.n) == 0:
+                self.item = it
+
+
+def main(out_path):
+    t0 = time.time()
+    window = pnw_window()
+    tiles = tiles_over(window, 256)
+    big = GridWindow(min(t.window.left for t in tiles), min(t.window.bottom for t in tiles),
+                     max(t.window.right for t in tiles), max(t.window.top for t in tiles))  # fmt: skip
+    cols = read_dbf(L3.with_suffix(".dbf"), ("LEVEL3", "NameL3_En"))
+    codes = sorted(set(cols["LEVEL3"]))
+    idx = {c: i + 1 for i, c in enumerate(codes)}
+    name3 = dict(zip(cols["LEVEL3"], cols["NameL3_En"], strict=True))
+    polys = [(idx[c], _to_grid(r)) for r, c in zip(read_shapefile(L3), cols["LEVEL3"], strict=True)]
+    eco = _burn(polys, big)
+    del polys
+    code_of = {i: c for c, i in idx.items()}
+
+    rng = np.random.default_rng(SEED)
+    res = {g: Reservoir(rng) for g in TIER_A}
+    res_cover = [Reservoir(rng), Reservoir(rng)]
+    res_half = Reservoir(rng)
+
+    checks = defaultdict(int)
+    worst = defaultdict(float)
+    layouts = defaultdict(int)
+    per_l3 = defaultdict(lambda: defaultdict(lambda: [0, 0.0, 0, 0]))
+    tiles_seen = {"whole": 0, "us_half": 0, "none_with_box_cells": []}
+    for tile in tiles:
+        tw = tile.window
+        study, side = cells_in_study(tw, *read_mask(MASK, tw))
+        inbox = study & box_mask(tw, PNW_BOX)
+        if not inbox.any():
+            continue
+        v, f, kind = files_for(tile.key)
+        if v is None:
+            tiles_seen["none_with_box_cells"].append(tile.key)
+            continue
+        tiles_seen[kind] += 1
+        with rasterio.open(v) as ds:
+            layouts[ds.tags().get("band_layout")] += 1
+            names = list(ds.descriptions)
+            vals = {n: ds.read(k + 1) for k, n in enumerate(names)}
+        with rasterio.open(f) as ds:
+            flags = {n: ds.read(k + 1) for k, n in enumerate(ds.descriptions)}
+        us = inbox & (side == SIDE_US)
+        ca = inbox & (side == SIDE_CA)
+        r0 = (big.top - tw.top) // 250
+        c0 = (tw.left - big.left) // 250
+        e = eco[r0 : r0 + tw.height, c0 : c0 + tw.width]
+        checks["us_cells"] += int(us.sum())
+        checks["ca_cells"] += int(ca.sum())
+
+        # Canada: every new band not available.
+        for b in NEW:
+            checks["ca_new_share_not_nan"] += int((ca & np.isfinite(vals[f"share_{b}"])).sum())
+            checks["ca_new_flag_not_3"] += int((ca & (flags[f"flag_{b}"] != 3)).sum())
+
+        # US: consistency of the new bands.
+        defined = us & np.isfinite(vals["share_Pseudotsuga"])
+        checks["us_defined"] += int(defined.sum())
+        for b in NEW:
+            s = vals[f"share_{b}"]
+            checks["us_new_definedness_differs"] += int((us & (np.isfinite(s) != defined)).sum())
+            checks["us_new_flag_differs"] += int(
+                (us & (flags[f"flag_{b}"] != flags["flag_Pseudotsuga"])).sum()
+            )
+            sd = s[defined]
+            checks["us_new_share_out_of_0_1"] += int(((sd < -1e-6) | (sd > 1 + 1e-6)).sum())
+        gsum = sum(vals[f"share_{g}"].astype("float64") for g in GENERA)
+        diff = np.abs(gsum - vals["share_ecm_hosts"])[defined]
+        if diff.size:
+            worst["ecm_minus_genus_sum_abs_max"] = max(worst["ecm_minus_genus_sum_abs_max"],
+                                                       float(diff.max()))  # fmt: skip
+            worst["genus_sum_max"] = max(worst["genus_sum_max"], float(gsum[defined].max()))
+            cb = (vals["share_conifer"].astype("float64") + vals["share_broadleaf"])[defined]
+            worst["conifer_plus_broadleaf_abs_dev_max"] = max(
+                worst["conifer_plus_broadleaf_abs_dev_max"], float(np.abs(cb - 1).max())
+            )
+        checks["us_ecm_off_by_more_than_1e-5"] += int((diff > 1e-5).sum())
+
+        # Level III statistics.
+        ee = e[defined]
+        for b in NEW:
+            sd = vals[f"share_{b}"][defined].astype("float64")
+            for code in np.unique(ee):
+                m = ee == code
+                acc = per_l3[code_of.get(int(code), "none")][b]
+                acc[0] += int(m.sum())
+                acc[1] += float(sd[m].sum())
+                acc[2] += int((sd[m] > 0).sum())
+                acc[3] += int((sd[m] > 0.1).sum())
+
+        # Sample candidates.
+        rows, cols_ = np.nonzero(us)
+        def cells(mask):
+            rr, cc = np.nonzero(mask)
+            return ({"tile": tile.key, "kind": kind, "col": int(tw.left // 250 + c),
+                     "row": int(tw.top // 250 - 1 - r)} for r, c in zip(rr, cc))  # fmt: skip
+        for g in TIER_A:
+            res[g].offer(cells(defined & (vals[f"share_{g}"] >= 0.05)))
+        cov10 = us & (vals["total_cover_pct"] >= 10)
+        for rv in res_cover:
+            rv.offer(cells(cov10))
+        if kind == "us_half":
+            res_half.offer(cells(cov10))
+
+    l3 = {}
+    for code, bands in sorted(per_l3.items()):
+        l3[code] = {"name": name3.get(code, code)}
+        for b, (n, s, gt0, gt01) in bands.items():
+            l3[code][b] = {"defined": n, "mean_share": round(s / n, 5) if n else None,
+                           "above_0": gt0, "above_0.1": gt01}  # fmt: skip
+    sample = {g: res[g].item for g in TIER_A}
+    sample["cover_a"], sample["cover_b"] = res_cover[0].item, res_cover[1].item
+    sample["us_half"] = res_half.item
+    out = {"seconds": round(time.time() - t0, 1), "tiles": tiles_seen, "layouts": dict(layouts),
+           "checks": dict(checks), "worst": dict(worst), "level3": l3, "sample": sample,
+           "seed": SEED}  # fmt: skip
+    Path(out_path).write_text(json.dumps(out, indent=1) + "\n")
+    print(json.dumps({k: out[k] for k in ("seconds", "tiles", "layouts", "checks", "worst")},
+                     indent=1))  # fmt: skip
+
+
+if __name__ == "__main__":
+    main(sys.argv[1])

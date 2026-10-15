@@ -1,0 +1,277 @@
+[
+ {
+  "name": "r1-genus-list",
+  "file": "src/forager_forecast/t6b_hosts.py",
+  "edit": [
+   "T6B_BANDS = (*T5_BANDS, *TIER_A_GENERA, *TIER_B_GENERA, ECM_HOSTS)",
+   "T6B_BANDS = T5_BANDS"
+  ],
+  "forward_change_restored": true,
+  "tail": [
+   "5 failed, 7 passed, 756 warnings in 19.66s"
+  ],
+  "tests_run": 12,
+  "failed": [
+   "test_a_tree_tile_has_the_new_bands_canada_flags_them_not_available",
+   "test_an_old_layout_us_half_is_rebuilt_as_a_new_file_and_the_old_one_kept",
+   "test_f1_a_tile_built_with_the_old_genus_list_is_rebuilt_not_counted_done",
+   "test_f2_the_plot_table_is_rebuilt_when_the_genus_list_changes",
+   "test_the_plot_table_carries_every_new_genus_and_the_total_without_moving_t5s_columns"
+  ],
+  "messages": {
+   "test_the_plot_table_carries_every_new_genus_and_the_total_without_moving_t5s_columns": "AssertionError: assert ('Pseudotsuga...Quercus', ...) == ('Pseudotsuga...Quercus', ...)\n  \n  Right contains 13 more items, first extra item: 'Larix'\n  Use -v to get more diff",
+   "test_a_tree_tile_has_the_new_bands_canada_flags_them_not_available": "AssertionError: the tile lacks the new bands\nassert ('total_cover...e_Picea', ...) == ('total_cover...e_Picea', ...)\n  \n  Right contains 13 more items, first extra item: 'share_Larix'\n  Use -v to get more diff",
+   "test_f1_a_tile_built_with_the_old_genus_list_is_rebuilt_not_counted_done": "AssertionError: assert ('total_cover...e_Picea', ...) == ('total_cover...e_Picea', ...)\n  \n  Right contains 13 more items, first extra item: 'share_Larix'\n  Use -v to get more diff",
+   "test_an_old_layout_us_half_is_rebuilt_as_a_new_file_and_the_old_one_kept": "AssertionError: assert ('total_cover...e_Picea', ...) == ('total_cover...e_Picea', ...)\n  \n  Right contains 13 more items, first extra item: 'share_Larix'\n  Use -v to get more diff",
+   "test_f2_the_plot_table_is_rebuilt_when_the_genus_list_changes": "AssertionError: the old table was reused (F2)\nassert (4, 10) == (4, 23)\n  \n  At index 1 diff: 10 != 23\n  Use -v to get more diff"
+  },
+  "predicted": [
+   "test_a_tree_tile_has_the_new_bands_canada_flags_them_not_available",
+   "test_an_old_layout_us_half_is_rebuilt_as_a_new_file_and_the_old_one_kept",
+   "test_f1_a_tile_built_with_the_old_genus_list_is_rebuilt_not_counted_done",
+   "test_f2_the_plot_table_is_rebuilt_when_the_genus_list_changes",
+   "test_the_plot_table_carries_every_new_genus_and_the_total_without_moving_t5s_columns"
+  ],
+  "status": "bites as predicted"
+ },
+ {
+  "name": "r2-ecm-total",
+  "file": "src/forager_forecast/crown_cover.py",
+  "edit": [
+   "        crown[name] = sum(crown[g] for g in members)",
+   "        crown[name] = 0.0"
+  ],
+  "forward_change_restored": true,
+  "tail": [
+   "2 failed, 10 passed, 760 warnings in 19.57s"
+  ],
+  "tests_run": 12,
+  "failed": [
+   "test_a_tree_tile_has_the_new_bands_canada_flags_them_not_available",
+   "test_the_plot_table_carries_every_new_genus_and_the_total_without_moving_t5s_columns"
+  ],
+  "messages": {
+   "test_the_plot_table_carries_every_new_genus_and_the_total_without_moving_t5s_columns": "assert np.float64(0.0) == 47.53967846854089 \u00b1 4.8e-11\n  \n  comparison failed\n  Obtained: 0.0\n  Expected: 47.53967846854089 \u00b1 4.8e-11",
+   "test_a_tree_tile_has_the_new_bands_canada_flags_them_not_available": "AssertionError: \nNot equal to tolerance rtol=1e-05, atol=1e-06\n\nMismatched elements: 116 / 116 (100%)\nFirst 5 mismatches are at indices:\n [0]: 0.0 (ACTUAL), 0.9470794200897217 (DESIRED)\n [1]: 0.0 (ACTUAL), 0.9438912868499756 (DESIRED)\n [2]: 0.0 (ACTUAL), 0.9408986568450928 (DESIRED)\n [3]: 0.0 (ACTUA"
+  },
+  "predicted": [
+   "test_a_tree_tile_has_the_new_bands_canada_flags_them_not_available",
+   "test_the_plot_table_carries_every_new_genus_and_the_total_without_moving_t5s_columns"
+  ],
+  "status": "bites as predicted"
+ },
+ {
+  "name": "r3-f1-done-needs-layout",
+  "file": "src/forager_forecast/t6b_run.py",
+  "edit": [
+   "if band_layout is not None and entry.get(\"band_layout\") != band_layout:",
+   "if False:"
+  ],
+  "forward_change_restored": true,
+  "tail": [
+   "4 failed, 8 passed, 712 warnings in 18.20s"
+  ],
+  "tests_run": 12,
+  "failed": [
+   "test_a_stale_whole_tile_is_moved_aside_without_its_current_us_half",
+   "test_an_old_layout_us_half_is_rebuilt_as_a_new_file_and_the_old_one_kept",
+   "test_f1_a_tile_built_with_the_old_genus_list_is_rebuilt_not_counted_done",
+   "test_the_trees_only_supersede_keeps_the_old_tile_and_leaves_soil_scanfi_and_manifest"
+  ],
+  "messages": {
+   "test_f1_a_tile_built_with_the_old_genus_list_is_rebuilt_not_counted_done": "AssertionError: the old-layout tile was counted done (F1)\nassert 1 == 0",
+   "test_the_trees_only_supersede_keeps_the_old_tile_and_leaves_soil_scanfi_and_manifest": "AssertionError: the old tile was not kept in a superseded folder\nassert {} == {'trees_4_-17...e376baf2da0c'}\n  \n  Right contains 2 more items:\n  {'trees_4_-1772_1304.tif': '07665a6a15b41f170eda62f5f078ec1229cdfbff9d1eb7c7e67899d83860f25d',\n   'trees_flags_4_-1772_1304.tif': '965843b28004f04109b8bb6e",
+   "test_an_old_layout_us_half_is_rebuilt_as_a_new_file_and_the_old_one_kept": "AssertionError: the old-layout US half was counted done (F1)\nassert 1 == 0",
+   "test_a_stale_whole_tile_is_moved_aside_without_its_current_us_half": "assert 0 == 1"
+  },
+  "predicted": [
+   "test_a_stale_whole_tile_is_moved_aside_without_its_current_us_half",
+   "test_an_old_layout_us_half_is_rebuilt_as_a_new_file_and_the_old_one_kept",
+   "test_f1_a_tile_built_with_the_old_genus_list_is_rebuilt_not_counted_done",
+   "test_the_trees_only_supersede_keeps_the_old_tile_and_leaves_soil_scanfi_and_manifest"
+  ],
+  "status": "bites as predicted"
+ },
+ {
+  "name": "r4-f2-plots-rebuilt-on-layout",
+  "file": "scripts/t6b_run.py",
+  "edit": [
+   "and old.get(\"band_layout\") == BAND_LAYOUT",
+   "and True"
+  ],
+  "forward_change_restored": true,
+  "tail": [
+   "1 failed, 11 passed, 760 warnings in 19.41s"
+  ],
+  "tests_run": 12,
+  "failed": [
+   "test_f2_the_plot_table_is_rebuilt_when_the_genus_list_changes"
+  ],
+  "messages": {
+   "test_f2_the_plot_table_is_rebuilt_when_the_genus_list_changes": "AssertionError: the old table was reused (F2)\nassert (4, 10) == (4, 23)\n  \n  At index 1 diff: 10 != 23\n  Use -v to get more diff"
+  },
+  "predicted": [
+   "test_f2_the_plot_table_is_rebuilt_when_the_genus_list_changes"
+  ],
+  "status": "bites as predicted"
+ },
+ {
+  "name": "r5-plot-table-refusal",
+  "file": "src/forager_forecast/t6b_layers.py",
+  "edit": [
+   "if layout != BAND_LAYOUT or tuple(z[\"bands\"].tolist()) != BANDS:",
+   "if False:"
+  ],
+  "forward_change_restored": true,
+  "tail": [
+   "1 failed, 11 passed, 760 warnings in 19.41s"
+  ],
+  "tests_run": 12,
+  "failed": [
+   "test_a_plot_table_of_another_band_layout_is_refused"
+  ],
+  "messages": {
+   "test_a_plot_table_of_another_band_layout_is_refused": "Failed: DID NOT RAISE ValueError"
+  },
+  "predicted": [
+   "test_a_plot_table_of_another_band_layout_is_refused"
+  ],
+  "status": "bites as predicted"
+ },
+ {
+  "name": "r6-supersede-moves",
+  "file": "scripts/t6b_run.py",
+  "edit": [
+   "    if layout == BAND_LAYOUT:\n        return {}",
+   "    if True:\n        return {}"
+  ],
+  "forward_change_restored": true,
+  "tail": [
+   "3 failed, 9 passed, 760 warnings in 19.53s"
+  ],
+  "tests_run": 12,
+  "failed": [
+   "test_a_stale_whole_tile_is_moved_aside_without_its_current_us_half",
+   "test_an_old_layout_us_half_is_rebuilt_as_a_new_file_and_the_old_one_kept",
+   "test_the_trees_only_supersede_keeps_the_old_tile_and_leaves_soil_scanfi_and_manifest"
+  ],
+  "messages": {
+   "test_the_trees_only_supersede_keeps_the_old_tile_and_leaves_soil_scanfi_and_manifest": "AssertionError: the old tile was not kept in a superseded folder\nassert {} == {'trees_4_-17...e376baf2da0c'}\n  \n  Right contains 2 more items:\n  {'trees_4_-1772_1304.tif': '07665a6a15b41f170eda62f5f078ec1229cdfbff9d1eb7c7e67899d83860f25d',\n   'trees_flags_4_-1772_1304.tif': '965843b28004f04109b8bb6e",
+   "test_an_old_layout_us_half_is_rebuilt_as_a_new_file_and_the_old_one_kept": "AssertionError: assert {} == {'trees_us_ha...adf9763f4674'}\n  \n  Right contains 2 more items:\n  {'trees_flags_us_half_4_-1772_1306.tif': '940acf3d5851d0def7a41054db463200a551fddf141ba36f05f0adf9763f4674',\n   'trees_us_half_4_-1772_1306.tif': 'e466948a2c2fb60c0e9659621655b8322c3fb3e469ad1096364635ffd",
+   "test_a_stale_whole_tile_is_moved_aside_without_its_current_us_half": "AssertionError: assert {} == {'trees_4_-17...adf9763f4674'}\n  \n  Right contains 2 more items:\n  {'trees_4_-1772_1306.tif': 'e466948a2c2fb60c0e9659621655b8322c3fb3e469ad1096364635ffd4b04c39',\n   'trees_flags_4_-1772_1306.tif': '940acf3d5851d0def7a41054db463200a551fddf141ba36f05f0adf9763f4674'}\n  Use "
+  },
+  "predicted": [
+   "test_a_stale_whole_tile_is_moved_aside_without_its_current_us_half",
+   "test_an_old_layout_us_half_is_rebuilt_as_a_new_file_and_the_old_one_kept",
+   "test_the_trees_only_supersede_keeps_the_old_tile_and_leaves_soil_scanfi_and_manifest"
+  ],
+  "status": "bites as predicted"
+ },
+ {
+  "name": "r7-supersede-per-group",
+  "file": "scripts/t6b_run.py",
+  "edit": [
+   "before_tree_unit(lambda k: [_whole_paths(k), _us_half_paths(k)], dest)",
+   "before_tree_unit(lambda k: [[*_whole_paths(k), *_us_half_paths(k)]], dest)"
+  ],
+  "forward_change_restored": true,
+  "tail": [
+   "1 failed, 11 passed, 768 warnings in 19.68s"
+  ],
+  "tests_run": 12,
+  "failed": [
+   "test_a_stale_whole_tile_is_moved_aside_without_its_current_us_half"
+  ],
+  "messages": {
+   "test_a_stale_whole_tile_is_moved_aside_without_its_current_us_half": "KeyError: 'tile_state'"
+  },
+  "predicted": [
+   "test_a_stale_whole_tile_is_moved_aside_without_its_current_us_half"
+  ],
+  "status": "bites as predicted"
+ },
+ {
+  "name": "r8-free-space",
+  "file": "scripts/t6b_run.py",
+  "edit": [
+   "require_free_space(T6B, tree_tile_bytes() + FREE_MARGIN)",
+   "require_free_space(T6B, 0)"
+  ],
+  "forward_change_restored": true,
+  "tail": [
+   "2 failed, 10 passed, 788 warnings in 20.16s"
+  ],
+  "tests_run": 12,
+  "failed": [
+   "test_a_tree_tile_is_not_started_without_free_space[trees-us-half]",
+   "test_a_tree_tile_is_not_started_without_free_space[trees]"
+  ],
+  "messages": {
+   "test_a_tree_tile_is_not_started_without_free_space[trees]": "assert (1 == 0)",
+   "test_a_tree_tile_is_not_started_without_free_space[trees-us-half]": "assert (1 == 0)"
+  },
+  "predicted": [
+   "test_a_tree_tile_is_not_started_without_free_space[trees-us-half]",
+   "test_a_tree_tile_is_not_started_without_free_space[trees]"
+  ],
+  "status": "bites as predicted"
+ },
+ {
+  "name": "r9-box",
+  "file": "scripts/t6b_run.py",
+  "edit": [
+   "        units = [u for u in units if u in box_tiles]\n",
+   "        units = list(units)\n"
+  ],
+  "forward_change_restored": true,
+  "tail": [
+   "1 failed, 11 passed, 830 warnings in 21.83s"
+  ],
+  "tests_run": 12,
+  "failed": [
+   "test_the_box_option_runs_only_the_tiles_with_a_study_cell_in_the_box"
+  ],
+  "messages": {
+   "test_the_box_option_runs_only_the_tiles_with_a_study_cell_in_the_box": "AssertionError: assert ['4_-1772_130...4_-1769_1304'] == ['4_-1772_1304']\n  \n  At index 0 diff: '4_-1772_1305' != '4_-1772_1304'\n  Left contains 5 more items, first extra item: '4_-1771_1305'\n  Use -v to get more diff"
+  },
+  "predicted": [
+   "test_the_box_option_runs_only_the_tiles_with_a_study_cell_in_the_box"
+  ],
+  "status": "bites as predicted"
+ },
+ {
+  "name": "r10-t5-guard",
+  "file": "src/forager_forecast/crown_cover.py",
+  "edit": [
+   "\"Pinus\", \"Quercus\")\nBANDS",
+   "\"Pinus\", \"Quercus\", \"Betula\")\nBANDS"
+  ],
+  "forward_change_restored": true,
+  "tail": [
+   "7 failed, 22 passed, 800 warnings in 33.90s"
+  ],
+  "tests_run": 29,
+  "failed": [
+   "test_a_tree_tile_has_the_new_bands_canada_flags_them_not_available",
+   "test_an_old_layout_us_half_is_rebuilt_as_a_new_file_and_the_old_one_kept",
+   "test_f1_a_tile_built_with_the_old_genus_list_is_rebuilt_not_counted_done",
+   "test_f2_the_plot_table_is_rebuilt_when_the_genus_list_changes",
+   "test_t5s_genus_list_and_its_cover_split_are_unchanged",
+   "test_the_plot_table_carries_every_new_genus_and_the_total_without_moving_t5s_columns",
+   "test_the_strip_is_the_planned_one"
+  ],
+  "messages": {
+   "test_the_plot_table_carries_every_new_genus_and_the_total_without_moving_t5s_columns": "AssertionError: assert ('Pseudotsuga...Quercus', ...) == ('Pseudotsuga...Quercus', ...)\n  \n  At index 6 diff: 'Betula' != 'conifer'\n  Left contains one more item: 'ecm_hosts'\n  Use -v to get more diff",
+   "test_a_tree_tile_has_the_new_bands_canada_flags_them_not_available": "AssertionError: the tile lacks the new bands\nassert ('total_cover...e_Picea', ...) == ('total_cover...e_Picea', ...)\n  \n  At index 9 diff: 'share_Betula' != 'share_conifer'\n  Use -v to get more diff",
+   "test_t5s_genus_list_and_its_cover_split_are_unchanged": "AssertionError: assert ('Pseudotsuga...Quercus', ...) == ('Pseudotsuga...s', 'Quercus')\n  \n  Left contains one more item: 'Betula'\n  Use -v to get more diff",
+   "test_f1_a_tile_built_with_the_old_genus_list_is_rebuilt_not_counted_done": "AssertionError: assert ('total_cover...e_Picea', ...) == ('total_cover...e_Picea', ...)\n  \n  At index 9 diff: 'share_Betula' != 'share_conifer'\n  Use -v to get more diff",
+   "test_an_old_layout_us_half_is_rebuilt_as_a_new_file_and_the_old_one_kept": "AssertionError: assert ('total_cover...e_Picea', ...) == ('total_cover...e_Picea', ...)\n  \n  At index 9 diff: 'share_Betula' != 'share_conifer'\n  Use -v to get more diff",
+   "test_f2_the_plot_table_is_rebuilt_when_the_genus_list_changes": "AssertionError: the old table was reused (F2)\nassert (4, 24) == (4, 23)\n  \n  At index 1 diff: 24 != 23\n  Use -v to get more diff",
+   "test_the_strip_is_the_planned_one": "AssertionError: assert {'Abies', 'Be...cus', 'Tsuga'} == {'Abies', 'Pi...cus', 'Tsuga'}\n  \n  Extra items in the left set:\n  'Betula'\n  Use -v to get more diff"
+  },
+  "predicted_among": [
+   "test_t5s_genus_list_and_its_cover_split_are_unchanged"
+  ],
+  "status": "bites as predicted"
+ }
+]

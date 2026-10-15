@@ -1,0 +1,144 @@
+{
+ "seconds": 25.7,
+ "band_layout": "t6b-bands-f4e9b848ba51",
+ "columns": 23,
+ "peak_rss_mb": 693,
+ "file_bytes": 12638298,
+ "plots": 65814,
+ "surrogate_trees": 1074858,
+ "capped_trees": 13364,
+ "nonpositive_width_trees": 0,
+ "plots_without_tree_rows": 771,
+ "plots_without_canopypct": 459,
+ "unlisted_genus_trees_classed_by_fia_code": 190829,
+ "sha256": "6cc68b026dc596acbcb00ac9496020d6b52df6b5143c765871b6d070fb2e6d11",
+ "bands": [
+  "Pseudotsuga",
+  "Tsuga",
+  "Picea",
+  "Abies",
+  "Pinus",
+  "Quercus",
+  "conifer",
+  "broadleaf",
+  "Larix",
+  "Betula",
+  "Populus",
+  "Alnus",
+  "Lithocarpus",
+  "Chrysolepis",
+  "Arbutus",
+  "Fagus",
+  "Carya",
+  "Tilia",
+  "Ostrya",
+  "Carpinus",
+  "ecm_hosts"
+ ],
+ "ecm_hosts_members": [
+  "Pseudotsuga",
+  "Tsuga",
+  "Picea",
+  "Abies",
+  "Pinus",
+  "Quercus",
+  "Larix",
+  "Betula",
+  "Populus",
+  "Alnus",
+  "Lithocarpus",
+  "Chrysolepis",
+  "Arbutus",
+  "Fagus",
+  "Carya",
+  "Tilia",
+  "Ostrya",
+  "Carpinus"
+ ],
+ "per_band": {
+  "Pseudotsuga": {
+   "plots_with_cover": 8235,
+   "max_cover_pct": 88.1
+  },
+  "Tsuga": {
+   "plots_with_cover": 5223,
+   "max_cover_pct": 89.945
+  },
+  "Picea": {
+   "plots_with_cover": 8572,
+   "max_cover_pct": 80.309
+  },
+  "Abies": {
+   "plots_with_cover": 12788,
+   "max_cover_pct": 81.949
+  },
+  "Pinus": {
+   "plots_with_cover": 31417,
+   "max_cover_pct": 68.626
+  },
+  "Quercus": {
+   "plots_with_cover": 24570,
+   "max_cover_pct": 89.644
+  },
+  "conifer": {
+   "plots_with_cover": 48420,
+   "max_cover_pct": 97.283
+  },
+  "broadleaf": {
+   "plots_with_cover": 42613,
+   "max_cover_pct": 96.529
+  },
+  "Larix": {
+   "plots_with_cover": 2603,
+   "max_cover_pct": 50.827
+  },
+  "Betula": {
+   "plots_with_cover": 9124,
+   "max_cover_pct": 54.403
+  },
+  "Populus": {
+   "plots_with_cover": 6570,
+   "max_cover_pct": 82.085
+  },
+  "Alnus": {
+   "plots_with_cover": 418,
+   "max_cover_pct": 84.466
+  },
+  "Lithocarpus": {
+   "plots_with_cover": 449,
+   "max_cover_pct": 84.144
+  },
+  "Chrysolepis": {
+   "plots_with_cover": 158,
+   "max_cover_pct": 51.448
+  },
+  "Arbutus": {
+   "plots_with_cover": 603,
+   "max_cover_pct": 67.765
+  },
+  "Fagus": {
+   "plots_with_cover": 5136,
+   "max_cover_pct": 52.417
+  },
+  "Carya": {
+   "plots_with_cover": 9622,
+   "max_cover_pct": 46.753
+  },
+  "Tilia": {
+   "plots_with_cover": 2562,
+   "max_cover_pct": 45.719
+  },
+  "Ostrya": {
+   "plots_with_cover": 2006,
+   "max_cover_pct": 18.061
+  },
+  "Carpinus": {
+   "plots_with_cover": 903,
+   "max_cover_pct": 17.866
+  },
+  "ecm_hosts": {
+   "plots_with_cover": 59908,
+   "max_cover_pct": 92.091
+  }
+ }
+}

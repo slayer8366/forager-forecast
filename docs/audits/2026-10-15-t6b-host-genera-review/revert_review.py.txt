@@ -1,0 +1,130 @@
+"""D18 review of t6b-host-genera: revert checks re-run by the reviewer, under Forager CLAUDE.md's
+runner rules. Written by the reviewer, not copied from the coder's runner.
+
+Per check: copy the file aside; make the one-line edit; run the named tests with a fresh JUnit XML
+(any old XML deleted first); if the log shows a collection, import or syntax error, or the XML is
+missing, or the XML counts errors, refuse to read results; restore the file from the saved copy
+(never from git); confirm the restored file hashes to the saved copy, and that the forward
+change's own anchor text is present in it again. Writes revert_review.out.json beside this file.
+
+Checks R1 to R3 repeat three of the coder's (r3, r4, r8) with the same edits, as an independent
+re-run. R4 is the reviewer's own: it removes the before-unit hook from the two-worker path of
+run_section, which the build report names as untested; the prediction is that no test fails.
+Usage (repository root): python revert_review.py
+"""
+
+import hashlib
+import json
+import shutil
+import subprocess
+import sys
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parents[3]
+OUT = Path(__file__).resolve().parent
+WORK = REPO / ".pytest-tmp" / "revert-review"
+HG = "tests/test_t6b_host_genera.py"
+
+CHECKS = [
+    {"name": "R1-f1-done-ignores-layout (coder r3)", "file": "src/forager_forecast/t6b_run.py",
+     "old": 'if band_layout is not None and entry.get("band_layout") != band_layout:',
+     "new": "if False:", "tests": [HG],
+     "expect": {
+         "test_f1_a_tile_built_with_the_old_genus_list_is_rebuilt_not_counted_done",
+         "test_the_trees_only_supersede_keeps_the_old_tile_and_leaves_soil_scanfi_and_manifest",
+         "test_an_old_layout_us_half_is_rebuilt_as_a_new_file_and_the_old_one_kept",
+         "test_a_stale_whole_tile_is_moved_aside_without_its_current_us_half"}},
+    {"name": "R2-f2-plots-ignore-layout (coder r4)", "file": "scripts/t6b_run.py",
+     "old": 'and old.get("band_layout") == BAND_LAYOUT', "new": "and True", "tests": [HG],
+     "expect": {"test_f2_the_plot_table_is_rebuilt_when_the_genus_list_changes"}},
+    {"name": "R3-free-space-zero (coder r8)", "file": "scripts/t6b_run.py",
+     "old": "require_free_space(T6B, tree_tile_bytes() + FREE_MARGIN)",
+     "new": "require_free_space(T6B, 0)", "tests": [HG],
+     "expect": {"test_a_tree_tile_is_not_started_without_free_space[trees]",
+                "test_a_tree_tile_is_not_started_without_free_space[trees-us-half]"}},
+    {"name": "R4-two-worker-path-skips-before-unit (reviewer)",
+     "file": "src/forager_forecast/t6b_run.py",
+     "old": "reason = ensure_prepared(queue[0]) or check_before(queue[0])",
+     "new": "reason = ensure_prepared(queue[0])",
+     "tests": [HG, "tests/test_t6b_run.py", "tests/test_t6b_us_half_runner.py",
+               "tests/test_t6b_layers.py"],
+     "expect": set()},
+]  # fmt: skip
+ERROR_MARKS = ("ERROR collecting", "ImportError", "SyntaxError", "ModuleNotFoundError",
+               "IndentationError", "NameError", "errors during collection")  # fmt: skip
+
+
+def sha(p: Path) -> str:
+    return hashlib.sha256(p.read_bytes()).hexdigest()
+
+
+def run(c: dict) -> dict:
+    path = REPO / c["file"]
+    WORK.mkdir(parents=True, exist_ok=True)
+    tag = c["name"].split()[0]
+    saved = WORK / f"{tag}.saved"
+    shutil.copy2(path, saved)
+    saved_sha = sha(saved)
+    text = path.read_text()
+    r = {"name": c["name"], "file": c["file"], "edit": [c["old"], c["new"]]}
+    if text.count(c["old"]) != 1:
+        r["status"] = "anchor not found exactly once; not run"
+        return r
+    xml = WORK / f"{tag}.xml"
+    xml.unlink(missing_ok=True)
+    try:
+        path.write_text(text.replace(c["old"], c["new"]))
+        proc = subprocess.run(
+            [sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider",
+             f"--basetemp={WORK / tag}", f"--junitxml={xml}", *c["tests"]],
+            cwd=REPO, capture_output=True, text=True)  # fmt: skip
+    finally:
+        shutil.copy2(saved, path)
+    log = proc.stdout + proc.stderr
+    (WORK / f"{tag}.log").write_text(log)
+    restored = sha(path) == saved_sha
+    anchor_back = path.read_text().count(c["old"]) == 1
+    r.update({"restored_from_copy": restored, "forward_anchor_present_after": anchor_back,
+              "log_tail": log.strip().splitlines()[-1:]})  # fmt: skip
+    marks = [m for m in ERROR_MARKS if m in log]
+    if not xml.exists() or marks:
+        r["status"] = f"REFUSED: error marks {marks} or no XML; results not read"
+        return r
+    root = ET.parse(xml).getroot()
+    suite = root if root.tag == "testsuite" else root.find("testsuite")
+    if int(suite.get("errors", 0)):
+        r["status"] = "REFUSED: errors in the run; results not read"
+        return r
+    failed, msgs = set(), {}
+    for case in suite.iter("testcase"):
+        bad = case.find("failure")
+        if bad is not None:
+            failed.add(case.get("name"))
+            msgs[case.get("name")] = (bad.get("message") or "")[:240]
+    r.update({"tests_run": int(suite.get("tests", 0)), "failed": sorted(failed),
+              "messages": msgs, "predicted": sorted(c["expect"])})  # fmt: skip
+    ok = failed == c["expect"] and restored and anchor_back
+    r["status"] = "as predicted" if ok else "MISMATCH"
+    return r
+
+
+def main() -> None:
+    dirty = subprocess.run(["git", "diff", "--quiet", "HEAD", "--", "src", "scripts", "tests"],
+                           cwd=REPO).returncode  # fmt: skip
+    if dirty:
+        sys.exit("src, scripts or tests differ from HEAD; not running")
+    results = [run(c) for c in CHECKS]
+    clean = subprocess.run(["git", "diff", "--quiet", "HEAD", "--", "src", "scripts", "tests"],
+                           cwd=REPO).returncode == 0  # fmt: skip
+    out = {"head": subprocess.run(["git", "rev-parse", "HEAD"], cwd=REPO, capture_output=True,
+                                  text=True).stdout.strip(),
+           "checks": results, "tree_equals_head_after": clean}  # fmt: skip
+    (OUT / "revert_review.out.json").write_text(json.dumps(out, indent=1) + "\n")
+    for x in results:
+        print(x["name"], "|", x["status"], "|", x.get("failed"), "|", x.get("tests_run"))
+    print("tree equals HEAD after:", clean)
+
+
+if __name__ == "__main__":
+    main()

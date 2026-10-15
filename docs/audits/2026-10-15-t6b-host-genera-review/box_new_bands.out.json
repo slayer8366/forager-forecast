@@ -1,0 +1,2036 @@
+{
+ "seconds": 147.5,
+ "tiles": {
+  "whole": 283,
+  "us_half": 13,
+  "none_with_box_cells": []
+ },
+ "layouts": {
+  "t6b-bands-f4e9b848ba51": 296
+ },
+ "checks": {
+  "us_cells": 16571590,
+  "ca_cells": 102543,
+  "ca_new_share_not_nan": 0,
+  "ca_new_flag_not_3": 0,
+  "us_defined": 6991082,
+  "us_new_definedness_differs": 0,
+  "us_new_flag_differs": 0,
+  "us_new_share_out_of_0_1": 0,
+  "us_ecm_off_by_more_than_1e-5": 0
+ },
+ "worst": {
+  "ecm_minus_genus_sum_abs_max": 7.82310962677002e-08,
+  "genus_sum_max": 1.0000000521540642,
+  "conifer_plus_broadleaf_abs_dev_max": 2.9802322387695312e-08
+ },
+ "level3": {
+  "10.1.2": {
+   "name": "Columbia Plateau",
+   "Larix": {
+    "defined": 51703,
+    "mean_share": 0.01548,
+    "above_0": 23980,
+    "above_0.1": 1920
+   },
+   "Betula": {
+    "defined": 51703,
+    "mean_share": 0.00041,
+    "above_0": 6005,
+    "above_0.1": 0
+   },
+   "Populus": {
+    "defined": 51703,
+    "mean_share": 0.01963,
+    "above_0": 13806,
+    "above_0.1": 3125
+   },
+   "Alnus": {
+    "defined": 51703,
+    "mean_share": 4e-05,
+    "above_0": 260,
+    "above_0.1": 1
+   },
+   "Lithocarpus": {
+    "defined": 51703,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Chrysolepis": {
+    "defined": 51703,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Arbutus": {
+    "defined": 51703,
+    "mean_share": 8e-05,
+    "above_0": 156,
+    "above_0.1": 6
+   },
+   "Fagus": {
+    "defined": 51703,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 51703,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 51703,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 51703,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 51703,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 51703,
+    "mean_share": 0.95359,
+    "above_0": 51657,
+    "above_0.1": 51480
+   }
+  },
+  "10.1.3": {
+   "name": "Northern Basin and Range",
+   "Larix": {
+    "defined": 165910,
+    "mean_share": 7e-05,
+    "above_0": 1352,
+    "above_0.1": 4
+   },
+   "Betula": {
+    "defined": 165910,
+    "mean_share": 4e-05,
+    "above_0": 760,
+    "above_0.1": 0
+   },
+   "Populus": {
+    "defined": 165910,
+    "mean_share": 0.16459,
+    "above_0": 94055,
+    "above_0.1": 62935
+   },
+   "Alnus": {
+    "defined": 165910,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Lithocarpus": {
+    "defined": 165910,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Chrysolepis": {
+    "defined": 165910,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Arbutus": {
+    "defined": 165910,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Fagus": {
+    "defined": 165910,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 165910,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 165910,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 165910,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 165910,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 165910,
+    "mean_share": 0.46074,
+    "above_0": 148191,
+    "above_0.1": 118779
+   }
+  },
+  "10.1.4": {
+   "name": "Wyoming Basin",
+   "Larix": {
+    "defined": 4276,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Betula": {
+    "defined": 4276,
+    "mean_share": 0.0,
+    "above_0": 1,
+    "above_0.1": 0
+   },
+   "Populus": {
+    "defined": 4276,
+    "mean_share": 0.18583,
+    "above_0": 2401,
+    "above_0.1": 1472
+   },
+   "Alnus": {
+    "defined": 4276,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Lithocarpus": {
+    "defined": 4276,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Chrysolepis": {
+    "defined": 4276,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Arbutus": {
+    "defined": 4276,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Fagus": {
+    "defined": 4276,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 4276,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 4276,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 4276,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 4276,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 4276,
+    "mean_share": 0.52206,
+    "above_0": 4207,
+    "above_0.1": 3608
+   }
+  },
+  "10.1.5": {
+   "name": "Central Basin and Range",
+   "Larix": {
+    "defined": 98539,
+    "mean_share": 0.0,
+    "above_0": 17,
+    "above_0.1": 0
+   },
+   "Betula": {
+    "defined": 98539,
+    "mean_share": 0.0,
+    "above_0": 2,
+    "above_0.1": 0
+   },
+   "Populus": {
+    "defined": 98539,
+    "mean_share": 0.05259,
+    "above_0": 22363,
+    "above_0.1": 11379
+   },
+   "Alnus": {
+    "defined": 98539,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Lithocarpus": {
+    "defined": 98539,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Chrysolepis": {
+    "defined": 98539,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Arbutus": {
+    "defined": 98539,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Fagus": {
+    "defined": 98539,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 98539,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 98539,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 98539,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 98539,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 98539,
+    "mean_share": 0.52418,
+    "above_0": 98317,
+    "above_0.1": 93956
+   }
+  },
+  "10.1.6": {
+   "name": "Colorado Plateaus",
+   "Larix": {
+    "defined": 440,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Betula": {
+    "defined": 440,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Populus": {
+    "defined": 440,
+    "mean_share": 0.53356,
+    "above_0": 438,
+    "above_0.1": 384
+   },
+   "Alnus": {
+    "defined": 440,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Lithocarpus": {
+    "defined": 440,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Chrysolepis": {
+    "defined": 440,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Arbutus": {
+    "defined": 440,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Fagus": {
+    "defined": 440,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 440,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 440,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 440,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 440,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 440,
+    "mean_share": 0.94435,
+    "above_0": 440,
+    "above_0.1": 440
+   }
+  },
+  "10.1.8": {
+   "name": "Snake River Plain",
+   "Larix": {
+    "defined": 12182,
+    "mean_share": 0.00223,
+    "above_0": 989,
+    "above_0.1": 80
+   },
+   "Betula": {
+    "defined": 12182,
+    "mean_share": 0.0001,
+    "above_0": 123,
+    "above_0.1": 0
+   },
+   "Populus": {
+    "defined": 12182,
+    "mean_share": 0.28067,
+    "above_0": 8185,
+    "above_0.1": 6372
+   },
+   "Alnus": {
+    "defined": 12182,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Lithocarpus": {
+    "defined": 12182,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Chrysolepis": {
+    "defined": 12182,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Arbutus": {
+    "defined": 12182,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Fagus": {
+    "defined": 12182,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 12182,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 12182,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 12182,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 12182,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 12182,
+    "mean_share": 0.84239,
+    "above_0": 12108,
+    "above_0.1": 11796
+   }
+  },
+  "11.1.1": {
+   "name": "Central California Foothills and Coastal Mountains",
+   "Larix": {
+    "defined": 41755,
+    "mean_share": 0.0,
+    "above_0": 63,
+    "above_0.1": 0
+   },
+   "Betula": {
+    "defined": 41755,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Populus": {
+    "defined": 41755,
+    "mean_share": 0.00075,
+    "above_0": 853,
+    "above_0.1": 58
+   },
+   "Alnus": {
+    "defined": 41755,
+    "mean_share": 0.00552,
+    "above_0": 9325,
+    "above_0.1": 519
+   },
+   "Lithocarpus": {
+    "defined": 41755,
+    "mean_share": 0.00076,
+    "above_0": 3906,
+    "above_0.1": 22
+   },
+   "Chrysolepis": {
+    "defined": 41755,
+    "mean_share": 1e-05,
+    "above_0": 160,
+    "above_0.1": 0
+   },
+   "Arbutus": {
+    "defined": 41755,
+    "mean_share": 0.0067,
+    "above_0": 12086,
+    "above_0.1": 368
+   },
+   "Fagus": {
+    "defined": 41755,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 41755,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 41755,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 41755,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 41755,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 41755,
+    "mean_share": 0.98771,
+    "above_0": 41755,
+    "above_0.1": 41755
+   }
+  },
+  "11.1.2": {
+   "name": "Central California Valley",
+   "Larix": {
+    "defined": 394,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Betula": {
+    "defined": 394,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Populus": {
+    "defined": 394,
+    "mean_share": 0.03064,
+    "above_0": 122,
+    "above_0.1": 50
+   },
+   "Alnus": {
+    "defined": 394,
+    "mean_share": 0.00705,
+    "above_0": 153,
+    "above_0.1": 0
+   },
+   "Lithocarpus": {
+    "defined": 394,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Chrysolepis": {
+    "defined": 394,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Arbutus": {
+    "defined": 394,
+    "mean_share": 1e-05,
+    "above_0": 3,
+    "above_0.1": 0
+   },
+   "Fagus": {
+    "defined": 394,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 394,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 394,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 394,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 394,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 394,
+    "mean_share": 0.91706,
+    "above_0": 394,
+    "above_0.1": 394
+   }
+  },
+  "6.2.10": {
+   "name": "Middle Rockies",
+   "Larix": {
+    "defined": 641567,
+    "mean_share": 0.00762,
+    "above_0": 88799,
+    "above_0.1": 18184
+   },
+   "Betula": {
+    "defined": 641567,
+    "mean_share": 0.0001,
+    "above_0": 7058,
+    "above_0.1": 64
+   },
+   "Populus": {
+    "defined": 641567,
+    "mean_share": 0.02828,
+    "above_0": 204792,
+    "above_0.1": 43867
+   },
+   "Alnus": {
+    "defined": 641567,
+    "mean_share": 0.0,
+    "above_0": 347,
+    "above_0.1": 0
+   },
+   "Lithocarpus": {
+    "defined": 641567,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Chrysolepis": {
+    "defined": 641567,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Arbutus": {
+    "defined": 641567,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Fagus": {
+    "defined": 641567,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 641567,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 641567,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 641567,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 641567,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 641567,
+    "mean_share": 0.98103,
+    "above_0": 641567,
+    "above_0.1": 641560
+   }
+  },
+  "6.2.11": {
+   "name": "Klamath Mountains",
+   "Larix": {
+    "defined": 556207,
+    "mean_share": 6e-05,
+    "above_0": 6256,
+    "above_0.1": 19
+   },
+   "Betula": {
+    "defined": 556207,
+    "mean_share": 3e-05,
+    "above_0": 3838,
+    "above_0.1": 6
+   },
+   "Populus": {
+    "defined": 556207,
+    "mean_share": 0.0001,
+    "above_0": 6960,
+    "above_0.1": 29
+   },
+   "Alnus": {
+    "defined": 556207,
+    "mean_share": 0.0054,
+    "above_0": 161034,
+    "above_0.1": 5455
+   },
+   "Lithocarpus": {
+    "defined": 556207,
+    "mean_share": 0.08513,
+    "above_0": 347725,
+    "above_0.1": 142519
+   },
+   "Chrysolepis": {
+    "defined": 556207,
+    "mean_share": 0.0078,
+    "above_0": 268245,
+    "above_0.1": 5302
+   },
+   "Arbutus": {
+    "defined": 556207,
+    "mean_share": 0.07767,
+    "above_0": 474739,
+    "above_0.1": 173804
+   },
+   "Fagus": {
+    "defined": 556207,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 556207,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 556207,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 556207,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 556207,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 556207,
+    "mean_share": 0.92636,
+    "above_0": 556207,
+    "above_0.1": 556207
+   }
+  },
+  "6.2.12": {
+   "name": "Sierra Nevada",
+   "Larix": {
+    "defined": 24897,
+    "mean_share": 6e-05,
+    "above_0": 389,
+    "above_0.1": 0
+   },
+   "Betula": {
+    "defined": 24897,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Populus": {
+    "defined": 24897,
+    "mean_share": 0.0033,
+    "above_0": 4644,
+    "above_0.1": 157
+   },
+   "Alnus": {
+    "defined": 24897,
+    "mean_share": 1e-05,
+    "above_0": 73,
+    "above_0.1": 0
+   },
+   "Lithocarpus": {
+    "defined": 24897,
+    "mean_share": 0.00014,
+    "above_0": 163,
+    "above_0.1": 0
+   },
+   "Chrysolepis": {
+    "defined": 24897,
+    "mean_share": 0.0,
+    "above_0": 3,
+    "above_0.1": 0
+   },
+   "Arbutus": {
+    "defined": 24897,
+    "mean_share": 0.00504,
+    "above_0": 4559,
+    "above_0.1": 233
+   },
+   "Fagus": {
+    "defined": 24897,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 24897,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 24897,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 24897,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 24897,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 24897,
+    "mean_share": 0.86933,
+    "above_0": 24897,
+    "above_0.1": 24894
+   }
+  },
+  "6.2.13": {
+   "name": "Wasatch and Uinta Mountains",
+   "Larix": {
+    "defined": 151004,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Betula": {
+    "defined": 151004,
+    "mean_share": 0.0,
+    "above_0": 6,
+    "above_0.1": 0
+   },
+   "Populus": {
+    "defined": 151004,
+    "mean_share": 0.40122,
+    "above_0": 141431,
+    "above_0.1": 109709
+   },
+   "Alnus": {
+    "defined": 151004,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Lithocarpus": {
+    "defined": 151004,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Chrysolepis": {
+    "defined": 151004,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Arbutus": {
+    "defined": 151004,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Fagus": {
+    "defined": 151004,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 151004,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 151004,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 151004,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 151004,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 151004,
+    "mean_share": 0.77262,
+    "above_0": 150833,
+    "above_0.1": 147766
+   }
+  },
+  "6.2.15": {
+   "name": "Idaho Batholith",
+   "Larix": {
+    "defined": 623506,
+    "mean_share": 0.00926,
+    "above_0": 240445,
+    "above_0.1": 10374
+   },
+   "Betula": {
+    "defined": 623506,
+    "mean_share": 0.00084,
+    "above_0": 31816,
+    "above_0.1": 981
+   },
+   "Populus": {
+    "defined": 623506,
+    "mean_share": 0.00518,
+    "above_0": 125379,
+    "above_0.1": 6922
+   },
+   "Alnus": {
+    "defined": 623506,
+    "mean_share": 0.0001,
+    "above_0": 6499,
+    "above_0.1": 51
+   },
+   "Lithocarpus": {
+    "defined": 623506,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Chrysolepis": {
+    "defined": 623506,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Arbutus": {
+    "defined": 623506,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Fagus": {
+    "defined": 623506,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 623506,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 623506,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 623506,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 623506,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 623506,
+    "mean_share": 0.98305,
+    "above_0": 623506,
+    "above_0.1": 623506
+   }
+  },
+  "6.2.3": {
+   "name": "Columbia Mountains/Northern Rockies",
+   "Larix": {
+    "defined": 1069982,
+    "mean_share": 0.07287,
+    "above_0": 1035227,
+    "above_0.1": 267235
+   },
+   "Betula": {
+    "defined": 1069982,
+    "mean_share": 0.00474,
+    "above_0": 408247,
+    "above_0.1": 4389
+   },
+   "Populus": {
+    "defined": 1069982,
+    "mean_share": 0.00618,
+    "above_0": 491250,
+    "above_0.1": 7895
+   },
+   "Alnus": {
+    "defined": 1069982,
+    "mean_share": 0.00071,
+    "above_0": 107611,
+    "above_0.1": 766
+   },
+   "Lithocarpus": {
+    "defined": 1069982,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Chrysolepis": {
+    "defined": 1069982,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Arbutus": {
+    "defined": 1069982,
+    "mean_share": 0.0,
+    "above_0": 3,
+    "above_0.1": 0
+   },
+   "Fagus": {
+    "defined": 1069982,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 1069982,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 1069982,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 1069982,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 1069982,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 1069982,
+    "mean_share": 0.91481,
+    "above_0": 1069982,
+    "above_0.1": 1069981
+   }
+  },
+  "6.2.4": {
+   "name": "Canadian Rockies",
+   "Larix": {
+    "defined": 230095,
+    "mean_share": 0.05961,
+    "above_0": 173332,
+    "above_0.1": 52876
+   },
+   "Betula": {
+    "defined": 230095,
+    "mean_share": 0.00254,
+    "above_0": 43733,
+    "above_0.1": 278
+   },
+   "Populus": {
+    "defined": 230095,
+    "mean_share": 0.01637,
+    "above_0": 65929,
+    "above_0.1": 9325
+   },
+   "Alnus": {
+    "defined": 230095,
+    "mean_share": 0.0,
+    "above_0": 105,
+    "above_0.1": 0
+   },
+   "Lithocarpus": {
+    "defined": 230095,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Chrysolepis": {
+    "defined": 230095,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Arbutus": {
+    "defined": 230095,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Fagus": {
+    "defined": 230095,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 230095,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 230095,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 230095,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 230095,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 230095,
+    "mean_share": 0.99402,
+    "above_0": 230095,
+    "above_0.1": 230095
+   }
+  },
+  "6.2.5": {
+   "name": "North Cascades",
+   "Larix": {
+    "defined": 392324,
+    "mean_share": 0.02592,
+    "above_0": 178291,
+    "above_0.1": 30067
+   },
+   "Betula": {
+    "defined": 392324,
+    "mean_share": 0.00034,
+    "above_0": 27908,
+    "above_0.1": 57
+   },
+   "Populus": {
+    "defined": 392324,
+    "mean_share": 0.00185,
+    "above_0": 95525,
+    "above_0.1": 595
+   },
+   "Alnus": {
+    "defined": 392324,
+    "mean_share": 0.02938,
+    "above_0": 136534,
+    "above_0.1": 38652
+   },
+   "Lithocarpus": {
+    "defined": 392324,
+    "mean_share": 1e-05,
+    "above_0": 473,
+    "above_0.1": 0
+   },
+   "Chrysolepis": {
+    "defined": 392324,
+    "mean_share": 5e-05,
+    "above_0": 17108,
+    "above_0.1": 0
+   },
+   "Arbutus": {
+    "defined": 392324,
+    "mean_share": 0.00016,
+    "above_0": 5114,
+    "above_0.1": 31
+   },
+   "Fagus": {
+    "defined": 392324,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 392324,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 392324,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 392324,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 392324,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 392324,
+    "mean_share": 0.94559,
+    "above_0": 392324,
+    "above_0.1": 392278
+   }
+  },
+  "6.2.7": {
+   "name": "Cascades",
+   "Larix": {
+    "defined": 832956,
+    "mean_share": 0.00108,
+    "above_0": 80954,
+    "above_0.1": 1273
+   },
+   "Betula": {
+    "defined": 832956,
+    "mean_share": 0.00015,
+    "above_0": 19342,
+    "above_0.1": 22
+   },
+   "Populus": {
+    "defined": 832956,
+    "mean_share": 0.00279,
+    "above_0": 225406,
+    "above_0.1": 1878
+   },
+   "Alnus": {
+    "defined": 832956,
+    "mean_share": 0.05941,
+    "above_0": 400737,
+    "above_0.1": 169932
+   },
+   "Lithocarpus": {
+    "defined": 832956,
+    "mean_share": 0.00051,
+    "above_0": 51431,
+    "above_0.1": 312
+   },
+   "Chrysolepis": {
+    "defined": 832956,
+    "mean_share": 0.00224,
+    "above_0": 328935,
+    "above_0.1": 147
+   },
+   "Arbutus": {
+    "defined": 832956,
+    "mean_share": 0.00503,
+    "above_0": 137716,
+    "above_0.1": 8922
+   },
+   "Fagus": {
+    "defined": 832956,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 832956,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 832956,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 832956,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 832956,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 832956,
+    "mean_share": 0.89161,
+    "above_0": 832956,
+    "above_0.1": 832809
+   }
+  },
+  "6.2.8": {
+   "name": "Eastern Cascades Slopes and Foothills",
+   "Larix": {
+    "defined": 491454,
+    "mean_share": 0.00685,
+    "above_0": 142623,
+    "above_0.1": 5859
+   },
+   "Betula": {
+    "defined": 491454,
+    "mean_share": 8e-05,
+    "above_0": 7393,
+    "above_0.1": 3
+   },
+   "Populus": {
+    "defined": 491454,
+    "mean_share": 0.00518,
+    "above_0": 87947,
+    "above_0.1": 6054
+   },
+   "Alnus": {
+    "defined": 491454,
+    "mean_share": 0.00141,
+    "above_0": 29591,
+    "above_0.1": 1863
+   },
+   "Lithocarpus": {
+    "defined": 491454,
+    "mean_share": 0.0,
+    "above_0": 156,
+    "above_0.1": 0
+   },
+   "Chrysolepis": {
+    "defined": 491454,
+    "mean_share": 6e-05,
+    "above_0": 5945,
+    "above_0.1": 1
+   },
+   "Arbutus": {
+    "defined": 491454,
+    "mean_share": 0.00016,
+    "above_0": 9446,
+    "above_0.1": 33
+   },
+   "Fagus": {
+    "defined": 491454,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 491454,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 491454,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 491454,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 491454,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 491454,
+    "mean_share": 0.85847,
+    "above_0": 486394,
+    "above_0.1": 475676
+   }
+  },
+  "6.2.9": {
+   "name": "Blue Mountains",
+   "Larix": {
+    "defined": 614710,
+    "mean_share": 0.03128,
+    "above_0": 400587,
+    "above_0.1": 54227
+   },
+   "Betula": {
+    "defined": 614710,
+    "mean_share": 0.00027,
+    "above_0": 30747,
+    "above_0.1": 34
+   },
+   "Populus": {
+    "defined": 614710,
+    "mean_share": 0.00371,
+    "above_0": 111941,
+    "above_0.1": 3880
+   },
+   "Alnus": {
+    "defined": 614710,
+    "mean_share": 2e-05,
+    "above_0": 3247,
+    "above_0.1": 1
+   },
+   "Lithocarpus": {
+    "defined": 614710,
+    "mean_share": 0.0,
+    "above_0": 16,
+    "above_0.1": 0
+   },
+   "Chrysolepis": {
+    "defined": 614710,
+    "mean_share": 0.0,
+    "above_0": 72,
+    "above_0.1": 0
+   },
+   "Arbutus": {
+    "defined": 614710,
+    "mean_share": 2e-05,
+    "above_0": 452,
+    "above_0.1": 11
+   },
+   "Fagus": {
+    "defined": 614710,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 614710,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 614710,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 614710,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 614710,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 614710,
+    "mean_share": 0.85316,
+    "above_0": 577807,
+    "above_0.1": 563414
+   }
+  },
+  "7.1.7": {
+   "name": "Strait of Georgia/Puget Lowland",
+   "Larix": {
+    "defined": 174306,
+    "mean_share": 1e-05,
+    "above_0": 183,
+    "above_0.1": 1
+   },
+   "Betula": {
+    "defined": 174306,
+    "mean_share": 0.00081,
+    "above_0": 31898,
+    "above_0.1": 259
+   },
+   "Populus": {
+    "defined": 174306,
+    "mean_share": 0.03082,
+    "above_0": 157257,
+    "above_0.1": 7997
+   },
+   "Alnus": {
+    "defined": 174306,
+    "mean_share": 0.25804,
+    "above_0": 172948,
+    "above_0.1": 155711
+   },
+   "Lithocarpus": {
+    "defined": 174306,
+    "mean_share": 0.0,
+    "above_0": 103,
+    "above_0.1": 0
+   },
+   "Chrysolepis": {
+    "defined": 174306,
+    "mean_share": 0.00076,
+    "above_0": 52904,
+    "above_0.1": 0
+   },
+   "Arbutus": {
+    "defined": 174306,
+    "mean_share": 0.00031,
+    "above_0": 21267,
+    "above_0.1": 4
+   },
+   "Fagus": {
+    "defined": 174306,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 174306,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 174306,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 174306,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 174306,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 174306,
+    "mean_share": 0.61896,
+    "above_0": 174306,
+    "above_0.1": 173162
+   }
+  },
+  "7.1.8": {
+   "name": "Coastal Range",
+   "Larix": {
+    "defined": 698432,
+    "mean_share": 2e-05,
+    "above_0": 2685,
+    "above_0.1": 3
+   },
+   "Betula": {
+    "defined": 698432,
+    "mean_share": 9e-05,
+    "above_0": 35680,
+    "above_0.1": 3
+   },
+   "Populus": {
+    "defined": 698432,
+    "mean_share": 0.0027,
+    "above_0": 259086,
+    "above_0.1": 525
+   },
+   "Alnus": {
+    "defined": 698432,
+    "mean_share": 0.19653,
+    "above_0": 659969,
+    "above_0.1": 431408
+   },
+   "Lithocarpus": {
+    "defined": 698432,
+    "mean_share": 0.04508,
+    "above_0": 211613,
+    "above_0.1": 109751
+   },
+   "Chrysolepis": {
+    "defined": 698432,
+    "mean_share": 0.00206,
+    "above_0": 295065,
+    "above_0.1": 432
+   },
+   "Arbutus": {
+    "defined": 698432,
+    "mean_share": 0.00871,
+    "above_0": 209585,
+    "above_0.1": 13079
+   },
+   "Fagus": {
+    "defined": 698432,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 698432,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 698432,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 698432,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 698432,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 698432,
+    "mean_share": 0.79275,
+    "above_0": 698432,
+    "above_0.1": 698222
+   }
+  },
+  "7.1.9": {
+   "name": "Willamette Valley",
+   "Larix": {
+    "defined": 95182,
+    "mean_share": 0.0,
+    "above_0": 1,
+    "above_0.1": 0
+   },
+   "Betula": {
+    "defined": 95182,
+    "mean_share": 2e-05,
+    "above_0": 345,
+    "above_0.1": 2
+   },
+   "Populus": {
+    "defined": 95182,
+    "mean_share": 0.00918,
+    "above_0": 57740,
+    "above_0.1": 45
+   },
+   "Alnus": {
+    "defined": 95182,
+    "mean_share": 0.18411,
+    "above_0": 94495,
+    "above_0.1": 69187
+   },
+   "Lithocarpus": {
+    "defined": 95182,
+    "mean_share": 0.00282,
+    "above_0": 26857,
+    "above_0.1": 275
+   },
+   "Chrysolepis": {
+    "defined": 95182,
+    "mean_share": 0.00296,
+    "above_0": 62633,
+    "above_0.1": 0
+   },
+   "Arbutus": {
+    "defined": 95182,
+    "mean_share": 0.0078,
+    "above_0": 49168,
+    "above_0.1": 474
+   },
+   "Fagus": {
+    "defined": 95182,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 95182,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 95182,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 95182,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 95182,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 95182,
+    "mean_share": 0.59837,
+    "above_0": 95182,
+    "above_0.1": 94551
+   }
+  },
+  "9.3.1": {
+   "name": "Northwestern Glaciated Plains",
+   "Larix": {
+    "defined": 8107,
+    "mean_share": 0.01816,
+    "above_0": 4182,
+    "above_0.1": 340
+   },
+   "Betula": {
+    "defined": 8107,
+    "mean_share": 0.00072,
+    "above_0": 637,
+    "above_0.1": 4
+   },
+   "Populus": {
+    "defined": 8107,
+    "mean_share": 0.13419,
+    "above_0": 5596,
+    "above_0.1": 2874
+   },
+   "Alnus": {
+    "defined": 8107,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Lithocarpus": {
+    "defined": 8107,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Chrysolepis": {
+    "defined": 8107,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Arbutus": {
+    "defined": 8107,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Fagus": {
+    "defined": 8107,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 8107,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 8107,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 8107,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 8107,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 8107,
+    "mean_share": 0.87277,
+    "above_0": 8097,
+    "above_0.1": 7964
+   }
+  },
+  "9.3.3": {
+   "name": "Northwestern Great Plains",
+   "Larix": {
+    "defined": 11154,
+    "mean_share": 0.00034,
+    "above_0": 566,
+    "above_0.1": 1
+   },
+   "Betula": {
+    "defined": 11154,
+    "mean_share": 4e-05,
+    "above_0": 163,
+    "above_0.1": 0
+   },
+   "Populus": {
+    "defined": 11154,
+    "mean_share": 0.01038,
+    "above_0": 2839,
+    "above_0.1": 276
+   },
+   "Alnus": {
+    "defined": 11154,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Lithocarpus": {
+    "defined": 11154,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Chrysolepis": {
+    "defined": 11154,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Arbutus": {
+    "defined": 11154,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Fagus": {
+    "defined": 11154,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carya": {
+    "defined": 11154,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Tilia": {
+    "defined": 11154,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Ostrya": {
+    "defined": 11154,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "Carpinus": {
+    "defined": 11154,
+    "mean_share": 0.0,
+    "above_0": 0,
+    "above_0.1": 0
+   },
+   "ecm_hosts": {
+    "defined": 11154,
+    "mean_share": 0.93681,
+    "above_0": 11153,
+    "above_0.1": 11153
+   }
+  }
+ },
+ "sample": {
+  "Larix": {
+   "tile": "256_-20_16",
+   "kind": "whole",
+   "col": -4949,
+   "row": 4125
+  },
+  "Betula": {
+   "tile": "256_-23_17",
+   "kind": "whole",
+   "col": -5790,
+   "row": 4604
+  },
+  "Populus": {
+   "tile": "256_-19_4",
+   "kind": "whole",
+   "col": -4827,
+   "row": 1151
+  },
+  "Alnus": {
+   "tile": "256_-33_11",
+   "kind": "whole",
+   "col": -8260,
+   "row": 2893
+  },
+  "Lithocarpus": {
+   "tile": "256_-33_9",
+   "kind": "whole",
+   "col": -8413,
+   "row": 2520
+  },
+  "Chrysolepis": {
+   "tile": "256_-33_7",
+   "kind": "whole",
+   "col": -8447,
+   "row": 1808
+  },
+  "Arbutus": {
+   "tile": "256_-33_8",
+   "kind": "whole",
+   "col": -8444,
+   "row": 2117
+  },
+  "cover_a": {
+   "tile": "256_-30_16",
+   "kind": "whole",
+   "col": -7638,
+   "row": 4116
+  },
+  "cover_b": {
+   "tile": "256_-25_18",
+   "kind": "whole",
+   "col": -6205,
+   "row": 4841
+  },
+  "us_half": {
+   "tile": "256_-20_18",
+   "kind": "us_half",
+   "col": -4945,
+   "row": 4631
+  }
+ },
+ "seed": 20261015
+}

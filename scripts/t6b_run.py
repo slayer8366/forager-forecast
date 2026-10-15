@@ -5,11 +5,16 @@ Usage (repository root):
         .venv/bin/python scripts/t6b_run.py --until 07:00
         [--stages mask,plots,soil,trees,trees-us-half] [--workers 2] [--us-half-tiles K1,K2]
         [--tiles K1,K2]  (scanfi-layers and trees only; keeps the whole SCANFI layers)
+        [--box S,N,W,E]  (trees and trees-us-half only: tiles with a study cell centre in the box)
 
 - ``--until HH:MM`` is local time, the next occurrence of it. No new tile starts after it; tiles in
   hand finish. ``touch <drive>/forecast-data/t6b/PAUSE`` does the same at once (delete the file
   before the next section). Nothing restarts on its own.
 - Stages run in the order given and each resumes from the manifest. ``mask`` and ``plots`` run once.
+- Tree tiles carry their band layout (t6b_hosts). A tree or US-half unit counts as done only under
+  the current layout; a file of an older layout is moved aside, kept, just before its unit is
+  rebuilt, into ``superseded/<UTC stamp>-trees/`` (trees only: never soil, SCANFI layer tiles or
+  the manifest). No tree unit starts without free space for it (as the SCANFI stage checks).
 - At the end the manifest (gzipped, Forager RECORD -803) and this section's summary are copied to
   docs/audits/2026-10-07-t6b-run/, committed and pushed.
 """
@@ -26,9 +31,14 @@ from pathlib import Path
 import numpy as np
 
 from forager_forecast.grid import CELL_SIZE_M, GridWindow
+from forager_forecast.t4_layer import LonLatBox, box_mask, master_window
 from forager_forecast.t5_layer import scanfi_url
+from forager_forecast.t6b_hosts import BAND_LAYOUT
 from forager_forecast.t6b_layers import (
+    BANDS,
+    HOST_GENERA_RULINGS,
     SCANFI_LAYERS,
+    TREE_BANDS,
     Tile,
     build_plot_table,
     fill_canadian_cells,
@@ -38,6 +48,7 @@ from forager_forecast.t6b_layers import (
     tiles_over,
     tree_tile,
     tree_tile_us_half,
+    us_half_names,
 )
 from forager_forecast.t6b_mask import (
     COUNTRY_CAN,
@@ -56,6 +67,7 @@ from forager_forecast.t6b_run import (
     next_stop,
     read_lines,
     run_section,
+    sha256_file,
 )
 
 REPO = Path(__file__).resolve().parent.parent
@@ -140,19 +152,39 @@ def stage_mask() -> None:
     log(f"mask built in {time.time() - t0:.0f} s: {counts}")
 
 
+def _stamp() -> str:
+    return datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
+
+
 def stage_plots() -> None:
+    """The plot table, rebuilt when its rulings string or its band layout (the genus list) is
+    not the current one (verify report finding F2). The old table is moved aside, kept."""
     meta = T6B / "plots.json"
+    old = json.loads(meta.read_text()) if meta.exists() else {}
     if (
         PLOTS.exists()
-        and meta.exists()
-        and json.loads(meta.read_text()).get("rulings") == PLOT_TABLE_RULINGS
+        and old.get("rulings") == PLOT_TABLE_RULINGS
+        and old.get("band_layout") == BAND_LAYOUT
     ):
         return
+    if PLOTS.exists() or meta.exists():
+        dest = T6B / "superseded" / f"{_stamp()}-plots"
+        dest.mkdir(parents=True)
+        for path in (PLOTS, meta):
+            if path.exists():
+                shutil.move(str(path), str(dest / path.name))
+        log(f"plot table superseded (band layout {old.get('band_layout')!r}, now "
+            f"{BAND_LAYOUT!r}): moved to {dest}")  # fmt: skip
     t0 = time.time()
     info = build_plot_table(
         TREEMAP / "RDS-2026-0038.zip", TREEMAP / "TreeMap2023_CONUS.tif.vat.dbf", PLOTS
     )
-    meta.write_text(json.dumps({"rulings": PLOT_TABLE_RULINGS, **info}, indent=2) + "\n")
+    meta.write_text(
+        json.dumps(
+            {"rulings": PLOT_TABLE_RULINGS, "host_genera": HOST_GENERA_RULINGS, **info}, indent=2
+        )
+        + "\n"
+    )
     append_line(MANIFEST, {"kind": "stage", "stage": "plots",
                            "seconds": round(time.time() - t0, 1), **info})  # fmt: skip
     log(f"plot table in {time.time() - t0:.0f} s: {info}")
@@ -198,7 +230,7 @@ def us_half_done(key: str) -> bool:
     lines = [e for e in read_lines(MANIFEST) if e.get("kind") == "unit" and e.get("unit") == name]
     if not lines or not lines[-1].get("files"):
         return False
-    return name in done_units(MANIFEST, TILES_US_HALF)
+    return name in done_units(MANIFEST, TILES_US_HALF, BAND_LAYOUT)
 
 
 def has_us_cells(key: str) -> bool:
@@ -208,6 +240,75 @@ def has_us_cells(key: str) -> bool:
     window = _tile(key).window
     _, side = cells_in_study(window, *read_mask(MASK, window))
     return bool((side == SIDE_US).any())
+
+
+# --- Tree outputs: band layout, free space, trees-only supersede ---------------------------------
+
+
+def tree_tile_bytes() -> int:
+    """An upper bound on one tree tile's two files: every band uncompressed."""
+    return TREE_N * TREE_N * (4 * len(TREE_BANDS) + len(BANDS))
+
+
+def _whole_paths(key: str) -> list[Path]:
+    return [TILES / "trees" / f"trees_{key}.tif", TILES / "trees" / f"trees_flags_{key}.tif"]
+
+
+def _us_half_paths(key: str) -> list[Path]:
+    return [TILES_US_HALF / name for name in us_half_names(key)]
+
+
+def _layout_of(path: Path) -> str | None:
+    import rasterio
+
+    try:
+        with rasterio.open(path) as ds:
+            return ds.tags().get("band_layout")
+    except Exception as exc:  # an unreadable file is not the current layout; it is moved aside
+        return f"unreadable: {type(exc).__name__}: {exc}"
+
+
+def move_aside_stale(paths: list[Path], dest: Path) -> dict:
+    """The trees-only supersede. If the unit's value file exists with another band layout, every
+    existing file of the unit is moved under ``dest`` (same path below T6B), kept, never deleted.
+    Soil, SCANFI layer tiles and the manifest are never among ``paths``."""
+    present = [p for p in paths if p.exists()]
+    if not present:
+        return {}
+    layout = _layout_of(present[0])
+    if layout == BAND_LAYOUT:
+        return {}
+    moved = {}
+    for path in present:
+        target = dest / path.relative_to(T6B)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        moved[path.name] = sha256_file(path)
+        shutil.move(str(path), str(target))
+    return {"superseded": moved, "superseded_to": str(dest),
+            "superseded_layout": layout, "band_layout_now": BAND_LAYOUT}  # fmt: skip
+
+
+def before_tree_unit(groups_of, dest: Path):
+    """Run before each tree or US-half unit: stop the section unless there is room for the tile
+    (as the SCANFI stage does before a download), then move aside its files of an older layout.
+    ``groups_of(unit)`` lists the unit's file groups (value file first); each group is judged by
+    its own value file, so a current US half is never moved with a stale whole tile."""
+
+    def check(unit: str) -> dict:
+        try:
+            require_free_space(T6B, tree_tile_bytes() + FREE_MARGIN)
+        except OSError as err:
+            log(f"{unit}: not started, {err}")
+            return {"stop_section": f"not enough free space for a tree tile: {err}"}
+        info: dict = {}
+        for paths in groups_of(unit):
+            moved = move_aside_stale(paths, dest)
+            if moved:
+                info.setdefault("superseded", {}).update(moved.pop("superseded"))
+                info.update(moved)
+        return info
+
+    return check
 
 
 def tree_unit(key: str) -> dict:
@@ -327,7 +428,8 @@ def layers_ready(key: str) -> bool:
 
 def stage_trees(until, workers: int, max_units: int | None = None,
                 only_groups: set[str] | None = None,
-                only_tiles: set[str] | None = None) -> dict:  # fmt: skip
+                only_tiles: set[str] | None = None,
+                box_tiles: set[str] | None = None) -> dict:  # fmt: skip
     """Tree tiles that can run now: every US-only tile, and a tile with Canadian cells once the
     whole-layer route (D118) has all eleven SCANFI layers for it. No windowed SCANFI fetch."""
     tiles = tile_list(TREE_N, "trees")
@@ -345,9 +447,15 @@ def stage_trees(until, workers: int, max_units: int | None = None,
     if only_tiles is not None:
         units = _only(units, only_tiles, canadian)
         log(f"trees: this section offers only tiles {sorted(only_tiles)}")
+    if box_tiles is not None:
+        units = [u for u in units if u in box_tiles]
+        log(f"trees: --box, {len(units)} tiles offered")
     units = _first_pending(units, TILES / "trees", max_units)
+    dest = T6B / "superseded" / f"{_stamp()}-trees"
+    before = before_tree_unit(lambda k: [_whole_paths(k), _us_half_paths(k)], dest)
     return run_section(units, tree_unit, MANIFEST, TILES / "trees", until=until, pause_file=PAUSE,
-                       workers=workers, layer="trees")  # fmt: skip
+                       workers=workers, layer="trees", band_layout=BAND_LAYOUT,
+                       before_unit=before)  # fmt: skip
 
 
 def us_half_unit(unit: str) -> dict:
@@ -356,13 +464,14 @@ def us_half_unit(unit: str) -> dict:
                              TILES_US_HALF)  # fmt: skip
 
 
-def stage_trees_us_half(until, workers: int, only_tiles: set[str] | None = None) -> dict:
+def stage_trees_us_half(until, workers: int, only_tiles: set[str] | None = None,
+                        box_tiles: set[str] | None = None) -> dict:  # fmt: skip
     """D119 (owner, Forager RECORD -772): "Compute the US half now". Every tile with both US and
     Canadian study cells that still waits for its SCANFI layers (D118) gets its US cells
     computed now; its Canadian cells stay pending. A tile with Canadian cells only has no US
     half and is not offered (review F1, RECORD -786): it waits whole, as D118 says."""
     tiles = tile_list(TREE_N, "trees")
-    whole_done = done_units(MANIFEST, TILES / "trees")
+    whole_done = done_units(MANIFEST, TILES / "trees", BAND_LAYOUT)
     keys = [t["key"] for t in tiles if t["canada"] and not layers_ready(t["key"])
             and t["key"] not in whole_done]  # fmt: skip
     keys = [k for k in keys if has_us_cells(k)]
@@ -371,17 +480,24 @@ def stage_trees_us_half(until, workers: int, only_tiles: set[str] | None = None)
         if unknown:
             sys.exit(f"not tiles with Canadian cells: {sorted(unknown)}")
         keys = [k for k in keys if k in only_tiles]
+    if box_tiles is not None:
+        keys = [k for k in keys if k in box_tiles]
     log(f"trees-us-half: {len(keys)} tiles with Canadian cells waiting for SCANFI (D119)")
+    dest = T6B / "superseded" / f"{_stamp()}-trees"
+    before = before_tree_unit(lambda u: [_us_half_paths(u.split(":", 1)[1])], dest)
     return run_section([us_half_unit_name(k) for k in keys], us_half_unit, MANIFEST,
                        TILES_US_HALF, until=until, pause_file=PAUSE, workers=workers,
-                       layer="trees-us-half")  # fmt: skip
+                       layer="trees-us-half", band_layout=BAND_LAYOUT,
+                       before_unit=before)  # fmt: skip
 
 
 def _first_pending(units: list[str], out_dir: Path, max_units: int | None) -> list[str]:
-    """With --max-units N, this section offers only the first N tiles not yet done."""
+    """With --max-units N, this section offers only the first N tiles not yet done (tree tiles
+    under the current band layout; soil has none)."""
     if max_units is None:
         return units
-    done = done_units(MANIFEST, out_dir)
+    layout = BAND_LAYOUT if Path(out_dir).name == "trees" else None
+    done = done_units(MANIFEST, out_dir, layout)
     return [u for u in units if u not in done][:max_units]
 
 
@@ -391,6 +507,29 @@ def stage_soil(until, workers: int, max_units: int | None = None) -> dict:
     units = _first_pending(units, TILES / "soil", max_units)
     return run_section(units, soil_unit, MANIFEST, TILES / "soil", until=until, pause_file=PAUSE,
                        workers=workers, layer="soil")  # fmt: skip
+
+
+def box_tile_keys(box: LonLatBox) -> set[str]:
+    """Tree tiles holding at least one study cell whose centre is in ``box`` (edges inclusive),
+    the rule the PNW review used to list the box's tiles (docs/audits/2026-10-11-t6b-pnw-layers-
+    review/box_tiles.py.txt)."""
+    mw = master_window(box)
+    out = set()
+    for t in tile_list(TREE_N, "trees"):
+        w = _tile(t["key"]).window
+        if w.right <= mw.left or w.left >= mw.right or w.top <= mw.bottom or w.bottom >= mw.top:
+            continue
+        study, _ = cells_in_study(w, *read_mask(MASK, w))
+        if (study & box_mask(w, box)).any():
+            out.add(t["key"])
+    return out
+
+
+def parse_box(text: str) -> LonLatBox:
+    south, north, west, east = (float(x) for x in text.split(","))
+    if not (south < north and west < east):
+        sys.exit(f"--box is S,N,W,E with S < N and W < E, not {text!r}")
+    return LonLatBox(south=south, north=north, west=west, east=east)
 
 
 def commit_progress(summaries: list[dict], evidence: Path = EVIDENCE) -> None:
@@ -456,8 +595,17 @@ def main() -> None:
         help="comma-separated tree tile keys with Canadian cells: the scanfi-layers and trees "
         "stages run only these, and no whole SCANFI layer is deleted (Forager RECORD -828)",
     )
+    p.add_argument(
+        "--box",
+        default=None,
+        help="S,N,W,E in degrees: the trees and trees-us-half stages run only tiles with a study "
+        "cell centre in this box, e.g. the PNW box 40,49,-125,-111 (host-genera dispatch)",
+    )
     args = p.parse_args()
     only_tiles = set(args.tiles.split(",")) if args.tiles else None
+    box = parse_box(args.box) if args.box else None
+    if box is not None and (args.tiles or "scanfi-layers" in args.stages.split(",")):
+        sys.exit("--box applies to the trees and trees-us-half stages only, without --tiles")
     if args.pause_file:
         global PAUSE
         PAUSE = Path(args.pause_file)
@@ -467,7 +615,11 @@ def main() -> None:
     log(f"section start, until {until.isoformat(timespec='minutes')}, stages {args.stages}, "
         f"workers {args.workers}, pause file {PAUSE}")  # fmt: skip
     summaries = []
+    box_tiles = None
     try:
+        if box is not None:
+            box_tiles = box_tile_keys(box)
+            log(f"--box {args.box}: {len(box_tiles)} tree tiles")
         for stage in args.stages.split(","):
             if PAUSE.exists() or datetime.now() >= until:
                 log(f"not starting {stage}: stop condition")
@@ -486,11 +638,12 @@ def main() -> None:
                         args.max_tree_tiles,
                         set(args.tree_groups.split(",")) if args.tree_groups else None,
                         only_tiles,
+                        box_tiles,
                     )
                 )
             elif stage == "trees-us-half":
                 only = set(args.us_half_tiles.split(",")) if args.us_half_tiles else None
-                summaries.append(stage_trees_us_half(until, args.workers, only))
+                summaries.append(stage_trees_us_half(until, args.workers, only, box_tiles))
             elif stage == "soil":
                 summaries.append(stage_soil(until, args.workers, args.max_soil_tiles))
             else:

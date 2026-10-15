@@ -1,0 +1,108 @@
+{
+ "head": "b0a0e889d8b313f80def8b73ec9d88a8e847c59b",
+ "checks": [
+  {
+   "name": "R1-f1-done-ignores-layout (coder r3)",
+   "file": "src/forager_forecast/t6b_run.py",
+   "edit": [
+    "if band_layout is not None and entry.get(\"band_layout\") != band_layout:",
+    "if False:"
+   ],
+   "restored_from_copy": true,
+   "forward_anchor_present_after": true,
+   "log_tail": [
+    "4 failed, 8 passed, 712 warnings in 19.01s"
+   ],
+   "tests_run": 12,
+   "failed": [
+    "test_a_stale_whole_tile_is_moved_aside_without_its_current_us_half",
+    "test_an_old_layout_us_half_is_rebuilt_as_a_new_file_and_the_old_one_kept",
+    "test_f1_a_tile_built_with_the_old_genus_list_is_rebuilt_not_counted_done",
+    "test_the_trees_only_supersede_keeps_the_old_tile_and_leaves_soil_scanfi_and_manifest"
+   ],
+   "messages": {
+    "test_f1_a_tile_built_with_the_old_genus_list_is_rebuilt_not_counted_done": "AssertionError: the old-layout tile was counted done (F1)\nassert 1 == 0",
+    "test_the_trees_only_supersede_keeps_the_old_tile_and_leaves_soil_scanfi_and_manifest": "AssertionError: the old tile was not kept in a superseded folder\nassert {} == {'trees_4_-17...e376baf2da0c'}\n  \n  Right contains 2 more items:\n  {'trees_4_-1772_1304.tif': '07665a6a15b41f170eda62f5f078ec1229cdfbff9d1eb7c7e67899d83860f25d',\n",
+    "test_an_old_layout_us_half_is_rebuilt_as_a_new_file_and_the_old_one_kept": "AssertionError: the old-layout US half was counted done (F1)\nassert 1 == 0",
+    "test_a_stale_whole_tile_is_moved_aside_without_its_current_us_half": "assert 0 == 1"
+   },
+   "predicted": [
+    "test_a_stale_whole_tile_is_moved_aside_without_its_current_us_half",
+    "test_an_old_layout_us_half_is_rebuilt_as_a_new_file_and_the_old_one_kept",
+    "test_f1_a_tile_built_with_the_old_genus_list_is_rebuilt_not_counted_done",
+    "test_the_trees_only_supersede_keeps_the_old_tile_and_leaves_soil_scanfi_and_manifest"
+   ],
+   "status": "as predicted"
+  },
+  {
+   "name": "R2-f2-plots-ignore-layout (coder r4)",
+   "file": "scripts/t6b_run.py",
+   "edit": [
+    "and old.get(\"band_layout\") == BAND_LAYOUT",
+    "and True"
+   ],
+   "restored_from_copy": true,
+   "forward_anchor_present_after": true,
+   "log_tail": [
+    "1 failed, 11 passed, 760 warnings in 20.53s"
+   ],
+   "tests_run": 12,
+   "failed": [
+    "test_f2_the_plot_table_is_rebuilt_when_the_genus_list_changes"
+   ],
+   "messages": {
+    "test_f2_the_plot_table_is_rebuilt_when_the_genus_list_changes": "AssertionError: the old table was reused (F2)\nassert (4, 10) == (4, 23)\n  \n  At index 1 diff: 10 != 23\n  Use -v to get more diff"
+   },
+   "predicted": [
+    "test_f2_the_plot_table_is_rebuilt_when_the_genus_list_changes"
+   ],
+   "status": "as predicted"
+  },
+  {
+   "name": "R3-free-space-zero (coder r8)",
+   "file": "scripts/t6b_run.py",
+   "edit": [
+    "require_free_space(T6B, tree_tile_bytes() + FREE_MARGIN)",
+    "require_free_space(T6B, 0)"
+   ],
+   "restored_from_copy": true,
+   "forward_anchor_present_after": true,
+   "log_tail": [
+    "2 failed, 10 passed, 788 warnings in 21.21s"
+   ],
+   "tests_run": 12,
+   "failed": [
+    "test_a_tree_tile_is_not_started_without_free_space[trees-us-half]",
+    "test_a_tree_tile_is_not_started_without_free_space[trees]"
+   ],
+   "messages": {
+    "test_a_tree_tile_is_not_started_without_free_space[trees]": "assert (1 == 0)",
+    "test_a_tree_tile_is_not_started_without_free_space[trees-us-half]": "assert (1 == 0)"
+   },
+   "predicted": [
+    "test_a_tree_tile_is_not_started_without_free_space[trees-us-half]",
+    "test_a_tree_tile_is_not_started_without_free_space[trees]"
+   ],
+   "status": "as predicted"
+  },
+  {
+   "name": "R4-two-worker-path-skips-before-unit (reviewer)",
+   "file": "src/forager_forecast/t6b_run.py",
+   "edit": [
+    "reason = ensure_prepared(queue[0]) or check_before(queue[0])",
+    "reason = ensure_prepared(queue[0])"
+   ],
+   "restored_from_copy": true,
+   "forward_anchor_present_after": true,
+   "log_tail": [
+    "56 passed, 3712 warnings in 131.87s (0:02:11)"
+   ],
+   "tests_run": 56,
+   "failed": [],
+   "messages": {},
+   "predicted": [],
+   "status": "as predicted"
+  }
+ ],
+ "tree_equals_head_after": true
+}

@@ -1,0 +1,67 @@
+"""D18 review of t6b-host-genera: where in the box the PNW tier A genera carry a share, by the
+cell centre's latitude and longitude, read only. Written after box_new_bands.out.json showed
+Lithocarpus above 0 on 28% of the Willamette Valley's cells with shares, to see how far north
+and east each genus's non-zero shares reach.
+
+For each tier A genus: among box US study cells with a defined share, cells above 0 and the mean
+share, by 1 degree latitude band and by longitude band (west of 122 W, 122 to 120 W, east of 120
+W). Usage: range_check.py <out.json>.
+"""
+
+import json
+import sys
+from collections import defaultdict
+from pathlib import Path
+
+import numpy as np
+import rasterio
+
+from forager_forecast.pnw import PNW_BOX, pnw_window
+from forager_forecast.t4_layer import box_mask
+from forager_forecast.t6b_layers import tiles_over
+from forager_forecast.t6b_mask import SIDE_US, cell_lonlat, cells_in_study, read_mask
+
+T6B = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b")
+GENERA = ("Larix", "Betula", "Populus", "Alnus", "Lithocarpus", "Chrysolepis", "Arbutus")
+
+
+def lon_band(lon):
+    return np.where(lon < -122, 0, np.where(lon < -120, 1, 2))
+
+
+def main(out_path):
+    acc = {g: defaultdict(lambda: [0, 0, 0.0]) for g in GENERA}
+    for tile in tiles_over(pnw_window(), 256):
+        tw = tile.window
+        study, side = cells_in_study(tw, *read_mask(T6B / "mask.tif", tw))
+        us = study & (side == SIDE_US) & box_mask(tw, PNW_BOX)
+        if not us.any():
+            continue
+        whole = T6B / "tiles/trees" / f"trees_{tile.key}.tif"
+        path = whole if whole.exists() else T6B / "tiles/trees_us_half" / (
+            f"trees_us_half_{tile.key}.tif")
+        with rasterio.open(path) as ds:
+            names = list(ds.descriptions)
+            bands = {g: ds.read(names.index(f"share_{g}") + 1) for g in GENERA}
+        lon, lat = cell_lonlat(tw)
+        for g in GENERA:
+            s = bands[g]
+            d = us & np.isfinite(s)
+            la = np.floor(lat[d]).astype(int)
+            lb = lon_band(lon[d])
+            v = s[d].astype("float64")
+            for key_arr, prefix in ((la, "lat"), (lb, "lon")):
+                for k in np.unique(key_arr):
+                    m = key_arr == k
+                    a = acc[g][f"{prefix}{int(k)}"]
+                    a[0] += int(m.sum())
+                    a[1] += int((v[m] > 0).sum())
+                    a[2] += float(v[m].sum())
+    out = {g: {k: {"defined": n, "above_0": p, "mean_share": round(s / n, 5) if n else None}
+               for k, (n, p, s) in sorted(d.items())} for g, d in acc.items()}  # fmt: skip
+    out["_lon_bands"] = {"lon0": "west of 122 W", "lon1": "122 to 120 W", "lon2": "east of 120 W"}
+    Path(out_path).write_text(json.dumps(out, indent=1) + "\n")
+
+
+if __name__ == "__main__":
+    main(sys.argv[1])
