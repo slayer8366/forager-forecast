@@ -373,3 +373,7 @@ Each needs a word before T7 starts (RECORD -832: they "come to the owner before 
   confirms all three are ancestors. The alternative, cutting from `t6b-continental-layers` and
   merging the other two into T7's own branch, keeps main's history simpler but buries the merges in
   a task branch.
+
+## Closeout, 2026-10-15
+
+Closed without being acted on (D41). The owner widened T7's target from chanterelles to mycorrhizal mushrooms as a group on 2026-10-12 (Forager RECORD -913, -914), and the plan was rewritten as `2026-10-15-t7-mycorrhizal-habitat.md` (Forager RECORD -1025), which supersedes this file. Its open decisions O4 and O7 were settled before the rewrite: O4 as D125 (Level III ecoregion blocks, Forager RECORD -1023), O7 as D126 (main a79d667 holds T6b, D121 and D123, Forager RECORD -1021). No coder was started on this file. Nothing above this note is edited.
