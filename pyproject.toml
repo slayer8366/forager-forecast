@@ -38,7 +38,13 @@ line-length = 100
 target-version = "py314"
 # The pack's two count scripts are part of the exported record and stay as exported (T0:
 # "commit the planning pack with its content unchanged"). They are not linted or formatted.
-exclude = ["scripts/inat_counts.py", "scripts/inat_taxon_ids.py"]
+# Two committed evidence scripts are records of exactly what ran, kept as committed (D124).
+exclude = [
+    "scripts/inat_counts.py",
+    "scripts/inat_taxon_ids.py",
+    "docs/audits/2026-10-10-t6b-pnw-run/seam-after-10-tiles/pnw_mosaic_and_seam.py",
+    "docs/audits/2026-10-10-pnw-pilot-scoring/window-2026-W41/t00.py",
+]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP"]
