@@ -1,0 +1,1 @@
+{'frame_cells': 43035, 'frame_cells_in_box_lattice': 4190}

@@ -1,0 +1,308 @@
+{
+ "seconds": 102.9,
+ "burn_seconds": 7.7,
+ "effort_frame_cells": 43035,
+ "weather_cells": {
+  "lattice_points_in_box_40_49N_125_111W": 12831,
+  "with_box_study_cells": 12150,
+  "with_box_study_cells_by_side": {
+   "ca": 114,
+   "us": 12037
+  },
+  "outside_effort_frame": 7965,
+  "box_study_cells_in_them": 11145103,
+  "outside_frame_by_side": {
+   "ca": {
+    "weather_cells": 14,
+    "study_cells": 15694
+   },
+   "us": {
+    "weather_cells": 7951,
+    "study_cells": 11129409
+   }
+  },
+  "box_study_cells_total": 16674133,
+  "lat_tenths_range": [
+   400,
+   490
+  ],
+  "lon_tenths_range": [
+   -1250,
+   -1110
+  ]
+ },
+ "keying": {
+  "near_ties_within_1e-9": {
+   "lat": 0,
+   "lon": 0
+  },
+  "decimal_sample": {
+   "n": 18924,
+   "disagree": 0,
+   "examples": []
+  }
+ },
+ "level3": {
+  "blocks_with_box_study_cells": 25,
+  "study_cells_in_no_level3_polygon": 0,
+  "by_block": {
+   "10.1.3": {
+    "name": "Northern Basin and Range",
+    "level1": "10",
+    "level1_name": "North American Deserts",
+    "study_us": 2243189,
+    "study_ca": 0,
+    "with_total_cover": 2237432,
+    "with_shares_canopy_ge_10pct": 165910
+   },
+   "10.1.5": {
+    "name": "Central Basin and Range",
+    "level1": "10",
+    "level1_name": "North American Deserts",
+    "study_us": 1847039,
+    "study_ca": 0,
+    "with_total_cover": 1785589,
+    "with_shares_canopy_ge_10pct": 98539
+   },
+   "6.2.3": {
+    "name": "Columbia Mountains/Northern Rockies",
+    "level1": "6",
+    "level1_name": "Northwestern Forested Mountains",
+    "study_us": 1311221,
+    "study_ca": 0,
+    "with_total_cover": 1280859,
+    "with_shares_canopy_ge_10pct": 1069982
+   },
+   "6.2.10": {
+    "name": "Middle Rockies",
+    "level1": "6",
+    "level1_name": "Northwestern Forested Mountains",
+    "study_us": 1428904,
+    "study_ca": 0,
+    "with_total_cover": 1421231,
+    "with_shares_canopy_ge_10pct": 641567
+   },
+   "6.2.9": {
+    "name": "Blue Mountains",
+    "level1": "6",
+    "level1_name": "Northwestern Forested Mountains",
+    "study_us": 1134602,
+    "study_ca": 0,
+    "with_total_cover": 1132545,
+    "with_shares_canopy_ge_10pct": 614710
+   },
+   "6.2.7": {
+    "name": "Cascades",
+    "level1": "6",
+    "level1_name": "Northwestern Forested Mountains",
+    "study_us": 937675,
+    "study_ca": 0,
+    "with_total_cover": 928399,
+    "with_shares_canopy_ge_10pct": 832956
+   },
+   "10.1.2": {
+    "name": "Columbia Plateau",
+    "level1": "10",
+    "level1_name": "North American Deserts",
+    "study_us": 1330083,
+    "study_ca": 0,
+    "with_total_cover": 1309714,
+    "with_shares_canopy_ge_10pct": 51703
+   },
+   "6.2.15": {
+    "name": "Idaho Batholith",
+    "level1": "6",
+    "level1_name": "Northwestern Forested Mountains",
+    "study_us": 964521,
+    "study_ca": 0,
+    "with_total_cover": 961084,
+    "with_shares_canopy_ge_10pct": 623506
+   },
+   "7.1.8": {
+    "name": "Coastal Range",
+    "level1": "7",
+    "level1_name": "Marine West Coast Forests",
+    "study_us": 751751,
+    "study_ca": 0,
+    "with_total_cover": 746231,
+    "with_shares_canopy_ge_10pct": 698432
+   },
+   "6.2.8": {
+    "name": "Eastern Cascades Slopes and Foothills",
+    "level1": "6",
+    "level1_name": "Northwestern Forested Mountains",
+    "study_us": 852142,
+    "study_ca": 0,
+    "with_total_cover": 841913,
+    "with_shares_canopy_ge_10pct": 491454
+   },
+   "6.2.11": {
+    "name": "Klamath Mountains",
+    "level1": "6",
+    "level1_name": "Northwestern Forested Mountains",
+    "study_us": 675557,
+    "study_ca": 0,
+    "with_total_cover": 673171,
+    "with_shares_canopy_ge_10pct": 556207
+   },
+   "10.1.8": {
+    "name": "Snake River Plain",
+    "level1": "10",
+    "level1_name": "North American Deserts",
+    "study_us": 857980,
+    "study_ca": 0,
+    "with_total_cover": 850913,
+    "with_shares_canopy_ge_10pct": 12182
+   },
+   "6.2.5": {
+    "name": "North Cascades",
+    "level1": "6",
+    "level1_name": "Northwestern Forested Mountains",
+    "study_us": 486255,
+    "study_ca": 0,
+    "with_total_cover": 480705,
+    "with_shares_canopy_ge_10pct": 392324
+   },
+   "7.1.7": {
+    "name": "Strait of Georgia/Puget Lowland",
+    "level1": "7",
+    "level1_name": "Marine West Coast Forests",
+    "study_us": 270803,
+    "study_ca": 66806,
+    "with_total_cover": 331102,
+    "with_shares_canopy_ge_10pct": 235712
+   },
+   "9.3.1": {
+    "name": "Northwestern Glaciated Plains",
+    "level1": "9",
+    "level1_name": "Great Plains",
+    "study_us": 444773,
+    "study_ca": 0,
+    "with_total_cover": 441277,
+    "with_shares_canopy_ge_10pct": 8107
+   },
+   "6.2.4": {
+    "name": "Canadian Rockies",
+    "level1": "6",
+    "level1_name": "Northwestern Forested Mountains",
+    "study_us": 302132,
+    "study_ca": 0,
+    "with_total_cover": 298300,
+    "with_shares_canopy_ge_10pct": 230095
+   },
+   "6.2.13": {
+    "name": "Wasatch and Uinta Mountains",
+    "level1": "6",
+    "level1_name": "Northwestern Forested Mountains",
+    "study_us": 229582,
+    "study_ca": 0,
+    "with_total_cover": 227940,
+    "with_shares_canopy_ge_10pct": 151004
+   },
+   "7.1.9": {
+    "name": "Willamette Valley",
+    "level1": "7",
+    "level1_name": "Marine West Coast Forests",
+    "study_us": 238153,
+    "study_ca": 0,
+    "with_total_cover": 234208,
+    "with_shares_canopy_ge_10pct": 95182
+   },
+   "11.1.1": {
+    "name": "Central California Foothills and Coastal Mountains",
+    "level1": "11",
+    "level1_name": "Mediterranean California",
+    "study_us": 90151,
+    "study_ca": 0,
+    "with_total_cover": 90003,
+    "with_shares_canopy_ge_10pct": 41755
+   },
+   "10.1.4": {
+    "name": "Wyoming Basin",
+    "level1": "10",
+    "level1_name": "North American Deserts",
+    "study_us": 64966,
+    "study_ca": 0,
+    "with_total_cover": 60145,
+    "with_shares_canopy_ge_10pct": 4276
+   },
+   "9.3.3": {
+    "name": "Northwestern Great Plains",
+    "level1": "9",
+    "level1_name": "Great Plains",
+    "study_us": 54435,
+    "study_ca": 0,
+    "with_total_cover": 54395,
+    "with_shares_canopy_ge_10pct": 11154
+   },
+   "6.2.12": {
+    "name": "Sierra Nevada",
+    "level1": "6",
+    "level1_name": "Northwestern Forested Mountains",
+    "study_us": 46334,
+    "study_ca": 0,
+    "with_total_cover": 45993,
+    "with_shares_canopy_ge_10pct": 24897
+   },
+   "7.1.5": {
+    "name": "Coastal Western Hemlock-Sitka Spruce Forests",
+    "level1": "7",
+    "level1_name": "Marine West Coast Forests",
+    "study_us": 0,
+    "study_ca": 35737,
+    "with_total_cover": 35224,
+    "with_shares_canopy_ge_10pct": 35171
+   },
+   "11.1.2": {
+    "name": "Central California Valley",
+    "level1": "11",
+    "level1_name": "Mediterranean California",
+    "study_us": 8510,
+    "study_ca": 0,
+    "with_total_cover": 8417,
+    "with_shares_canopy_ge_10pct": 394
+   },
+   "10.1.6": {
+    "name": "Colorado Plateaus",
+    "level1": "10",
+    "level1_name": "North American Deserts",
+    "study_us": 832,
+    "study_ca": 0,
+    "with_total_cover": 815,
+    "with_shares_canopy_ge_10pct": 440
+   }
+  }
+ },
+ "level1": {
+  "10 North American Deserts": {
+   "study_us": 6344089,
+   "study_ca": 0,
+   "with_total_cover": 6244608,
+   "with_shares_canopy_ge_10pct": 333050
+  },
+  "6 Northwestern Forested Mountains": {
+   "study_us": 8368925,
+   "study_ca": 0,
+   "with_total_cover": 8292140,
+   "with_shares_canopy_ge_10pct": 5628702
+  },
+  "7 Marine West Coast Forests": {
+   "study_us": 1260707,
+   "study_ca": 102543,
+   "with_total_cover": 1346765,
+   "with_shares_canopy_ge_10pct": 1064497
+  },
+  "9 Great Plains": {
+   "study_us": 499208,
+   "study_ca": 0,
+   "with_total_cover": 495672,
+   "with_shares_canopy_ge_10pct": 19261
+  },
+  "11 Mediterranean California": {
+   "study_us": 98661,
+   "study_ca": 0,
+   "with_total_cover": 98420,
+   "with_shares_canopy_ge_10pct": 42149
+  }
+ }
+}
