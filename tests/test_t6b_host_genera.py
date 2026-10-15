@@ -31,6 +31,7 @@ from test_t6b_us_half_runner import _small_tiles, runner  # noqa: F401
 
 from forager_forecast.grid import CELL_SIZE_M, GEOGRAPHIC_CRS, GRID_CRS
 from forager_forecast.t5_layer import FLAG_NOT_AVAILABLE, FLAG_SCANFI, FLAG_TREEMAP
+from forager_forecast.t6b_layers import SCANFI_LAYERS
 from forager_forecast.t6b_run import append_line, read_lines
 
 # The band layout this dispatch builds, written out by hand rather than imported, so a change to
@@ -391,3 +392,28 @@ def test_the_box_option_runs_only_the_tiles_with_a_study_cell_in_the_box(
     done = [e["unit"] for e in read_lines(runner.MANIFEST)
             if e.get("kind") == "unit" and e.get("layer") == "trees"]  # fmt: skip
     assert done == [chosen.key]
+
+
+def test_a_stale_whole_tile_is_moved_aside_without_its_current_us_half(runner, world):  # noqa: F811
+    """A border tile whose US half is already current and whose whole tile is of the old layout:
+    only the whole tile is superseded, and the new whole tile is filled from the US half (D119)."""
+    from forager_forecast.t6b_layers import WHOLE_STATE, scanfi_layer_tile, us_half_names
+
+    t = _one_tile(runner, world, lambda t: t["canada"] and t["us"])
+    assert runner.stage_trees_us_half(None, 1)["units_ok"] == 1
+    half = {n: _sha(runner.TILES_US_HALF / n) for n in us_half_names(t.key)}
+    names = (f"trees_{t.key}.tif", f"trees_flags_{t.key}.tif")
+    files = _old_layout_files(t.window, t.key, runner.TILES / "trees", names)
+    append_line(runner.MANIFEST, {"kind": "unit", "layer": "trees", "unit": t.key,
+                                  "status": "ok", "files": files})  # fmt: skip
+    d = world["d"]
+    for layer in SCANFI_LAYERS:
+        scanfi_layer_tile(t, d / f"scanfi_full_{layer}.tif", layer, d / "mask.tif",
+                          d / "nalcms.tif", runner.SCANFI_LAYER_TILES)  # fmt: skip
+
+    assert runner.stage_trees(None, 1)["units_ok"] == 1
+    line = [e for e in read_lines(runner.MANIFEST) if e.get("kind") == "unit"][-1]
+    assert line["tile_state"] == WHOLE_STATE
+    assert {n: _sha(runner.TILES_US_HALF / n) for n in half} == half  # left in place, unchanged
+    kept = {p.name: _sha(p) for p in (runner.T6B / "superseded").rglob("trees_*.tif")}
+    assert kept == files
