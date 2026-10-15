@@ -1,0 +1,4 @@
+origin shift (3,0) px: values bit-identical False, fractions True, cells differing 398 of 12288, max |diff| 4.44e-15, identical after float32 storage True
+origin shift (0,5) px: values bit-identical True, fractions True, cells differing 0 of 12288, max |diff| 0, identical after float32 storage True
+origin shift (7,11) px: values bit-identical False, fractions True, cells differing 777 of 12288, max |diff| 4.44e-15, identical after float32 storage True
+origin shift (1,1) px: values bit-identical False, fractions True, cells differing 160 of 12288, max |diff| 3.55e-15, identical after float32 storage True

@@ -1,0 +1,279 @@
+{
+ "check": "ten-cells",
+ "ok": true,
+ "cells_checked": 2,
+ "cells_in_rule": 10,
+ "cells": [
+  {
+   "cell": "coast-oregon",
+   "col": -8267,
+   "row": 3259,
+   "soil": {
+    "mean": {
+     "source": 5.151218749999998,
+     "source_fraction": 1.0,
+     "master": 5.151231288909912,
+     "master_fraction": 1.0,
+     "verdict": "match"
+    },
+    "Q0.05": {
+     "source": 4.390583333333333,
+     "source_fraction": 1.0,
+     "master": 4.390629291534424,
+     "master_fraction": 1.0,
+     "verdict": "match"
+    },
+    "Q0.95": {
+     "source": 5.928885416666667,
+     "source_fraction": 1.0,
+     "master": 5.928963661193848,
+     "master_fraction": 1.0,
+     "verdict": "match"
+    }
+   },
+   "trees": {
+    "tile_file": "trees_256_-33_12.tif",
+    "checks": {
+     "valid_fraction": [
+      1.0,
+      0.99999996875,
+      true
+     ],
+     "total_cover_pct": [
+      37.32345199584961,
+      37.3234686976084,
+      true
+     ],
+     "source": [
+      1.0,
+      1.0,
+      true
+     ],
+     "share_Pseudotsuga": [
+      0.25708624720573425,
+      0.2570861299053391,
+      true
+     ],
+     "flag_Pseudotsuga": [
+      1.0,
+      1.0,
+      true
+     ],
+     "share_Tsuga": [
+      0.008056309074163437,
+      0.008056310628549097,
+      true
+     ],
+     "flag_Tsuga": [
+      1.0,
+      1.0,
+      true
+     ],
+     "share_Picea": [
+      0.03248172253370285,
+      0.03248173730165692,
+      true
+     ],
+     "flag_Picea": [
+      1.0,
+      1.0,
+      true
+     ],
+     "share_Abies": [
+      0.002663959749042988,
+      0.002663956854123708,
+      true
+     ],
+     "flag_Abies": [
+      1.0,
+      1.0,
+      true
+     ],
+     "share_Pinus": [
+      0.0,
+      0.0,
+      true
+     ],
+     "flag_Pinus": [
+      1.0,
+      1.0,
+      true
+     ],
+     "share_Quercus": [
+      0.010463572107255459,
+      0.010463580036201927,
+      true
+     ],
+     "flag_Quercus": [
+      1.0,
+      1.0,
+      true
+     ],
+     "share_conifer": [
+      0.3865019381046295,
+      0.38650178991697115,
+      true
+     ],
+     "flag_conifer": [
+      1.0,
+      1.0,
+      true
+     ],
+     "share_broadleaf": [
+      0.6134980320930481,
+      0.6134982100830288,
+      true
+     ],
+     "flag_broadleaf": [
+      1.0,
+      1.0,
+      true
+     ]
+    },
+    "native_pixels": 87,
+    "plots": 11,
+    "verdict": "match"
+   }
+  },
+  {
+   "cell": "border-us-selkirks",
+   "col": -5823,
+   "row": 4880,
+   "soil": {
+    "mean": {
+     "source": 5.664260416666668,
+     "source_fraction": 1.0,
+     "master": 5.664270877838135,
+     "master_fraction": 1.0,
+     "verdict": "match"
+    },
+    "Q0.05": {
+     "source": 4.350000000000001,
+     "source_fraction": 1.0,
+     "master": 4.349997043609619,
+     "master_fraction": 1.0,
+     "verdict": "match"
+    },
+    "Q0.95": {
+     "source": 7.108375,
+     "source_fraction": 1.0,
+     "master": 7.108431339263916,
+     "master_fraction": 1.0,
+     "verdict": "match"
+    }
+   },
+   "trees": {
+    "tile_file": "trees_us_half_256_-23_19.tif",
+    "checks": {
+     "valid_fraction": [
+      1.0,
+      0.99999990625,
+      true
+     ],
+     "total_cover_pct": [
+      55.54634094238281,
+      55.546339801219354,
+      true
+     ],
+     "source": [
+      1.0,
+      1.0,
+      true
+     ],
+     "share_Pseudotsuga": [
+      0.5814740657806396,
+      0.5814741698534189,
+      true
+     ],
+     "flag_Pseudotsuga": [
+      1.0,
+      1.0,
+      true
+     ],
+     "share_Tsuga": [
+      0.033568039536476135,
+      0.0335680414327446,
+      true
+     ],
+     "flag_Tsuga": [
+      1.0,
+      1.0,
+      true
+     ],
+     "share_Picea": [
+      0.00909125991165638,
+      0.00909126077606458,
+      true
+     ],
+     "flag_Picea": [
+      1.0,
+      1.0,
+      true
+     ],
+     "share_Abies": [
+      0.08868171274662018,
+      0.08868167714061212,
+      true
+     ],
+     "flag_Abies": [
+      1.0,
+      1.0,
+      true
+     ],
+     "share_Pinus": [
+      0.037553004920482635,
+      0.03755301275615851,
+      true
+     ],
+     "flag_Pinus": [
+      1.0,
+      1.0,
+      true
+     ],
+     "share_Quercus": [
+      0.0,
+      0.0,
+      true
+     ],
+     "flag_Quercus": [
+      1.0,
+      1.0,
+      true
+     ],
+     "share_conifer": [
+      0.9997512102127075,
+      0.9997512385402925,
+      true
+     ],
+     "flag_conifer": [
+      1.0,
+      1.0,
+      true
+     ],
+     "share_broadleaf": [
+      0.00024876336101442575,
+      0.0002487614597075333,
+      true
+     ],
+     "flag_broadleaf": [
+      1.0,
+      1.0,
+      true
+     ]
+    },
+    "native_pixels": 89,
+    "plots": 13,
+    "verdict": "match"
+   }
+  }
+ ],
+ "tolerances": {
+  "ph": 0.01,
+  "soil_frac": 0.02,
+  "cover": 0.1,
+  "share": 0.001,
+  "frac": 0.001
+ },
+ "peak_rss_mb": 171.2,
+ "seconds": 16.1
+}

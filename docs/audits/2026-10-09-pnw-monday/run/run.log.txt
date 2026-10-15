@@ -1,0 +1,97 @@
+2026-10-06T18:32:11-07:00 section start, until 2026-10-06T19:10, stages mask,plots,trees, workers 2, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE
+2026-10-06T18:39:19-07:00 mask built in 428 s: {'country': {0: 288549893, 3: 9502670, 2: 158108060, 1: 124869475, 4: 18755374}, 'arctic': 45190392}
+2026-10-06T18:39:19-07:00 mask: ok
+2026-10-06T18:39:31-07:00 section end: 0 unit lines in the manifest
+2026-10-06T18:40:52-07:00 section start, until 2026-10-06T19:08, stages soil,trees, workers 2, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE
+2026-10-06T18:42:30-07:00 soil: 110 tiles
+2026-10-06T18:42:46-07:00 section end: 0 unit lines in the manifest
+2026-10-06T18:43:55-07:00 section start, until 2026-10-06T19:05, stages soil,trees, workers 2, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE
+2026-10-06T18:43:55-07:00 soil: 110 tiles
+2026-10-06T18:48:29-07:00 soil: {'kind': 'section', 'layer': 'soil', 'started_at': '2026-10-06T18:43:55-07:00', 'ended_at': '2026-10-06T18:48:29-07:00', 'seconds': 274.4, 'units_total': 2, 'units_done_before': 0, 'units_done_now': 2, 'units_remaining': 0, 'stopped': 'all units done'}
+2026-10-06T18:57:55-07:00 trees: 4788 tiles, 2771 with Canadian cells
+2026-10-06T19:04:08-07:00 section end: 2 unit lines in the manifest
+2026-10-06T19:05:49-07:00 section start, until 2026-10-06T19:16, stages trees, workers 2, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE
+2026-10-06T19:05:49-07:00 trees: 4788 tiles, 2771 with Canadian cells
+2026-10-06T19:05:49-07:00 trees: this section offers only super-windows ['1024_-1_6']
+2026-10-07T02:23:35-07:00 section start, until 2026-10-07T09:30, stages mask,plots,soil,trees, workers 2, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE
+2026-10-07T02:23:35-07:00 superseded (mask version None, now 'D111 D113 D117'): moved to /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/superseded/20261007T092335Z
+2026-10-07T02:30:56-07:00 mask built in 441 s: {'country': {0: 288549893, 3: 9502670, 2: 158108060, 1: 124869475, 4: 18755374}, 'ecoregion': {0: 288818495, 1: 45190392, 2: 265776585}}
+2026-10-07T02:30:56-07:00 mask: ok
+2026-10-07T02:31:14-07:00 plot table in 18 s: {'plots': 65814, 'surrogate_trees': 1074858, 'capped_trees': 13364, 'nonpositive_width_trees': 0, 'plots_without_tree_rows': 771, 'plots_without_canopypct': 459, 'unlisted_genus_trees_classed_by_fia_code': 190829, 'file': 'plots.npz', 'sha256': 'e42ae8c194d4f304a8a5561001282ce88fdd0e46de0f79f35c189a6a985fadd9'}
+2026-10-07T02:31:14-07:00 plots: ok
+2026-10-07T02:32:42-07:00 soil: 89 tiles
+2026-10-07T04:18:25-07:00 section end: 37 unit lines in the manifest
+2026-10-08T05:03:55-07:00 section start, until 2026-10-08T13:00, stages mask,plots,soil,trees, workers 2, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE
+2026-10-08T05:03:55-07:00 mask: ok
+2026-10-08T05:03:55-07:00 plots: ok
+2026-10-08T05:03:55-07:00 soil: 89 tiles
+2026-10-08T05:13:34-07:00 soil: {'kind': 'section', 'layer': 'soil', 'started_at': '2026-10-08T05:03:55-07:00', 'ended_at': '2026-10-08T05:13:34-07:00', 'seconds': 578.9, 'units_total': 89, 'units_done_before': 37, 'units_done_now': 3, 'units_ok': 3, 'units_deferred': 0, 'units_remaining': 49, 'stopped': 'pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE'}
+2026-10-08T05:13:34-07:00 not starting trees: stop condition
+2026-10-08T05:13:34-07:00 section end: 40 unit lines in the manifest
+2026-10-08T11:23:00-07:00 section start, until 2026-10-08T13:00, stages mask,plots,soil,trees, workers 2, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE
+2026-10-08T11:23:00-07:00 mask: ok
+2026-10-08T11:23:00-07:00 plots: ok
+2026-10-08T11:23:00-07:00 soil: 89 tiles
+2026-10-08T11:44:23-07:00 soil: {'kind': 'section', 'layer': 'soil', 'started_at': '2026-10-08T11:23:00-07:00', 'ended_at': '2026-10-08T11:44:23-07:00', 'seconds': 1282.3, 'units_total': 89, 'units_done_before': 40, 'units_done_now': 6, 'units_ok': 6, 'units_deferred': 0, 'units_remaining': 43, 'stopped': 'pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE'}
+2026-10-08T11:44:23-07:00 not starting trees: stop condition
+2026-10-08T11:44:23-07:00 section end: 46 unit lines in the manifest
+2026-10-08T13:26:43-07:00 section start, until 2026-10-08T17:00, stages mask,plots,soil,trees, workers 2, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE
+2026-10-08T13:26:43-07:00 mask: ok
+2026-10-08T13:26:43-07:00 plots: ok
+2026-10-08T13:26:43-07:00 soil: 89 tiles
+2026-10-08T13:53:47-07:00 soil: {'kind': 'section', 'layer': 'soil', 'started_at': '2026-10-08T13:26:43-07:00', 'ended_at': '2026-10-08T13:53:47-07:00', 'seconds': 1624.4, 'units_total': 89, 'units_done_before': 46, 'units_done_now': 9, 'units_ok': 9, 'units_deferred': 0, 'units_remaining': 34, 'stopped': 'pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE'}
+2026-10-08T13:53:47-07:00 not starting trees: stop condition
+2026-10-08T13:53:47-07:00 section end: 55 unit lines in the manifest
+2026-10-08T15:07:33-07:00 section start, until 2026-10-09T07:00, stages mask,plots,soil,trees, workers 2, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE
+2026-10-08T15:07:33-07:00 mask: ok
+2026-10-08T15:07:33-07:00 plots: ok
+2026-10-08T15:07:33-07:00 soil: 89 tiles
+2026-10-08T15:22:27-07:00 soil: {'kind': 'section', 'layer': 'soil', 'started_at': '2026-10-08T15:07:33-07:00', 'ended_at': '2026-10-08T15:22:27-07:00', 'seconds': 894.6, 'units_total': 89, 'units_done_before': 55, 'units_done_now': 4, 'units_ok': 4, 'units_deferred': 0, 'units_remaining': 30, 'stopped': 'pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE'}
+2026-10-08T15:22:27-07:00 not starting trees: stop condition
+2026-10-08T15:22:27-07:00 section end: 59 unit lines in the manifest
+2026-10-08T16:47:30-07:00 section start, until 2026-10-09T07:00, stages mask,plots,soil,trees, workers 2, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE
+2026-10-08T16:47:30-07:00 mask: ok
+2026-10-08T16:47:30-07:00 plots: ok
+2026-10-08T16:47:30-07:00 soil: 89 tiles
+2026-10-08T18:07:27-07:00 soil: {'kind': 'section', 'layer': 'soil', 'started_at': '2026-10-08T16:47:30-07:00', 'ended_at': '2026-10-08T18:07:27-07:00', 'seconds': 4796.7, 'units_total': 89, 'units_done_before': 59, 'units_done_now': 30, 'units_ok': 30, 'units_deferred': 0, 'units_remaining': 0, 'stopped': 'all units done'}
+2026-10-08T18:15:53-07:00 trees: 4058 tiles, 2043 with Canadian cells; 2043 wait for the SCANFI layers (D118)
+2026-10-08T19:20:57-07:00 trees: {'kind': 'section', 'layer': 'trees', 'started_at': '2026-10-08T18:15:53-07:00', 'ended_at': '2026-10-08T19:20:57-07:00', 'seconds': 3904.0, 'units_total': 2015, 'units_done_before': 0, 'units_done_now': 106, 'units_ok': 106, 'units_deferred': 0, 'units_remaining': 1909, 'stopped': 'pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE'}
+2026-10-08T19:20:57-07:00 section end: 195 unit lines in the manifest
+2026-10-08T19:37:43-07:00 section start, until 2026-10-09T07:00, stages mask,plots,soil,trees, workers 2, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE
+2026-10-08T19:37:43-07:00 mask: ok
+2026-10-08T19:37:43-07:00 plots: ok
+2026-10-08T19:37:43-07:00 soil: 89 tiles
+2026-10-08T19:39:02-07:00 soil: {'kind': 'section', 'layer': 'soil', 'started_at': '2026-10-08T19:37:43-07:00', 'ended_at': '2026-10-08T19:39:02-07:00', 'seconds': 79.2, 'units_total': 89, 'units_done_before': 89, 'units_done_now': 0, 'units_ok': 0, 'units_deferred': 0, 'units_remaining': 0, 'stopped': 'all units done'}
+2026-10-08T19:39:02-07:00 trees: 4058 tiles, 2043 with Canadian cells; 2043 wait for the SCANFI layers (D118)
+2026-10-08T20:07:36-07:00 trees: {'kind': 'section', 'layer': 'trees', 'started_at': '2026-10-08T19:39:02-07:00', 'ended_at': '2026-10-08T20:07:36-07:00', 'seconds': 1713.4, 'units_total': 2015, 'units_done_before': 106, 'units_done_now': 49, 'units_ok': 49, 'units_deferred': 0, 'units_remaining': 1860, 'stopped': 'pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE'}
+2026-10-08T20:07:36-07:00 section end: 244 unit lines in the manifest
+2026-10-08T21:43:34-07:00 section start, until 2026-10-09T07:00, stages mask,plots,soil,trees, workers 2, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE
+2026-10-08T21:43:34-07:00 mask: ok
+2026-10-08T21:43:34-07:00 plots: ok
+2026-10-08T21:43:34-07:00 soil: 89 tiles
+2026-10-08T21:44:49-07:00 soil: {'kind': 'section', 'layer': 'soil', 'started_at': '2026-10-08T21:43:34-07:00', 'ended_at': '2026-10-08T21:44:49-07:00', 'seconds': 74.6, 'units_total': 89, 'units_done_before': 89, 'units_done_now': 0, 'units_ok': 0, 'units_deferred': 0, 'units_remaining': 0, 'stopped': 'all units done'}
+2026-10-08T21:44:49-07:00 trees: 4058 tiles, 2043 with Canadian cells; 2043 wait for the SCANFI layers (D118)
+2026-10-09T03:44:29-07:00 trees: {'kind': 'section', 'layer': 'trees', 'started_at': '2026-10-08T21:44:49-07:00', 'ended_at': '2026-10-09T03:44:29-07:00', 'seconds': 21580.0, 'units_total': 2015, 'units_done_before': 155, 'units_done_now': 615, 'units_ok': 615, 'units_deferred': 0, 'units_remaining': 1245, 'stopped': 'pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE'}
+2026-10-09T03:44:29-07:00 section end: 859 unit lines in the manifest
+2026-10-09T03:45:28-07:00 section start, until 2026-10-09T07:00, stages trees-us-half, workers 2, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE
+2026-10-09T03:45:28-07:00 not starting trees-us-half: stop condition
+2026-10-09T03:45:28-07:00 section end: 859 unit lines in the manifest
+2026-10-09T03:46:00-07:00 section start, until 2026-10-09T07:00, stages trees-us-half, workers 2, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/pnw/PAUSE
+2026-10-09T03:46:17-07:00 trees-us-half: 20 tiles with Canadian cells waiting for SCANFI (D119)
+2026-10-09T03:46:22-07:00 section end: 859 unit lines in the manifest
+2026-10-09T03:47:53-07:00 section start, until 2026-10-09T07:00, stages trees-us-half, workers 2, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/pnw/PAUSE
+2026-10-09T03:47:54-07:00 trees-us-half: 17 tiles with Canadian cells waiting for SCANFI (D119)
+2026-10-09T03:59:15-07:00 trees-us-half: {'kind': 'section', 'layer': 'trees-us-half', 'started_at': '2026-10-09T03:47:54-07:00', 'ended_at': '2026-10-09T03:59:15-07:00', 'seconds': 680.6, 'units_total': 17, 'units_done_before': 0, 'units_done_now': 17, 'units_ok': 17, 'units_deferred': 0, 'units_remaining': 0, 'stopped': 'all units done'}
+2026-10-09T03:59:15-07:00 section end: 876 unit lines in the manifest
+2026-10-09T04:34:57-07:00 section start, until 2026-10-09T14:00, stages mask,plots,soil,trees, workers 2, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE
+2026-10-09T04:34:57-07:00 mask: ok
+2026-10-09T04:34:57-07:00 plots: ok
+2026-10-09T04:34:57-07:00 soil: 89 tiles
+2026-10-09T04:36:11-07:00 soil: {'kind': 'section', 'layer': 'soil', 'started_at': '2026-10-09T04:34:57-07:00', 'ended_at': '2026-10-09T04:36:11-07:00', 'seconds': 73.2, 'units_total': 89, 'units_done_before': 89, 'units_done_now': 0, 'units_ok': 0, 'units_deferred': 0, 'units_remaining': 0, 'stopped': 'all units done'}
+2026-10-09T04:36:11-07:00 trees: 4058 tiles, 2043 with Canadian cells; 2043 wait for the SCANFI layers (D118)
+2026-10-09T05:22:18-07:00 trees: {'kind': 'section', 'layer': 'trees', 'started_at': '2026-10-09T04:36:11-07:00', 'ended_at': '2026-10-09T05:22:18-07:00', 'seconds': 2767.0, 'units_total': 2015, 'units_done_before': 770, 'units_done_now': 80, 'units_ok': 80, 'units_deferred': 0, 'units_remaining': 1165, 'stopped': 'pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE'}
+2026-10-09T05:22:18-07:00 section end: 956 unit lines in the manifest
+2026-10-09T05:27:57-07:00 section start, until 2026-10-09T07:00, stages trees-us-half, workers 2, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/pnw/PAUSE
+2026-10-09T05:28:14-07:00 trees-us-half: 3 tiles with Canadian cells waiting for SCANFI (D119)
+2026-10-09T05:30:32-07:00 trees-us-half: {'kind': 'section', 'layer': 'trees-us-half', 'started_at': '2026-10-09T05:28:14-07:00', 'ended_at': '2026-10-09T05:30:32-07:00', 'seconds': 137.9, 'units_total': 3, 'units_done_before': 17, 'units_done_now': 3, 'units_ok': 3, 'units_deferred': 0, 'units_remaining': 0, 'stopped': 'all units done'}
+2026-10-09T05:30:32-07:00 section end: 959 unit lines in the manifest

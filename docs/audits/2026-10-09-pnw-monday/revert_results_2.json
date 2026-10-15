@@ -1,0 +1,155 @@
+[
+ {
+  "check": "pending cells not marked",
+  "file": "src/forager_forecast/t6b_layers.py",
+  "status": "bites",
+  "summary": "1 failed, 198 warnings in 7.32s",
+  "failed": [
+   "tests/test_t6b_layers.py::test_the_us_half_has_the_whole_tiles_us_cells_and_marks_canadian_cells_pending"
+  ],
+  "first_messages": [
+   "assert np.False_",
+   "+  where np.False_ = <built-in method all of numpy.ndarray object at 0x7b37b2837990>()",
+   "+    where <built-in method all of numpy.ndarray object at 0x7b37b2837990> = array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\\n        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ... 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\\n        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype=uint8) == 4.all"
+  ],
+  "restored_equal": true
+ },
+ {
+  "check": "fill recomputes US cells instead of copying",
+  "file": "src/forager_forecast/t6b_layers.py",
+  "status": "bites",
+  "summary": "1 failed, 310 warnings in 10.77s",
+  "failed": [
+   "tests/test_t6b_layers.py::test_filling_the_canadian_cells_gives_the_whole_tile_and_leaves_the_us_half_alone"
+  ],
+  "first_messages": [
+   "assert False",
+   "+  where False = <function array_equal at 0x7c7c25912170>(array([[[ 0.        , 22.04434   , 58.50627   , ..., 55.921436  ,\\n         57.663     ,         nan],\\n        [ 0.    ...n,         nan,         nan, ...,         nan,\\n                 nan,         nan]]], shape=(11, 16, 16), dtype=float32), array([[[ 0.        , 22.04434   , 58.50627   , ..., 55.921436  ,\\n         57.663     ,         nan],\\n        [ 0.    ... ,  0.1922123 ,  0.19949748, ...,  0.20287304,\\n          0.17566152,  0.1835426 ]]], shape=(11, 16, 16), dtype=float32), equal_nan=True)",
+   "+    where <function array_equal at 0x7c7c25912170> = np.array_equal"
+  ],
+  "restored_equal": true
+ },
+ {
+  "check": "fill accepts any file",
+  "file": "src/forager_forecast/t6b_layers.py",
+  "status": "bites",
+  "summary": "1 failed, 294 warnings in 10.26s",
+  "failed": [
+   "tests/test_t6b_layers.py::test_filling_refuses_a_file_that_is_not_a_us_half"
+  ],
+  "first_messages": [
+   "AssertionError: Regex pattern did not match.",
+   "Expected regex: 'not a US-half file'",
+   "Actual message: \"trees_us_half_16_-443_326.tif: its pending cells are not this tile's Canadian cells\""
+  ],
+  "restored_equal": true
+ },
+ {
+  "check": "trees stage ignores the US half",
+  "file": "scripts/t6b_run.py",
+  "status": "bites",
+  "summary": "1 failed, 230 warnings in 7.57s",
+  "failed": [
+   "tests/test_t6b_us_half_runner.py::test_the_us_half_runs_now_says_so_and_is_filled_later_without_change"
+  ],
+  "first_messages": [
+   "KeyError: 'tile_state'"
+  ],
+  "restored_equal": true
+ },
+ {
+  "check": "us-half stage offers whole tiles",
+  "file": "scripts/t6b_run.py",
+  "status": "bites",
+  "summary": "1 failed, 222 warnings in 7.21s",
+  "failed": [
+   "tests/test_t6b_us_half_runner.py::test_the_us_half_runs_now_says_so_and_is_filled_later_without_change"
+  ],
+  "first_messages": [
+   "assert 1 == 0"
+  ],
+  "restored_equal": true
+ },
+ {
+  "check": "us-half stage takes any tile key",
+  "file": "scripts/t6b_run.py",
+  "status": "bites",
+  "summary": "1 failed, 92 warnings in 3.07s",
+  "failed": [
+   "tests/test_t6b_us_half_runner.py::test_us_half_tiles_must_be_tiles_with_canadian_cells"
+  ],
+  "first_messages": [
+   "Failed: DID NOT RAISE SystemExit"
+  ],
+  "restored_equal": true
+ },
+ {
+  "check": "percent encoding at whole points",
+  "file": "src/forager_forecast/tiles.py",
+  "status": "bites",
+  "summary": "1 failed in 0.50s",
+  "failed": [
+   "tests/test_tiles.py::test_the_percent_encoding_rounds_to_half_points_and_makes_no_data_transparent"
+  ],
+  "first_messages": [
+   "assert [0, 0, 0, 38, 100, 0, ...] == [0, 0, 1, 75, 200, 0, ...]",
+   "E         At index 2 diff: 0 != 1",
+   "Use -v to get more diff"
+  ],
+  "restored_equal": true
+ },
+ {
+  "check": "percent range not checked",
+  "file": "src/forager_forecast/tiles.py",
+  "status": "bites",
+  "summary": "1 failed in 0.49s",
+  "failed": [
+   "tests/test_tiles.py::test_the_percent_encoding_rounds_to_half_points_and_makes_no_data_transparent"
+  ],
+  "first_messages": [
+   "Failed: DID NOT RAISE ValueError"
+  ],
+  "restored_equal": true
+ },
+ {
+  "check": "D120: NONE pixel outside TreeMap refused again",
+  "file": "src/forager_forecast/t6b_layers.py",
+  "status": "bites",
+  "summary": "1 failed, 1 passed, 84 warnings in 2.93s",
+  "failed": [
+   "tests/test_t6b_layers.py::test_a_no_country_pixel_outside_treemap_is_no_data_and_a_us_pixel_still_refused[none]"
+  ],
+  "first_messages": [
+   "ValueError: the TreeMap raster does not cover the US side of this tile"
+  ],
+  "restored_equal": true
+ },
+ {
+  "check": "D120: US pixel outside TreeMap accepted",
+  "file": "src/forager_forecast/t6b_layers.py",
+  "status": "bites",
+  "summary": "1 failed, 1 passed, 88 warnings in 3.60s",
+  "failed": [
+   "tests/test_t6b_layers.py::test_a_no_country_pixel_outside_treemap_is_no_data_and_a_us_pixel_still_refused[us]"
+  ],
+  "first_messages": [
+   "Failed: DID NOT RAISE ValueError"
+  ],
+  "restored_equal": true
+ },
+ {
+  "check": "refactor: share threshold moved",
+  "file": "src/forager_forecast/t6b_layers.py",
+  "status": "bites",
+  "summary": "1 failed, 710 warnings in 19.04s",
+  "failed": [
+   "../../../../tmp/claude-1000/-home-zynergy-labs-Zynergy-Forager/594b88a0-2597-556f-be1b-255b2b0f226b/scratchpad/pnw/test_refactor_guard.py::test_guard"
+  ],
+  "first_messages": [
+   "AssertionError: win_trees_16_-443_326",
+   "assert False",
+   "+  where False = <function array_equal at 0x7bcf785c90b0>(array([[[ 0.        , 22.04434   , 58.50627   , ..., 55.921436  ,\\n         57.663     ,         nan],\\n        [ 0.    ... ,  0.1922123 ,  0.19949748, ...,  0.20287304,\\n          0.17566152,  0.1835426 ]]], shape=(11, 16, 16), dtype=float32), array([[[ 0.        , 22.04434   , 58.50627   , ..., 55.921436  ,\\n         57.663     ,         nan],\\n        [ 0.    ... ,  0.1922123 ,  0.19949748, ...,  0.20287304,\\n          0.17566152,  0.1835426 ]]], shape=(11, 16, 16), dtype=float32), equal_nan=True)"
+  ],
+  "restored_equal": true
+ }
+]

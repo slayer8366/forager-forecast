@@ -1,0 +1,38 @@
+{
+ "stage": "mosaic",
+ "seconds": 164.5,
+ "window": [
+  -2295000,
+  95000,
+  -1033000,
+  1367250
+ ],
+ "free_bytes_before": 3350642688,
+ "trees": {
+  "tile_states_over_window": {
+   "not computed yet": 86,
+   "us_half": 20,
+   "whole": 314
+  },
+  "pnw_study_cells": 16674133,
+  "pnw_study_cells_us": 16571590,
+  "pnw_study_cells_canada": 102543,
+  "cells_in_tiles_not_computed_yet": 0,
+  "canadian_cells_in_tiles_with_canadian_cells_only": 14683,
+  "cells_pending_canada": 102543,
+  "cells_with_total_cover": 16377178,
+  "cells_with_share_Pseudotsuga": 6991082,
+  "cells_with_share_Tsuga": 6991082,
+  "cells_with_share_conifer": 6991082,
+  "cells_with_share_broadleaf": 6991082
+ },
+ "soil": {
+  "pnw_study_cells": 16674133,
+  "cells_with_mean": 16248227,
+  "cells_in_tiles_not_computed_yet": 0
+ },
+ "files": {
+  "soil_pnw.tif": 70024922,
+  "trees_pnw.tif": 437418348
+ }
+}

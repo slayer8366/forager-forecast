@@ -1,0 +1,160 @@
+{
+ "check": "seam",
+ "ok": null,
+ "bands": {
+  "total_cover_pct": {
+   "verdict": "artifact",
+   "transects_with_a_border_step": 23,
+   "within_us_median_abs": 8.027115821838379,
+   "within_us_p95_abs": 37.920190274715424,
+   "within_ca_median_abs": 8.108004570007324,
+   "border_steps": [
+    -18.632933497428894,
+    null,
+    -39.51589012145996,
+    null,
+    18.703333243727684,
+    -30.093960285186768,
+    -4.7616987228393555,
+    3.907833606004715,
+    18.065338730812073,
+    -7.957868576049805,
+    -47.0173225030303,
+    -10.158957958221436,
+    -10.36750316619873,
+    13.527864456176758,
+    3.4346508979797363,
+    -17.658061176538467,
+    20.311838626861572,
+    -40.09058991447091,
+    14.375155925750732,
+    -19.82688035070896,
+    12.668163120746613,
+    12.520602226257324,
+    7.578800618648529,
+    -34.49666115641594,
+    -14.97117006778717
+   ]
+  },
+  "share_Pseudotsuga": {
+   "verdict": "no step",
+   "transects_with_a_border_step": 7,
+   "within_us_median_abs": 0.04070577758830041,
+   "within_us_p95_abs": 0.129437658126335,
+   "within_ca_median_abs": 0.05574685335159302,
+   "border_steps": [
+    null,
+    null,
+    -0.04353331425227225,
+    null,
+    null,
+    0.2702856766991317,
+    0.24828520324081182,
+    null,
+    null,
+    0.18240876961499453,
+    null,
+    null,
+    0.0831347928251489,
+    -0.05972240387927741,
+    -0.07250170074985363,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  "share_conifer": {
+   "verdict": "no step",
+   "transects_with_a_border_step": 7,
+   "within_us_median_abs": 0.009032711386680603,
+   "within_us_p95_abs": 0.25450465343892564,
+   "within_ca_median_abs": 0.015630528330802917,
+   "border_steps": [
+    null,
+    null,
+    -0.0008705407381057739,
+    null,
+    null,
+    -0.035136446356773376,
+    0.17819222807884216,
+    null,
+    null,
+    -0.01826903223991394,
+    null,
+    null,
+    -0.017338484525680542,
+    0.012759357690811157,
+    0.017415732145309448,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  "share_broadleaf": {
+   "verdict": "no step",
+   "transects_with_a_border_step": 7,
+   "within_us_median_abs": 0.009032711081090383,
+   "within_us_p95_abs": 0.25450464116220234,
+   "within_ca_median_abs": 0.015630541121936403,
+   "border_steps": [
+    null,
+    null,
+    0.0008705328509677202,
+    null,
+    null,
+    0.035136448219418526,
+    -0.1781922411173582,
+    null,
+    null,
+    0.01826902010361664,
+    null,
+    null,
+    0.017338475212454796,
+    -0.012759365607053041,
+    -0.017415742855519056,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  }
+ },
+ "peak_rss_mb": 1730.1,
+ "us_side_samples": {
+  "total_cover_pct": {
+   "samples": 2000,
+   "finite": 1974
+  },
+  "valid_fraction": {
+   "samples": 2000,
+   "finite": 2000
+  },
+  "source": {
+   "samples": 2000,
+   "finite": 2000,
+   "values": {
+    "1.0": 2000
+   }
+  }
+ }
+}

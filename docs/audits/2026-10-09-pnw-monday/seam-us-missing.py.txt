@@ -1,0 +1,16 @@
+import numpy as np, rasterio
+from forager_forecast.grid import cell_for_lonlat
+from forager_forecast.seam import sample_latitudes, transect_longitudes
+with rasterio.open("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/pnw/mosaic/trees_pnw.tif") as ds:
+    n=list(ds.descriptions); t=ds.transform; miss=ds.read(n.index("missing")+1); src=ds.read(n.index("source")+1); stud=ds.read(n.index("pnw_study")+1)
+cnt={"missing":0,"nan_source_not_missing":0,"out_of_study":0}
+per=[]
+for lon in transect_longitudes():
+    _,south=sample_latitudes(lon); m=0
+    for lat in south:
+        c=cell_for_lonlat(lon,float(lat)); r=int(round(t.f/250))-1-c.row; cc=c.col-int(round(t.c/250))
+        if miss[r,cc]>0: cnt["missing"]+=1; m+=1
+        elif np.isnan(src[r,cc]): cnt["nan_source_not_missing"]+=1
+        if stud[r,cc]==0: cnt["out_of_study"]+=1
+    per.append((round(lon,3),m))
+print(cnt); print(per)

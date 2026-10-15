@@ -1,0 +1,11 @@
+{
+ "stage": "pmtiles",
+ "seconds": 41.4,
+ "archives": {
+  "hemlock": {
+   "bytes": 7598297,
+   "min_zoom": 5,
+   "max_zoom": 9
+  }
+ }
+}

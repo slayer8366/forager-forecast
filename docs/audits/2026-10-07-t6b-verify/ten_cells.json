@@ -1,0 +1,21 @@
+{
+  "rule": "docs/audits/2026-10-07-t6b-verify/ten-cell-rule.md",
+  "cell_function": "forager_forecast.grid.cell_for_lonlat (lon, lat read as NAD83)",
+  "cells": [
+    {"name": "coast-oregon", "lat": 44.30, "lon": -123.95, "col": -8267, "row": 3259, "id": 2361089973},
+    {"name": "mountains-colorado", "lat": 40.35, "lon": -105.70, "col": -3097, "row": 323, "id": 2168681447},
+    {"name": "prairie-kansas", "lat": 38.50, "lon": -98.50, "col": -823, "row": -697, "id": 2101837001},
+    {"name": "prairie-saskatchewan", "lat": 51.00, "lon": -106.00, "col": -2663, "row": 5329, "id": 2496755097},
+    {"name": "boreal-manitoba", "lat": 55.00, "lon": -98.00, "col": -495, "row": 7055, "id": 2609872401},
+    {"name": "border-us-selkirks", "lat": 48.95, "lon": -117.20, "col": -5823, "row": 4880, "id": 2467326273},
+    {"name": "border-ca-selkirks", "lat": 49.05, "lon": -117.20, "col": -5812, "row": 4926, "id": 2470340940},
+    {"name": "appalachians-smokies", "lat": 35.60, "lon": -83.50, "col": 4279, "row": -1788, "id": 2030342327},
+    {"name": "masked-mexico-chihuahua", "lat": 28.00, "lon": -106.00, "col": -3799, "row": -5395, "id": 1793945897},
+    {"name": "nodata-lake-michigan", "lat": 43.50, "lon": -87.00, "col": 2732, "row": 1783, "id": 2264369836}
+  ],
+  "tolerances": {
+    "soil_ph": 0.01, "soil_valid_fraction": 0.02,
+    "tree_total_cover_pct": 0.1, "tree_share": 0.001, "tree_valid_fraction": 0.001,
+    "tree_source_and_flags": "exact"
+  }
+}

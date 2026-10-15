@@ -140,3 +140,51 @@ def test_several_bands_share_the_geometry_but_not_the_validity():
     np.testing.assert_allclose(values[1, :, 5:], 9.0)
     np.testing.assert_allclose(valid[0], 1.0)
     np.testing.assert_allclose(valid[1, :, :5], 0.0)
+
+
+# T6b (D115 item 5): pixel positions against the source's full-raster origin.
+
+
+def _rotating(xs, ys):
+    """A rotated, scaled mapping, so footprints are skewed quads with non-trivial overlaps."""
+    a = np.deg2rad(13.0)
+    return (np.cos(a) * xs - np.sin(a) * ys) / 1.1 + 12_345.6, (
+        np.sin(a) * xs + np.cos(a) * ys
+    ) / 0.9 + 6_789.1
+
+
+def test_the_same_cells_from_subsets_at_different_offsets_are_bit_identical():
+    from forager_forecast.regrid import area_weighted_regrid_from_origin
+
+    rng = np.random.default_rng(20260918)
+    full = rng.normal(5.5, 1.0, size=(2, 60, 60))
+    full[0, 20, 20] = np.nan
+    full_t = from_origin(5_000.0, 24_000.0, 230.0, 230.0)
+    window = GridWindow(-2_000, 9_000, 1_000, 12_000)
+    results = []
+    for c0, r0 in ((0, 0), (3, 0), (7, 11), (1, 1), (5, 2)):
+        sub = full[:, r0:, c0:]
+        v, f = area_weighted_regrid_from_origin(sub, full_t, c0, r0, _rotating, window)
+        results.append((v, f))
+    for v, f in results[1:]:
+        assert np.array_equal(v, results[0][0], equal_nan=True)
+        assert np.array_equal(f, results[0][1])
+    # Same values as the window-relative regrid, to rounding.
+    v_old, f_old = area_weighted_regrid(full, full_t, _rotating, window)
+    np.testing.assert_allclose(results[0][0], v_old, rtol=0, atol=1e-12)
+    np.testing.assert_allclose(results[0][1], f_old, rtol=0, atol=1e-12)
+
+
+def test_the_window_relative_regrid_is_not_bit_identical_across_offsets():
+    # The reason for the origin-placed regrid: shown so that test above is not vacuous here.
+    rng = np.random.default_rng(20260918)
+    full = rng.normal(5.5, 1.0, size=(1, 60, 60))
+    full_t = from_origin(5_000.0, 24_000.0, 230.0, 230.0)
+    window = GridWindow(-2_000, 9_000, 1_000, 12_000)
+    v0, _ = area_weighted_regrid(full, full_t, _rotating, window)
+    from rasterio.transform import Affine
+
+    v1, _ = area_weighted_regrid(
+        full[:, 11:, 7:], full_t * Affine.translation(7, 11), _rotating, window
+    )
+    assert not np.array_equal(v0, v1, equal_nan=True)

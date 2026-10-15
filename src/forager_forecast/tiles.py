@@ -113,6 +113,22 @@ def encode_ph_byte(ph: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     return grey, alpha
 
 
+PERCENT_STEPS = 2  # grey byte steps per percentage point: 0.5 points, 0 to 100 -> 0 to 200
+
+
+def encode_percent_byte(percent: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """(grey, alpha) for a tree layer in percent (canopy cover, or a share times 100): grey is
+    floor(percent * 2 + 0.5), alpha 0 where the value is NaN (no data, masked or pending)."""
+    percent = np.asarray(percent, dtype="float64")
+    valid = np.isfinite(percent)
+    if (percent[valid] < -1e-6).any() or (percent[valid] > 100 + 1e-6).any():
+        raise ValueError("a value outside 0 to 100 is not a percentage")
+    scaled = np.floor(np.clip(np.where(valid, percent, 0.0), 0.0, 100.0) * PERCENT_STEPS + 0.5)
+    grey = np.where(valid, scaled, 0).astype("uint8")
+    alpha = np.where(valid, 255, 0).astype("uint8")
+    return grey, alpha
+
+
 def _normalise_header(header: Mapping) -> dict:
     out = dict(header)
     for key in ("tile_type", "tile_compression", "internal_compression"):
@@ -190,3 +206,56 @@ def write_archive(
     mbtiles_to_pmtiles(str(mbtiles_path), str(pmtiles_path), None)
     header, meta, _ = read_archive(pmtiles_path)
     return header, meta
+
+
+# --- Static z/x/y tiles (the site's test area, owner's "A: Pre-cut tiles, go live", RECORD -786) --
+#
+# Every zoom, not only zoom 9, takes the master cell under each pixel's centre (nearest), so no
+# overview blends a value with a sentinel (review F5): a pixel is a value, no data or a sentinel.
+
+
+def lonlat_to_tile(lon: float, lat: float, z: int) -> tuple[float, float]:
+    """Fractional slippy-map tile coordinates (x east, y south) of a point at zoom z."""
+    n = 2**z
+    s = math.sin(math.radians(lat))
+    return (lon + 180.0) / 360.0 * n, (0.5 - math.log((1 + s) / (1 - s)) / (4 * math.pi)) * n
+
+
+def tile_range(west: float, south: float, east: float, north: float, z: int):
+    """(x0, x1, y0, y1), inclusive, of the tiles meeting the box: the same tiles MapLibre asks
+    for when a source declares these bounds (floor of the west and north edges, ceil - 1 of the
+    east and south edges)."""
+    xw, yn = lonlat_to_tile(west, north, z)
+    xe, ys = lonlat_to_tile(east, south, z)
+    return math.floor(xw), math.ceil(xe) - 1, math.floor(yn), math.ceil(ys) - 1
+
+
+def tile_values(values: np.ndarray, window: GridWindow, z: int, x: int, y: int) -> np.ndarray:
+    """One 256 x 256 tile: each pixel takes the master cell under its centre; NaN outside."""
+    size = 2 * _HALF_WORLD_M / 2**z
+    px = size / TILE_PX
+    left = -_HALF_WORLD_M + x * size
+    top = _HALF_WORLD_M - y * size
+    xs = left + (np.arange(TILE_PX) + 0.5) * px
+    ys = top - (np.arange(TILE_PX) + 0.5) * px
+    mx, my = np.meshgrid(xs, ys)
+    lon, lat = Transformer.from_crs("EPSG:3857", "EPSG:4326", always_xy=True).transform(
+        mx.ravel(), my.ravel()
+    )
+    gx, gy = lonlat_transformer().transform(lon, lat)
+    col = np.floor((np.asarray(gx) - window.left) / CELL_SIZE_M).astype(np.int64)
+    row = np.floor((window.top - np.asarray(gy)) / CELL_SIZE_M).astype(np.int64)
+    inside = (col >= 0) & (col < window.width) & (row >= 0) & (row < window.height)
+    out = np.full(col.shape, np.nan)
+    out[inside] = values[row[inside], col[inside]]
+    return out.reshape(TILE_PX, TILE_PX)
+
+
+def png_grey_alpha(grey: np.ndarray, alpha: np.ndarray) -> bytes:
+    """A two-band (grey, alpha) PNG."""
+    with MemoryFile() as mem:
+        with mem.open(driver="PNG", width=grey.shape[1], height=grey.shape[0], count=2,
+                      dtype="uint8") as dst:  # fmt: skip
+            dst.write(grey, 1)
+            dst.write(alpha, 2)
+        return mem.read()

@@ -1,0 +1,70 @@
+{
+ "mosaic": {
+  "stage": "mosaic",
+  "seconds": 93.9,
+  "window": [
+   -2295000,
+   95000,
+   -1033000,
+   1367250
+  ],
+  "free_bytes_before": null,
+  "trees": {
+   "tile_states_over_window": {
+    "not computed yet": 83,
+    "whole": 324,
+    "us_half": 13
+   },
+   "pnw_study_cells": 16674133,
+   "pnw_study_cells_us": 16571590,
+   "pnw_study_cells_canada": 102543,
+   "cells_in_tiles_not_computed_yet": 0,
+   "canadian_cells_in_tiles_with_canadian_cells_only": 0,
+   "cells_pending_canada": 0,
+   "cells_with_total_cover": 16477605,
+   "cells_with_share_Pseudotsuga": 7087659,
+   "cells_with_share_Tsuga": 6991082,
+   "cells_with_share_conifer": 7087659,
+   "cells_with_share_broadleaf": 7087659
+  },
+  "soil": {
+   "pnw_study_cells": 16674133,
+   "cells_with_mean": 16248227,
+   "cells_in_tiles_not_computed_yet": 0
+  },
+  "files": {
+   "soil_pnw.tif": 70024922,
+   "trees_pnw.tif": 448737274
+  }
+ }
+}
+{
+ "total_cover_pct": {
+  "verdict": "artifact",
+  "transects_with_a_border_step": 23,
+  "within_us_median_abs": 8.027115821838379,
+  "within_us_p95_abs": 37.920190274715424,
+  "within_ca_median_abs": 8.108004570007324
+ },
+ "share_Pseudotsuga": {
+  "verdict": "no step",
+  "transects_with_a_border_step": 7,
+  "within_us_median_abs": 0.04070577758830041,
+  "within_us_p95_abs": 0.129437658126335,
+  "within_ca_median_abs": 0.05574685335159302
+ },
+ "share_conifer": {
+  "verdict": "no step",
+  "transects_with_a_border_step": 7,
+  "within_us_median_abs": 0.009032711386680603,
+  "within_us_p95_abs": 0.25450465343892564,
+  "within_ca_median_abs": 0.015630528330802917
+ },
+ "share_broadleaf": {
+  "verdict": "no step",
+  "transects_with_a_border_step": 7,
+  "within_us_median_abs": 0.009032711081090383,
+  "within_us_p95_abs": 0.25450464116220234,
+  "within_ca_median_abs": 0.015630541121936403
+ }
+}

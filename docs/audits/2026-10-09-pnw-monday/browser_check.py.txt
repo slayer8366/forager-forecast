@@ -1,0 +1,51 @@
+"""Drive headless Firefox through geckodriver's WebDriver API (stdlib only): load the page, wait
+for the map to go idle, read the worker and range fetches and any map errors, switch each layer,
+screenshot each, and tap one point."""
+import base64, json, subprocess, sys, time, urllib.request
+URL = sys.argv[1]; OUT = sys.argv[2]
+gd = subprocess.Popen(["geckodriver", "--port", "4455"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+time.sleep(2)
+def call(method, path, body=None):
+    req = urllib.request.Request(f"http://127.0.0.1:4455{path}", method=method,
+        data=json.dumps(body).encode() if body is not None else None, headers={"Content-Type": "application/json"})
+    return json.loads(urllib.request.urlopen(req, timeout=120).read())["value"]
+report = {}
+try:
+    s = call("POST", "/session", {"capabilities": {"alwaysMatch": {"browserName": "firefox",
+        "moz:firefoxOptions": {"args": ["-headless", "--width=1400", "--height=1000"]}}}})
+    sid = s["sessionId"]
+    def js(src, args=()):
+        return call("POST", f"/session/{sid}/execute/sync", {"script": src, "args": list(args)})
+    def wait_idle(timeout=90):
+        t0 = time.time()
+        while time.time() - t0 < timeout:
+            ok = js("const m=window.pnwMap; return !!(m && m.loaded() && m.areTilesLoaded() && document.body.dataset.ready==='1');")
+            if ok: return round(time.time() - t0, 1)
+            time.sleep(1)
+        return None
+    call("POST", f"/session/{sid}/url", {"url": URL})
+    report["first_idle_s"] = wait_idle()
+    report["layers"] = {}
+    for layer in ["soil-ph", "tree-cover", "douglas-fir", "hemlock"]:
+        js("const r=document.querySelector(`input[value='${arguments[0]}']`); r.checked=true; r.dispatchEvent(new Event('change',{bubbles:true}));", [layer])
+        time.sleep(1)
+        idle = wait_idle()
+        png = base64.b64decode(call("GET", f"/session/{sid}/screenshot"))
+        open(f"{OUT}/page-{layer}.png", "wb").write(png)
+        report["layers"][layer] = {"idle_s": idle, "layer_shown": js("return document.body.dataset.layer;")}
+    pt = js("const m=window.pnwMap; const p=m.project([-122.0,45.0]); const r=m.getCanvas().getBoundingClientRect(); return [Math.round(r.left+p.x), Math.round(r.top+p.y)];")
+    report["tap_viewport_point"] = pt
+    call("POST", f"/session/{sid}/actions", {"actions": [{"type": "pointer", "id": "finger", "parameters": {"pointerType": "mouse"},
+        "actions": [{"type": "pointerMove", "x": pt[0], "y": pt[1], "origin": "viewport"}, {"type": "pointerDown", "button": 0}, {"type": "pointerUp", "button": 0}]}]})
+    time.sleep(3)
+    report["tap_hemlock_45N_122W"] = js("return document.getElementById('readout').textContent;")
+    report["errors"] = js("return window.pnwErrors || null;")
+    res = js("return performance.getEntriesByType('resource').map(e=>[e.name.split('/').slice(-2).join('/'), e.initiatorType, e.transferSize]);")
+    report["worker_fetched"] = [r for r in res if "worker" in r[0]]
+    report["pmtiles_requests"] = len([r for r in res if r[0].endswith(".pmtiles")])
+    report["pmtiles_bytes_transferred"] = sum(r[2] for r in res if r[0].endswith(".pmtiles"))
+    report["worker_count"] = js("return window.pnwMap && window.pnwMap.style && window.pnwMap.style.dispatcher ? window.pnwMap.style.dispatcher.actors.length : null;")
+    call("DELETE", f"/session/{sid}")
+finally:
+    gd.terminate()
+print(json.dumps(report, indent=1))
