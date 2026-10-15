@@ -1,0 +1,60 @@
+"""Reviewer: a supplementary US sample, rule fixed after the pre-registered one proved weak (3 of
+its 4 cells have no tree cover and none touches water) and before any of these cells' tile
+values was read. Seed 20261012. Draw box US study cells at random (weighted by tile) until
+(a) one cell whose 5 screening points (centre and the four corners) mix NALCMS water (18) and
+land, and (b) two cells whose centre TreeMap pixel is a forest plot. Then recompute them as in
+recompute.py. Writes supplement_us.out.json.
+"""
+import json, sys
+from pathlib import Path
+import numpy as np
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import recompute as R
+import rasterio
+
+HERE = Path(__file__).resolve().parent
+rng = np.random.default_rng(20261012)
+box = json.loads((HERE / "box_tiles.json").read_text())["tree"]
+keys = sorted(box)
+w = np.array([box[k]["box_study_us"] for k in keys], float)
+tm = rasterio.open(R.D / "t5/treemap2023/TreeMap2023_CONUS.tif")
+from pyproj import Transformer
+to_tm = Transformer.from_crs("EPSG:4269", tm.crs, always_xy=True)
+water, forest, tried = [], [], 0
+while len(water) < 1 or len(forest) < 2:
+    tried += 1
+    k = keys[rng.choice(len(keys), p=w / w.sum())]
+    _, i, j = (int(x) for x in k.split("_"))
+    col = i * 256 + int(rng.integers(256)); row = j * 256 + int(rng.integers(256))
+    lon, lat = R.GRID2LL.transform((col + 0.5) * 250, (row + 0.5) * 250)
+    if not (40 <= lat <= 49 and -125 <= lon <= -111):
+        continue
+    country, eco = R.mask_at(col, row)
+    if not (country in (1, 2) and eco == 2) or R.side_of(lon, lat, country) != "US":
+        continue
+    pts = [((col + a) * 250, (row + b) * 250) for a, b in ((0.5, 0.5), (0, 0), (1, 0), (0, 1), (1, 1))]
+    lls = [R.GRID2LL.transform(x, y) for x, y in pts]
+    lc = [R.nalcms(a, b) for a, b in lls]
+    cell = {"col": col, "row": row, "lon": round(lon, 5), "lat": round(lat, 5),
+            "tree_tile": k, "screen_nalcms": lc}
+    if len(water) < 1 and 18 in lc and any(v not in (0, 18, 127) for v in lc):
+        water.append(cell); continue
+    if len(forest) < 2:
+        x, y = to_tm.transform(lon, lat)
+        t = tm.transform
+        c, r = int((x - t.c) // t.a), int((y - t.f) // t.e)
+        v = int(tm.read(1, window=rasterio.windows.Window(c, r, 1, 1))[0, 0])
+        if v != tm.nodata:
+            forest.append(cell)
+cells = water + forest
+out = {"tried": tried, "cells": cells, "results": R.trees_us(cells)}
+(HERE / "supplement_us.out.json").write_text(json.dumps(out, indent=1, default=float) + "\n")
+for r in out["results"]:
+    m, s = r["mine"], r["stored"]
+    print(r["cell"]["tree_tile"], r["cell"]["lat"], r["cell"]["lon"], "water px", m["water_pixels"], "of", m["pixels"])
+    for kk in ["valid_fraction", "total_cover_pct"] + [x for x in m if x.startswith("share_")]:
+        a, b = m[kk], s.get(kk)
+        d = None if (a is None or b != b) else abs(a - b)
+        print("  %-20s mine=%s stored=%s diff=%s" % (kk, a, b, d))
+    print("  flags", {k: int(v) for k, v in r["stored_flags"].items()}, "source", s["source"])
+print("tried", tried)

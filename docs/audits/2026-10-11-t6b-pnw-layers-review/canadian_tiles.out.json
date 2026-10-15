@@ -1,0 +1,1049 @@
+{
+ "256_-29_20": {
+  "trees_status": "ok",
+  "trees_files_match": {
+   "trees_256_-29_20.tif": true,
+   "trees_flags_256_-29_20.tif": true
+  },
+  "trees_line": {
+   "tile_state": "whole: US cells from the US-half file, Canadian cells added (D119)",
+   "scanfi_route": "whole layers (D118)",
+   "cells_in_study": {
+    "canada": 18981
+   },
+   "cells_valid": {
+    "canada": 18411
+   },
+   "cells_with_share": {
+    "canada": 9007
+   },
+   "us_cells_from": {
+    "trees_us_half_256_-29_20.tif": "fc53c794ec31a79294767fcb6df00245b8bf7169dc4741cbafe0cc5ead8611d4"
+   },
+   "ca_pixels_blank": 4211412,
+   "ca_water_pixels": 1583726
+  },
+  "layers": {
+   "balsamFir": [
+    "ok",
+    true,
+    null
+   ],
+   "blackSpruce": [
+    "ok",
+    true,
+    null
+   ],
+   "broadleaf": [
+    "ok",
+    true,
+    null
+   ],
+   "douglasFir": [
+    "ok",
+    true,
+    null
+   ],
+   "jackPine": [
+    "ok",
+    true,
+    null
+   ],
+   "lodgepolePine": [
+    "ok",
+    true,
+    null
+   ],
+   "otherConiferous": [
+    "ok",
+    true,
+    null
+   ],
+   "ponderosaPine": [
+    "ok",
+    true,
+    null
+   ],
+   "tamarack": [
+    "ok",
+    true,
+    null
+   ],
+   "whiteRedPine": [
+    "ok",
+    true,
+    null
+   ],
+   "att_closure": [
+    "ok",
+    true,
+    null
+   ]
+  },
+  "us_half_unchanged": {
+   "trees_flags_us_half_256_-29_20.tif": true,
+   "trees_us_half_256_-29_20.tif": true
+  },
+  "whole_tag_us_cells_from": "trees_us_half_256_-29_20.tif fc53c794ec31a79294767fcb6df00245b8bf7169dc4741cbafe0cc5ead8611d4",
+  "tag_hash_equals_manifest": true,
+  "pending_cells_in_half": 18981,
+  "pending_left_in_whole": 0,
+  "non_pending_cells_differing_values": {
+   "total_cover_pct": 0,
+   "valid_fraction": 0,
+   "source": 0,
+   "share_Pseudotsuga": 0,
+   "share_Tsuga": 0,
+   "share_Picea": 0,
+   "share_Abies": 0,
+   "share_Pinus": 0,
+   "share_Quercus": 0,
+   "share_conifer": 0,
+   "share_broadleaf": 0
+  },
+  "non_pending_cells_differing_flags": {
+   "flag_Pseudotsuga": 0,
+   "flag_Tsuga": 0,
+   "flag_Picea": 0,
+   "flag_Abies": 0,
+   "flag_Pinus": 0,
+   "flag_Quercus": 0,
+   "flag_conifer": 0,
+   "flag_broadleaf": 0
+  },
+  "pending_flag_left_in_whole": 0
+ },
+ "256_-30_19": {
+  "trees_status": "ok",
+  "trees_files_match": {
+   "trees_256_-30_19.tif": true,
+   "trees_flags_256_-30_19.tif": true
+  },
+  "trees_line": {
+   "tile_state": "whole: US cells from the US-half file, Canadian cells added (D119)",
+   "scanfi_route": "whole layers (D118)",
+   "cells_in_study": {
+    "canada": 7767
+   },
+   "cells_valid": {
+    "canada": 7665
+   },
+   "cells_with_share": {
+    "canada": 5983
+   },
+   "us_cells_from": {
+    "trees_us_half_256_-30_19.tif": "aaa73a9773c45036b8da6037d978e9b1e1e56d09702e2ba8f6609449de7a31e5"
+   },
+   "ca_pixels_blank": 5339847,
+   "ca_water_pixels": 3213502
+  },
+  "layers": {
+   "balsamFir": [
+    "ok",
+    true,
+    null
+   ],
+   "blackSpruce": [
+    "ok",
+    true,
+    null
+   ],
+   "broadleaf": [
+    "ok",
+    true,
+    null
+   ],
+   "douglasFir": [
+    "ok",
+    true,
+    null
+   ],
+   "jackPine": [
+    "ok",
+    true,
+    null
+   ],
+   "lodgepolePine": [
+    "ok",
+    true,
+    null
+   ],
+   "otherConiferous": [
+    "ok",
+    true,
+    null
+   ],
+   "ponderosaPine": [
+    "ok",
+    true,
+    null
+   ],
+   "tamarack": [
+    "ok",
+    true,
+    null
+   ],
+   "whiteRedPine": [
+    "ok",
+    true,
+    null
+   ],
+   "att_closure": [
+    "ok",
+    true,
+    null
+   ]
+  },
+  "us_half_unchanged": {
+   "trees_flags_us_half_256_-30_19.tif": true,
+   "trees_us_half_256_-30_19.tif": true
+  },
+  "whole_tag_us_cells_from": "trees_us_half_256_-30_19.tif aaa73a9773c45036b8da6037d978e9b1e1e56d09702e2ba8f6609449de7a31e5",
+  "tag_hash_equals_manifest": true,
+  "pending_cells_in_half": 7767,
+  "pending_left_in_whole": 0,
+  "non_pending_cells_differing_values": {
+   "total_cover_pct": 0,
+   "valid_fraction": 0,
+   "source": 0,
+   "share_Pseudotsuga": 0,
+   "share_Tsuga": 0,
+   "share_Picea": 0,
+   "share_Abies": 0,
+   "share_Pinus": 0,
+   "share_Quercus": 0,
+   "share_conifer": 0,
+   "share_broadleaf": 0
+  },
+  "non_pending_cells_differing_flags": {
+   "flag_Pseudotsuga": 0,
+   "flag_Tsuga": 0,
+   "flag_Picea": 0,
+   "flag_Abies": 0,
+   "flag_Pinus": 0,
+   "flag_Quercus": 0,
+   "flag_conifer": 0,
+   "flag_broadleaf": 0
+  },
+  "pending_flag_left_in_whole": 0
+ },
+ "256_-30_20": {
+  "trees_status": "ok",
+  "trees_files_match": {
+   "trees_256_-30_20.tif": true,
+   "trees_flags_256_-30_20.tif": true
+  },
+  "trees_line": {
+   "tile_state": "whole: US cells from the US-half file, Canadian cells added (D119)",
+   "scanfi_route": "whole layers (D118)",
+   "cells_in_study": {
+    "canada": 37309
+   },
+   "cells_valid": {
+    "canada": 36757
+   },
+   "cells_with_share": {
+    "canada": 34689
+   },
+   "us_cells_from": {
+    "trees_us_half_256_-30_20.tif": "79b198469300ed8ab9e85aa05d565ae4769ada260e867de419226b489c0f7747"
+   },
+   "ca_pixels_blank": 2710525,
+   "ca_water_pixels": 2545637
+  },
+  "layers": {
+   "balsamFir": [
+    "ok",
+    true,
+    null
+   ],
+   "blackSpruce": [
+    "ok",
+    true,
+    null
+   ],
+   "broadleaf": [
+    "ok",
+    true,
+    null
+   ],
+   "douglasFir": [
+    "ok",
+    true,
+    null
+   ],
+   "jackPine": [
+    "ok",
+    true,
+    null
+   ],
+   "lodgepolePine": [
+    "ok",
+    true,
+    null
+   ],
+   "otherConiferous": [
+    "ok",
+    true,
+    null
+   ],
+   "ponderosaPine": [
+    "ok",
+    true,
+    null
+   ],
+   "tamarack": [
+    "ok",
+    true,
+    null
+   ],
+   "whiteRedPine": [
+    "ok",
+    true,
+    null
+   ],
+   "att_closure": [
+    "ok",
+    true,
+    null
+   ]
+  },
+  "us_half_unchanged": {
+   "trees_flags_us_half_256_-30_20.tif": true,
+   "trees_us_half_256_-30_20.tif": true
+  },
+  "whole_tag_us_cells_from": "trees_us_half_256_-30_20.tif 79b198469300ed8ab9e85aa05d565ae4769ada260e867de419226b489c0f7747",
+  "tag_hash_equals_manifest": true,
+  "pending_cells_in_half": 37309,
+  "pending_left_in_whole": 0,
+  "non_pending_cells_differing_values": {
+   "total_cover_pct": 0,
+   "valid_fraction": 0,
+   "source": 0,
+   "share_Pseudotsuga": 0,
+   "share_Tsuga": 0,
+   "share_Picea": 0,
+   "share_Abies": 0,
+   "share_Pinus": 0,
+   "share_Quercus": 0,
+   "share_conifer": 0,
+   "share_broadleaf": 0
+  },
+  "non_pending_cells_differing_flags": {
+   "flag_Pseudotsuga": 0,
+   "flag_Tsuga": 0,
+   "flag_Picea": 0,
+   "flag_Abies": 0,
+   "flag_Pinus": 0,
+   "flag_Quercus": 0,
+   "flag_conifer": 0,
+   "flag_broadleaf": 0
+  },
+  "pending_flag_left_in_whole": 0
+ },
+ "256_-30_21": {
+  "trees_status": "ok",
+  "trees_files_match": {
+   "trees_256_-30_21.tif": true,
+   "trees_flags_256_-30_21.tif": true
+  },
+  "trees_line": {
+   "tile_state": null,
+   "scanfi_route": "whole layers (D118)",
+   "cells_in_study": {
+    "canada": 25252,
+    "us": 0
+   },
+   "cells_valid": {
+    "canada": 25033,
+    "us": 0
+   },
+   "cells_with_share": {
+    "canada": 23427,
+    "us": 0
+   },
+   "us_cells_from": null,
+   "ca_pixels_blank": 3374618,
+   "ca_water_pixels": 3374618
+  },
+  "layers": {
+   "balsamFir": [
+    "ok",
+    true,
+    null
+   ],
+   "blackSpruce": [
+    "ok",
+    true,
+    null
+   ],
+   "broadleaf": [
+    "ok",
+    true,
+    null
+   ],
+   "douglasFir": [
+    "ok",
+    true,
+    null
+   ],
+   "jackPine": [
+    "ok",
+    true,
+    null
+   ],
+   "lodgepolePine": [
+    "ok",
+    true,
+    null
+   ],
+   "otherConiferous": [
+    "ok",
+    true,
+    null
+   ],
+   "ponderosaPine": [
+    "ok",
+    true,
+    null
+   ],
+   "tamarack": [
+    "ok",
+    true,
+    null
+   ],
+   "whiteRedPine": [
+    "ok",
+    true,
+    null
+   ],
+   "att_closure": [
+    "ok",
+    true,
+    null
+   ]
+  }
+ },
+ "256_-31_19": {
+  "trees_status": "ok",
+  "trees_files_match": {
+   "trees_256_-31_19.tif": true,
+   "trees_flags_256_-31_19.tif": true
+  },
+  "trees_line": {
+   "tile_state": "whole: US cells from the US-half file, Canadian cells added (D119)",
+   "scanfi_route": "whole layers (D118)",
+   "cells_in_study": {
+    "canada": 601
+   },
+   "cells_valid": {
+    "canada": 601
+   },
+   "cells_with_share": {
+    "canada": 600
+   },
+   "us_cells_from": {
+    "trees_us_half_256_-31_19.tif": "470ef3fe2fbbd6e0467b96a8e68decaa2e6b0590aea08b2c4bb83969521562fa"
+   },
+   "ca_pixels_blank": 5906187,
+   "ca_water_pixels": 1509050
+  },
+  "layers": {
+   "balsamFir": [
+    "ok",
+    true,
+    null
+   ],
+   "blackSpruce": [
+    "ok",
+    true,
+    null
+   ],
+   "broadleaf": [
+    "ok",
+    true,
+    null
+   ],
+   "douglasFir": [
+    "ok",
+    true,
+    null
+   ],
+   "jackPine": [
+    "ok",
+    true,
+    null
+   ],
+   "lodgepolePine": [
+    "ok",
+    true,
+    null
+   ],
+   "otherConiferous": [
+    "ok",
+    true,
+    null
+   ],
+   "ponderosaPine": [
+    "ok",
+    true,
+    null
+   ],
+   "tamarack": [
+    "ok",
+    true,
+    null
+   ],
+   "whiteRedPine": [
+    "ok",
+    true,
+    null
+   ],
+   "att_closure": [
+    "ok",
+    true,
+    null
+   ]
+  },
+  "us_half_unchanged": {
+   "trees_flags_us_half_256_-31_19.tif": true,
+   "trees_us_half_256_-31_19.tif": true
+  },
+  "whole_tag_us_cells_from": "trees_us_half_256_-31_19.tif 470ef3fe2fbbd6e0467b96a8e68decaa2e6b0590aea08b2c4bb83969521562fa",
+  "tag_hash_equals_manifest": true,
+  "pending_cells_in_half": 601,
+  "pending_left_in_whole": 0,
+  "non_pending_cells_differing_values": {
+   "total_cover_pct": 0,
+   "valid_fraction": 0,
+   "source": 0,
+   "share_Pseudotsuga": 0,
+   "share_Tsuga": 0,
+   "share_Picea": 0,
+   "share_Abies": 0,
+   "share_Pinus": 0,
+   "share_Quercus": 0,
+   "share_conifer": 0,
+   "share_broadleaf": 0
+  },
+  "non_pending_cells_differing_flags": {
+   "flag_Pseudotsuga": 0,
+   "flag_Tsuga": 0,
+   "flag_Picea": 0,
+   "flag_Abies": 0,
+   "flag_Pinus": 0,
+   "flag_Quercus": 0,
+   "flag_conifer": 0,
+   "flag_broadleaf": 0
+  },
+  "pending_flag_left_in_whole": 0
+ },
+ "256_-31_20": {
+  "trees_status": "ok",
+  "trees_files_match": {
+   "trees_256_-31_20.tif": true,
+   "trees_flags_256_-31_20.tif": true
+  },
+  "trees_line": {
+   "tile_state": "whole: US cells from the US-half file, Canadian cells added (D119)",
+   "scanfi_route": "whole layers (D118)",
+   "cells_in_study": {
+    "canada": 42569
+   },
+   "cells_valid": {
+    "canada": 41286
+   },
+   "cells_with_share": {
+    "canada": 41187
+   },
+   "us_cells_from": {
+    "trees_us_half_256_-31_20.tif": "14a1143d9db928d7000f2ef9b32cdeb4e11289a318ddd5bbe1222e84e18f5f2d"
+   },
+   "ca_pixels_blank": 2407955,
+   "ca_water_pixels": 2016606
+  },
+  "layers": {
+   "balsamFir": [
+    "ok",
+    true,
+    null
+   ],
+   "blackSpruce": [
+    "ok",
+    true,
+    null
+   ],
+   "broadleaf": [
+    "ok",
+    true,
+    null
+   ],
+   "douglasFir": [
+    "ok",
+    true,
+    null
+   ],
+   "jackPine": [
+    "ok",
+    true,
+    null
+   ],
+   "lodgepolePine": [
+    "ok",
+    true,
+    null
+   ],
+   "otherConiferous": [
+    "ok",
+    true,
+    null
+   ],
+   "ponderosaPine": [
+    "ok",
+    true,
+    null
+   ],
+   "tamarack": [
+    "ok",
+    true,
+    null
+   ],
+   "whiteRedPine": [
+    "ok",
+    true,
+    null
+   ],
+   "att_closure": [
+    "ok",
+    true,
+    null
+   ]
+  },
+  "us_half_unchanged": {
+   "trees_flags_us_half_256_-31_20.tif": true,
+   "trees_us_half_256_-31_20.tif": true
+  },
+  "whole_tag_us_cells_from": "trees_us_half_256_-31_20.tif 14a1143d9db928d7000f2ef9b32cdeb4e11289a318ddd5bbe1222e84e18f5f2d",
+  "tag_hash_equals_manifest": true,
+  "pending_cells_in_half": 42569,
+  "pending_left_in_whole": 0,
+  "non_pending_cells_differing_values": {
+   "total_cover_pct": 0,
+   "valid_fraction": 0,
+   "source": 0,
+   "share_Pseudotsuga": 0,
+   "share_Tsuga": 0,
+   "share_Picea": 0,
+   "share_Abies": 0,
+   "share_Pinus": 0,
+   "share_Quercus": 0,
+   "share_conifer": 0,
+   "share_broadleaf": 0
+  },
+  "non_pending_cells_differing_flags": {
+   "flag_Pseudotsuga": 0,
+   "flag_Tsuga": 0,
+   "flag_Picea": 0,
+   "flag_Abies": 0,
+   "flag_Pinus": 0,
+   "flag_Quercus": 0,
+   "flag_conifer": 0,
+   "flag_broadleaf": 0
+  },
+  "pending_flag_left_in_whole": 0
+ },
+ "256_-31_21": {
+  "trees_status": "ok",
+  "trees_files_match": {
+   "trees_256_-31_21.tif": true,
+   "trees_flags_256_-31_21.tif": true
+  },
+  "trees_line": {
+   "tile_state": null,
+   "scanfi_route": "whole layers (D118)",
+   "cells_in_study": {
+    "canada": 60738,
+    "us": 0
+   },
+   "cells_valid": {
+    "canada": 58796,
+    "us": 0
+   },
+   "cells_with_share": {
+    "canada": 57988,
+    "us": 0
+   },
+   "us_cells_from": null,
+   "ca_pixels_blank": 841485,
+   "ca_water_pixels": 841485
+  },
+  "layers": {
+   "balsamFir": [
+    "ok",
+    true,
+    null
+   ],
+   "blackSpruce": [
+    "ok",
+    true,
+    null
+   ],
+   "broadleaf": [
+    "ok",
+    true,
+    null
+   ],
+   "douglasFir": [
+    "ok",
+    true,
+    null
+   ],
+   "jackPine": [
+    "ok",
+    true,
+    null
+   ],
+   "lodgepolePine": [
+    "ok",
+    true,
+    null
+   ],
+   "otherConiferous": [
+    "ok",
+    true,
+    null
+   ],
+   "ponderosaPine": [
+    "ok",
+    true,
+    null
+   ],
+   "tamarack": [
+    "ok",
+    true,
+    null
+   ],
+   "whiteRedPine": [
+    "ok",
+    true,
+    null
+   ],
+   "att_closure": [
+    "ok",
+    true,
+    null
+   ]
+  }
+ },
+ "256_-32_20": {
+  "trees_status": "ok",
+  "trees_files_match": {
+   "trees_256_-32_20.tif": true,
+   "trees_flags_256_-32_20.tif": true
+  },
+  "trees_line": {
+   "tile_state": null,
+   "scanfi_route": "whole layers (D118)",
+   "cells_in_study": {
+    "canada": 960,
+    "us": 0
+   },
+   "cells_valid": {
+    "canada": 949,
+    "us": 0
+   },
+   "cells_with_share": {
+    "canada": 949,
+    "us": 0
+   },
+   "us_cells_from": null,
+   "ca_pixels_blank": 6026475,
+   "ca_water_pixels": 6016480
+  },
+  "layers": {
+   "balsamFir": [
+    "ok",
+    true,
+    null
+   ],
+   "blackSpruce": [
+    "ok",
+    true,
+    null
+   ],
+   "broadleaf": [
+    "ok",
+    true,
+    null
+   ],
+   "douglasFir": [
+    "ok",
+    true,
+    null
+   ],
+   "jackPine": [
+    "ok",
+    true,
+    null
+   ],
+   "lodgepolePine": [
+    "ok",
+    true,
+    null
+   ],
+   "otherConiferous": [
+    "ok",
+    true,
+    null
+   ],
+   "ponderosaPine": [
+    "ok",
+    true,
+    null
+   ],
+   "tamarack": [
+    "ok",
+    true,
+    null
+   ],
+   "whiteRedPine": [
+    "ok",
+    true,
+    null
+   ],
+   "att_closure": [
+    "ok",
+    true,
+    null
+   ]
+  }
+ },
+ "256_-27_20": {
+  "trees_status": "ok",
+  "trees_files_match": {
+   "trees_256_-27_20.tif": true,
+   "trees_flags_256_-27_20.tif": true
+  },
+  "trees_line": {
+   "tile_state": "whole: US cells from the US-half file, Canadian cells added (D119)",
+   "scanfi_route": "whole layers (D118)",
+   "cells_in_study": {
+    "canada": 59441
+   },
+   "cells_valid": {
+    "canada": 59274
+   },
+   "cells_with_share": {
+    "canada": 56180
+   },
+   "us_cells_from": {
+    "trees_us_half_256_-27_20.tif": "0d8fd9d6e492057e7718c5119169e621f2cb5bade315b269d39251c0fcbe113b"
+   },
+   "ca_pixels_blank": 913033,
+   "ca_water_pixels": 35863
+  },
+  "layers": {
+   "balsamFir": [
+    "ok",
+    true,
+    null
+   ],
+   "blackSpruce": [
+    "ok",
+    true,
+    null
+   ],
+   "broadleaf": [
+    "ok",
+    true,
+    null
+   ],
+   "douglasFir": [
+    "ok",
+    true,
+    null
+   ],
+   "jackPine": [
+    "ok",
+    true,
+    null
+   ],
+   "lodgepolePine": [
+    "ok",
+    true,
+    null
+   ],
+   "otherConiferous": [
+    "ok",
+    true,
+    null
+   ],
+   "ponderosaPine": [
+    "ok",
+    true,
+    null
+   ],
+   "tamarack": [
+    "ok",
+    true,
+    null
+   ],
+   "whiteRedPine": [
+    "ok",
+    true,
+    null
+   ],
+   "att_closure": [
+    "ok",
+    true,
+    null
+   ]
+  },
+  "us_half_unchanged": {
+   "trees_flags_us_half_256_-27_20.tif": true,
+   "trees_us_half_256_-27_20.tif": true
+  },
+  "whole_tag_us_cells_from": "trees_us_half_256_-27_20.tif 0d8fd9d6e492057e7718c5119169e621f2cb5bade315b269d39251c0fcbe113b",
+  "tag_hash_equals_manifest": true,
+  "pending_cells_in_half": 59441,
+  "pending_left_in_whole": 0,
+  "non_pending_cells_differing_values": {
+   "total_cover_pct": 0,
+   "valid_fraction": 0,
+   "source": 0,
+   "share_Pseudotsuga": 0,
+   "share_Tsuga": 0,
+   "share_Picea": 0,
+   "share_Abies": 0,
+   "share_Pinus": 0,
+   "share_Quercus": 0,
+   "share_conifer": 0,
+   "share_broadleaf": 0
+  },
+  "non_pending_cells_differing_flags": {
+   "flag_Pseudotsuga": 0,
+   "flag_Tsuga": 0,
+   "flag_Picea": 0,
+   "flag_Abies": 0,
+   "flag_Pinus": 0,
+   "flag_Quercus": 0,
+   "flag_conifer": 0,
+   "flag_broadleaf": 0
+  },
+  "pending_flag_left_in_whole": 0
+ },
+ "256_-28_20": {
+  "trees_status": "ok",
+  "trees_files_match": {
+   "trees_256_-28_20.tif": true,
+   "trees_flags_256_-28_20.tif": true
+  },
+  "trees_line": {
+   "tile_state": "whole: US cells from the US-half file, Canadian cells added (D119)",
+   "scanfi_route": "whole layers (D118)",
+   "cells_in_study": {
+    "canada": 41773
+   },
+   "cells_valid": {
+    "canada": 39292
+   },
+   "cells_with_share": {
+    "canada": 34254
+   },
+   "us_cells_from": {
+    "trees_us_half_256_-28_20.tif": "6a39860b4f872a7dcf4f751861929232027fd9bb651d164a12df4e3060add667"
+   },
+   "ca_pixels_blank": 2537619,
+   "ca_water_pixels": 256577
+  },
+  "layers": {
+   "balsamFir": [
+    "ok",
+    true,
+    null
+   ],
+   "blackSpruce": [
+    "ok",
+    true,
+    null
+   ],
+   "broadleaf": [
+    "ok",
+    true,
+    null
+   ],
+   "douglasFir": [
+    "ok",
+    true,
+    null
+   ],
+   "jackPine": [
+    "ok",
+    true,
+    null
+   ],
+   "lodgepolePine": [
+    "ok",
+    true,
+    null
+   ],
+   "otherConiferous": [
+    "ok",
+    true,
+    null
+   ],
+   "ponderosaPine": [
+    "ok",
+    true,
+    null
+   ],
+   "tamarack": [
+    "ok",
+    true,
+    null
+   ],
+   "whiteRedPine": [
+    "ok",
+    true,
+    null
+   ],
+   "att_closure": [
+    "ok",
+    true,
+    null
+   ]
+  },
+  "us_half_unchanged": {
+   "trees_flags_us_half_256_-28_20.tif": true,
+   "trees_us_half_256_-28_20.tif": true
+  },
+  "whole_tag_us_cells_from": "trees_us_half_256_-28_20.tif 6a39860b4f872a7dcf4f751861929232027fd9bb651d164a12df4e3060add667",
+  "tag_hash_equals_manifest": true,
+  "pending_cells_in_half": 41773,
+  "pending_left_in_whole": 0,
+  "non_pending_cells_differing_values": {
+   "total_cover_pct": 0,
+   "valid_fraction": 0,
+   "source": 0,
+   "share_Pseudotsuga": 0,
+   "share_Tsuga": 0,
+   "share_Picea": 0,
+   "share_Abies": 0,
+   "share_Pinus": 0,
+   "share_Quercus": 0,
+   "share_conifer": 0,
+   "share_broadleaf": 0
+  },
+  "non_pending_cells_differing_flags": {
+   "flag_Pseudotsuga": 0,
+   "flag_Tsuga": 0,
+   "flag_Picea": 0,
+   "flag_Abies": 0,
+   "flag_Pinus": 0,
+   "flag_Quercus": 0,
+   "flag_conifer": 0,
+   "flag_broadleaf": 0
+  },
+  "pending_flag_left_in_whole": 0
+ }
+}

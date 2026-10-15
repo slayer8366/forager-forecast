@@ -1,0 +1,159 @@
+{
+ "seed": 20261011,
+ "hash_sample": {
+  "us_only_tree_tiles": [
+   "256_-19_7",
+   "256_-25_13",
+   "256_-25_5",
+   "256_-28_17",
+   "256_-32_12",
+   "256_-33_12"
+  ],
+  "us_half_tiles": [
+   "256_-22_18",
+   "256_-23_18",
+   "256_-26_19",
+   "256_-27_19"
+  ],
+  "soil_tiles": [
+   "2048_-3_2",
+   "2048_-4_1",
+   "2048_-4_2"
+  ],
+  "canadian_tiles_all": [
+   "256_-29_20",
+   "256_-30_19",
+   "256_-30_20",
+   "256_-30_21",
+   "256_-31_19",
+   "256_-31_20",
+   "256_-31_21",
+   "256_-32_20"
+  ]
+ },
+ "cells": {
+  "soil": [
+   {
+    "col": -6019,
+    "row": 1541,
+    "lon": -115.43905,
+    "lat": 41.95288,
+    "country": 1,
+    "eco": 2,
+    "study": true,
+    "side": 1,
+    "in_box": true,
+    "tree_tile": "256_-24_6",
+    "soil_tile": "2048_-3_0"
+   },
+   {
+    "col": -5790,
+    "row": 3769,
+    "lon": -116.235,
+    "lat": 46.66459,
+    "country": 1,
+    "eco": 2,
+    "study": true,
+    "side": 1,
+    "in_box": true,
+    "tree_tile": "256_-23_14",
+    "soil_tile": "2048_-3_1"
+   },
+   {
+    "col": -6317,
+    "row": 2592,
+    "lon": -117.11595,
+    "lat": 43.99166,
+    "country": 1,
+    "eco": 2,
+    "study": true,
+    "side": 1,
+    "in_box": true,
+    "tree_tile": "256_-25_10",
+    "soil_tile": "2048_-4_1"
+   }
+  ],
+  "trees_us": [
+   {
+    "col": -8054,
+    "row": 2513,
+    "lon": -122.58047,
+    "lat": 42.91489,
+    "country": 1,
+    "eco": 2,
+    "study": true,
+    "side": 1,
+    "in_box": true,
+    "tree_tile": "256_-32_9",
+    "soil_tile": "2048_-4_1"
+   },
+   {
+    "col": -7099,
+    "row": 932,
+    "lon": -118.35128,
+    "lat": 40.19448,
+    "country": 1,
+    "eco": 2,
+    "study": true,
+    "side": 1,
+    "in_box": true,
+    "tree_tile": "256_-28_3",
+    "soil_tile": "2048_-4_0"
+   },
+   {
+    "col": -4658,
+    "row": 3499,
+    "lon": -112.2052,
+    "lat": 46.56122,
+    "country": 1,
+    "eco": 2,
+    "study": true,
+    "side": 1,
+    "in_box": true,
+    "tree_tile": "256_-19_13",
+    "soil_tile": "2048_-3_1"
+   }
+  ],
+  "trees_ca": [
+   {
+    "col": -7720,
+    "row": 5321,
+    "lon": -124.22358,
+    "lat": 48.8163,
+    "country": 2,
+    "eco": 2,
+    "study": true,
+    "side": 2,
+    "in_box": true,
+    "tree_tile": "256_-31_20",
+    "soil_tile": "2048_-4_2"
+   },
+   {
+    "col": -7604,
+    "row": 5356,
+    "lon": -123.86015,
+    "lat": 48.95928,
+    "country": 2,
+    "eco": 2,
+    "study": true,
+    "side": 2,
+    "in_box": true,
+    "tree_tile": "256_-30_20",
+    "soil_tile": "2048_-4_2"
+   }
+  ],
+  "trees_fixed_shore_guess": {
+   "col": -5839,
+   "row": 4283,
+   "lon": -116.78875,
+   "lat": 47.70617,
+   "country": 1,
+   "eco": 2,
+   "study": true,
+   "side": 1,
+   "in_box": true,
+   "tree_tile": "256_-23_16",
+   "soil_tile": "2048_-3_2"
+  }
+ }
+}
