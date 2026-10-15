@@ -313,7 +313,11 @@ See the section "V15: prior art" below.
 
 ## V15: prior art
 
-PLACEHOLDER
+**Not completed in this session.** A read-only web check (public pages only, products to be
+described generically) was started and had not returned when this report was handed back.
+-914's premise ("Other apps focus on burn morels for their maps") and what already maps
+mycorrhizal habitat at stand scale in North America are therefore **COULD NOT DETERMINE** here.
+Nothing in this file states what any product's map shows.
 
 ## Confirmed vs inferred
 
