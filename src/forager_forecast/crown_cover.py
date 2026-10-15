@@ -231,8 +231,18 @@ def plot_cover(
     trees: Iterable[Tree],
     surrogate_width_scale: float = 1.0,
     classify_unlisted_by_spcd: bool = False,
+    host_genera: tuple[str, ...] = HOST_GENERA,
+    host_totals: dict[str, tuple[str, ...]] | None = None,
 ) -> PlotCover:
-    crown = dict.fromkeys(BANDS, 0.0)
+    """Cover split by band. The defaults are T5's bands; T6b passes its own genus list and
+    totals (t6b_hosts, Forager RECORD -1033). A total is the summed cover of its member genera,
+    each of which must be one of ``host_genera``."""
+    totals = dict(host_totals or {})
+    for name, members in totals.items():
+        if not set(members) <= set(host_genera):
+            raise ValueError(f"total {name!r} names genera that are not bands")
+    bands = (*host_genera, "conifer", "broadleaf", *totals)
+    crown = dict.fromkeys((*host_genera, "conifer", "broadleaf"), 0.0)
     total_pa = 0.0
     surrogate_trees = 0
     surrogate_species: dict[int, int] = {}
@@ -260,10 +270,12 @@ def plot_cover(
         crown["conifer" if is_conifer(t.genus, t.spcd if by_spcd else None) else "broadleaf"] += pa
     c_prime = 100.0 * total_pa / SQUARE_FEET_PER_ACRE
     total = 100.0 * (1.0 - math.exp(-0.01 * c_prime))
+    for name, members in totals.items():
+        crown[name] = sum(crown[g] for g in members)
     if total_pa > 0:
-        by_band = {band: total * crown[band] / total_pa for band in BANDS}
+        by_band = {band: total * crown[band] / total_pa for band in bands}
     else:
-        by_band = dict.fromkeys(BANDS, 0.0)
+        by_band = dict.fromkeys(bands, 0.0)
     return PlotCover(
         total, by_band, surrogate_trees, surrogate_species, capped_trees, nonpositive, unlisted
     )

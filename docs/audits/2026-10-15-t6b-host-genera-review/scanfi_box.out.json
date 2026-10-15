@@ -1,0 +1,89 @@
+{
+ "tiles": {
+  "256_-31_21": {
+   "box_ca_cells": 13708,
+   "band_layout": "t6b-bands-f4e9b848ba51",
+   "tile_state": null,
+   "ca_cells_with_share": 13521,
+   "tamarack_share_max": 0.0,
+   "tamarack_cells_above_0": 0
+  },
+  "256_-30_21": {
+   "box_ca_cells": 931,
+   "band_layout": "t6b-bands-f4e9b848ba51",
+   "tile_state": null,
+   "ca_cells_with_share": 929,
+   "tamarack_share_max": 0.0,
+   "tamarack_cells_above_0": 0
+  },
+  "256_-32_20": {
+   "box_ca_cells": 44,
+   "band_layout": "t6b-bands-f4e9b848ba51",
+   "tile_state": null,
+   "ca_cells_with_share": 44,
+   "tamarack_share_max": 0.0,
+   "tamarack_cells_above_0": 0
+  },
+  "256_-31_20": {
+   "box_ca_cells": 42475,
+   "band_layout": "t6b-bands-f4e9b848ba51",
+   "tile_state": null,
+   "ca_cells_with_share": 41093,
+   "tamarack_share_max": 0.0,
+   "tamarack_cells_above_0": 0
+  },
+  "256_-30_20": {
+   "box_ca_cells": 37007,
+   "band_layout": "t6b-bands-f4e9b848ba51",
+   "tile_state": null,
+   "ca_cells_with_share": 34397,
+   "tamarack_share_max": 0.0,
+   "tamarack_cells_above_0": 0
+  },
+  "256_-29_20": {
+   "box_ca_cells": 10,
+   "band_layout": "t6b-bands-f4e9b848ba51",
+   "tile_state": null,
+   "ca_cells_with_share": 10,
+   "tamarack_share_max": 0.0,
+   "tamarack_cells_above_0": 0
+  },
+  "256_-28_20": {
+   "box_ca_cells": 0,
+   "band_layout": "t6b-bands-f4e9b848ba51",
+   "tile_state": null
+  },
+  "256_-27_20": {
+   "box_ca_cells": 0,
+   "band_layout": "t6b-bands-f4e9b848ba51",
+   "tile_state": null
+  },
+  "256_-31_19": {
+   "box_ca_cells": 601,
+   "band_layout": "t6b-bands-f4e9b848ba51",
+   "tile_state": null,
+   "ca_cells_with_share": 600,
+   "tamarack_share_max": 0.0,
+   "tamarack_cells_above_0": 0
+  },
+  "256_-30_19": {
+   "box_ca_cells": 7767,
+   "band_layout": "t6b-bands-f4e9b848ba51",
+   "tile_state": null,
+   "ca_cells_with_share": 5983,
+   "tamarack_share_max": 0.0,
+   "tamarack_cells_above_0": 0
+  }
+ },
+ "npz_checked": 110,
+ "npz_mismatch": [],
+ "npz_no_line": [],
+ "box_ca_cells_with_share": 96577,
+ "tamarack_share": {
+  "mean": 0.0,
+  "max": 0.0,
+  "cells_above_0": 0,
+  "cells_above_0.01": 0
+ },
+ "otherConiferous_share_mean": 0.4821919494780351
+}

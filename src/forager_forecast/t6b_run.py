@@ -58,11 +58,16 @@ def _latest_unit_lines(manifest: Path) -> dict[str, dict]:
     return latest
 
 
-def done_units(manifest: Path, out_dir: Path) -> set[str]:
-    """Units whose latest line is ok (not deferred) and whose files still hash to that line's."""
+def done_units(manifest: Path, out_dir: Path, band_layout: str | None = None) -> set[str]:
+    """Units whose latest line is ok (not deferred) and whose files still hash to that line's.
+
+    With ``band_layout`` (tree units), the line must also name that layout: a tile built with
+    another genus list is not done, so it is rebuilt rather than skipped (verify report F1)."""
     done = set()
     for unit, entry in _latest_unit_lines(manifest).items():
         if entry.get("status", "ok") != "ok":
+            continue
+        if band_layout is not None and entry.get("band_layout") != band_layout:
             continue
         files = entry.get("files", {})
         if all((Path(out_dir) / name).exists() for name in files) and all(
@@ -199,14 +204,20 @@ def run_section(
     clock=datetime.now,
     retry_delays=RETRY_DELAYS,
     sleep=time.sleep,
+    band_layout: str | None = None,
+    before_unit: Callable[[str], dict | None] | None = None,
 ) -> dict:
     """Run pending units in order until done, the stop time, or the pause file. Returns a summary.
 
     ``work(unit)`` returns a dict with ``files`` ({name: sha256}, relative to out_dir); it runs
     in a worker process when workers > 1, so it must be picklable.
+
+    ``band_layout``: see ``done_units``. ``before_unit(unit)`` runs in this process just before a
+    unit starts; a non-empty answer is written to the manifest, and ``{"stop_section": reason}``
+    ends the section before that unit (the tree stages' free-space check and supersede).
     """
     started = time.time()
-    done = done_units(manifest, out_dir)
+    done = done_units(manifest, out_dir, band_layout)
     previously = {e["unit"] for e in read_lines(manifest) if e.get("kind") == "unit"}
     latest = _latest_unit_lines(manifest)
     was_deferred = {u for u, e in latest.items() if e.get("status") == "deferred"}
@@ -248,6 +259,14 @@ def run_section(
             append_line(manifest, {"kind": "cleanup", "layer": layer, "group": group,
                                    "seconds": round(time.time() - t0, 1), **info})  # fmt: skip
 
+    def check_before(unit: str) -> str | None:
+        if before_unit is None:
+            return None
+        info = before_unit(unit) or {}
+        if info:
+            append_line(manifest, {"kind": "before_unit", "layer": layer, "unit": unit, **info})
+        return str(info["stop_section"]) if info.get("stop_section") else None
+
     def ensure_prepared(unit: str) -> str | None:
         """Prepare the unit's group once. A prepare may answer {"stop_section": reason}."""
         group = group_of(unit)
@@ -266,7 +285,7 @@ def run_section(
             reason = stop_reason(until, pause_file, clock)
             if reason:
                 break
-            reason = ensure_prepared(unit)
+            reason = ensure_prepared(unit) or check_before(unit)
             if reason:
                 break
             t0 = time.time()
@@ -281,7 +300,7 @@ def run_section(
                     reason = stop_reason(until, pause_file, clock)
                     if reason:
                         break
-                    reason = ensure_prepared(queue[0])
+                    reason = ensure_prepared(queue[0]) or check_before(queue[0])
                     if reason:
                         break
                     unit = queue.pop(0)

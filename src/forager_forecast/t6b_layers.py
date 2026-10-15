@@ -31,7 +31,7 @@ from pyproj import Transformer
 from rasterio.transform import Affine, from_origin
 from rasterio.windows import Window, from_bounds
 
-from forager_forecast.crown_cover import BANDS, Tree, plot_cover
+from forager_forecast.crown_cover import Tree, plot_cover
 from forager_forecast.grid import CELL_SIZE_M, GEOGRAPHIC_CRS, GRID_CRS, GridWindow
 from forager_forecast.regrid import area_weighted_regrid_from_origin
 from forager_forecast.soilgrids import (
@@ -76,6 +76,13 @@ from forager_forecast.t5_layer import (
     read_canopy_pct,
     scanfi_url,
 )
+from forager_forecast.t6b_hosts import (
+    BAND_LAYOUT,
+    ECM_HOST_MEMBERS,
+    HOST_TOTALS,
+    T6B_BANDS,
+    T6B_HOST_GENERA,
+)
 from forager_forecast.t6b_mask import (
     COUNTRY_NONE,
     SIDE_CA,
@@ -94,7 +101,14 @@ NALCMS_CITATION = (
     'Commission for Environmental Cooperation (CEC). 2024. "North American Environmental Atlas - '
     'Land Cover 2020 30m". North American Land Change Monitoring System. Ed. 2.0. CC BY 4.0.'
 )
+# T6b's own band list (t6b_hosts, Forager RECORD -1033): T5's eight bands, then the new genera and
+# the ectomycorrhizal-host total. BANDS is T6b's list everywhere in this module; T5 keeps its own.
+BANDS = T6B_BANDS
 TREE_BANDS = ("total_cover_pct", "valid_fraction", "source", *(f"share_{b}" for b in BANDS))
+HOST_GENERA_RULINGS = (
+    "host genera: Forager RECORD -1029, -1033, -1037; tier B as hosts needs D116 amended "
+    "(D127, proposed)"
+)
 SURROGATE_SCALE = 1.0
 
 
@@ -259,8 +273,10 @@ def build_plot_table(tree_zip: Path, vat_path: Path, out: Path,
                      member: str = TREE_TABLE_MEMBER) -> dict:  # fmt: skip
     """Every TreeMap plot's cover split at surrogate scale 1.0 (D87 to D91), with CANOPYPCT (D88).
 
-    Columns: tree-list total, the eight bands, CANOPYPCT. A plot with no tree rows has a tree-list
-    total of 0 (no split). The same ``plot_cover`` as T5, run once instead of per window.
+    Columns: tree-list total, T6b's bands (``BANDS``: T5's eight first, in T5's columns, then
+    the new genera and the total), CANOPYPCT. A plot with no tree rows has a tree-list total of
+    0 (no split). The same ``plot_cover`` as T5, with T6b's genus list, run once instead of per
+    window. The file records its band list and layout, and ``load_plot_table`` refuses any other.
     """
     trees: dict[int, list[Tree]] = {}
     with zipfile.ZipFile(tree_zip) as z, z.open(member) as f:
@@ -284,7 +300,7 @@ def build_plot_table(tree_zip: Path, vat_path: Path, out: Path,
     for k, tm in enumerate(ids.tolist()):
         c = plot_cover(
             trees.get(tm, []), surrogate_width_scale=SURROGATE_SCALE,
-            classify_unlisted_by_spcd=True,
+            classify_unlisted_by_spcd=True, host_genera=T6B_HOST_GENERA, host_totals=HOST_TOTALS,
         )  # fmt: skip
         table[k, 0] = c.total
         table[k, 1 : 1 + len(BANDS)] = [c.by_band[b] for b in BANDS]
@@ -298,19 +314,27 @@ def build_plot_table(tree_zip: Path, vat_path: Path, out: Path,
     out = Path(out)
     out.parent.mkdir(parents=True, exist_ok=True)
     partial = out.with_name(out.name + ".partial.npz")
-    np.savez(partial, ids=ids, table=table)
+    np.savez(partial, ids=ids, table=table, bands=np.array(BANDS), band_layout=BAND_LAYOUT)
     partial.rename(out)
-    return {"plots": len(ids), **counts, "file": out.name, "sha256": _sha256(out)}
+    return {"plots": len(ids), **counts, "file": out.name, "sha256": _sha256(out),
+            "bands": list(BANDS), "band_layout": BAND_LAYOUT,
+            "ecm_hosts_members": list(ECM_HOST_MEMBERS)}  # fmt: skip
 
 
 _PLOT_TABLES: dict[str, tuple[np.ndarray, np.ndarray]] = {}
 
 
 def load_plot_table(path: Path) -> tuple[np.ndarray, np.ndarray]:
-    """The plot table, loaded once per process."""
+    """The plot table, loaded once per process. A table of another band layout is refused: its
+    columns would be read as the wrong genera (verify report, finding F2)."""
     key = str(Path(path).resolve())
     if key not in _PLOT_TABLES:
         with np.load(path) as z:
+            layout = str(z["band_layout"]) if "band_layout" in z.files else None
+            if layout != BAND_LAYOUT or tuple(z["bands"].tolist()) != BANDS:
+                raise ValueError(
+                    f"{path}: plot table band layout {layout!r}, not {BAND_LAYOUT!r}; rebuild it"
+                )
             _PLOT_TABLES[key] = (z["ids"], z["table"])
     return _PLOT_TABLES[key]
 
@@ -696,6 +720,8 @@ def _tree_tags(tile: Tile) -> dict:
         "us_total": "TreeMap CANOPYPCT (D88)", "ca_total": "SCANFI v2 total crown closure (D92)",
         "water": "NALCMS 2020 water (18) and unmapped (0, 127) are no data (D112)",
         "study_area": "D111, D113 (cell centre); side D115", "tile": tile.key,
+        "bands": ",".join(BANDS), "band_layout": BAND_LAYOUT,
+        "ecm_hosts_members": ",".join(ECM_HOST_MEMBERS), "host_genera": HOST_GENERA_RULINGS,
     }  # fmt: skip
 
 
@@ -724,6 +750,7 @@ def tree_tile(tile: Tile, mask_path: Path, treemap_tif: Path, plot_table_path: P
     sha_f = _write_tif(out_dir / f"trees_flags_{tile.key}.tif", window, flags, "uint8", tags)
     return {
         "tile": tile.key,
+        "band_layout": BAND_LAYOUT,
         "files": {f"trees_{tile.key}.tif": sha_v, f"trees_flags_{tile.key}.tif": sha_f},
         "cells_in_study": {
             "us": int((study & ~canada).sum()),
@@ -790,6 +817,7 @@ def tree_tile_us_half(tile: Tile, mask_path: Path, treemap_tif: Path, plot_table
     return {
         "tile": tile.key,
         "tile_state": US_HALF_STATE,
+        "band_layout": BAND_LAYOUT,
         "files": {v_name: sha_v, f_name: sha_f},
         "cells_in_study": {"us": int(us_cells.sum()), "canada_pending": int(pending.sum())},
         "cells_valid": {"us": int((valid & ~canada).sum())},
@@ -811,6 +839,8 @@ def fill_canadian_cells(tile: Tile, us_half_dir: Path, mask_path: Path, scanfi_d
     with rasterio.open(Path(us_half_dir) / v_name) as ds:
         if ds.tags().get("tile_state") != US_HALF_STATE:
             raise ValueError(f"{v_name} is not a US-half file")
+        if ds.tags().get("band_layout") != BAND_LAYOUT:
+            raise ValueError(f"{v_name} was built with another band layout; rebuild it")
         names = list(ds.descriptions)
         half_v = {n: ds.read(k + 1) for k, n in enumerate(names)}
     with rasterio.open(Path(us_half_dir) / f_name) as ds:
@@ -832,6 +862,7 @@ def fill_canadian_cells(tile: Tile, us_half_dir: Path, mask_path: Path, scanfi_d
     return {
         "tile": tile.key,
         "tile_state": WHOLE_STATE,
+        "band_layout": BAND_LAYOUT,
         "us_cells_from": {v_name: sha_half},
         "files": {f"trees_{tile.key}.tif": sha_v, f"trees_flags_{tile.key}.tif": sha_f},
         "cells_in_study": {"canada": int((study & canada).sum())},

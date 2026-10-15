@@ -1,0 +1,94 @@
+"""D18 review of t6b-host-genera: the SCANFI layer tiles behind the box's Canadian cells, read only.
+
+(1) S2 (2026-10-11 review): a whole tree tile with Canadian cells reads the eleven
+scanfi_<layer>_<tile>.npz files on their existence. For every whole tree tile in the box whose
+latest line says scanfi_route "whole layers (D118)", each of its eleven npz files is hashed and
+compared with the latest manifest line of its unit "<layer>:<tile>".
+(2) Larix in Canada: what SCANFI's tamarack class would give on the box's Canadian study cells,
+as the tamarack layer's share of the ten-class sum (the share rule D92 uses for douglasFir), at
+cells with a defined share_Pseudotsuga in the stored tile. Also otherConiferous, for context.
+Usage: scanfi_box.py <out.json>. Writes only <out.json>.
+"""
+
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+import numpy as np
+import rasterio
+
+from forager_forecast.pnw import PNW_BOX, pnw_window
+from forager_forecast.t4_layer import box_mask
+from forager_forecast.t5_layer import SCANFI_CLASSES
+from forager_forecast.t6b_layers import SCANFI_LAYERS, tiles_over
+from forager_forecast.t6b_mask import SIDE_CA, cells_in_study, read_mask
+
+T6B = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b")
+
+
+def sha(p):
+    h = hashlib.sha256()
+    with open(p, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def main(out_path):
+    latest = {}
+    with open(T6B / "manifest.jsonl") as f:
+        for line in f:
+            e = json.loads(line)
+            if e.get("kind") == "unit":
+                latest[e["unit"]] = e
+    out = {"tiles": {}, "npz_checked": 0, "npz_mismatch": [], "npz_no_line": []}
+    tam_all, oth_all = [], []
+    for tile in tiles_over(pnw_window(), 256):
+        tw = tile.window
+        study, side = cells_in_study(tw, *read_mask(T6B / "mask.tif", tw))
+        ca = study & (side == SIDE_CA) & box_mask(tw, PNW_BOX)
+        line = latest.get(tile.key)
+        if line is None or line.get("scanfi_route") != "whole layers (D118)":
+            continue
+        entry = {"box_ca_cells": int(ca.sum()), "band_layout": line.get("band_layout"),
+                 "tile_state": line.get("tile_state")}  # fmt: skip
+        for layer in SCANFI_LAYERS:
+            name = f"scanfi_{layer}_{tile.key}.npz"
+            unit = latest.get(f"{layer}:{tile.key}")
+            out["npz_checked"] += 1
+            if unit is None or unit.get("status", "ok") != "ok":
+                out["npz_no_line"].append(name)
+            elif unit["files"].get(name) != sha(T6B / "scanfi_layers" / name):
+                out["npz_mismatch"].append(name)
+        if ca.any():
+            arr = {c: np.load(T6B / "scanfi_layers" / f"scanfi_{c}_{tile.key}.npz")["value"]
+                   .astype("float64") for c in SCANFI_CLASSES}  # fmt: skip
+            tot = sum(arr[c] for c in SCANFI_CLASSES)
+            with rasterio.open(T6B / "tiles/trees" / f"trees_{tile.key}.tif") as ds:
+                names = list(ds.descriptions)
+                pse = ds.read(names.index("share_Pseudotsuga") + 1)
+            d = ca & np.isfinite(pse)
+            with np.errstate(invalid="ignore", divide="ignore"):
+                tam = (arr["tamarack"] / tot)[d]
+                oth = (arr["otherConiferous"] / tot)[d]
+            tam_all.append(tam)
+            oth_all.append(oth)
+            entry.update({"ca_cells_with_share": int(d.sum()),
+                          "tamarack_share_max": float(np.nanmax(tam)) if tam.size else None,
+                          "tamarack_cells_above_0": int((tam > 0).sum())})  # fmt: skip
+        out["tiles"][tile.key] = entry
+    tam = np.concatenate(tam_all) if tam_all else np.array([])
+    oth = np.concatenate(oth_all) if oth_all else np.array([])
+    out["box_ca_cells_with_share"] = int(tam.size)
+    out["tamarack_share"] = {"mean": float(np.nanmean(tam)) if tam.size else None,
+                             "max": float(np.nanmax(tam)) if tam.size else None,
+                             "cells_above_0": int((tam > 0).sum()),
+                             "cells_above_0.01": int((tam > 0.01).sum())}  # fmt: skip
+    out["otherConiferous_share_mean"] = float(np.nanmean(oth)) if oth.size else None
+    Path(out_path).write_text(json.dumps(out, indent=1) + "\n")
+    print(json.dumps({k: v for k, v in out.items() if k != "tiles"}, indent=1))
+
+
+if __name__ == "__main__":
+    main(sys.argv[1])

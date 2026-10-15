@@ -1,0 +1,145 @@
+{
+ "Alnus": {
+  "rows": 3583,
+  "live_5in": 2990,
+  "names": {
+   "351 Alnus rubra": 3459,
+   "352 Alnus rhombifolia": 88,
+   "353 Alnus oblongifolia": 17,
+   "355 Alnus glutinosa": 19
+  }
+ },
+ "Arbutus": {
+  "rows": 4924,
+  "live_5in": 3724,
+  "names": {
+   "361 Arbutus menziesii": 4906,
+   "362 Arbutus arizonica": 12,
+   "363 Arbutus xalapensis": 6
+  }
+ },
+ "Betula": {
+  "rows": 62000,
+  "live_5in": 43298,
+  "names": {
+   "370 Betula spp.": 1,
+   "371 Betula alleghaniensis": 22293,
+   "372 Betula lenta": 12325,
+   "373 Betula nigra": 971,
+   "374 Betula occidentalis": 64,
+   "375 Betula papyrifera": 25288,
+   "379 Betula populifolia": 1058
+  }
+ },
+ "Carpinus": {
+  "rows": 6720,
+  "live_5in": 2015,
+  "names": {
+   "391 Carpinus caroliniana": 6720
+  }
+ },
+ "Carya": {
+  "rows": 42625,
+  "live_5in": 33089,
+  "names": {
+   "400 Carya spp.": 8,
+   "401 Carya aquatica": 914,
+   "402 Carya cordiformis": 4056,
+   "403 Carya glabra": 11311,
+   "404 Carya illinoinensis": 1157,
+   "405 Carya laciniosa": 222,
+   "406 Carya myristiciformis": 3,
+   "407 Carya ovata": 7758,
+   "408 Carya texana": 5422,
+   "409 Carya alba": 11561,
+   "410 Carya pallida": 163,
+   "412 Carya ovalis": 38,
+   "413 Carya carolinae-septentrionalis": 12
+  }
+ },
+ "Castanea": {
+  "rows": 228,
+  "live_5in": 19,
+  "names": {
+   "421 Castanea dentata": 205,
+   "422 Castanea pumila": 16,
+   "423 Castanea pumila var. ozarkensis": 6,
+   "424 Castanea mollissima": 1
+  }
+ },
+ "Castanopsis": {
+  "rows": 0,
+  "live_5in": 0,
+  "names": {}
+ },
+ "Chrysolepis": {
+  "rows": 1162,
+  "live_5in": 785,
+  "names": {
+   "431 Chrysolepis chrysophylla var. chrysophylla": 1162
+  }
+ },
+ "Fagus": {
+  "rows": 35942,
+  "live_5in": 22002,
+  "names": {
+   "531 Fagus grandifolia": 35942
+  }
+ },
+ "Larix": {
+  "rows": 22619,
+  "live_5in": 15688,
+  "names": {
+   "70 Larix spp.": 222,
+   "71 Larix laricina": 12396,
+   "72 Larix lyallii": 278,
+   "73 Larix occidentalis": 9723
+  }
+ },
+ "Lithocarpus": {
+  "rows": 9999,
+  "live_5in": 7581,
+  "names": {
+   "631 Lithocarpus densiflorus": 9999
+  }
+ },
+ "Notholithocarpus": {
+  "rows": 0,
+  "live_5in": 0,
+  "names": {}
+ },
+ "Ostrya": {
+  "rows": 11128,
+  "live_5in": 4190,
+  "names": {
+   "701 Ostrya virginiana": 11128
+  }
+ },
+ "Populus": {
+  "rows": 89567,
+  "live_5in": 58209,
+  "names": {
+   "740 Populus spp.": 72,
+   "741 Populus balsamifera": 4302,
+   "742 Populus deltoides": 1424,
+   "743 Populus grandidentata": 10718,
+   "744 Populus heterophylla": 92,
+   "745 Populus deltoides ssp. monilifera": 166,
+   "746 Populus tremuloides": 72086,
+   "747 Populus balsamifera ssp. trichocarpa": 412,
+   "748 Populus fremontii": 84,
+   "749 Populus angustifolia": 210,
+   "752 Populus alba": 1
+  }
+ },
+ "Tilia": {
+  "rows": 10789,
+  "live_5in": 9240,
+  "names": {
+   "950 Tilia spp.": 1,
+   "951 Tilia americana": 10587,
+   "952 Tilia americana var. heterophylla": 73,
+   "953 Tilia americana var. caroliniana": 128
+  }
+ }
+}
