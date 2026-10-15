@@ -1,0 +1,17 @@
+{
+ "stage": "xyz",
+ "seconds": 43.4,
+ "layers": {
+  "tree-cover": {
+   "files": 570,
+   "bytes": 18599494,
+   "empty_tiles": 14,
+   "zooms": [
+    5,
+    9
+   ]
+  }
+ },
+ "files": 570,
+ "bytes": 18599494
+}

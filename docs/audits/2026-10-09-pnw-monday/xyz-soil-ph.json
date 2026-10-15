@@ -1,0 +1,17 @@
+{
+ "stage": "xyz",
+ "seconds": 26.2,
+ "layers": {
+  "soil-ph": {
+   "files": 570,
+   "bytes": 9191166,
+   "empty_tiles": 14,
+   "zooms": [
+    5,
+    9
+   ]
+  }
+ },
+ "files": 570,
+ "bytes": 9191166
+}

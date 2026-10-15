@@ -1,0 +1,80 @@
+"""Reviewer pass 2, item 6: the D24 daily mismatch count (RECORD -855: 30 of 1,008).
+
+The Open-Meteo side is re-read from the cached bodies; the land store side is recomputed as the
+24-hour UTC mean of the time-series route's hourly values (ts/pt_*.zip). The rain store side is
+taken from the builder's equivalence_values.json (not recomputed). Match flags are recomputed with
+the committed daily tolerances. Run: uv run python daily_recount.py <data dir>
+"""
+import io, json, sys, zipfile
+from collections import Counter
+from datetime import UTC, date, datetime, timedelta
+from pathlib import Path
+import h5py
+import numpy as np
+
+D = Path(sys.argv[1])
+rows = json.loads((D / "equivalence" / "equivalence_values.json").read_text())
+TOL = {"temperature": 0.075, "soil_temperature": 0.075, "soil_moisture": 0.001,
+       "precipitation": 1.25}  # rain: 1.25 mm as committed (printed 1.2500000000000002)
+EPS = 1e-6
+VAR = {"temperature": "t2m", "soil_temperature": "stl1", "soil_moisture": "swvl1"}
+OMD = {"temperature": ("daily", "temperature_2m_mean"), "precipitation": ("daily", "precipitation_sum"),
+       "soil_temperature": ("hourly", "soil_temperature_0_to_7cm"),
+       "soil_moisture": ("hourly", "soil_moisture_0_to_7cm")}
+ts = {}
+def series(pt, v):
+    if pt not in ts:
+        out = {}
+        with zipfile.ZipFile(D / "ts" / f"pt_{pt[0]}_{pt[1]}.zip") as zf:
+            for n in zf.namelist():
+                with h5py.File(io.BytesIO(zf.read(n))) as h:
+                    for k in VAR.values():
+                        if k in h:
+                            t = h["valid_time"][:].astype(np.int64) * 3600
+                            out[k] = dict(zip(t.tolist(), h[k][:].astype(np.float64).tolist()))
+        ts[pt] = out
+    return ts[pt][v]
+
+# group rows into spans to find each day's index within its body
+starts = {}
+for r in rows:
+    key = (r["om_land_request"], r["cell"])
+    starts.setdefault(key, set()).add(r["day"])
+c = Counter(); worst = Counter(); om_bad = 0; store_bad = 0; flag_bad = 0
+for r in rows:
+    v, day = r["variable"], date.fromisoformat(r["day"])
+    span_days = sorted(d for d in starts[(r["om_land_request"], r["cell"])])
+    # the body is keyed by where it was requested: land variables at om_land_request
+    first = None
+    for d0 in span_days:
+        dd = date.fromisoformat(d0)
+        if (day - dd).days in range(7):
+            req = r["cell"] if v == "precipitation" else r["om_land_request"]  # rain at the cell centre
+            p = D / "equivalence" / "open-meteo" / f"{req}_{dd}.json"
+            if p.exists():
+                first, body = dd, json.loads(p.read_text())
+                break
+    k = (day - first).days
+    sect, name = OMD[v]
+    if sect == "daily":
+        om = body["daily"][name][k]
+    else:
+        om = float(np.mean(body["hourly"][name][k * 24:(k + 1) * 24]))
+    om_bad += abs(om - r["open_meteo"]) > 1e-9
+    store = r["store"]
+    if v in VAR:
+        pt = tuple(r["land_point"])
+        e0 = int(datetime(day.year, day.month, day.day, tzinfo=UTC).timestamp())
+        s = series(pt, VAR[v])
+        hrs = [s[e0 + 3600 * h] for h in range(24)]
+        mine = float(np.mean(hrs)) - (273.15 if v != "soil_moisture" else 0)
+        store_bad += abs(mine - store) > 1e-3 if v != "soil_moisture" else abs(mine - store) > 1e-5
+    match = abs(store - om) <= TOL[v] + EPS
+    flag_bad += match != r["match"]
+    c[(v, match)] += 1
+print("rows", len(rows))
+print("Open-Meteo side differs from the cached body:", om_bad)
+print("land store side differs from my 24-hour mean of the time-series route (1e-3 / 1e-5):", store_bad)
+print("match flag differs from mine:", flag_bad)
+print("my tally:", dict(c))
+print("mismatches:", sum(n for (v, m), n in c.items() if not m), "of", len(rows))

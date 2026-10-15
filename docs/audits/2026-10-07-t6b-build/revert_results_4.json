@@ -1,0 +1,574 @@
+[
+ {
+  "check": "origin placement: window-relative arithmetic",
+  "file": "src/forager_forecast/regrid.py",
+  "tests": [
+   "tests/test_regrid.py",
+   "tests/test_t6b_layers.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_the_same_cells_from_subsets_at_different_offsets_are_bit_identical: assert False"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 21 passed in 30.77s"
+ },
+ {
+  "check": "water: class 18 not water",
+  "file": "src/forager_forecast/t6b_layers.py",
+  "tests": [
+   "tests/test_t6b_layers.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 2,
+  "failures": [
+   "test_water_is_no_data_not_zero_cover[water_us]: AssertionError: assert np.False_",
+   "test_water_is_no_data_not_zero_cover[water_ca]: AssertionError: assert np.False_"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "2 failed, 9 passed in 30.51s"
+ },
+ {
+  "check": "water: TreeMap side not blanked",
+  "file": "src/forager_forecast/t6b_layers.py",
+  "tests": [
+   "tests/test_t6b_layers.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_water_is_no_data_not_zero_cover[water_us]: AssertionError: assert np.False_"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 10 passed in 30.42s"
+ },
+ {
+  "check": "water: SCANFI side not blanked",
+  "file": "src/forager_forecast/t6b_layers.py",
+  "tests": [
+   "tests/test_t6b_layers.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 2,
+  "failures": [
+   "test_water_is_no_data_not_zero_cover[water_ca]: AssertionError: assert np.False_",
+   "test_the_layer_route_matches_the_window_route: assert False"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "2 failed, 9 passed in 30.44s"
+ },
+ {
+  "check": "water: SCANFI layer route not blanked",
+  "file": "src/forager_forecast/t6b_layers.py",
+  "tests": [
+   "tests/test_t6b_layers.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_the_layer_route_matches_the_window_route: assert False"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 10 passed in 30.46s"
+ },
+ {
+  "check": "mask: Arctic not excluded",
+  "file": "src/forager_forecast/t6b_mask.py",
+  "tests": [
+   "tests/test_t6b_mask.py",
+   "tests/test_t6b_layers.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 4,
+  "failures": [
+   "test_countries_and_the_arctic_are_burned_by_cell_centre: assert np.False_",
+   "test_the_band_keeps_t5s_49_n_rule_and_the_polygon_decides_elsewhere: assert not np.True_",
+   "test_masked_cells_are_blank_and_sides_and_flags_follow_the_rules: AssertionError: assert np.False_",
+   "test_soil_cells_outside_the_study_area_are_blank: AssertionError: assert (np.False_)"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "4 failed, 13 passed in 40.04s"
+ },
+ {
+  "check": "side: no 49 N band (polygon everywhere)",
+  "file": "src/forager_forecast/t6b_mask.py",
+  "tests": [
+   "tests/test_t6b_mask.py",
+   "tests/test_t6b_layers.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_the_band_keeps_t5s_49_n_rule_and_the_polygon_decides_elsewhere: assert np.False_"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 16 passed in 40.41s"
+ },
+ {
+  "check": "mask: Alaska counted as the 48 states",
+  "file": "src/forager_forecast/t6b_mask.py",
+  "tests": [
+   "tests/test_t6b_mask.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_alaska_mexico_and_a_lake_are_out_and_an_island_in_the_lake_is_back_in: assert np.False_"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 5 passed in 9.55s"
+ },
+ {
+  "check": "soil: study area not applied",
+  "file": "src/forager_forecast/t6b_layers.py",
+  "tests": [
+   "tests/test_t6b_layers.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_soil_cells_outside_the_study_area_are_blank: AssertionError: assert (np.False_)"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 10 passed in 30.64s"
+ },
+ {
+  "check": "plot table: CANOPYPCT not carried",
+  "file": "src/forager_forecast/t6b_layers.py",
+  "tests": [
+   "tests/test_t6b_layers.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_the_plot_table_holds_canopypct_and_t5s_split_at_scale_1: assert np.float64(50.0) == 70.0"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 10 passed in 30.60s"
+ },
+ {
+  "check": "runner: pause file ignored",
+  "file": "src/forager_forecast/t6b_run.py",
+  "tests": [
+   "tests/test_t6b_run.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 2,
+  "failures": [
+   "test_a_pause_file_stops_the_section_after_the_tile_in_hand_and_the_next_resumes: assert (6 == 2)",
+   "test_a_group_is_prepared_once_before_its_first_tile_and_cleaned_after_its_last: AssertionError: assert [('prepare', ...eanup', 'g1')] == [('prepare', 'g0')]"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "2 failed, 14 passed in 0.38s"
+ },
+ {
+  "check": "runner: stop time ignored",
+  "file": "src/forager_forecast/t6b_run.py",
+  "tests": [
+   "tests/test_t6b_run.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 2,
+  "failures": [
+   "test_a_stop_time_already_passed_starts_nothing: assert (6 == 0)",
+   "test_the_stop_time_is_checked_before_each_tile: assert 6 == 2"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "2 failed, 14 passed in 0.39s"
+ },
+ {
+  "check": "runner: damaged output trusted",
+  "file": "src/forager_forecast/t6b_run.py",
+  "tests": [
+   "tests/test_t6b_run.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_an_interrupted_or_damaged_tile_is_run_again: AssertionError: assert {'u0', 'u1', 'u2'} == {'u0', 'u2'}"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 15 passed in 0.37s"
+ },
+ {
+  "check": "runner: group cleaned before its last tile",
+  "file": "src/forager_forecast/t6b_run.py",
+  "tests": [
+   "tests/test_t6b_run.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_a_group_is_prepared_once_before_its_first_tile_and_cleaned_after_its_last: AssertionError: assert [('prepare', ...eanup', 'g0')] == [('prepare', 'g0')]"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 15 passed in 0.37s"
+ },
+ {
+  "check": "sources: CRC not compared (may not bite: a damaged deflate stream fails earlier)",
+  "file": "src/forager_forecast/t6b_sources.py",
+  "tests": [
+   "tests/test_t6b_sources.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 0,
+  "failures": [],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "7 passed in 0.07s"
+ },
+ {
+  "check": "D116: unlisted genus ignores its code",
+  "file": "src/forager_forecast/crown_cover.py",
+  "tests": [
+   "tests/test_crown_cover.py",
+   "tests/test_t6b_layers.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 12,
+  "failures": [
+   "test_an_unlisted_genus_is_classed_by_its_fia_code_when_t6b_asks: forager_forecast.crown_cover.UnknownGenus: genus 'Carya' is in neither the conifer nor the broadleaf list",
+   "test_the_fia_code_split_is_at_300: forager_forecast.crown_cover.UnknownGenus: genus 'Notagenus' is in neither the conifer nor the broadleaf list",
+   "test_soil_one_tile_and_four_smaller_tiles_agree_exactly: failed on setup with \"forager_forecast.crown_cover.UnknownGenus: genus 'Carya' is in neither the conifer nor the broadleaf list\"",
+   "test_trees_one_tile_and_four_smaller_tiles_agree_exactly: failed on setup with \"forager_forecast.crown_cover.UnknownGenus: genus 'Carya' is in neither the conifer nor the broadleaf list\"",
+   "test_masked_cells_are_blank_and_sides_and_flags_follow_the_rules: failed on setup with \"forager_forecast.crown_cover.UnknownGenus: genus 'Carya' is in neither the conifer nor the broadleaf list\"",
+   "test_water_is_no_data_not_zero_cover[water_us]: failed on setup with \"forager_forecast.crown_cover.UnknownGenus: genus 'Carya' is in neither the conifer nor the broadleaf list\"",
+   "test_water_is_no_data_not_zero_cover[water_ca]: failed on setup with \"forager_forecast.crown_cover.UnknownGenus: genus 'Carya' is in neither the conifer nor the broadleaf list\"",
+   "test_soil_cells_outside_the_study_area_are_blank: failed on setup with \"forager_forecast.crown_cover.UnknownGenus: genus 'Carya' is in neither the conifer nor the broadleaf list\"",
+   "test_the_plot_table_holds_canopypct_and_t5s_split_at_scale_1: failed on setup with \"forager_forecast.crown_cover.UnknownGenus: genus 'Carya' is in neither the conifer nor the broadleaf list\"",
+   "test_the_layer_route_matches_the_window_route: failed on setup with \"forager_forecast.crown_cover.UnknownGenus: genus 'Carya' is in neither the conifer nor the broadleaf list\"",
+   "test_the_layer_route_one_tile_and_four_smaller_tiles_agree_exactly: failed on setup with \"forager_forecast.crown_cover.UnknownGenus: genus 'Carya' is in neither the conifer nor the broadleaf list\"",
+   "test_a_layer_missing_for_a_canadian_tile_is_an_error: failed on setup with \"forager_forecast.crown_cover.UnknownGenus: genus 'Carya' is in neither the conifer nor the broadleaf list\""
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "2 failed, 14 passed, 10 errors in 0.76s"
+ },
+ {
+  "check": "D116: split at 301 instead of 300",
+  "file": "src/forager_forecast/crown_cover.py",
+  "tests": [
+   "tests/test_crown_cover.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_the_fia_code_split_is_at_300: AssertionError: assert True is False"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 14 passed in 0.06s"
+ },
+ {
+  "check": "D116: unlisted trees not counted",
+  "file": "src/forager_forecast/crown_cover.py",
+  "tests": [
+   "tests/test_crown_cover.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_an_unlisted_genus_is_classed_by_its_fia_code_when_t6b_asks: AssertionError: assert 0 == 2"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 14 passed in 0.06s"
+ },
+ {
+  "check": "D117: a cell in no ecoregion counts",
+  "file": "src/forager_forecast/t6b_mask.py",
+  "tests": [
+   "tests/test_t6b_mask.py",
+   "tests/test_t6b_layers.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_a_cell_in_no_ecoregion_polygon_is_out_of_the_study_area: assert (np.True_ and not np.True_)"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 16 passed in 41.14s"
+ },
+ {
+  "check": "D118: layer route sums the wrong classes",
+  "file": "src/forager_forecast/t6b_layers.py",
+  "tests": [
+   "tests/test_t6b_layers.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_the_layer_route_matches_the_window_route: AssertionError: "
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 10 passed in 30.84s"
+ },
+ {
+  "check": "D118: layer route takes the class sum as cover",
+  "file": "src/forager_forecast/t6b_layers.py",
+  "tests": [
+   "tests/test_t6b_layers.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_the_layer_route_matches_the_window_route: AssertionError: "
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 10 passed in 30.44s"
+ },
+ {
+  "check": "D118: free space not checked",
+  "file": "src/forager_forecast/t6b_layers.py",
+  "tests": [
+   "tests/test_t6b_layers.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_free_space_is_checked_before_a_whole_layer_download: Failed: DID NOT RAISE OSError"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 10 passed in 30.39s"
+ },
+ {
+  "check": "D118: download ignores its deadline",
+  "file": "src/forager_forecast/t6b_sources.py",
+  "tests": [
+   "tests/test_t6b_sources.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_a_download_stops_at_its_deadline_and_resumes_where_it_stopped: assert (True is False)"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 6 passed in 0.08s"
+ },
+ {
+  "check": "runner: a prepare cannot end a section",
+  "file": "src/forager_forecast/t6b_run.py",
+  "tests": [
+   "tests/test_t6b_run.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_a_prepare_that_asks_to_stop_ends_the_section_before_its_tiles: assert (6 == 0)"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 15 passed in 0.37s"
+ },
+ {
+  "check": "RECORD -620: layers on the drive downloaded again",
+  "file": "src/forager_forecast/t6b_sources.py",
+  "tests": [
+   "tests/test_t6b_sources.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_layers_download_one_at_a_time_with_their_records_and_skip_what_is_there: AssertionError: assert ([{'layer': 'a...31835938e-05}] == []"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 6 passed in 0.09s"
+ },
+ {
+  "check": "RECORD -620: no free-space stop before a layer",
+  "file": "src/forager_forecast/t6b_sources.py",
+  "tests": [
+   "tests/test_t6b_sources.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_layer_downloads_stop_before_a_layer_that_would_eat_the_reserve: AssertionError: assert ([{'layer': 'c...41699219e-05}] == []"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 6 passed in 0.08s"
+ },
+ {
+  "check": "RECORD -641: URL errors not network errors",
+  "file": "src/forager_forecast/t6b_run.py",
+  "tests": [
+   "tests/test_t6b_run.py",
+   "tests/test_t6b_sources.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 6,
+  "failures": [
+   "test_a_network_error_is_retried_and_the_tile_then_succeeds: urllib.error.URLError: <urlopen error Temporary failure in name resolution>",
+   "test_a_tile_that_keeps_failing_is_deferred_and_the_section_carries_on: urllib.error.URLError: <urlopen error Temporary failure in name resolution>",
+   "test_the_next_section_retries_deferred_tiles_before_new_ones: urllib.error.URLError: <urlopen error Temporary failure in name resolution>",
+   "test_retries_stop_at_the_stop_time: urllib.error.URLError: <urlopen error Temporary failure in name resolution>",
+   "test_two_workers_defer_a_failing_tile_and_finish_the_rest: urllib.error.URLError: <urlopen error Temporary failure in name resolution>",
+   "test_a_layer_download_retries_a_network_error_and_resumes: urllib.error.URLError: <urlopen error Temporary failure in name resolution>"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "6 failed, 17 passed in 0.50s"
+ },
+ {
+  "check": "RECORD -641: every HTTP error retried",
+  "file": "src/forager_forecast/t6b_run.py",
+  "tests": [
+   "tests/test_t6b_run.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_a_server_error_is_a_network_error_and_a_client_error_is_not: Failed: DID NOT RAISE HTTPError"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 15 passed in 0.38s"
+ },
+ {
+  "check": "RECORD -641: GDAL errors all network",
+  "file": "src/forager_forecast/t6b_run.py",
+  "tests": [
+   "tests/test_t6b_run.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_a_gdal_read_error_counts_as_network_only_when_it_is_one: AssertionError: assert not True"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 15 passed in 0.38s"
+ },
+ {
+  "check": "RECORD -641: real bugs deferred too",
+  "file": "src/forager_forecast/t6b_run.py",
+  "tests": [
+   "tests/test_t6b_run.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 2,
+  "failures": [
+   "test_a_server_error_is_a_network_error_and_a_client_error_is_not: Failed: DID NOT RAISE HTTPError",
+   "test_a_non_network_error_still_stops_the_section: Failed: DID NOT RAISE ValueError"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "2 failed, 14 passed in 0.36s"
+ },
+ {
+  "check": "RECORD -641: retries wait past the stop time",
+  "file": "src/forager_forecast/t6b_run.py",
+  "tests": [
+   "tests/test_t6b_run.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 1,
+  "failures": [
+   "test_retries_stop_at_the_stop_time: assert ([30, 120, 300, 900] == [30, 120]"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "1 failed, 15 passed in 0.39s"
+ },
+ {
+  "check": "RECORD -641: a deferred tile counted done",
+  "file": "src/forager_forecast/t6b_run.py",
+  "tests": [
+   "tests/test_t6b_run.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 2,
+  "failures": [
+   "test_a_tile_that_keeps_failing_is_deferred_and_the_section_carries_on: AssertionError: assert {'u0', 'u1', ...', 'u4', 'u5'} == {'u0', 'u1', 'u3', 'u4', 'u5'}",
+   "test_the_next_section_retries_deferred_tiles_before_new_ones: AssertionError: assert ['u0', 'u1', ...', 'u4', 'u5'] == ['u0', 'u1', ...4', 'u4', ...]"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "2 failed, 14 passed in 0.37s"
+ },
+ {
+  "check": "RECORD -641: deferred tiles not first",
+  "file": "src/forager_forecast/t6b_run.py",
+  "tests": [
+   "tests/test_t6b_run.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 2,
+  "failures": [
+   "test_a_tile_that_keeps_failing_is_deferred_and_the_section_carries_on: assert (0 == 1)",
+   "test_the_next_section_retries_deferred_tiles_before_new_ones: AssertionError: assert ['u0', 'u1', ...', 'u4', 'u5'] == ['u0', 'u1', ...4', 'u4', ...]"
+  ],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "2 failed, 14 passed in 0.39s"
+ },
+ {
+  "check": "pixel centres window-relative (may not bite: masks flip only on exact edges)",
+  "file": "src/forager_forecast/t6b_layers.py",
+  "tests": [
+   "tests/test_t6b_layers.py"
+  ],
+  "collection_error": false,
+  "edit_seen_by_interpreter": true,
+  "citable": true,
+  "failed": 0,
+  "failures": [],
+  "restored_from_copy_and_equal_to_HEAD": true,
+  "tail": "11 passed in 30.53s"
+ }
+]

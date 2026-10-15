@@ -1,0 +1,17 @@
+{
+ "stage": "xyz",
+ "seconds": 39.7,
+ "layers": {
+  "hemlock": {
+   "files": 570,
+   "bytes": 7756835,
+   "empty_tiles": 18,
+   "zooms": [
+    5,
+    9
+   ]
+  }
+ },
+ "files": 570,
+ "bytes": 7756835
+}

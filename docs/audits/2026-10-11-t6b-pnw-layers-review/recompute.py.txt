@@ -1,0 +1,284 @@
+"""Reviewer: independent recompute of pre-registered cells (prereg.json) from the source rasters.
+
+Shares nothing with the pipeline except the published tables imported from crown_cover (Bechtold
+2004 Table 1 and Table 3 coefficients, counts and fitted maxima; T5's genus lists and class
+defaults). Geometry, clipping, side, water, no-data, plot table, crown cover and shares are
+written here. Each cell polygon is the 250 m master cell's boundary, densified to 32 points an
+edge, carried into the source's pixel space, and clipped against each pixel by Sutherland-Hodgman.
+Usage: recompute.py soil|us|ca. Writes recompute_<mode>.out.json. Reads only; writes nothing on
+the drive.
+"""
+import csv, io, json, math, struct, sys, zipfile
+from pathlib import Path
+import numpy as np, rasterio
+from rasterio.windows import Window
+from pyproj import Transformer
+from forager_forecast.crown_cover import (  # published tables only
+    BECHTOLD_2004_EQ3 as EQ3, BECHTOLD_2004_N as NOBS, BECHTOLD_2004_DMAX as DMAX,
+    WOODLAND, TABLE_3_GENUS, CONIFER_GENERA, BROADLEAF_GENERA, CONIFER_DEFAULT,
+    BROADLEAF_DEFAULT)
+
+D = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data")
+T6B = D / "t6b"
+HERE = Path(__file__).resolve().parent
+C = 250
+HOSTS = ("Pseudotsuga", "Tsuga", "Picea", "Abies", "Pinus", "Quercus")
+GRID2LL = Transformer.from_crs("ESRI:102008", "EPSG:4269", always_xy=True)
+LL2GRID = Transformer.from_crs("EPSG:4269", "ESRI:102008", always_xy=True)
+
+# --- geometry ---
+def cell_ring(col, row, k=32):
+    x0, y0 = col * C, row * C
+    t = np.arange(k) / k
+    xs = np.concatenate([x0 + C * t, np.full(k, x0 + C), x0 + C - C * t, np.full(k, x0)])
+    ys = np.concatenate([np.full(k, y0), y0 + C * t, np.full(k, y0 + C), y0 + C - C * t])
+    lon, lat = GRID2LL.transform(xs, ys)
+    return np.asarray(lon), np.asarray(lat)
+
+def clip(poly, x0, x1, y0, y1):
+    def cut(pts, inside, inter):
+        out = []
+        for i in range(len(pts)):
+            p, q = pts[i - 1], pts[i]
+            if inside(q):
+                if not inside(p):
+                    out.append(inter(p, q))
+                out.append(q)
+            elif inside(p):
+                out.append(inter(p, q))
+        return out
+    def ix(v):
+        return lambda p, q: (v, p[1] + (q[1] - p[1]) * (v - p[0]) / (q[0] - p[0]))
+    def iy(v):
+        return lambda p, q: (p[0] + (q[0] - p[0]) * (v - p[1]) / (q[1] - p[1]), v)
+    pts = list(poly)
+    for inside, inter in ((lambda p: p[0] >= x0, ix(x0)), (lambda p: p[0] <= x1, ix(x1)),
+                          (lambda p: p[1] >= y0, iy(y0)), (lambda p: p[1] <= y1, iy(y1))):
+        pts = cut(pts, inside, inter)
+        if not pts:
+            return 0.0
+    a = 0.0
+    for i in range(len(pts)):
+        (xa, ya), (xb, yb) = pts[i - 1], pts[i]
+        a += xa * yb - xb * ya
+    return abs(a) / 2
+
+def pixel_areas(col, row, ds, ll_crs="EPSG:4269"):
+    """{(r, c): area in pixel units} for every source pixel the cell overlaps (absolute indices)."""
+    lon, lat = cell_ring(col, row)
+    x, y = Transformer.from_crs(ll_crs, ds.crs, always_xy=True).transform(lon, lat)
+    t = ds.transform
+    u = (np.asarray(x) - t.c) / t.a
+    v = (np.asarray(y) - t.f) / t.e
+    poly = list(zip(u.tolist(), v.tolist()))
+    out = {}
+    for r in range(int(math.floor(v.min())), int(math.floor(v.max())) + 1):
+        for c in range(int(math.floor(u.min())), int(math.floor(u.max())) + 1):
+            a = clip(poly, c, c + 1, r, r + 1)
+            if a > 0:
+                out[(r, c)] = a
+    return out
+
+def read_px(ds, keys, band=1, fill=None):
+    rs = [k[0] for k in keys]; cs = [k[1] for k in keys]
+    r0, c0 = min(rs), min(cs)
+    w = ds.read(band, window=Window(c0, r0, max(cs) - c0 + 1, max(rs) - r0 + 1), boundless=True,
+                fill_value=fill if fill is not None else ds.nodata)
+    return {k: w[k[0] - r0, k[1] - c0] for k in keys}
+
+def px_centre_ll(ds, r, c):
+    t = ds.transform
+    x, y = t.c + (c + 0.5) * t.a, t.f + (r + 0.5) * t.e
+    lon, lat = Transformer.from_crs(ds.crs, "EPSG:4269", always_xy=True).transform(x, y)
+    return lon, lat
+
+# --- mask, side, water (restated: D113, D115 item 1, D112) ---
+MASK = rasterio.open(T6B / "mask.tif")
+def mask_at(col, row):
+    t = MASK.transform
+    c, r = (col * C - int(t.c)) // C, (int(t.f) - (row + 1) * C) // C
+    return (int(MASK.read(1, window=Window(c, r, 1, 1))[0, 0]),
+            int(MASK.read(2, window=Window(c, r, 1, 1))[0, 0]))
+
+def side_of(lon, lat, country):
+    if -122.80 <= lon <= -95.15 and 48.0 <= lat <= 50.0:
+        return "CA" if lat >= 49.0 else "US"
+    return {1: "US", 2: "CA"}.get(country, "NONE")
+
+NAL = rasterio.open(T6B / "sources/nalcms/NA_NALCMS_landcover_2020v2_30m.tif")
+NAL_T = Transformer.from_crs("EPSG:4269", NAL.crs, always_xy=True)  # pyproj's own datum handling
+def nalcms(lon, lat):
+    x, y = NAL_T.transform(lon, lat)
+    t = NAL.transform
+    c, r = int(math.floor((x - t.c) / t.a)), int(math.floor((y - t.f) / t.e))
+    if not (0 <= c < NAL.width and 0 <= r < NAL.height):
+        return 127
+    return int(NAL.read(1, window=Window(c, r, 1, 1))[0, 0])
+
+def own_pixel(ds, r, c, want):
+    lon, lat = px_centre_ll(ds, r, c)
+    gx, gy = LL2GRID.transform(lon, lat)
+    country, _ = mask_at(int(math.floor(gx / C)), int(math.floor(gy / C)))
+    s = side_of(lon, lat, country)
+    own = s == want or (s == "NONE" and country == 0)
+    lc = nalcms(lon, lat)
+    water = lc == 18 or lc in (0, 127)
+    return own, water, lc
+
+# --- stored values ---
+def stored(path, col, row):
+    with rasterio.open(path) as ds:
+        t = ds.transform
+        c = (col * C - int(t.c)) // C; r = (int(t.f) - (row + 1) * C) // C
+        return {n: float(ds.read(k + 1, window=Window(c, r, 1, 1))[0, 0])
+                for k, n in enumerate(ds.descriptions)}
+
+# --- soil ---
+def soil(cell):
+    col, row = cell["col"], cell["row"]
+    nat = T6B / "native/soil" / cell["soil_tile"]
+    out = {}
+    for stat in ("mean", "Q0.05", "Q0.95"):
+        acc = None
+        for depth, w in (("0-5cm", 5), ("5-15cm", 10), ("15-30cm", 15)):
+            with rasterio.open(nat / f"phh2o_{depth}_{stat}.tif") as ds:
+                # no datum step: NAD83 lon/lat read as WGS84, as the pipeline and T4 do (grid.py)
+                areas = pixel_areas(col, row, ds, ll_crs="EPSG:4326")
+                vals = read_px(ds, list(areas))
+                nd = ds.nodata
+            term = {k: (np.nan if (v == nd) else v / 10.0) * w / 30 for k, v in vals.items()}
+            acc = term if acc is None else {k: acc[k] + term[k] for k in acc}
+        tot = sum(areas.values())
+        valid = {k: a for k, a in areas.items() if np.isfinite(acc[k])}
+        va = sum(valid.values())
+        out[stat] = {"value": sum(a * acc[k] for k, a in valid.items()) / va if va else None,
+                     "fraction": va / tot, "pixels": len(areas)}
+    s = stored(T6B / "tiles/soil" / f"soil_{cell['soil_tile']}.tif", col, row)
+    return {"cell": cell, "mine": out, "stored": s}
+
+# --- US trees ---
+def dbf(path, want):
+    b = Path(path).read_bytes()
+    n, hl, rl = struct.unpack("<IHH", b[4:12])
+    fields, off = [], 32
+    while b[off] != 0x0D:
+        name = b[off:off + 11].split(b"\0")[0].decode(); ln = b[off + 16]
+        fields.append((name, ln)); off += 32
+    out = {w: [] for w in want}
+    for i in range(n):
+        rec = b[hl + i * rl + 1: hl + (i + 1) * rl]; p = 0
+        for name, ln in fields:
+            if name in out:
+                out[name].append(rec[p:p + ln].decode("latin-1").strip())
+            p += ln
+    return out
+
+def surrogate(spcd, genus, conifer):
+    if spcd in EQ3:
+        return spcd
+    mates = [s for s, g in TABLE_3_GENUS.items() if g == genus and s not in WOODLAND]
+    if mates:
+        return max(mates, key=lambda s: NOBS[s])
+    return CONIFER_DEFAULT if conifer else BROADLEAF_DEFAULT
+
+def plot_split(trees):
+    """(total cover %, {band: fraction of crown area}) by Crookston and Stage, Bechtold eq. 3."""
+    pa = {b: 0.0 for b in (*HOSTS, "conifer", "broadleaf")}; tot = 0.0
+    for spcd, genus, dbh, tpa, live in trees:
+        if not live or not (dbh >= 5.0) or not (tpa > 0):
+            continue
+        if genus in CONIFER_GENERA: con = True
+        elif genus in BROADLEAF_GENERA: con = False
+        else: con = spcd < 300  # D116
+        used = surrogate(spcd, genus, con)
+        b0, b1, b2 = EQ3[used]; d = min(dbh, DMAX[used])  # D91
+        w = b0 + b1 * d + b2 * d * d
+        if w <= 0:
+            continue
+        a = tpa * math.pi * (w / 2) ** 2
+        tot += a
+        if genus in HOSTS: pa[genus] += a
+        pa["conifer" if con else "broadleaf"] += a
+    return tot, {k: (v / tot if tot > 0 else 0.0) for k, v in pa.items()}
+
+def trees_us(cells):
+    tm = rasterio.open(D / "t5/treemap2023/TreeMap2023_CONUS.tif")
+    vat = dbf(D / "t5/treemap2023/TreeMap2023_CONUS.tif.vat.dbf", ("Value", "CANOPYPCT"))
+    canopy = {int(float(v)): float(c) for v, c in zip(vat["Value"], vat["CANOPYPCT"]) if c}
+    per = []
+    need = set()
+    for cell in cells:
+        areas = pixel_areas(cell["col"], cell["row"], tm)
+        ids = read_px(tm, list(areas), fill=-1)
+        px = {}
+        for k, a in areas.items():
+            own, water, lc = own_pixel(tm, k[0], k[1], "US")
+            px[k] = (a, int(ids[k]), own, water, lc)
+            if ids[k] not in (-1, tm.nodata):
+                need.add(int(ids[k]))
+        per.append((cell, px))
+    trees = {i: [] for i in need}
+    with zipfile.ZipFile(D / "t5/treemap2023/RDS-2026-0038.zip") as z, \
+            z.open("Data/TreeMap2023_CONUS_Tree_Table.csv") as f:
+        for row in csv.DictReader(io.TextIOWrapper(f, encoding="utf-8-sig")):
+            i = int(row["TM_ID"])
+            if i in trees:
+                dia, tpa = row["DIA"], row["TPA_UNADJ"]
+                trees[i].append((int(row["SPCD"]), row["SCIENTIFIC_NAME"].split()[0],
+                                 float("nan") if dia in ("", "NA") else float(dia),
+                                 float("nan") if tpa in ("", "NA") else float(tpa),
+                                 row["STATUSCD"] == "1"))
+    split = {i: plot_split(t) for i, t in trees.items()}
+    res = []
+    for cell, px in per:
+        tot = sum(a for a, *_ in px.values())
+        ok = {k: v for k, v in px.items() if v[2] and not v[3] and v[1] != -1}
+        if any(v[2] and not v[3] and v[1] == -1 for v in px.values()):
+            raise SystemExit("US pixel outside TreeMap in a sampled cell")
+        va = sum(v[0] for v in ok.values())
+        cov = sum(v[0] * (canopy[v[1]] if v[1] != tm.nodata else 0.0) for v in ok.values())
+        num = {b: 0.0 for b in (*HOSTS, "conifer", "broadleaf")}; den = 0.0
+        for a, i, *_ in ok.values():
+            if i == tm.nodata:
+                continue
+            ptot, frac = split[i]
+            if ptot <= 0:
+                continue  # plot with no live tree split: out of the shares (as D88's split)
+            den += a * canopy[i]
+            for b in num:
+                num[b] += a * canopy[i] * frac[b]
+        frac_valid = va / tot
+        cover = cov / va if va else None
+        valid = frac_valid >= 0.5
+        mine = {"valid_fraction": frac_valid, "total_cover_pct": cover if valid else None,
+                "pixels": len(px), "water_pixels": sum(1 for v in px.values() if v[3]),
+                "not_own_pixels": sum(1 for v in px.values() if not v[2]),
+                "nalcms_classes": sorted({v[4] for v in px.values()})}
+        for b in num:
+            sh = num[b] / den if den > 0 else None
+            mine[f"share_{b}"] = sh if (valid and cover is not None and cover >= 10 and sh is not None) else None
+        key = cell["tree_tile"]
+        whole = T6B / "tiles/trees" / f"trees_{key}.tif"
+        half = T6B / "tiles/trees_us_half" / f"trees_us_half_{key}.tif"
+        vpath = whole if whole.exists() else half
+        fpath = (T6B / "tiles/trees" / f"trees_flags_{key}.tif" if whole.exists()
+                 else T6B / "tiles/trees_us_half" / f"trees_flags_us_half_{key}.tif")
+        res.append({"cell": cell, "mine": mine, "stored_file": vpath.name,
+                    "stored": stored(vpath, cell["col"], cell["row"]),
+                    "stored_flags": stored(fpath, cell["col"], cell["row"])})
+    return res
+
+def main():
+    mode = sys.argv[1]
+    pre = json.loads((HERE / "prereg.json").read_text())["cells"]
+    if mode == "soil":
+        out = [soil(c) for c in pre["soil"]]
+    elif mode == "us":
+        out = trees_us([*pre["trees_us"], pre["trees_fixed_shore_guess"]])
+    else:
+        raise SystemExit("ca: see recompute_ca.py")
+    (HERE / f"recompute_{mode}.out.json").write_text(json.dumps(out, indent=1, default=float) + "\n")
+    print(json.dumps(out, indent=1, default=float))
+
+if __name__ == "__main__":
+    main()

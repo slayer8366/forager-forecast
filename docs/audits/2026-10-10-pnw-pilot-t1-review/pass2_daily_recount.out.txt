@@ -1,0 +1,6 @@
+rows 1008
+Open-Meteo side differs from the cached body: 0
+land store side differs from my 24-hour mean of the time-series route (1e-3 / 1e-5): 0
+match flag differs from mine: 0
+my tally: {('temperature', True): 252, ('precipitation', True): 222, ('precipitation', False): 30, ('soil_temperature', True): 252, ('soil_moisture', True): 252}
+mismatches: 30 of 1008

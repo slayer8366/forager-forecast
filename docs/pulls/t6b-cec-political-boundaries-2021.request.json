@@ -1,0 +1,13 @@
+{
+  "source": "https://www.cec.org/files/atlas_layers/0_reference/0_01_political_boundaries/politicalboundaries_shapefile.zip",
+  "requested_at": "2026-10-07T01:12:27+00:00",
+  "account": "anonymous",
+  "http": {
+    "etag": "\"b036fc1-65b8a5e998dc0\"",
+    "last_modified": "Tue, 15 Sep 2026 19:15:11 GMT",
+    "content_length": 184774593
+  },
+  "file": "cec_political.zip",
+  "sha256": "29f3aec70604ed5be9e18c22e2d504da883fedd6d81aff27156456b4899a0c28",
+  "seconds": 42.4
+}

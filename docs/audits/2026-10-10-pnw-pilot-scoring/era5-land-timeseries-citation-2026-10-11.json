@@ -1,0 +1,10 @@
+{
+ "fetched_utc": "2026-10-11T17:17:57+00:00",
+ "catalogue_url": "https://cds.climate.copernicus.eu/api/catalogue/v1/collections/reanalysis-era5-land-timeseries",
+ "layout_url": "https://object-store.os-api.cci2.ecmwf.int:443/cci2-prod-catalogue/resources/reanalysis-era5-land-timeseries/layout_fad2aab94f29e70a0ee2e35a80bd6cf4b1995782c6ffb02acef94752d53c5115.json",
+ "title": "ERA5 Land hourly time-series data from 1950 to present",
+ "doi": "10.24381/ee82e357",
+ "license": "CC-BY-4.0",
+ "citation_block_verbatim": "#### Guidelines\n \nIn addition to the requirements of the applicable license(s), users **must**:\n- cite the CDS catalogue entry; \n- provide clear and visible attribution to the Copernicus programme and attribute each data product used; \n\n---\n&nbsp;\n\n#### Citing the CDS catalogue entry \n\nCopernicus Climate Change Service, Climate Data Store, (2025): ERA5 Land hourly time-series data from 1950 to present. Copernicus Climate Change Service (C3S) Climate Data Store (CDS). DOI: [10.24381/ee82e357](https://doi.org/10.24381/ee82e357) (Accessed on DD-MMM-YYYY)\n\n\n&nbsp;\n\n#### Attribution \n \nCopernicus programme:\n\nGenerated using or contains modified Copernicus Climate Change Service information 2025. Neither the European Commission nor ECMWF is responsible for any use that may be made of the Copernicus information or data it contains.\n\n\n\n\n",
+ "doi_registry_apa": "C3S. (2025). ERA5 Land hourly time-series data from 1950 to present. ECMWF. https://doi.org/10.24381/EE82E357"
+}

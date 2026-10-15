@@ -1,0 +1,100 @@
+"""Reviewer: the manifest's claims for the PNW box's tiles, against the files. Read only.
+
+Reads manifest.jsonl (a snapshot copy taken by this script into memory) and box_tiles.json, and
+sha256es only the pre-registered hash sample (prereg.json). Writes manifest_check.out.json.
+"""
+import hashlib, json, sys
+from collections import Counter
+from pathlib import Path
+
+T6B = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b")
+HERE = Path(__file__).resolve().parent
+OUT_DIRS = {"trees": T6B / "tiles/trees", "trees-us-half": T6B / "tiles/trees_us_half",
+            "soil": T6B / "tiles/soil", "scanfi-layers": T6B / "scanfi_layers"}
+
+def sha(p):
+    h = hashlib.sha256()
+    with open(p, "rb") as f:
+        while b := f.read(1 << 20):
+            h.update(b)
+    return h.hexdigest()
+
+raw = (T6B / "manifest.jsonl").read_bytes()
+lines = [json.loads(l) for l in raw.decode().splitlines() if l.strip()]
+units = [e for e in lines if e.get("kind") == "unit"]
+kinds = Counter(e.get("kind") for e in lines)
+by_unit = {}
+for e in units:
+    by_unit.setdefault((e.get("layer"), e["unit"]), []).append(e)
+statuses = Counter((e.get("layer"), e.get("status", "ok")) for e in units)
+box = json.loads((HERE / "box_tiles.json").read_text())
+pre = json.loads((HERE / "prereg.json").read_text())
+eight = set(pre["hash_sample"]["canadian_tiles_all"])
+mixed = {k for k, v in box["tree"].items() if v["tile_study_ca"] and v["tile_study_us"]}
+ca_only = {k for k, v in box["tree"].items() if v["tile_study_ca"] and not v["tile_study_us"]}
+us_only = {k for k, v in box["tree"].items() if not v["tile_study_ca"]}
+
+def latest(layer, unit):
+    ls = by_unit.get((layer, unit))
+    return ls[-1] if ls else None
+
+report = {"manifest_bytes": len(raw), "manifest_sha256": hashlib.sha256(raw).hexdigest(),
+          "lines": len(lines), "kinds": dict(kinds),
+          "status_counts": {f"{l}|{s}": n for (l, s), n in sorted(statuses.items())}}
+problems = []
+def need_ok(layer, unit, why):
+    e = latest(layer, unit)
+    if e is None:
+        problems.append({"unit": unit, "layer": layer, "problem": "no line", "why": why}); return None
+    if e.get("status", "ok") != "ok" or not e.get("files"):
+        problems.append({"unit": unit, "layer": layer, "problem": "latest line not ok with files",
+                         "status": e.get("status"), "files": e.get("files"), "why": why})
+        return None
+    for name in e["files"]:
+        if not (OUT_DIRS[layer] / name).exists():
+            problems.append({"unit": unit, "layer": layer, "problem": f"missing file {name}"})
+    return e
+
+for k in sorted(us_only):
+    need_ok("trees", k, "US-only tile: whole")
+for k in sorted(mixed):
+    need_ok("trees-us-half", f"us-half:{k}", "mixed tile: US half (D119)")
+for k in sorted(box["soil"]):
+    need_ok("soil", k, "soil tile")
+# Canadian state now (expected pending until tonight's run finishes)
+report["canadian_tiles_now"] = {}
+for k in sorted(eight | ca_only):
+    whole = latest("trees", k)
+    lay = {l: (latest("scanfi-layers", f"{l}:{k}") or {}).get("status") for l in (
+        "balsamFir", "blackSpruce", "broadleaf", "douglasFir", "jackPine", "lodgepolePine",
+        "otherConiferous", "ponderosaPine", "tamarack", "whiteRedPine", "att_closure")}
+    report["canadian_tiles_now"][k] = {"trees_latest_status": whole and whole.get("status", "ok"),
+                                       "scanfi_layer_status": lay}
+# Any unit (anywhere) whose history holds failed/deferred lines, and whether a later ok exists
+hist = {}
+for (layer, unit), ls in by_unit.items():
+    bad = [e.get("status") for e in ls if e.get("status", "ok") != "ok"]
+    if bad:
+        hist[f"{layer}|{unit}"] = {"bad": bad, "latest": ls[-1].get("status", "ok"),
+                                   "later_ok_has_files": bool(ls[-1].get("files"))}
+report["units_with_failed_or_deferred_history"] = hist
+# ok lines with no files, in the box
+report["box_ok_lines_without_files"] = [
+    f"{l}|{u}" for (l, u), ls in by_unit.items()
+    if ls[-1].get("status", "ok") == "ok" and not ls[-1].get("files")
+    and (u in box["tree"] or u.split(":")[-1] in box["tree"] or u in box["soil"])]
+# hashes, pre-registered sample
+hs = pre["hash_sample"]; checked = []
+for layer, keys, unitf in (("trees", hs["us_only_tree_tiles"], lambda k: k),
+                           ("trees-us-half", hs["us_half_tiles"], lambda k: f"us-half:{k}"),
+                           ("soil", hs["soil_tiles"], lambda k: k)):
+    for k in keys:
+        e = latest(layer, unitf(k))
+        for name, want in (e or {}).get("files", {}).items():
+            got = sha(OUT_DIRS[layer] / name)
+            checked.append({"layer": layer, "file": name, "match": got == want})
+report["hash_sample"] = checked
+report["hash_sample_matches"] = sum(c["match"] for c in checked)
+report["problems"] = problems
+(HERE / "manifest_check.out.json").write_text(json.dumps(report, indent=1) + "\n")
+print(json.dumps({k: v for k, v in report.items() if k not in ("canadian_tiles_now",)}, indent=1)[:6000])

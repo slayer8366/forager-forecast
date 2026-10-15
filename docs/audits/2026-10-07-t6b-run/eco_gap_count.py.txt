@@ -1,0 +1,41 @@
+"""Study cells (D111, D113 as built) whose centre lies in no CEC ecoregion polygon, by latitude band.
+
+Reads the political/Arctic mask the first section built and burns every ecoregion polygon (any
+level I) block by block with the same rasterize as the mask. Writes nothing large.
+"""
+import json, sys
+import numpy as np, rasterio
+from pyproj import Transformer
+from rasterio.windows import Window
+sys.path.insert(0, "scripts")
+from t6b_run import ECOREGIONS, MASK, MASK_INFO  # noqa: E402
+from forager_forecast.grid import CELL_SIZE_M, GridWindow
+from forager_forecast.t6b_mask import _burn, _to_grid, read_shapefile
+
+rings = [(1, _to_grid(r)) for r in read_shapefile(ECOREGIONS)]
+win = GridWindow(*json.loads(MASK_INFO.read_text())["window"])
+t = Transformer.from_crs("ESRI:102008", "EPSG:4269", always_xy=True)
+bands, total_gap, total_study = {}, 0, 0
+with rasterio.open(MASK) as ds:
+    for r0 in range(0, win.height, 2048):
+        for c0 in range(0, win.width, 2048):
+            h, w = min(2048, win.height - r0), min(2048, win.width - c0)
+            sub = GridWindow(win.left + c0 * 250, win.top - (r0 + h) * 250,
+                             win.left + (c0 + w) * 250, win.top - r0 * 250)
+            c = ds.read(1, window=Window(c0, r0, w, h)); a = ds.read(2, window=Window(c0, r0, w, h))
+            study = ((c == 1) | (c == 2)) & (a == 0)
+            if not study.any():
+                continue
+            eco = _burn(rings, sub)
+            gap = study & (eco == 0)
+            total_study += int(study.sum()); total_gap += int(gap.sum())
+            rr, cc = np.nonzero(gap)
+            if len(rr):
+                lon, lat = t.transform(sub.left + (cc + 0.5) * 250, sub.top - (rr + 0.5) * 250)
+                for b in range(20, 85, 5):
+                    m = (lat >= b) & (lat < b + 5)
+                    if m.any():
+                        key = f"{b}-{b+5}N {'CAN' if True else ''}"
+                        bands[b] = bands.get(b, 0) + int(m.sum())
+print(json.dumps({"study_cells": total_study, "study_cells_in_no_ecoregion": total_gap,
+                  "by_latitude_band_south_edge": {str(k): bands[k] for k in sorted(bands)}}, indent=1))

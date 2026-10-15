@@ -1,0 +1,25 @@
+0 -121.0 north tiles: ['256_-27_20'] first window all in 8: False
+1 -121.068 north tiles: ['256_-27_20'] first window all in 8: False
+2 -121.137 north tiles: ['256_-27_20'] first window all in 8: False
+3 -121.205 north tiles: ['256_-27_20'] first window all in 8: False
+4 -121.273 north tiles: ['256_-27_20'] first window all in 8: False
+5 -121.342 north tiles: ['256_-27_20', '256_-28_20'] first window all in 8: False
+6 -121.41 north tiles: ['256_-28_20'] first window all in 8: False
+7 -121.478 north tiles: ['256_-28_20'] first window all in 8: False
+8 -121.547 north tiles: ['256_-28_20'] first window all in 8: False
+9 -121.615 north tiles: ['256_-28_20'] first window all in 8: False
+10 -121.683 north tiles: ['256_-28_20'] first window all in 8: False
+11 -121.752 north tiles: ['256_-28_20'] first window all in 8: False
+12 -121.82 north tiles: ['256_-28_20'] first window all in 8: False
+13 -121.888 north tiles: ['256_-28_20'] first window all in 8: False
+14 -121.957 north tiles: ['256_-28_20'] first window all in 8: False
+15 -122.025 north tiles: ['256_-28_20'] first window all in 8: False
+16 -122.093 north tiles: ['256_-28_20'] first window all in 8: False
+17 -122.162 north tiles: ['256_-28_20'] first window all in 8: False
+18 -122.23 north tiles: ['256_-28_20'] first window all in 8: False
+19 -122.298 north tiles: ['256_-28_20', '256_-29_20'] first window all in 8: True
+20 -122.367 north tiles: ['256_-29_20'] first window all in 8: True
+21 -122.435 north tiles: ['256_-29_20'] first window all in 8: True
+22 -122.503 north tiles: ['256_-29_20'] first window all in 8: True
+23 -122.572 north tiles: ['256_-29_20'] first window all in 8: True
+24 -122.64 north tiles: ['256_-29_20'] first window all in 8: True

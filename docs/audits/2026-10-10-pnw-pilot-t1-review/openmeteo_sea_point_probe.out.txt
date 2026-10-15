@@ -1,0 +1,2 @@
+era5_seamless 42.699997 -124.5 t2m [10.7, 10.2, 9.7] stl1 [12.5, 12.4, 12.2] swvl1 [0.263, 0.264, 0.262]
+era5_land 42.699997 -124.5 t2m [None, None, None] stl1 [None, None, None] swvl1 [None, None, None]

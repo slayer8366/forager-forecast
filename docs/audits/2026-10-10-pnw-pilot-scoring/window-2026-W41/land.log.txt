@@ -1,0 +1,12 @@
+2026-10-11T17:17:07+00:00 hourly route: 4 months, box [49.5, -125.0, 42.0, -121.0], 4 in flight
+2026-10-11T18:32:26+00:00 [3/4] hourly-era5land-2026-09 ok 4516.3 s 9957212 B, {'days': 30, 'incomplete_days': {'t2m': 0, 'stl1': 0, 'swvl1': 0}}
+2026-10-11T18:38:29+00:00 [1/4] hourly-era5land-2026-07 ok 4879.5 s 10045033 B, {'days': 31, 'incomplete_days': {'t2m': 0, 'stl1': 0, 'swvl1': 0}}
+2026-10-11 11:46:28,569 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2026-10-11T18:46:33+00:00 [2/4] hourly-era5land-2026-08 attempt 1 FAILED: OSError('Unable to synchronously open file (file signature not found)')
+2026-10-11 11:47:08,337 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2026-10-11T18:47:12+00:00 [2/4] hourly-era5land-2026-08 attempt 2 FAILED: OSError('Unable to synchronously open file (file signature not found)')
+2026-10-11 11:48:18,724 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2026-10-11T18:48:23+00:00 [2/4] hourly-era5land-2026-08 attempt 3 FAILED: OSError('Unable to synchronously open file (file signature not found)')
+2026-10-11T18:49:53+00:00 [2/4] hourly-era5land-2026-08 gave up after 3 attempts
+2026-10-11T19:08:47+00:00 [4/4] hourly-era5land-2026-10 ok 6698.0 s 1335581 B, {'days': 4, 'incomplete_days': {'t2m': 0, 'stl1': 0, 'swvl1': 0}}
+2026-10-11T19:08:47+00:00 hourly route finished pass: 3 ok or skipped, 1 gave up

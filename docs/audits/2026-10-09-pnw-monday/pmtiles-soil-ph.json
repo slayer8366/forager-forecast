@@ -1,0 +1,11 @@
+{
+ "stage": "pmtiles",
+ "seconds": 20.7,
+ "archives": {
+  "soil-ph": {
+   "bytes": 8792863,
+   "min_zoom": 5,
+   "max_zoom": 9
+  }
+ }
+}

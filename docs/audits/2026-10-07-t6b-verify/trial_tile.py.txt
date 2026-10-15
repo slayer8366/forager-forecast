@@ -1,0 +1,108 @@
+"""T6b verify item 3: one trial tile through T4's and T5's own entry points, to measure memory and time.
+
+Run from the repository root, one STEP per process, each under the dispatch's cap:
+    systemd-run --user --scope -q -p MemoryMax=5G -p MemorySwapMax=0 \
+        /usr/bin/time -v .venv/bin/python <this file> STEP
+STEP is soil-fetch, soil-build, tree-cut, scanfi-fetch, tree-build or observe.
+
+The tile is a longitude-latitude box across 49 N at about 114.5 W (Glacier and Waterton, mountain
+forest), so both host-tree sources and the soil source are read in one tile, the worst case for
+memory. It holds none of the ten fixed cells (ten-cell-rule.md, committed first at fb4ac19).
+Nothing here changes a rule: the functions are T4's and T5's as merged on main 36cc647, called with
+this box in place of D82's rectangle and T5's strip. Surrogate scale 1.0 only for the build (the
+cut still computes the three scales, as T5's code does).
+Data goes to the flash drive only.
+"""
+
+import json
+import sys
+import time
+from pathlib import Path
+
+import rasterio
+
+from forager_forecast import t4_layer, t5_layer
+from forager_forecast.t4_layer import LonLatBox, master_window
+
+DRIVE = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data")
+OUT = DRIVE / "t6b" / "trial"
+T5 = DRIVE / "t5" / "treemap2023"
+TRIAL = LonLatBox(south=48.71, north=49.29, west=-114.94, east=-114.06)
+
+
+def main(step: str) -> None:
+    if not DRIVE.is_dir():
+        raise SystemExit("flash drive not mounted")
+    window = master_window(TRIAL)
+    started = time.perf_counter()
+    if step == "soil-fetch":
+        print(t4_layer.fetch_natives(OUT / "soil" / "native", TRIAL))
+    elif step == "soil-build":
+        summary = t4_layer.build_master(OUT / "soil" / "native", OUT / "soil" / "master.tif", TRIAL)
+        print(json.dumps(summary))
+    elif step == "tree-cut":
+        print(
+            t5_layer.cut_treemap(
+                OUT / "trees" / "native", TRIAL,
+                T5 / "TreeMap2023_CONUS.tif", T5 / "RDS-2026-0038.zip",
+            )
+        )  # fmt: skip
+    elif step == "scanfi-fetch":
+        print(t5_layer.fetch_scanfi(OUT / "trees" / "native", TRIAL))
+    elif step == "tree-build":
+        summary = t5_layer.build_master(
+            OUT / "trees" / "native", OUT / "trees" / "master_scale_1.0", TRIAL,
+            surrogate_width_scale=1.0,
+        )  # fmt: skip
+        print(json.dumps({k: summary[k] for k in ("master_window", "cells_in_box", "cells_valid",
+                                                  "cells_with_share")}))  # fmt: skip
+    elif step == "observe":
+        observe()
+    else:
+        raise SystemExit(f"unknown step {step}")
+    print(
+        json.dumps(
+            {
+                "step": step,
+                "seconds": round(time.perf_counter() - started, 1),
+                "master_cells": window.width * window.height,
+                "master_window": [window.left, window.bottom, window.right, window.top],
+            }
+        ),
+        flush=True,
+    )
+
+
+def observe() -> None:
+    """Where each tree source has data on the other side of 49 N (an observation for the side rule)."""
+    native = OUT / "trees" / "native"
+    for name, crs_side in (("treemap_plots.tif", "treemap"), ("scanfi_att_closure.tif", "scanfi")):
+        with rasterio.open(native / name) as ds:
+            data = ds.read(1)
+            lat = t5_layer._pixel_latitudes(ds.transform, ds.width, ds.height, ds.crs)
+            nodata = ds.nodata
+        has = (data != nodata) & (data != t5_layer.OUTSIDE_RASTER)
+        north = lat >= 49.0
+        print(
+            json.dumps(
+                {
+                    "file": name,
+                    "pixels": int(data.size),
+                    "nodata_value": nodata,
+                    "with_data_north_of_49": int((has & north).sum()),
+                    "with_data_south_of_49": int((has & ~north).sum()),
+                    "pixels_north_of_49": int(north.sum()),
+                    "pixels_south_of_49": int((~north).sum()),
+                    "outside_raster": int((data == t5_layer.OUTSIDE_RASTER).sum()),
+                    "max_lat_with_data": float(lat[has].max()) if has.any() else None,
+                    "min_lat_with_data": float(lat[has].min()) if has.any() else None,
+                }
+            )
+        )
+    for f in sorted(OUT.rglob("*")):
+        if f.is_file():
+            print("size", f.relative_to(OUT), f.stat().st_size)
+
+
+if __name__ == "__main__":
+    main(sys.argv[1])

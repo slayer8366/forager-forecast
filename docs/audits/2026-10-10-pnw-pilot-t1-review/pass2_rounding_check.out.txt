@@ -1,0 +1,28 @@
+bodies used 36 (the three 427_-1245_* bodies are that sea cell's rain-at-centre requests; its land variables are read from 427_-1244_*, RECORD -822, review S10)
+store route at offset 0: {'grid': 6336, 'ts': 14400}
+matched/compared by offset: {"t2m": {"-1": [762, 6912], "0": [6911, 6912], "1": [675, 6912]}, "stl1": {"-1": [2356, 6912], "0": [6912, 6912], "1": [2218, 6912]}, "swvl1": {"-1": [4149, 6912], "0": [6912, 6912], "1": [4133, 6912]}}
+offset-0 failures: [
+ {
+  "v": "t2m",
+  "body": "493_-1250_2025-12-06.json",
+  "hour": "2025-12-12T11:00",
+  "store_grid": 5.424951171875023,
+  "store_ts": 5.425012207031273,
+  "om": 5.5,
+  "diff": 0.07504882812497726
+ }
+]
+t2m: double-rounding model (0.05 then 0.1 half up) predicts Open-Meteo exactly for 6910 of 6912 hours; misses:
+   {"body": "463_-1233_2024-08-28.json", "hour": "2024-08-29T10:00", "store": 11.525048828125023, "ts": 11.524926757812523, "om": 11.5, "pred": 11.6, "dist_to_midpoint_C": 4.882812502273737e-05}
+   {"body": "493_-1250_2025-12-06.json", "hour": "2025-12-12T11:00", "store": 5.424951171875023, "ts": 5.425012207031273, "om": 5.5, "pred": 5.4, "dist_to_midpoint_C": 4.8828124977262637e-05}
+  t2m: hours with store within 0.0002 C of a 0.05-grid midpoint: 55; closest 0.0000061 C
+stl1: double-rounding model (0.05 then 0.1 half up) predicts Open-Meteo exactly for 6910 of 6912 hours; misses:
+   {"body": "463_-1233_2024-08-28.json", "hour": "2024-09-04T04:00", "store": 18.225000000000023, "ts": 18.224938964843773, "om": 18.2, "pred": 18.3, "dist_to_midpoint_C": 2.2737367544323207e-14}
+   {"body": "488_-1245_2025-03-03.json", "hour": "2025-03-08T19:00", "store": 4.025048828125023, "ts": 4.024957275390648, "om": 4.0, "pred": 4.1, "dist_to_midpoint_C": 4.882812502273737e-05}
+  stl1: hours with store within 0.0002 C of a 0.05-grid midpoint: 58; closest 0.0000000 C
+
+Per route (offset 0): the model on that route's own value
+  t2m: exact/compared {'grid': [2110, 2112], 'ts': [6912, 6912]}
+  t2m: hours where both routes have a value and differ: 1752; differences in units of 2^-14 K: min 0.5000 max 4.0000; all whole multiples: False
+  stl1: exact/compared {'grid': [2110, 2112], 'ts': [6912, 6912]}
+  stl1: hours where both routes have a value and differ: 1738; differences in units of 2^-14 K: min 0.5000 max 4.0000; all whole multiples: False

@@ -1,0 +1,9 @@
+2026-10-11T18:54:38+00:00 hourly-era5-precip-2026-07-09 ok 5848.5 s 870592 B
+restarted 2026-10-11T19:17:27Z
+2026-10-11T19:17:29+00:00 hourly-era5-precip-2026-07-09 skip (done)
+Recovering from connection error [HTTPSConnectionPool(host='cds.climate.copernicus.eu', port=443): Max retries exceeded with url: /api/retrieve/v1/jobs/20052633-a831-49c0-87eb-e7aff2dd78cc?log=True&request=True (Caused by NameResolutionError("HTTPSConnection(host='cds.climate.copernicus.eu', port=443): Failed to resolve 'cds.climate.copernicus.eu' ([Errno -3] Temporary failure in name resolution)"))], attempt 1 of 500
+Retrying in 120 seconds
+2026-10-11T21:32:16+00:00 hourly-era5-precip-2026-10-01-04 ok 8087.2 s 51633 B
+Recovering from connection error [('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))], attempt 1 of 500
+Retrying in 120 seconds
+2026-10-11T22:39:49+00:00 hourly-era5-precip-2026-10-05T00 ok 4052.8 s 25581 B

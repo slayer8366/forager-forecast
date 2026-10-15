@@ -1,0 +1,28 @@
+"""Reviewer: the manifest's per-tile study-cell counts for the box's tiles against box_tiles.json
+(counted from mask.tif by this review's own rules). Every box tile, no sampling. Writes
+manifest_counts.out.json."""
+import json
+from pathlib import Path
+T6B = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b")
+HERE = Path(__file__).resolve().parent
+box = json.loads((HERE / "box_tiles.json").read_text())["tree"]
+latest = {}
+for l in (T6B / "manifest.jsonl").read_text().splitlines():
+    e = json.loads(l)
+    if e.get("kind") == "unit":
+        latest[e["unit"]] = e
+res = {"compared": 0, "mismatch": [], "not_compared": []}
+for k, v in sorted(box.items()):
+    if v["tile_study_ca"] == 0:
+        e = latest.get(k); got = (e or {}).get("cells_in_study", {})
+        want = {"us": v["tile_study_us"], "canada": 0}
+    elif v["tile_study_us"] > 0:
+        e = latest.get(f"us-half:{k}"); got = (e or {}).get("cells_in_study", {})
+        want = {"us": v["tile_study_us"], "canada_pending": v["tile_study_ca"]}
+    else:
+        res["not_compared"].append(k); continue
+    res["compared"] += 1
+    if got != want:
+        res["mismatch"].append({"tile": k, "manifest": got, "mask": want})
+(HERE / "manifest_counts.out.json").write_text(json.dumps(res, indent=1) + "\n")
+print(res["compared"], len(res["mismatch"]), res["mismatch"][:5], res["not_compared"])

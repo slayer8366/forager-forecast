@@ -1,0 +1,226 @@
+{
+ "tried": 240,
+ "cells": [
+  {
+   "col": -5334,
+   "row": 4624,
+   "lon": -115.28507,
+   "lat": 48.63855,
+   "tree_tile": "256_-21_18",
+   "screen_nalcms": [
+    1,
+    18,
+    1,
+    18,
+    1
+   ]
+  },
+  {
+   "col": -6696,
+   "row": 4969,
+   "lon": -120.3326,
+   "lat": 48.69237,
+   "tree_tile": "256_-27_19",
+   "screen_nalcms": [
+    8,
+    10,
+    10,
+    10,
+    8
+   ]
+  },
+  {
+   "col": -7705,
+   "row": 2470,
+   "lon": -121.44717,
+   "lat": 43.02738,
+   "tree_tile": "256_-31_9",
+   "screen_nalcms": [
+    1,
+    1,
+    1,
+    8,
+    1
+   ]
+  }
+ ],
+ "results": [
+  {
+   "cell": {
+    "col": -5334,
+    "row": 4624,
+    "lon": -115.28507,
+    "lat": 48.63855,
+    "tree_tile": "256_-21_18",
+    "screen_nalcms": [
+     1,
+     18,
+     1,
+     18,
+     1
+    ]
+   },
+   "mine": {
+    "valid_fraction": 0.938588255063904,
+    "total_cover_pct": 31.454171240352256,
+    "pixels": 89,
+    "water_pixels": 11,
+    "not_own_pixels": 0,
+    "nalcms_classes": [
+     1,
+     18
+    ],
+    "share_Pseudotsuga": 0.0037470028474685486,
+    "share_Tsuga": 0.0,
+    "share_Picea": 0.0,
+    "share_Abies": 0.002702478666090084,
+    "share_Pinus": 0.993281281314558,
+    "share_Quercus": 0.0,
+    "share_conifer": 1.0,
+    "share_broadleaf": 0.0
+   },
+   "stored_file": "trees_us_half_256_-21_18.tif",
+   "stored": {
+    "total_cover_pct": 31.45417594909668,
+    "valid_fraction": 0.93858802318573,
+    "source": 1.0,
+    "share_Pseudotsuga": 0.0037470730021595955,
+    "share_Tsuga": 0.0,
+    "share_Picea": 0.0,
+    "share_Abies": 0.002702505560591817,
+    "share_Pinus": 0.9932811856269836,
+    "share_Quercus": 0.0,
+    "share_conifer": 1.0,
+    "share_broadleaf": 0.0
+   },
+   "stored_flags": {
+    "flag_Pseudotsuga": 1.0,
+    "flag_Tsuga": 1.0,
+    "flag_Picea": 1.0,
+    "flag_Abies": 1.0,
+    "flag_Pinus": 1.0,
+    "flag_Quercus": 1.0,
+    "flag_conifer": 1.0,
+    "flag_broadleaf": 1.0
+   }
+  },
+  {
+   "cell": {
+    "col": -6696,
+    "row": 4969,
+    "lon": -120.3326,
+    "lat": 48.69237,
+    "tree_tile": "256_-27_19",
+    "screen_nalcms": [
+     8,
+     10,
+     10,
+     10,
+     8
+    ]
+   },
+   "mine": {
+    "valid_fraction": 1.0,
+    "total_cover_pct": 28.27524646896681,
+    "pixels": 86,
+    "water_pixels": 0,
+    "not_own_pixels": 0,
+    "nalcms_classes": [
+     8,
+     10
+    ],
+    "share_Pseudotsuga": 0.5202974725773806,
+    "share_Tsuga": 0.0,
+    "share_Picea": 0.03579276171218457,
+    "share_Abies": 0.3884996474333631,
+    "share_Pinus": 0.02637320504440819,
+    "share_Quercus": 0.0,
+    "share_conifer": 1.0,
+    "share_broadleaf": 0.0
+   },
+   "stored_file": "trees_us_half_256_-27_19.tif",
+   "stored": {
+    "total_cover_pct": 28.275245666503906,
+    "valid_fraction": 1.0,
+    "source": 1.0,
+    "share_Pseudotsuga": 0.520297110080719,
+    "share_Tsuga": 0.0,
+    "share_Picea": 0.035792816430330276,
+    "share_Abies": 0.3884998857975006,
+    "share_Pinus": 0.026373201981186867,
+    "share_Quercus": 0.0,
+    "share_conifer": 1.0,
+    "share_broadleaf": 0.0
+   },
+   "stored_flags": {
+    "flag_Pseudotsuga": 1.0,
+    "flag_Tsuga": 1.0,
+    "flag_Picea": 1.0,
+    "flag_Abies": 1.0,
+    "flag_Pinus": 1.0,
+    "flag_Quercus": 1.0,
+    "flag_conifer": 1.0,
+    "flag_broadleaf": 1.0
+   }
+  },
+  {
+   "cell": {
+    "col": -7705,
+    "row": 2470,
+    "lon": -121.44717,
+    "lat": 43.02738,
+    "tree_tile": "256_-31_9",
+    "screen_nalcms": [
+     1,
+     1,
+     1,
+     8,
+     1
+    ]
+   },
+   "mine": {
+    "valid_fraction": 1.0,
+    "total_cover_pct": 28.824931895338825,
+    "pixels": 89,
+    "water_pixels": 0,
+    "not_own_pixels": 0,
+    "nalcms_classes": [
+     1,
+     8
+    ],
+    "share_Pseudotsuga": 0.0,
+    "share_Tsuga": 0.0,
+    "share_Picea": 0.0,
+    "share_Abies": 0.0,
+    "share_Pinus": 1.0,
+    "share_Quercus": 0.0,
+    "share_conifer": 1.0,
+    "share_broadleaf": 0.0
+   },
+   "stored_file": "trees_256_-31_9.tif",
+   "stored": {
+    "total_cover_pct": 28.824932098388672,
+    "valid_fraction": 1.0,
+    "source": 1.0,
+    "share_Pseudotsuga": 0.0,
+    "share_Tsuga": 0.0,
+    "share_Picea": 0.0,
+    "share_Abies": 0.0,
+    "share_Pinus": 1.0,
+    "share_Quercus": 0.0,
+    "share_conifer": 1.0,
+    "share_broadleaf": 0.0
+   },
+   "stored_flags": {
+    "flag_Pseudotsuga": 1.0,
+    "flag_Tsuga": 1.0,
+    "flag_Picea": 1.0,
+    "flag_Abies": 1.0,
+    "flag_Pinus": 1.0,
+    "flag_Quercus": 1.0,
+    "flag_conifer": 1.0,
+    "flag_broadleaf": 1.0
+   }
+  }
+ ]
+}

@@ -161,38 +161,48 @@ class UnknownGenus(ValueError):
     """A genus in neither class list: refused, since its class cannot be guessed."""
 
 
-def is_conifer(genus: str) -> bool:
+# D116 (T6b, Forager RECORD -615): a genus outside both lists is classed by its FIA species code,
+# softwood below 300 and hardwood from 300, only when the caller passes the code. It then counts
+# toward the conifer or broadleaf total only, never as a host. T5's refusal stands otherwise.
+FIA_SOFTWOOD_BELOW = 300
+
+
+def is_conifer(genus: str, spcd: int | None = None) -> bool:
     if genus in CONIFER_GENERA:
         return True
     if genus in BROADLEAF_GENERA:
         return False
+    if spcd is not None:
+        return spcd < FIA_SOFTWOOD_BELOW
     raise UnknownGenus(f"genus {genus!r} is in neither the conifer nor the broadleaf list")
 
 
-def surrogate_for(spcd: int, genus: str) -> int:
+def surrogate_for(spcd: int, genus: str, by_spcd: bool = False) -> int:
     """The Table 3 species whose coefficients ``spcd`` uses (itself when it is in the table)."""
     if spcd in BECHTOLD_2004_EQ3:
         return spcd
-    conifer = is_conifer(genus)
+    conifer = is_conifer(genus, spcd if by_spcd else None)
     mates = [s for s, g in TABLE_3_GENUS.items() if g == genus and s not in WOODLAND]
     if mates:
         return max(mates, key=lambda s: BECHTOLD_2004_N[s])
     return CONIFER_DEFAULT if conifer else BROADLEAF_DEFAULT
 
 
-def crown_width_for(spcd: int, genus: str, dbh_in: float) -> tuple[float, int]:
+def crown_width_for(
+    spcd: int, genus: str, dbh_in: float, by_spcd: bool = False
+) -> tuple[float, int]:
     """(largest crown width in ft, the Table 3 species whose coefficients were used).
 
     D is capped at the largest diameter that species' model was fitted to (D91).
     """
-    used = surrogate_for(spcd, genus)
+    used = surrogate_for(spcd, genus, by_spcd)
     b0, b1, b2 = BECHTOLD_2004_EQ3[used]
     d = min(dbh_in, BECHTOLD_2004_DMAX[used])
     return b0 + b1 * d + b2 * d * d, used
 
 
-def is_capped(spcd: int, genus: str, dbh_in: float) -> bool:
-    return dbh_in > BECHTOLD_2004_DMAX[surrogate_for(spcd, genus)]
+def is_capped(spcd: int, genus: str, dbh_in: float, by_spcd: bool = False) -> bool:
+    return dbh_in > BECHTOLD_2004_DMAX[surrogate_for(spcd, genus, by_spcd)]
 
 
 @dataclass(frozen=True)
@@ -214,20 +224,28 @@ class PlotCover:
     surrogate_species: dict[int, int] = field(default_factory=dict)
     capped_trees: int = 0
     nonpositive_width_trees: int = 0
+    unlisted_genus_trees: int = 0
 
 
-def plot_cover(trees: Iterable[Tree], surrogate_width_scale: float = 1.0) -> PlotCover:
+def plot_cover(
+    trees: Iterable[Tree],
+    surrogate_width_scale: float = 1.0,
+    classify_unlisted_by_spcd: bool = False,
+) -> PlotCover:
     crown = dict.fromkeys(BANDS, 0.0)
     total_pa = 0.0
     surrogate_trees = 0
     surrogate_species: dict[int, int] = {}
     capped_trees = 0
     nonpositive = 0
+    unlisted = 0
+    by_spcd = classify_unlisted_by_spcd
     for t in trees:
         if not t.live or not (t.dbh_in >= MIN_DBH_IN) or not (t.tpa > 0):
             continue
-        width, used = crown_width_for(t.spcd, t.genus, t.dbh_in)
-        capped_trees += is_capped(t.spcd, t.genus, t.dbh_in)
+        width, used = crown_width_for(t.spcd, t.genus, t.dbh_in, by_spcd)
+        capped_trees += is_capped(t.spcd, t.genus, t.dbh_in, by_spcd)
+        unlisted += t.genus not in CONIFER_GENERA and t.genus not in BROADLEAF_GENERA
         if used != t.spcd:
             surrogate_trees += 1
             surrogate_species[t.spcd] = used
@@ -239,11 +257,13 @@ def plot_cover(trees: Iterable[Tree], surrogate_width_scale: float = 1.0) -> Plo
         total_pa += pa
         if t.genus in crown:
             crown[t.genus] += pa
-        crown["conifer" if is_conifer(t.genus) else "broadleaf"] += pa
+        crown["conifer" if is_conifer(t.genus, t.spcd if by_spcd else None) else "broadleaf"] += pa
     c_prime = 100.0 * total_pa / SQUARE_FEET_PER_ACRE
     total = 100.0 * (1.0 - math.exp(-0.01 * c_prime))
     if total_pa > 0:
         by_band = {band: total * crown[band] / total_pa for band in BANDS}
     else:
         by_band = dict.fromkeys(BANDS, 0.0)
-    return PlotCover(total, by_band, surrogate_trees, surrogate_species, capped_trees, nonpositive)
+    return PlotCover(
+        total, by_band, surrogate_trees, surrogate_species, capped_trees, nonpositive, unlisted
+    )

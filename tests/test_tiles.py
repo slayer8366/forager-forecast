@@ -119,3 +119,55 @@ def test_the_archive_has_max_zoom_9_and_carries_the_values_and_metadata(tmp_path
     np.testing.assert_array_equal(g[a == 255], grey[:256, :256][a == 255])
     g, a = decode_tile(get_tile(9, 81, 179))
     np.testing.assert_array_equal(g, grey[256:, 256:])
+
+
+def test_the_percent_encoding_rounds_to_half_points_and_makes_no_data_transparent():
+    from forager_forecast.tiles import encode_percent_byte
+
+    grey, alpha = encode_percent_byte(np.array([0.0, 0.24, 0.25, 37.6, 100.0, np.nan, 100.0000001]))
+    assert grey.tolist() == [0, 0, 1, 75, 200, 0, 200]
+    assert alpha.tolist() == [255, 255, 255, 255, 255, 0, 255]
+    with pytest.raises(ValueError, match="not a percentage"):
+        encode_percent_byte(np.array([100.5]))
+    with pytest.raises(ValueError, match="not a percentage"):
+        encode_percent_byte(np.array([-0.5]))
+
+
+def test_static_tiles_take_the_cell_under_each_pixel_centre_at_every_zoom():
+    from forager_forecast.grid import CELL_SIZE_M, GridWindow
+    from forager_forecast.tiles import (
+        decode_tile,
+        lonlat_to_tile,
+        png_grey_alpha,
+        tile_range,
+        tile_values,
+    )
+
+    # A master window near Seattle with a value per cell that changes cell to cell.
+    x, y = Transformer.from_crs("EPSG:4269", GRID_CRS, always_xy=True).transform(-122.3, 47.6)
+    left, top = int(x // CELL_SIZE_M - 200) * CELL_SIZE_M, int(y // CELL_SIZE_M + 200) * CELL_SIZE_M
+    window = GridWindow(left, top - 400 * CELL_SIZE_M, left + 400 * CELL_SIZE_M, top)
+    values = np.arange(400 * 400, dtype="float64").reshape(400, 400) % 251
+    values[:, :10] = np.nan
+    for z in (5, 9):
+        tx, ty = lonlat_to_tile(-122.3, 47.6, z)
+        v = tile_values(values, window, z, int(tx), int(ty))
+        assert v.shape == (256, 256)
+        # the pixel holding the point takes the cell under that pixel's own centre
+        px, py = int((tx % 1) * 256), int((ty % 1) * 256)
+        size = 2 * math.pi * 6378137.0 / 2**z
+        cx = -math.pi * 6378137.0 + int(tx) * size + (px + 0.5) * size / 256
+        cy = math.pi * 6378137.0 - int(ty) * size - (py + 0.5) * size / 256
+        lon, lat = Transformer.from_crs("EPSG:3857", "EPSG:4326", always_xy=True).transform(cx, cy)
+        gx, gy = Transformer.from_crs("EPSG:4269", GRID_CRS, always_xy=True).transform(lon, lat)
+        c, r = int((gx - window.left) // CELL_SIZE_M), int((window.top - gy) // CELL_SIZE_M)
+        assert v[py, px] == values[r, c]
+        # only existing cell values or NaN: nothing blended
+        finite = v[np.isfinite(v)]
+        assert set(np.unique(finite)) <= set(np.unique(values[np.isfinite(values)]))
+    x0, x1, y0, y1 = tile_range(-125.0, 40.0, -111.0, 49.0, 9)
+    assert (x0, x1) == (78, 98) and y0 < y1
+    grey = np.arange(65536, dtype="uint16").reshape(256, 256).astype("uint8")
+    alpha = np.where(grey % 2 == 0, 255, 0).astype("uint8")
+    g, a = decode_tile(png_grey_alpha(grey, alpha))
+    assert np.array_equal(g, grey) and np.array_equal(a, alpha)

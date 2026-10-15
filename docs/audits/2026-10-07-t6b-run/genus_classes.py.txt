@@ -1,0 +1,33 @@
+"""Genera in TreeMap 2023's tree table: in T5's class lists or not, with FIA species-code ranges.
+
+Checks whether FIA's own code convention (SPCD under 300 softwood, 300 and over hardwood) agrees
+with T5's conifer and broadleaf lists for every listed genus, and lists the genera in neither.
+"""
+import csv, io, json, zipfile
+from collections import defaultdict
+from forager_forecast.crown_cover import BROADLEAF_GENERA, CONIFER_GENERA
+Z = "/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t5/treemap2023/RDS-2026-0038.zip"
+spcd = defaultdict(set); rows = defaultdict(int); live5 = defaultdict(int); names = defaultdict(set)
+with zipfile.ZipFile(Z) as z, z.open("Data/TreeMap2023_CONUS_Tree_Table.csv") as f:
+    for r in csv.DictReader(io.TextIOWrapper(f, encoding="utf-8-sig")):
+        g = r["SCIENTIFIC_NAME"].split()[0]
+        spcd[g].add(int(r["SPCD"])); rows[g] += 1; names[g].add(r["COMMON_NAME"])
+        try:
+            d = float(r["DIA"])
+        except ValueError:
+            d = 0.0
+        live5[g] += r["STATUSCD"] == "1" and d >= 5.0
+out = {"listed_disagreeing_with_fia_codes": [], "unlisted": []}
+for g in sorted(spcd):
+    soft = all(s < 300 for s in spcd[g]); hard = all(s >= 300 for s in spcd[g])
+    if g in CONIFER_GENERA or g in BROADLEAF_GENERA:
+        if (g in CONIFER_GENERA and not soft) or (g in BROADLEAF_GENERA and not hard):
+            out["listed_disagreeing_with_fia_codes"].append([g, sorted(spcd[g])])
+    else:
+        out["unlisted"].append({"genus": g, "rows": rows[g], "live_5in_plus": live5[g],
+                                "spcd": sorted(spcd[g]), "by_fia_code": "conifer" if soft else
+                                "broadleaf" if hard else "mixed", "names": sorted(names[g])[:6]})
+out["unlisted_rows"] = sum(u["rows"] for u in out["unlisted"])
+out["unlisted_live_5in_plus"] = sum(u["live_5in_plus"] for u in out["unlisted"])
+out["all_rows"] = sum(rows.values()); out["all_live_5in_plus"] = sum(live5.values())
+print(json.dumps(out, indent=1))

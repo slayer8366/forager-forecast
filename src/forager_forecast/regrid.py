@@ -93,12 +93,49 @@ def area_weighted_regrid(
     CRS. A cell with no valid overlap is NaN with fraction 0. A cell that reaches past the native
     raster raises: a gap there would be the fetch's fault, not the soil's.
     """
+    a = _north_up(native_transform)
+
+    def pixel_position(nx, ny):
+        return (nx - a.c) / a.a, (ny - a.f) / a.e
+
+    return _regrid(native, pixel_position, to_native, window, chunk_rows)
+
+
+def area_weighted_regrid_from_origin(
+    native: np.ndarray,
+    source_transform: Affine,
+    col_off: int,
+    row_off: int,
+    to_native: ToNative,
+    window: GridWindow,
+    chunk_rows: int = 64,
+) -> tuple[np.ndarray, np.ndarray]:
+    """As ``area_weighted_regrid``, for a subset starting at (``col_off``, ``row_off``) of a source.
+
+    T6b (D115 item 5). Positions are computed against the whole source raster's transform, then the
+    integer offset is taken off, which is exact. So a cell's arithmetic does not depend on where a
+    tile's subset starts, and the same cell comes out bit-identical from any tile. The
+    window-relative form above differs in the last bits between subsets (T6b verify report,
+    section 3, edge_origin_probe).
+    """
+    a = _north_up(source_transform)
+
+    def pixel_position(nx, ny):
+        return (nx - a.c) / a.a - col_off, (ny - a.f) / a.e - row_off
+
+    return _regrid(native, pixel_position, to_native, window, chunk_rows)
+
+
+def _north_up(a: Affine) -> Affine:
+    if a.b != 0 or a.d != 0 or a.a <= 0 or a.e >= 0:
+        raise ValueError("native raster must be north-up with no rotation")
+    return a
+
+
+def _regrid(native, pixel_position, to_native, window, chunk_rows):
     native = np.asarray(native, dtype="float64")
     if native.ndim != 3:
         raise ValueError("native must be (bands, rows, cols)")
-    a = native_transform
-    if a.b != 0 or a.d != 0 or a.a <= 0 or a.e >= 0:
-        raise ValueError("native raster must be north-up with no rotation")
     bands, nrows, ncols = native.shape
     finite = np.isfinite(native)
     values = np.full((bands, window.height, window.width), np.nan)
@@ -110,8 +147,9 @@ def area_weighted_regrid(
         ys = window.top - CELL_SIZE_M * np.arange(r0, r1 + 1, dtype="float64")
         gx, gy = np.meshgrid(xs, ys)
         nx, ny = to_native(gx.ravel(), gy.ravel())
-        u = ((np.asarray(nx) - a.c) / a.a).reshape(gx.shape)
-        v = ((np.asarray(ny) - a.f) / a.e).reshape(gx.shape)
+        u, v = pixel_position(np.asarray(nx), np.asarray(ny))
+        u = u.reshape(gx.shape)
+        v = v.reshape(gx.shape)
         quad = np.stack(
             [
                 np.stack([u[:-1, :-1], v[:-1, :-1]], axis=-1),

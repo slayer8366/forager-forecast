@@ -1,0 +1,40 @@
+"""Read-only count: Canadian tree tiles whose SCANFI native window reaches past the raster,
+and Canadian study cells whose area lies (partly or wholly) past it."""
+import json, math, sys
+from pathlib import Path
+import numpy as np, rasterio
+from rasterio.windows import from_bounds
+from forager_forecast.t5_layer import native_bounds, SCANFI_CRS_WKT, _to_native
+from forager_forecast.t6b_layers import Tile, MIN_VALID_FRACTION
+from forager_forecast.t6b_mask import cells_in_study, read_mask, SIDE_CA
+from forager_forecast.regrid import area_weighted_regrid_from_origin
+
+T6B = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b")
+tiles = [t for t in json.loads((T6B / "tiles_trees.json").read_text()) if t["canada"]]
+out = []
+with rasterio.open(T6B / "scanfi_whole/balsamFir.tif") as ds:
+    W, H, tr = ds.width, ds.height, ds.transform
+for t in tiles:
+    tile = Tile(t["i"], t["j"], t["n"])
+    raw = from_bounds(*native_bounds(tile.window, SCANFI_CRS_WKT), transform=tr)
+    c0, r0 = math.floor(raw.col_off), math.floor(raw.row_off)
+    c1, r1 = math.ceil(raw.col_off + raw.width), math.ceil(raw.row_off + raw.height)
+    if not (c0 < 0 or r0 < 0 or c1 > W or r1 > H):
+        continue
+    study, side = cells_in_study(tile.window, *read_mask(T6B / "mask.tif", tile.window))
+    ca = study & (side == SIDE_CA)
+    rr, cc = np.mgrid[r0:r1, c0:c1]
+    inside = (rr >= 0) & (rr < H) & (cc >= 0) & (cc < W)
+    native = np.where(inside, 1.0, np.nan)[None]
+    _, f = area_weighted_regrid_from_origin(native, tr, c0, r0, _to_native(SCANFI_CRS_WKT), tile.window)
+    f = f[0]
+    rec = {"tile": tile.key, "c0": c0, "r0": r0, "c1": c1, "r1": r1,
+           "native_pixels_past": int((~inside).sum()), "native_pixels": int(inside.size),
+           "ca_study_cells": int(ca.sum()),
+           "ca_cells_partly_past": int((ca & (f < 1) & (f > 0)).sum()),
+           "ca_cells_wholly_past": int((ca & (f == 0)).sum()),
+           "ca_cells_below_half_from_edge": int((ca & (f < MIN_VALID_FRACTION)).sum()),
+           "any_study_cells_touching_past": int((study & (f < 1)).sum())}
+    out.append(rec); print(json.dumps(rec), flush=True)
+tot = {k: sum(r[k] for r in out) for k in out[0] if isinstance(out[0][k], int) and k not in ("c0","r0","c1","r1")} if out else {}
+print("SUMMARY", json.dumps({"canadian_tiles": len(tiles), "tiles_past_edge": len(out), **tot}))
