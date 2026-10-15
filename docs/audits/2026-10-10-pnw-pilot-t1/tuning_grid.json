@@ -1,0 +1,219 @@
+{
+  "written": "2026-10-10, before any T1 fit (D31)",
+  "seed": 20260918,
+  "grid": {
+    "num_leaves": [
+      7,
+      15,
+      31,
+      63
+    ],
+    "learning_rate": [
+      0.02,
+      0.05,
+      0.1
+    ],
+    "num_boost_round": [
+      100,
+      200,
+      400
+    ],
+    "min_data_in_leaf": [
+      20,
+      50,
+      100,
+      200
+    ],
+    "feature_fraction": [
+      0.7,
+      1.0
+    ],
+    "lambda_l2": [
+      0.0,
+      1.0,
+      10.0
+    ]
+  },
+  "configurations": [
+    {
+      "id": "c00",
+      "num_leaves": 7,
+      "learning_rate": 0.05,
+      "num_boost_round": 200,
+      "min_data_in_leaf": 50,
+      "feature_fraction": 0.7,
+      "lambda_l2": 1.0
+    },
+    {
+      "id": "c01",
+      "num_leaves": 63,
+      "learning_rate": 0.1,
+      "num_boost_round": 200,
+      "min_data_in_leaf": 100,
+      "feature_fraction": 1.0,
+      "lambda_l2": 0.0
+    },
+    {
+      "id": "c02",
+      "num_leaves": 7,
+      "learning_rate": 0.05,
+      "num_boost_round": 200,
+      "min_data_in_leaf": 200,
+      "feature_fraction": 1.0,
+      "lambda_l2": 1.0
+    },
+    {
+      "id": "c03",
+      "num_leaves": 63,
+      "learning_rate": 0.1,
+      "num_boost_round": 200,
+      "min_data_in_leaf": 200,
+      "feature_fraction": 0.7,
+      "lambda_l2": 1.0
+    },
+    {
+      "id": "c04",
+      "num_leaves": 7,
+      "learning_rate": 0.02,
+      "num_boost_round": 100,
+      "min_data_in_leaf": 200,
+      "feature_fraction": 1.0,
+      "lambda_l2": 1.0
+    },
+    {
+      "id": "c05",
+      "num_leaves": 63,
+      "learning_rate": 0.1,
+      "num_boost_round": 200,
+      "min_data_in_leaf": 50,
+      "feature_fraction": 0.7,
+      "lambda_l2": 10.0
+    },
+    {
+      "id": "c06",
+      "num_leaves": 31,
+      "learning_rate": 0.1,
+      "num_boost_round": 400,
+      "min_data_in_leaf": 200,
+      "feature_fraction": 0.7,
+      "lambda_l2": 1.0
+    },
+    {
+      "id": "c07",
+      "num_leaves": 63,
+      "learning_rate": 0.1,
+      "num_boost_round": 200,
+      "min_data_in_leaf": 200,
+      "feature_fraction": 1.0,
+      "lambda_l2": 10.0
+    },
+    {
+      "id": "c08",
+      "num_leaves": 31,
+      "learning_rate": 0.05,
+      "num_boost_round": 100,
+      "min_data_in_leaf": 200,
+      "feature_fraction": 0.7,
+      "lambda_l2": 1.0
+    },
+    {
+      "id": "c09",
+      "num_leaves": 63,
+      "learning_rate": 0.02,
+      "num_boost_round": 100,
+      "min_data_in_leaf": 50,
+      "feature_fraction": 1.0,
+      "lambda_l2": 1.0
+    },
+    {
+      "id": "c10",
+      "num_leaves": 15,
+      "learning_rate": 0.05,
+      "num_boost_round": 200,
+      "min_data_in_leaf": 20,
+      "feature_fraction": 1.0,
+      "lambda_l2": 10.0
+    },
+    {
+      "id": "c11",
+      "num_leaves": 31,
+      "learning_rate": 0.05,
+      "num_boost_round": 100,
+      "min_data_in_leaf": 20,
+      "feature_fraction": 1.0,
+      "lambda_l2": 10.0
+    },
+    {
+      "id": "c12",
+      "num_leaves": 63,
+      "learning_rate": 0.1,
+      "num_boost_round": 100,
+      "min_data_in_leaf": 200,
+      "feature_fraction": 0.7,
+      "lambda_l2": 10.0
+    },
+    {
+      "id": "c13",
+      "num_leaves": 63,
+      "learning_rate": 0.05,
+      "num_boost_round": 200,
+      "min_data_in_leaf": 100,
+      "feature_fraction": 1.0,
+      "lambda_l2": 10.0
+    },
+    {
+      "id": "c14",
+      "num_leaves": 31,
+      "learning_rate": 0.02,
+      "num_boost_round": 100,
+      "min_data_in_leaf": 100,
+      "feature_fraction": 1.0,
+      "lambda_l2": 1.0
+    },
+    {
+      "id": "c15",
+      "num_leaves": 63,
+      "learning_rate": 0.02,
+      "num_boost_round": 400,
+      "min_data_in_leaf": 200,
+      "feature_fraction": 1.0,
+      "lambda_l2": 1.0
+    },
+    {
+      "id": "c16",
+      "num_leaves": 15,
+      "learning_rate": 0.02,
+      "num_boost_round": 100,
+      "min_data_in_leaf": 100,
+      "feature_fraction": 1.0,
+      "lambda_l2": 10.0
+    },
+    {
+      "id": "c17",
+      "num_leaves": 7,
+      "learning_rate": 0.05,
+      "num_boost_round": 100,
+      "min_data_in_leaf": 20,
+      "feature_fraction": 0.7,
+      "lambda_l2": 1.0
+    },
+    {
+      "id": "c18",
+      "num_leaves": 63,
+      "learning_rate": 0.05,
+      "num_boost_round": 100,
+      "min_data_in_leaf": 20,
+      "feature_fraction": 0.7,
+      "lambda_l2": 10.0
+    },
+    {
+      "id": "c19",
+      "num_leaves": 63,
+      "learning_rate": 0.1,
+      "num_boost_round": 100,
+      "min_data_in_leaf": 20,
+      "feature_fraction": 0.7,
+      "lambda_l2": 1.0
+    }
+  ]
+}

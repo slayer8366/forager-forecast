@@ -1,0 +1,12 @@
+{
+  "compared_values": 192355,
+  "days": 365,
+  "points": 527,
+  "tolerance_m": 1e-05,
+  "max_abs_diff_m": 0.0,
+  "over_tolerance": 0,
+  "nan_positions_equal": true,
+  "diagnostic_convention_00_23_max_abs_diff_m": 0.008673667907714844,
+  "diagnostic_convention_00_23_over_tolerance": 97562,
+  "agree": true
+}
