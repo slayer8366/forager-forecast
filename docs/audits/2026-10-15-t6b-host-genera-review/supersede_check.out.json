@@ -1,0 +1,31 @@
+{
+ "before_unit_lines": 296,
+ "by_folder": {
+  "20261015T055455Z-trees": 15,
+  "20261015T133145Z-trees": 268,
+  "20261015T175840Z-trees": 13
+ },
+ "files_moved": 606,
+ "missing": [],
+ "hash_mismatch": [],
+ "stops": [],
+ "superseded_contents": {
+  "20261007T092335Z": {
+   ".": 5,
+   "tiles/soil": 2
+  },
+  "20261015T055437Z-plots": {
+   ".": 2
+  },
+  "20261015T055455Z-trees": {
+   "tiles/trees_us_half": 14,
+   "tiles/trees": 30
+  },
+  "20261015T133145Z-trees": {
+   "tiles/trees": 536
+  },
+  "20261015T175840Z-trees": {
+   "tiles/trees_us_half": 26
+  }
+ }
+}

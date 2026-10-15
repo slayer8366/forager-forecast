@@ -1,0 +1,117 @@
+"""D18 review of t6b-host-genera: the pnw-monday tile-edge check, re-run for the 24-band layout.
+
+The windows are scripts/pnw_checks.py's own (TREE_CORNERS and BORDER_CORNERS, fixed in
+docs/audits/2026-10-09-pnw-monday/check-rules.md). Each 64 x 64 window around a point where
+tiles meet is recomputed by the pipeline's own entry points (tree_tile, or tree_tile_us_half
+where the window holds Canadian cells) into a scratch folder off the drive, and compared with
+the stored tiles on every value and flag band, NaN for NaN.
+
+The 2026-10-11 review's S3: a window holding Canadian cells is recomputed as a US half, whose
+Canadian cells are pending, while the stored tile is now whole. So here the comparison of such
+a window is restricted to its non-Canadian cells (side from the mask), and the number of cells
+left out is recorded; the Canadian cells of those windows are not compared (S3 stands).
+
+This tests tiling invariance only (D115 item 5): it shares every input and line of code with
+the run. Correctness is recompute_new.py's job. Usage: edges_new.py <out.json>. Reads the
+drive; writes only under /mnt/work/host-genera-review/edges and <out.json>.
+"""
+
+import json
+import sys
+import time
+from pathlib import Path
+
+import numpy as np
+import rasterio
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "scripts"))
+import pnw_checks as pc  # noqa: E402
+
+from forager_forecast.t6b_layers import tree_tile, tree_tile_us_half, us_half_names  # noqa: E402
+from forager_forecast.t6b_mask import SIDE_CA, SIDE_US, cells_in_study, read_mask  # noqa: E402
+
+SCRATCH = Path("/mnt/work/host-genera-review/edges")
+NEW = ("Larix", "Betula", "Populus", "Alnus", "Lithocarpus", "Chrysolepis", "Arbutus", "Fagus",
+       "Carya", "Tilia", "Ostrya", "Carpinus", "ecm_hosts")  # fmt: skip
+
+
+def compare(path, stored, missing, exclude):
+    with rasterio.open(path) as ds:
+        names = list(ds.descriptions)
+        got = {n: ds.read(k + 1) for k, n in enumerate(names)}
+    skip = missing | exclude
+    diffs = {}
+    for n in names:
+        a, b = got[n], stored[n]
+        same = (a == b) | (np.isnan(a) & np.isnan(b)) if a.dtype.kind == "f" else a == b
+        diffs[n] = int((~(same | skip)).sum())
+    return names, diffs, int((~skip).sum())
+
+
+def main(out_path):
+    SCRATCH.mkdir(parents=True, exist_ok=True)
+    rows, total_bad = [], 0
+    for col, row in sorted(set(pc.TREE_CORNERS) | set(pc.BORDER_CORNERS)):
+        t = pc.EdgeTile(col, row)
+        study, side = cells_in_study(t.window, *read_mask(pc.MASK, t.window))
+        has_ca, has_us = bool((side == SIDE_CA).any()), bool((side == SIDE_US).any())
+        entry = {"point": [col, row], "study_cells": int(study.sum()), "canada_cells":
+                 int((side == SIDE_CA).sum())}  # fmt: skip
+        if not study.any() or (has_ca and not has_us):
+            entry["result"] = "not compared: no study cell" if not study.any() else (
+                "not compared: Canadian cells only")
+            rows.append(entry)
+            continue
+        t0 = time.time()
+        try:
+            if has_ca:
+                tree_tile_us_half(t, pc.MASK, pc.TREEMAP / "TreeMap2023_CONUS.tif", pc.PLOTS,
+                                  pc.NALCMS, SCRATCH)  # fmt: skip
+                v, f = (SCRATCH / n for n in us_half_names(t.key))
+                entry["entry_point"] = "tree_tile_us_half"
+            else:
+                tree_tile(t, pc.MASK, pc.TREEMAP / "TreeMap2023_CONUS.tif", pc.PLOTS, None,
+                          pc.NALCMS, SCRATCH)  # fmt: skip
+                v, f = SCRATCH / f"trees_{t.key}.tif", SCRATCH / f"trees_flags_{t.key}.tif"
+                entry["entry_point"] = "tree_tile"
+        except ValueError as err:
+            entry["result"] = f"not computed: {err}"
+            rows.append(entry)
+            print(json.dumps({"point": entry["point"], "result": entry["result"]}), flush=True)
+            continue
+        entry["seconds"] = round(time.time() - t0, 1)
+        with rasterio.open(v) as ds:
+            vnames = list(ds.descriptions)
+        with rasterio.open(f) as ds:
+            fnames = list(ds.descriptions)
+        try:
+            sv, mv = pc._stored(t.window, 256, "trees", "trees_us_half", vnames)
+            sf, mf = pc._stored(t.window, 256, "trees_flags", "trees_flags_us_half", fnames)
+        except ValueError as err:  # a stored tile of the old layout in the window: reported
+            entry["result"] = f"not compared: stored tiles unreadable as 24 bands: {err}"
+            rows.append(entry)
+            print(json.dumps({"point": entry["point"], "result": entry["result"]}), flush=True)
+            continue
+        exclude = side == SIDE_CA
+        _, dv, nv = compare(v, sv, mv, exclude)
+        _, df, nf = compare(f, sf, mf, exclude)
+        bad = sum(dv.values()) + sum(df.values())
+        total_bad += bad
+        entry.update({
+            "bands": len(vnames), "cells_compared": nv, "canadian_cells_left_out": int(exclude.sum()),
+            "tiles_missing_cells": int(mv.sum()),
+            "cells_with_a_new_share_above_0": int(sum(
+                (np.nan_to_num(sv[f"share_{b}"]) > 0) & ~mv & ~exclude for b in NEW[:-1]
+            ).astype(bool).sum()),
+            "values_differing": dv, "flags_differing": df,
+            "result": "agree exactly" if bad == 0 else f"FAIL: {bad} band-cells differ",
+        })  # fmt: skip
+        rows.append(entry)
+        print(json.dumps({"point": entry["point"], "result": entry["result"],
+                          "compared": nv}), flush=True)  # fmt: skip
+    out = {"windows": rows, "band_cells_differing_total": total_bad, "peak_rss_mb": pc.peak_mb()}
+    Path(out_path).write_text(json.dumps(out, indent=1) + "\n")
+
+
+if __name__ == "__main__":
+    main(sys.argv[1])

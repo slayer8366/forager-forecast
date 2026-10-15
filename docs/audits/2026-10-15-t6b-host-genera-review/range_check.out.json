@@ -1,0 +1,441 @@
+{
+ "Larix": {
+  "lat40": {
+   "defined": 562824,
+   "above_0": 3058,
+   "mean_share": 4e-05
+  },
+  "lat41": {
+   "defined": 489904,
+   "above_0": 8064,
+   "mean_share": 0.00011
+  },
+  "lat42": {
+   "defined": 567945,
+   "above_0": 22394,
+   "mean_share": 0.00025
+  },
+  "lat43": {
+   "defined": 626853,
+   "above_0": 50568,
+   "mean_share": 0.00103
+  },
+  "lat44": {
+   "defined": 900673,
+   "above_0": 238389,
+   "mean_share": 0.00881
+  },
+  "lat45": {
+   "defined": 938730,
+   "above_0": 362999,
+   "mean_share": 0.01491
+  },
+  "lat46": {
+   "defined": 932857,
+   "above_0": 408736,
+   "mean_share": 0.01779
+  },
+  "lat47": {
+   "defined": 967553,
+   "above_0": 536059,
+   "mean_share": 0.0346
+  },
+  "lat48": {
+   "defined": 1003743,
+   "above_0": 750654,
+   "mean_share": 0.06394
+  },
+  "lon0": {
+   "defined": 2047105,
+   "above_0": 36882,
+   "mean_share": 0.00015
+  },
+  "lon1": {
+   "defined": 1346829,
+   "above_0": 378477,
+   "mean_share": 0.00913
+  },
+  "lon2": {
+   "defined": 3597148,
+   "above_0": 1965562,
+   "mean_share": 0.0346
+  }
+ },
+ "Betula": {
+  "lat40": {
+   "defined": 562824,
+   "above_0": 106,
+   "mean_share": 0.0
+  },
+  "lat41": {
+   "defined": 489904,
+   "above_0": 303,
+   "mean_share": 0.0
+  },
+  "lat42": {
+   "defined": 567945,
+   "above_0": 7005,
+   "mean_share": 7e-05
+  },
+  "lat43": {
+   "defined": 626853,
+   "above_0": 11784,
+   "mean_share": 0.00055
+  },
+  "lat44": {
+   "defined": 900673,
+   "above_0": 11938,
+   "mean_share": 0.00014
+  },
+  "lat45": {
+   "defined": 938730,
+   "above_0": 40391,
+   "mean_share": 0.00023
+  },
+  "lat46": {
+   "defined": 932857,
+   "above_0": 98075,
+   "mean_share": 0.00076
+  },
+  "lat47": {
+   "defined": 967553,
+   "above_0": 202278,
+   "mean_share": 0.00169
+  },
+  "lat48": {
+   "defined": 1003743,
+   "above_0": 283822,
+   "mean_share": 0.00388
+  },
+  "lon0": {
+   "defined": 2047105,
+   "above_0": 77624,
+   "mean_share": 0.00013
+  },
+  "lon1": {
+   "defined": 1346829,
+   "above_0": 49517,
+   "mean_share": 0.00018
+  },
+  "lon2": {
+   "defined": 3597148,
+   "above_0": 528561,
+   "mean_share": 0.00179
+  }
+ },
+ "Populus": {
+  "lat40": {
+   "defined": 562824,
+   "above_0": 106739,
+   "mean_share": 0.0663
+  },
+  "lat41": {
+   "defined": 489904,
+   "above_0": 104917,
+   "mean_share": 0.06337
+  },
+  "lat42": {
+   "defined": 567945,
+   "above_0": 154860,
+   "mean_share": 0.05242
+  },
+  "lat43": {
+   "defined": 626853,
+   "above_0": 189399,
+   "mean_share": 0.02491
+  },
+  "lat44": {
+   "defined": 900673,
+   "above_0": 239320,
+   "mean_share": 0.00647
+  },
+  "lat45": {
+   "defined": 938730,
+   "above_0": 255302,
+   "mean_share": 0.00418
+  },
+  "lat46": {
+   "defined": 932857,
+   "above_0": 299053,
+   "mean_share": 0.0061
+  },
+  "lat47": {
+   "defined": 967553,
+   "above_0": 410543,
+   "mean_share": 0.00859
+  },
+  "lat48": {
+   "defined": 1003743,
+   "above_0": 425812,
+   "mean_share": 0.01013
+  },
+  "lon0": {
+   "defined": 2047105,
+   "above_0": 649706,
+   "mean_share": 0.00478
+  },
+  "lon1": {
+   "defined": 1346829,
+   "above_0": 250465,
+   "mean_share": 0.00338
+  },
+  "lon2": {
+   "defined": 3597148,
+   "above_0": 1285774,
+   "mean_share": 0.03707
+  }
+ },
+ "Alnus": {
+  "lat40": {
+   "defined": 562824,
+   "above_0": 98989,
+   "mean_share": 0.00294
+  },
+  "lat41": {
+   "defined": 489904,
+   "above_0": 67936,
+   "mean_share": 0.00421
+  },
+  "lat42": {
+   "defined": 567945,
+   "above_0": 136764,
+   "mean_share": 0.01261
+  },
+  "lat43": {
+   "defined": 626853,
+   "above_0": 220168,
+   "mean_share": 0.04619
+  },
+  "lat44": {
+   "defined": 900673,
+   "above_0": 199547,
+   "mean_share": 0.04135
+  },
+  "lat45": {
+   "defined": 938730,
+   "above_0": 228902,
+   "mean_share": 0.04696
+  },
+  "lat46": {
+   "defined": 932857,
+   "above_0": 290868,
+   "mean_share": 0.06685
+  },
+  "lat47": {
+   "defined": 967553,
+   "above_0": 336129,
+   "mean_share": 0.05495
+  },
+  "lat48": {
+   "defined": 1003743,
+   "above_0": 203625,
+   "mean_share": 0.02874
+  },
+  "lon0": {
+   "defined": 2047105,
+   "above_0": 1400093,
+   "mean_share": 0.11792
+  },
+  "lon1": {
+   "defined": 1346829,
+   "above_0": 264344,
+   "mean_share": 0.01731
+  },
+  "lon2": {
+   "defined": 3597148,
+   "above_0": 118491,
+   "mean_share": 0.00023
+  }
+ },
+ "Lithocarpus": {
+  "lat40": {
+   "defined": 562824,
+   "above_0": 165226,
+   "mean_share": 0.04039
+  },
+  "lat41": {
+   "defined": 489904,
+   "above_0": 127913,
+   "mean_share": 0.05343
+  },
+  "lat42": {
+   "defined": 567945,
+   "above_0": 189828,
+   "mean_share": 0.04838
+  },
+  "lat43": {
+   "defined": 626853,
+   "above_0": 114303,
+   "mean_share": 0.00436
+  },
+  "lat44": {
+   "defined": 900673,
+   "above_0": 27314,
+   "mean_share": 0.00027
+  },
+  "lat45": {
+   "defined": 938730,
+   "above_0": 11992,
+   "mean_share": 0.00017
+  },
+  "lat46": {
+   "defined": 932857,
+   "above_0": 3208,
+   "mean_share": 3e-05
+  },
+  "lat47": {
+   "defined": 967553,
+   "above_0": 2036,
+   "mean_share": 2e-05
+  },
+  "lat48": {
+   "defined": 1003743,
+   "above_0": 623,
+   "mean_share": 0.0
+  },
+  "lon0": {
+   "defined": 2047105,
+   "above_0": 631489,
+   "mean_share": 0.03878
+  },
+  "lon1": {
+   "defined": 1346829,
+   "above_0": 10938,
+   "mean_share": 0.00014
+  },
+  "lon2": {
+   "defined": 3597148,
+   "above_0": 16,
+   "mean_share": 0.0
+  }
+ },
+ "Chrysolepis": {
+  "lat40": {
+   "defined": 562824,
+   "above_0": 53345,
+   "mean_share": 0.00099
+  },
+  "lat41": {
+   "defined": 489904,
+   "above_0": 93003,
+   "mean_share": 0.0031
+  },
+  "lat42": {
+   "defined": 567945,
+   "above_0": 188018,
+   "mean_share": 0.00494
+  },
+  "lat43": {
+   "defined": 626853,
+   "above_0": 192310,
+   "mean_share": 0.00222
+  },
+  "lat44": {
+   "defined": 900673,
+   "above_0": 153225,
+   "mean_share": 0.00082
+  },
+  "lat45": {
+   "defined": 938730,
+   "above_0": 133645,
+   "mean_share": 0.00054
+  },
+  "lat46": {
+   "defined": 932857,
+   "above_0": 121742,
+   "mean_share": 0.0004
+  },
+  "lat47": {
+   "defined": 967553,
+   "above_0": 78874,
+   "mean_share": 0.0002
+  },
+  "lat48": {
+   "defined": 1003743,
+   "above_0": 16908,
+   "mean_share": 2e-05
+  },
+  "lon0": {
+   "defined": 2047105,
+   "above_0": 927936,
+   "mean_share": 0.0038
+  },
+  "lon1": {
+   "defined": 1346829,
+   "above_0": 103062,
+   "mean_share": 0.00024
+  },
+  "lon2": {
+   "defined": 3597148,
+   "above_0": 72,
+   "mean_share": 0.0
+  }
+ },
+ "Arbutus": {
+  "lat40": {
+   "defined": 562824,
+   "above_0": 228680,
+   "mean_share": 0.01807
+  },
+  "lat41": {
+   "defined": 489904,
+   "above_0": 179470,
+   "mean_share": 0.02201
+  },
+  "lat42": {
+   "defined": 567945,
+   "above_0": 248276,
+   "mean_share": 0.0441
+  },
+  "lat43": {
+   "defined": 626853,
+   "above_0": 146068,
+   "mean_share": 0.01187
+  },
+  "lat44": {
+   "defined": 900673,
+   "above_0": 48203,
+   "mean_share": 0.00085
+  },
+  "lat45": {
+   "defined": 938730,
+   "above_0": 31104,
+   "mean_share": 0.00044
+  },
+  "lat46": {
+   "defined": 932857,
+   "above_0": 11494,
+   "mean_share": 8e-05
+  },
+  "lat47": {
+   "defined": 967553,
+   "above_0": 22661,
+   "mean_share": 8e-05
+  },
+  "lat48": {
+   "defined": 1003743,
+   "above_0": 8338,
+   "mean_share": 6e-05
+  },
+  "lon0": {
+   "defined": 2047105,
+   "above_0": 864038,
+   "mean_share": 0.02627
+  },
+  "lon1": {
+   "defined": 1346829,
+   "above_0": 59871,
+   "mean_share": 0.00077
+  },
+  "lon2": {
+   "defined": 3597148,
+   "above_0": 385,
+   "mean_share": 0.0
+  }
+ },
+ "_lon_bands": {
+  "lon0": "west of 122 W",
+  "lon1": "122 to 120 W",
+  "lon2": "east of 120 W"
+ }
+}

@@ -1,0 +1,52 @@
+"""D18 review of t6b-host-genera: the trees-only supersede on the drive, read only.
+
+Every manifest line of kind before_unit that moved files: each moved file must exist under its
+superseded_to folder at the same path below t6b/, and hash to the sha256 the line recorded. Also
+lists what each superseded folder holds (by subfolder) so nothing but tree outputs and the plot
+table was moved, and counts before_unit lines that stopped a section. Usage: supersede_check.py
+<out.json>.
+"""
+
+import hashlib
+import json
+import sys
+from collections import Counter
+from pathlib import Path
+
+T6B = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b")
+
+
+def sha(p):
+    return hashlib.sha256(p.read_bytes()).hexdigest()
+
+
+def main(out_path):
+    lines = [json.loads(x) for x in open(T6B / "manifest.jsonl")]
+    bu = [e for e in lines if e.get("kind") == "before_unit"]
+    out = {"before_unit_lines": len(bu), "by_folder": Counter(), "files_moved": 0,
+           "missing": [], "hash_mismatch": [], "stops": [e for e in bu if e.get("stop_section")]}
+    for e in bu:
+        if not e.get("superseded"):
+            continue
+        dest = Path(e["superseded_to"])
+        out["by_folder"][dest.name] += 1
+        for name, want in e["superseded"].items():
+            sub = "trees_us_half" if "us_half" in name else "trees"
+            p = dest / "tiles" / sub / name
+            out["files_moved"] += 1
+            if not p.exists():
+                out["missing"].append(str(p))
+            elif sha(p) != want:
+                out["hash_mismatch"].append(str(p))
+    contents = {}
+    for d in sorted((T6B / "superseded").iterdir()):
+        contents[d.name] = dict(Counter(str(p.parent.relative_to(d)) for p in d.rglob("*")
+                                        if p.is_file()))
+    out["superseded_contents"] = contents
+    out["by_folder"] = dict(out["by_folder"])
+    Path(out_path).write_text(json.dumps(out, indent=1) + "\n")
+    print(json.dumps(out, indent=1))
+
+
+if __name__ == "__main__":
+    main(sys.argv[1])
