@@ -1,0 +1,437 @@
+"""Scoring from the store's files (owner, Forager RECORD -819): synthetic NetCDF in the layout the
+store delivers, built by scripts/pnw_pilot_cds_build.py (pnw_weather.build itself), scored by
+scripts/pnw_pilot_score.py --cds-npz. No network."""
+
+import json
+import subprocess
+import sys
+from datetime import date, timedelta
+from pathlib import Path
+
+import h5py
+import numpy as np
+import pytest
+
+from forager_forecast import live_weather as lw
+from forager_forecast import pilot_output as po
+from forager_forecast.cells import IsoWeek
+from forager_forecast.daily_grid import feature_names
+from forager_forecast.weather_windows import (
+    DailyWeather,
+    calendar_place_features,
+    window_features,
+)
+
+ROOT = Path(__file__).parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+from pnw_pilot_cds_build import build_window  # noqa: E402
+
+WEEK = IsoWeek(2026, 41)
+START, END = lw.window_span(WEEK)
+LAT = np.array([47.1, 47.0])  # descending, as the store delivers
+LON = np.array([-123.0, -122.9])
+QLAT = np.array([47.25, 47.0])
+QLON = np.array([-123.0, -122.75])
+# Cells with a land point under RECORD -822: the 4 x 4 block 46.9 to 47.2 N, 123.1 to 122.8 W
+# around the 2 x 2 delivered points, less 472_-1231, whose only neighbour in the block is the
+# sea point 471_-1230.
+BLOCK = sorted(
+    f"{a}_{b}" for a in range(469, 473) for b in range(-1231, -1227) if (a, b) != (472, -1231)
+)
+NAMES = ["doy_sin", "doy_cos", "latitude", "longitude", *feature_names()]
+
+
+def _write(path: Path, first: date, n: int, lat, lon, variables: dict) -> None:
+    with h5py.File(path, "w") as h:
+        h["valid_time"] = np.arange(n, dtype=np.int64)
+        h["valid_time"].attrs.create("units", np.bytes_(f"days since {first.isoformat()}"))
+        h["latitude"] = lat
+        h["longitude"] = lon
+        for k, v in variables.items():
+            h[k] = v.astype(np.float32)
+
+
+@pytest.fixture
+def store(tmp_path):
+    rng = np.random.default_rng(20260918)
+    cds = tmp_path / "cds"
+    cds.mkdir()
+    for month, days in ((7, 31), (8, 31), (9, 30), (10, 4)):  # October only to the 4th
+        shape = (days, len(LAT), len(LON))
+        swvl1 = rng.uniform(0.1, 0.4, size=shape)
+        swvl1[:, 0, 0] = np.nan  # one sea cell: ERA5-Land has no value
+        t2m = rng.normal(285, 4, size=shape)
+        t2m[:, 0, 0] = np.nan
+        stl1 = rng.normal(284, 3, size=shape)
+        stl1[:, 0, 0] = np.nan
+        _write(
+            cds / f"era5land-2026-{month:02d}.nc",
+            date(2026, month, 1),
+            days,
+            LAT,
+            LON,
+            {"t2m": t2m, "stl1": stl1, "swvl1": swvl1},
+        )
+    n = (date(2026, 10, 4) - date(2026, 7, 1)).days + 1
+    tp = rng.gamma(0.5, 0.004, size=(n, len(QLAT), len(QLON)))  # metres
+    _write(cds / "era5-precip-2026.nc", date(2026, 7, 1), n, QLAT, QLON, {"tp": tp})
+    return tmp_path
+
+
+def test_store_files_build_score_and_match_independent_features(store):
+    npz = store / "w41.npz"
+    summary = build_window(store / "cds", npz, WEEK)
+    assert summary["days_missing_on_any_point_with_data"] == {
+        "temperature": [],
+        "soil_temperature": [],
+        "soil_moisture": [],
+        "precipitation": [],
+    }
+    import lightgbm as lgb
+
+    rng = np.random.default_rng(1)
+    x = rng.normal(size=(300, len(NAMES)))
+    y = (x[:, 5] + rng.normal(size=300) > 0.5).astype(float)
+    booster = lgb.train(
+        {"objective": "binary", "verbose": -1, "seed": 1, "num_leaves": 4, "min_data_in_leaf": 5},
+        lgb.Dataset(x, y),
+        num_boost_round=10,
+    )
+    model = store / "model"
+    model.mkdir()
+    booster.save_model(str(model / "model.txt"))
+    (model / "model.json").write_text(json.dumps({"feature_names": NAMES}))
+    done = subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/pnw_pilot_score.py"),
+            "--week",
+            WEEK.id,
+            "--cds-npz",
+            str(npz),
+            "--model",
+            str(model),
+            "--kind",
+            "full",
+            "--copernicus-sources",
+            "era5_daily_sum,era5_land_daily",
+            "--accessed",
+            json.dumps({"era5_daily_sum": "10-Oct-2026", "era5_land_daily": "10-Oct-2026"}),
+            "--out",
+            str(store / "out"),
+        ],
+        capture_output=True,
+        text=True,
+        cwd=ROOT,
+    )
+    assert done.returncode == 0, done.stderr
+    week_dir = store / "out" / "pnw-pilot" / "2026-10-05"
+    got = {
+        f["id"]: f["properties"]["chance"]
+        for f in json.loads((week_dir / "cantharellus.geojson").read_text())["features"]
+    }
+    # Of the four synthetic cells (471, -1230) has no ERA5-Land value; it reads its nearest land
+    # neighbour (RECORD -822). Worked by hand: from 47.1, -123.0, the point 47.1, -122.9 is 7.6 km
+    # away and 47.0, -123.0 is 11.1 km, so it reads (471, -1229).
+    # The 12 box cells around the delivered 2 x 2 points have no point of their own either, so
+    # they read a delivered neighbour too (BLOCK, 15 cells). Their chances are checked through
+    # the 4 delivered cells only.
+    assert sorted(got) == BLOCK
+    reads = {"471_-1230": (471, -1229)}
+    got = {
+        k: v for k, v in got.items() if k in ("470_-1229", "470_-1230", "471_-1229", "471_-1230")
+    }
+    with h5py.File(store / "cds" / "era5-precip-2026.nc") as h:
+        tp = h["tp"][:].astype(np.float64) * 1000.0
+    for cid, chance in got.items():
+        la, lo = (int(v) for v in cid.split("_"))
+        pla, plo = reads.get(cid, (la, lo))
+        i, j = (
+            list(np.round(LAT * 10).astype(int)).index(pla),
+            list(np.round(LON * 10).astype(int)).index(plo),
+        )
+        daily = {}
+        for month in (7, 8, 9, 10):
+            with h5py.File(store / "cds" / f"era5land-2026-{month:02d}.nc") as h:
+                for d in range(h["t2m"].shape[0]):
+                    day = date(2026, month, 1) + timedelta(days=d)
+                    q = (day - date(2026, 7, 1)).days
+                    qi = 1 if la <= 471 else 0  # 47.0 and 47.1 are nearest 47.0
+                    qj = 0  # -123.0 and -122.9 are nearest -123.0
+                    daily[day] = DailyWeather(
+                        day,
+                        float(h["t2m"][d, i, j]) - 273.15,
+                        float(tp[q, qi, qj]),
+                        float(h["stl1"][d, i, j]) - 273.15,
+                        float(h["swvl1"][d, i, j]),
+                    )
+        monday = WEEK.monday()
+        row = calendar_place_features(monday, la / 10, lo / 10)
+        row.update(window_features(daily, monday))
+        expected = float(booster.predict(np.array([list(row.values())]))[0])
+        assert chance == pytest.approx(expected, abs=5e-5), cid
+    manifest = json.loads((week_dir / "manifest.json").read_text())
+    assert manifest["weather_source"] == "copernicus"
+    assert manifest["attribution_sources"] == ["era5_daily_sum", "era5_land_daily", "gbif_download"]
+    assert "Open-Meteo" not in manifest["attribution"]
+    assert manifest["weather_through"] == "2026-10-04"
+
+
+def _calendar_model(path: Path):
+    import lightgbm as lgb
+
+    rng = np.random.default_rng(2)
+    x = rng.normal(size=(300, 4))
+    y = (x[:, 0] + rng.normal(size=300) > 0.5).astype(float)
+    booster = lgb.train(
+        {"objective": "binary", "verbose": -1, "seed": 1, "num_leaves": 4, "min_data_in_leaf": 5},
+        lgb.Dataset(x, y),
+        num_boost_round=10,
+    )
+    path.mkdir()
+    booster.save_model(str(path / "model.txt"))
+    (path / "model.json").write_text(json.dumps({"feature_names": NAMES[:4]}))
+    return booster
+
+
+def _score(store, *args):
+    return subprocess.run(
+        [
+            sys.executable,
+            str(ROOT / "scripts/pnw_pilot_score.py"),
+            "--week",
+            WEEK.id,
+            *args,
+            "--out",
+            str(store / "out"),
+        ],
+        capture_output=True,
+        text=True,
+        cwd=ROOT,
+    )
+
+
+def test_calendar_floor_scores_every_land_cell_without_weather(store):
+    booster = _calendar_model(store / "cal")
+    done = _score(
+        store,
+        "--land-from-store",
+        str(store / "cds"),
+        "--model",
+        str(store / "cal"),
+        "--kind",
+        "calendar",
+    )
+    assert done.returncode == 0, done.stderr
+    week_dir = store / "out" / "pnw-pilot" / "2026-10-05"
+    feats = json.loads((week_dir / "cantharellus.geojson").read_text())["features"]
+    got = {f["id"]: f["properties"] for f in feats}
+    # Cells with no value of their own read a delivered land neighbour (RECORD -822): the 2 x 2
+    # delivered points and the 12 cells around them.
+    assert sorted(got) == BLOCK
+    for cid, p in got.items():
+        la, lo = (int(v) for v in cid.split("_"))
+        row = calendar_place_features(WEEK.monday(), la / 10, lo / 10)
+        expected = float(booster.predict(np.array([list(row.values())]))[0])
+        assert p["chance"] == pytest.approx(expected, abs=5e-5)
+        assert p["weather_through"] is None and p["drivers"] == []
+    manifest = json.loads((week_dir / "manifest.json").read_text())
+    assert manifest["weather_source"] == "none"
+    assert manifest["attribution_sources"] == ["gbif_download"]
+    assert manifest["attribution"] == po.attribution({"gbif_download"})[0]
+    assert manifest["attribution_details"] == po.attribution({"gbif_download"})[1]
+    assert manifest["model_kind"] == "calendar"
+    assert manifest["weather_through"] is None
+
+
+def test_the_floor_refuses_the_weather_model(store):
+    done = _score(
+        store,
+        "--land-from-store",
+        str(store / "cds"),
+        "--model",
+        str(store / "cal"),
+        "--kind",
+        "full",
+    )
+    assert done.returncode != 0
+    assert "scores the calendar model only" in done.stderr
+
+
+def test_calendar_refuses_copernicus_sources(store):
+    _calendar_model(store / "cal")
+    done = _score(
+        store,
+        "--land-from-store",
+        str(store / "cds"),
+        "--model",
+        str(store / "cal"),
+        "--kind",
+        "calendar",
+        "--copernicus-sources",
+        "era5_daily_sum",
+    )
+    assert done.returncode != 0
+    assert "reads no weather" in done.stderr
+
+
+def test_building_a_window_leaves_the_training_builder_as_it_was(store):
+    import pnw_weather
+
+    before = (pnw_weather.START, pnw_weather.END, pnw_weather.N_DAYS)
+    build_window(store / "cds", store / "w.npz", WEEK)
+    assert (pnw_weather.START, pnw_weather.END, pnw_weather.N_DAYS) == before
+    summary = json.loads((store / "w.npz.summary.json").read_text())
+    assert summary["window"] == [START.isoformat(), END.isoformat()]
+
+
+GATE = {
+    "gate_pass": False,
+    "override_given": "Forager RECORD -854",
+    "failing_hours": [{"variable": "t2m", "store": 5.424951, "open_meteo": 5.5}],
+}
+
+
+def _full_model(path: Path, **meta):
+    import lightgbm as lgb
+
+    rng = np.random.default_rng(3)
+    x = rng.normal(size=(300, len(NAMES)))
+    y = (x[:, 5] + rng.normal(size=300) > 0.5).astype(float)
+    booster = lgb.train(
+        {"objective": "binary", "verbose": -1, "seed": 1, "num_leaves": 4, "min_data_in_leaf": 5},
+        lgb.Dataset(x, y),
+        num_boost_round=10,
+    )
+    path.mkdir()
+    booster.save_model(str(path / "model.txt"))
+    (path / "model.json").write_text(json.dumps({"feature_names": NAMES, **meta}))
+
+
+def _full_manifest(store, *extra, **meta):
+    npz = store / "w41.npz"
+    build_window(store / "cds", npz, WEEK)
+    _full_model(store / "full", **meta)
+    done = _score(
+        store,
+        "--cds-npz",
+        str(npz),
+        "--model",
+        str(store / "full"),
+        "--kind",
+        "full",
+        "--copernicus-sources",
+        "era5_daily_sum,era5_land_daily",
+        "--accessed",
+        json.dumps({"era5_daily_sum": "10-Oct-2026", "era5_land_daily": "10-Oct-2026"}),
+        *extra,
+    )
+    assert done.returncode == 0, done.stderr
+    return json.loads((store / "out" / "pnw-pilot" / "2026-10-05" / "manifest.json").read_text())
+
+
+def test_a_gate_record_in_the_model_is_credited_at_top_level(store):
+    # The embedded gate record carries the comparison service's values (Forager RECORD -863):
+    # they stay, credited as that service's licence requires, apart from the scoring attribution.
+    manifest = _full_manifest(store, land_route_gate=GATE)
+    assert manifest["model"]["model_json"]["land_route_gate"] == GATE
+    assert manifest["gate_record_attribution"].startswith(po.OPEN_METEO_CREDIT)
+    assert "model.model_json.land_route_gate" in manifest["gate_record_attribution"]
+    assert "Open-Meteo" not in manifest["attribution"]
+    assert "open_meteo" not in manifest["attribution_sources"]
+
+
+def test_no_gate_record_means_no_gate_credit(store):
+    assert _full_manifest(store)["gate_record_attribution"] is None
+
+
+REVIEWED_LABEL = (
+    "Pilot, not yet validated. Its figures were checked by an independent review. Shown whether "
+    "or not it beats the seasonal calendar."
+)  # the owner's wording, verbatim (Forager RECORD -863)
+
+
+def test_reviewed_true_sets_the_field_and_the_owners_label(store):
+    manifest = _full_manifest(store, "--reviewed", "true")
+    assert (manifest["pilot"], manifest["validated"], manifest["reviewed"]) == (True, False, True)
+    assert manifest["status_label"] == REVIEWED_LABEL
+
+
+def test_reviewed_defaults_to_false_with_the_label_unchanged(store):
+    manifest = _full_manifest(store)
+    assert manifest["reviewed"] is False
+    assert manifest["status_label"] == (
+        "Unvalidated pilot. Unreviewed. Shown whether or not it beats the calendar."
+    )
+
+
+def test_full_weather_source_names_what_scoring_and_training_each_read(store):
+    trained = ["era5_daily_sum", "era5_hourly_precipitation", "era5_land_hourly",
+               "era5_land_timeseries"]  # fmt: skip
+    text = _full_manifest(store, copernicus_sources=trained)["weather"]["source"]
+    scoring, training = text.split("Training read: ")
+    # The fixture's window comes from the two daily-statistics products.
+    assert "derived-era5-land-daily-statistics" in scoring
+    assert "derived-era5-single-levels-daily-statistics" in scoring
+    assert "reanalysis-era5-land " not in scoring and "timeseries" not in scoring
+    for name in ("derived-era5-single-levels-daily-statistics", "reanalysis-era5-single-levels ",
+                 "reanalysis-era5-land ", "reanalysis-era5-land-timeseries"):  # fmt: skip
+        assert name in training, name
+    assert "derived-era5-land-daily-statistics" not in training
+    assert "the products and requests training used" not in text
+
+
+def test_full_weather_source_says_so_when_training_sources_are_not_recorded(store):
+    text = _full_manifest(store)["weather"]["source"]
+    assert "Training read: not recorded in model.json" in text
+
+
+def test_calendar_weather_source_text_is_unchanged(store):
+    _calendar_model(store / "cal")
+    done = _score(
+        store, "--land-from-store", str(store / "cds"), "--model", str(store / "cal"),
+        "--kind", "calendar",
+    )  # fmt: skip
+    assert done.returncode == 0, done.stderr
+    manifest = json.loads(
+        (store / "out" / "pnw-pilot" / "2026-10-05" / "manifest.json").read_text()
+    )
+    assert manifest["weather"]["source"] == (
+        "none: calendar model, land cells from the store's ERA5-Land grid"
+    )
+
+
+def test_weather_source_note_is_appended_to_the_full_models_source(store):
+    note = "Window days 2026-07-07 to 2026-07-31 are the store's final data (expver 0001)."
+    text = _full_manifest(store, "--weather-source-note", note)["weather"]["source"]
+    assert text.endswith(" " + note)
+
+
+def test_scoring_window_products_come_from_window_months_only(store):
+    # The build summary lists the route of every month and year in the store; only the window's
+    # count as what scoring read.
+    npz = store / "w41.npz"
+    build_window(store / "cds", npz, WEEK)
+    summary_path = Path(str(npz) + ".summary.json")
+    s = json.loads(summary_path.read_text())
+    s["land_route_by_month"]["2019-01"] = "reanalysis-era5-land-timeseries, 24-hour UTC mean"
+    s["rain_route_by_year"]["2019"] = "hourly reanalysis-era5-single-levels, summed per UTC day"
+    summary_path.write_text(json.dumps(s))
+    import pnw_pilot_score
+
+    keys = pnw_pilot_score.window_sources(npz, START, END)
+    assert keys == ["era5_daily_sum", "era5_land_daily"]
+
+
+def test_base_rate_is_read_from_the_models_own_figures(store):
+    # Forager RECORD -901: the page compares each cell with the average week, positives over units
+    # of the all-years design, read from model.json.
+    manifest = _full_manifest(store, units=52718, positives=1138, years=[2015, 2025])
+    br = manifest["base_rate"]
+    assert (br["positives"], br["units"]) == (1138, 52718)
+    assert br["rate"] == pytest.approx(1138 / 52718)
+    assert "model.json" in br["source"] and "positives" in br["source"]
+
+
+def test_no_figures_in_the_model_means_no_base_rate(store):
+    assert _full_manifest(store)["base_rate"] is None
