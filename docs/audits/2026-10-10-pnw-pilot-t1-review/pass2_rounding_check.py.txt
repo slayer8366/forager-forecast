@@ -1,0 +1,146 @@
+"""Reviewer pass 2, item 1: the land route's failing hour and the rounding explanation.
+
+Independent of the builder's code: reads the cached Open-Meteo bodies, the gridded hourly months
+(cds/hourly-era5land-YYYY-MM.hourly.nc) and the time-series zips (ts/pt_*.zip) directly.
+Run: uv run python rounding_check.py <data dir>
+"""
+import io, json, sys, zipfile
+from datetime import UTC, datetime
+from pathlib import Path
+from decimal import Decimal, ROUND_HALF_UP, ROUND_HALF_EVEN
+import h5py
+import numpy as np
+
+D = Path(sys.argv[1])
+OM = D / "equivalence" / "open-meteo"
+VARS = {"t2m": "temperature_2m", "stl1": "soil_temperature_0_to_7cm", "swvl1": "soil_moisture_0_to_7cm"}
+TOL = {"t2m": 0.075, "stl1": 0.075, "swvl1": 0.001}
+EPS = 1e-6
+
+grid_cache, ts_cache = {}, {}
+
+def grid_month(ym):
+    if ym not in grid_cache:
+        p = D / "cds" / f"hourly-era5land-{ym}.hourly.nc"
+        if not p.exists():
+            grid_cache[ym] = None
+        else:
+            with h5py.File(p) as h:
+                grid_cache[ym] = (
+                    {int(t): i for i, t in enumerate(h["valid_time"][:].astype(np.int64))},
+                    {int(x): i for i, x in enumerate(np.rint(h["latitude"][:] * 10).astype(int))},
+                    {int(x): j for j, x in enumerate(np.rint(h["longitude"][:] * 10).astype(int))},
+                    {v: h[v][:].astype(np.float64) for v in VARS},
+                )
+    return grid_cache[ym]
+
+def ts_point(pt):
+    if pt not in ts_cache:
+        z = D / "ts" / f"pt_{pt[0]}_{pt[1]}.zip"
+        out = None
+        if z.exists():
+            out = {}
+            with zipfile.ZipFile(z) as zf:
+                for n in zf.namelist():
+                    with h5py.File(io.BytesIO(zf.read(n))) as h:
+                        for v in VARS:
+                            if v in h:
+                                t = h["valid_time"][:].astype(np.int64) * 3600
+                                out[v] = dict(zip(t.tolist(), h[v][:].astype(np.float64).tolist()))
+        ts_cache[pt] = out
+    return ts_cache[pt]
+
+def raw(v, pt, epoch):
+    """(gridded raw, time-series raw), kelvin or m3 m-3, either None if absent."""
+    ym = datetime.fromtimestamp(epoch, UTC).strftime("%Y-%m")
+    g = grid_month(ym)
+    gv = None
+    if g and epoch in g[0] and pt[0] in g[1] and pt[1] in g[2]:
+        gv = float(g[3][v][g[0][epoch], g[1][pt[0]], g[2][pt[1]]])
+    s = ts_point(pt)
+    tv = s.get(v, {}).get(epoch) if s else None
+    return gv, tv
+
+def conv(v, x):
+    return None if x is None else (x - 273.15 if v != "swvl1" else x)
+
+def model(x, step, disp):
+    """Open-Meteo double rounding: store at `step`, then show at `disp` decimals (half up)."""
+    stored = Decimal(round(x / step)) * Decimal(str(step))
+    return float(stored.quantize(Decimal(1).scaleb(-disp), rounding=ROUND_HALF_UP))
+
+bodies = sorted(p for p in OM.glob("*.json") if not p.name.startswith("427_-1245_"))
+print("bodies used", len(bodies), "(the three 427_-1245_* bodies are that sea cell's rain-at-centre requests; its land variables are read from 427_-1244_*, RECORD -822, review S10)")
+counts = {v: {o: [0, 0] for o in (-1, 0, 1)} for v in VARS}
+route = {"grid": 0, "ts": 0}
+fails, rows = [], []
+model_miss = {v: [] for v in ("t2m", "stl1")}
+for p in bodies:
+    lat, lon = (int(a) for a in p.name.split("_")[:2])
+    pt = (lat, lon)
+    b = json.loads(p.read_text())
+    assert abs(b["latitude"] * 10 - lat) < 0.6 and abs(b["longitude"] * 10 - lon) < 0.6, p
+    stamps = b["hourly"]["time"]
+    for v, om_name in VARS.items():
+        for h, stamp in enumerate(stamps):
+            omv = b["hourly"][om_name][h]
+            if omv is None:
+                continue
+            e = int(datetime.fromisoformat(stamp).replace(tzinfo=UTC).timestamp())
+            for o in (-1, 0, 1):
+                gv, tv = raw(v, pt, e + o * 3600)
+                sv = conv(v, gv if gv is not None else tv)
+                if sv is None:
+                    continue
+                counts[v][o][1] += 1
+                ok = abs(sv - omv) <= TOL[v] + EPS
+                counts[v][o][0] += ok
+                if o == 0:
+                    route["grid" if gv is not None else "ts"] += 1
+                    if not ok:
+                        fails.append(dict(v=v, body=p.name, hour=stamp, store_grid=conv(v, gv),
+                                          store_ts=conv(v, tv), om=omv, diff=abs(sv - omv)))
+                    if v != "swvl1":
+                        frac = (sv / 0.05) % 1.0  # 0.5 = a midpoint of the 0.05 grid
+                        pred = model(sv, 0.05, 1)
+                        rows.append((v, abs(frac - 0.5), pred == omv))
+                        if pred != omv:
+                            model_miss[v].append(dict(body=p.name, hour=stamp, store=sv,
+                                                      ts=conv(v, tv), om=omv, pred=pred,
+                                                      dist_to_midpoint_C=abs(frac - 0.5) * 0.05))
+print("store route at offset 0:", route)
+print("matched/compared by offset:", json.dumps(counts))
+print("offset-0 failures:", json.dumps(fails, indent=1))
+for v in ("t2m", "stl1"):
+    r = [x for x in rows if x[0] == v]
+    print(f"{v}: double-rounding model (0.05 then 0.1 half up) predicts Open-Meteo exactly for "
+          f"{sum(x[2] for x in r)} of {len(r)} hours; misses:")
+    for m in model_miss[v]:
+        print("  ", json.dumps(m))
+    d = sorted(x[1] * 0.05 for x in r)
+    print(f"  {v}: hours with store within 0.0002 C of a 0.05-grid midpoint: "
+          f"{sum(1 for x in d if x < 0.0002)}; closest {d[0]:.7f} C")
+
+# Part 2: the same model applied to each Copernicus route separately, where that route has the hour.
+print("\nPer route (offset 0): the model on that route's own value")
+for v in ("t2m", "stl1"):
+    tally = {"grid": [0, 0], "ts": [0, 0]}
+    q = []
+    for p in bodies:
+        pt = tuple(int(a) for a in p.name.split("_")[:2])
+        b = json.loads(p.read_text())
+        for h, stamp in enumerate(b["hourly"]["time"]):
+            omv = b["hourly"][VARS[v]][h]
+            e = int(datetime.fromisoformat(stamp).replace(tzinfo=UTC).timestamp())
+            gv, tv = raw(v, pt, e)
+            for name, x in (("grid", gv), ("ts", tv)):
+                if x is not None and omv is not None:
+                    tally[name][1] += 1
+                    tally[name][0] += model(x - 273.15, 0.05, 1) == omv
+            if gv is not None and tv is not None and gv != tv:
+                q.append(abs(gv - tv) / 2**-14)
+    print(f"  {v}: exact/compared {tally}")
+    if q:
+        print(f"  {v}: hours where both routes have a value and differ: {len(q)}; "
+              f"differences in units of 2^-14 K: min {min(q):.4f} max {max(q):.4f}; "
+              f"all whole multiples: {all(abs(x - round(x)) < 1e-6 for x in q)}")

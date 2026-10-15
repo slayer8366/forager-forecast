@@ -1,0 +1,35 @@
+"""Reviewer simulation (pass 1): how often would the committed D24 tolerance fail on values that
+are the same product, if Open-Meteo stores hourly ERA5 at the steps in its source
+(open-meteo/open-meteo main, Sources/App/Era5/Era5Variables.swift:148, :151, :156, :158, read
+2026-10-10: temperature_2m and soil_temperature_0_to_7cm scalefactor 20 = 0.05 degC,
+precipitation 10 = 0.1 mm, soil_moisture_0_to_7cm 1000 = 0.001) and derives the daily mean/sum
+from those stored hourly values, displayed at 1 decimal (3 for soil moisture)?
+The store side is taken as exact. Synthetic hourly series; assumptions are this script's, not
+measurements of either service. Seed 20260918.
+"""
+import numpy as np
+
+rng = np.random.default_rng(20260918)
+N = 200_000
+q = lambda v, step: np.round(v / step) * step  # noqa: E731
+
+# temperature: daily mean of 24 hourly values stored at 0.05, displayed at 0.1
+t = rng.normal(10, 5, size=(N, 1)) + rng.normal(0, 3, size=(N, 24))
+true = t.mean(1)
+shown = np.round(q(t, 0.05).mean(1), 1)
+print("temperature_2m_mean  P(|diff| > 0.05+1e-6) =", np.mean(np.abs(shown - true) > 0.05 + 1e-6))
+
+# soil temperature: the script means 24 displayed hourly values (1 decimal) of 0.05-stored values
+st = rng.normal(10, 4, size=(N, 1)) + rng.normal(0, 1, size=(N, 24))
+true = st.mean(1)
+shown = np.round(q(st, 0.05), 1).mean(1)
+print("soil_temperature     P(|diff| > 0.05+1e-6) =", np.mean(np.abs(shown - true) > 0.05 + 1e-6))
+
+# precipitation: daily sum of hourly values stored at 0.1 mm, displayed at 0.1
+for k in (2, 6, 12, 24):
+    p = np.zeros((N, 24))
+    p[:, :k] = rng.exponential(0.4, size=(N, k))
+    true = p.sum(1)
+    shown = np.round(q(p, 0.1).sum(1), 1)
+    print(f"precipitation_sum {k:2d} wet hours P(|diff| > 0.05+1e-6) =",
+          np.mean(np.abs(shown - true) > 0.05 + 1e-6))

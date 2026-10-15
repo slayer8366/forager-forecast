@@ -1,0 +1,40 @@
+"""Reviewer's independent recheck (pass 2e) of precip_hourly_vs_daily_2019.json (267e3ad).
+Own code; shares nothing with pnw_cds_precip_hourly.py. Reads, read-only, the builder's
+cds/hourly-era5-precip-2019-2020.nc (hourly tp) and cds/era5-precip-2019.nc (the store's daily sum).
+Prints the file attributes it relies on, then for both conventions the count over 1e-5 m and the
+max difference, plus how many reference values are exactly zero (a check that passes on dry days only
+would show here)."""
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
+
+import h5py
+import numpy as np
+
+C = Path.home() / "Zynergy/forecast-data-pnw-pilot/cds"
+with h5py.File(C / "hourly-era5-precip-2019-2020.nc", "r") as h:
+    tn = "valid_time" if "valid_time" in h else "time"
+    print("hourly time units", h[tn].attrs.get("units"), "shape", h["tp"].shape,
+          "tp attrs", {k: h["tp"].attrs[k] for k in h["tp"].attrs if k in ("units", "scale_factor", "add_offset")})
+    t = h[tn][:].astype(np.int64)
+    tp = h["tp"][:].astype(np.float64)
+    hlat, hlon = h["latitude"][:], h["longitude"][:]
+with h5py.File(C / "era5-precip-2019.nc", "r") as h:
+    print("daily time units", h["valid_time"].attrs.get("units"),
+          "attrs", dict((k, h["valid_time"].attrs[k]) for k in h["valid_time"].attrs))
+    ref = h["tp"][:].astype(np.float64)
+    vt = h["valid_time"][:]
+    rlat, rlon = h["latitude"][:], h["longitude"][:]
+assert np.allclose(hlat, rlat) and np.allclose(hlon, rlon)
+stamp = [datetime.fromtimestamp(int(s), timezone.utc) for s in t]
+index = {s: i for i, s in enumerate(stamp)}
+day0 = datetime(2019, 1, 1, tzinfo=timezone.utc)
+assert ref.shape[0] == 365, ref.shape
+for name, first in (("stamps 01..24", 1), ("stamps 00..23", 0)):
+    out = np.empty_like(ref)
+    for d in range(365):
+        hours = [index[day0 + timedelta(days=d, hours=first + k)] for k in range(24)]
+        out[d] = tp[hours].sum(axis=0)
+    diff = np.abs(out - ref)
+    print(name, "values", diff.size, "over 1e-5", int((diff > 1e-5).sum()),
+          "max", float(diff.max()), "exactly equal", int((diff == 0).sum()))
+print("reference values exactly 0", int((ref == 0).sum()), "max ref mm", float(ref.max() * 1000))

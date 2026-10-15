@@ -1,0 +1,2 @@
+primary_t1_1000m: upper end over 50 seeds x 1,000 draws: min -0.000642 median -0.000321 max -0.000060; seeds whose interval reaches zero: 0 of 50
+primary_t1_1000m: 20,000 draws: [-0.006799, -0.000274]; share of draws at or above zero 0.0160
