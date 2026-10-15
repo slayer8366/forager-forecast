@@ -1,0 +1,286 @@
+FFF.FFFFFFF                                                              [100%]
+=================================== FAILURES ===================================
+_ test_the_plot_table_carries_every_new_genus_and_the_total_without_moving_t5s_columns _
+
+hg_table = (PosixPath('.pytest-tmp/ff/test_the_plot_table_carries_ev0/plots_hg.npz'), {'plots': 4, 'surrogate_trees': 7, 'capped_trees': 0, 'nonpositive_width_trees': 0, ...})
+
+    def test_the_plot_table_carries_every_new_genus_and_the_total_without_moving_t5s_columns(
+        hg_table,
+    ):
+        """Stop condition of the dispatch: no existing column may change its meaning."""
+        from forager_forecast.crown_cover import Tree, plot_cover
+    
+        path, info = hg_table
+        with np.load(path) as z:
+>           assert "bands" in z.files, "the plot table does not record its band list"
+E           AssertionError: the plot table does not record its band list
+E           assert 'bands' in ['ids', 'table']
+E            +  where ['ids', 'table'] = NpzFile '.pytest-tmp/ff/test_the_plot_table_carries_ev0/plots_hg.npz' with keys: ids, table.files
+
+tests/test_t6b_host_genera.py:114: AssertionError
+______ test_a_tree_tile_has_the_new_bands_canada_flags_them_not_available ______
+
+world = {'d': PosixPath('.pytest-tmp/ff/t6b0'), 'water_us': (np....at64(49.01820133259765)), 'arctic': (np.float64(-121.8925303005606), np.float64(49.01281789131391), -120.0, 51.0), ...}
+hg_table = (PosixPath('.pytest-tmp/ff/test_a_tree_tile_has_the_new_b0/plots_hg.npz'), {'plots': 4, 'surrogate_trees': 7, 'capped_trees': 0, 'nonpositive_width_trees': 0, ...})
+tmp_path = PosixPath('.pytest-tmp/ff/test_a_tree_tile_has_the_new_b0')
+
+    def test_a_tree_tile_has_the_new_bands_canada_flags_them_not_available(world, hg_table, tmp_path):  # noqa: F811
+        from forager_forecast.t6b_mask import SIDE_CA, cells_in_study, read_mask
+    
+        result = _tile_with_hg(world, hg_table[0], tmp_path)
+        with rasterio.open(tmp_path / f"trees_{BIG.key}.tif") as ds:
+>           assert tuple(ds.descriptions) == EXPECTED_TREE_BANDS, "the tile lacks the new bands"
+E           AssertionError: the tile lacks the new bands
+E           assert ('total_cover...e_Picea', ...) == ('total_cover...e_Picea', ...)
+E             
+E             Right contains 13 more items, first extra item: 'share_Larix'
+E             Use -v to get more diff
+
+tests/test_t6b_host_genera.py:155: AssertionError
+_____________ test_a_plot_table_of_another_band_layout_is_refused ______________
+
+tmp_path = PosixPath('.pytest-tmp/ff/test_a_plot_table_of_another_b0')
+
+    def test_a_plot_table_of_another_band_layout_is_refused(tmp_path):
+        from forager_forecast.t6b_layers import load_plot_table
+    
+        old = tmp_path / "old_plots.npz"
+        np.savez(old, ids=np.array([1, 2, 3, 4]), table=np.zeros((4, 10)))
+>       with pytest.raises(ValueError, match="band"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_t6b_host_genera.py:191: Failed
+___ test_f1_a_tile_built_with_the_old_genus_list_is_rebuilt_not_counted_done ___
+
+runner = <module 't6b_run_script' from 'scripts/t6b_run.py'>
+world = {'d': PosixPath('.pytest-tmp/ff/t6b0'), 'water_us': (np....at64(49.01820133259765)), 'arctic': (np.float64(-121.8925303005606), np.float64(49.01281789131391), -120.0, 51.0), ...}
+
+    def test_f1_a_tile_built_with_the_old_genus_list_is_rebuilt_not_counted_done(runner, world):  # noqa: F811
+        t = _one_tile(runner, world, lambda t: not t["canada"])
+        names = (f"trees_{t.key}.tif", f"trees_flags_{t.key}.tif")
+        files = _old_layout_files(t.window, t.key, runner.TILES / "trees", names)
+        append_line(runner.MANIFEST, {"kind": "unit", "layer": "trees", "unit": t.key,
+                                      "status": "ok", "files": files})  # fmt: skip
+    
+        summary = runner.stage_trees(None, 1)
+>       assert summary["units_done_before"] == 0, "the old-layout tile was counted done (F1)"
+E       AssertionError: the old-layout tile was counted done (F1)
+E       assert 1 == 0
+
+tests/test_t6b_host_genera.py:262: AssertionError
+----------------------------- Captured stdout call -----------------------------
+2026-10-14T22:31:57-07:00 trees: 1 tiles, 0 with Canadian cells; 0 wait for the SCANFI layers (D118)
+_ test_the_trees_only_supersede_keeps_the_old_tile_and_leaves_soil_scanfi_and_manifest _
+
+runner = <module 't6b_run_script' from 'scripts/t6b_run.py'>
+world = {'d': PosixPath('.pytest-tmp/ff/t6b0'), 'water_us': (np....at64(49.01820133259765)), 'arctic': (np.float64(-121.8925303005606), np.float64(49.01281789131391), -120.0, 51.0), ...}
+
+    def test_the_trees_only_supersede_keeps_the_old_tile_and_leaves_soil_scanfi_and_manifest(
+        runner,  # noqa: F811
+        world,  # noqa: F811
+    ):
+        t = _one_tile(runner, world, lambda t: not t["canada"])
+        names = (f"trees_{t.key}.tif", f"trees_flags_{t.key}.tif")
+        files = _old_layout_files(t.window, t.key, runner.TILES / "trees", names)
+        append_line(runner.MANIFEST, {"kind": "unit", "layer": "trees", "unit": t.key,
+                                      "status": "ok", "files": files})  # fmt: skip
+        bystanders, manifest_before = _bystanders(runner)
+    
+        runner.stage_trees(None, 1)
+        kept = {p.name: _sha(p) for p in (runner.T6B / "superseded").rglob("trees_*.tif")}
+>       assert kept == files, "the old tile was not kept in a superseded folder"
+E       AssertionError: the old tile was not kept in a superseded folder
+E       assert {} == {'trees_4_-17...e376baf2da0c'}
+E         
+E         Right contains 2 more items:
+E         {'trees_4_-1772_1304.tif': '07665a6a15b41f170eda62f5f078ec1229cdfbff9d1eb7c7e67899d83860f25d',
+E          'trees_flags_4_-1772_1304.tif': '965843b28004f04109b8bb6e5d0d94e32724e4d4cba3a7e5d02ee376baf2da0c'}
+E         Use -v to get more diff
+
+tests/test_t6b_host_genera.py:286: AssertionError
+----------------------------- Captured stdout call -----------------------------
+2026-10-14T22:31:58-07:00 trees: 1 tiles, 0 with Canadian cells; 0 wait for the SCANFI layers (D118)
+___ test_an_old_layout_us_half_is_rebuilt_as_a_new_file_and_the_old_one_kept ___
+
+runner = <module 't6b_run_script' from 'scripts/t6b_run.py'>
+world = {'d': PosixPath('.pytest-tmp/ff/t6b0'), 'water_us': (np....at64(49.01820133259765)), 'arctic': (np.float64(-121.8925303005606), np.float64(49.01281789131391), -120.0, 51.0), ...}
+
+    def test_an_old_layout_us_half_is_rebuilt_as_a_new_file_and_the_old_one_kept(runner, world):  # noqa: F811
+        from forager_forecast.t6b_layers import us_half_names
+    
+        t = _one_tile(runner, world, lambda t: t["canada"] and t["us"])
+        names = us_half_names(t.key)
+        files = _old_layout_files(t.window, t.key, runner.TILES_US_HALF, names)
+        append_line(runner.MANIFEST, {"kind": "unit", "layer": "trees-us-half",
+                                      "unit": f"us-half:{t.key}", "status": "ok",
+                                      "files": files})  # fmt: skip
+        assert runner.stage_trees(None, 1)["units_total"] == 0  # still waits for SCANFI (D118)
+    
+        summary = runner.stage_trees_us_half(None, 1)
+>       assert summary["units_done_before"] == 0, "the old-layout US half was counted done (F1)"
+E       AssertionError: the old-layout US half was counted done (F1)
+E       assert 1 == 0
+
+tests/test_t6b_host_genera.py:314: AssertionError
+----------------------------- Captured stdout call -----------------------------
+2026-10-14T22:31:59-07:00 trees: 1 tiles, 1 with Canadian cells; 1 wait for the SCANFI layers (D118)
+2026-10-14T22:31:59-07:00 trees-us-half: 1 tiles with Canadian cells waiting for SCANFI (D119)
+________ test_f2_the_plot_table_is_rebuilt_when_the_genus_list_changes _________
+
+runner = <module 't6b_run_script' from 'scripts/t6b_run.py'>
+world = {'d': PosixPath('.pytest-tmp/ff/t6b0'), 'water_us': (np....at64(49.01820133259765)), 'arctic': (np.float64(-121.8925303005606), np.float64(49.01281789131391), -120.0, 51.0), ...}
+tmp_path = PosixPath('.pytest-tmp/ff/test_f2_the_plot_table_is_rebu0')
+
+    def test_f2_the_plot_table_is_rebuilt_when_the_genus_list_changes(runner, world, tmp_path):  # noqa: F811
+        d = world["d"]
+        treemap = tmp_path / "treemap_zip"
+        treemap.mkdir()
+        (treemap / "RDS-2026-0038.zip").symlink_to(d / "trees.zip")
+        (treemap / "TreeMap2023_CONUS.tif.vat.dbf").symlink_to(d / "treemap.tif.vat.dbf")
+        runner.TREEMAP = treemap
+        runner.PLOTS = runner.T6B / "plots.npz"
+        # A table as the run built it: the old ten columns, under today's rulings string.
+        np.savez(runner.PLOTS, ids=np.array([1, 2, 3, 4]), table=np.zeros((4, 10)))
+        old_sha = _sha(runner.PLOTS)
+        (runner.T6B / "plots.json").write_text(json.dumps({"rulings": runner.PLOT_TABLE_RULINGS}))
+    
+        runner.stage_plots()
+        with np.load(runner.PLOTS) as z:
+>           assert z["table"].shape == (4, 2 + len(EXPECTED_BANDS)), "the old table was reused (F2)"
+E           AssertionError: the old table was reused (F2)
+E           assert (4, 10) == (4, 23)
+E             
+E             At index 1 diff: 10 != 23
+E             Use -v to get more diff
+
+tests/test_t6b_host_genera.py:337: AssertionError
+__________ test_a_tree_tile_is_not_started_without_free_space[trees] ___________
+
+runner = <module 't6b_run_script' from 'scripts/t6b_run.py'>
+world = {'d': PosixPath('.pytest-tmp/ff/t6b0'), 'water_us': (np....at64(49.01820133259765)), 'arctic': (np.float64(-121.8925303005606), np.float64(49.01281789131391), -120.0, 51.0), ...}
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f7c2aed1d00>
+stage = 'trees'
+
+    @pytest.mark.parametrize("stage", ["trees", "trees-us-half"])
+    def test_a_tree_tile_is_not_started_without_free_space(runner, world, monkeypatch, stage):  # noqa: F811
+        if stage == "trees":
+            _one_tile(runner, world, lambda t: not t["canada"])
+        else:
+            _one_tile(runner, world, lambda t: t["canada"] and t["us"])
+        low = shutil._ntuple_diskusage(10**9, 10**9, 1000)
+        monkeypatch.setattr(shutil, "disk_usage", lambda p: low)
+        summary = (runner.stage_trees(None, 1) if stage == "trees"
+                   else runner.stage_trees_us_half(None, 1))  # fmt: skip
+>       assert summary["units_ok"] == 0 and summary["units_failed"] == 0
+E       assert (1 == 0)
+
+tests/test_t6b_host_genera.py:358: AssertionError
+----------------------------- Captured stdout call -----------------------------
+2026-10-14T22:32:01-07:00 trees: 1 tiles, 0 with Canadian cells; 0 wait for the SCANFI layers (D118)
+______ test_a_tree_tile_is_not_started_without_free_space[trees-us-half] _______
+
+runner = <module 't6b_run_script' from 'scripts/t6b_run.py'>
+world = {'d': PosixPath('.pytest-tmp/ff/t6b0'), 'water_us': (np....at64(49.01820133259765)), 'arctic': (np.float64(-121.8925303005606), np.float64(49.01281789131391), -120.0, 51.0), ...}
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f7c2aabc350>
+stage = 'trees-us-half'
+
+    @pytest.mark.parametrize("stage", ["trees", "trees-us-half"])
+    def test_a_tree_tile_is_not_started_without_free_space(runner, world, monkeypatch, stage):  # noqa: F811
+        if stage == "trees":
+            _one_tile(runner, world, lambda t: not t["canada"])
+        else:
+            _one_tile(runner, world, lambda t: t["canada"] and t["us"])
+        low = shutil._ntuple_diskusage(10**9, 10**9, 1000)
+        monkeypatch.setattr(shutil, "disk_usage", lambda p: low)
+        summary = (runner.stage_trees(None, 1) if stage == "trees"
+                   else runner.stage_trees_us_half(None, 1))  # fmt: skip
+>       assert summary["units_ok"] == 0 and summary["units_failed"] == 0
+E       assert (1 == 0)
+
+tests/test_t6b_host_genera.py:358: AssertionError
+----------------------------- Captured stdout call -----------------------------
+2026-10-14T22:32:03-07:00 trees-us-half: 1 tiles with Canadian cells waiting for SCANFI (D119)
+_____ test_the_box_option_runs_only_the_tiles_with_a_study_cell_in_the_box _____
+
+runner = <module 't6b_run_script' from 'scripts/t6b_run.py'>
+world = {'d': PosixPath('.pytest-tmp/ff/t6b0'), 'water_us': (np....at64(49.01820133259765)), 'arctic': (np.float64(-121.8925303005606), np.float64(49.01281789131391), -120.0, 51.0), ...}
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f7c2aabdf50>
+
+    def test_the_box_option_runs_only_the_tiles_with_a_study_cell_in_the_box(
+        runner,  # noqa: F811
+        world,  # noqa: F811
+        monkeypatch,
+    ):
+        from forager_forecast.t6b_layers import Tile
+    
+        tiles = _small_tiles(world)
+        us_only = [t for t in tiles if not t["canada"]]
+        assert len(us_only) >= 2
+        runner.TREE_N = 4
+        (runner.T6B / "tiles_trees.json").write_text(json.dumps(tiles))
+        chosen = Tile(us_only[0]["i"], us_only[0]["j"], 4)
+        lon, lat = _centre_lonlat(chosen)  # one cell centre of the chosen tile, nothing else
+        box = f"{lat - 0.0003},{lat + 0.0003},{lon - 0.0003},{lon + 0.0003}"
+        monkeypatch.setattr(runner, "DRIVE", runner.T6B)
+        monkeypatch.setattr(runner, "commit_progress", lambda summaries, evidence: None)
+        monkeypatch.setattr(sys, "argv", ["t6b_run.py", "--until", "23:59", "--stages", "trees",
+                                          "--workers", "1", "--box", box])  # fmt: skip
+>       runner.main()
+
+tests/test_t6b_host_genera.py:390: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/t6b_run.py:459: in main
+    args = p.parse_args()
+           ^^^^^^^^^^^^^^
+/usr/lib/python3.14/argparse.py:2020: in parse_args
+    self.error(msg)
+/usr/lib/python3.14/argparse.py:2797: in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = ArgumentParser(prog='python -m pytest', usage=None, description=None, formatter_class=<class 'argparse.HelpFormatter'>, conflict_handler='error', add_help=True)
+status = 2
+message = 'python -m pytest: error: unrecognized arguments: --box 48.98496018415059,48.98556018415059,-121.92789576402811,-121.92729576402812\n'
+
+    def exit(self, status=0, message=None):
+        if message:
+            self._print_message(message, _sys.stderr)
+>       _sys.exit(status)
+E       SystemExit: 2
+
+/usr/lib/python3.14/argparse.py:2784: SystemExit
+----------------------------- Captured stderr call -----------------------------
+usage: python -m pytest [-h] --until UNTIL [--stages STAGES]
+                        [--workers WORKERS] [--max-soil-tiles MAX_SOIL_TILES]
+                        [--max-tree-tiles MAX_TREE_TILES]
+                        [--tree-groups TREE_GROUPS]
+                        [--us-half-tiles US_HALF_TILES] [--evidence EVIDENCE]
+                        [--pause-file PAUSE_FILE] [--tiles TILES]
+python -m pytest: error: unrecognized arguments: --box 48.98496018415059,48.98556018415059,-121.92789576402811,-121.92729576402812
+=============================== warnings summary ===============================
+tests/test_t6b_host_genera.py: 68 warnings
+  .venv/lib/python3.14/site-packages/rasterio/transform.py:178: PendingDeprecationWarning: Use `@` matmul instead of `*` mul operator for matrix multiplication
+    return Affine.translation(west, north) * Affine.scale(xsize, -ysize)
+
+tests/test_t6b_host_genera.py: 228 warnings
+  .venv/lib/python3.14/site-packages/rasterio/windows.py:360: PendingDeprecationWarning: Use `@` matmul instead of `*` mul operator for matrix multiplication
+    x, y = transform * (window.col_off or 0.0, window.row_off or 0.0)
+
+tests/test_t6b_host_genera.py: 228 warnings
+  .venv/lib/python3.14/site-packages/rasterio/windows.py:361: PendingDeprecationWarning: Use `@` matmul instead of `*` mul operator for matrix multiplication
+    return Affine.translation(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_t6b_host_genera.py::test_the_plot_table_carries_every_new_genus_and_the_total_without_moving_t5s_columns
+FAILED tests/test_t6b_host_genera.py::test_a_tree_tile_has_the_new_bands_canada_flags_them_not_available
+FAILED tests/test_t6b_host_genera.py::test_a_plot_table_of_another_band_layout_is_refused
+FAILED tests/test_t6b_host_genera.py::test_f1_a_tile_built_with_the_old_genus_list_is_rebuilt_not_counted_done
+FAILED tests/test_t6b_host_genera.py::test_the_trees_only_supersede_keeps_the_old_tile_and_leaves_soil_scanfi_and_manifest
+FAILED tests/test_t6b_host_genera.py::test_an_old_layout_us_half_is_rebuilt_as_a_new_file_and_the_old_one_kept
+FAILED tests/test_t6b_host_genera.py::test_f2_the_plot_table_is_rebuilt_when_the_genus_list_changes
+FAILED tests/test_t6b_host_genera.py::test_a_tree_tile_is_not_started_without_free_space[trees]
+FAILED tests/test_t6b_host_genera.py::test_a_tree_tile_is_not_started_without_free_space[trees-us-half]
+FAILED tests/test_t6b_host_genera.py::test_the_box_option_runs_only_the_tiles_with_a_study_cell_in_the_box
+10 failed, 1 passed, 524 warnings in 13.53s
