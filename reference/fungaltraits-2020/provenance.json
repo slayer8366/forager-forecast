@@ -1,0 +1,70 @@
+{
+  "what": "FungalTraits, Table S1 'Traits of genera', every sheet, row and column of the workbook's cell values, one gzip-compressed UTF-8 CSV per sheet. Line r of a CSV is the sheet's row r; field c is its column c. Unmodified: no cell is edited, added or dropped. Not carried: cell styles, column widths, row heights, rich-text formatting inside 3 strings (their text is kept), saved filter views, the thumbnail and document properties. The workbook has no formulas and no numeric cells; every non-empty cell is a shared string.",
+  "citation": "Põlme, S., Abarenkov, K., Henrik Nilsson, R. et al. FungalTraits: a user-friendly traits database of fungi and fungus-like stramenopiles. Fungal Diversity 105, 1-16 (2020). https://doi.org/10.1007/s13225-020-00466-2",
+  "source": {
+    "url": "https://repository.up.ac.za/bitstreams/03249ba0-734b-4e0c-be8b-60c7accaa480/download",
+    "record": "http://hdl.handle.net/2263/80202",
+    "record_handle": "2263/80202",
+    "repository": "University of Pretoria institutional repository (UPSpace)",
+    "item": "a8309ba3-aa1a-4324-8969-5c7980fa88b6",
+    "file_name": "Polme_FungalTraitsTabS1_2020.xlsx",
+    "fetched_utc": "2026-10-16T02:03:46Z",
+    "size_bytes": 1243643,
+    "md5": "73a66e29b7a786ba884c971b52b5b08f",
+    "sha256": "0092d7fb8bd315b7801cc71e91c7eb889fa07f1e77dade5827b44f093b46bf2a",
+    "size_and_md5_checked_against": "the repository's own stated values, at the fetch",
+    "rights_field_as_seen": "© 2021, Mushroom Research Foundation. The original publication is available at https://www.springer.com/journal/13225.",
+    "licence": "none stated at source (Forager RECORD 2026-09-28-1036)"
+  },
+  "consent": {
+    "from": "Dr Sergei Põlme, corresponding author of Põlme et al. 2020",
+    "to": "the owner (Brandon), with Dr Leho Tedersoo copied",
+    "received": "2026-10-16 00:22, the owner's time (Pacific); Forager RECORD 2026-09-28-1080",
+    "answering": "the owner's request of 2026-10-15 23:09 to keep a dated, unmodified copy of the FungalTraits table in the public repository, cited and credited, for non-commercial use",
+    "words_verbatim": "Hi Brandon! I support such initiatives where science can contribute to public knowledge, so it is fine by me. Best Sergei",
+    "caveat": "The repository record marks the item '© 2021, Mushroom Research Foundation' (the journal's publisher). The corresponding author's consent is recorded as consent for this use, not as a licence from that publisher (Forager RECORD 2026-09-28-1080).",
+    "owner_ruling": "Forager RECORD 2026-09-28-1081; the owner, verbatim: \"1 we asked for the table, why not use it? My concern is leaving behind details we may decide to use later on.\" and \"2 yes\". Decision row D143."
+  },
+  "exports": [
+    {
+      "sheet": "data",
+      "file_name": "data.csv.gz",
+      "rows": 10772,
+      "columns": 25,
+      "csv_sha256": "babe96f5e556151b17a3954dd0649d199436bb7145583f405e643b288e808ba4",
+      "csv_size": 2112438,
+      "gz_sha256": "0826341f2c87445835aac9f4f8b579cb473a693124cc3465b09b4878724565de",
+      "gz_size": 175690
+    },
+    {
+      "sheet": "trait states",
+      "file_name": "trait_states.csv.gz",
+      "rows": 1000,
+      "columns": 26,
+      "csv_sha256": "a3abd9bd8752daa7b71b73eae609efb8840e43fff9ce0217483bec7340ee904f",
+      "csv_size": 29861,
+      "gz_sha256": "da6ef2e03d3276c1ddf4ea1e34564e996e9704f7db7ed09796bb9aea85126ac1",
+      "gz_size": 2038
+    }
+  ],
+  "check": [
+    {
+      "sheet": "data",
+      "stored_rows": 10772,
+      "cells_compared": 269300,
+      "non_empty_cells": 124176,
+      "formulas": 0,
+      "mismatches": 0
+    },
+    {
+      "sheet": "trait states",
+      "stored_rows": 1000,
+      "cells_compared": 26000,
+      "non_empty_cells": 251,
+      "formulas": 0,
+      "mismatches": 0
+    }
+  ],
+  "written_by": "scripts/t7_fungaltraits_export.py",
+  "decision": "D143"
+}

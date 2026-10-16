@@ -50,14 +50,31 @@ def _sheet_part(z: zipfile.ZipFile, sheet: str) -> str:
     raise KeyError(f"sheet {sheet!r} has no part")
 
 
+def sheet_names(path: Path) -> list[str]:
+    """The workbook's sheet names, in the workbook's own order."""
+    with zipfile.ZipFile(path) as z:
+        book = ET.fromstring(z.read("xl/workbook.xml"))
+    return [s.get("name") for s in book.iter(f"{_MAIN}sheet")]
+
+
 def read_sheet(path: Path, sheet: str) -> Iterator[list[str]]:
     """Each row of the named sheet as a list of cell texts, gaps filled with ''."""
+    for _, cells in read_sheet_numbered(path, sheet):
+        yield cells
+
+
+def read_sheet_numbered(path: Path, sheet: str) -> Iterator[tuple[int, list[str]]]:
+    """(row number from 1, cell texts) for each row the sheet stores, gaps filled with ''.
+
+    A row the sheet does not store is not yielded; its number is simply absent.
+    """
     with zipfile.ZipFile(path) as z:
         shared = []
         if "xl/sharedStrings.xml" in z.namelist():
             shared = [_text(si) for si in ET.fromstring(z.read("xl/sharedStrings.xml"))]
         root = ET.fromstring(z.read(_sheet_part(z, sheet)))
-    for row in root.iter(f"{_MAIN}row"):
+    for position, row in enumerate(root.iter(f"{_MAIN}row"), start=1):
+        number = int(row.get("r")) if row.get("r") else position
         cells: dict[int, str] = {}
         for c in row.iter(f"{_MAIN}c"):
             kind, v = c.get("t"), c.find(f"{_MAIN}v")
@@ -69,7 +86,7 @@ def read_sheet(path: Path, sheet: str) -> Iterator[list[str]]:
                 value = v.text if v is not None and v.text is not None else ""
             cells[column_index(c.get("r"))] = value
         width = max(cells) + 1 if cells else 0
-        yield [cells.get(i, "") for i in range(width)]
+        yield number, [cells.get(i, "") for i in range(width)]
 
 
 def read_table(path: Path, sheet: str) -> tuple[list[str], Iterator[dict[str, str]]]:

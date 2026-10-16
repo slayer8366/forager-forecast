@@ -85,13 +85,18 @@ Thumbs.db
 .claude/
 *.log
 
-# T7 (Forager RECORD -1071): the FungalTraits table and any list made from it stay outside every
-# repository until the authors' permission; these patterns catch a copy that lands here by mistake.
+# T7: the FungalTraits workbook itself stays out (1,243,643 bytes, over the 1 MiB guard), and so do
+# lists made from it. Since D143 (Forager RECORD -1081, the corresponding author's consent in
+# -1080) the whole table is committed as a lossless gzip CSV export with its provenance, in
+# reference/fungaltraits-2020/, which these patterns do not match and the line below keeps in.
 *.xlsx
 *.xls
 membership/
 *FungalTraits*
 membership_list*.tsv
+!reference/fungaltraits-2020/
+!reference/fungaltraits-2020/*.csv.gz
+!reference/fungaltraits-2020/provenance.json
 
 # Local pytest scratch (basetemp), never committed
 .pytest-tmp/

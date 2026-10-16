@@ -1,15 +1,22 @@
 """The FungalTraits adapter: its genus table to this project's normalised membership list.
 
-Owner's ruling (Forager RECORD -1071, D142): build T7 on FungalTraits ahead of the authors'
-permission, the table kept as a local copy only, outside every repository; nothing from it is
-committed or published until permission (RECORD -1036, -1070). So:
+History. D142 (Forager RECORD -1071) built T7 on FungalTraits ahead of the authors' permission,
+with the table kept outside every repository. Dr Sergei Põlme, the corresponding author, then
+agreed to a dated copy in this public repository (RECORD -1080), and the owner ruled that the
+whole table is committed (RECORD -1081, D143). So, since D143:
 
-- The table is read from a configured path (``FORAGER_FORECAST_FUNGALTRAITS``, default under
-  ``/mnt/work/Zynergy/forecast-data/membership/``) and refused unless its sha256 is the one
-  recorded at the single fetch (``SOURCE`` below).
-- The adapter's output, the normalised list, is written beside it on /mnt/work, never into a
-  repository. This module holds the conversion rule only; no genus name of the table is written
-  here or in any test.
+- The table is read from the committed export in ``reference/fungaltraits-2020/``
+  (``EXPORT_DATA``, the ``data`` sheet as gzip CSV; ``t7/table_export.py``), refused unless its
+  sha256 is the one recorded in ``EXPORT_DATA_SHA256`` and in that folder's ``provenance.json``.
+  The export holds every sheet, row and column of the workbook's cell values; a test matches it
+  cell by cell against the workbook wherever the workbook is present.
+- The workbook itself stays outside the repository (1,243,643 bytes, over the 1 MiB guard), at a
+  configured path (``FORAGER_FORECAST_FUNGALTRAITS``, default under
+  ``/mnt/work/Zynergy/forecast-data/membership/``), refused unless its sha256 is the one recorded
+  at the single fetch (``SOURCE`` below). ``read_traits`` still reads it, for that test and for
+  the check that both routes give the same list.
+- The adapter's output, the normalised list, is written outside the repository; it can be
+  rewritten from the committed export at any time and its sha256 is recorded below.
 
 Fetched once, 2026-10-16T02:03:46Z to 02:03:56Z (UTC), from the University of Pretoria repository
 record http://hdl.handle.net/2263/80202 (item a8309ba3-aa1a-4324-8969-5c7980fa88b6), file
@@ -19,8 +26,9 @@ matched. Rights as stated on the record: "© 2021, Mushroom Research Foundation.
 publication is available at https://www.springer.com/journal/13225." No open licence is stated
 (RECORD -1036 found the same).
 
-**The conversion rule is a proposal**, written before any record is joined to it, and needs the
-owner's word before V9 (M1, M2; RECORD -1030):
+**The conversion rule** was written as a proposal before any record was joined to it. The owner
+accepted its fruitbody test as the first of the four counting rules ("mushroom-forming genera only
+by FungalTraits' fruitbody type"; RECORD -1081, D144):
 
 - ``primary_lifestyle`` "ectomycorrhizal", no secondary lifestyle, no lifestyle comment, and a
   mushroom-forming fruitbody type (``MUSHROOM_FRUITBODIES``): ectomycorrhizal, clear.
@@ -43,6 +51,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from forager_forecast.t7.membership import ListRow, file_sha256, write_list
+from forager_forecast.t7.table_export import read_csv_gz
 from forager_forecast.t7.xlsx import read_table
 
 
@@ -76,7 +85,8 @@ SOURCE = SourceRecord(
 CITATION = (
     "Põlme, S., Abarenkov, K., Henrik Nilsson, R. et al. FungalTraits: a user-friendly traits "
     "database of fungi and fungus-like stramenopiles. Fungal Diversity 105, 1-16 (2020). "
-    "https://doi.org/10.1007/s13225-020-00466-2. Table S1, local copy only (Forager RECORD -1071)."
+    "https://doi.org/10.1007/s13225-020-00466-2. Table S1, committed as a lossless export with "
+    "the corresponding author's consent (Forager RECORD -1080, -1081; D143)."
 )
 PATH_ENV = "FORAGER_FORECAST_FUNGALTRAITS"
 DEFAULT_PATH = Path("/mnt/work/Zynergy/forecast-data/membership") / SOURCE.file_name
@@ -92,17 +102,28 @@ COLUMNS_READ = (
 ECM = "ectomycorrhizal"
 WOOD = "wood_saprotroph"
 # Fruitbody types from the table's "trait states" sheet that form a mushroom, crust, coral, cup,
-# puffball or truffle a person can find and photograph. Proposal, for the owner (M1).
+# puffball or truffle a person can find and photograph. Proposed for M1; accepted with the four
+# counting rules (D144).
 MUSHROOM_FRUITBODIES = frozenset({
     "agaricoid", "apothecium_(hymenium_on_surface)", "clathroid", "clavarioid", "corticioid",
     "gasteroid", "gasteroid-hypogeous", "phalloid", "polyporoid", "tremelloid",
 })  # fmt: skip
-RULE_VERSION = "fungaltraits-adapter-1 (proposal, 2026-10-16)"
-# The normalised list ``convert`` wrote from the recorded table under RULE_VERSION, on
-# 2026-10-16 to /mnt/work/Zynergy/forecast-data/membership/membership_list_fungaltraits.tsv
-# (10,765 genera). A hash, not an extract. A changed rule writes a different list, and this value
-# moves with a decision row.
-NORMALISED_LIST_SHA256 = "972324a8a1e64c74408e1f6900d6661dd2fa71adb39f9f8ec24a177be40c42ed"
+RULE_VERSION = "fungaltraits-adapter-1 (ruled D144, 2026-10-16)"
+
+# The committed export (D143). Its folder's provenance.json records the same values with the
+# original's size, MD5 and sha256, the source, the rights field as seen and the consent.
+EXPORT_DIR = Path(__file__).resolve().parents[3] / "reference" / "fungaltraits-2020"
+EXPORT_DATA = EXPORT_DIR / "data.csv.gz"
+EXPORT_DATA_SHA256 = "0826341f2c87445835aac9f4f8b579cb473a693124cc3465b09b4878724565de"
+EXPORT_TRAIT_STATES = EXPORT_DIR / "trait_states.csv.gz"
+EXPORT_TRAIT_STATES_SHA256 = "da6ef2e03d3276c1ddf4ea1e34564e996e9704f7db7ed09796bb9aea85126ac1"
+
+# The normalised list ``convert_export`` writes from the committed export under RULE_VERSION
+# (10,765 genera). Before D143 the list was written from the workbook by ``convert``, with sha256
+# 972324a8a1e64c74408e1f6900d6661dd2fa71adb39f9f8ec24a177be40c42ed; the rows are the same, and
+# only ``source_id`` differs (it names the export and the rule's ruled version). A changed rule
+# writes a different list, and this value moves with a decision row.
+NORMALISED_LIST_SHA256 = "436cac17b16590328e681977a40cf8ccebc9fe9aa0313eecef589dd149b309bf"
 
 
 class SourceMismatch(ValueError):
@@ -124,13 +145,38 @@ class GenusTraits:
     fruitbody: str
 
 
-def read_traits(path: Path, expected_sha256: str = SOURCE.sha256) -> list[GenusTraits]:
+def _check_sha256(path: Path, expected_sha256: str) -> None:
     actual = file_sha256(path)
     if actual != expected_sha256:
         raise SourceMismatch(
             f"{Path(path).name}: sha256 {actual} is not the recorded {expected_sha256}"
         )
+
+
+def read_traits(path: Path, expected_sha256: str = SOURCE.sha256) -> list[GenusTraits]:
+    """From the workbook (outside the repository)."""
+    _check_sha256(path, expected_sha256)
     header, rows = read_table(path, SOURCE.sheet)
+    return _traits(path, header, rows)
+
+
+def read_traits_export(
+    path: Path = EXPORT_DATA, expected_sha256: str = EXPORT_DATA_SHA256
+) -> list[GenusTraits]:
+    """From the committed export of the workbook's ``data`` sheet (D143)."""
+    _check_sha256(path, expected_sha256)
+    grid = read_csv_gz(path)
+    header = [h.strip() for h in grid[0]]
+
+    def body():
+        for row in grid[1:]:
+            row = row + [""] * (len(header) - len(row))
+            yield dict(zip(header, row[: len(header)], strict=True))
+
+    return _traits(path, header, body())
+
+
+def _traits(path: Path, header: list[str], rows) -> list[GenusTraits]:
     missing = [c for c in COLUMNS_READ if c not in header]
     if missing:
         raise SourceMismatch(f"{Path(path).name}: no column {missing}")
@@ -188,3 +234,19 @@ def convert(path: Path, out: Path, expected_sha256: str = SOURCE.sha256) -> str:
     """Read the table, write the normalised list to ``out``; returns its sha256."""
     source_id = f"FungalTraits Table S1, sha256 {expected_sha256[:16]}, rule {RULE_VERSION}"
     return write_list(out, to_list_rows(read_traits(path, expected_sha256), source_id))
+
+
+def export_source_id(expected_sha256: str = EXPORT_DATA_SHA256) -> str:
+    return (
+        f"FungalTraits Table S1 data sheet, export sha256 {expected_sha256[:16]} of workbook "
+        f"sha256 {SOURCE.sha256[:16]}, rule {RULE_VERSION}"
+    )
+
+
+def convert_export(
+    out: Path, path: Path = EXPORT_DATA, expected_sha256: str = EXPORT_DATA_SHA256
+) -> str:
+    """Read the committed export, write the normalised list to ``out``; returns its sha256."""
+    traits = read_traits_export(path, expected_sha256)
+    rows = to_list_rows(traits, export_source_id(expected_sha256))
+    return write_list(out, rows)
