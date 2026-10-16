@@ -285,7 +285,8 @@ class Data:
         log_eff = frame_all if track == "all" else _log_effort(EffortSurface.read(T6 / track),
                                                                weather)  # fmt: skip
         self.track = track
-        self.held_effort = md.held_effort(np.array(list(log_eff.values())))
+        self.log_effort_values = np.array(list(log_eff.values()))
+        self.held_effort = md.held_effort(self.log_effort_values)
         self.effort_cells_with_eligible = len(log_eff)
 
         # presences
@@ -333,6 +334,8 @@ class Data:
         b_has = np.array([int(k) in log_eff for k in wkey[bi]])
         self.background_dropped_no_track_effort = int((~b_has).sum())
         bi = bi[b_has]
+        if SMOKE:
+            bi = bi[::10]
         bw = bg.background_weights(len(bi), float(pw.sum()))
 
         idx = np.concatenate([pi, bi])
@@ -375,7 +378,7 @@ def configs() -> list[dict]:
     committed = json.loads(GRID_FILE.read_text(encoding="utf-8"))["configurations"]
     if out != committed:
         raise SystemExit("tuning_configurations() differs from the committed grid")
-    return out
+    return out[:2] if SMOKE else out
 
 
 # --- timing ---------------------------------------------------------------------------------------
@@ -453,7 +456,27 @@ def cmd_timing(work: Path, evidence: Path, threads: int) -> None:
 # --- fit ------------------------------------------------------------------------------------------
 
 
-def lobo(data: Data, features: list[str], threads: int, log, chosen=None):
+CACHE: Path | None = None  # set by cmd_fit: held-out predictions saved per model, reused on rerun
+SMOKE = False  # --smoke: 2 configurations, a tenth of the background, 50 resamples, own folders
+
+
+def lobo(data: Data, features: list[str], threads: int, log, chosen=None, key=None):
+    """Held-out predictions over every block, cached under ``key`` in CACHE."""
+    if CACHE is not None and key is not None:
+        pp, cp = CACHE / f"lobo_{key}.npy", CACHE / f"lobo_{key}.json"
+        if pp.exists() and cp.exists():
+            meta = json.loads(cp.read_text())
+            if meta["features"] == features and meta["n"] == len(data.y):
+                log(f"{key}: reused from cache")
+                return np.load(pp), {int(k): v for k, v in meta["chosen"].items()}
+        preds, ch = _lobo(data, features, threads, log, chosen)
+        np.save(pp, preds)
+        cp.write_text(json.dumps({"features": features, "n": len(data.y), "chosen": ch}))
+        return preds, ch
+    return _lobo(data, features, threads, log, chosen)
+
+
+def _lobo(data: Data, features: list[str], threads: int, log, chosen=None):
     """Held-out predictions over every block. ``chosen``: block -> config to reuse (no tuning)."""
     x = data.cols(features)
     fit = md.fitter_for(features, threads)
@@ -477,7 +500,8 @@ def lobo(data: Data, features: list[str], threads: int, log, chosen=None):
 def diff(data: Data, a, b, select=None, clusters=None) -> mt.Difference:
     s = np.ones(len(data.y), bool) if select is None else select
     c = data.clusters if clusters is None else clusters
-    return mt.clustered_auc_difference(a[s], b[s], data.y[s], data.w[s], c[s])
+    return mt.clustered_auc_difference(a[s], b[s], data.y[s], data.w[s], c[s],
+                                       resamples=50 if SMOKE else mt.RESAMPLES)  # fmt: skip
 
 
 def dd(d: mt.Difference) -> dict:
@@ -498,6 +522,9 @@ def checkpoint(work: Path, name: str, value) -> None:
 
 
 def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
+    global CACHE
+    CACHE = work / ("cache_smoke" if SMOKE else "cache")
+    CACHE.mkdir(parents=True, exist_ok=True)
     evidence.mkdir(parents=True, exist_ok=True)
     log = Log(work / "fit.log")
     t0 = time.monotonic()
@@ -518,13 +545,13 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
     chosen: dict[str, dict] = {}
     for name in ("A: effort only", "B: forest only", "base"):
         s = time.monotonic()
-        preds[name], chosen[name] = lobo(data, ladder[name], threads, log)
+        preds[name], chosen[name] = lobo(data, ladder[name], threads, log, key=name[0:4])
         checkpoint(work, name.split(":")[0].replace(" ", "_"), preds[name])
         log(f"{name}: {round(time.monotonic() - s)} s, pooled AUC {auc(data, preds[name]):.4f}")
     add_one = {}
     for c in CANDIDATE_BANDS:
         key = f"base + {c}"
-        preds[key], _ = lobo(data, ladder[key], threads, log, chosen=chosen["base"])
+        preds[key], _ = lobo(data, ladder[key], threads, log, chosen=chosen["base"], key=c)
         add_one[c] = diff(data, preds[key], preds["base"])
         log(f"{key}: difference {add_one[c].point:+.4f} [{add_one[c].low:+.4f}, "
             f"{add_one[c].high:+.4f}]")  # fmt: skip
@@ -532,7 +559,7 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
     full_features = [*BASE_BANDS, *kept, md.EFFORT]
     if kept:
         s = time.monotonic()
-        preds["full"], chosen["full"] = lobo(data, full_features, threads, log)
+        preds["full"], chosen["full"] = lobo(data, full_features, threads, log, key="full")
         log(f"full (base + {kept}): {round(time.monotonic() - s)} s")
     else:
         preds["full"], chosen["full"] = preds["base"], chosen["base"]
@@ -612,7 +639,7 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
             missing = set(np.unique(sd.blocks).tolist()) - set(ch)
             if missing:
                 raise SystemExit(f"{name}: blocks {missing} have no chosen configuration")
-            sp[k], _ = lobo(sd, feats, threads, log, chosen=ch)
+            sp[k], _ = lobo(sd, feats, threads, log, chosen=ch, key=f"{name}-{k[:4]}")
         sf = np.isin(sd.blocks, sorted(forested))
         side[name] = {
             "presences": sd.n_presences, "background": sd.n_background,
@@ -674,8 +701,8 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
     cols = {**{n: f[:, k] for k, n in enumerate(names)}, md.EFFORT: np.zeros(len(f)),
             md.CONIFER_COVER: con, md.BROADLEAF_COVER: brd}  # fmt: skip
     xm = np.column_stack([cols[c] for c in full_features])
-    le_values = np.array([v for v in data.x[:, data.columns.index(md.EFFORT)]])
-    q25, q75 = np.quantile(le_values, [0.25, 0.75])
+    # P6: the 25th and 75th percentiles of the distribution the held value is the median of
+    q25, q75 = np.quantile(data.log_effort_values, [0.25, 0.75])
     r25 = md.predict_at_effort(booster, full_features, xm, q25)
     r75 = md.predict_at_effort(booster, full_features, xm, q75)
     ranking_same = bool(np.array_equal(np.argsort(r25, kind="stable"),
@@ -683,7 +710,8 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
     shift = r75 - r25
 
     # writers
-    out_dir = Path("/mnt/work/Zynergy/forecast-data/t7") / f"pnw-{datetime.now(UTC):%Y-%m-%d}"
+    stem = "smoke" if SMOKE else "pnw"
+    out_dir = Path("/mnt/work/Zynergy/forecast-data/t7") / f"{stem}-{datetime.now(UTC):%Y-%m-%d}"
     commit = subprocess.run(["git", "-C", str(REPO), "rev-parse", "HEAD"], capture_output=True,
                             text=True, check=True).stdout.strip()  # fmt: skip
     attrib = attribution(
@@ -931,6 +959,9 @@ def mask_map(out_dir: Path, window: GridWindow, png: Path) -> str:
 if __name__ == "__main__":
     args = sys.argv[1:]
     threads = 4
+    if "--smoke" in args:
+        args.remove("--smoke")
+        SMOKE = True
     if "--threads" in args:
         k = args.index("--threads")
         threads = int(args[k + 1])

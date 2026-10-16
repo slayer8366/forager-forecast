@@ -1,0 +1,270 @@
+{
+ "fold_block": 112,
+ "train_points": 505126,
+ "test_points": 10498,
+ "features": [
+  "share_Pseudotsuga",
+  "share_Tsuga",
+  "share_Picea",
+  "share_Abies",
+  "share_Pinus",
+  "share_Quercus",
+  "share_conifer",
+  "share_broadleaf",
+  "total_cover_pct",
+  "ph_mean_0_30cm",
+  "log_effort"
+ ],
+ "threads": 4,
+ "inner_fits": 80,
+ "seconds_per_config": {
+  "c00": [
+   8.43,
+   8.04,
+   7.54,
+   8.76
+  ],
+  "c01": [
+   3.18,
+   3.5,
+   3.62,
+   3.49
+  ],
+  "c02": [
+   7.97,
+   8.06,
+   8.23,
+   18.88
+  ],
+  "c03": [
+   23.66,
+   24.82,
+   13.74,
+   14.5
+  ],
+  "c04": [
+   8.39,
+   8.66,
+   8.2,
+   10.35
+  ],
+  "c05": [
+   5.73,
+   5.67,
+   5.82,
+   6.28
+  ],
+  "c06": [
+   9.97,
+   10.25,
+   10.04,
+   10.27
+  ],
+  "c07": [
+   13.49,
+   13.88,
+   14.37,
+   14.68
+  ],
+  "c08": [
+   2.96,
+   3.3,
+   3.12,
+   3.11
+  ],
+  "c09": [
+   5.47,
+   5.81,
+   6.06,
+   6.11
+  ],
+  "c10": [
+   8.55,
+   8.57,
+   8.72,
+   9.43
+  ],
+  "c11": [
+   5.11,
+   5.2,
+   5.8,
+   5.97
+  ],
+  "c12": [
+   11.86,
+   12.15,
+   12.33,
+   12.26
+  ],
+  "c13": [
+   5.96,
+   5.71,
+   5.68,
+   6.13
+  ],
+  "c14": [
+   11.37,
+   11.72,
+   11.53,
+   11.97
+  ],
+  "c15": [
+   4.19,
+   4.04,
+   3.87,
+   3.88
+  ],
+  "c16": [
+   2.95,
+   3.16,
+   2.94,
+   2.94
+  ],
+  "c17": [
+   7.91,
+   8.66,
+   8.33,
+   8.69
+  ],
+  "c18": [
+   5.01,
+   5.14,
+   5.11,
+   5.23
+  ],
+  "c19": [
+   3.76,
+   3.93,
+   3.88,
+   3.99
+  ]
+ },
+ "chosen": "c00",
+ "final_fit_seconds": 10.3,
+ "outer_fold_seconds": 646.1,
+ "outer_folds": 24,
+ "fold_sizes": [
+  [
+   120,
+   92895
+  ],
+  [
+   130,
+   81347
+  ],
+  [
+   116,
+   63353
+  ],
+  [
+   110,
+   56537
+  ],
+  [
+   118,
+   42766
+  ],
+  [
+   122,
+   29064
+  ],
+  [
+   114,
+   28565
+  ],
+  [
+   121,
+   27908
+  ],
+  [
+   129,
+   24117
+  ],
+  [
+   109,
+   20990
+  ],
+  [
+   131,
+   13266
+  ],
+  [
+   117,
+   10642
+  ],
+  [
+   112,
+   10498
+  ],
+  [
+   5,
+   3715
+  ],
+  [
+   15,
+   2830
+  ],
+  [
+   4,
+   2743
+  ],
+  [
+   111,
+   2089
+  ],
+  [
+   7,
+   1511
+  ],
+  [
+   10,
+   537
+  ],
+  [
+   172,
+   133
+  ],
+  [
+   171,
+   49
+  ],
+  [
+   16,
+   35
+  ],
+  [
+   6,
+   32
+  ],
+  [
+   8,
+   2
+  ]
+ ],
+ "mean_fit_seconds": 7.9,
+ "projection_hours_fits": 18.66,
+ "projection_note": "4 tuned models x folds x this fold's time, plus untuned fits x the mean fit time; excludes the bootstrap, the area of applicability and the map pass, timed separately",
+ "presences": 15624,
+ "background": 500000,
+ "presence_outcomes": {
+  "thinned presences in the file": 23069,
+  "by cell code": {
+   "1": 15626,
+   "5": 1025,
+   "3": 1928,
+   "4": 4160,
+   "0": 329,
+   "6": 1
+  },
+  "eligible but weather cell outside the effort frame": 2,
+  "entering the fit": 15624,
+  "eligible, record's weather cell differs from its 250 m cell centre's": 223
+ },
+ "peak_rss_mb": 1011.3,
+ "written_utc": "2026-10-16T11:24:45+00:00",
+ "bootstrap_one_difference_seconds": 37.0,
+ "aoa_fit_seconds": 30.4,
+ "aoa_query_seconds_per_cell": 2.8682939202565533e-05,
+ "aoa_query_projection_hours_all_eligible": 0.06,
+ "eligible_cells": 6967248
+}
