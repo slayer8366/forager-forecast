@@ -1,0 +1,1186 @@
+{
+ "started_utc": "2026-10-16T10:55:16+00:00",
+ "zip": "/home/zynergy-labs/Zynergy/forager-forecast-d26/data/d26/downloads/0012112-260928105237408.zip",
+ "zip_sha256": "c0d5f6a1a775ddb902f73ca2c1978946c056a4f326beb7e13349677c0f72b26c",
+ "zip_sha256_in_pull_record": "c0d5f6a1a775ddb902f73ca2c1978946c056a4f326beb7e13349677c0f72b26c",
+ "membership_list_sha256": "436cac17b16590328e681977a40cf8ccebc9fe9aa0313eecef589dd149b309bf",
+ "export_sha256": "0826341f2c87445835aac9f4f8b579cb473a693124cc3465b09b4878724565de",
+ "rule_version": "fungaltraits-adapter-1 (ruled D144, 2026-10-16)",
+ "effort_frame_cells": 43035,
+ "level3_table_size": 182,
+ "rules": "D144: (1) mushroom-forming genera only by fruitbody type, via the list's 'clear' certainty in the main run; (2) family-only records in the side run only; (3) one presence per genus per 250 m cell; (4) 30 to count alone, pooled below",
+ "runs": {
+  "main": {
+   "group": "mycorrhizal group",
+   "run": "main",
+   "rows_read": 2493578,
+   "unloadable": {
+    "eventDate does not name a calendar day": 9604,
+    "eventDate spans more than one day": 23
+   },
+   "r6_steps": [
+    {
+     "step": "user_obscured",
+     "before": 2483951,
+     "dropped": 155988,
+     "after": 2327963
+    },
+    {
+     "step": "coordinate_uncertainty",
+     "before": 2327963,
+     "dropped": 986105,
+     "after": 1341858
+    },
+    {
+     "step": "date_kept_as_given",
+     "before": 1341858,
+     "dropped": 0,
+     "after": 1341858
+    },
+    {
+     "step": "duplicate_taxon_observer_cell_day",
+     "before": 1341858,
+     "dropped": 92140,
+     "after": 1249718
+    }
+   ],
+   "outcomes": {
+    "family only, family not wholly in group": 410,
+    "genus listed, mixed or uncertain (side run only)": 2652,
+    "genus listed, not in group": 108608,
+    "genus not in the list": 2288,
+    "in group": 28776,
+    "no genus or family name": 45,
+    "outside the box (250 m cell centre)": 1106939
+   },
+   "all_fungi_r6_survivors_in_box": 142779,
+   "presences_before_thinning": 28776,
+   "thinned": {
+    "presences": 23069,
+    "genera": 86,
+    "per_genus": {
+     "Amanita": 5435,
+     "Helvella": 1415,
+     "Russula": 1370,
+     "Suillus": 1281,
+     "Boletus": 1229,
+     "Cortinarius": 1121,
+     "Lactarius": 1072,
+     "Cantharellus": 1059,
+     "Laccaria": 1030,
+     "Xerocomellus": 730,
+     "Turbinellus": 697,
+     "Tricholoma": 641,
+     "Craterellus": 528,
+     "Inocybe": 490,
+     "Hygrophorus": 485,
+     "Hydnellum": 477,
+     "Aureoboletus": 469,
+     "Clavulina": 423,
+     "Leccinum": 270,
+     "Caloboletus": 203,
+     "Gomphus": 167,
+     "Paxillus": 148,
+     "Coltricia": 144,
+     "Porphyrellus": 138,
+     "Phylloporus": 136,
+     "Sarcosphaera": 133,
+     "Albatrellopsis": 132,
+     "Hydnum": 119,
+     "Sarcodon": 115,
+     "Hebeloma": 86,
+     "Leotia": 75,
+     "Otidea": 75,
+     "Thelephora": 73,
+     "Thaxterogaster": 71,
+     "Pisolithus": 68,
+     "Rubroboletus": 67,
+     "Rhizopogon": 65,
+     "Catathelasma": 65,
+     "Phaeocollybia": 65,
+     "Phellodon": 60,
+     "Gastroboletus": 56,
+     "Scleroderma": 55,
+     "Boletinus": 50,
+     "Albatrellus": 45,
+     "Butyriboletus": 43,
+     "Truncocolumella": 36,
+     "Humaria": 33,
+     "Xerocomus": 29,
+     "Astraeus": 28,
+     "Tuber": 26,
+     "Suillellus": 23,
+     "Neoalbatrellus": 21,
+     "Boletopsis": 19,
+     "Hortiboletus": 18,
+     "Hemileccinum": 15,
+     "Scutiger": 13,
+     "Naucoria": 13,
+     "Mallocybe": 12,
+     "Gyroporus": 8,
+     "Polyozellus": 7,
+     "Alpova": 7,
+     "Cyanoboletus": 7,
+     "Polypus": 6,
+     "Elaphomyces": 6,
+     "Leucogaster": 6,
+     "Polyporoletus": 6,
+     "Leucangium": 5,
+     "Alnicola": 5,
+     "Pulveroboletus": 4,
+     "Tarzetta": 4,
+     "Geopora": 4,
+     "Balsamia": 4,
+     "Hymenogaster": 4,
+     "Melanogaster": 4,
+     "Hydnotrya": 3,
+     "Gautieria": 2,
+     "Neoboletus": 2,
+     "Byssocorticium": 2,
+     "Phallogaster": 2,
+     "Leucophleps": 2,
+     "Tylopilus": 2,
+     "Pulchroboletus": 1,
+     "Fischerula": 1,
+     "Fevansia": 1,
+     "Paragyrodon": 1,
+     "Cazia": 1
+    },
+    "per_year": {
+     "2015": 71,
+     "2016": 121,
+     "2017": 192,
+     "2018": 611,
+     "2019": 1486,
+     "2020": 2244,
+     "2021": 3220,
+     "2022": 2103,
+     "2023": 3802,
+     "2024": 4338,
+     "2025": 4881
+    },
+    "per_year_us": {
+     "2015": 65,
+     "2016": 110,
+     "2017": 191,
+     "2018": 581,
+     "2019": 1356,
+     "2020": 2011,
+     "2021": 3020,
+     "2022": 1998,
+     "2023": 3493,
+     "2024": 3747,
+     "2025": 4240
+    },
+    "per_side": {
+     "US": 20812,
+     "Canada": 1928,
+     "outside study area": 329
+    },
+    "per_level3": {
+     "7.1.8 Coastal Range": {
+      "US": 7290,
+      "outside study area": 23
+     },
+     "7.1.7 Strait of Georgia/Puget Lowland": {
+      "US": 4548,
+      "Canada": 1714,
+      "outside study area": 24
+     },
+     "6.2.7 Cascades": {
+      "US": 3296
+     },
+     "7.1.9 Willamette Valley": {
+      "US": 1786
+     },
+     "6.2.5 North Cascades": {
+      "US": 1483
+     },
+     "6.2.11 Klamath Mountains": {
+      "US": 518
+     },
+     "6.2.3 Columbia Mountains/Northern Rockies": {
+      "US": 495
+     },
+     "6.2.15 Idaho Batholith": {
+      "US": 451
+     },
+     "none": {
+      "outside study area": 274
+     },
+     "6.2.8 Eastern Cascades Slopes and Foothills": {
+      "US": 262
+     },
+     "7.1.5 Coastal Western Hemlock-Sitka Spruce Forests": {
+      "Canada": 214,
+      "outside study area": 8
+     },
+     "6.2.13 Wasatch and Uinta Mountains": {
+      "US": 187
+     },
+     "6.2.9 Blue Mountains": {
+      "US": 144
+     },
+     "6.2.10 Middle Rockies": {
+      "US": 102
+     },
+     "11.1.1 Central California Foothills and Coastal Mountains": {
+      "US": 79
+     },
+     "6.2.4 Canadian Rockies": {
+      "US": 55
+     },
+     "10.1.8 Snake River Plain": {
+      "US": 46
+     },
+     "10.1.2 Columbia Plateau": {
+      "US": 27
+     },
+     "10.1.3 Northern Basin and Range": {
+      "US": 20
+     },
+     "10.1.5 Central Basin and Range": {
+      "US": 12
+     },
+     "6.2.12 Sierra Nevada": {
+      "US": 9
+     },
+     "11.1.2 Central California Valley": {
+      "US": 2
+     }
+    },
+    "per_level1": {
+     "7": 15607,
+     "6": 7002,
+     "none": 274,
+     "10": 105,
+     "11": 81
+    },
+    "per_level1_us": {
+     "7": 13624,
+     "6": 7002,
+     "10": 105,
+     "11": 81
+    },
+    "us_blocks_under_minimum": [
+     "10.1.2 Columbia Plateau",
+     "10.1.3 Northern Basin and Range",
+     "10.1.5 Central Basin and Range",
+     "11.1.2 Central California Valley",
+     "6.2.12 Sierra Nevada"
+    ],
+    "us_blocks_with_none": [
+     "7.1.5 Coastal Western Hemlock-Sitka Spruce Forests"
+    ],
+    "outside_effort_frame": 0,
+    "outside_effort_frame_us": 0,
+    "per_licence": {
+     "CC_BY_NC_4_0": 20904,
+     "CC_BY_4_0": 1504,
+     "CC0_1_0": 661
+    }
+   },
+   "weights": {
+    "minimum_per_genus": 30,
+    "units": 48,
+    "genera_counting_alone": 47,
+    "genera_pooled": 39,
+    "presences_in_pool": 324,
+    "pooled_genera": [
+     "Alnicola",
+     "Alpova",
+     "Astraeus",
+     "Balsamia",
+     "Boletopsis",
+     "Byssocorticium",
+     "Cazia",
+     "Cyanoboletus",
+     "Elaphomyces",
+     "Fevansia",
+     "Fischerula",
+     "Gautieria",
+     "Geopora",
+     "Gyroporus",
+     "Hemileccinum",
+     "Hortiboletus",
+     "Hydnotrya",
+     "Hymenogaster",
+     "Leucangium",
+     "Leucogaster",
+     "Leucophleps",
+     "Mallocybe",
+     "Melanogaster",
+     "Naucoria",
+     "Neoalbatrellus",
+     "Neoboletus",
+     "Paragyrodon",
+     "Phallogaster",
+     "Polyozellus",
+     "Polyporoletus",
+     "Polypus",
+     "Pulchroboletus",
+     "Pulveroboletus",
+     "Scutiger",
+     "Suillellus",
+     "Tarzetta",
+     "Tuber",
+     "Tylopilus",
+     "Xerocomus"
+    ],
+    "total_weight": 48.0
+   },
+   "seconds": 297.5,
+   "peak_rss_mb_so_far": 1834.5
+  },
+  "licence_track": {
+   "group": "mycorrhizal group",
+   "run": "main, CC0 and CC BY records only (D108)",
+   "licences": [
+    "CC0_1_0",
+    "CC_BY_4_0"
+   ],
+   "presences_before_thinning": 2705,
+   "thinned": {
+    "presences": 2464,
+    "genera": 62,
+    "per_genus": {
+     "Amanita": 541,
+     "Helvella": 174,
+     "Lactarius": 149,
+     "Suillus": 145,
+     "Laccaria": 130,
+     "Cortinarius": 129,
+     "Russula": 120,
+     "Boletus": 105,
+     "Cantharellus": 85,
+     "Tricholoma": 77,
+     "Xerocomellus": 61,
+     "Turbinellus": 60,
+     "Craterellus": 59,
+     "Hydnellum": 58,
+     "Inocybe": 57,
+     "Aureoboletus": 51,
+     "Hygrophorus": 49,
+     "Clavulina": 42,
+     "Caloboletus": 30,
+     "Leccinum": 27,
+     "Phylloporus": 23,
+     "Gomphus": 21,
+     "Hydnum": 18,
+     "Sarcosphaera": 18,
+     "Coltricia": 17,
+     "Hebeloma": 16,
+     "Albatrellopsis": 15,
+     "Phellodon": 14,
+     "Thelephora": 13,
+     "Porphyrellus": 12,
+     "Phaeocollybia": 12,
+     "Gastroboletus": 11,
+     "Sarcodon": 10,
+     "Leotia": 10,
+     "Otidea": 9,
+     "Thaxterogaster": 8,
+     "Humaria": 8,
+     "Albatrellus": 8,
+     "Paxillus": 7,
+     "Pisolithus": 7,
+     "Rubroboletus": 7,
+     "Truncocolumella": 5,
+     "Rhizopogon": 5,
+     "Butyriboletus": 4,
+     "Catathelasma": 4,
+     "Astraeus": 4,
+     "Scleroderma": 3,
+     "Hortiboletus": 3,
+     "Xerocomus": 3,
+     "Tuber": 3,
+     "Leucangium": 2,
+     "Polyozellus": 2,
+     "Alpova": 2,
+     "Naucoria": 2,
+     "Boletinus": 2,
+     "Suillellus": 1,
+     "Hemileccinum": 1,
+     "Polypus": 1,
+     "Scutiger": 1,
+     "Boletopsis": 1,
+     "Neoalbatrellus": 1,
+     "Cazia": 1
+    },
+    "per_year": {
+     "2015": 16,
+     "2016": 18,
+     "2017": 20,
+     "2018": 96,
+     "2019": 149,
+     "2020": 248,
+     "2021": 386,
+     "2022": 252,
+     "2023": 362,
+     "2024": 450,
+     "2025": 467
+    },
+    "per_year_us": {
+     "2015": 14,
+     "2016": 17,
+     "2017": 20,
+     "2018": 89,
+     "2019": 132,
+     "2020": 215,
+     "2021": 343,
+     "2022": 223,
+     "2023": 294,
+     "2024": 324,
+     "2025": 295
+    },
+    "per_side": {
+     "US": 1966,
+     "Canada": 450,
+     "outside study area": 48
+    },
+    "per_level3": {
+     "7.1.8 Coastal Range": {
+      "US": 838,
+      "outside study area": 5
+     },
+     "7.1.7 Strait of Georgia/Puget Lowland": {
+      "US": 265,
+      "Canada": 407,
+      "outside study area": 6
+     },
+     "6.2.7 Cascades": {
+      "US": 436
+     },
+     "7.1.9 Willamette Valley": {
+      "US": 178
+     },
+     "6.2.5 North Cascades": {
+      "US": 100
+     },
+     "7.1.5 Coastal Western Hemlock-Sitka Spruce Forests": {
+      "Canada": 43,
+      "outside study area": 1
+     },
+     "6.2.11 Klamath Mountains": {
+      "US": 43
+     },
+     "none": {
+      "outside study area": 36
+     },
+     "6.2.8 Eastern Cascades Slopes and Foothills": {
+      "US": 27
+     },
+     "6.2.15 Idaho Batholith": {
+      "US": 20
+     },
+     "6.2.3 Columbia Mountains/Northern Rockies": {
+      "US": 17
+     },
+     "6.2.13 Wasatch and Uinta Mountains": {
+      "US": 15
+     },
+     "11.1.1 Central California Foothills and Coastal Mountains": {
+      "US": 7
+     },
+     "6.2.4 Canadian Rockies": {
+      "US": 6
+     },
+     "6.2.9 Blue Mountains": {
+      "US": 6
+     },
+     "6.2.10 Middle Rockies": {
+      "US": 3
+     },
+     "6.2.12 Sierra Nevada": {
+      "US": 1
+     },
+     "10.1.3 Northern Basin and Range": {
+      "US": 1
+     },
+     "10.1.5 Central Basin and Range": {
+      "US": 1
+     },
+     "10.1.8 Snake River Plain": {
+      "US": 1
+     },
+     "10.1.2 Columbia Plateau": {
+      "US": 1
+     }
+    },
+    "per_level1": {
+     "7": 1743,
+     "6": 674,
+     "none": 36,
+     "11": 7,
+     "10": 4
+    },
+    "per_level1_us": {
+     "7": 1281,
+     "6": 674,
+     "11": 7,
+     "10": 4
+    },
+    "us_blocks_under_minimum": [
+     "10.1.2 Columbia Plateau",
+     "10.1.3 Northern Basin and Range",
+     "10.1.5 Central Basin and Range",
+     "10.1.8 Snake River Plain",
+     "11.1.1 Central California Foothills and Coastal Mountains",
+     "6.2.10 Middle Rockies",
+     "6.2.12 Sierra Nevada",
+     "6.2.13 Wasatch and Uinta Mountains",
+     "6.2.15 Idaho Batholith",
+     "6.2.3 Columbia Mountains/Northern Rockies",
+     "6.2.4 Canadian Rockies",
+     "6.2.8 Eastern Cascades Slopes and Foothills",
+     "6.2.9 Blue Mountains"
+    ],
+    "us_blocks_with_none": [
+     "7.1.5 Coastal Western Hemlock-Sitka Spruce Forests"
+    ],
+    "outside_effort_frame": 0,
+    "outside_effort_frame_us": 0,
+    "per_licence": {
+     "CC_BY_4_0": 1743,
+     "CC0_1_0": 721
+    }
+   },
+   "weights": {
+    "minimum_per_genus": 30,
+    "units": 20,
+    "genera_counting_alone": 19,
+    "genera_pooled": 43,
+    "presences_in_pool": 342,
+    "pooled_genera": [
+     "Albatrellopsis",
+     "Albatrellus",
+     "Alpova",
+     "Astraeus",
+     "Boletinus",
+     "Boletopsis",
+     "Butyriboletus",
+     "Catathelasma",
+     "Cazia",
+     "Coltricia",
+     "Gastroboletus",
+     "Gomphus",
+     "Hebeloma",
+     "Hemileccinum",
+     "Hortiboletus",
+     "Humaria",
+     "Hydnum",
+     "Leccinum",
+     "Leotia",
+     "Leucangium",
+     "Naucoria",
+     "Neoalbatrellus",
+     "Otidea",
+     "Paxillus",
+     "Phaeocollybia",
+     "Phellodon",
+     "Phylloporus",
+     "Pisolithus",
+     "Polyozellus",
+     "Polypus",
+     "Porphyrellus",
+     "Rhizopogon",
+     "Rubroboletus",
+     "Sarcodon",
+     "Sarcosphaera",
+     "Scleroderma",
+     "Scutiger",
+     "Suillellus",
+     "Thaxterogaster",
+     "Thelephora",
+     "Truncocolumella",
+     "Tuber",
+     "Xerocomus"
+    ],
+    "total_weight": 20.0
+   }
+  },
+  "side": {
+   "group": "mycorrhizal group",
+   "run": "side",
+   "rows_read": 2493578,
+   "unloadable": {
+    "eventDate does not name a calendar day": 9604,
+    "eventDate spans more than one day": 23
+   },
+   "r6_steps": [
+    {
+     "step": "user_obscured",
+     "before": 2483951,
+     "dropped": 155988,
+     "after": 2327963
+    },
+    {
+     "step": "coordinate_uncertainty",
+     "before": 2327963,
+     "dropped": 986105,
+     "after": 1341858
+    },
+    {
+     "step": "date_kept_as_given",
+     "before": 1341858,
+     "dropped": 0,
+     "after": 1341858
+    },
+    {
+     "step": "duplicate_taxon_observer_cell_day",
+     "before": 1341858,
+     "dropped": 92140,
+     "after": 1249718
+    }
+   ],
+   "outcomes": {
+    "family only, family not wholly in group": 410,
+    "genus listed, not in group": 108608,
+    "genus not in the list": 2288,
+    "in group": 31428,
+    "no genus or family name": 45,
+    "outside the box (250 m cell centre)": 1106939
+   },
+   "all_fungi_r6_survivors_in_box": 142779,
+   "presences_before_thinning": 31428,
+   "thinned": {
+    "presences": 25357,
+    "genera": 101,
+    "per_genus": {
+     "Amanita": 5435,
+     "Helvella": 1415,
+     "Russula": 1370,
+     "Suillus": 1281,
+     "Boletus": 1229,
+     "Cortinarius": 1121,
+     "Lactarius": 1072,
+     "Cantharellus": 1059,
+     "Laccaria": 1030,
+     "Xerocomellus": 730,
+     "Turbinellus": 697,
+     "Gomphidius": 680,
+     "Tricholoma": 641,
+     "Entoloma": 557,
+     "Craterellus": 528,
+     "Inocybe": 490,
+     "Hygrophorus": 485,
+     "Hydnellum": 477,
+     "Aureoboletus": 469,
+     "Clavulina": 423,
+     "Ramaria": 389,
+     "Leccinum": 270,
+     "Chroogomphus": 250,
+     "Caloboletus": 203,
+     "Gomphus": 167,
+     "Peziza": 158,
+     "Paxillus": 148,
+     "Coltricia": 144,
+     "Porphyrellus": 138,
+     "Phylloporus": 136,
+     "Sarcosphaera": 133,
+     "Albatrellopsis": 132,
+     "Hydnum": 119,
+     "Sarcodon": 115,
+     "Clavariadelphus": 106,
+     "Hebeloma": 86,
+     "Leotia": 75,
+     "Lyophyllum": 75,
+     "Otidea": 75,
+     "Thelephora": 73,
+     "Thaxterogaster": 71,
+     "Pisolithus": 68,
+     "Rubroboletus": 67,
+     "Rhizopogon": 65,
+     "Catathelasma": 65,
+     "Phaeocollybia": 65,
+     "Phellodon": 60,
+     "Gastroboletus": 56,
+     "Scleroderma": 55,
+     "Boletinus": 50,
+     "Albatrellus": 45,
+     "Butyriboletus": 43,
+     "Truncocolumella": 36,
+     "Humaria": 33,
+     "Xerocomus": 29,
+     "Astraeus": 28,
+     "Tuber": 26,
+     "Sowerbyella": 24,
+     "Tremellodendropsis": 23,
+     "Suillellus": 23,
+     "Neoalbatrellus": 21,
+     "Boletopsis": 19,
+     "Hortiboletus": 18,
+     "Hemileccinum": 15,
+     "Scutiger": 13,
+     "Naucoria": 13,
+     "Mallocybe": 12,
+     "Endogone": 11,
+     "Gyroporus": 8,
+     "Polyozellus": 7,
+     "Alpova": 7,
+     "Cyanoboletus": 7,
+     "Polypus": 6,
+     "Elaphomyces": 6,
+     "Leucogaster": 6,
+     "Polyporoletus": 6,
+     "Leucangium": 5,
+     "Alnicola": 5,
+     "Sistotrema": 4,
+     "Pulveroboletus": 4,
+     "Tarzetta": 4,
+     "Hydropus": 4,
+     "Geopora": 4,
+     "Balsamia": 4,
+     "Hymenogaster": 4,
+     "Melanogaster": 4,
+     "Hydnotrya": 3,
+     "Hyaloscypha": 3,
+     "Gautieria": 2,
+     "Pulvinula": 2,
+     "Neoboletus": 2,
+     "Tulasnella": 2,
+     "Byssocorticium": 2,
+     "Phallogaster": 2,
+     "Leucophleps": 2,
+     "Tylopilus": 2,
+     "Pulchroboletus": 1,
+     "Fischerula": 1,
+     "Fevansia": 1,
+     "Paragyrodon": 1,
+     "Cazia": 1
+    },
+    "per_year": {
+     "2015": 77,
+     "2016": 130,
+     "2017": 218,
+     "2018": 659,
+     "2019": 1618,
+     "2020": 2449,
+     "2021": 3583,
+     "2022": 2292,
+     "2023": 4209,
+     "2024": 4741,
+     "2025": 5381
+    },
+    "per_year_us": {
+     "2015": 71,
+     "2016": 119,
+     "2017": 217,
+     "2018": 625,
+     "2019": 1481,
+     "2020": 2194,
+     "2021": 3371,
+     "2022": 2181,
+     "2023": 3854,
+     "2024": 4109,
+     "2025": 4669
+    },
+    "per_side": {
+     "US": 22891,
+     "Canada": 2111,
+     "outside study area": 355
+    },
+    "per_level3": {
+     "7.1.8 Coastal Range": {
+      "US": 8098,
+      "outside study area": 24
+     },
+     "7.1.7 Strait of Georgia/Puget Lowland": {
+      "US": 4974,
+      "Canada": 1882,
+      "outside study area": 25
+     },
+     "6.2.7 Cascades": {
+      "US": 3649
+     },
+     "7.1.9 Willamette Valley": {
+      "US": 1926
+     },
+     "6.2.5 North Cascades": {
+      "US": 1580
+     },
+     "6.2.11 Klamath Mountains": {
+      "US": 576
+     },
+     "6.2.3 Columbia Mountains/Northern Rockies": {
+      "US": 536
+     },
+     "6.2.15 Idaho Batholith": {
+      "US": 516
+     },
+     "none": {
+      "outside study area": 298
+     },
+     "6.2.8 Eastern Cascades Slopes and Foothills": {
+      "US": 295
+     },
+     "7.1.5 Coastal Western Hemlock-Sitka Spruce Forests": {
+      "Canada": 229,
+      "outside study area": 8
+     },
+     "6.2.13 Wasatch and Uinta Mountains": {
+      "US": 198
+     },
+     "6.2.9 Blue Mountains": {
+      "US": 155
+     },
+     "6.2.10 Middle Rockies": {
+      "US": 107
+     },
+     "11.1.1 Central California Foothills and Coastal Mountains": {
+      "US": 95
+     },
+     "6.2.4 Canadian Rockies": {
+      "US": 56
+     },
+     "10.1.8 Snake River Plain": {
+      "US": 53
+     },
+     "10.1.2 Columbia Plateau": {
+      "US": 31
+     },
+     "10.1.3 Northern Basin and Range": {
+      "US": 21
+     },
+     "10.1.5 Central Basin and Range": {
+      "US": 13
+     },
+     "6.2.12 Sierra Nevada": {
+      "US": 10
+     },
+     "11.1.2 Central California Valley": {
+      "US": 2
+     }
+    },
+    "per_level1": {
+     "7": 17166,
+     "6": 7678,
+     "none": 298,
+     "10": 118,
+     "11": 97
+    },
+    "per_level1_us": {
+     "7": 14998,
+     "6": 7678,
+     "10": 118,
+     "11": 97
+    },
+    "us_blocks_under_minimum": [
+     "10.1.3 Northern Basin and Range",
+     "10.1.5 Central Basin and Range",
+     "11.1.2 Central California Valley",
+     "6.2.12 Sierra Nevada"
+    ],
+    "us_blocks_with_none": [
+     "7.1.5 Coastal Western Hemlock-Sitka Spruce Forests"
+    ],
+    "outside_effort_frame": 0,
+    "outside_effort_frame_us": 0,
+    "per_licence": {
+     "CC_BY_NC_4_0": 22974,
+     "CC_BY_4_0": 1660,
+     "CC0_1_0": 723
+    }
+   },
+   "weights": {
+    "minimum_per_genus": 30,
+    "units": 55,
+    "genera_counting_alone": 54,
+    "genera_pooled": 47,
+    "presences_in_pool": 397,
+    "pooled_genera": [
+     "Alnicola",
+     "Alpova",
+     "Astraeus",
+     "Balsamia",
+     "Boletopsis",
+     "Byssocorticium",
+     "Cazia",
+     "Cyanoboletus",
+     "Elaphomyces",
+     "Endogone",
+     "Fevansia",
+     "Fischerula",
+     "Gautieria",
+     "Geopora",
+     "Gyroporus",
+     "Hemileccinum",
+     "Hortiboletus",
+     "Hyaloscypha",
+     "Hydnotrya",
+     "Hydropus",
+     "Hymenogaster",
+     "Leucangium",
+     "Leucogaster",
+     "Leucophleps",
+     "Mallocybe",
+     "Melanogaster",
+     "Naucoria",
+     "Neoalbatrellus",
+     "Neoboletus",
+     "Paragyrodon",
+     "Phallogaster",
+     "Polyozellus",
+     "Polyporoletus",
+     "Polypus",
+     "Pulchroboletus",
+     "Pulveroboletus",
+     "Pulvinula",
+     "Scutiger",
+     "Sistotrema",
+     "Sowerbyella",
+     "Suillellus",
+     "Tarzetta",
+     "Tremellodendropsis",
+     "Tuber",
+     "Tulasnella",
+     "Tylopilus",
+     "Xerocomus"
+    ],
+    "total_weight": 55.0
+   },
+   "seconds": 331.1,
+   "peak_rss_mb_so_far": 1834.5,
+   "family_only_records_before_thinning": {},
+   "genera_added_by_side_run": {
+    "Gomphidius": 680,
+    "Entoloma": 557,
+    "Ramaria": 389,
+    "Chroogomphus": 250,
+    "Peziza": 158,
+    "Clavariadelphus": 106,
+    "Lyophyllum": 75,
+    "Sowerbyella": 24,
+    "Tremellodendropsis": 23,
+    "Endogone": 11,
+    "Sistotrema": 4,
+    "Hydropus": 4,
+    "Hyaloscypha": 3,
+    "Pulvinula": 2,
+    "Tulasnella": 2
+   },
+   "genera_added_notes": {
+    "Gomphidius": "primary ectomycorrhizal; secondary ''; comment given",
+    "Entoloma": "primary 'soil_saprotroph'; ectomycorrhizal in secondary or comment",
+    "Ramaria": "primary ectomycorrhizal; secondary ''; comment given",
+    "Chroogomphus": "primary ectomycorrhizal; secondary ''; comment given",
+    "Peziza": "primary 'soil_saprotroph'; ectomycorrhizal in secondary or comment",
+    "Clavariadelphus": "primary 'litter_saprotroph'; ectomycorrhizal in secondary or comment",
+    "Lyophyllum": "primary ectomycorrhizal; secondary ''; comment given",
+    "Sowerbyella": "primary 'unspecified'; ectomycorrhizal in secondary or comment",
+    "Tremellodendropsis": "primary ectomycorrhizal; secondary ''; comment given",
+    "Endogone": "primary 'soil_saprotroph'; ectomycorrhizal in secondary or comment",
+    "Sistotrema": "primary 'litter_saprotroph'; ectomycorrhizal in secondary or comment",
+    "Hydropus": "primary 'litter_saprotroph'; ectomycorrhizal in secondary or comment",
+    "Hyaloscypha": "primary 'litter_saprotroph'; ectomycorrhizal in secondary or comment",
+    "Pulvinula": "primary ectomycorrhizal; secondary ''; comment given",
+    "Tulasnella": "primary 'litter_saprotroph'; ectomycorrhizal in secondary or comment"
+   }
+  },
+  "comparison": {
+   "group": "comparison: chicken of the woods",
+   "run": "main",
+   "rows_read": 2493578,
+   "unloadable": {
+    "eventDate does not name a calendar day": 9604,
+    "eventDate spans more than one day": 23
+   },
+   "r6_steps": [
+    {
+     "step": "user_obscured",
+     "before": 2483951,
+     "dropped": 155988,
+     "after": 2327963
+    },
+    {
+     "step": "coordinate_uncertainty",
+     "before": 2327963,
+     "dropped": 986105,
+     "after": 1341858
+    },
+    {
+     "step": "date_kept_as_given",
+     "before": 1341858,
+     "dropped": 0,
+     "after": 1341858
+    },
+    {
+     "step": "duplicate_taxon_observer_cell_day",
+     "before": 1341858,
+     "dropped": 92140,
+     "after": 1249718
+    }
+   ],
+   "outcomes": {
+    "family only, family not wholly in group": 410,
+    "genus listed, not in group": 139073,
+    "genus not in the list": 2288,
+    "in group": 963,
+    "no genus or family name": 45,
+    "outside the box (250 m cell centre)": 1106939
+   },
+   "all_fungi_r6_survivors_in_box": 142779,
+   "presences_before_thinning": 963,
+   "thinned": {
+    "presences": 820,
+    "genera": 1,
+    "per_genus": {
+     "Laetiporus": 820
+    },
+    "per_year": {
+     "2015": 2,
+     "2016": 2,
+     "2017": 9,
+     "2018": 22,
+     "2019": 38,
+     "2020": 81,
+     "2021": 90,
+     "2022": 113,
+     "2023": 81,
+     "2024": 123,
+     "2025": 259
+    },
+    "per_year_us": {
+     "2015": 2,
+     "2016": 1,
+     "2017": 8,
+     "2018": 21,
+     "2019": 32,
+     "2020": 74,
+     "2021": 82,
+     "2022": 100,
+     "2023": 70,
+     "2024": 109,
+     "2025": 236
+    },
+    "per_side": {
+     "US": 735,
+     "Canada": 70,
+     "outside study area": 15
+    },
+    "per_level3": {
+     "7.1.8 Coastal Range": {
+      "US": 269,
+      "outside study area": 1
+     },
+     "7.1.7 Strait of Georgia/Puget Lowland": {
+      "US": 105,
+      "Canada": 50,
+      "outside study area": 2
+     },
+     "6.2.7 Cascades": {
+      "US": 140
+     },
+     "6.2.5 North Cascades": {
+      "US": 83
+     },
+     "7.1.9 Willamette Valley": {
+      "US": 45
+     },
+     "6.2.11 Klamath Mountains": {
+      "US": 30
+     },
+     "6.2.3 Columbia Mountains/Northern Rockies": {
+      "US": 24
+     },
+     "11.1.1 Central California Foothills and Coastal Mountains": {
+      "US": 22
+     },
+     "7.1.5 Coastal Western Hemlock-Sitka Spruce Forests": {
+      "Canada": 20
+     },
+     "none": {
+      "outside study area": 12
+     },
+     "6.2.8 Eastern Cascades Slopes and Foothills": {
+      "US": 5
+     },
+     "6.2.10 Middle Rockies": {
+      "US": 4
+     },
+     "6.2.9 Blue Mountains": {
+      "US": 3
+     },
+     "11.1.2 Central California Valley": {
+      "US": 2
+     },
+     "10.1.2 Columbia Plateau": {
+      "US": 1
+     },
+     "6.2.4 Canadian Rockies": {
+      "US": 1
+     },
+     "10.1.5 Central Basin and Range": {
+      "US": 1
+     }
+    },
+    "per_level1": {
+     "7": 492,
+     "6": 290,
+     "11": 24,
+     "none": 12,
+     "10": 2
+    },
+    "per_level1_us": {
+     "7": 419,
+     "6": 290,
+     "11": 24,
+     "10": 2
+    },
+    "us_blocks_under_minimum": [
+     "10.1.2 Columbia Plateau",
+     "10.1.5 Central Basin and Range",
+     "11.1.1 Central California Foothills and Coastal Mountains",
+     "11.1.2 Central California Valley",
+     "6.2.10 Middle Rockies",
+     "6.2.3 Columbia Mountains/Northern Rockies",
+     "6.2.4 Canadian Rockies",
+     "6.2.8 Eastern Cascades Slopes and Foothills",
+     "6.2.9 Blue Mountains"
+    ],
+    "us_blocks_with_none": [
+     "7.1.5 Coastal Western Hemlock-Sitka Spruce Forests"
+    ],
+    "outside_effort_frame": 0,
+    "outside_effort_frame_us": 0,
+    "per_licence": {
+     "CC_BY_NC_4_0": 761,
+     "CC_BY_4_0": 36,
+     "CC0_1_0": 23
+    }
+   },
+   "weights": {
+    "minimum_per_genus": 30,
+    "units": 1,
+    "genera_counting_alone": 1,
+    "genera_pooled": 0,
+    "presences_in_pool": 0,
+    "pooled_genera": [],
+    "total_weight": 0.9999999999999998
+   },
+   "seconds": 333.7,
+   "peak_rss_mb_so_far": 1834.5
+  }
+ },
+ "presence_files_outside_repo": {
+  "main": {
+   "path": "/mnt/work/Zynergy/forecast-data/t7/v9/presences_main.csv",
+   "sha256": "185e12227027152b08394752e58f6e83303afc50a8657e3f8e105a4c8c80cc85"
+  },
+  "licence_track": {
+   "path": "/mnt/work/Zynergy/forecast-data/t7/v9/presences_licence_track.csv",
+   "sha256": "4a2f2754cd30a1c8f19d8eed09e3bf8883110cd7ac60b46c2dbf50ae7fc867da"
+  },
+  "side": {
+   "path": "/mnt/work/Zynergy/forecast-data/t7/v9/presences_side.csv",
+   "sha256": "8b778497cbf952a67b9ecbed875986a84d5567010449792120c8a6ac1c48ef42"
+  },
+  "comparison": {
+   "path": "/mnt/work/Zynergy/forecast-data/t7/v9/presences_comparison.csv",
+   "sha256": "066a185b7caf1f1772c1b2ed79c10998dcab1d9cd6634ca25cb281bd849632d0"
+  }
+ },
+ "ended_utc": "2026-10-16T11:11:32+00:00",
+ "seconds": 975.3,
+ "peak_rss_mb": 1834.5
+}
