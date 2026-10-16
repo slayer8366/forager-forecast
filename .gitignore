@@ -84,3 +84,14 @@ credentials*.json
 Thumbs.db
 .claude/
 *.log
+
+# T7 (Forager RECORD -1071): the FungalTraits table and any list made from it stay outside every
+# repository until the authors' permission; these patterns catch a copy that lands here by mistake.
+*.xlsx
+*.xls
+membership/
+*FungalTraits*
+membership_list*.tsv
+
+# Local pytest scratch (basetemp), never committed
+.pytest-tmp/
