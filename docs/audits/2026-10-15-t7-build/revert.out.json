@@ -1,0 +1,623 @@
+{
+  "files_unchanged_after_all_checks": true,
+  "results": [
+    {
+      "check": "R1 tie fallback off",
+      "file": "src/forager_forecast/t7/keying.py",
+      "edit": [
+        "near = _near_half(lat10) | _near_half(lon10)",
+        "near = np.zeros(lat10.shape, dtype=bool)"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_exact_decimal_ties_go_toward_plus_infinity_as_cell_for_does": "assert [(471, -1230)... (450, -1278)] == [(471, -1230)... (450, -1279)]"
+      },
+      "predicted": [
+        "test_exact_decimal_ties_go_toward_plus_infinity_as_cell_for_does"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R2 out-of-frame cell given 0",
+      "file": "src/forager_forecast/t7/keying.py",
+      "edit": [
+        "refused.append(cell)",
+        "total[cell] = 0.0"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_static_effort_sums_the_surface_over_the_frame_weeks_and_refuses_outside": "assert (Cell(lat_tenths=300, lon_tenths=-1000) not in {Cell(lat_tenths=455, lon_tenths=-1225): 1657.4250000000002, Cell(lat_tenths=456, lon_tenths=-1225): 414.35625000000005, Cell(lat_tenths=300, lon_tenths=-1000): 0.0})"
+      },
+      "predicted": [
+        "test_static_effort_sums_the_surface_over_the_frame_weeks_and_refuses_outside"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R3 level III burned by touch",
+      "file": "src/forager_forecast/t7/ecoregions.py",
+      "edit": [
+        "fill=NO_BLOCK,",
+        "fill=NO_BLOCK, all_touched=True,"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_level3_burns_by_centre_not_by_touch": "assert [[0, 5, 5, 5]] == [[0, 5, 5, 0]]"
+      },
+      "predicted": [
+        "test_level3_burns_by_centre_not_by_touch"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R4 list sha256 unchecked",
+      "file": "src/forager_forecast/t7/membership.py",
+      "edit": [
+        "if actual != expected_sha256:",
+        "if False:"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_the_list_is_refused_unless_its_sha256_is_the_recorded_one": "Failed: DID NOT RAISE MembershipListError"
+      },
+      "predicted": [
+        "test_the_list_is_refused_unless_its_sha256_is_the_recorded_one"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R5 join fingerprint unchecked",
+      "file": "src/forager_forecast/t7/membership.py",
+      "edit": [
+        "if members.fingerprint != expected_fingerprint:",
+        "if False:"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_the_join_refuses_a_list_with_another_fingerprint": "Failed: DID NOT RAISE MembershipListError"
+      },
+      "predicted": [
+        "test_the_join_refuses_a_list_with_another_fingerprint"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R6 main run takes mixed genera",
+      "file": "src/forager_forecast/t7/membership.py",
+      "edit": [
+        "if row.certainty == \"clear\" or self.run == SIDE_RUN:",
+        "if True:"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_main_and_side_runs_join_listed_unlisted_unclear_and_family_only_records": "AssertionError: listed mixed"
+      },
+      "predicted": [
+        "test_main_and_side_runs_join_listed_unlisted_unclear_and_family_only_records"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R7 family-only records in the main run",
+      "file": "src/forager_forecast/t7/membership.py",
+      "edit": [
+        "return IN_GROUP if self.run == SIDE_RUN else FAMILY_ONLY_SIDE",
+        "return IN_GROUP"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_main_and_side_runs_join_listed_unlisted_unclear_and_family_only_records": "AssertionError: family wholly in group"
+      },
+      "predicted": [
+        "test_main_and_side_runs_join_listed_unlisted_unclear_and_family_only_records"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R8 adapter source sha256 unchecked",
+      "file": "src/forager_forecast/t7/fungaltraits.py",
+      "edit": [
+        "if actual != expected_sha256:",
+        "if False:"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_the_adapter_refuses_a_table_that_is_not_the_recorded_one": "Failed: DID NOT RAISE SourceMismatch"
+      },
+      "predicted": [
+        "test_the_adapter_refuses_a_table_that_is_not_the_recorded_one"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R9 adapter: fruitbody rule off",
+      "file": "src/forager_forecast/t7/fungaltraits.py",
+      "edit": [
+        "if fb not in MUSHROOM_FRUITBODIES:",
+        "if False:"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_the_adapter_classifies_under_the_proposed_rule_and_writes_the_normalised_list": "AssertionError: assert {'Alphamyces'...'clear'), ...} == {'Alphamyces'...ertain'), ...}"
+      },
+      "predicted": [
+        "test_the_adapter_classifies_under_the_proposed_rule_and_writes_the_normalised_list"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R10 adapter: disagreeing duplicates not flagged",
+      "file": "src/forager_forecast/t7/fungaltraits.py",
+      "edit": [
+        "if len({(c[0], c[1]) for c in classes}) > 1:",
+        "if False:"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_the_adapter_classifies_under_the_proposed_rule_and_writes_the_normalised_list": "AssertionError: assert {'Alphamyces'...ertain'), ...} == {'Alphamyces'...ertain'), ...}"
+      },
+      "predicted": [
+        "test_the_adapter_classifies_under_the_proposed_rule_and_writes_the_normalised_list"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R11 R6 guard off",
+      "file": "src/forager_forecast/t7/presences.py",
+      "edit": [
+        "if u is None or u > R6_MAX_COORDINATE_UNCERTAINTY_M:",
+        "if False:"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_a_record_above_250_m_reaching_the_table_stops_the_run": "Failed: DID NOT RAISE R6Violation"
+      },
+      "predicted": [
+        "test_a_record_above_250_m_reaching_the_table_stops_the_run"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R12 box test off",
+      "file": "src/forager_forecast/t7/presences.py",
+      "edit": [
+        "if not bool(box.contains(lon, lat)):",
+        "if False:"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_records_pass_r6_the_box_and_the_join_and_every_drop_is_counted": "assert [1, 5, 7] == [1, 7]"
+      },
+      "predicted": [
+        "test_records_pass_r6_the_box_and_the_join_and_every_drop_is_counted"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R13 thinning by record, not cell",
+      "file": "src/forager_forecast/t7/presences.py",
+      "edit": [
+        "key = (p.genus, p.cell_id)",
+        "key = (p.genus, p.gbif_id)"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_thinning_keeps_one_presence_per_genus_and_cell_the_lowest_gbif_id": "AssertionError: assert [(3, 'A', 1),..., (9, 'A', 1)] == [(3, 'A', 1),..., (5, 'A', 2)]"
+      },
+      "predicted": [
+        "test_thinning_keeps_one_presence_per_genus_and_cell_the_lowest_gbif_id"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R14 small genera weighted on their own",
+      "file": "src/forager_forecast/t7/presences.py",
+      "edit": [
+        "unit_of = {g: (g if n >= min_presences else POOLED) for g, n in per_genus.items()}",
+        "unit_of = {g: g for g in per_genus}"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_each_genus_at_the_minimum_weighs_one_and_the_small_genera_weigh_one_together": "assert (1.0 == 0.5 \u00b1 5.0e-07"
+      },
+      "predicted": [
+        "test_each_genus_at_the_minimum_weighs_one_and_the_small_genera_weigh_one_together"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R15 pending check off",
+      "file": "src/forager_forecast/t7/predictors.py",
+      "edit": [
+        "if (pending & inside).any():",
+        "if False:"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_a_pending_study_cell_stops_the_run": "Failed: DID NOT RAISE PendingCell"
+      },
+      "predicted": [
+        "test_a_pending_study_cell_stops_the_run"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R16 layout check off",
+      "file": "src/forager_forecast/t7/predictors.py",
+      "edit": [
+        "if check_layout and tags.get(\"band_layout\") != BAND_LAYOUT:",
+        "if False:"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_a_tile_of_another_band_layout_is_refused": "Failed: DID NOT RAISE LayoutMismatch"
+      },
+      "predicted": [
+        "test_a_tile_of_another_band_layout_is_refused"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R17 share floor off",
+      "file": "src/forager_forecast/t7/predictors.py",
+      "edit": [
+        "v = np.where(v < SHARE_FLOOR, 0.0, v)",
+        "v = v"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_each_cell_gets_its_code_and_only_eligible_cells_carry_values": "assert np.float64(0.004999999888241291) == 0.0"
+      },
+      "predicted": [
+        "test_each_cell_gets_its_code_and_only_eligible_cells_carry_values"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R18 Canada not masked",
+      "file": "src/forager_forecast/t7/predictors.py",
+      "edit": [
+        "us = inside & (side == SIDE_US)",
+        "us = inside"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_each_cell_gets_its_code_and_only_eligible_cells_carry_values": "assert (np.uint8(0) == 0 and np.uint8(1) == 3)"
+      },
+      "predicted": [
+        "test_each_cell_gets_its_code_and_only_eligible_cells_carry_values"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R19 water code off",
+      "file": "src/forager_forecast/t7/predictors.py",
+      "edit": [
+        "water = us & ~(valid > 0)",
+        "water = us & False"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_each_cell_gets_its_code_and_only_eligible_cells_carry_values": "assert (np.uint8(4) == 6)"
+      },
+      "predicted": [
+        "test_each_cell_gets_its_code_and_only_eligible_cells_carry_values"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R20 background unsorted",
+      "file": "src/forager_forecast/t7/background.py",
+      "edit": [
+        "return np.sort(pool[picks])",
+        "return pool[picks]"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_only_cells_in_the_frame_are_candidates_and_the_draw_is_seeded_and_sorted": "assert ([347, 248, 30... 438, 72, ...] == [24, 28, 39, 40, 48, 67, ...]"
+      },
+      "predicted": [
+        "test_only_cells_in_the_frame_are_candidates_and_the_draw_is_seeded_and_sorted"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R21 short background not refused",
+      "file": "src/forager_forecast/t7/background.py",
+      "edit": [
+        "if n > len(pool):",
+        "if False:"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_asking_for_more_background_than_there_are_cells_is_refused": "ValueError: Cannot take a larger sample than population when replace is False"
+      },
+      "predicted": [
+        "test_asking_for_more_background_than_there_are_cells_is_refused"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R22 leakage check off",
+      "file": "src/forager_forecast/t7/folds.py",
+      "edit": [
+        "if leaked:",
+        "if False:"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_leave_one_block_out_holds_each_block_out_once_and_the_leakage_check_bites": "Failed: DID NOT RAISE LeakageError",
+        "test_a_leaky_fold_stops_the_outer_loop_before_any_fit": "RuntimeError: a point has no held-out prediction"
+      },
+      "predicted": [
+        "test_leave_one_block_out_holds_each_block_out_once_and_the_leakage_check_bites",
+        "test_a_leaky_fold_stops_the_outer_loop_before_any_fit"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R23 outer loop skips the leakage check",
+      "file": "src/forager_forecast/t7/folds.py",
+      "edit": [
+        "assert_no_leakage(fold, blocks)",
+        "pass"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_a_leaky_fold_stops_the_outer_loop_before_any_fit": "RuntimeError: a point has no held-out prediction"
+      },
+      "predicted": [
+        "test_a_leaky_fold_stops_the_outer_loop_before_any_fit"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R24 tuning sees the held-out block",
+      "file": "src/forager_forecast/t7/folds.py",
+      "edit": [
+        "best, _ = inner_choice(configs, x[tr], y[tr], w[tr], blocks[tr], fitter)",
+        "best, _ = inner_choice(configs, x, y, w, blocks, fitter)"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_the_outer_loop_never_shows_a_fold_its_own_block_and_tunes_inside_training_blocks": "AssertionError: (1.0, {1.0, 3.0, 4.0, 5.0}, {0.0, 2.0})"
+      },
+      "predicted": [
+        "test_the_outer_loop_never_shows_a_fold_its_own_block_and_tunes_inside_training_blocks"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R25 AUC ignores weights",
+      "file": "src/forager_forecast/t7/metrics.py",
+      "edit": [
+        "w = np.asarray(weights, dtype=np.float64)[self.order]",
+        "w = np.ones(len(self.order))"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_weighted_auc_matches_the_pair_count_with_ties_and_t1_auc_unweighted": "assert 0.5266203703703703 == 0.5990449463962177 \u00b1 1.0e-12",
+        "test_the_bootstrap_resamples_whole_clusters_and_is_seeded": "assert (0.24386257395966138 < 0.24386257395966138)"
+      },
+      "predicted": [
+        "test_weighted_auc_matches_the_pair_count_with_ties_and_t1_auc_unweighted",
+        "test_the_bootstrap_resamples_whole_clusters_and_is_seeded"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R26 bootstrap does not resample",
+      "file": "src/forager_forecast/t7/metrics.py",
+      "edit": [
+        "times = np.bincount(rng.integers(0, n, size=n), minlength=n)",
+        "times = np.ones(n, dtype=int)"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_the_bootstrap_resamples_whole_clusters_and_is_seeded": "assert (0.24386257395966138 < 0.24386257395966138)"
+      },
+      "predicted": [
+        "test_the_bootstrap_resamples_whole_clusters_and_is_seeded"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R27 P10 ignores forested blocks",
+      "file": "src/forager_forecast/t7/metrics.py",
+      "edit": [
+        "return all(d[k].excludes_zero_above for d in (all_blocks, forested) for k in (\"A\", \"B\"))",
+        "return all(d[k].excludes_zero_above for d in (all_blocks,) for k in (\"A\", \"B\"))"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_p10_needs_both_differences_above_zero_on_all_blocks_and_on_forested_blocks": "AssertionError: assert not True"
+      },
+      "predicted": [
+        "test_p10_needs_both_differences_above_zero_on_all_blocks_and_on_forested_blocks"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R28 AOA threshold uncapped",
+      "file": "src/forager_forecast/t7/aoa.py",
+      "edit": [
+        "return float(min(q75 + 1.5 * (q75 - q25), di.max()))",
+        "return float(q75 + 1.5 * (q75 - q25))"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_the_threshold_is_q75_plus_1_5_iqr_capped_at_the_largest_training_di": "assert 2.5 == 1.0 \u00b1 1.0e-06"
+      },
+      "predicted": [
+        "test_the_threshold_is_q75_plus_1_5_iqr_capped_at_the_largest_training_di"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R29 AOA training DI not cross-validated",
+      "file": "src/forager_forecast/t7/aoa.py",
+      "edit": [
+        "d, _ = cKDTree(z[~held]).query(z[held], k=1)",
+        "d, _ = cKDTree(z).query(z[held], k=1)"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_the_area_of_applicability_keeps_the_training_cloud_and_drops_a_far_point": "assert [False, False, False, False] == [True, True, False, False]",
+        "test_the_training_di_is_cross_validated_by_fold": "assert np.float64(0.0) > 0.5"
+      },
+      "predicted": [
+        "test_the_training_di_is_cross_validated_by_fold",
+        "test_the_area_of_applicability_keeps_the_training_cloud_and_drops_a_far_point"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R30 AOA unweighted",
+      "file": "src/forager_forecast/t7/aoa.py",
+      "edit": [
+        "z = (x - center) / scale * weights",
+        "z = (x - center) / scale"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_the_area_of_applicability_keeps_the_training_cloud_and_drops_a_far_point": "assert (False)"
+      },
+      "predicted": [
+        "test_the_area_of_applicability_keeps_the_training_cloud_and_drops_a_far_point"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R31 no interaction constraint",
+      "file": "src/forager_forecast/t7/model.py",
+      "edit": [
+        "params[\"interaction_constraints\"] = groups",
+        "pass"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_lightgbm_params_carry_the_two_constraints_and_t1_determinism": "KeyError: 'interaction_constraints'",
+        "test_the_map_ranking_is_the_same_at_any_held_effort_on_a_fitted_model": "assert False"
+      },
+      "predicted": [
+        "test_lightgbm_params_carry_the_two_constraints_and_t1_determinism",
+        "test_the_map_ranking_is_the_same_at_any_held_effort_on_a_fitted_model"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R32 no monotone constraint",
+      "file": "src/forager_forecast/t7/model.py",
+      "edit": [
+        "\"monotone_constraints\": [1 if i == e else 0 for i in range(len(features))],",
+        "\"monotone_constraints\": [0] * len(features),"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_lightgbm_params_carry_the_two_constraints_and_t1_determinism": "assert [0, 0, 0] == [0, 0, 1]"
+      },
+      "predicted": [
+        "test_lightgbm_params_carry_the_two_constraints_and_t1_determinism"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R33 flash drive not refused",
+      "file": "src/forager_forecast/t7/outputs.py",
+      "edit": [
+        "if _within(path, FLASH_DRIVE_ROOT):",
+        "if False:"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_outputs_are_refused_on_the_flash_drive_and_inside_the_repository": "Failed: DID NOT RAISE OutputRefused"
+      },
+      "predicted": [
+        "test_outputs_are_refused_on_the_flash_drive_and_inside_the_repository"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R34 repository not refused",
+      "file": "src/forager_forecast/t7/outputs.py",
+      "edit": [
+        "if _within(path, REPOSITORY_ROOT) and not _within(path, REPOSITORY_ROOT / TEST_SCRATCH):",
+        "if False:"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_outputs_are_refused_on_the_flash_drive_and_inside_the_repository": "Failed: DID NOT RAISE OutputRefused"
+      },
+      "predicted": [
+        "test_outputs_are_refused_on_the_flash_drive_and_inside_the_repository"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R35 wording check off",
+      "file": "src/forager_forecast/t7/outputs.py",
+      "edit": [
+        "if word in lowered:",
+        "if False:"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_wording_no_250_m_output_may_carry_is_refused": "Failed: DID NOT RAISE OutputRefused",
+        "test_the_writer_puts_each_tile_in_place_and_renames_when_whole": "Failed: DID NOT RAISE OutputRefused"
+      },
+      "predicted": [
+        "test_wording_no_250_m_output_may_carry_is_refused",
+        "test_the_writer_puts_each_tile_in_place_and_renames_when_whole"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R36 manifest keys unchecked",
+      "file": "src/forager_forecast/t7/outputs.py",
+      "edit": [
+        "if missing:",
+        "if False:"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_the_manifest_is_refused_unless_it_names_every_input_and_setting": "Failed: DID NOT RAISE OutputRefused"
+      },
+      "predicted": [
+        "test_the_manifest_is_refused_unless_it_names_every_input_and_setting"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R37 SCANFI named though unread",
+      "file": "src/forager_forecast/t7/outputs.py",
+      "edit": [
+        "if item.startswith(SCANFI_CITATION) and not canadian_values_read:",
+        "if False:"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_attribution_names_what_was_read_and_scanfi_only_if_a_canadian_value_was": "assert ['Zimmer, Sco...TE', 'CEC L3'] == ['Zimmer, Sco...TE', 'CEC L3']"
+      },
+      "predicted": [
+        "test_attribution_names_what_was_read_and_scanfi_only_if_a_canadian_value_was"
+      ],
+      "bites": true
+    },
+    {
+      "check": "R38 rasters written in place",
+      "file": "src/forager_forecast/t7/outputs.py",
+      "edit": [
+        "return self.out_dir / f\"{name}.partial\"",
+        "return self.out_dir / name"
+      ],
+      "tests_run": 54,
+      "failed": {
+        "test_the_writer_puts_each_tile_in_place_and_renames_when_whole": "AssertionError: assert not True"
+      },
+      "predicted": [
+        "test_the_writer_puts_each_tile_in_place_and_renames_when_whole"
+      ],
+      "bites": true
+    }
+  ]
+}

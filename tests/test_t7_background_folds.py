@@ -131,6 +131,17 @@ def test_the_outer_loop_never_shows_a_fold_its_own_block_and_tunes_inside_traini
     for _cid, train_blocks, query_blocks in seen:
         assert not (train_blocks & query_blocks)
     assert {next(iter(q)) for _c, _t, q in outer} == set(range(6))
+    # Every fit made while choosing a fold's configuration leaves that fold's block out of both
+    # its training and its query sets (D31: the held-out block is never seen by tuning).
+    since_last_outer = []
+    for cid, train_blocks, query_blocks in seen:
+        if (cid, train_blocks, query_blocks) in outer:
+            held = next(iter(query_blocks))
+            for _c, t, q in since_last_outer:
+                assert held not in t and held not in q, (held, t, q)
+            since_last_outer = []
+        else:
+            since_last_outer.append((cid, train_blocks, query_blocks))
     best, scores = inner_choice(configs, x, y, w, blocks, _recording_fitter([]))
     assert set(scores) == {"c00", "c01"} and best["id"] == min(scores, key=scores.get)
 

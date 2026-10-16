@@ -30,8 +30,12 @@ def _window_at(lon, lat, n=3):
 
 def test_exact_decimal_ties_go_toward_plus_infinity_as_cell_for_does():
     # D63, D64: 47.05 and -123.05 are decimal ties; float rounding of x * 10 gets them wrong.
-    lon = np.array([-123.05, -122.45, -123.0499999, 10.25])
-    lat = np.array([47.05, 45.25, 47.0500001, -0.05])
+    # -127.85000000000001 is one step of a double below the tie -127.85: its decimal text is not
+    # a tie and belongs to -127.9, but float arithmetic rounds x * 10 to the tie -1278.5 and
+    # sends it to -127.8. Only cells.cell_for's decimal rule gets it right (found by search over
+    # every tie in -180 to 180 and its neighbouring doubles: 410 of 32,391 differ).
+    lon = np.array([-123.05, -122.45, -123.0499999, 10.25, -127.85000000000001])
+    lat = np.array([47.05, 45.25, 47.0500001, -0.05, 45.0])
     lat_t, lon_t = weather_cells(lon, lat)
     expected = [cell_for(float(a), float(o)) for a, o in zip(lat, lon, strict=True)]
     assert list(zip(lat_t.tolist(), lon_t.tolist(), strict=True)) == [
@@ -39,6 +43,7 @@ def test_exact_decimal_ties_go_toward_plus_infinity_as_cell_for_does():
     ]
     assert (int(lat_t[0]), int(lon_t[0])) == (471, -1230)
     assert (int(lat_t[1]), int(lon_t[1])) == (453, -1224)
+    assert int(lon_t[4]) == -1279
 
 
 def test_every_master_cell_of_a_window_keys_like_cell_for_on_its_centre():

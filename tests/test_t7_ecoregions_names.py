@@ -5,6 +5,7 @@ from pathlib import Path
 import numpy as np
 from test_t6b_mask import _cell_lonlat, _ring, _window, _write_shapefile
 
+from forager_forecast.grid import GridWindow
 from forager_forecast.records.occurrence import COLUMNS_READ, OccurrenceLoader
 from forager_forecast.t7.ecoregions import burn_level3, read_level3
 from forager_forecast.t7.names import (
@@ -51,6 +52,16 @@ def test_level3_codes_are_burned_by_cell_centre_and_numbered_in_sorted_order(tmp
     assert (codes[inside & (lon > -120.98) & (lon < -120.02)] == 2).all()
     assert (codes[(lat > 46.02) & (lat < 46.98) & (lon > -121.98) & (lon < -120.02)] == 1).all()
     assert (codes[(lat < 44.98) | (lat > 47.02) | (lon < -122.02) | (lon > -119.98)] == 0).all()
+
+
+def test_level3_burns_by_centre_not_by_touch():
+    """A square from 300 m to 800 m east of a window's edge holds the centres at 375 and 625 m
+    only; the cell from 750 m to 1,000 m touches it but its centre (875 m) is outside."""
+    window = GridWindow(0, 0, 1000, 250)
+    ring = np.array([[300.0, -50.0], [300.0, 300.0], [800.0, 300.0], [800.0, -50.0],
+                     [300.0, -50.0]])  # fmt: skip
+    codes = burn_level3([(5, [ring])], window)
+    assert codes.tolist() == [[0, 5, 5, 0]]
 
 
 def test_the_d26_header_carries_every_name_column_and_every_loader_column():

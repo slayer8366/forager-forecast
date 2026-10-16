@@ -106,6 +106,10 @@ def test_the_area_of_applicability_keeps_the_training_cloud_and_drops_a_far_poin
     # a predictor with weight 0 is ignored: far along it is still inside
     zero = fit_aoa(x, np.array([1.0, 0.0]), folds)
     assert zero.inside(np.array([[0.5, 50.0]])).tolist() == [True]
+    # and on the training side too: weight 0 makes the second predictor add no distance, so the
+    # training DI equals that of the first predictor alone
+    first = fit_aoa(x[:, :1], np.array([1.0]), folds)
+    assert np.allclose(zero.train_di, first.train_di) and zero.threshold == first.threshold
 
 
 def test_the_training_di_is_cross_validated_by_fold():

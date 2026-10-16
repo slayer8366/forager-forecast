@@ -1,0 +1,231 @@
+"""T7 build revert runner, under Forager CLAUDE.md's rules for revert checks.
+
+For each check: save a copy of the file, make one exact edit (the old text must occur once),
+clear __pycache__, confirm the interpreter sees the edit, run every T7 test file with a fresh JUnit
+XML and PYTHONDONTWRITEBYTECODE=1, refuse to read the result on any collection, import or syntax
+error or a missing XML, then restore from the saved copy (never from git), confirm the restored
+file hashes to the copy and the forward text is back. A check "bites" when the failed tests are
+exactly the predicted ones and each message is read beside it.
+
+Run from the repository root: uv run python <this file> <out.json>
+"""
+
+import hashlib
+import json
+import os
+import shutil
+import subprocess
+import sys
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+T7 = "src/forager_forecast/t7/"
+T = "tests/"
+CHECKS = [
+    ("R1 tie fallback off", T7 + "keying.py", "near = _near_half(lat10) | _near_half(lon10)",
+     "near = np.zeros(lat10.shape, dtype=bool)",
+     ["test_exact_decimal_ties_go_toward_plus_infinity_as_cell_for_does"]),
+    ("R2 out-of-frame cell given 0", T7 + "keying.py", "            refused.append(cell)",
+     "            total[cell] = 0.0",
+     ["test_static_effort_sums_the_surface_over_the_frame_weeks_and_refuses_outside"]),
+    ("R3 level III burned by touch", T7 + "ecoregions.py", "        fill=NO_BLOCK,",
+     "        fill=NO_BLOCK, all_touched=True,",
+     ["test_level3_burns_by_centre_not_by_touch"]),
+    ("R4 list sha256 unchecked", T7 + "membership.py", "    if actual != expected_sha256:",
+     "    if False:", ["test_the_list_is_refused_unless_its_sha256_is_the_recorded_one"]),
+    ("R5 join fingerprint unchecked", T7 + "membership.py",
+     "        if members.fingerprint != expected_fingerprint:", "        if False:",
+     ["test_the_join_refuses_a_list_with_another_fingerprint"]),
+    ("R6 main run takes mixed genera", T7 + "membership.py",
+     '            if row.certainty == "clear" or self.run == SIDE_RUN:', "            if True:",
+     ["test_main_and_side_runs_join_listed_unlisted_unclear_and_family_only_records"]),
+    ("R7 family-only records in the main run", T7 + "membership.py",
+     "            return IN_GROUP if self.run == SIDE_RUN else FAMILY_ONLY_SIDE",
+     "            return IN_GROUP",
+     ["test_main_and_side_runs_join_listed_unlisted_unclear_and_family_only_records"]),
+    ("R8 adapter source sha256 unchecked", T7 + "fungaltraits.py",
+     "    if actual != expected_sha256:", "    if False:",
+     ["test_the_adapter_refuses_a_table_that_is_not_the_recorded_one"]),
+    ("R9 adapter: fruitbody rule off", T7 + "fungaltraits.py",
+     "        if fb not in MUSHROOM_FRUITBODIES:", "        if False:",
+     ["test_the_adapter_classifies_under_the_proposed_rule_and_writes_the_normalised_list"]),
+    ("R10 adapter: disagreeing duplicates not flagged", T7 + "fungaltraits.py",
+     "        if len({(c[0], c[1]) for c in classes}) > 1:", "        if False:",
+     ["test_the_adapter_classifies_under_the_proposed_rule_and_writes_the_normalised_list"]),
+    ("R11 R6 guard off", T7 + "presences.py",
+     "        if u is None or u > R6_MAX_COORDINATE_UNCERTAINTY_M:", "        if False:",
+     ["test_a_record_above_250_m_reaching_the_table_stops_the_run"]),
+    ("R12 box test off", T7 + "presences.py", "        if not bool(box.contains(lon, lat)):",
+     "        if False:", ["test_records_pass_r6_the_box_and_the_join_and_every_drop_is_counted"]),
+    ("R13 thinning by record, not cell", T7 + "presences.py", "        key = (p.genus, p.cell_id)",
+     "        key = (p.genus, p.gbif_id)",
+     ["test_thinning_keeps_one_presence_per_genus_and_cell_the_lowest_gbif_id"]),
+    ("R14 small genera weighted on their own", T7 + "presences.py",
+     "    unit_of = {g: (g if n >= min_presences else POOLED) for g, n in per_genus.items()}",
+     "    unit_of = {g: g for g in per_genus}",
+     ["test_each_genus_at_the_minimum_weighs_one_and_the_small_genera_weigh_one_together"]),
+    ("R15 pending check off", T7 + "predictors.py", "    if (pending & inside).any():",
+     "    if False:", ["test_a_pending_study_cell_stops_the_run"]),
+    ("R16 layout check off", T7 + "predictors.py",
+     '        if check_layout and tags.get("band_layout") != BAND_LAYOUT:', "        if False:",
+     ["test_a_tile_of_another_band_layout_is_refused"]),
+    ("R17 share floor off", T7 + "predictors.py",
+     "            v = np.where(v < SHARE_FLOOR, 0.0, v)", "            v = v",
+     ["test_each_cell_gets_its_code_and_only_eligible_cells_carry_values"]),
+    ("R18 Canada not masked", T7 + "predictors.py", "    us = inside & (side == SIDE_US)",
+     "    us = inside", ["test_each_cell_gets_its_code_and_only_eligible_cells_carry_values"]),
+    ("R19 water code off", T7 + "predictors.py", "    water = us & ~(valid > 0)",
+     "    water = us & False",
+     ["test_each_cell_gets_its_code_and_only_eligible_cells_carry_values"]),
+    ("R20 background unsorted", T7 + "background.py", "    return np.sort(pool[picks])",
+     "    return pool[picks]",
+     ["test_only_cells_in_the_frame_are_candidates_and_the_draw_is_seeded_and_sorted"]),
+    ("R21 short background not refused", T7 + "background.py", "    if n > len(pool):",
+     "    if False:", ["test_asking_for_more_background_than_there_are_cells_is_refused"]),
+    ("R22 leakage check off", T7 + "folds.py", "    if leaked:", "    if False:",
+     ["test_leave_one_block_out_holds_each_block_out_once_and_the_leakage_check_bites",
+      "test_a_leaky_fold_stops_the_outer_loop_before_any_fit"]),
+    ("R23 outer loop skips the leakage check", T7 + "folds.py",
+     "        assert_no_leakage(fold, blocks)", "        pass",
+     ["test_a_leaky_fold_stops_the_outer_loop_before_any_fit"]),
+    ("R24 tuning sees the held-out block", T7 + "folds.py",
+     "        best, _ = inner_choice(configs, x[tr], y[tr], w[tr], blocks[tr], fitter)",
+     "        best, _ = inner_choice(configs, x, y, w, blocks, fitter)",
+     ["test_the_outer_loop_never_shows_a_fold_its_own_block_and_tunes_inside_training_blocks"]),
+    ("R25 AUC ignores weights", T7 + "metrics.py",
+     "        w = np.asarray(weights, dtype=np.float64)[self.order]",
+     "        w = np.ones(len(self.order))",
+     ["test_weighted_auc_matches_the_pair_count_with_ties_and_t1_auc_unweighted",
+      "test_the_bootstrap_resamples_whole_clusters_and_is_seeded"]),
+    ("R26 bootstrap does not resample", T7 + "metrics.py",
+     "        times = np.bincount(rng.integers(0, n, size=n), minlength=n)",
+     "        times = np.ones(n, dtype=int)",
+     ["test_the_bootstrap_resamples_whole_clusters_and_is_seeded"]),
+    ("R27 P10 ignores forested blocks", T7 + "metrics.py",
+     '    return all(d[k].excludes_zero_above for d in (all_blocks, forested) for k in ("A", "B"))',
+     '    return all(d[k].excludes_zero_above for d in (all_blocks,) for k in ("A", "B"))',
+     ["test_p10_needs_both_differences_above_zero_on_all_blocks_and_on_forested_blocks"]),
+    ("R28 AOA threshold uncapped", T7 + "aoa.py",
+     "    return float(min(q75 + 1.5 * (q75 - q25), di.max()))",
+     "    return float(q75 + 1.5 * (q75 - q25))",
+     ["test_the_threshold_is_q75_plus_1_5_iqr_capped_at_the_largest_training_di"]),
+    ("R29 AOA training DI not cross-validated", T7 + "aoa.py",
+     "        d, _ = cKDTree(z[~held]).query(z[held], k=1)",
+     "        d, _ = cKDTree(z).query(z[held], k=1)",
+     ["test_the_training_di_is_cross_validated_by_fold",
+      "test_the_area_of_applicability_keeps_the_training_cloud_and_drops_a_far_point"]),
+    ("R30 AOA unweighted", T7 + "aoa.py", "    z = (x - center) / scale * weights",
+     "    z = (x - center) / scale",
+     ["test_the_area_of_applicability_keeps_the_training_cloud_and_drops_a_far_point"]),
+    ("R31 no interaction constraint", T7 + "model.py",
+     '    params["interaction_constraints"] = groups', "    pass",
+     ["test_lightgbm_params_carry_the_two_constraints_and_t1_determinism",
+      "test_the_map_ranking_is_the_same_at_any_held_effort_on_a_fitted_model"]),
+    ("R32 no monotone constraint", T7 + "model.py",
+     '        "monotone_constraints": [1 if i == e else 0 for i in range(len(features))],',
+     '        "monotone_constraints": [0] * len(features),',
+     ["test_lightgbm_params_carry_the_two_constraints_and_t1_determinism"]),
+    ("R33 flash drive not refused", T7 + "outputs.py",
+     "    if _within(path, FLASH_DRIVE_ROOT):", "    if False:",
+     ["test_outputs_are_refused_on_the_flash_drive_and_inside_the_repository"]),
+    ("R34 repository not refused", T7 + "outputs.py",
+     "    if _within(path, REPOSITORY_ROOT) and not _within(path, REPOSITORY_ROOT / TEST_SCRATCH):",
+     "    if False:", ["test_outputs_are_refused_on_the_flash_drive_and_inside_the_repository"]),
+    ("R35 wording check off", T7 + "outputs.py", "        if word in lowered:", "        if False:",
+     ["test_wording_no_250_m_output_may_carry_is_refused",
+      "test_the_writer_puts_each_tile_in_place_and_renames_when_whole"]),
+    ("R36 manifest keys unchecked", T7 + "outputs.py", "    if missing:", "    if False:",
+     ["test_the_manifest_is_refused_unless_it_names_every_input_and_setting"]),
+    ("R37 SCANFI named though unread", T7 + "outputs.py",
+     "            if item.startswith(SCANFI_CITATION) and not canadian_values_read:",
+     "            if False:",
+     ["test_attribution_names_what_was_read_and_scanfi_only_if_a_canadian_value_was"]),
+    ("R38 rasters written in place", T7 + "outputs.py",
+     '        return self.out_dir / f"{name}.partial"', "        return self.out_dir / name",
+     ["test_the_writer_puts_each_tile_in_place_and_renames_when_whole"]),
+]
+COMPILE_MARKERS = ("SyntaxError", "ImportError", "ModuleNotFoundError", "IndentationError",
+                   "errors during collection", "ERROR collecting", "NameError")
+
+
+def sha(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def clear_pycache():
+    for d in Path("src").rglob("__pycache__"):
+        shutil.rmtree(d)
+    for d in Path("tests").rglob("__pycache__"):
+        shutil.rmtree(d)
+
+
+def run_one(name, path, old, new, predicted, scratch):
+    text = Path(path).read_text(encoding="utf-8")
+    if text.count(old) != 1:
+        return {"check": name, "refused": f"old text occurs {text.count(old)} times"}
+    saved = scratch / (Path(path).name + ".saved")
+    shutil.copyfile(path, saved)
+    saved_sha = sha(saved)
+    try:
+        Path(path).write_text(text.replace(old, new), encoding="utf-8")
+        clear_pycache()
+        env = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
+        module = path.removeprefix("src/").removesuffix(".py").replace("/", ".")
+        seen = subprocess.run(
+            [sys.executable, "-c", f"import inspect, {module} as m; "
+             f"print({new!r} in inspect.getsource(m))"],
+            capture_output=True, text=True, env=env,
+        )  # fmt: skip
+        if seen.stdout.strip() != "True":
+            return {"check": name, "refused": "interpreter does not see the edit",
+                    "stderr": seen.stderr[-2000:]}  # fmt: skip
+        xml = scratch / f"{name.split()[0]}.xml"
+        xml.unlink(missing_ok=True)
+        proc = subprocess.run(
+            [sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider",
+             f"--basetemp=.pytest-tmp/revert-{name.split()[0]}", f"--junitxml={xml}",
+             *sorted(str(p) for p in Path(T).glob("test_t7_*.py"))],
+            capture_output=True, text=True, env=env,
+        )  # fmt: skip
+        log = proc.stdout + proc.stderr
+        bad = [m for m in COMPILE_MARKERS if m in log]
+        if bad or not xml.exists():
+            return {"check": name, "refused": f"build or collection error {bad}",
+                    "log_tail": log[-3000:]}  # fmt: skip
+        root = ET.parse(xml).getroot()
+        suite = root if root.tag == "testsuite" else root.find("testsuite")
+        if int(suite.get("errors", 0)):
+            return {"check": name, "refused": "errors in the XML", "log_tail": log[-3000:]}
+        failed = {}
+        for tc in root.iter("testcase"):
+            f = tc.find("failure")
+            if f is not None:
+                failed[tc.get("name")] = (f.get("message") or "").splitlines()[0][:300]
+        return {"check": name, "file": path, "edit": [old.strip(), new.strip()],
+                "tests_run": int(suite.get("tests")), "failed": failed,
+                "predicted": predicted, "bites": sorted(failed) == sorted(predicted)}  # fmt: skip
+    finally:
+        shutil.copyfile(saved, path)
+        clear_pycache()
+        restored = sha(path) == saved_sha and old in Path(path).read_text(encoding="utf-8")
+        if not restored:
+            raise SystemExit(f"{name}: restore failed; saved copy at {saved}")
+
+
+def main():
+    out = Path(sys.argv[1])
+    scratch = Path(".pytest-tmp/revert-scratch")
+    scratch.mkdir(parents=True, exist_ok=True)
+    head_before = {p: sha(p) for p in {c[1] for c in CHECKS}}
+    results = [run_one(*c, scratch) for c in CHECKS]
+    head_after = {p: sha(p) for p in head_before}
+    body = {"files_unchanged_after_all_checks": head_before == head_after, "results": results}
+    out.write_text(json.dumps(body, indent=2) + "\n")
+    for r in results:
+        print(r["check"], "| refused:" + r["refused"] if "refused" in r else
+              f"| bites={r['bites']} failed={sorted(r['failed'])}")  # fmt: skip
+    print("files unchanged after all checks:", body["files_unchanged_after_all_checks"])
+
+
+if __name__ == "__main__":
+    main()
