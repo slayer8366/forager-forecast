@@ -19,6 +19,10 @@ dependencies = [
     # Python, no dependencies, BSD-3-Clause (Protomaps). GDAL 3.12 has no raster PMTiles writer.
     "pmtiles==3.8.1",
     "h5py==3.15.1",
+    # T7 (D141, Forager RECORD -1062 decision 9): the area of applicability's
+    # nearest-neighbour search (scipy.spatial.cKDTree). Already locked at this version as
+    # LightGBM's dependency; pinned directly so T7's use does not rest on another package's.
+    "scipy==1.18.1",
 ]
 
 [dependency-groups]

@@ -65,6 +65,7 @@ dependencies = [
     { name = "pmtiles" },
     { name = "pyproj" },
     { name = "rasterio" },
+    { name = "scipy" },
 ]
 
 [package.dev-dependencies]
@@ -81,6 +82,7 @@ requires-dist = [
     { name = "pmtiles", specifier = "==3.8.1" },
     { name = "pyproj", specifier = "==3.8.0" },
     { name = "rasterio", specifier = "==1.5.1" },
+    { name = "scipy", specifier = "==1.18.1" },
 ]
 
 [package.metadata.requires-dev]

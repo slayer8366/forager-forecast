@@ -70,7 +70,8 @@ def test_the_threshold_is_q75_plus_1_5_iqr_capped_at_the_largest_training_di():
     di = np.array([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 5.0])
     q1, q3 = np.quantile(di, [0.25, 0.75])
     assert di_threshold(di) == pytest.approx(q3 + 1.5 * (q3 - q1))
-    assert di_threshold(np.array([1.0, 1.0, 1.0, 2.0])) == pytest.approx(2.0)  # capped
+    # q25 0, q75 1, so q75 + 1.5 IQR = 2.5, above the largest DI: capped at 1
+    assert di_threshold(np.array([0.0, 0.0, 1.0, 1.0])) == pytest.approx(1.0)
 
 
 def test_importance_weights_set_negatives_to_zero_and_refuse_all_zero():

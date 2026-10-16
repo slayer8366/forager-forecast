@@ -17,8 +17,6 @@ from dataclasses import dataclass
 
 from forager_forecast.records.occurrence import OccurrenceLoader, Record
 
-_STUB = "T7 build: not written yet (tests first)"
-
 NAME_COLUMNS = ("genus", "family", "order", "taxonRank")
 
 
@@ -31,14 +29,17 @@ class TaxonNames:
 
 
 def missing_name_columns(fieldnames: Iterable[str] | None) -> list[str]:
-    raise NotImplementedError(_STUB)
+    present = set(fieldnames or ())
+    return [c for c in NAME_COLUMNS if c not in present]
 
 
 def names_from_row(row: Mapping[str, str]) -> TaxonNames:
-    raise NotImplementedError(_STUB)
+    return TaxonNames(*(row.get(c, "").strip() for c in NAME_COLUMNS))
 
 
 def load_named(
     rows: Iterable[Mapping[str, str]], loader: OccurrenceLoader
 ) -> Iterator[tuple[Record, TaxonNames]]:
-    raise NotImplementedError(_STUB)
+    for row in rows:
+        for record in loader.load((row,)):
+            yield record, names_from_row(row)

@@ -33,7 +33,7 @@ def test_exact_decimal_ties_go_toward_plus_infinity_as_cell_for_does():
     lon = np.array([-123.05, -122.45, -123.0499999, 10.25])
     lat = np.array([47.05, 45.25, 47.0500001, -0.05])
     lat_t, lon_t = weather_cells(lon, lat)
-    expected = [cell_for(a, o) for a, o in zip(lat, lon, strict=True)]
+    expected = [cell_for(float(a), float(o)) for a, o in zip(lat, lon, strict=True)]
     assert list(zip(lat_t.tolist(), lon_t.tolist(), strict=True)) == [
         (c.lat_tenths, c.lon_tenths) for c in expected
     ]

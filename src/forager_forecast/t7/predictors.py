@@ -1,8 +1,8 @@
 """T7 item 7: the tile reader. One 256-cell tree tile with its soil, mask, keys and blocks.
 
-Applies P4 as ruled (D133 to D141): a cell enters only if it is in the study area and the box (by
-cell centre), on the US side, has every share band defined (canopy at least 10% and at least half
-valid, D89 (3)) and has a soil pH mean (D74). Every other cell gets a code saying why, never a
+Applies P4 as ruled (D134, D136, D137): a cell enters only if it is in the study area and the box
+(by cell centre), on the US side, has every share band defined (canopy at least 10% and at least
+half valid, D89 (3)) and has a soil pH mean (D74). Every other cell gets a code saying why, never a
 filled value (P9's codes):
 
     0 outside the study area or the box   3 Canada, out of the pilot (D136)
@@ -23,11 +23,16 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
+import rasterio
+from rasterio.windows import from_bounds
 
-from forager_forecast.t4_layer import LonLatBox
-from forager_forecast.t6b_layers import Tile
-
-_STUB = "T7 build: not written yet (tests first)"
+from forager_forecast.grid import CELL_SIZE_M, GridWindow
+from forager_forecast.t4_layer import LonLatBox, box_mask
+from forager_forecast.t6b_hosts import BAND_LAYOUT
+from forager_forecast.t6b_layers import TREE_BANDS, Tile
+from forager_forecast.t6b_mask import SIDE_CA, SIDE_US, cells_in_study, read_mask
+from forager_forecast.t7.ecoregions import burn_level3
+from forager_forecast.t7.keying import weather_cells_for_window
 
 CODE_OUTSIDE = 0
 CODE_IN = 1
@@ -38,8 +43,8 @@ CODE_NO_SOIL = 5
 CODE_WATER = 6
 CODE_LEGEND = (
     "0 outside the study area or box; 1 in (shaded); 2 out of the area of applicability; "
-    "3 Canada, out of the pilot (D136); 4 no host shares (canopy under 10% or under half valid); "
-    "5 no soil pH; 6 water or unmapped (no valid tree pixel)"
+    "3 Canada, out of the pilot (D136); 4 no host shares (canopy cover under D89 (3)'s threshold, "
+    "or under half the cell valid); 5 no soil pH; 6 water or unmapped (no valid tree pixel)"
 )
 SHARE_FLOOR = 0.01
 FLAG_PENDING = 4
@@ -80,9 +85,91 @@ class TileCells:
     canadian_values_read: bool
 
     def code_counts(self) -> dict[int, int]:
-        raise NotImplementedError(_STUB)
+        values, counts = np.unique(self.code, return_counts=True)
+        return {int(v): int(n) for v, n in zip(values, counts, strict=True)}
+
+
+def _bands(path: Path, window: GridWindow, wanted, check_layout: bool):
+    with rasterio.open(path) as ds:
+        tags = ds.tags()
+        if check_layout and tags.get("band_layout") != BAND_LAYOUT:
+            raise LayoutMismatch(
+                f"{Path(path).name}: band layout {tags.get('band_layout')!r}, not {BAND_LAYOUT!r}"
+            )
+        index = {d: k for k, d in enumerate(ds.descriptions, start=1) if d}
+        missing = [b for b in wanted if b not in index]
+        if missing:
+            raise LayoutMismatch(f"{Path(path).name}: no band {missing}")
+        win = from_bounds(window.left, window.bottom, window.right, window.top, ds.transform)
+        win = win.round_offsets().round_lengths()
+        out = {
+            b: ds.read(index[b], window=win, boundless=True, fill_value=np.nan).astype(np.float64)
+            if ds.dtypes[index[b] - 1].startswith("float")
+            else ds.read(index[b], window=win, boundless=True, fill_value=0)
+            for b in wanted
+        }
+    return out, tags
+
+
+def _cell_ids(window: GridWindow, rows: np.ndarray, cols: np.ndarray) -> np.ndarray:
+    col = window.left // CELL_SIZE_M + cols
+    row = window.top // CELL_SIZE_M - 1 - rows
+    return (((row + (1 << 15)) << 16) | (col + (1 << 15))).astype(np.uint32)
 
 
 def read_tile(tile: Tile, tree_path: Path, flags_path: Path, soil_path: Path, mask_path: Path,
               box: LonLatBox, level3_polygons) -> TileCells:  # fmt: skip
-    raise NotImplementedError(_STUB)
+    window = tile.window
+    share_names = [b for b in TREE_BANDS if b.startswith("share_")]
+    values, tree_tags = _bands(tree_path, window, TREE_BANDS, check_layout=True)
+    flags, _ = _bands(flags_path, window, [f"flag_{b[6:]}" for b in share_names], True)
+    soil, soil_tags = _bands(soil_path, window, ["ph_mean_0_30cm"], check_layout=False)
+    study, side = cells_in_study(window, *read_mask(mask_path, window))
+    inside = study & box_mask(window, box)
+
+    pending = values["source"] == FLAG_PENDING
+    for f in flags.values():
+        pending |= f == FLAG_PENDING
+    if (pending & inside).any():
+        raise PendingCell(f"tile {tile.key}: {int((pending & inside).sum())} study cells pending")
+
+    code = np.full((window.height, window.width), CODE_OUTSIDE, dtype=np.uint8)
+    us = inside & (side == SIDE_US)
+    code[inside & (side == SIDE_CA)] = CODE_CANADA
+    valid = np.nan_to_num(values["valid_fraction"], nan=0.0)
+    water = us & ~(valid > 0)
+    shares_defined = np.ones_like(us)
+    for b in (*BASE_BANDS, *CANDIDATE_BANDS):
+        if b != "ph_mean_0_30cm":
+            shares_defined &= np.isfinite(values[b])
+    ph = soil["ph_mean_0_30cm"]
+    code[water] = CODE_WATER
+    code[us & ~water & ~shares_defined] = CODE_NO_SHARES
+    code[us & ~water & shares_defined & ~np.isfinite(ph)] = CODE_NO_SOIL
+    eligible = us & ~water & shares_defined & np.isfinite(ph)
+    code[eligible] = CODE_IN
+
+    rows, cols = np.nonzero(eligible)
+    columns = []
+    for name in FEATURES:
+        v = ph[rows, cols] if name == "ph_mean_0_30cm" else values[name][rows, cols]
+        if name.startswith("share_"):
+            v = np.where(v < SHARE_FLOOR, 0.0, v)
+        columns.append(v)
+    features = np.column_stack(columns) if columns else np.empty((0, len(FEATURES)))
+    lat_t, lon_t = weather_cells_for_window(window)
+    level3 = burn_level3(level3_polygons, window)
+    return TileCells(
+        tile=tile.key,
+        code=code,
+        cell_id=_cell_ids(window, rows, cols),
+        rows=rows,
+        cols=cols,
+        features=features,
+        lat_tenths=lat_t[rows, cols],
+        lon_tenths=lon_t[rows, cols],
+        level3=level3[rows, cols],
+        tree_attribution=tree_tags.get("attribution", ""),
+        soil_attribution=soil_tags.get("attribution", ""),
+        canadian_values_read=bool((eligible & (side == SIDE_CA)).any()),
+    )

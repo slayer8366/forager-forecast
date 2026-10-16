@@ -42,9 +42,8 @@ import os
 from dataclasses import dataclass
 from pathlib import Path
 
-from forager_forecast.t7.membership import ListRow
-
-_STUB = "T7 build: not written yet (tests first)"
+from forager_forecast.t7.membership import ListRow, file_sha256, write_list
+from forager_forecast.t7.xlsx import read_table
 
 
 @dataclass(frozen=True)
@@ -106,7 +105,8 @@ class SourceMismatch(ValueError):
 
 
 def table_path(env=os.environ) -> Path:
-    raise NotImplementedError(_STUB)
+    value = env.get(PATH_ENV)
+    return Path(value) if value else DEFAULT_PATH
 
 
 @dataclass(frozen=True)
@@ -120,18 +120,66 @@ class GenusTraits:
 
 
 def read_traits(path: Path, expected_sha256: str = SOURCE.sha256) -> list[GenusTraits]:
-    raise NotImplementedError(_STUB)
+    actual = file_sha256(path)
+    if actual != expected_sha256:
+        raise SourceMismatch(
+            f"{Path(path).name}: sha256 {actual} is not the recorded {expected_sha256}"
+        )
+    header, rows = read_table(path, SOURCE.sheet)
+    missing = [c for c in COLUMNS_READ if c not in header]
+    if missing:
+        raise SourceMismatch(f"{Path(path).name}: no column {missing}")
+    out = []
+    for row in rows:
+        genus = row["GENUS"].strip()
+        if not genus:
+            continue
+        out.append(GenusTraits(
+            row["Family"].strip(), genus, row["primary_lifestyle"].strip(),
+            row["Secondary_lifestyle"].strip(), row["Comment_on_lifestyle_template"].strip(),
+            row["Fruitbody_type_template"].strip(),
+        ))  # fmt: skip
+    return out
 
 
 def classify(traits: GenusTraits) -> tuple[str, str, str]:
     """(lifestyle, certainty, note) under the proposed rule."""
-    raise NotImplementedError(_STUB)
+    p, sec, com, fb = traits.primary, traits.secondary, traits.lifestyle_comment, traits.fruitbody
+    if p == ECM:
+        if sec or com:
+            return "ectomycorrhizal", "mixed", f"primary {ECM}; secondary {sec!r}; comment given"
+        if fb not in MUSHROOM_FRUITBODIES:
+            return "ectomycorrhizal", "uncertain", f"primary {ECM}; fruitbody {fb!r} not counted"
+        return "ectomycorrhizal", "clear", f"primary {ECM}; fruitbody {fb}"
+    if ECM in sec.lower() or ECM in com.lower():
+        return "ectomycorrhizal", "mixed", f"primary {p!r}; {ECM} in secondary or comment"
+    if p == WOOD:
+        certainty = "mixed" if sec else "clear"
+        return "wood_rot", certainty, f"primary {WOOD}; secondary {sec!r}"
+    if not p:
+        return "other", "uncertain", "no primary lifestyle given"
+    return "other", "clear", f"primary {p!r}"
 
 
 def to_list_rows(traits: list[GenusTraits], source_id: str) -> list[ListRow]:
-    raise NotImplementedError(_STUB)
+    by_genus: dict[str, list[GenusTraits]] = {}
+    for t in traits:
+        by_genus.setdefault(t.genus, []).append(t)
+    rows = []
+    for genus, group in by_genus.items():
+        classes = [classify(t) for t in group]
+        lifestyle, certainty, note = classes[0]
+        if len({(c[0], c[1]) for c in classes}) > 1:
+            lifestyle = ECM if any(c[0] == ECM for c in classes) else classes[0][0]
+            certainty, note = (
+                "uncertain",
+                f"{len(group)} rows disagree: " + "; ".join(c[2] for c in classes),
+            )
+        rows.append(ListRow(genus, None, group[0].family, lifestyle, certainty, source_id, note))
+    return rows
 
 
 def convert(path: Path, out: Path, expected_sha256: str = SOURCE.sha256) -> str:
     """Read the table, write the normalised list to ``out``; returns its sha256."""
-    raise NotImplementedError(_STUB)
+    source_id = f"FungalTraits Table S1, sha256 {expected_sha256[:16]}, rule {RULE_VERSION}"
+    return write_list(out, to_list_rows(read_traits(path, expected_sha256), source_id))

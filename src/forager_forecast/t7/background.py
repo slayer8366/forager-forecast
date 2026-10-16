@@ -8,9 +8,9 @@ asked for is refused, not quietly made up.
 
 from __future__ import annotations
 
-import numpy as np
+import hashlib
 
-_STUB = "T7 build: not written yet (tests first)"
+import numpy as np
 
 SEED = 20260918
 BACKGROUND_SIZE = 500_000
@@ -21,17 +21,21 @@ class NotEnoughBackground(ValueError):
 
 
 def in_frame(weather_keys: np.ndarray, frame_keys: np.ndarray) -> np.ndarray:
-    raise NotImplementedError(_STUB)
+    return np.isin(np.asarray(weather_keys), np.asarray(frame_keys))
 
 
 def draw_background(candidates: np.ndarray, n: int = BACKGROUND_SIZE, seed: int = SEED):
     """Sorted uint32 cell ids drawn from the distinct candidate ids."""
-    raise NotImplementedError(_STUB)
+    pool = np.unique(np.asarray(candidates, dtype=np.uint32))
+    if n > len(pool):
+        raise NotEnoughBackground(f"{n} background cells asked for, {len(pool)} eligible")
+    picks = np.random.default_rng(seed).choice(len(pool), size=n, replace=False)
+    return np.sort(pool[picks])
 
 
 def cell_list_sha256(cell_ids: np.ndarray) -> str:
-    raise NotImplementedError(_STUB)
+    return hashlib.sha256(np.asarray(cell_ids, dtype="<u4").tobytes()).hexdigest()
 
 
 def background_weights(n_background: int, presence_total_weight: float) -> np.ndarray:
-    raise NotImplementedError(_STUB)
+    return np.full(n_background, presence_total_weight / n_background)

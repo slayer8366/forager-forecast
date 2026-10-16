@@ -28,14 +28,19 @@ from collections.abc import Iterable
 from dataclasses import dataclass
 
 import numpy as np
+from pyproj import Transformer
 
-from forager_forecast.records.filters import r6_audit_steps  # noqa: F401
+from forager_forecast.grid import GEOGRAPHIC_CRS, GRID_CRS, cell_for_lonlat
+from forager_forecast.records.filters import (
+    R6_MAX_COORDINATE_UNCERTAINTY_M,
+    Pipeline,
+    r6_audit_steps,
+)
 from forager_forecast.records.occurrence import Record
 from forager_forecast.t4_layer import LonLatBox
+from forager_forecast.t7.keying import weather_cells
 from forager_forecast.t7.membership import Join
 from forager_forecast.t7.names import TaxonNames
-
-_STUB = "T7 build: not written yet (tests first)"
 
 PROPOSED_MIN_PRESENCES_PER_GENUS = 30
 POOLED = "(genera under the minimum, pooled)"
@@ -64,17 +69,66 @@ class PresenceCounts:
     outcomes: Counter
 
     def as_dict(self) -> dict:
-        raise NotImplementedError(_STUB)
+        return {
+            "r6_steps": [
+                {"step": c.step, "before": c.before, "dropped": c.dropped, "after": c.after}
+                for c in self.r6_steps
+            ],
+            "outcomes": dict(sorted(self.outcomes.items())),
+        }
+
+
+_TO_LONLAT = Transformer.from_crs(GRID_CRS, GEOGRAPHIC_CRS, always_xy=True)
+
+
+def _centre_lonlat(cell) -> tuple[float, float]:
+    lon, lat = _TO_LONLAT.transform(*cell.center)
+    return float(lon), float(lat)
 
 
 def select_presences(
     named: Iterable[tuple[Record, TaxonNames]], join: Join, box: LonLatBox
 ) -> tuple[list[Presence], PresenceCounts]:
-    raise NotImplementedError(_STUB)
+    names_of: dict[int, TaxonNames] = {}
+
+    def records():
+        for record, names in named:
+            names_of[record.gbif_id] = names
+            yield record
+
+    pipeline = Pipeline(r6_audit_steps())
+    survivors = pipeline.run(records())
+    outcomes: Counter = Counter()
+    presences: list[Presence] = []
+    for record in survivors:
+        cell = cell_for_lonlat(record.longitude, record.latitude)
+        lon, lat = _centre_lonlat(cell)
+        if not bool(box.contains(lon, lat)):
+            outcomes[OUTSIDE_BOX] += 1
+            continue
+        names = names_of[record.gbif_id]
+        outcome = join.outcome(names)
+        outcomes[outcome] += 1
+        if not join.joins(names):
+            continue
+        u = record.coordinate_uncertainty_m
+        if u is None or u > R6_MAX_COORDINATE_UNCERTAINTY_M:
+            raise R6Violation(f"gbifID {record.gbif_id}: uncertainty {u} m reached the table")
+        lat_t, lon_t = weather_cells(np.array([record.longitude]), np.array([record.latitude]))
+        presences.append(Presence(
+            record.gbif_id, names.genus or f"(family {names.family})", cell.id, int(lat_t[0]),
+            int(lon_t[0]), record.event_date.year, float(u), record.license,
+        ))  # fmt: skip
+    return presences, PresenceCounts(pipeline.counts, outcomes)
 
 
 def thin(presences: Iterable[Presence]) -> list[Presence]:
-    raise NotImplementedError(_STUB)
+    kept: dict[tuple[str, int], Presence] = {}
+    for p in presences:
+        key = (p.genus, p.cell_id)
+        if key not in kept or p.gbif_id < kept[key].gbif_id:
+            kept[key] = p
+    return sorted(kept.values(), key=lambda p: p.gbif_id)
 
 
 @dataclass(frozen=True)
@@ -85,4 +139,10 @@ class GenusWeights:
 
 
 def genus_weights(presences: list[Presence], min_presences: int) -> GenusWeights:
-    raise NotImplementedError(_STUB)
+    per_genus = Counter(p.genus for p in presences)
+    unit_of = {g: (g if n >= min_presences else POOLED) for g, n in per_genus.items()}
+    per_unit = Counter()
+    for g, n in per_genus.items():
+        per_unit[unit_of[g]] += n
+    weights = np.array([1.0 / per_unit[unit_of[p.genus]] for p in presences])
+    return GenusWeights(weights, unit_of, dict(per_unit))
