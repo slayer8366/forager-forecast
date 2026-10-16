@@ -98,6 +98,11 @@ MUSHROOM_FRUITBODIES = frozenset({
     "gasteroid", "gasteroid-hypogeous", "phalloid", "polyporoid", "tremelloid",
 })  # fmt: skip
 RULE_VERSION = "fungaltraits-adapter-1 (proposal, 2026-10-16)"
+# The normalised list ``convert`` wrote from the recorded table under RULE_VERSION, on
+# 2026-10-16 to /mnt/work/Zynergy/forecast-data/membership/membership_list_fungaltraits.tsv
+# (10,765 genera). A hash, not an extract. A changed rule writes a different list, and this value
+# moves with a decision row.
+NORMALISED_LIST_SHA256 = "972324a8a1e64c74408e1f6900d6661dd2fa71adb39f9f8ec24a177be40c42ed"
 
 
 class SourceMismatch(ValueError):
