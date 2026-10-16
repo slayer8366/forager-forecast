@@ -157,3 +157,18 @@ def test_attribution_names_what_was_read_and_scanfi_only_if_a_canadian_value_was
     assert us_only == [TREEMAP_CITATION, NALCMS_CITATION, "SOILGRIDS CITE", "CEC L3"]
     both = attribution(tree, soil, True, [])
     assert f"{SCANFI_CITATION} ({SCANFI_LICENCE})" in both
+
+
+def test_a_fit_does_not_depend_on_the_scale_of_the_weights():
+    """M3's weights fix each unit's share of the total, not its size. The comparison group is one
+    unit, so its weights sum to 2 over every point; LightGBM's hessian floor and its L2 penalty
+    are on the weights' own scale, and would starve such a fit of splits (found in the T7 run's
+    smoke pass: model B predicted exactly as model A). ``train`` rescales weights to a mean of 1."""
+    x, y = _interacting_data()
+    features = ["h", "g", EFFORT]
+    config = {**CONFIG, "lambda_l2": 10.0}
+    w = np.where(y == 1, 1.0 / (y == 1).sum(), 1.0 / (y == 0).sum())  # total 2, as one unit
+    small = train(config, features, x, y, w).predict(x)
+    unit = train(config, features, x, y, w * len(w) / w.sum()).predict(x)
+    assert np.allclose(small, unit)
+    assert np.unique(np.round(small, 12)).size > 10  # the fit split at all

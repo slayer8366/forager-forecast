@@ -47,10 +47,22 @@ def lgb_params(config: dict, features: list[str], threads: int = 1) -> dict:
     return params
 
 
+def unit_mean_weights(w) -> np.ndarray:
+    """Weights rescaled to a mean of 1. M3 and P3 fix each unit's share of the total weight, not
+    its size; LightGBM's hessian floor (``min_sum_hessian_in_leaf``) and its L2 penalty act on the
+    weights' own scale, so a run whose weights sum to 2 (the comparison group, one unit) would be
+    starved of splits. Every share is unchanged; a weighted AUC or log loss is unchanged."""
+    w = np.asarray(w, dtype=np.float64)
+    total = w.sum()
+    if not np.isfinite(total) or total <= 0:
+        raise ValueError("weights must have a positive finite sum")
+    return w * (len(w) / total)
+
+
 def train(config: dict, features: list[str], x, y, w, threads: int = 1):
     import lightgbm as lgb  # noqa: PLC0415
 
-    data = lgb.Dataset(np.asarray(x), np.asarray(y), weight=np.asarray(w),
+    data = lgb.Dataset(np.asarray(x), np.asarray(y), weight=unit_mean_weights(w),
                        feature_name=list(features), free_raw_data=True)  # fmt: skip
     return lgb.train(lgb_params(config, features, threads), data,
                      num_boost_round=config["num_boost_round"])  # fmt: skip
