@@ -1,0 +1,44 @@
+{
+ "mode": "unfixed",
+ "weight_sum": 90.0,
+ "weight_mean": 0.00017454579305850774,
+ "auc_A": 0.8761806826292979,
+ "max_abs_diff_vs_cache_A": 0.13540166611843163,
+ "auc_cache_A": 0.877277552729475,
+ "distinct_A": 298,
+ "auc_B": 0.8680772308653533,
+ "max_abs_diff_vs_cache_B": 0.3227367336089473,
+ "auc_cache_B": 0.8788028832023738,
+ "distinct_B": 273,
+ "auc_full": 0.8680772308653533,
+ "max_abs_diff_vs_cache_full": 0.3118456243315735,
+ "auc_cache_full": 0.8814635130066335,
+ "distinct_full": 273,
+ "p10": {
+  "all_A": {
+   "point": -0.008103451763944669,
+   "low": -0.011295134069587168,
+   "high": -0.004973501899552343,
+   "above_zero": false
+  },
+  "all_B": {
+   "point": 0.0,
+   "low": 0.0,
+   "high": 0.0,
+   "above_zero": false
+  },
+  "forested_A": {
+   "point": -0.008230865086126582,
+   "low": -0.011674170003846763,
+   "high": -0.0052436844996202985,
+   "above_zero": false
+  },
+  "forested_B": {
+   "point": 0.0,
+   "low": 0.0,
+   "high": 0.0,
+   "above_zero": false
+  }
+ },
+ "p10_passes": false
+}
