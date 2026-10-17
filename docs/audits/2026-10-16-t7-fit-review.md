@@ -157,3 +157,75 @@ Its skill is thin and not shown across blocks.
 
 **The planner's prediction "the map is dominated by the effort surface's pattern" is not
 supported.** My own prediction, a moderate positive correlation, was wrong too.
+
+## Q2. Is it mycorrhizal-specific?
+
+### Recomputed (COMPUTED, `recompute_figures.py` and `final_models.py`)
+
+**The comparison group (*Laetiporus*).** The rows rebuild to 606 presences and 500,000
+background, matching the cache's `n` (500,606).
+
+| figure | mine | report | match |
+|---|---:|---:|---|
+| AUC full / A / B | 0.8670 / 0.8438 / 0.8517 | same | exact |
+| full − A, weather-cell | +0.0232 (+0.0104, +0.0376) | same | exact |
+| full − B, weather-cell | +0.0153 (+0.0053, +0.0267) | same | exact |
+| full − A / − B, forested | +0.0235 (+0.0107, +0.0367) / +0.0159 (+0.0051, +0.0271) | same | exact |
+| full − A, block-clustered (not in the report) | +0.0232 (−0.0018, +0.0530) | n/a | new |
+
+**The side runs** reproduce exactly too: the licence track at 0.8344, 0.8150 and 0.8262, with
+full − B at +0.0082 (−0.0005, +0.0167); the M2 side run at 0.8815, 0.8776 and 0.8793.
+
+**The final models and the maps.**
+- I retrained the final all-data model with my own LightGBM call (`common.fit`; c16 and the
+  parameters of `model.py:28-47`). It reproduces the fit's `scores_all.npy` **bit for bit**: max
+  absolute difference 0.0 over 6,967,248 cells.
+- The comparison group's map against the main map, over shaded cells: Spearman **0.2295**. The
+  report gives 0.230; mine matches to every digit, 0.22953581619880717.
+
+### New evidence beyond the report (COMPUTED)
+
+- **The main map against B's map.** B's map is effort plus conifer cover and broadleaf cover,
+  scored at the held effort. Over shaded cells its Spearman with the main map is **0.456**. Nearly
+  half the main map's ranking is what two plain cover layers already give.
+- **What each final model leans on** (share of total gain):
+
+  | input | main group | *Laetiporus* |
+  |---|---:|---:|
+  | effort | 90.0% | 58.5% |
+  | every habitat band together | 10.0% | 41.5% |
+  | soil pH | 1.2% | 12.3% (the largest single band) |
+  | *Pinus* | 1.0% | 5.9% |
+  | conifer share | 0.6% | 4.3% |
+
+  The main group's largest habitat bands are *Picea* 1.6% and *Pseudotsuga* 1.3%, then soil pH
+  1.2% and total cover 1.1%. The ectomycorrhizal host bands are not a dominant part of the main
+  model, and the same bands carry more weight for a wood-rot genus.
+- **Headroom.** The main group's A already scores 0.877, and *Laetiporus*'s A scores 0.844. As a
+  share of the distance left to an AUC of 1:
+  - the main group's habitat inputs close 3.4% of it (0.0042 of 0.1227);
+  - *Laetiporus*'s close 14.9% (0.0232 of 0.1562).
+
+  So *Laetiporus* gains more even after allowing for its lower baseline.
+- **Configurations.** The comparison runs reuse the main run's per-fold configurations, as P7
+  point 9 says (`scripts/t7_fit.py:575-583`). So its gain was obtained without tuning to it. That
+  makes it, if anything, a conservative estimate.
+
+### Reading (INFERRED)
+
+The habitat inputs here carry a general signal: where in forest any fungus gets reported, after
+effort. Soil pH, the pine and conifer shares and total cover help a wood-rot genus more than they
+help the ectomycorrhizal group. The two maps share little (0.23), so the main map is not a copy of a
+generic one. But nothing shows its specific part is host-driven:
+- the host bands' gains are small;
+- the selected extras are *Arbutus* (an ectomycorrhizal-capable host, but also a marker of
+  southwest Oregon and northern California lowland) and *Chrysolepis*, both regional markers as
+  much as hosts;
+- the main map correlates more with plain cover (0.46) than with *Laetiporus* (0.23).
+
+**Recommendation on wording (the owner's choice).** The evidence does not support "mycorrhizal
+habitat". It supports at most a model-specific description: **"where mycorrhizal mushrooms are
+reported, relative to search effort, by forest type"**, flagged as a pilot. The dispatch's
+"forest-associated fungal reporting" is the safer and more honest of the two options it offers. I
+would not use "habitat" alone without a qualifier that says the ranking is relative to reporting,
+not to fruiting or presence.

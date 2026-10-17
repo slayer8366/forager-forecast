@@ -1,0 +1,80 @@
+{
+ "held_effort": 1.440701409312872,
+ "names": [
+  "share_Pseudotsuga",
+  "share_Tsuga",
+  "share_Picea",
+  "share_Abies",
+  "share_Pinus",
+  "share_Quercus",
+  "share_conifer",
+  "share_broadleaf",
+  "total_cover_pct",
+  "ph_mean_0_30cm",
+  "share_Larix",
+  "share_Betula",
+  "share_Populus",
+  "share_Alnus",
+  "share_Lithocarpus",
+  "share_Chrysolepis",
+  "share_Arbutus",
+  "share_ecm_hosts"
+ ],
+ "main_full": {
+  "seconds": 6,
+  "gain_share": {
+   "share_Pseudotsuga": 0.012975534008025433,
+   "share_Tsuga": 0.003995774466386913,
+   "share_Picea": 0.01558426779121928,
+   "share_Abies": 0.009246125076445972,
+   "share_Pinus": 0.00979008549681805,
+   "share_Quercus": 0.0016132350604774934,
+   "share_conifer": 0.0060381839333209135,
+   "share_broadleaf": 0.003495677193392865,
+   "total_cover_pct": 0.011371091867769101,
+   "ph_mean_0_30cm": 0.011699476057408918,
+   "share_Larix": 0.0034898937993002193,
+   "share_Chrysolepis": 0.0030945433399495337,
+   "share_Arbutus": 0.007912610006208316,
+   "log_effort": 0.899693501903277
+  }
+ },
+ "comp_full": {
+  "seconds": 5,
+  "gain_share": {
+   "share_Pseudotsuga": 0.03122601551029072,
+   "share_Tsuga": 0.035411848645786274,
+   "share_Picea": 0.007206251260333863,
+   "share_Abies": 0.019352899089601295,
+   "share_Pinus": 0.059209877181673844,
+   "share_Quercus": 0.021743020656582027,
+   "share_conifer": 0.04344225317272348,
+   "share_broadleaf": 0.025680350072161223,
+   "total_cover_pct": 0.02219787895685201,
+   "ph_mean_0_30cm": 0.1231359094426859,
+   "share_Larix": 0.012318313594849542,
+   "share_Chrysolepis": 0.003616145760571909,
+   "share_Arbutus": 0.01025196902175336,
+   "log_effort": 0.5852072676341346
+  }
+ },
+ "main_B": {
+  "seconds": 4,
+  "gain_share": {
+   "log_effort": 0.9605325579212584,
+   "conifer_cover_pct": 0.022539443062705583,
+   "broadleaf_cover_pct": 0.016927999016036036
+  }
+ },
+ "reproduce_scores_all": {
+  "max_abs_diff": 0.0,
+  "identical": true
+ },
+ "spearman_shaded": {
+  "comp_full_vs_main_full": 0.22953581619880717,
+  "comp_full_vs_fit_scores_all": 0.22953581619880717,
+  "main_B_vs_main_full": 0.45565693842498894,
+  "comp_full_vs_main_B": 0.07243810336908879
+ },
+ "seconds": 99
+}
