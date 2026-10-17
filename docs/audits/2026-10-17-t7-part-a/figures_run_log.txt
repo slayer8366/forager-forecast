@@ -1,0 +1,4 @@
+data: 15624 presences, 500000 background, pool 3745167
+data: 17261 presences, 500000 background, pool 3745167
+data: 1586 presences, 192593 background, pool 3745167
+data: 606 presences, 500000 background, pool 3745167
