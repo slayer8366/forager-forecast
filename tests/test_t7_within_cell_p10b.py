@@ -48,7 +48,7 @@ def test_the_within_cell_auc_counts_only_pairs_that_share_a_cluster_ties_half():
     assert got.point != pytest.approx(weighted_auc(s, y, w))
 
 
-def test_a_score_constant_within_each_cluster_scores_one_half_within_however_well_it_ranks_between():
+def test_a_score_constant_within_each_cluster_scores_one_half_within_however_it_ranks_between():
     # an effort-like score: one value per cluster, and the cluster decides most of the outcome
     rng = np.random.default_rng(8)
     k, n = 40, 2000

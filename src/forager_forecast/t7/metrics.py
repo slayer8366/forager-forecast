@@ -80,13 +80,13 @@ def p10_passes(all_blocks: dict[str, Difference], forested: dict[str, Difference
     return all(d[k].excludes_zero_above for d in (all_blocks, forested) for k in ("A", "B"))
 
 
-# --- within one cluster (T7 part A, Forager RECORD -1156, -1157) ---------------------------------
+# --- within one cluster (T7 part A, Forager RECORD -1156, -1157) ----------------------------------
 
 
 @dataclass(frozen=True)
 class WithinAUC:
-    """A weighted AUC over the (presence, background) pairs that share a cluster, with its
-    percentile interval over cluster resamples, and the share of all pair weight those pairs hold."""
+    """A weighted AUC over the (presence, background) pairs that share a cluster, its percentile
+    interval over cluster resamples, and the share of all pair weight those pairs hold."""
 
     point: float
     low: float
@@ -95,22 +95,91 @@ class WithinAUC:
     pair_mass_share: float
 
 
+def _within_parts(scores, outcomes, weights, index, n: int):
+    """Per cluster: the concordant pair weight (ties half) and the pair weight, over the
+    (presence, background) pairs inside that cluster only. One sort, no loop over clusters."""
+    s = np.asarray(scores, dtype=np.float64)
+    w = np.asarray(weights, dtype=np.float64)
+    pos = np.asarray(outcomes) == 1
+    order = np.lexsort((s, index))  # by cluster, then score
+    s, c, w, pos = s[order], index[order], w[order], pos[order]
+    starts = np.r_[True, (s[1:] != s[:-1]) | (c[1:] != c[:-1])]
+    group = np.cumsum(starts) - 1
+    g_cluster = c[starts]
+    wp = np.bincount(group, weights=np.where(pos, w, 0.0))
+    wn = np.bincount(group, weights=np.where(pos, 0.0, w))
+    cum = np.cumsum(wn)
+    first = np.r_[True, g_cluster[1:] != g_cluster[:-1]]  # each cluster's first tie group
+    before = (cum - wn)[first][np.cumsum(first) - 1]  # background weight before the cluster
+    below = cum - wn - before  # background weight below this tie group, in its cluster
+    concordant = np.bincount(g_cluster, weights=wp * (below + 0.5 * wn), minlength=n)
+    # pair weight from the rows in their own order, so it is the same for every model's scores
+    w0 = np.asarray(weights, dtype=np.float64)
+    p0 = np.asarray(outcomes) == 1
+    mass = np.bincount(index, weights=np.where(p0, w0, 0.0), minlength=n) * np.bincount(
+        index, weights=np.where(p0, 0.0, w0), minlength=n
+    )
+    return concordant, mass, float(w0[p0].sum() * w0[~p0].sum())
+
+
+def _cluster_index(clusters):
+    _, index = np.unique(np.asarray(clusters), return_inverse=True)
+    return index, int(index.max()) + 1
+
+
+def _resampled(stat_parts, mass, n: int, resamples: int, seed: int, level: float):
+    """Percentile interval of sum(k * part) / sum(k * mass) over whole-cluster resamples, where k
+    is how many times each cluster was drawn: each drawn copy adds its own pairs once."""
+    rng = np.random.default_rng(seed)
+    out = np.empty(resamples)
+    for i in range(resamples):
+        times = np.bincount(rng.integers(0, n, size=n), minlength=n)
+        m = (times * mass).sum()
+        if m <= 0:
+            raise ValueError("a resample drew no cluster holding both presences and background")
+        out[i] = (times * stat_parts).sum() / m
+    tail = (1.0 - level) / 2.0 * 100.0
+    low, high = np.percentile(out, [tail, 100.0 - tail])
+    return float(low), float(high)
+
+
 def within_cluster_auc(scores, outcomes, weights, clusters, resamples: int = RESAMPLES,
                        seed: int = SEED, level: float = 0.95) -> WithinAUC:  # fmt: skip
-    p = weighted_auc(scores, outcomes, weights)  # stub: the pooled AUC
-    return WithinAUC(p, p, p, resamples, 1.0)
+    """The weighted AUC over (presence, background) pairs inside one cluster (a weather cell, where
+    T6's effort is one value, so only the habitat inputs can rank the pair). Clusters are resampled
+    whole, as ``clustered_auc_difference`` does, with the same draws for the same seed. This is the
+    reviews' within-cell figure (`docs/audits/2026-10-16-t7-fit-review-2/recompute_auc.py`,
+    ``within_cluster_auc``) with an interval added."""
+    index, n = _cluster_index(clusters)
+    concordant, mass, total = _within_parts(scores, outcomes, weights, index, n)
+    if mass.sum() <= 0:
+        raise ValueError("no cluster holds both a presence and a background point")
+    low, high = _resampled(concordant, mass, n, resamples, seed, level)
+    return WithinAUC(float(concordant.sum() / mass.sum()), low, high, resamples,
+                     float(mass.sum() / total))  # fmt: skip
 
 
 def within_cluster_auc_difference(a, b, outcomes, weights, clusters, resamples: int = RESAMPLES,
                                   seed: int = SEED, level: float = 0.95) -> Difference:  # fmt: skip
-    return clustered_auc_difference(a, b, outcomes, weights, clusters, resamples, seed, level)  # stub
+    """Within-cluster AUC(a) - AUC(b), and its percentile interval, both models on the same draw."""
+    index, n = _cluster_index(clusters)
+    ca, mass, _ = _within_parts(a, outcomes, weights, index, n)
+    cb, mass_b, _ = _within_parts(b, outcomes, weights, index, n)
+    if not np.array_equal(mass, mass_b):
+        raise RuntimeError("the two models' pair weights differ on the same rows")
+    if mass.sum() <= 0:
+        raise ValueError("no cluster holds both a presence and a background point")
+    low, high = _resampled(ca - cb, mass, n, resamples, seed, level)
+    return Difference(float((ca - cb).sum() / mass.sum()), low, high, resamples)
 
 
-# --- P10b (D145) -----------------------------------------------------------------------------------
+# --- P10b (D145) ----------------------------------------------------------------------------------
 
 
 @dataclass(frozen=True)
 class P10bVerdict:
+    """Each condition: True (interval wholly above zero), False (not), or None (not supplied)."""
+
     block_clustered_over_b: bool
     within_cell_over_a: bool
     host_specific_contrast: bool | None
@@ -118,7 +187,16 @@ class P10bVerdict:
 
     @property
     def verdict(self) -> str:
-        return "pass"  # stub
+        """ "fail" if any supplied condition fails; "incomplete" if none fails but the required
+        host-specific contrast is missing; "pass" only with conditions 1 to 3 (and 4 if supplied)
+        all wholly above zero."""
+        given = (self.block_clustered_over_b, self.within_cell_over_a,
+                 self.host_specific_contrast, self.independent_data)  # fmt: skip
+        if any(c is False for c in given):
+            return "fail"
+        if self.host_specific_contrast is None:
+            return "incomplete"
+        return "pass"
 
     @property
     def passes(self) -> bool:
@@ -128,4 +206,23 @@ class P10bVerdict:
 def p10b(*, block_clustered_full_minus_b: Difference, within_cell_full_minus_a: Difference,
          host_specific_contrast: Difference | None,
          independent_data: Difference | None) -> P10bVerdict:  # fmt: skip
-    return P10bVerdict(True, True, True, True)  # stub
+    """D145, the owner's bar for showing T7 (Forager RECORD -1156 item 2), beside ``p10_passes``
+    (D140), which it replaces for any re-fit. Each condition needs its 95% interval wholly above
+    zero:
+
+    1. the full model above B (effort plus conifer and broadleaf cover), the interval clustered by
+       level III block;
+    2. the full model above A (effort only) within one weather cell;
+    3. the host-specific contrast: the mycorrhizal group's gain minus the saprotroph comparison
+       group's (part C), required;
+    4. the map ranking independent presences above background (that AUC minus 0.5), required
+       only if usable independent data exist (part D); pass None when there are none.
+
+    A missing host-specific contrast is never read as a pass: the verdict is "incomplete" unless
+    another condition already fails. Not wired into any run (part C's group is not built)."""
+    return P10bVerdict(
+        block_clustered_full_minus_b.excludes_zero_above,
+        within_cell_full_minus_a.excludes_zero_above,
+        None if host_specific_contrast is None else host_specific_contrast.excludes_zero_above,
+        None if independent_data is None else independent_data.excludes_zero_above,
+    )

@@ -52,10 +52,14 @@ def _same(d: dict, m: mt.Difference):
 def test_base_minus_b_is_reported_with_its_weather_cell_and_its_block_clustered_interval(t7_fit):
     y, w, clusters, blocks, preds, _ = _rows()
     got = t7_fit.base_minus_b_figures(y, w, clusters, blocks, preds, resamples=40)
-    _same(got["weather_cell"],
-          mt.clustered_auc_difference(preds["base"], preds["B: forest only"], y, w, clusters, 40))
-    _same(got["block_clustered"],
-          mt.clustered_auc_difference(preds["base"], preds["B: forest only"], y, w, blocks, 40))
+    _same(
+        got["weather_cell"],
+        mt.clustered_auc_difference(preds["base"], preds["B: forest only"], y, w, clusters, 40),
+    )
+    _same(
+        got["block_clustered"],
+        mt.clustered_auc_difference(preds["base"], preds["B: forest only"], y, w, blocks, 40),
+    )
     assert got["weather_cell"]["low"] != got["block_clustered"]["low"]
 
 
@@ -72,8 +76,10 @@ def test_the_within_cell_auc_of_every_model_is_reported_with_its_interval(t7_fit
     # model A is constant within a weather cell here, so it is exactly one half within
     assert got["auc"]["A"]["point"] == pytest.approx(0.5)
     for short, key in (("A", "A: effort only"), ("B", "B: forest only")):
-        _same(got[f"full_minus_{short}"],
-              mt.within_cluster_auc_difference(preds["full"], preds[key], y, w, clusters, 40))
+        _same(
+            got[f"full_minus_{short}"],
+            mt.within_cluster_auc_difference(preds["full"], preds[key], y, w, clusters, 40),
+        )
     assert got["full_minus_A"]["low"] > 0
 
 
@@ -89,14 +95,18 @@ def test_block_clustered_intervals_sit_beside_the_weather_cell_ones_all_and_fore
     got = t7_fit.block_clustered_figures(y, w, blocks, preds, forested, resamples=40)
     f = forested
     for short, key in (("A", "A: effort only"), ("B", "B: forest only")):
-        _same(got["all"][short],
-              mt.clustered_auc_difference(preds["full"], preds[key], y, w, blocks, 40))
+        _same(
+            got["all"][short],
+            mt.clustered_auc_difference(preds["full"], preds[key], y, w, blocks, 40),
+        )
         _same(got["forested"][short],
               mt.clustered_auc_difference(preds["full"][f], preds[key][f], y[f], w[f],
                                           blocks[f], 40))  # fmt: skip
 
 
-def test_the_cache_reader_returns_the_saved_predictions_and_refuses_rather_than_fit(t7_fit, tmp_path):
+def test_the_cache_reader_returns_the_saved_predictions_and_refuses_rather_than_fit(
+    t7_fit, tmp_path
+):
     p = np.linspace(0, 1, 7)
     np.save(tmp_path / "lobo_full.npy", p)
     (tmp_path / "lobo_full.json").write_text(json.dumps({"features": [], "n": 7, "chosen": {}}))

@@ -4,6 +4,7 @@ Usage:
   python scripts/t7_fit.py table   <work dir>
   python scripts/t7_fit.py timing  <work dir> <evidence dir>
   python scripts/t7_fit.py fit     <work dir> <evidence dir> [--threads N]
+  python scripts/t7_fit.py figures <work dir> <evidence dir>
 
 ``table`` reads every tree tile of the PNW box with its flags, soil tile, the T6b mask and the
 level III file (all read only, on the flash drive), through ``t7/predictors.read_tile`` (P4 as
@@ -16,7 +17,11 @@ and times ONE outer fold of the base model, the inner tuning included, then proj
 
 ``fit`` runs the ladder (P7, D138), the comparisons A and B, the bootstrap, the forested-block
 figures, the side runs, the area of applicability (P8), the map pass and the outputs (P9) to the
-work dir, and writes the block report and every figure to the evidence dir.
+work dir, and writes the block report and every figure to the evidence dir. Beside every pooled
+AUC it reports base minus B, the within-weather-cell AUCs and the block-clustered intervals (T7
+part A, Forager RECORD -1156); P10b (D145) is not evaluated here.
+
+``figures`` recomputes those beside-figures from a finished fit's cache, and never fits.
 
 Never writes to the flash drive or to the repository except the evidence dir.
 """
@@ -80,6 +85,11 @@ GRID_FILE = REPO / "docs/audits/2026-10-15-t7-build/tuning_grid.json"
 GRID_SHA256 = "7412d90677ef24031005d64797ba6482a94cddec12c1c0288b4183f9c86a45cd"
 SEED = 20260918
 TILE_N = 256
+SIDE_RUNS = (
+    ("M2 side run", V9 / "presences_side.csv", "all"),
+    ("licence track", V9 / "presences_licence_track.csv", "cc"),
+    ("comparison group", V9 / "presences_comparison.csv", "all"),
+)
 
 
 def now() -> str:
@@ -515,19 +525,93 @@ A_KEY, B_KEY = "A: effort only", "B: forest only"
 
 
 def within_cell_figures(y, w, clusters, preds: dict, resamples: int) -> dict:
-    return {}  # stub
+    """The weighted AUC of each model over (presence, background) pairs inside one weather cell,
+    where effort is one value and only habitat can rank, with intervals over weather-cell
+    resamples; and full minus A and full minus B on those pairs (P10b condition 2 is full minus
+    A). Review 2's figure, with intervals (Forager RECORD -1156 item 1)."""
+    names = {"A": A_KEY, "B": B_KEY, "base": "base", "full": "full"}
+    out: dict = {"clusters": "weather cell", "auc": {}}
+    for short, key in names.items():
+        if key not in preds:
+            continue
+        m = mt.within_cluster_auc(preds[key], y, w, clusters, resamples)
+        out["auc"][short] = {"point": m.point, "low": m.low, "high": m.high,
+                             "resamples": m.resamples}  # fmt: skip
+        out["pair_mass_share"] = m.pair_mass_share
+    for short in ("A", "B"):
+        out[f"full_minus_{short}"] = dd(
+            mt.within_cluster_auc_difference(
+                preds["full"], preds[names[short]], y, w, clusters, resamples
+            )  # fmt: skip
+        )
+    return out
 
 
 def block_clustered_figures(y, w, blocks, preds: dict, forested_sel, resamples: int) -> dict:
-    return {}  # stub
+    """Full minus A and full minus B with intervals clustered by level III block, over all blocks
+    and over the forested blocks, printed beside the weather-cell ones (P7 point 6)."""
+    f = forested_sel
+    return {
+        "all": {s: dd(mt.clustered_auc_difference(preds["full"], preds[k], y, w, blocks,
+                                                  resamples))
+                for s, k in (("A", A_KEY), ("B", B_KEY))},
+        "forested": {s: dd(mt.clustered_auc_difference(preds["full"][f], preds[k][f], y[f], w[f],
+                                                       blocks[f], resamples))
+                     for s, k in (("A", A_KEY), ("B", B_KEY))},
+    }  # fmt: skip
 
 
 def base_minus_b_figures(y, w, clusters, blocks, preds: dict, resamples: int) -> dict:
-    return {}  # stub
+    """Base minus B, the habitat model with no band selection against forest cover alone, with
+    its weather-cell and its block-clustered interval (both reviews: the lead over B rests on the
+    bands selected on the same held-out blocks)."""
+    base, b = preds["base"], preds[B_KEY]
+    return {
+        "weather_cell": dd(mt.clustered_auc_difference(base, b, y, w, clusters, resamples)),
+        "block_clustered": dd(mt.clustered_auc_difference(base, b, y, w, blocks, resamples)),
+    }
 
 
 def cached_predictions(cache: Path, key: str, n: int) -> np.ndarray:
-    return np.zeros(n)  # stub
+    """A model's held-out predictions as ``lobo`` saved them. Never fits: a missing entry, or one
+    for a different row count, stops the run."""
+    pp, cp = cache / f"lobo_{key}.npy", cache / f"lobo_{key}.json"
+    if not (pp.exists() and cp.exists()):
+        raise SystemExit(f"{key}: not in the cache {cache}; this command never fits")
+    saved = json.loads(cp.read_text())["n"]
+    p = np.load(pp)
+    if saved != n or len(p) != n:
+        raise SystemExit(f"{key}: the cache holds {saved} rows ({len(p)} saved), the table {n}")
+    return p
+
+
+def forested_selection(data: Data):
+    """D139's forested blocks in the box, the blocks in the fit, the forested ones among them, and
+    the rows in those."""
+    study = {int(k): v for k, v in data.meta["block_study_cells"].items()}
+    shares = {int(k): v for k, v in data.meta["block_share_cells"].items()}
+    forested_all = fd.forested_blocks(study, shares)
+    in_fit = set(np.unique(data.blocks).tolist())
+    forested = forested_all & in_fit
+    return forested_all, in_fit, forested, np.isin(data.blocks, sorted(forested))
+
+
+def _iv(d: dict) -> str:
+    return f"{d['point']:+.5f} [{d['low']:+.5f}, {d['high']:+.5f}]"
+
+
+def log_reported_beside(log, by_block_cluster: dict, within_cell: dict, base_minus_b: dict) -> None:
+    for scope in ("all", "forested"):
+        for k in ("A", "B"):
+            iv = _iv(by_block_cluster[scope][k])
+            log(f"full minus {k}, {scope} blocks, block-clustered: {iv}")
+    log(f"base minus B: weather cell {_iv(base_minus_b['weather_cell'])}, "
+        f"block-clustered {_iv(base_minus_b['block_clustered'])}")  # fmt: skip
+    aucs = ", ".join(f"{k} {v['point']:.4f} [{v['low']:.4f}, {v['high']:.4f}]"
+                     for k, v in within_cell["auc"].items())  # fmt: skip
+    log(f"within one weather cell (pair weight share {within_cell['pair_mass_share']:.5%}): "
+        f"{aucs}; full minus A {_iv(within_cell['full_minus_A'])}, "
+        f"full minus B {_iv(within_cell['full_minus_B'])}")  # fmt: skip
 
 
 def auc(data: Data, p, select=None) -> float | None:
@@ -555,10 +639,8 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
     level3 = {e["code"]: e for e in meta["level3_table"]}
     study = {int(k): v for k, v in meta["block_study_cells"].items()}
     shares = {int(k): v for k, v in meta["block_share_cells"].items()}
-    forested_all = fd.forested_blocks(study, shares)
-    in_fit = set(np.unique(data.blocks).tolist())
-    forested = forested_all & in_fit
-    forested_sel = np.isin(data.blocks, sorted(forested))
+    forested_all, in_fit, forested, forested_sel = forested_selection(data)
+    resamples = 50 if SMOKE else mt.RESAMPLES
     log(f"forested blocks: {len(forested_all)} in the box, {len(forested)} in the fit")
 
     ladder = md.ladder(list(BASE_BANDS) + [md.EFFORT], list(CANDIDATE_BANDS))
@@ -568,7 +650,11 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
         s = time.monotonic()
         preds[name], chosen[name] = lobo(data, ladder[name], threads, log, key=name[0:4])
         checkpoint(work, name.split(":")[0].replace(" ", "_"), preds[name])
-        log(f"{name}: {round(time.monotonic() - s)} s, pooled AUC {auc(data, preds[name]):.4f}")
+        within = mt.within_cluster_auc(preds[name], data.y, data.w, data.clusters, resamples)
+        log(
+            f"{name}: {round(time.monotonic() - s)} s, pooled AUC {auc(data, preds[name]):.4f}, "
+            f"within-weather-cell AUC {within.point:.4f} [{within.low:.4f}, {within.high:.4f}]"
+        )
     add_one = {}
     for c in CANDIDATE_BANDS:
         key = f"base + {c}"
@@ -590,12 +676,13 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
     pooled = {"A": diff(data, full, a), "B": diff(data, full, b)}
     forest = {"A": diff(data, full, a, forested_sel), "B": diff(data, full, b, forested_sel)}
     verdict = mt.p10_passes(pooled, forest)
-    by_block_cluster = {
-        "all": {k: dd(diff(data, full, v, clusters=data.blocks)) for k, v in (("A", a), ("B", b))},
-        "forested": {k: dd(diff(data, full, v, forested_sel, clusters=data.blocks))
-                     for k, v in (("A", a), ("B", b))},
-    }  # fmt: skip
+    by_block_cluster = block_clustered_figures(data.y, data.w, data.blocks, preds, forested_sel,
+                                               resamples)  # fmt: skip
+    within_cell = within_cell_figures(data.y, data.w, data.clusters, preds, resamples)
+    base_minus_b = base_minus_b_figures(data.y, data.w, data.clusters, data.blocks, preds,
+                                        resamples)  # fmt: skip
     log(f"P10: {'pass' if verdict else 'fail'}")
+    log_reported_beside(log, by_block_cluster, within_cell, base_minus_b)
 
     # per block and level I
     informative = fd.informative_blocks(data.blocks, data.y)
@@ -643,11 +730,7 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
 
     # side runs, reusing each fold's chosen configurations (P7 point 9)
     side = {}
-    for name, path, track in (
-        ("M2 side run", V9 / "presences_side.csv", "all"),
-        ("licence track", V9 / "presences_licence_track.csv", "cc"),
-        ("comparison group", V9 / "presences_comparison.csv", "all"),
-    ):
+    for name, path, track in SIDE_RUNS:
         s = time.monotonic()
         sd = Data(work, path, track=track, log=log)
         sp = {}
@@ -671,6 +754,8 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
             "full_minus_B": dd(diff(sd, sp["full"], sp["B: forest only"])),
             "forested_full_minus_A": dd(diff(sd, sp["full"], sp["A: effort only"], sf)),
             "forested_full_minus_B": dd(diff(sd, sp["full"], sp["B: forest only"], sf)),
+            "block_clustered": block_clustered_figures(sd.y, sd.w, sd.blocks, sp, sf, resamples),
+            "within_weather_cell": within_cell_figures(sd.y, sd.w, sd.clusters, sp, resamples),
             "seconds": round(time.monotonic() - s),
         }  # fmt: skip
         if name == "comparison group":
@@ -828,6 +913,8 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
                 "forested_blocks": {k: dd(v) for k, v in forest.items()},
                 "passes": verdict},
         "block_clustered_intervals_no_verdict": by_block_cluster,
+        "base_minus_B_no_verdict": base_minus_b,
+        "within_weather_cell_no_verdict": within_cell,
         "by_block": blocks_report, "level1": level1, "by_year": by_year,
         "side_runs": side, "comparison_rank_correlation_over_shaded": rho,
         "final_model_configuration": best_full,
@@ -871,6 +958,54 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
     }  # fmt: skip
     msha = write_manifest(out_dir / "manifest.json", manifest)
     log(f"manifest {msha}; done in {round(time.monotonic() - t0)} s")
+
+
+def cmd_figures(work: Path, evidence: Path) -> None:
+    """Recompute the figures reported beside every fit (base minus B, the within-weather-cell AUCs,
+    the block-clustered intervals) from a finished fit's cached held-out predictions. Reads the
+    work dir only; never fits; writes one JSON to the evidence dir."""
+    cache = work / "cache"
+    evidence.mkdir(parents=True, exist_ok=True)
+    t0 = time.monotonic()
+    commit = subprocess.run(["git", "-C", str(REPO), "rev-parse", "HEAD"], capture_output=True,
+                            text=True, check=True).stdout.strip()  # fmt: skip
+    r = mt.RESAMPLES
+    data = Data(work, V9 / "presences_main.csv")
+    _, _, forested, fsel = forested_selection(data)
+    n = len(data.y)
+    preds = {A_KEY: cached_predictions(cache, "A: e", n),
+             B_KEY: cached_predictions(cache, "B: f", n),
+             "base": cached_predictions(cache, "base", n),
+             "full": cached_predictions(cache, "full", n)}  # fmt: skip
+    out = {
+        "written_utc": now(), "code_commit": commit, "cache": str(cache), "resamples": r,
+        "seed": mt.SEED,
+        "main": {
+            "presences": data.n_presences, "background": data.n_background,
+            "pooled_auc": {k: auc(data, v) for k, v in preds.items()},
+            "base_minus_B": base_minus_b_figures(data.y, data.w, data.clusters, data.blocks, preds,
+                                                 r),
+            "within_weather_cell": within_cell_figures(data.y, data.w, data.clusters, preds, r),
+            "block_clustered": block_clustered_figures(data.y, data.w, data.blocks, preds, fsel, r),
+        },
+        "side_runs": {},
+    }  # fmt: skip
+    del data
+    for name, path, track in SIDE_RUNS:
+        sd = Data(work, path, track=track)
+        n = len(sd.y)
+        sp = {k: cached_predictions(cache, f"{name}-{k[:4]}", n) for k in ("full", A_KEY, B_KEY)}
+        sf = np.isin(sd.blocks, sorted(forested))
+        out["side_runs"][name] = {
+            "presences": sd.n_presences, "background": sd.n_background,
+            "pooled_auc": {k: auc(sd, v) for k, v in sp.items()},
+            "within_weather_cell": within_cell_figures(sd.y, sd.w, sd.clusters, sp, r),
+            "block_clustered": block_clustered_figures(sd.y, sd.w, sd.blocks, sp, sf, r),
+        }  # fmt: skip
+        del sd
+    out["seconds"] = round(time.monotonic() - t0)
+    out["peak_rss_mb"] = round(peak_rss_mb(), 1)
+    write_json(evidence / "figures_from_cache.json", out)
 
 
 def _tile_id_range(tw: GridWindow):
@@ -995,5 +1130,7 @@ if __name__ == "__main__":
         cmd_timing(Path(args[1]), Path(args[2]), threads)
     elif args[0] == "fit":
         cmd_fit(Path(args[1]), Path(args[2]), threads)
+    elif args[0] == "figures":
+        cmd_figures(Path(args[1]), Path(args[2]))
     else:
         raise SystemExit(__doc__)
