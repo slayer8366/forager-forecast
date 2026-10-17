@@ -205,7 +205,8 @@ def shared_forested_blocks(forested, blocks_a, y_a, blocks_b, y_b, minimum=30):
     return out
 
 
-def p10b_figures(condition_1, condition_2, condition_3, condition_4_status, p10_passes):
+def p10b_figures(condition_1, condition_2, condition_3, condition_4_status, p10_passes,
+                 condition_4=None):  # fmt: skip
     """P10b (D145) as the fit report carries it: the verdict, each condition's figure, and P10
     (D140) beside it with no verdict. Condition 4 is computed only once its scoring is ruled;
     while its data exist and its scoring is not ruled (``CONDITION_4_PENDING``), the verdict is

@@ -336,3 +336,11 @@ def host_specific_contrast(mycorrhizal: GroupScores, saprotroph: GroupScores,
     tail = (1.0 - level) / 2.0 * 100.0
     low, high = np.percentile(diffs, [tail, 100.0 - tail])
     return Difference(float(point), float(low), float(high), resamples)
+
+
+# --- P10b condition 4: independent presences above background (D145; Forager RECORD -1187) ------
+
+
+def auc_above_half(scores, outcomes, clusters, resamples: int = RESAMPLES, seed: int = SEED,
+                   level: float = 0.95) -> Difference:  # fmt: skip
+    raise NotImplementedError
