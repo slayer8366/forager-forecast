@@ -374,3 +374,37 @@ this report comes from it.
 - **CI** was not run for this branch, and its result was not read.
 - **LightGBM's determinism across thread counts.** Everything ran at 4 threads, and a rerun at
   another count may differ.
+
+## Correction, 2026-10-17, appended by the T7 part A coder session (Hazel Cairnwright)
+
+Appended under dispatch `docs/dispatch/2026-10-17-t7-part-a.md` (branch `t7-strengthen-plan`,
+Forager RECORD -1157), item 1. Nothing above this section is edited.
+
+**1. "26 level III blocks" is 25.** The Data section ("24 level III blocks take part, of 26 with
+study cells in the box") and "Premises that were wrong" 3 (the verify report's list "names 26")
+both miscount by one:
+- `table_meta.json` in this report's evidence folder has 25 keys in `block_study_cells` (counted in
+  this session), Colorado Plateaus and the Canadian-only 7.1.5 among them;
+- the verify report's per-block list (`2026-10-15-t7-verify-report.md:233-246`) names 25 (counted
+  name by name in this session), so its headline "25" was right and Premises 3's correction of it
+  was wrong.
+
+The fit's 24 blocks are the 25 less 7.1.5; 9.3.1, named in the Data section as "background only",
+is one of the 24. D139's 18 forested blocks, 17 in the fit, stand. No figure changes. Found by both
+independent reviews (`2026-10-16-t7-fit-review.md`, Q4, branch `t7-fit-review`;
+`2026-10-16-t7-fit-review-2.md`, Question 4, branch `t7-fit-review-2`).
+
+**2. The weighting fix's reach.** "Premises that were wrong" 1 says the main run "was affected less,
+but was affected" by the weight scale. That understates it. Both reviews re-ran the main group's A,
+B and full models over all 24 blocks with the unfixed weights, at the per-fold configurations the
+fit chose (no re-tuning):
+- the unfixed full model splits on `log_effort` alone, with not one habitat split, so the full
+  model and B give identical predictions (full minus B exactly 0) and both score 0.8681, below A's
+  0.8762 (full minus A −0.0081, interval −0.0113 to −0.0050);
+- so without the fix there is no habitat model at all for the main group, not a weaker one.
+
+Read from the reviews (review 1, Q3, `q3_unfixed.py` and `q3_split_features.py`; review 2,
+Question 3, `unfixed_rerun.py`), not re-run in this session. What neither review settles: whether
+an unfixed run with its own tuning would have chosen a configuration where habitat splits (review 2
+notes the smoke pass at c00 did); re-tuning unfixed was not done. The fix itself stands: it changes
+no ruled share, threshold or sample (both reviews).
