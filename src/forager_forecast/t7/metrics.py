@@ -289,3 +289,23 @@ def p10b(*, block_clustered_full_minus_b: Difference, within_cell_full_minus_a: 
         None if host_specific_contrast is None else host_specific_contrast.excludes_zero_above,
         None if independent_data is None else independent_data.excludes_zero_above,
     )
+
+
+# --- P10b condition 3: the host-specific contrast (D145, D146, D155) ------------------------------
+
+
+@dataclass(frozen=True)
+class GroupScores:
+    """One group's held-out scores from its full model and its model A, on its own rows."""
+
+    full: np.ndarray
+    a: np.ndarray
+    y: np.ndarray
+    w: np.ndarray
+    blocks: np.ndarray
+
+
+def host_specific_contrast(mycorrhizal: GroupScores, saprotroph: GroupScores,
+                           resamples: int = RESAMPLES, seed: int = SEED,
+                           level: float = 0.95) -> Difference:  # fmt: skip
+    raise NotImplementedError

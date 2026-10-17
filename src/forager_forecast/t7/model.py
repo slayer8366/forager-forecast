@@ -25,7 +25,8 @@ CONIFER_COVER = "conifer_cover_pct"
 BROADLEAF_COVER = "broadleaf_cover_pct"
 
 
-def lgb_params(config: dict, features: list[str], threads: int = 1) -> dict:
+def lgb_params(config: dict, features: list[str], threads: int = 1,
+               access_monotone: int | None = None) -> dict:  # fmt: skip
     if EFFORT not in features:
         raise ValueError(f"{EFFORT} is not among the features")
     e = features.index(EFFORT)
@@ -59,20 +60,22 @@ def unit_mean_weights(w) -> np.ndarray:
     return w * (len(w) / total)
 
 
-def train(config: dict, features: list[str], x, y, w, threads: int = 1):
+def train(config: dict, features: list[str], x, y, w, threads: int = 1,
+          access_monotone: int | None = None):  # fmt: skip
     import lightgbm as lgb  # noqa: PLC0415
 
     data = lgb.Dataset(np.asarray(x), np.asarray(y), weight=unit_mean_weights(w),
                        feature_name=list(features), free_raw_data=True)  # fmt: skip
-    return lgb.train(lgb_params(config, features, threads), data,
+    return lgb.train(lgb_params(config, features, threads, access_monotone), data,
                      num_boost_round=config["num_boost_round"])  # fmt: skip
 
 
-def fitter_for(features: list[str], threads: int = 1):
+def fitter_for(features: list[str], threads: int = 1, access_monotone: int | None = None):
     """A folds.Fitter that trains with P5's constraints and returns probabilities."""
 
     def fit(config, train_x, train_y, train_w, test_x):
-        return train(config, features, train_x, train_y, train_w, threads).predict(test_x)
+        return train(config, features, train_x, train_y, train_w, threads,
+                     access_monotone).predict(test_x)  # fmt: skip
 
     return fit
 
@@ -110,3 +113,25 @@ def ladder(base: list[str], candidates: list[str]) -> dict[str, list[str]]:
 
 def kept_candidates(differences: dict) -> list[str]:
     return [name for name, d in differences.items() if d.excludes_zero_above]
+
+
+# --- the access band (T7 re-fit, dispatch 2026-10-17-T7R; Forager RECORD -1182) ------------------
+
+ACCESS = "access_dist_m"
+HELD = (EFFORT, ACCESS)
+
+
+def ladder_with_access(base: list[str], candidates: list[str]) -> dict[str, list[str]]:
+    raise NotImplementedError
+
+
+def habitat_features(features: list[str]) -> list[str]:
+    raise NotImplementedError
+
+
+def predict_held(booster, features: list[str], x: np.ndarray, held: dict) -> np.ndarray:
+    raise NotImplementedError
+
+
+def held_access(values) -> float:
+    raise NotImplementedError

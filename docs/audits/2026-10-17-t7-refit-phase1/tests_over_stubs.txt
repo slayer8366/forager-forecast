@@ -1,0 +1,41 @@
+E       assert [[0, 1, 3], [2]] == [[0, 1], [2, 3]]
+E         
+E         At index 0 diff: [0, 1, 3] != [0, 1]
+E         Use -v to get more diff
+E       Failed: DID NOT RAISE ValueError
+E       NotImplementedError
+E       NotImplementedError
+E       NotImplementedError
+E       NotImplementedError
+E       NotImplementedError
+E       NotImplementedError
+E       NotImplementedError
+E       NotImplementedError
+E       NotImplementedError
+E       NotImplementedError
+E       NotImplementedError
+E       NotImplementedError
+E       NotImplementedError
+E       NotImplementedError
+E       NotImplementedError
+E       NotImplementedError
+E       NotImplementedError
+FAILED tests/test_t7_refit.py::test_access_joins_effort_in_the_held_interaction_group_with_the_ruled_direction
+FAILED tests/test_t7_refit.py::test_access_with_no_ruled_direction_is_refused_and_no_access_is_unchanged
+FAILED tests/test_t7_refit.py::test_access_is_in_every_model_that_carries_effort_and_is_never_a_candidate
+FAILED tests/test_t7_refit.py::test_access_held_on_the_map_and_the_ranking_unchanged_when_it_moves
+FAILED tests/test_t7_refit.py::test_held_access_is_the_median_and_refuses_undefined_values
+FAILED tests/test_t7_refit.py::test_access_is_excluded_from_the_area_of_applicability
+FAILED tests/test_t7_refit.py::test_contrast_point_is_the_mycorrhizal_gain_minus_the_saprotroph_gain
+FAILED tests/test_t7_refit.py::test_contrast_resamples_blocks_once_for_both_groups
+FAILED tests/test_t7_refit.py::test_contrast_draw_is_by_block_with_the_ruled_seed
+FAILED tests/test_t7_refit.py::test_shared_forested_blocks_need_thirty_presences_in_both_groups
+FAILED tests/test_t7_refit.py::test_licence_class_reads_cc0_and_cc_by_only - ...
+FAILED tests/test_t7_refit.py::test_specimen_licence_filter_keeps_cc0_and_cc_by_by_dataset_and_by_record
+FAILED tests/test_t7_refit.py::test_specimen_uncertainty_filter_keeps_a_stated_value_of_1000_m_or_less
+FAILED tests/test_t7_refit.py::test_specimen_genus_filter_is_the_main_runs_membership
+FAILED tests/test_t7_refit.py::test_a_licence_other_than_cc0_or_cc_by_in_the_kept_set_stops_the_run
+FAILED tests/test_t7_refit.py::test_the_specimen_predicate_is_the_dispatchs
+FAILED tests/test_t7_refit.py::test_p10b_verdict_and_every_condition_are_written_with_p10_beside_marked_no_verdict
+FAILED tests/test_t7_refit.py::test_p10b_with_condition_4_pending_is_never_reported_as_a_pass
+FAILED tests/test_t7_refit.py::test_the_fit_refuses_to_write_into_the_judged_runs_folders

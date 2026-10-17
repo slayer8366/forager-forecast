@@ -129,6 +129,37 @@ def write_json(path: Path, value) -> None:
                     encoding="utf-8")  # fmt: skip
 
 
+# --- the re-fit's pieces (dispatch 2026-10-17-T7R) -----------------------------------------------
+
+JUDGED = (
+    Path("/mnt/work/Zynergy/forecast-data/t7/fit"),
+    Path("/mnt/work/Zynergy/forecast-data/t7/pnw-2026-10-17"),
+    V9,
+    V9C,
+)
+CONDITION_4_PENDING = "pending: data exist, scoring not yet ruled"
+
+
+def check_out_dir(path: Path) -> Path:
+    raise NotImplementedError
+
+
+def map_columns(f, names, full_features, held_effort, held_access):
+    raise NotImplementedError
+
+
+def area_of_applicability(data, full_features, gains):
+    raise NotImplementedError
+
+
+def shared_forested_blocks(forested, blocks_a, y_a, blocks_b, y_b, minimum=30):
+    raise NotImplementedError
+
+
+def p10b_figures(condition_1, condition_2, condition_3, condition_4_status, p10_passes):
+    raise NotImplementedError
+
+
 # --- table ----------------------------------------------------------------------------------------
 
 
