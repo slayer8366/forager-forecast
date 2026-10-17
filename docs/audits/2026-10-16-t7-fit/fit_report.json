@@ -1,0 +1,1199 @@
+{
+ "written_utc": "2026-10-17T02:07:46+00:00",
+ "code_commit": "41f9c79630828744d98129532fe7dc9ebafcc0ca",
+ "threads": 4,
+ "presences": 15624,
+ "background": 500000,
+ "background_pool": 3745167,
+ "background_sha256": "3a411eb209dc79ccc2e8ab91cab632f96c3eaa85ee1f007cdc844be91f2b5184",
+ "presence_outcomes": {
+  "thinned presences in the file": 23069,
+  "by cell code": {
+   "1": 15626,
+   "5": 1025,
+   "3": 1928,
+   "4": 4160,
+   "0": 329,
+   "6": 1
+  },
+  "eligible but weather cell outside the effort frame": 2,
+  "entering the fit": 15624,
+  "eligible, record's weather cell differs from its 250 m cell centre's": 223
+ },
+ "genus_units": {
+  "alone": 44,
+  "pooled_presences": 285
+ },
+ "held_effort": 1.440701409312872,
+ "effort_quartiles": [
+  0.3801302836042423,
+  2.5702516593266127
+ ],
+ "ranking_same_at_quartiles": true,
+ "score_shift_at_quartiles": [
+  2.314021491606468,
+  2.3140214916064754
+ ],
+ "blocks_in_fit": 24,
+ "forested_blocks_in_box": 18,
+ "forested_blocks_in_fit": [
+  8,
+  15,
+  109,
+  110,
+  111,
+  112,
+  114,
+  116,
+  117,
+  118,
+  120,
+  121,
+  122,
+  129,
+  130,
+  131,
+  172
+ ],
+ "informative_blocks": [
+  15,
+  109,
+  110,
+  112,
+  114,
+  116,
+  117,
+  118,
+  120,
+  121,
+  122,
+  129,
+  130,
+  131
+ ],
+ "pooled_auc": {
+  "A: effort only": 0.8772775527294848,
+  "B: forest only": 0.8788028832027539,
+  "base": 0.8796109760277251,
+  "base + share_Larix": 0.8800707593843833,
+  "base + share_Betula": 0.8798032299790283,
+  "base + share_Populus": 0.8792857840749266,
+  "base + share_Alnus": 0.8792084511495433,
+  "base + share_Lithocarpus": 0.87972908383561,
+  "base + share_Chrysolepis": 0.8802775346470747,
+  "base + share_Arbutus": 0.8808277922566642,
+  "base + share_ecm_hosts": 0.8793673932170215,
+  "full": 0.8814635130077574
+ },
+ "forested_auc": {
+  "A: effort only": 0.8767102473194621,
+  "B: forest only": 0.8781297836400801,
+  "base": 0.8788755806257145,
+  "base + share_Larix": 0.8793589765108266,
+  "base + share_Betula": 0.8790697144235601,
+  "base + share_Populus": 0.8785284463896039,
+  "base + share_Alnus": 0.878477871030555,
+  "base + share_Lithocarpus": 0.8790044873505953,
+  "base + share_Chrysolepis": 0.8795527524980663,
+  "base + share_Arbutus": 0.8801231131882555,
+  "base + share_ecm_hosts": 0.8786264794603086,
+  "full": 0.8807855050978568
+ },
+ "add_one": {
+  "share_Larix": {
+   "point": 0.00045978335665819436,
+   "low": 4.44810770692611e-05,
+   "high": 0.0008085978490658673,
+   "resamples": 1000,
+   "interval_wholly_above_zero": true
+  },
+  "share_Betula": {
+   "point": 0.00019225395130317846,
+   "low": -0.00015312567800472574,
+   "high": 0.0005300460018220847,
+   "resamples": 1000,
+   "interval_wholly_above_zero": false
+  },
+  "share_Populus": {
+   "point": -0.0003251919527984537,
+   "low": -0.0007295520007746053,
+   "high": 5.924469341918308e-05,
+   "resamples": 1000,
+   "interval_wholly_above_zero": false
+  },
+  "share_Alnus": {
+   "point": -0.00040252487818182026,
+   "low": -0.0008140055172951132,
+   "high": 3.1920717254066313e-05,
+   "resamples": 1000,
+   "interval_wholly_above_zero": false
+  },
+  "share_Lithocarpus": {
+   "point": 0.00011810780788490405,
+   "low": -0.0003605222437554789,
+   "high": 0.0005814356356728916,
+   "resamples": 1000,
+   "interval_wholly_above_zero": false
+  },
+  "share_Chrysolepis": {
+   "point": 0.0006665586193496109,
+   "low": 0.0002797300533132069,
+   "high": 0.0010270539716393163,
+   "resamples": 1000,
+   "interval_wholly_above_zero": true
+  },
+  "share_Arbutus": {
+   "point": 0.0012168162289390994,
+   "low": 0.0007557856614874543,
+   "high": 0.0016815862453608832,
+   "resamples": 1000,
+   "interval_wholly_above_zero": true
+  },
+  "share_ecm_hosts": {
+   "point": -0.0002435828107035798,
+   "low": -0.0009892396659959028,
+   "high": 0.0005213670309216739,
+   "resamples": 1000,
+   "interval_wholly_above_zero": false
+  }
+ },
+ "kept_candidates": [
+  "share_Larix",
+  "share_Chrysolepis",
+  "share_Arbutus"
+ ],
+ "full_features": [
+  "share_Pseudotsuga",
+  "share_Tsuga",
+  "share_Picea",
+  "share_Abies",
+  "share_Pinus",
+  "share_Quercus",
+  "share_conifer",
+  "share_broadleaf",
+  "total_cover_pct",
+  "ph_mean_0_30cm",
+  "share_Larix",
+  "share_Chrysolepis",
+  "share_Arbutus",
+  "log_effort"
+ ],
+ "p10": {
+  "all_blocks": {
+   "A": {
+    "point": 0.00418596027827256,
+    "low": 0.0021097249950500913,
+    "high": 0.006287729624300131,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "B": {
+    "point": 0.0026606298050034782,
+    "low": 0.000995985176581932,
+    "high": 0.004226935699809542,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   }
+  },
+  "forested_blocks": {
+   "A": {
+    "point": 0.004075257778394681,
+    "low": 0.002007849193601066,
+    "high": 0.006225487736441238,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "B": {
+    "point": 0.002655721457776705,
+    "low": 0.00094486976754111,
+    "high": 0.004354603816558364,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   }
+  },
+  "passes": true
+ },
+ "block_clustered_intervals_no_verdict": {
+  "all": {
+   "A": {
+    "point": 0.00418596027827256,
+    "low": -0.0006251460355905255,
+    "high": 0.011998204386645084,
+    "resamples": 1000,
+    "interval_wholly_above_zero": false
+   },
+   "B": {
+    "point": 0.0026606298050034782,
+    "low": -0.0004122902433453839,
+    "high": 0.008113959951897261,
+    "resamples": 1000,
+    "interval_wholly_above_zero": false
+   }
+  },
+  "forested": {
+   "A": {
+    "point": 0.004075257778394681,
+    "low": -0.0009100223690424947,
+    "high": 0.01151655464645974,
+    "resamples": 1000,
+    "interval_wholly_above_zero": false
+   },
+   "B": {
+    "point": 0.002655721457776705,
+    "low": -0.00013310664790354881,
+    "high": 0.008260886377679173,
+    "resamples": 1000,
+    "interval_wholly_above_zero": false
+   }
+  }
+ },
+ "by_block": [
+  {
+   "code": 4,
+   "level3": "10.1.2",
+   "name": "Columbia Plateau",
+   "level1": "10",
+   "presences": 6,
+   "background": 2737,
+   "informative": false,
+   "forested": false,
+   "forested_share": 0.0389,
+   "chosen": {
+    "A: effort only": "c15",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": null,
+    "A: effort only": null,
+    "B: forest only": null
+   }
+  },
+  {
+   "code": 5,
+   "level3": "10.1.3",
+   "name": "Northern Basin and Range",
+   "level1": "10",
+   "presences": 15,
+   "background": 3700,
+   "informative": false,
+   "forested": false,
+   "forested_share": 0.074,
+   "chosen": {
+    "A: effort only": "c15",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": null,
+    "A: effort only": null,
+    "B: forest only": null
+   }
+  },
+  {
+   "code": 6,
+   "level3": "10.1.4",
+   "name": "Wyoming Basin",
+   "level1": "10",
+   "presences": 0,
+   "background": 32,
+   "informative": false,
+   "forested": false,
+   "forested_share": 0.0658,
+   "chosen": {
+    "A: effort only": "c15",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": null,
+    "A: effort only": null,
+    "B: forest only": null
+   }
+  },
+  {
+   "code": 7,
+   "level3": "10.1.5",
+   "name": "Central Basin and Range",
+   "level1": "10",
+   "presences": 6,
+   "background": 1505,
+   "informative": false,
+   "forested": false,
+   "forested_share": 0.0533,
+   "chosen": {
+    "A: effort only": "c15",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": null,
+    "A: effort only": null,
+    "B: forest only": null
+   }
+  },
+  {
+   "code": 8,
+   "level3": "10.1.6",
+   "name": "Colorado Plateaus",
+   "level1": "10",
+   "presences": 0,
+   "background": 2,
+   "informative": false,
+   "forested": true,
+   "forested_share": 0.5288,
+   "chosen": {
+    "A: effort only": "c15",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": null,
+    "A: effort only": null,
+    "B: forest only": null
+   }
+  },
+  {
+   "code": 10,
+   "level3": "10.1.8",
+   "name": "Snake River Plain",
+   "level1": "10",
+   "presences": 7,
+   "background": 530,
+   "informative": false,
+   "forested": false,
+   "forested_share": 0.0142,
+   "chosen": {
+    "A: effort only": "c15",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": null,
+    "A: effort only": null,
+    "B: forest only": null
+   }
+  },
+  {
+   "code": 15,
+   "level3": "11.1.1",
+   "name": "Central California Foothills and Coastal Mountains",
+   "level1": "11",
+   "presences": 37,
+   "background": 2793,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.4632,
+   "chosen": {
+    "A: effort only": "c15",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.949600371444078,
+    "A: effort only": 0.9486006829184055,
+    "B: forest only": 0.9443366025281577
+   }
+  },
+  {
+   "code": 16,
+   "level3": "11.1.2",
+   "name": "Central California Valley",
+   "level1": "11",
+   "presences": 1,
+   "background": 34,
+   "informative": false,
+   "forested": false,
+   "forested_share": 0.0463,
+   "chosen": {
+    "A: effort only": "c15",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": null,
+    "A: effort only": null,
+    "B: forest only": null
+   }
+  },
+  {
+   "code": 109,
+   "level3": "6.2.10",
+   "name": "Middle Rockies",
+   "level1": "6",
+   "presences": 91,
+   "background": 20899,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.449,
+   "chosen": {
+    "A: effort only": "c15",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.8367868244970486,
+    "A: effort only": 0.8241796453777979,
+    "B: forest only": 0.8182997681999681
+   }
+  },
+  {
+   "code": 110,
+   "level3": "6.2.11",
+   "name": "Klamath Mountains",
+   "level1": "6",
+   "presences": 462,
+   "background": 56075,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.8233,
+   "chosen": {
+    "A: effort only": "c01",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.7713638255697469,
+    "A: effort only": 0.7881873686631613,
+    "B: forest only": 0.7733425707672874
+   }
+  },
+  {
+   "code": 111,
+   "level3": "6.2.12",
+   "name": "Sierra Nevada",
+   "level1": "6",
+   "presences": 7,
+   "background": 2082,
+   "informative": false,
+   "forested": true,
+   "forested_share": 0.5373,
+   "chosen": {
+    "A: effort only": "c15",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": null,
+    "A: effort only": null,
+    "B: forest only": null
+   }
+  },
+  {
+   "code": 112,
+   "level3": "6.2.13",
+   "name": "Wasatch and Uinta Mountains",
+   "level1": "6",
+   "presences": 179,
+   "background": 10319,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.6577,
+   "chosen": {
+    "A: effort only": "c15",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.8219714975164046,
+    "A: effort only": 0.8222789332627135,
+    "B: forest only": 0.8152829877947992
+   }
+  },
+  {
+   "code": 114,
+   "level3": "6.2.15",
+   "name": "Idaho Batholith",
+   "level1": "6",
+   "presences": 410,
+   "background": 28155,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.6464,
+   "chosen": {
+    "A: effort only": "c15",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.8456830178286413,
+    "A: effort only": 0.8468588677536664,
+    "B: forest only": 0.8436383650688353
+   }
+  },
+  {
+   "code": 116,
+   "level3": "6.2.3",
+   "name": "Columbia Mountains/Northern Rockies",
+   "level1": "6",
+   "presences": 463,
+   "background": 62890,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.816,
+   "chosen": {
+    "A: effort only": "c15",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.8157778728982766,
+    "A: effort only": 0.8292281430908847,
+    "B: forest only": 0.8233849735381232
+   }
+  },
+  {
+   "code": 117,
+   "level3": "6.2.4",
+   "name": "Canadian Rockies",
+   "level1": "6",
+   "presences": 53,
+   "background": 10589,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.7616,
+   "chosen": {
+    "A: effort only": "c15",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.8282984787303215,
+    "A: effort only": 0.8330704957840639,
+    "B: forest only": 0.8300928281535319
+   }
+  },
+  {
+   "code": 118,
+   "level3": "6.2.5",
+   "name": "North Cascades",
+   "level1": "6",
+   "presences": 1422,
+   "background": 41344,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.8068,
+   "chosen": {
+    "A: effort only": "c15",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.826885065662078,
+    "A: effort only": 0.8172971064999375,
+    "B: forest only": 0.8186354978819999
+   }
+  },
+  {
+   "code": 120,
+   "level3": "6.2.7",
+   "name": "Cascades",
+   "level1": "6",
+   "presences": 3137,
+   "background": 89758,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.8883,
+   "chosen": {
+    "A: effort only": "c15",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.8124094998972551,
+    "A: effort only": 0.8033634928669606,
+    "B: forest only": 0.8066411073230535
+   }
+  },
+  {
+   "code": 121,
+   "level3": "6.2.8",
+   "name": "Eastern Cascades Slopes and Foothills",
+   "level1": "6",
+   "presences": 229,
+   "background": 27679,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.5767,
+   "chosen": {
+    "A: effort only": "c15",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.8586712901791977,
+    "A: effort only": 0.8461149543161839,
+    "B: forest only": 0.8474685198189895
+   }
+  },
+  {
+   "code": 122,
+   "level3": "6.2.9",
+   "name": "Blue Mountains",
+   "level1": "6",
+   "presences": 141,
+   "background": 28923,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.5418,
+   "chosen": {
+    "A: effort only": "c15",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.8128584244318103,
+    "A: effort only": 0.7666348149208029,
+    "B: forest only": 0.7982869588482479
+   }
+  },
+  {
+   "code": 129,
+   "level3": "7.1.7",
+   "name": "Strait of Georgia/Puget Lowland",
+   "level1": "7",
+   "presences": 2330,
+   "background": 21787,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.6982,
+   "chosen": {
+    "A: effort only": "c07",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.8551362875197213,
+    "A: effort only": 0.8501069059411516,
+    "B: forest only": 0.8569991999506691
+   }
+  },
+  {
+   "code": 130,
+   "level3": "7.1.8",
+   "name": "Coastal Range",
+   "level1": "7",
+   "presences": 5992,
+   "background": 75355,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.9291,
+   "chosen": {
+    "A: effort only": "c09",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.9055940708270112,
+    "A: effort only": 0.9090767804946002,
+    "B: forest only": 0.9031342191066084
+   }
+  },
+  {
+   "code": 131,
+   "level3": "7.1.9",
+   "name": "Willamette Valley",
+   "level1": "7",
+   "presences": 636,
+   "background": 12630,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.3997,
+   "chosen": {
+    "A: effort only": "c16",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.8713551029243737,
+    "A: effort only": 0.8723851099726506,
+    "B: forest only": 0.8733673969354193
+   }
+  },
+  {
+   "code": 171,
+   "level3": "9.3.1",
+   "name": "Northwestern Glaciated Plains",
+   "level1": "9",
+   "presences": 0,
+   "background": 49,
+   "informative": false,
+   "forested": false,
+   "forested_share": 0.0182,
+   "chosen": {
+    "A: effort only": "c16",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": null,
+    "A: effort only": null,
+    "B: forest only": null
+   }
+  },
+  {
+   "code": 172,
+   "level3": "9.3.3",
+   "name": "Northwestern Great Plains",
+   "level1": "9",
+   "presences": 0,
+   "background": 133,
+   "informative": false,
+   "forested": true,
+   "forested_share": 0.2049,
+   "chosen": {
+    "A: effort only": "c16",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": null,
+    "A: effort only": null,
+    "B: forest only": null
+   }
+  }
+ ],
+ "level1": {
+  "10": {
+   "full": 0.7604275223648167,
+   "A: effort only": 0.7379625656129899,
+   "B: forest only": 0.7748251765419274,
+   "presences": 34
+  },
+  "11": {
+   "full": 0.942537529654221,
+   "A: effort only": 0.9414998051714366,
+   "B: forest only": 0.9404632319019345,
+   "presences": 38
+  },
+  "6": {
+   "full": 0.8393045484202839,
+   "A: effort only": 0.8301467187994935,
+   "B: forest only": 0.8332360992410874,
+   "presences": 6594
+  },
+  "7": {
+   "full": 0.8802074384371354,
+   "A: effort only": 0.8849901124706175,
+   "B: forest only": 0.8833835652002668,
+   "presences": 8958
+  },
+  "9": {
+   "full": null,
+   "A: effort only": null,
+   "B: forest only": null,
+   "presences": 0
+  }
+ },
+ "by_year": {
+  "2015": {
+   "full": 0.9350886149978526,
+   "A: effort only": 0.9309882329457635,
+   "B: forest only": 0.9327625036580197,
+   "presences": 44
+  },
+  "2016": {
+   "full": 0.6680184517001266,
+   "A: effort only": 0.7040060157878167,
+   "B: forest only": 0.7000841444121056,
+   "presences": 55
+  },
+  "2017": {
+   "full": 0.8954889863215783,
+   "A: effort only": 0.8950642843695398,
+   "B: forest only": 0.9010550061206999,
+   "presences": 110
+  },
+  "2018": {
+   "full": 0.912986182240257,
+   "A: effort only": 0.9136722640339204,
+   "B: forest only": 0.9107133249685161,
+   "presences": 397
+  },
+  "2019": {
+   "full": 0.8564969152069526,
+   "A: effort only": 0.8460859318025441,
+   "B: forest only": 0.8540699185864459,
+   "presences": 1028
+  },
+  "2020": {
+   "full": 0.8973709463663174,
+   "A: effort only": 0.8948989160338059,
+   "B: forest only": 0.9005588877057122,
+   "presences": 1473
+  },
+  "2021": {
+   "full": 0.9030901713459194,
+   "A: effort only": 0.905725506241831,
+   "B: forest only": 0.9037817647217455,
+   "presences": 2252
+  },
+  "2022": {
+   "full": 0.8966100791663854,
+   "A: effort only": 0.8947928125770452,
+   "B: forest only": 0.8917530483835617,
+   "presences": 1623
+  },
+  "2023": {
+   "full": 0.864106539886044,
+   "A: effort only": 0.8592996527172669,
+   "B: forest only": 0.8602807512750391,
+   "presences": 2644
+  },
+  "2024": {
+   "full": 0.8954887651665796,
+   "A: effort only": 0.8906242975618142,
+   "B: forest only": 0.8927609748392699,
+   "presences": 2875
+  },
+  "2025": {
+   "full": 0.8580879913010272,
+   "A: effort only": 0.8487508135604579,
+   "B: forest only": 0.8520941443298768,
+   "presences": 3123
+  }
+ },
+ "side_runs": {
+  "M2 side run": {
+   "presences": 17261,
+   "background": 500000,
+   "presence_outcomes": {
+    "thinned presences in the file": 25357,
+    "by cell code": {
+     "1": 17263,
+     "5": 1098,
+     "3": 2111,
+     "4": 4529,
+     "0": 355,
+     "6": 1
+    },
+    "eligible but weather cell outside the effort frame": 2,
+    "entering the fit": 17261,
+    "eligible, record's weather cell differs from its 250 m cell centre's": 246
+   },
+   "held_effort": 1.440701409312872,
+   "auc": {
+    "full": 0.8815304570579369,
+    "A: effort only": 0.8775892789789644,
+    "B: forest only": 0.8792802701015939
+   },
+   "full_minus_A": {
+    "point": 0.003941178078972429,
+    "low": 0.0021664353925551897,
+    "high": 0.005892845252118434,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "full_minus_B": {
+    "point": 0.0022501869563429366,
+    "low": 0.0006986748447052912,
+    "high": 0.0037638363557185224,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "forested_full_minus_A": {
+    "point": 0.003797085176416859,
+    "low": 0.0019561828377720135,
+    "high": 0.005837976555838296,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "forested_full_minus_B": {
+    "point": 0.0021936210486028784,
+    "low": 0.0005963509815407581,
+    "high": 0.003779231947221556,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "seconds": 427
+  },
+  "licence track": {
+   "presences": 1586,
+   "background": 192593,
+   "presence_outcomes": {
+    "thinned presences in the file": 2464,
+    "by cell code": {
+     "1": 1587,
+     "4": 292,
+     "3": 450,
+     "5": 87,
+     "0": 48
+    },
+    "eligible but weather cell outside the effort frame": 1,
+    "entering the fit": 1586,
+    "eligible, record's weather cell differs from its 250 m cell centre's": 26
+   },
+   "held_effort": 0.7264322975048546,
+   "auc": {
+    "full": 0.8344295331319701,
+    "A: effort only": 0.8149983250161844,
+    "B: forest only": 0.8262406859727756
+   },
+   "full_minus_A": {
+    "point": 0.019431208115785692,
+    "low": 0.008222866542845517,
+    "high": 0.030638209543610562,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "full_minus_B": {
+    "point": 0.008188847159194546,
+    "low": -0.00045285737480232153,
+    "high": 0.01670774541138365,
+    "resamples": 1000,
+    "interval_wholly_above_zero": false
+   },
+   "forested_full_minus_A": {
+    "point": 0.018812293142872694,
+    "low": 0.007712881103590265,
+    "high": 0.030562302270068988,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "forested_full_minus_B": {
+    "point": 0.007957263504496215,
+    "low": -0.0005549055713965485,
+    "high": 0.016214536611197893,
+    "resamples": 1000,
+    "interval_wholly_above_zero": false
+   },
+   "seconds": 145
+  },
+  "comparison group": {
+   "presences": 606,
+   "background": 500000,
+   "presence_outcomes": {
+    "thinned presences in the file": 820,
+    "by cell code": {
+     "1": 606,
+     "0": 15,
+     "4": 93,
+     "3": 70,
+     "5": 36
+    },
+    "eligible but weather cell outside the effort frame": 0,
+    "entering the fit": 606,
+    "eligible, record's weather cell differs from its 250 m cell centre's": 10
+   },
+   "held_effort": 1.440701409312872,
+   "auc": {
+    "full": 0.8670487970237547,
+    "A: effort only": 0.8438350148514819,
+    "B: forest only": 0.8516993168304194
+   },
+   "full_minus_A": {
+    "point": 0.023213782172272768,
+    "low": 0.010445353313375268,
+    "high": 0.0376051416705051,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "full_minus_B": {
+    "point": 0.015349480193335263,
+    "low": 0.005304261863871483,
+    "high": 0.026675144436904823,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "forested_full_minus_A": {
+    "point": 0.023461886499158258,
+    "low": 0.010656333632500403,
+    "high": 0.03666959494043628,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "forested_full_minus_B": {
+    "point": 0.01589990126344032,
+    "low": 0.005109528246926492,
+    "high": 0.027074362757414275,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "seconds": 394
+  }
+ },
+ "comparison_rank_correlation_over_shaded": 0.22953581619880717,
+ "final_model_configuration": {
+  "id": "c16",
+  "num_leaves": 15,
+  "min_data_in_leaf": 1000,
+  "learning_rate": 0.03,
+  "feature_fraction": 1.0,
+  "lambda_l2": 10.0,
+  "num_boost_round": 200
+ },
+ "aoa": {
+  "threshold": 0.1981826851883277,
+  "mean_distance": 212575.41201997874,
+  "mean_distance_exact": false,
+  "weights": {
+   "share_Pseudotsuga": 66293.78985595703,
+   "share_Tsuga": 20414.96192932129,
+   "share_Picea": 79622.16995239258,
+   "share_Abies": 47239.72611999512,
+   "share_Pinus": 50018.8948059082,
+   "share_Quercus": 8242.240051269531,
+   "share_conifer": 30849.913116455078,
+   "share_broadleaf": 17859.896102905273,
+   "total_cover_pct": 58096.474044799805,
+   "ph_mean_0_30cm": 59774.23408508301,
+   "share_Larix": 17830.347946166992,
+   "share_Chrysolepis": 15810.448013305664,
+   "share_Arbutus": 40426.614013671875
+  },
+  "train_di_quantiles": [
+   0.00015123644340029734,
+   0.04258695259584243,
+   0.06870651533355077,
+   0.10482524563283654,
+   1.6902277405590178
+  ],
+  "counts": {
+   "eligible": 6967248,
+   "inside": 6950770,
+   "outside": 16478,
+   "inside_in_frame": 3738115,
+   "inside_outside_frame": 3212655,
+   "outside_in_frame": 7052,
+   "outside_outside_frame": 9426,
+   "by_block": {
+    "10.1.2 Columbia Plateau": {
+     "inside": 51165,
+     "outside": 34
+    },
+    "10.1.3 Northern Basin and Range": {
+     "inside": 165384,
+     "outside": 476
+    },
+    "10.1.4 Wyoming Basin": {
+     "inside": 3682,
+     "outside": 553
+    },
+    "10.1.5 Central Basin and Range": {
+     "inside": 98100,
+     "outside": 374
+    },
+    "10.1.6 Colorado Plateaus": {
+     "inside": 437,
+     "outside": 1
+    },
+    "10.1.8 Snake River Plain": {
+     "inside": 11975,
+     "outside": 112
+    },
+    "11.1.1 Central California Foothills and Coastal Mountains": {
+     "inside": 41634,
+     "outside": 12
+    },
+    "11.1.2 Central California Valley": {
+     "inside": 387,
+     "outside": 0
+    },
+    "6.2.10 Middle Rockies": {
+     "inside": 639987,
+     "outside": 1240
+    },
+    "6.2.11 Klamath Mountains": {
+     "inside": 551947,
+     "outside": 3445
+    },
+    "6.2.12 Sierra Nevada": {
+     "inside": 24833,
+     "outside": 3
+    },
+    "6.2.13 Wasatch and Uinta Mountains": {
+     "inside": 150084,
+     "outside": 833
+    },
+    "6.2.15 Idaho Batholith": {
+     "inside": 621964,
+     "outside": 1300
+    },
+    "6.2.3 Columbia Mountains/Northern Rockies": {
+     "inside": 1064670,
+     "outside": 2035
+    },
+    "6.2.4 Canadian Rockies": {
+     "inside": 228315,
+     "outside": 1143
+    },
+    "6.2.5 North Cascades": {
+     "inside": 390699,
+     "outside": 985
+    },
+    "6.2.7 Cascades": {
+     "inside": 830535,
+     "outside": 683
+    },
+    "6.2.8 Eastern Cascades Slopes and Foothills": {
+     "inside": 490846,
+     "outside": 192
+    },
+    "6.2.9 Blue Mountains": {
+     "inside": 614355,
+     "outside": 223
+    },
+    "7.1.7 Strait of Georgia/Puget Lowland": {
+     "inside": 165897,
+     "outside": 48
+    },
+    "7.1.8 Coastal Range": {
+     "inside": 690633,
+     "outside": 2615
+    },
+    "7.1.9 Willamette Valley": {
+     "inside": 94176,
+     "outside": 33
+    },
+    "9.3.1 Northwestern Glaciated Plains": {
+     "inside": 7925,
+     "outside": 131
+    },
+    "9.3.3 Northwestern Great Plains": {
+     "inside": 11140,
+     "outside": 7
+    }
+   }
+  }
+ },
+ "code_counts_in_box_window": {
+  "0": 2449579,
+  "1": 6950770,
+  "2": 16478,
+  "3": 102543,
+  "4": 9447216,
+  "5": 23834,
+  "6": 133292
+ },
+ "outputs": {
+  "relative_habitat_pnw.tif": "c186977db309b5356889cfe1eebfc369e451e1651a87d727f4388540da096ff6",
+  "applicability_pnw.tif": "07baec5f0990a116b7ec7512aaa993215f689ceac6a5f4571083bf05ed539c67",
+  "mask_map.png": "bb0f0df8f4aabbd14be5ca95f347a7f5e31b3a2fe69391b722be45a3d0cdfc44"
+ },
+ "seconds": 51072,
+ "peak_rss_mb": 3005.9
+}
