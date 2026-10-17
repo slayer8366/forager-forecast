@@ -67,6 +67,11 @@ PAD_DEG_LAT, PAD_DEG_LON = 0.5, 0.75
 READ_BBOX = (PNW_BOX.west - PAD_DEG_LON, PNW_BOX.south - PAD_DEG_LAT,
              PNW_BOX.east + PAD_DEG_LON, PNW_BOX.north + PAD_DEG_LAT)  # fmt: skip
 FT = Path("/mnt/work/Zynergy/forecast-data/t7/fit")
+# The cells computed: the box's study cells, read (read-only) from the 2026-10-17 T7 fit's
+# applicability raster, every code but 0 ("outside the study area or box"). Ocean and other
+# non-study cells are NaN: computing them (the first run, stopped after 20 blocks) spent most of
+# its time widening the search over open sea.
+DOMAIN = Path("/mnt/work/Zynergy/forecast-data/t7/pnw-2026-10-17/applicability_pnw.tif")
 LABEL = (
     "Distance from each 250 m cell centre to the nearest road, trail, or either, in metres on the "
     "grid plane (ESRI:102008; up to about 6% from ground distance). A model input. Not a forecast."
@@ -223,7 +228,17 @@ def cmd_build() -> None:
     started = now()
     t0 = time.perf_counter()
     mask, found = unpublished_mask(window)
-    inside_all = box_mask(window, PNW_BOX)
+    with rasterio.open(DOMAIN) as ds:
+        if (ds.width, ds.height) != (window.width, window.height) or ds.transform != from_origin(
+            window.left, window.top, CELL_SIZE_M, CELL_SIZE_M
+        ):
+            raise ValueError(f"{DOMAIN} is not on the PNW window")
+        inside_all = (ds.read(1) != 0) & box_mask(window, PNW_BOX)
+    total_blocks = sum(
+        inside_all[r:r + TILE_N, c:c + TILE_N].any()
+        for r in range(0, window.height, TILE_N) for c in range(0, window.width, TILE_N)
+    )  # fmt: skip
+    print(f"{now()} domain cells {int(inside_all.sum())}, blocks {total_blocks}", flush=True)
     roads, trails = reader(band_files("roads")), reader(band_files("trails"))
     acc_part = OUT / f"{ACCESS_FILE}.partial"
     msk_part = OUT / f"{UNPUBLISHED_FILE}.partial"
@@ -264,7 +279,7 @@ def cmd_build() -> None:
                     acc.write(arr.astype(np.float32), k, window=win)
                 n_blocks += 1
                 if n_blocks % 20 == 0:
-                    print(f"{now()} blocks {n_blocks} at row {r0} col {c0}", flush=True)
+                    print(f"{now()} blocks {n_blocks}/{total_blocks}", flush=True)
     acc_part.rename(OUT / ACCESS_FILE)
     msk_part.rename(OUT / UNPUBLISHED_FILE)
     prepare = json.loads((WORK / "prepare.json").read_text())
@@ -295,9 +310,12 @@ def cmd_build() -> None:
             "distance": "exact centre-to-nearest-line, grid-plane metres; scale 0.940 to 0.945 "
                         "along parallels, 1.058 to 1.063 along meridians over the box",
             "outside_box": "NaN",
+            "domain": "cells of the box whose code in the domain raster is not 0; others NaN",
         },
         "cells_without_any_line_within_max_radius": no_line,
-        "unpublished_cells_in_box": int((mask.astype(bool) & inside_all).sum()),
+        "unpublished_cells_in_domain": int((mask.astype(bool) & inside_all).sum()),
+        "domain": {"path": str(DOMAIN), "sha256": sha256(DOMAIN),
+                   "cells": int(inside_all.sum())},
         "inputs": inputs, "prepare": prepare,
         "intermediates": {f.name: sha256(f) for f in sorted(WORK.glob("*.fgb"))},
         "outputs": {ACCESS_FILE: sha256(OUT / ACCESS_FILE),
@@ -306,7 +324,7 @@ def cmd_build() -> None:
     }  # fmt: skip
     (OUT / "manifest.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n")
     print(json.dumps({k: manifest[k] for k in ("seconds", "cells_without_any_line_within_max_"
-                                               "radius", "unpublished_cells_in_box",
+                                               "radius", "unpublished_cells_in_domain",
                                                "outputs")}), flush=True)  # fmt: skip
 
 
