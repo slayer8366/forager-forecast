@@ -57,6 +57,7 @@ from forager_forecast.t7.aoa import fit_aoa
 from forager_forecast.t7.ecoregions import burn_level3, read_level3
 from forager_forecast.t7.keying import pack, static_effort
 from forager_forecast.t7.predictors import (
+    ACCESS_BANDS,
     BASE_BANDS,
     CANDIDATE_BANDS,
     CODE_IN,
@@ -81,6 +82,10 @@ LEVEL3 = (
 T6 = Path.home() / "Zynergy/forager-forecast-t6/data/t6"
 T6_SHA = REPO / "docs/audits/2026-10-06-t6-fit/stored_surface_sha256.txt"
 V9 = Path("/mnt/work/Zynergy/forecast-data/t7/v9")
+V9C = Path("/mnt/work/Zynergy/forecast-data/t7/v9c")
+# T7 part B's access layer (D149), as its manifest records it (outputs, access_pnw.tif)
+ACCESS = Path("/mnt/work/Zynergy/forecast-data/access/pnw-2026-10-17/access_pnw.tif")
+ACCESS_SHA256 = "7748fe0b5018a823ef0e41c64b0a8a0f3675951026461c8a39a0f5aa9682d38a"
 GRID_FILE = REPO / "docs/audits/2026-10-15-t7-build/tuning_grid.json"
 GRID_SHA256 = "7412d90677ef24031005d64797ba6482a94cddec12c1c0288b4183f9c86a45cd"
 SEED = 20260918
@@ -147,9 +152,17 @@ def tile_files(key: str):
     return None, None, None
 
 
-def cmd_table(work: Path) -> None:
+def cmd_table(work: Path, access_path: Path | None = None) -> None:
+    """``access_path``: T7 part B's access raster (D149). When given, every access band
+    (``ACCESS_BANDS``: roads, trails, the nearer of the two) is read through ``read_tile``'s access
+    path for each eligible cell and stored as ``access`` (float32, NaN kept, never filled), with
+    the file's sha256 checked against ``ACCESS_SHA256`` and the NaN count per band in the meta."""
     work.mkdir(parents=True, exist_ok=True)
     log = Log(work / "table.log")
+    if access_path is not None:
+        digest = sha256_file(access_path)
+        if digest != ACCESS_SHA256:
+            raise SystemExit(f"{access_path}: sha256 {digest} is not the recorded {ACCESS_SHA256}")
     t0 = time.monotonic()
     lines = manifest_lines()
     table, polygons = read_level3(LEVEL3)
@@ -158,6 +171,9 @@ def cmd_table(work: Path) -> None:
     inputs = {"mask": {"path": str(MASK), "sha256": sha256_file(MASK)},
               "level3": {"path": str(LEVEL3), "sha256": sha256_file(LEVEL3)},
               "tiles": {}}  # fmt: skip
+    if access_path is not None:
+        inputs["access"] = {"path": str(access_path), "sha256": ACCESS_SHA256}
+    access_bands = ACCESS_BANDS if access_path is not None else ()
     parts = defaultdict(list)
     codes = {}
     attribution_tree, attribution_soil = set(), set()
@@ -188,7 +204,8 @@ def cmd_table(work: Path) -> None:
             if want != digest:
                 hash_mismatch.append([path.name, digest, want])
         inputs["tiles"][tile.key] = rec
-        cells = read_tile(tile, tree, flags, soil, MASK, PNW_BOX, polygons)
+        cells = read_tile(tile, tree, flags, soil, MASK, PNW_BOX, polygons,
+                          access_path=access_path, access_bands=access_bands)  # fmt: skip
         attribution_tree.add(cells.tree_attribution)
         attribution_soil.add(cells.soil_attribution)
         canadian_read |= cells.canadian_values_read
@@ -197,6 +214,8 @@ def cmd_table(work: Path) -> None:
         parts["features"].append(cells.features.astype(np.float32))
         parts["wkey"].append(pack(cells.lat_tenths, cells.lon_tenths))
         parts["level3"].append(cells.level3.astype(np.uint16))
+        if access_bands:
+            parts["access"].append(cells.access.astype(np.float32))
         # D139's forested share: study cells in the box with every share defined, per block
         l3 = burn_level3(polygons, tw)
         with rasterio.open(tree) as ds:
@@ -215,13 +234,15 @@ def cmd_table(work: Path) -> None:
         raise SystemExit(f"{len(hash_mismatch)} input files differ from the T6b manifest")
     cell_id = np.concatenate(parts["cell_id"])
     order = np.argsort(cell_id, kind="stable")
-    np.savez(
-        work / "table.npz",
-        cell_id=cell_id[order],
-        features=np.concatenate(parts["features"])[order],
-        wkey=np.concatenate(parts["wkey"])[order],
-        level3=np.concatenate(parts["level3"])[order],
-    )
+    arrays = {
+        "cell_id": cell_id[order],
+        "features": np.concatenate(parts["features"])[order],
+        "wkey": np.concatenate(parts["wkey"])[order],
+        "level3": np.concatenate(parts["level3"])[order],
+    }
+    if access_bands:
+        arrays["access"] = np.concatenate(parts["access"])[order]
+    np.savez(work / "table.npz", **arrays)
     np.savez_compressed(work / "codes.npz", **{k: v for k, v in codes.items()})
     meta = {
         "features": list(FEATURES),
@@ -235,6 +256,9 @@ def cmd_table(work: Path) -> None:
         "block_study_cells_us": dict(block_study_us),
         "block_share_cells_us": dict(block_shares_us),
         "eligible_cells": int(len(cell_id)),
+        "access_bands": list(access_bands),
+        "access_nan_cells": {b: int(np.isnan(arrays["access"][:, k]).sum())
+                             for k, b in enumerate(access_bands)},
         "code_counts": {str(k): int(v) for k, v in sum(
             (Counter({int(a): int(b) for a, b in zip(*np.unique(c, return_counts=True),
                                                        strict=True)}) for c in codes.values()),
@@ -1153,7 +1177,7 @@ if __name__ == "__main__":
     if not args:
         raise SystemExit(__doc__)
     if args[0] == "table":
-        cmd_table(Path(args[1]))
+        cmd_table(Path(args[1]), ACCESS if "--access" in args else None)
     elif args[0] == "timing":
         cmd_timing(Path(args[1]), Path(args[2]), threads)
     elif args[0] == "fit":
