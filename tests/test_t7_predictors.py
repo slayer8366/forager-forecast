@@ -159,7 +159,8 @@ def test_access_bands_are_off_by_default_and_change_nothing_else(tmp_path):
     assert on.access_bands == ACCESS_BANDS and on.access.shape == (10, 3)
     for k, b in enumerate(ACCESS_BANDS):
         assert on.access[:, k].tolist() == pytest.approx(
-            vals[b][on.rows, on.cols].tolist(), nan_ok=True)
+            vals[b][on.rows, on.cols].tolist(), nan_ok=True
+        )
     k = list(on.rows * N + on.cols).index(2 * N + 2)
     assert np.isnan(on.access[k, 1])
 
