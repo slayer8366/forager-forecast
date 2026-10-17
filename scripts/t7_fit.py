@@ -141,23 +141,73 @@ CONDITION_4_PENDING = "pending: data exist, scoring not yet ruled"
 
 
 def check_out_dir(path: Path) -> Path:
-    raise NotImplementedError
+    """The map's output folder, named by the caller (``--out``). Refuses the judged run's folders
+    and anything inside them, and a folder that already holds files: the run never overwrites.
+    (The script used to name it ``pnw-<UTC date>``, which on 2026-10-17 is the judged run's.)"""
+    path = Path(path)
+    resolved = path.resolve()
+    for judged in JUDGED:
+        j = judged.resolve()
+        if resolved == j or j in resolved.parents:
+            raise SystemExit(f"{path}: inside the judged run's folder {judged}; never written")
+    if path.exists() and any(path.iterdir()):
+        raise SystemExit(f"{path}: not empty; the map is written once, into a new folder")
+    return path
 
 
 def map_columns(f, names, full_features, held_effort, held_access):
-    raise NotImplementedError
+    """The map pass's model inputs for table rows ``f`` (columns ``names``): the habitat bands as
+    read, the cover columns derived, effort and access each held at one value for every cell."""
+    con, brd = md.cover_columns(f[:, names.index("share_conifer")],
+                                f[:, names.index("share_broadleaf")],
+                                f[:, names.index("total_cover_pct")])  # fmt: skip
+    cols = {**{n: f[:, k] for k, n in enumerate(names)}, md.EFFORT: np.full(len(f), held_effort),
+            md.ACCESS: np.full(len(f), held_access), md.CONIFER_COVER: con,
+            md.BROADLEAF_COVER: brd}  # fmt: skip
+    return np.column_stack([cols[c] for c in full_features])
 
 
 def area_of_applicability(data, full_features, gains):
-    raise NotImplementedError
+    """P8 on the habitat bands only: effort and access are held for the map, so neither is a
+    predictor of the area of applicability (``md.habitat_features``). ``gains``: the final full
+    model's gain per feature of ``full_features``."""
+    habitat = md.habitat_features(list(full_features))
+    hab_gain = np.array([gains[list(full_features).index(f)] for f in habitat])
+    return fit_aoa(data.cols(habitat), hab_gain, data.blocks), habitat
 
 
 def shared_forested_blocks(forested, blocks_a, y_a, blocks_b, y_b, minimum=30):
-    raise NotImplementedError
+    """Forested blocks (D139) where both groups have at least ``minimum`` presences (-1173: the
+    13 shared forested blocks of the host-specific contrast)."""
+    out = []
+    for b in sorted(forested):
+        na = int(((np.asarray(blocks_a) == b) & (np.asarray(y_a) == 1)).sum())
+        nb = int(((np.asarray(blocks_b) == b) & (np.asarray(y_b) == 1)).sum())
+        if na >= minimum and nb >= minimum:
+            out.append(int(b))
+    return out
 
 
 def p10b_figures(condition_1, condition_2, condition_3, condition_4_status, p10_passes):
-    raise NotImplementedError
+    """P10b (D145) as the fit report carries it: the verdict, each condition's figure, and P10
+    (D140) beside it with no verdict. Condition 4 is computed only once its scoring is ruled;
+    while its data exist and its scoring is not ruled (``CONDITION_4_PENDING``), the verdict is
+    never "pass", since D145 requires condition 4 wherever usable data exist."""
+    v = mt.p10b(block_clustered_full_minus_b=condition_1, within_cell_full_minus_a=condition_2,
+                host_specific_contrast=condition_3, independent_data=None)  # fmt: skip
+    verdict = v.verdict
+    if condition_4_status == CONDITION_4_PENDING and verdict == "pass":
+        verdict = "incomplete: conditions 1 to 3 pass; condition 4 not yet evaluated"
+    return {
+        "verdict": verdict,
+        "conditions": {
+            "1_block_clustered_full_minus_B": dd(condition_1),
+            "2_within_cell_full_minus_A_block_resampled": dd(condition_2),
+            "3_host_specific_contrast": None if condition_3 is None else dd(condition_3),
+            "4_independent_data": {"status": condition_4_status},
+        },
+        "p10_d140": {"passes": bool(p10_passes), "reading": "no verdict"},
+    }
 
 
 # --- table ----------------------------------------------------------------------------------------

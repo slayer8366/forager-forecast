@@ -308,4 +308,31 @@ class GroupScores:
 def host_specific_contrast(mycorrhizal: GroupScores, saprotroph: GroupScores,
                            resamples: int = RESAMPLES, seed: int = SEED,
                            level: float = 0.95) -> Difference:  # fmt: skip
-    raise NotImplementedError
+    """P10b condition 3 (D145, D146; dispatch 2026-10-17-T7R): each group's gain is its full
+    model's held-out AUC minus its model A's, on its own rows; the contrast is the mycorrhizal
+    gain minus the saprotroph gain. Its interval comes from ONE resampling of whole level III
+    blocks applied to both groups together: each resample draws the blocks (the union of both
+    groups' blocks) with replacement once, and every row of either group has its weight
+    multiplied by its block's draw count, as ``clustered_auc_difference`` does for one group."""
+    groups = (mycorrhizal, saprotroph)
+    ranked = [(_Ranked(g.full, g.y), _Ranked(g.a, g.y)) for g in groups]
+    blocks = np.unique(np.concatenate([np.asarray(g.blocks) for g in groups]))
+    unit = [np.searchsorted(blocks, np.asarray(g.blocks)) for g in groups]
+    weights = [np.asarray(g.w, dtype=np.float64) for g in groups]
+    n = len(blocks)
+
+    def contrast(times=None) -> float:
+        gains = []
+        for (rf, ra), w, u in zip(ranked, weights, unit, strict=True):
+            wi = w if times is None else w * times[u]
+            gains.append(rf.auc(wi) - ra.auc(wi))
+        return gains[0] - gains[1]
+
+    point = contrast()
+    rng = np.random.default_rng(seed)
+    diffs = np.empty(resamples)
+    for i in range(resamples):
+        diffs[i] = contrast(np.bincount(rng.integers(0, n, size=n), minlength=n))
+    tail = (1.0 - level) / 2.0 * 100.0
+    low, high = np.percentile(diffs, [tail, 100.0 - tail])
+    return Difference(float(point), float(low), float(high), resamples)

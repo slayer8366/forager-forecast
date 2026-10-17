@@ -88,8 +88,10 @@ def test_access_held_on_the_map_and_the_ranking_unchanged_when_it_moves(t7_fit):
     x, y = _interacting()
     features = ["h", "g", md.EFFORT, md.ACCESS]
     booster = md.train(CONFIG, features, x, y, np.ones(len(y)), access_monotone=-1)
-    names = ["h", "g"]
-    f = np.column_stack([np.linspace(-1, 1, 200), np.linspace(1, -1, 200)])
+    # a table's rows carry the cover shares the map derives its cover columns from
+    names = ["h", "g", "share_conifer", "share_broadleaf", "total_cover_pct"]
+    f = np.column_stack([np.linspace(-1, 1, 200), np.linspace(1, -1, 200),
+                         np.full(200, 0.5), np.full(200, 0.5), np.full(200, 60.0)])  # fmt: skip
     cols = t7_fit.map_columns(f, names, features, held_effort=0.5, held_access=1.0)
     assert (cols[:, features.index(md.ACCESS)] == 1.0).all()
     assert (cols[:, features.index(md.EFFORT)] == 0.5).all()
