@@ -1,0 +1,50 @@
+{
+ "rows_read": 2493578,
+ "steps": {
+  "rows": 2493578,
+  "Laetiporus rows": 39086,
+  "Laetiporus uncertainty": 12212,
+  "Cantharellus rows": 17919,
+  "Cantharellus uncertainty": 6988,
+  "Cantharellus undated": 42,
+  "Humaria rows": 561,
+  "Humaria uncertainty": 338,
+  "Laetiporus undated": 15,
+  "Humaria undated": 5,
+  "Cantharellus duplicate": 420,
+  "Laetiporus obscured": 3106,
+  "Cantharellus obscured": 3040,
+  "Laetiporus duplicate": 848,
+  "Humaria obscured": 33,
+  "Humaria duplicate": 3,
+  "Laetiporus outside box": 21942,
+  "Cantharellus outside box": 6160,
+  "Humaria outside box": 141
+ },
+ "genera": {
+  "Cantharellus": {
+   "mine": 1059,
+   "counts_json": 1059,
+   "presence_file": 1059,
+   "gbif_id_sets_equal": true,
+   "only_mine": 0,
+   "only_theirs": 0
+  },
+  "Humaria": {
+   "mine": 33,
+   "counts_json": 33,
+   "presence_file": 33,
+   "gbif_id_sets_equal": true,
+   "only_mine": 0,
+   "only_theirs": 0
+  },
+  "Laetiporus": {
+   "mine": 820,
+   "counts_json": 820,
+   "presence_file": 820,
+   "gbif_id_sets_equal": true,
+   "only_mine": 0,
+   "only_theirs": 0
+  }
+ }
+}

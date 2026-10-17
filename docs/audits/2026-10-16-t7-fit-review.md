@@ -340,3 +340,108 @@ Results:
   present once in `train`.
 
 **The test bites.**
+
+## Q4. The usual D18 checks
+
+### V9 counts against the D26 data (COMPUTED, `q4_v9_recount.py` → `q4_v9_recount.json`)
+
+Three genera were recounted with my own code: *Cantharellus* (main, a large genus), *Humaria*
+(main, at 33 just over the count-alone line of 30) and *Laetiporus* (the comparison group).
+
+The code streams `occurrence.txt` out of the D26 zip and re-implements each rule from its text,
+not by import:
+- the one-day date rule;
+- the user-obscured test;
+- uncertainty present and at most 250 m;
+- the observer duplicate key, with tenths taken in decimal arithmetic, ties toward +∞;
+- the box, tested at the 250 m cell centre in ESRI:102008;
+- one per genus per cell, lowest gbifID.
+
+It read 2,493,578 rows, the download's `total_records`.
+
+| genus | mine | `counts.json` | presence file | gbifID sets equal |
+|---|---:|---:|---:|---|
+| *Cantharellus* | 1,059 | 1,059 | 1,059 | yes |
+| *Humaria* | 33 | 33 | 33 | yes |
+| *Laetiporus* | 820 | 820 | 820 | yes |
+
+They match exactly, down to the records chosen.
+
+### The block table (COMPUTED, `figures.json`)
+
+- **Presences and background.** All 24 blocks in the fit match `fit_report.json` exactly.
+- **Held-out AUCs.** For the 14 informative blocks they match `fit_report.json` with a maximum
+  absolute difference of 0, and so do the five level I rows.
+- **One transcription slip in the report's Markdown table.** 6.2.8 Eastern Cascades' B is
+  0.84747, which rounds to **0.847**; the report prints 0.848. It affects nothing.
+- **Forested blocks.** D139's 15% rule on `table_meta.json` gives 18 forested blocks in the box
+  and 17 in the fit, the report's set.
+
+### The area-of-applicability threshold (COMPUTED, `q4_aoa.py` → `q4_aoa.json`)
+
+My own code re-implements the CAST rule as `aoa.py`'s docstring states it:
+- each band centred, scaled (n−1) and weighted by gain;
+- the nearest training point in another block, via a k-d tree;
+- Q75 + 1.5 IQR, capped at the maximum.
+
+The weights are the gains recorded in `fit_report.json`; Q2's retrained model reproduces the
+fitted model exactly.
+
+| | threshold | training-DI quartiles | cells outside |
+|---|---:|---|---:|
+| report | 0.198183 | 0.04259 / 0.06871 / 0.10483 | 16,478 |
+| mine, 2M pairs, seed 7 | 0.198227 | 0.04260 / 0.06872 / 0.10485 | 16,478 |
+| mine, 10M pairs, seed 11 | 0.198192 | 0.04259 / 0.06871 / 0.10483 | 16,478 |
+
+My cell-by-cell inside/outside at the reported threshold agrees with `inside_all.npy` on 100% of
+the 6,967,248 cells.
+
+Two observations:
+- **The mean-distance estimate cannot change which cells are inside** (INFERRED, then confirmed
+  by the identical counts). Training DI, new DI and the threshold are all divided by the same mean
+  distance, so it cancels. `aoa.py`'s disclosed departure, the sampled mean, is harmless by
+  construction.
+- **The area of applicability is permissive in geography.** It excludes only 0.24% of eligible
+  cells. It still shades 3,212,655 cells outside T6's frame, because it measures distance in
+  habitat-band space, which the background covers. So it is not a guard against extrapolating to
+  unsearched country. INFERRED: a reader should not read "inside the area of applicability" as
+  "validated there".
+
+### The coder's readings beyond the plan (READ: report "Premises that were wrong" and "Decided beyond scope"; Forager RECORD -1126)
+
+1. **The weight scale.** See Q3. It is correct and required, but the report understates its
+   reach. The unfixed main model contained no habitat split, not "affected less".
+2. **The add-one runs reuse the base model's configurations.** This is a sound way to break the
+   circularity, and it is disclosed. The selection-optimism point that follows from it is in Q1:
+   base − B alone is not above zero.
+3. **D144 rule 4 applied to the presences entering the fit (44 genera alone) rather than to all
+   box presences (V9: 47).** It is a reasonable reading, disclosed, and it changes which genera
+   are pooled, so it changes the M3 weights. Its effect on the AUCs was not measured; that would
+   need refits. It is the planner's or owner's to confirm.
+4. **The licence track drops background with no CC-surface value (307,407 of 500,000), counted.**
+   My rebuild drops the same number. The track is not like-for-like with the main run, as the
+   report says.
+5. **The under-minimum blocks are read as D139's "uninformative", not a halt.** That matches
+   D139's text.
+6. **The final model's configuration** is chosen by inner grouped 4-fold over all blocks. It is
+   c16, and I reproduced the model bit for bit.
+7. **Forager RECORD -1126 says "Tuning chose the most regularised configuration in every fold."**
+   The report is more exact: B, base and full chose c16 in every fold, but A chose c15 in 18 of 24
+   and c01, c07, c09 and c16 elsewhere (manifest `chosen_configurations`). The RECORD line
+   overstates it slightly.
+
+### The "25 vs 26 level III blocks" premise (COMPUTED from `fit/table_meta.json`; READ the verify report)
+
+**25 is right, and the "26" correction is itself wrong.**
+- `table_meta.json`'s `block_study_cells` has exactly 25 keys, every one with study cells. Colorado
+  Plateaus (832 cells) is among them.
+- The verify report's per-block list (`docs/audits/2026-10-15-t7-verify-report.md:233-246`) also
+  names 25, Colorado Plateaus included. I counted the names.
+
+So the V9 report ("The fit's tile table finds 26 level III blocks", `2026-10-16-t7-v9-counts.md`,
+"Things the count showed") and the fit report ("24 level III blocks take part, of 26", and
+Premises 3) both misstate the count. **No figure depends on it:**
+- the fit uses the blocks actually present: 25, minus the Canada-only 7.1.5, gives 24;
+- D139's 18 and 17 forested blocks stand.
+
+It is a documentation correction.
