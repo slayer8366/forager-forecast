@@ -41,6 +41,18 @@ BLM_TRAILS_URL = (
     "974363b4f22244d49350753f8fb5af32/filegdb?layers=2"
 )
 
+# The map's credit line for the access layer (dispatch item 5): the USGS acknowledged as its
+# metadata
+# asks ("Acknowledgment of the U.S. Geological Survey would be appreciated"), the Forest Service's
+# products under CC BY 4.0, BLM's trails public domain (DATA_REGISTER rows, D148). The same text
+# is written into the layer's own ``attribution`` tag. Nothing is published by writing it here.
+ACCESS_ATTRIBUTION = (
+    "Roads and trails: USGS National Transportation Dataset (acknowledgment of the U.S. "
+    "Geological Survey); National Forest System Roads, National Forest System Trails and "
+    "Administrative Forest Boundaries, USDA Forest Service, CC BY 4.0; BLM National GTLF Public "
+    "Managed Trails, Bureau of Land Management, public domain."
+)
+
 CHECK_ETAG = "s3 multipart etag"
 CHECK_LENGTH = "served length"
 

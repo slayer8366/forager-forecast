@@ -26,6 +26,7 @@ from forager_forecast.soilgrids import ATTRIBUTION as SOILGRIDS_ATTRIBUTION
 from forager_forecast.t4_layer import LonLatBox, box_mask, master_window
 from forager_forecast.t5_layer import DERIVED_NOTICE, TREEMAP_CITATION
 from forager_forecast.t6b_layers import NALCMS_CITATION, tiles_over, us_half_names
+from forager_forecast.t7.access_sources import ACCESS_ATTRIBUTION
 
 PNW_BOX = LonLatBox(south=40.0, north=49.0, west=-125.0, east=-111.0)
 LABEL = "Model inputs (soil, host trees). Not a forecast. Not yet reviewed."
@@ -51,6 +52,8 @@ SOURCES = {
         CEC_POLITICAL_CITATION,
         CEC_ECOREGIONS_CITATION,
     ],
+    # T7 part B (D148): the distance-to-road-and-trail layer, not drawn on any map yet.
+    "access": [ACCESS_ATTRIBUTION],
 }
 
 TILE_WHOLE = "whole"
