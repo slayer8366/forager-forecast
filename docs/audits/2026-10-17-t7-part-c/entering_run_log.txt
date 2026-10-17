@@ -1,0 +1,9 @@
+2026-10-17T08:16:09Z
+data: 15624 presences, 500000 background, pool 3745167
+mycorrhizal main (V9) 15624 44 14 / 17
+data: 9591 presences, 500000 background, pool 3745167
+saprotroph main 9591 47 13 / 17
+data: 14163 presences, 500000 background, pool 3745167
+saprotroph side 14163 66 14 / 17
+exit 0
+2026-10-17T08:16:49Z
