@@ -1,0 +1,24 @@
+revert check run 2026-10-17T03:00:10Z at 2069055
+saved copy sha256 (16) f18a992821cf36e2
+--- forward state: the test on the committed code
+.                                                                        [100%]
+1 passed in 1.19s
+--- revert: train() passes the weights through unscaled
+reverted one line
+ src/forager_forecast/t7/model.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+--- reverted build compiles and imports?
+import ok; train uses unit_mean_weights: True
+--- the test on the reverted code (expected: FAIL at the first assertion)
+>       assert np.allclose(small, unit)
+E       assert False
+E        +  where False = <function allclose at 0x72b146ede830>(array([0.5093662 , 0.5093662 , 0.49054032, ..., 0.49054032, 0.49054032,\n       0.5093662 ], shape=(3000,)), array([0.59371522, 0.46425539, 0.51099802, ..., 0.49372617, 0.45748885,\n       0.64974666], shape=(3000,)))
+E        +    where <function allclose at 0x72b146ede830> = np.allclose
+tests/test_t7_model_outputs.py:173: AssertionError
+1 failed in 0.97s
+--- restore from the saved copy, not from git
+restored sha256 (16) f18a992821cf36e2 (same as saved: yes)
+forward change present: 1 line(s); git diff empty: yes
+--- the test again on the restored code
+.                                                                        [100%]
+1 passed in 0.95s
