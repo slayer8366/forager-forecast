@@ -1,0 +1,149 @@
+{
+ "held_effort_recomputed": 1.440701409312872,
+ "weather_cells_with_effort": 3960,
+ "shaded": 6950770,
+ "shaded_in_frame": 3738115,
+ "shaded_outside_frame": 3212655,
+ "spearman_cell_score_vs_log_effort": -0.007149861010491239,
+ "spearman_weathercell_mean_score_vs_log_effort": 0.06348328909063347,
+ "weather_cells_shaded_in_frame": 3959,
+ "rank_variance_within_weather_cells_share": 0.5047620920553707,
+ "top20_habitat_cells_also_top20_effort": 0.16132847910049838,
+ "top20_habitat_cells_in_bottom20_effort": 0.28825278324034725,
+ "by_block": [
+  {
+   "block": "11.1.1 Central California Foothills and Coastal Mountains",
+   "cells": 20821,
+   "habitat_pct": 0.09530079936807638,
+   "effort_pct": 0.5231683259014273,
+   "gap": -0.42786752653335086,
+   "spearman_within_block": -0.11031270306181237
+  },
+  {
+   "block": "7.1.7 Strait of Georgia/Puget Lowland",
+   "cells": 162712,
+   "habitat_pct": 0.3913848818161142,
+   "effort_pct": 0.7895203582282573,
+   "gap": -0.3981354764121431,
+   "spearman_within_block": 0.12957215799206814
+  },
+  {
+   "block": "7.1.9 Willamette Valley",
+   "cells": 93024,
+   "habitat_pct": 0.4212414774442309,
+   "effort_pct": 0.7258738192726159,
+   "gap": -0.30463234182838494,
+   "spearman_within_block": -0.026293424845161346
+  },
+  {
+   "block": "6.2.11 Klamath Mountains",
+   "cells": 417590,
+   "habitat_pct": 0.25801136597151353,
+   "effort_pct": 0.516420970229304,
+   "gap": -0.25840960425779047,
+   "spearman_within_block": 0.08150578548014605
+  },
+  {
+   "block": "10.1.2 Columbia Plateau",
+   "cells": 20498,
+   "habitat_pct": 0.1683822766499753,
+   "effort_pct": 0.36502467217032947,
+   "gap": -0.19664239552035417,
+   "spearman_within_block": -0.26434972193245065
+  },
+  {
+   "block": "6.2.13 Wasatch and Uinta Mountains",
+   "cells": 77020,
+   "habitat_pct": 0.3792867573670315,
+   "effort_pct": 0.5687695859769392,
+   "gap": -0.18948282860990767,
+   "spearman_within_block": 0.14576613793582005
+  },
+  {
+   "block": "7.1.8 Coastal Range",
+   "cells": 564257,
+   "habitat_pct": 0.5106094029883002,
+   "effort_pct": 0.596931732350819,
+   "gap": -0.08632232936251882,
+   "spearman_within_block": 0.14009436345854512
+  },
+  {
+   "block": "10.1.3 Northern Basin and Range",
+   "cells": 27378,
+   "habitat_pct": 0.3142813416024458,
+   "effort_pct": 0.3718667283632239,
+   "gap": -0.05758538676077807,
+   "spearman_within_block": 0.1388753598353691
+  },
+  {
+   "block": "6.2.8 Eastern Cascades Slopes and Foothills",
+   "cells": 208087,
+   "habitat_pct": 0.3960048743777514,
+   "effort_pct": 0.4478613716384897,
+   "gap": -0.05185649726073832,
+   "spearman_within_block": 0.20741529089153124
+  },
+  {
+   "block": "6.2.7 Cascades",
+   "cells": 673837,
+   "habitat_pct": 0.549246060686086,
+   "effort_pct": 0.5955119325282641,
+   "gap": -0.04626587184217812,
+   "spearman_within_block": 0.091655590399408
+  },
+  {
+   "block": "6.2.5 North Cascades",
+   "cells": 309057,
+   "habitat_pct": 0.5728205372001995,
+   "effort_pct": 0.5754623124016436,
+   "gap": -0.002641775201444041,
+   "spearman_within_block": 0.02130544136157276
+  },
+  {
+   "block": "6.2.10 Middle Rockies",
+   "cells": 154919,
+   "habitat_pct": 0.4175141807763326,
+   "effort_pct": 0.2634950171569755,
+   "gap": 0.15401916361935714,
+   "spearman_within_block": -0.009678661752066078
+  },
+  {
+   "block": "6.2.9 Blue Mountains",
+   "cells": 216896,
+   "habitat_pct": 0.5875178123356181,
+   "effort_pct": 0.32558523579852106,
+   "gap": 0.261932576537097,
+   "spearman_within_block": 0.02265295243556961
+  },
+  {
+   "block": "6.2.3 Columbia Mountains/Northern Rockies",
+   "cells": 469072,
+   "habitat_pct": 0.6216416774117511,
+   "effort_pct": 0.32864827329073043,
+   "gap": 0.2929934041210207,
+   "spearman_within_block": 0.06137020762119736
+  },
+  {
+   "block": "6.2.15 Idaho Batholith",
+   "cells": 210549,
+   "habitat_pct": 0.6851792777086657,
+   "effort_pct": 0.33393120518707353,
+   "gap": 0.3512480725215922,
+   "spearman_within_block": 0.013962812505395796
+  },
+  {
+   "block": "6.2.4 Canadian Rockies",
+   "cells": 79810,
+   "habitat_pct": 0.7431179728446069,
+   "effort_pct": 0.3474959155380425,
+   "gap": 0.3956220573065644,
+   "spearman_within_block": -0.07511203999179403
+  }
+ ],
+ "outside_frame_score_percentile_in_frame_quartiles": [
+  0.11242698525861296,
+  0.4064302462604816,
+  0.7469914649495802
+ ],
+ "seconds": 11
+}
