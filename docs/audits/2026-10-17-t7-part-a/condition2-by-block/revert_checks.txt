@@ -1,0 +1,12 @@
+Revert checks on c94ae0c (runner: /tmp copy of ../revert_one.sh, scratch worktree and branch per edit, compile/collection log read first, restore from a saved copy, forward line confirmed after). Tests: tests/test_t7_condition2_by_block.py (6).
+== c1-resample-cells: resample weather cells instead of blocks
+tests 6 failures 1 errors 0
+  FAIL test_the_interval_is_condition_1s_resampling_rows_weighted_by_their_blocks_draw_count | assert -0.09690978374304562 == -0.02638331015128246 ± 2.6e-12
+== c2-same-block-pairs: keep only pairs sharing cell and block (reading c)
+tests 6 failures 3 errors 0
+  FAIL test_the_point_keeps_every_within_cell_pair_including_pairs_across_blocks | assert 0.046959344219435054 == 0.0511051918261769 ± 5.1e-12
+  FAIL test_the_interval_is_condition_1s_resampling_rows_weighted_by_their_blocks_draw_count | assert -0.0094103489174487 == -0.02638331015128246 ± 2.6e-12
+  FAIL test_a_pair_whose_rows_lie_in_different_blocks_is_counted | assert 0.0 == 0.3333333333333333 ± 3.3e-07
+== c3-figures-cells: the fit's figure resamples weather cells
+tests 6 failures 1 errors 0
+  FAIL test_the_fit_reports_condition_2_block_clustered_for_full_minus_a_and_b | AssertionError: assert {'point': 0.0...les': 20, ...} == {'point': 0.0...les': 20, ...}
