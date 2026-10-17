@@ -1,0 +1,30 @@
+.........F                                                               [100%]
+=================================== FAILURES ===================================
+____________ test_a_fit_does_not_depend_on_the_scale_of_the_weights ____________
+
+    def test_a_fit_does_not_depend_on_the_scale_of_the_weights():
+        """M3's weights fix each unit's share of the total, not its size. The comparison group is one
+        unit, so its weights sum to 2 over every point; LightGBM's hessian floor and its L2 penalty
+        are on the weights' own scale, and would starve such a fit of splits (found in the T7 run's
+        smoke pass: model B predicted exactly as model A). ``train`` rescales weights to a mean of 1."""
+        x, y = _interacting_data()
+        features = ["h", "g", EFFORT]
+        config = {**CONFIG, "lambda_l2": 10.0}
+        w = np.where(y == 1, 1.0 / (y == 1).sum(), 1.0 / (y == 0).sum())  # total 2, as one unit
+        small = train(config, features, x, y, w).predict(x)
+        unit = train(config, features, x, y, w * len(w) / w.sum()).predict(x)
+>       assert np.allclose(small, unit)
+E       assert False
+E        +  where False = <function allclose at 0x7f92580e30b0>(array([0.5093662 , 0.5093662 , 0.49054032, ..., 0.49054032, 0.49054032,\n       0.5093662 ], shape=(3000,)), array([0.59371522, 0.46425539, 0.51099802, ..., 0.49372617, 0.45748885,\n       0.64974666], shape=(3000,)))
+E        +    where <function allclose at 0x7f92580e30b0> = np.allclose
+
+tests/test_t7_model_outputs.py:173: AssertionError
+=============================== warnings summary ===============================
+tests/test_t7_model_outputs.py::test_the_writer_puts_each_tile_in_place_and_renames_when_whole
+  /home/zynergy-labs/Zynergy/forager-forecast-t7-fit-review/.venv/lib/python3.14/site-packages/rasterio/transform.py:178: PendingDeprecationWarning: Use `@` matmul instead of `*` mul operator for matrix multiplication
+    return Affine.translation(west, north) * Affine.scale(xsize, -ysize)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_t7_model_outputs.py::test_a_fit_does_not_depend_on_the_scale_of_the_weights
+1 failed, 9 passed, 1 warning in 1.20s

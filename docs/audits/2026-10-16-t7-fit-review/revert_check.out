@@ -1,0 +1,18 @@
+== forward run (fix in place)
+exit 0
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+10 passed, 1 warning in 1.45s
+== revert
+ src/forager_forecast/t7/model.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+exit 1
+>       assert np.allclose(small, unit)
+E       assert False
+FAILED tests/test_t7_model_outputs.py::test_a_fit_does_not_depend_on_the_scale_of_the_weights
+1 failed, 9 passed, 1 warning in 1.20s
+== restore from saved copy
+before f18a992821cf36e2ed1abb745af51b0bc57cbaf2d1e424eed6758ae8b0cd24b3
+after  f18a992821cf36e2ed1abb745af51b0bc57cbaf2d1e424eed6758ae8b0cd24b3
+restored: identical to the saved copy
+forward change present, count: 1

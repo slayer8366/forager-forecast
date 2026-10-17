@@ -108,8 +108,8 @@ Further checks:
 ### The map against the effort surface (COMPUTED, `q1_effort_map.py` → `q1_effort_map.json`)
 
 **What "the effort-only map" is.** Model A is effort only, and monotone in `log_effort`
-(`src/forager_forecast/t7/model.py:41`, `monotone_constraints`). Every model keeps effort in its
-own interaction group (`model.py:45-46`), so the map at the held effort is the habitat part plus a
+(`src/forager_forecast/t7/model.py:42`, `monotone_constraints`). Every model keeps effort in its
+own interaction group (`model.py:45-46`, `interaction_constraints`), so the map at the held effort is the habitat part plus a
 constant. At the held effort, A is the same constant everywhere. A meaningful effort-only map is
 therefore A at each cell's own effort. That ranks cells as T6's log effort does, up to A's
 plateaus. I compare the fit's own map pass (`fit/scores_all.npy`) with log effort per weather cell,
@@ -208,7 +208,7 @@ full − B at +0.0082 (−0.0005, +0.0167); the M2 side run at 0.8815, 0.8776 an
 
   So *Laetiporus* gains more even after allowing for its lower baseline.
 - **Configurations.** The comparison runs reuse the main run's per-fold configurations, as P7
-  point 9 says (`scripts/t7_fit.py:575-583`). So its gain was obtained without tuning to it. That
+  point 9 says (`scripts/t7_fit.py:623-642`). So its gain was obtained without tuning to it. That
   makes it, if anything, a conservative estimate.
 
 ### Reading (INFERRED)
@@ -229,3 +229,114 @@ reported, relative to search effort, by forest type"**, flagged as a pilot. The 
 "forest-associated fungal reporting" is the safer and more honest of the two options it offers. I
 would not use "habitat" alone without a qualifier that says the ranking is relative to reporting,
 not to fruiting or presence.
+
+## Q3. The weighting fix after a failed trial (`41f9c79`)
+
+### What the fix is (READ)
+
+`git show 41f9c79` touches two files:
+- `src/forager_forecast/t7/model.py` gains `unit_mean_weights` (lines 50-59, `w * len(w) / w.sum()`),
+  and `train` passes `weight=unit_mean_weights(w)` (line 65);
+- `tests/test_t7_model_outputs.py` gains one test (lines 162-174).
+
+Nothing else changed between the smoke run's commit `dccb1f4` (recorded in the smoke
+`fit_report.json`) and the full run's `41f9c79`.
+
+### Is it mechanically required? Did the unfixed fit split at all? (COMPUTED, `q3_unfixed.py`, `q3_split_features.py`)
+
+I fitted c16 on all rows, once with the weights as M3 gives them and once rescaled:
+
+| group, model | weights total | distinct predictions, unfixed | distinct predictions, rescaled |
+|---|---:|---:|---:|
+| *Laetiporus*, B | 2 | 3 | 26,589 |
+| *Laetiporus*, full | 2 | 3 | 273,081 |
+| main, B | 90 | 22 | 25,113 |
+| main, full | 90 | 22 | 299,354 |
+
+**Which inputs the main full model splits on:**
+- **Unfixed:** `log_effort` only, 824 splits. Not one habitat input enters. The trees have 4 to 6
+  leaves, against the 15 allowed.
+- **Rescaled:** effort 1,767 splits, and every one of the 13 habitat bands is used (24 to 140
+  splits each). The trees have 14 to 15 leaves.
+
+**So without the fix the main group's full model is an effort-only model too, not only the
+comparison group's.** The report's "the main run … was affected less, but was affected"
+(report, Premises 1) understates it. At full background size the unfixed main model contains no
+habitat at all.
+
+INFERRED mechanism:
+- At a total weight of 90 over 515,624 rows, the whole hessian is about 22 (90 × 0.25).
+- `lambda_l2 = 10` is then of the same order as any leaf's hessian, so every leaf value is shrunk
+  hard, and effort's residual stays the largest gain at every tree's root for all 200 rounds.
+- `interaction_constraints` (`model.py:45-46`) then confine each tree that starts on effort to
+  effort.
+
+The smoke pass used a tenth of the background, so its per-point weights were ten times larger, and
+it did split on habitat. That is why the bug showed there only in the one-unit comparison group.
+
+### Does it change a ruled share, threshold or sample? (READ and COMPUTED)
+
+No.
+- **Shares.** The rescale multiplies every weight by one constant (`model.py:59`), so every M3 and
+  P3 share is unchanged.
+- **Sample.** The background draw does not read the weights (`background.py`, `draw_background`).
+  My rebuild gives the manifest's background sha256 (Q1).
+- **Thresholds.** The weighted AUC is a ratio (`metrics.py`, `_Ranked.auc`), and so is the tuning
+  log loss (`folds.py:99-103` divides by `w.sum()`). Both are unchanged by a constant factor. The
+  P10 rule, the D139 cuts and the AOA rule do not read the weight scale.
+- **The AOA weights** are the final model's gains, so they do change, but only because the fitted
+  model changes. The rule does not.
+
+### Does the main group's result depend on it? (COMPUTED, `q3_unfixed.py` part 2)
+
+I re-ran the verdict-relevant comparison with the unfixed weights:
+- held-out predictions over all 24 blocks for A, B and full;
+- each fold reusing the per-fold configuration the fit chose (`manifest.json`,
+  `chosen_configurations`; no re-tuning, a disclosed shortcut).
+
+| unfixed weights | value |
+|---|---:|
+| pooled AUC A / B / full | 0.8762 / 0.8681 / 0.8681 |
+| full − A (weather-cell interval) | −0.0081 (−0.0113, −0.0050) |
+| full − B | **0.00000 exactly**: full and B give identical predictions |
+
+Under the unfixed weights there is no habitat model to judge. Full and B are both the same
+effort-only fit, and both are worse than A (whose folds mostly used c15, which allows a deeper
+effort curve). **The result depends on the fix entirely, because without it the model the plan
+specifies is never fitted.** That is a defect being repaired, not a verdict being chosen.
+
+### Was the fix tuned to the verdict? (READ and INFERRED)
+
+No evidence that it was.
+- **Timing.** The smoke run finished at 11:50Z (`fit/smoke.out`, manifest line), and the fix was
+  committed at 11:56Z.
+- **The defect the commit message names is visible in the smoke output.** The comparison group's
+  B AUC equals its A AUC to every digit, 0.7948342574257433 (`smoke-evidence/fit_report.json`,
+  `side_runs`).
+- **There was one candidate change, and it is the standard one.** A scale normalisation leaves
+  every ruled quantity alone, and there is no sign of another one tried.
+- **It was test-first,** and my revert check below bites.
+- **INFERRED:** the smoke run's P10 "fail" was itself produced by the defective weighting, with
+  2 configurations, 50 resamples and a tenth of the background. It is not a verdict the fix
+  overturned.
+
+### Revert check (COMPUTED, `revert_check.sh`; output in `revert_check.out`)
+
+The runner follows CLAUDE.md's rules:
+- it saves a copy before editing;
+- it reverts the one line `weight=unit_mean_weights(w),` to `weight=np.asarray(w),`;
+- it runs `tests/test_t7_model_outputs.py`;
+- it scans the log for import or collection errors before reading results;
+- it restores from the saved copy, not git;
+- it confirms the forward change is present again.
+
+Results:
+- **Forward:** 10 passed.
+- **Reverted:** 1 failed and 9 passed, with no collection error. The other nine tests of the
+  module ran, so the reverted build ran. The failure is
+  `test_a_fit_does_not_depend_on_the_scale_of_the_weights` at `assert np.allclose(small, unit)`,
+  a failure this revert can produce: a raw total-2 fit against a unit-mean fit.
+- **Restored:** the sha256 equals the saved copy (`f18a9928…24b3`), and `unit_mean_weights(w)` is
+  present once in `train`.
+
+**The test bites.**

@@ -1,0 +1,34 @@
+{
+ "unfixed": {
+  "splits_by_feature": {
+   "log_effort": 824
+  },
+  "trees_by_leaf_count": {
+   "5": 156,
+   "4": 10,
+   "6": 34
+  }
+ },
+ "rescaled": {
+  "splits_by_feature": {
+   "log_effort": 1767,
+   "share_Picea": 100,
+   "total_cover_pct": 130,
+   "share_Pseudotsuga": 140,
+   "share_Arbutus": 65,
+   "share_conifer": 64,
+   "share_Pinus": 94,
+   "ph_mean_0_30cm": 140,
+   "share_Abies": 100,
+   "share_broadleaf": 35,
+   "share_Chrysolepis": 30,
+   "share_Tsuga": 52,
+   "share_Larix": 48,
+   "share_Quercus": 24
+  },
+  "trees_by_leaf_count": {
+   "15": 189,
+   "14": 11
+  }
+ }
+}

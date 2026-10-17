@@ -1,0 +1,8 @@
+..........                                                               [100%]
+=============================== warnings summary ===============================
+tests/test_t7_model_outputs.py::test_the_writer_puts_each_tile_in_place_and_renames_when_whole
+  /home/zynergy-labs/Zynergy/forager-forecast-t7-fit-review/.venv/lib/python3.14/site-packages/rasterio/transform.py:178: PendingDeprecationWarning: Use `@` matmul instead of `*` mul operator for matrix multiplication
+    return Affine.translation(west, north) * Affine.scale(xsize, -ysize)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+10 passed, 1 warning in 1.45s

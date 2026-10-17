@@ -1,0 +1,100 @@
+{
+ "part1": {
+  "comparison B c16 unfixed": {
+   "weight_total": 1.9999999999999998,
+   "trees": 200,
+   "trees_that_split": 200,
+   "distinct_predictions": 3
+  },
+  "comparison B c16 rescaled": {
+   "weight_total": 1.9999999999999998,
+   "trees": 200,
+   "trees_that_split": 200,
+   "distinct_predictions": 26589
+  },
+  "comparison full c16 unfixed": {
+   "weight_total": 1.9999999999999998,
+   "trees": 200,
+   "trees_that_split": 200,
+   "distinct_predictions": 3
+  },
+  "comparison full c16 rescaled": {
+   "weight_total": 1.9999999999999998,
+   "trees": 200,
+   "trees_that_split": 200,
+   "distinct_predictions": 273081
+  },
+  "main B c16 unfixed": {
+   "weight_total": 90.0,
+   "trees": 200,
+   "trees_that_split": 200,
+   "distinct_predictions": 22
+  },
+  "main B c16 rescaled": {
+   "weight_total": 90.0,
+   "trees": 200,
+   "trees_that_split": 200,
+   "distinct_predictions": 25113
+  },
+  "main full c16 unfixed": {
+   "weight_total": 90.0,
+   "trees": 200,
+   "trees_that_split": 200,
+   "distinct_predictions": 22
+  },
+  "main full c16 rescaled": {
+   "weight_total": 90.0,
+   "trees": 200,
+   "trees_that_split": 200,
+   "distinct_predictions": 299354
+  }
+ },
+ "part2": {
+  "pooled_auc": {
+   "A": 0.8761806826293101,
+   "B": 0.868077230865365,
+   "full": 0.868077230865365
+  },
+  "weather_cell|all|full-A": [
+   -0.008103451763945113,
+   -0.011295134069585391,
+   -0.004973501899551899
+  ],
+  "block|all|full-A": [
+   -0.008103451763945113,
+   -0.01636085903906336,
+   1.5542506917598223e-08
+  ],
+  "weather_cell|all|full-B": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "block|all|full-B": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "weather_cell|forested|full-A": [
+   -0.008230865086127137,
+   -0.011674170003845097,
+   -0.005243684499620162
+  ],
+  "block|forested|full-A": [
+   -0.008230865086127137,
+   -0.016729089776715673,
+   5.8003632671943445e-08
+  ],
+  "weather_cell|forested|full-B": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "block|forested|full-B": [
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ "seconds": 433
+}
