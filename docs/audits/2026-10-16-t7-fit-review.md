@@ -519,3 +519,99 @@ This matches Q1's block table: the map's high ground is not where people search 
 
 So the map's brightest region rests largely on forest with no effort surface. That is where the
 held-out test, which needs presences, could not look (INFERRED).
+
+## The predictions, scored
+
+**Planner's predictions:**
+- "Headline AUCs and weather-cell intervals reproduce": **yes, exactly**.
+- "Block intervals include zero": **yes**.
+- "The fix is mechanically required: without it the comparison group's B doesn't split": **yes,
+  and for the main group too**.
+- "The map is dominated by the effort surface's pattern": **no**. Spearman is −0.007.
+
+**My mechanism predictions:**
+1. **Wrong** on the effort correlation: I said moderate and positive, and it is about zero.
+   **Right** that the main AUC figures reproduce.
+2. **Right:** the comparison correlation reproduces, and the wording should not say "mycorrhizal
+   habitat".
+3. **Right** on the comparison group's fit. **Wrong** that the main group's unfixed fit would split
+   on habitat: it does not split on habitat at all. The mechanism (L2 against a small hessian)
+   holds, but the effect was larger than I predicted.
+4. **Right** on V9. **Wrong** on the blocks: I took "26" from the coder, and 25 is correct.
+5. **Wrong** on where the map is high: I said west-side Cascades, Coast Range and Puget, and it is
+   the northern Rockies interior. **Right** to expect no seams.
+
+## Verdict
+
+### Blocking
+
+1. **The label "mycorrhizal habitat" is not supported by the evidence** (Q2). Two reasons:
+   - the same inputs help a wood-rot genus more, by +0.023 against +0.004, and still more as a
+     share of headroom;
+   - the main model's ectomycorrhizal host bands carry little gain, and its map shares more with
+     plain conifer and broadleaf cover (0.46) than it differs from it.
+
+   The wording is the owner's to choose. Under that label, publishing should not proceed.
+
+Nothing in the computation is blocking: every figure reproduces exactly, and the weight fix is
+sound.
+
+### Should-fix (before any pilot goes out)
+
+1. **Say what the shading outside the effort frame means, or show it differently.** 46% of shaded
+   cells, and most of the map's brightest interior blocks, lie outside T6's frame, where the
+   held-out test had no presences to look at. The area of applicability does not exclude them,
+   because it works in habitat space, not geography (Q4, Q5).
+2. **Put the selection caveat beside the pass.** The base model, which involves no selection, is
+   not above B: +0.0008 (−0.0009, +0.0026). The P10 margin over B rests on bands chosen on the same
+   blocks (Q1).
+3. **Correct the record of the weight fix.** Without it the main group's model is effort-only,
+   with full identical to B. It is not "affected less" (Q3; report, Premises 1).
+4. **Correct "26 level III blocks" back to 25,** in the V9 report and in the fit report's Data
+   section and Premises 3 (Q4). No figure changes.
+5. **Two small record slips.** 6.2.8's B is 0.847, not 0.848 (fit report, block table). Forager
+   RECORD -1126's "the most regularised configuration in every fold" holds for B, base and full,
+   not for A.
+6. **Show the Canada cutoff on the map.** A legend line saying Canada is not modelled
+   (code 3, D136) would cover it.
+
+### Notes
+
+- **The rule 4 reading.** Counting genera alone on the presences entering the fit, 44 rather than
+  V9's 47, is disclosed and reasonable. Its effect on the AUCs was not measured.
+- **The area of applicability's sampled mean distance** cancels out of the inside/outside decision
+  by construction.
+- **The map has no tile seams or stripes,** and the code 2 speckle is sparse.
+- **The comparison runs reuse the main run's configurations,** so *Laetiporus*'s larger gain is
+  not a tuning artefact.
+
+## What I could not check, or did not
+
+- **The 892 T6b tile files were not re-hashed.** They are on the flash drive the t6b-night job
+  reads. The fit's `table` step hashed them against the T6b manifest (READ, report).
+- **T6's effort surface** was read through the project's `EffortSurface`/`static_effort` as an
+  input, not re-implemented.
+- **The unfixed-weights rerun reused the fit's per-fold configurations** rather than re-tuning.
+  INFERRED: it would not rescue the fit, since c16, the configuration the full model chose,
+  already shows no habitat split.
+- **V9 was recounted for three genera,** not all 86.
+- **The effect of the rule 4 reading,** and the optimism from the add-one selection, are not
+  measured.
+- **LightGBM determinism was checked at 4 threads only,** the thread count the fit used. The
+  retrain matched bit for bit.
+- **`mask_map.png` (the fit's own image) was not opened.** I rendered my own.
+- **CI was not run,** and no code changed here.
+- **Nothing was published,** and no network request was made beyond the git remote.
+
+## Two answers
+
+**Does the evidence support publishing this as a pilot habitat layer, and under what wording?**
+Only as a clearly labelled pilot of where mycorrhizal mushrooms are reported relative to search
+effort, by forest type (or the owner's "forest-associated fungal reporting"). It does not support
+"mycorrhizal habitat": its held-out skill is +0.004 AUC, not shown across blocks, and nearly half
+its shading lies where there are no search data.
+
+**What would most strengthen the habitat signal?**
+A test that does not ride on reporting effort. That means presences from the unsearched interior,
+or independent plot or survey data, scored against the map. Short of that, a contrast against the
+wood-rot comparison group, which would isolate the host-specific part.
