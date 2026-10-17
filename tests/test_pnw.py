@@ -96,3 +96,11 @@ def test_the_blocked_box_mask_equals_the_whole_one():
     whole = box_mask(window, PNW_BOX)
     assert whole.any() and not whole.all()
     assert np.array_equal(in_box(window, rows_per_block=37), whole)
+
+
+def test_the_access_layer_line_credits_each_source_as_its_terms_ask():
+    (line,) = SOURCES["access"]
+    assert "USGS National Transportation Dataset" in line
+    assert "acknowledgment of the U.S. Geological Survey" in line
+    assert "USDA Forest Service, CC BY 4.0" in line
+    assert "Bureau of Land Management, public domain" in line

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="9" time="0.482" timestamp="2026-10-17T00:59:07.480162-07:00" hostname="zynergy-labs-HP-Laptop-17t-by200"><testcase classname="tests.test_t7_access" name="test_distance_perpendicular_beyond_an_end_on_the_line_and_the_nearer_of_two" time="0.002" /><testcase classname="tests.test_t7_access" name="test_a_multiline_counts_as_its_nearest_part" time="0.001" /><testcase classname="tests.test_t7_access" name="test_no_lines_gives_nan_not_a_number_made_up" time="0.000" /><testcase classname="tests.test_t7_access" name="test_cell_centres_are_the_grid_convention" time="0.005" /><testcase classname="tests.test_t7_access" name="test_block_distances_are_exact_when_the_nearest_line_is_far_outside_the_first_radius" time="0.003"><failure message="assert False&#10; +  where False = &lt;function allclose at 0x775d0c3601b0&gt;(array([675., 925.,  nan, 425., 675., 925.,  nan, 425., 675., 925.,  nan,\n       425., 675., 925.,  nan]), array([ 675.,  925., 1175.,  425.,  675.,  925., 1175.,  425.,  675.,\n        925., 1175.,  425.,  675.,  925., 1175.]))&#10; +    where &lt;function allclose at 0x775d0c3601b0&gt; = np.allclose">def test_block_distances_are_exact_when_the_nearest_line_is_far_outside_the_first_radius():
+        w = GridWindow(0, 0, 4 * CELL_SIZE_M, 4 * CELL_SIZE_M)
+        far = _line((0, 50_000), (1000, 50_000))  # 49 km north of the block
+        near = _line((-300, -300), (-300, 2000))  # beside the block's west edge
+        lines = np.array([far, near])
+        calls = []
+    
+        def read(bbox):
+            calls.append(bbox)
+            return lines[shapely.intersects(lines, shapely.box(*bbox))]
+    
+        inside = np.ones((4, 4), dtype=bool)
+        inside[0, 0] = False
+        d = block_distances(read, w, inside, start_radius=1000.0)
+        x, y = cell_centres(w)
+        truth = nearest_distance(lines, x.ravel(), y.ravel()).reshape(4, 4)
+        assert np.isnan(d[0, 0])
+&gt;       assert np.allclose(d[inside], truth[inside])
+E       assert False
+E        +  where False = &lt;function allclose at 0x775d0c3601b0&gt;(array([675., 925.,  nan, 425., 675., 925.,  nan, 425., 675., 925.,  nan,\n       425., 675., 925.,  nan]), array([ 675.,  925., 1175.,  425.,  675.,  925., 1175.,  425.,  675.,\n        925., 1175.,  425.,  675.,  925., 1175.]))
+E        +    where &lt;function allclose at 0x775d0c3601b0&gt; = np.allclose
+
+tests/test_t7_access.py:75: AssertionError</failure></testcase><testcase classname="tests.test_t7_access" name="test_block_distances_give_nan_when_no_line_exists_within_the_largest_radius" time="0.001" /><testcase classname="tests.test_t7_access" name="test_combine_takes_the_nearer_and_masks_unpublished_trail_cells" time="0.001" /><testcase classname="tests.test_t7_access" name="test_only_federal_trail_sources_are_kept" time="0.000" /><testcase classname="tests.test_t7_access" name="test_ferries_and_tunnels_are_not_roads_and_every_other_class_is" time="0.000" /></testsuite></testsuites>

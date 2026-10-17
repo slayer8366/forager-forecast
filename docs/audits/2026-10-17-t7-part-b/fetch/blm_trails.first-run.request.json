@@ -1,0 +1,29 @@
+{
+  "name": "blm_trails",
+  "url": "https://gbp-blm-egis.hub.arcgis.com/api/download/v1/items/974363b4f22244d49350753f8fb5af32/filegdb?layers=2",
+  "fetched_utc": "2026-10-17T07:50:25+00:00",
+  "seconds": 3.0,
+  "http": {
+    "date": "Sat, 17 Oct 2026 07:50:25 GMT",
+    "content-type": "application/json; charset=utf-8",
+    "content-length": "183",
+    "connection": "keep-alive",
+    "access-control-allow-origin": "*",
+    "content-security-policy": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests;connect-src 'self' https://*.arcgis.com",
+    "x-dns-prefetch-control": "off",
+    "expect-ct": "max-age=0",
+    "x-frame-options": "SAMEORIGIN",
+    "strict-transport-security": "max-age=15552000; includeSubDomains",
+    "x-download-options": "noopen",
+    "x-content-type-options": "nosniff",
+    "x-permitted-cross-domain-policies": "none",
+    "referrer-policy": "no-referrer",
+    "x-xss-protection": "0",
+    "etag": "W/\"b7-eNoZgo6ujbyric/OViXBf4chPKA\""
+  },
+  "size_bytes": 11194893,
+  "sha256": "ebe0f69b620f9d87a913779ee4c075126fb22b2364120a6f3550bb0f8b8ff8a5",
+  "check": "served length",
+  "check_expected": "183",
+  "check_passed": false
+}

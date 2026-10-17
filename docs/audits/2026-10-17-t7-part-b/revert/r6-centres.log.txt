@@ -1,0 +1,18 @@
+...F.....                                                                [100%]
+=================================== FAILURES ===================================
+__________________ test_cell_centres_are_the_grid_convention ___________________
+
+    def test_cell_centres_are_the_grid_convention():
+        w = GridWindow(-1_000_000, 500_000, -1_000_000 + 3 * CELL_SIZE_M, 500_000 + 2 * CELL_SIZE_M)
+        x, y = cell_centres(w)
+        assert x.shape == (2, 3)
+>       assert x[0].tolist() == [-999_875.0, -999_625.0, -999_375.0]
+E       assert [-1000000.0, ....0, -999500.0] == [-999875.0, -....0, -999375.0]
+E         
+E         At index 0 diff: -1000000.0 != -999875.0
+E         Use -v to get more diff
+
+tests/test_t7_access.py:46: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_t7_access.py::test_cell_centres_are_the_grid_convention - a...
+1 failed, 8 passed in 0.56s

@@ -1,0 +1,23 @@
+{
+  "name": "ntd_california",
+  "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Tran/GDB/TRAN_California_State_GDB.zip",
+  "fetched_utc": "2026-10-17T07:45:20+00:00",
+  "seconds": 63.9,
+  "http": {
+    "x-amz-id-2": "gMC+U2/pxzjmRg4PuWw8S19MI7xk2FeyOqhQcqU8jMPtWLyHPwKCK0+BG0KTnFWh/sBdNVlEGt5ADMqD7Fu/5a7LQO0XvgQ7",
+    "x-amz-request-id": "YBRDYRT0S1FXAQSM",
+    "server": "AmazonS3",
+    "date": "Sat, 17 Oct 2026 07:45:21 GMT",
+    "last-modified": "Thu, 12 Feb 2026 14:32:27 GMT",
+    "etag": "\"fc55b75543642a5fd16e402573db31fb-90\"",
+    "x-amz-server-side-encryption": "AES256",
+    "accept-ranges": "bytes",
+    "content-length": "754066747",
+    "content-type": "binary/octet-stream"
+  },
+  "size_bytes": 754066747,
+  "sha256": "64301baf6f9547cefb061e1661aa59864f65d0b4654c9a2c6172571eb7450424",
+  "check": "s3 multipart etag",
+  "check_expected": "\"fc55b75543642a5fd16e402573db31fb-90\"",
+  "check_passed": true
+}

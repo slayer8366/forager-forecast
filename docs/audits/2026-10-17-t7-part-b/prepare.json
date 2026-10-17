@@ -1,0 +1,289 @@
+{
+  "started_utc": "2026-10-17T07:55:50+00:00",
+  "read_bbox_lonlat": [
+    -125.75,
+    39.5,
+    -110.25,
+    49.5
+  ],
+  "sources": {
+    "ntd_oregon": {
+      "roads_read": 722875,
+      "roads_kept": 722846,
+      "roads_dropped_by_class": {
+        "8": 23,
+        "7": 6
+      },
+      "roads_by_originator": {
+        "U.S. Department of Commerce, U.S. Census Bureau, Geography Division": 548554,
+        "U.S. Forest Service": 174096,
+        "National Park Service": 196
+      },
+      "roads_no_geometry": 0,
+      "trails_read": 23876,
+      "trails_kept": 23875,
+      "trails_dropped_by_originator": {
+        "California Coastal Commission": 1
+      },
+      "trails_kept_by_originator": {
+        "Bureau of Land Management": 9781,
+        "U.S. Forest Service": 13130,
+        "U.S. Fish and Wildlife Service": 210,
+        "National Park Service": 754
+      },
+      "trails_no_geometry": 0
+    },
+    "ntd_washington": {
+      "roads_read": 691944,
+      "roads_kept": 691492,
+      "roads_dropped_by_class": {
+        "8": 405,
+        "7": 47
+      },
+      "roads_by_originator": {
+        "U.S. Department of Commerce, U.S. Census Bureau, Geography Division": 653021,
+        "U.S. Forest Service": 36532,
+        "National Park Service": 1939
+      },
+      "roads_no_geometry": 0,
+      "trails_read": 9052,
+      "trails_kept": 6985,
+      "trails_dropped_by_originator": {
+        "Washington State Parks and Recreation Commission": 2067
+      },
+      "trails_kept_by_originator": {
+        "U.S. Forest Service": 4252,
+        "U.S. Fish and Wildlife Service": 257,
+        "National Park Service": 2100,
+        "Bureau of Land Management": 376
+      },
+      "trails_no_geometry": 0
+    },
+    "ntd_idaho": {
+      "roads_read": 435792,
+      "roads_kept": 435778,
+      "roads_dropped_by_class": {
+        "8": 14
+      },
+      "roads_by_originator": {
+        "U.S. Department of Commerce, U.S. Census Bureau, Geography Division": 362822,
+        "U.S. Forest Service": 72749,
+        "National Park Service": 207
+      },
+      "roads_no_geometry": 0,
+      "trails_read": 10200,
+      "trails_kept": 9769,
+      "trails_dropped_by_originator": {
+        "Washington State Parks and Recreation Commission": 5,
+        "Continental Divide Trail Coalition": 24,
+        "Utah Automated Geographic Reference Center (AGRC)": 1,
+        "Idaho Department of Parks and Recreation": 401
+      },
+      "trails_kept_by_originator": {
+        "U.S. Forest Service": 8051,
+        "Bureau of Land Management": 1559,
+        "U.S. Fish and Wildlife Service": 62,
+        "National Park Service": 97
+      },
+      "trails_no_geometry": 0
+    },
+    "ntd_montana": {
+      "roads_read": 303773,
+      "roads_kept": 303766,
+      "roads_dropped_by_class": {
+        "7": 2,
+        "8": 5
+      },
+      "roads_by_originator": {
+        "U.S. Forest Service": 72859,
+        "U.S. Department of Commerce, U.S. Census Bureau, Geography Division": 230377,
+        "National Park Service": 530
+      },
+      "roads_no_geometry": 0,
+      "trails_read": 15277,
+      "trails_kept": 15091,
+      "trails_dropped_by_originator": {
+        "Continental Divide Trail Coalition": 186
+      },
+      "trails_kept_by_originator": {
+        "U.S. Forest Service": 13951,
+        "Bureau of Land Management": 433,
+        "U.S. Fish and Wildlife Service": 57,
+        "National Park Service": 650
+      },
+      "trails_no_geometry": 0
+    },
+    "ntd_california": {
+      "roads_read": 234811,
+      "roads_kept": 234803,
+      "roads_dropped_by_class": {
+        "8": 7,
+        "7": 1
+      },
+      "roads_by_originator": {
+        "U.S. Forest Service": 67972,
+        "U.S. Department of Commerce, U.S. Census Bureau, Geography Division": 166025,
+        "National Park Service": 806
+      },
+      "roads_no_geometry": 0,
+      "trails_read": 6478,
+      "trails_kept": 5132,
+      "trails_dropped_by_originator": {
+        "California Department of Parks and Recreation": 862,
+        "California Coastal Commission": 484
+      },
+      "trails_kept_by_originator": {
+        "U.S. Forest Service": 3535,
+        "U.S. Fish and Wildlife Service": 189,
+        "Bureau of Land Management": 237,
+        "National Park Service": 1171
+      },
+      "trails_no_geometry": 0
+    },
+    "ntd_nevada": {
+      "roads_read": 105771,
+      "roads_kept": 105769,
+      "roads_dropped_by_class": {
+        "8": 2
+      },
+      "roads_by_originator": {
+        "U.S. Department of Commerce, U.S. Census Bureau, Geography Division": 101409,
+        "U.S. Forest Service": 4360
+      },
+      "roads_no_geometry": 0,
+      "trails_read": 2343,
+      "trails_kept": 2313,
+      "trails_dropped_by_originator": {
+        "Nevada Department of Conservation and Natural Resources": 30
+      },
+      "trails_kept_by_originator": {
+        "U.S. Forest Service": 2157,
+        "U.S. Fish and Wildlife Service": 20,
+        "Bureau of Land Management": 136
+      },
+      "trails_no_geometry": 0
+    },
+    "ntd_utah": {
+      "roads_read": 249887,
+      "roads_kept": 249879,
+      "roads_dropped_by_class": {
+        "8": 8
+      },
+      "roads_by_originator": {
+        "U.S. Department of Commerce, U.S. Census Bureau, Geography Division": 236576,
+        "U.S. Forest Service": 13237,
+        "National Park Service": 66
+      },
+      "roads_no_geometry": 0,
+      "trails_read": 10748,
+      "trails_kept": 2512,
+      "trails_dropped_by_originator": {
+        "Utah Automated Geographic Reference Center (AGRC)": 8236
+      },
+      "trails_kept_by_originator": {
+        "U.S. Forest Service": 2440,
+        "Bureau of Land Management": 59,
+        "U.S. Fish and Wildlife Service": 1,
+        "National Park Service": 12
+      },
+      "trails_no_geometry": 0
+    },
+    "ntd_wyoming": {
+      "roads_read": 26150,
+      "roads_kept": 26149,
+      "roads_dropped_by_class": {
+        "8": 1
+      },
+      "roads_by_originator": {
+        "National Park Service": 3450,
+        "U.S. Forest Service": 3479,
+        "U.S. Department of Commerce, U.S. Census Bureau, Geography Division": 19220
+      },
+      "roads_no_geometry": 0,
+      "trails_read": 3293,
+      "trails_kept": 3289,
+      "trails_dropped_by_originator": {
+        "Continental Divide Trail Coalition": 4
+      },
+      "trails_kept_by_originator": {
+        "U.S. Forest Service": 1212,
+        "U.S. Fish and Wildlife Service": 5,
+        "National Park Service": 2071,
+        "Bureau of Land Management": 1
+      },
+      "trails_no_geometry": 0
+    },
+    "fs_roads": {
+      "roads_read": 168049,
+      "roads_kept": 168049,
+      "roads_no_geometry": 0,
+      "by_maintenance_level": {
+        "1 - BASIC CUSTODIAL CARE (CLOSED)": 76111,
+        "2 - HIGH CLEARANCE VEHICLES": 79070,
+        "5 - HIGH DEGREE OF USER COMFORT": 985,
+        "3 - SUITABLE FOR PASSENGER CARS": 9556,
+        "4 - MODERATE DEGREE OF USER COMFORT": 2138,
+        "None": 116,
+        "NA - NOT APPLICABLE": 42,
+        "0 - NOT MAINTAINED": 31
+      }
+    },
+    "fs_trails": {
+      "trails_read": 30852,
+      "trails_no_geometry": 0,
+      "no_geometry_by_forest": {},
+      "with_geometry_by_forest": {
+        "0116": 769,
+        "0111": 1388,
+        "0612": 139,
+        "0114": 2079,
+        "0115": 1304,
+        "0110": 878,
+        "0511": 425,
+        "0417": 2165,
+        "0104": 919,
+        "0401": 221,
+        "0617": 1424,
+        "0517": 195,
+        "0117": 1472,
+        "0602": 419,
+        "0618": 755,
+        "0415": 1181,
+        "0419": 1718,
+        "0605": 685,
+        "0102": 697,
+        "0615": 1580,
+        "0402": 1035,
+        "0506": 357,
+        "0103": 622,
+        "0606": 747,
+        "0410": 127,
+        "0622": 144,
+        "0510": 285,
+        "0514": 818,
+        "0505": 310,
+        "0601": 1049,
+        "0603": 547,
+        "0610": 528,
+        "0604": 212,
+        "0412": 527,
+        "0414": 975,
+        "0609": 169,
+        "": 12,
+        "0508": 122,
+        "0403": 549,
+        "0413": 852,
+        "0621": 252,
+        "0607": 147,
+        "0509": 49,
+        "0616": 3,
+        "01": 1
+      }
+    },
+    "blm_trails": {
+      "trails_read": 6188,
+      "trails_no_geometry": 0
+    }
+  },
+  "finished_utc": "2026-10-17T07:57:45+00:00"
+}

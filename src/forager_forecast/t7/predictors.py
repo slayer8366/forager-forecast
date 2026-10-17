@@ -12,6 +12,13 @@ filled value (P9's codes):
 
 Precedence is the order 0, 3, 6, 4, 5. Code 2 is set later, by the area of applicability.
 
+Access bands (T7 part B, dispatch 2026-10-17-T7B; the owner's ruling 1 in Forager RECORD -1168)
+are off by default and held apart from ``FEATURES``, so a run that does not ask for them reads
+exactly what it read before. ``ACCESS_MAIN_BANDS`` (distance to the nearest road) is the main fit's
+access band; ``ACCESS_SIDE_BANDS`` (trails, and the nearer of road and trail) are for a side check
+only. A trail value is NaN where the Forest Service published trail records without lines, and is
+passed on as NaN, never filled.
+
 Shares below ``SHARE_FLOOR`` read as 0 (D137). Tier B is left out (zero across the box, P4 point
 5). A study cell in the box that reads "pending" (flag 4, D119) stops the run (plan, abort
 conditions), and so does a tile whose band layout is not this code's.
@@ -59,6 +66,9 @@ CANDIDATE_BANDS = (
 )  # fmt: skip
 LEFT_OUT_BANDS = ("share_Fagus", "share_Carya", "share_Tilia", "share_Ostrya", "share_Carpinus")
 FEATURES = (*BASE_BANDS, *CANDIDATE_BANDS)
+ACCESS_MAIN_BANDS = ("dist_road_m",)
+ACCESS_SIDE_BANDS = ("dist_trail_m", "dist_any_m")
+ACCESS_BANDS = (*ACCESS_MAIN_BANDS, *ACCESS_SIDE_BANDS)
 
 
 class PendingCell(RuntimeError):
@@ -83,6 +93,8 @@ class TileCells:
     tree_attribution: str
     soil_attribution: str
     canadian_values_read: bool
+    access: np.ndarray  # (n, len(access_bands)) float64; (n, 0) when off, the default
+    access_bands: tuple[str, ...]
 
     def code_counts(self) -> dict[int, int]:
         values, counts = np.unique(self.code, return_counts=True)
@@ -118,8 +130,12 @@ def _cell_ids(window: GridWindow, rows: np.ndarray, cols: np.ndarray) -> np.ndar
 
 
 def read_tile(tile: Tile, tree_path: Path, flags_path: Path, soil_path: Path, mask_path: Path,
-              box: LonLatBox, level3_polygons) -> TileCells:  # fmt: skip
+              box: LonLatBox, level3_polygons, access_path: Path | None = None,
+              access_bands: tuple[str, ...] = ()) -> TileCells:  # fmt: skip
     window = tile.window
+    access_bands = tuple(access_bands)
+    if access_bands and access_path is None:
+        raise ValueError(f"access bands {access_bands} asked for with no access file")
     share_names = [b for b in TREE_BANDS if b.startswith("share_")]
     values, tree_tags = _bands(tree_path, window, TREE_BANDS, check_layout=True)
     flags, _ = _bands(flags_path, window, [f"flag_{b[6:]}" for b in share_names], True)
@@ -159,6 +175,10 @@ def read_tile(tile: Tile, tree_path: Path, flags_path: Path, soil_path: Path, ma
     features = np.column_stack(columns) if columns else np.empty((0, len(FEATURES)))
     lat_t, lon_t = weather_cells_for_window(window)
     level3 = burn_level3(level3_polygons, window)
+    access = np.empty((len(rows), 0))
+    if access_bands:
+        acc, _ = _bands(access_path, window, list(access_bands), check_layout=False)
+        access = np.column_stack([acc[b][rows, cols] for b in access_bands])
     return TileCells(
         tile=tile.key,
         code=code,
@@ -172,4 +192,6 @@ def read_tile(tile: Tile, tree_path: Path, flags_path: Path, soil_path: Path, ma
         tree_attribution=tree_tags.get("attribution", ""),
         soil_attribution=soil_tags.get("attribution", ""),
         canadian_values_read=bool((eligible & (side == SIDE_CA)).any()),
+        access=access,
+        access_bands=access_bands,
     )

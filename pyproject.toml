@@ -23,6 +23,8 @@ dependencies = [
     # nearest-neighbour search (scipy.spatial.cKDTree). Already locked at this version as
     # LightGBM's dependency; pinned directly so T7's use does not rest on another package's.
     "scipy==1.18.1",
+    "pyogrio==0.13.0",
+    "shapely==2.2.0",
 ]
 
 [dependency-groups]

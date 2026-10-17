@@ -1,0 +1,16 @@
+........F                                                                [100%]
+=================================== FAILURES ===================================
+_______ test_ferries_and_tunnels_are_not_roads_and_every_other_class_is ________
+
+    def test_ferries_and_tunnels_are_not_roads_and_every_other_class_is():
+>       assert keep_road_class([1, 2, 3, 4, 5, 6, 7, 8, None]).tolist() == [
+            True, True, True, True, True, True, False, False, False]  # fmt: skip
+E       assert [True, True, ...ue, True, ...] == [True, True, ...ue, True, ...]
+E         
+E         At index 6 diff: True != False
+E         Use -v to get more diff
+
+tests/test_t7_access.py:114: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_t7_access.py::test_ferries_and_tunnels_are_not_roads_and_every_other_class_is
+1 failed, 8 passed in 0.57s

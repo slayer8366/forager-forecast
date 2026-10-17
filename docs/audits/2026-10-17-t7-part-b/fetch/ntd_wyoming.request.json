@@ -1,0 +1,23 @@
+{
+  "name": "ntd_wyoming",
+  "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Tran/GDB/TRAN_Wyoming_State_GDB.zip",
+  "fetched_utc": "2026-10-17T07:46:44+00:00",
+  "seconds": 5.1,
+  "http": {
+    "x-amz-id-2": "Mgh0W4bDxx7/gMQ5Qn2EoSUf4fhSjnubLq/JZJeNNTURGu/y+V3HGzrfADYEusG/AnAehHbZfe0=",
+    "x-amz-request-id": "WFMTGRNHV2SEXH2V",
+    "date": "Sat, 17 Oct 2026 07:46:45 GMT",
+    "last-modified": "Thu, 12 Feb 2026 14:33:45 GMT",
+    "etag": "\"4cd4f0da0cf6344fcd04693e961449b4-13\"",
+    "x-amz-server-side-encryption": "AES256",
+    "accept-ranges": "bytes",
+    "content-type": "binary/octet-stream",
+    "content-length": "103517516",
+    "server": "AmazonS3"
+  },
+  "size_bytes": 103517516,
+  "sha256": "d94d1050ef009e06e56610829ba63fed709deb719b6921093f127f111f888262",
+  "check": "s3 multipart etag",
+  "check_expected": "\"4cd4f0da0cf6344fcd04693e961449b4-13\"",
+  "check_passed": true
+}

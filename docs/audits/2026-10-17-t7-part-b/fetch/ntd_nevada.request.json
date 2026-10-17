@@ -1,0 +1,23 @@
+{
+  "name": "ntd_nevada",
+  "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Tran/GDB/TRAN_Nevada_State_GDB.zip",
+  "fetched_utc": "2026-10-17T07:46:27+00:00",
+  "seconds": 5.8,
+  "http": {
+    "x-amz-id-2": "pJmHYi1yc1soCSH4bGDp4NOYfteDZK2p2GDAdtDe/cFUOIsGIaEJmAgTf+fQlnwEiIYo90fOUBQ=",
+    "x-amz-request-id": "FZXF9EX6XAKMBKBM",
+    "date": "Sat, 17 Oct 2026 07:46:28 GMT",
+    "last-modified": "Thu, 12 Feb 2026 14:33:07 GMT",
+    "etag": "\"819b7d17a12d2b665c3264e558ff2874-16\"",
+    "x-amz-server-side-encryption": "AES256",
+    "accept-ranges": "bytes",
+    "content-type": "binary/octet-stream",
+    "content-length": "130639584",
+    "server": "AmazonS3"
+  },
+  "size_bytes": 130639584,
+  "sha256": "0e0f5eec23c0a23e7e104b1619b9b4c92990a18f0337b2d6fcae15eabce1ae53",
+  "check": "s3 multipart etag",
+  "check_expected": "\"819b7d17a12d2b665c3264e558ff2874-16\"",
+  "check_passed": true
+}
