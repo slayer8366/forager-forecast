@@ -1,0 +1,52 @@
+{
+ "rows_read": 2493578,
+ "zip": "/home/zynergy-labs/Zynergy/forager-forecast-d26/data/d26/downloads/0012112-260928105237408.zip",
+ "Amanita": {
+  "rows": 105584,
+  "unloadable_date": 445,
+  "no_coordinates": 0,
+  "dropped_user_obscured": 5725,
+  "dropped_uncertainty": 43473,
+  "after_filters": 55941,
+  "after_duplicate_step": 50197,
+  "in_box": 7665,
+  "thinned_mine": 5435,
+  "thinned_v9_counts_json": 5435,
+  "v9_presence_rows": 5435,
+  "same_gbif_id_and_cell_set_as_v9_file": true,
+  "only_mine": 0,
+  "only_v9": 0
+ },
+ "Craterellus": {
+  "rows": 11535,
+  "unloadable_date": 53,
+  "no_coordinates": 0,
+  "dropped_user_obscured": 1541,
+  "dropped_uncertainty": 5072,
+  "after_filters": 4869,
+  "after_duplicate_step": 4494,
+  "in_box": 649,
+  "thinned_mine": 528,
+  "thinned_v9_counts_json": 528,
+  "v9_presence_rows": 528,
+  "same_gbif_id_and_cell_set_as_v9_file": true,
+  "only_mine": 0,
+  "only_v9": 0
+ },
+ "Humaria": {
+  "rows": 561,
+  "unloadable_date": 5,
+  "no_coordinates": 0,
+  "dropped_user_obscured": 33,
+  "dropped_uncertainty": 338,
+  "after_filters": 185,
+  "after_duplicate_step": 182,
+  "in_box": 41,
+  "thinned_mine": 33,
+  "thinned_v9_counts_json": 33,
+  "v9_presence_rows": 33,
+  "same_gbif_id_and_cell_set_as_v9_file": true,
+  "only_mine": 0,
+  "only_v9": 0
+ }
+}
