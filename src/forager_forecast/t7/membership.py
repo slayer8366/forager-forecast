@@ -206,3 +206,8 @@ class Join:
 
     def joins(self, names: TaxonNames) -> bool:
         return self.outcome(names) == IN_GROUP
+
+
+def ectomycorrhizal_overlap(genera, members: MembershipList) -> dict[str, str]:
+    """STUB (tests first)."""
+    return {}

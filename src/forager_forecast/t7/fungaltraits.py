@@ -250,3 +250,20 @@ def convert_export(
     traits = read_traits_export(path, expected_sha256)
     rows = to_list_rows(traits, export_source_id(expected_sha256))
     return write_list(out, rows)
+
+
+# --- T7 part C: the saprotroph comparison group (D146; Forager RECORD -1164, -1167) -------------
+
+SAPROTROPH_LIFESTYLES = ("litter_saprotroph", "soil_saprotroph")
+
+
+@dataclass(frozen=True)
+class SaprotrophGenera:
+    main: tuple[str, ...]
+    side_only: tuple[str, ...]
+    excluded_ectomycorrhizal: tuple[str, ...]
+
+
+def saprotroph_genera(traits: list[GenusTraits]) -> SaprotrophGenera:
+    """STUB (tests first)."""
+    return SaprotrophGenera((), (), ())

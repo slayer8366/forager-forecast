@@ -98,6 +98,11 @@ RUNS = {
 }
 
 
+def saprotroph_runs(genera) -> dict:
+    """STUB (tests first)."""
+    return {}
+
+
 def sha256_file(path: Path) -> str:
     h = hashlib.sha256()
     with open(path, "rb") as f:
