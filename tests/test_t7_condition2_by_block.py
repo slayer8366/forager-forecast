@@ -92,15 +92,16 @@ def test_the_draws_are_seeded_and_paired():
 
 
 def test_a_pair_whose_rows_lie_in_different_blocks_is_counted():
-    # one weather cell; the presence in block 0, the background in block 1
-    y = np.array([1, 0, 1, 0])
-    c = np.array([0, 0, 1, 1])
-    blocks = np.array([0, 1, 2, 2])
-    w = np.ones(4)
-    a = np.array([0.9, 0.1, 0.2, 0.8])  # right in cell 0, wrong in cell 1
-    b = np.array([0.1, 0.9, 0.2, 0.8])  # wrong in both
+    # weather cell 0 holds a presence in block 0 and a background point in block 1; cells 1 and 2
+    # each sit inside one block, so every block draw still holds pairs
+    y = np.array([1, 0, 1, 0, 1, 0])
+    c = np.array([0, 0, 1, 1, 2, 2])
+    blocks = np.array([0, 1, 0, 0, 1, 1])
+    w = np.ones(6)
+    a = np.array([0.9, 0.1, 0.2, 0.8, 0.2, 0.8])  # right only on the cross-block pair
+    b = np.array([0.1, 0.9, 0.2, 0.8, 0.2, 0.8])  # wrong on all three
     d = within_cluster_auc_difference_rows_resampled(a, b, y, w, c, blocks, resamples=10, seed=1)
-    assert d.point == pytest.approx(0.5)
+    assert d.point == pytest.approx(1 / 3)  # same-block pairs only would give 0
 
 
 def test_no_cell_holding_both_a_presence_and_background_is_refused():

@@ -173,11 +173,65 @@ def within_cluster_auc_difference(a, b, outcomes, weights, clusters, resamples: 
     return Difference(float((ca - cb).sum() / mass.sum()), low, high, resamples)
 
 
+class _WithinRanked:
+    """Scores sorted once by cluster, then score, with their tie groups, so the within-cluster
+    concordant pair weight under new row weights is one pass (``_within_parts``'s sum, with the
+    sort held)."""
+
+    def __init__(self, scores, outcomes, index):
+        s = np.asarray(scores, dtype=np.float64)
+        self.order = np.lexsort((s, index))
+        s, c = s[self.order], index[self.order]
+        self.pos = np.asarray(outcomes)[self.order] == 1
+        starts = np.r_[True, (s[1:] != s[:-1]) | (c[1:] != c[:-1])]
+        self.group = np.cumsum(starts) - 1
+        self.n_groups = int(self.group[-1]) + 1 if len(s) else 0
+        g_cluster = c[starts]
+        self.first = np.r_[True, g_cluster[1:] != g_cluster[:-1]]
+        self.first_of = np.cumsum(self.first) - 1
+
+    def concordant(self, weights) -> float:
+        w = np.asarray(weights, dtype=np.float64)[self.order]
+        wp = np.bincount(self.group, np.where(self.pos, w, 0.0), self.n_groups)
+        wn = np.bincount(self.group, np.where(self.pos, 0.0, w), self.n_groups)
+        cum = np.cumsum(wn)
+        before = (cum - wn)[self.first][self.first_of]
+        return float((wp * (cum - wn - before + 0.5 * wn)).sum())
+
+
 def within_cluster_auc_difference_rows_resampled(a, b, outcomes, weights, clusters, resample_by,
                                                  resamples: int = RESAMPLES, seed: int = SEED,
                                                  level: float = 0.95) -> Difference:  # fmt: skip
-    """STUB (tests first)."""
-    return Difference(float("nan"), float("nan"), float("nan"), resamples)
+    """Within-cluster AUC(a) - AUC(b) over every (presence, background) pair inside one cluster
+    (a weather cell), with its interval from condition 1's exact resampling (D145 condition 2 as
+    amended; Forager RECORD -1164, -1167, reading (a)): draw the ``resample_by`` units (level III
+    blocks) with replacement, multiply each row's weight by its unit's draw count, as
+    ``clustered_auc_difference`` does, and recompute both within-cluster AUCs on the same draw.
+    Clusters may straddle units; a pair whose rows lie in two units is kept, and weighs the
+    product of their draw counts. The point is ``within_cluster_auc_difference``'s."""
+    index, n_clusters = _cluster_index(clusters)
+    w = np.asarray(weights, dtype=np.float64)
+    pos = np.asarray(outcomes) == 1
+    ra, rb = _WithinRanked(a, outcomes, index), _WithinRanked(b, outcomes, index)
+
+    def stat(wi):
+        mass = (np.bincount(index, np.where(pos, wi, 0.0), n_clusters)
+                * np.bincount(index, np.where(pos, 0.0, wi), n_clusters)).sum()  # fmt: skip
+        if mass <= 0:
+            raise ValueError("no cluster holds both a presence and a background point")
+        return (ra.concordant(wi) - rb.concordant(wi)) / mass
+
+    point = stat(w)
+    _, unit = np.unique(np.asarray(resample_by), return_inverse=True)
+    n = int(unit.max()) + 1
+    rng = np.random.default_rng(seed)
+    diffs = np.empty(resamples)
+    for i in range(resamples):
+        times = np.bincount(rng.integers(0, n, size=n), minlength=n)
+        diffs[i] = stat(w * times[unit])
+    tail = (1.0 - level) / 2.0 * 100.0
+    low, high = np.percentile(diffs, [tail, 100.0 - tail])
+    return Difference(float(point), float(low), float(high), resamples)
 
 
 # --- P10b (D145) ----------------------------------------------------------------------------------
@@ -219,7 +273,9 @@ def p10b(*, block_clustered_full_minus_b: Difference, within_cell_full_minus_a: 
 
     1. the full model above B (effort plus conifer and broadleaf cover), the interval clustered by
        level III block;
-    2. the full model above A (effort only) within one weather cell;
+    2. the full model above A (effort only) within one weather cell, the interval clustered by
+       level III block with condition 1's resampling (amended 2026-10-17, Forager RECORD -1164,
+       -1167: ``within_cluster_auc_difference_rows_resampled``; not the weather-cell interval);
     3. the host-specific contrast: the mycorrhizal group's gain minus the saprotroph comparison
        group's (part C), required;
     4. the map ranking independent presences above background (that AUC minus 0.5), required

@@ -549,8 +549,20 @@ def within_cell_figures(y, w, clusters, preds: dict, resamples: int) -> dict:
 
 def within_cell_block_clustered_figures(y, w, clusters, blocks, preds: dict,
                                         resamples: int) -> dict:  # fmt: skip
-    """STUB (tests first)."""
-    return {}
+    """P10b condition 2 as amended (Forager RECORD -1164, -1167): full minus A (and full minus B)
+    over pairs inside one weather cell, every such pair kept, with the interval from condition 1's
+    resampling by level III block (rows weighted by their block's draw count)."""
+    out: dict = {
+        "pairs": "inside one weather cell",
+        "resampled": "level III block, rows weighted by their block's draw count",
+    }
+    for short, key in (("A", A_KEY), ("B", B_KEY)):
+        out[f"full_minus_{short}"] = dd(
+            mt.within_cluster_auc_difference_rows_resampled(
+                preds["full"], preds[key], y, w, clusters, blocks, resamples
+            )  # fmt: skip
+        )
+    return out
 
 
 def block_clustered_figures(y, w, blocks, preds: dict, forested_sel, resamples: int) -> dict:
@@ -685,6 +697,9 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
     by_block_cluster = block_clustered_figures(data.y, data.w, data.blocks, preds, forested_sel,
                                                resamples)  # fmt: skip
     within_cell = within_cell_figures(data.y, data.w, data.clusters, preds, resamples)
+    within_cell_by_block = within_cell_block_clustered_figures(
+        data.y, data.w, data.clusters, data.blocks, preds, resamples
+    )
     base_minus_b = base_minus_b_figures(data.y, data.w, data.clusters, data.blocks, preds,
                                         resamples)  # fmt: skip
     log(f"P10: {'pass' if verdict else 'fail'}")
@@ -762,6 +777,8 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
             "forested_full_minus_B": dd(diff(sd, sp["full"], sp["B: forest only"], sf)),
             "block_clustered": block_clustered_figures(sd.y, sd.w, sd.blocks, sp, sf, resamples),
             "within_weather_cell": within_cell_figures(sd.y, sd.w, sd.clusters, sp, resamples),
+            "within_weather_cell_block_clustered": within_cell_block_clustered_figures(
+                sd.y, sd.w, sd.clusters, sd.blocks, sp, resamples),
             "seconds": round(time.monotonic() - s),
         }  # fmt: skip
         if name == "comparison group":
@@ -921,6 +938,7 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
         "block_clustered_intervals_no_verdict": by_block_cluster,
         "base_minus_B_no_verdict": base_minus_b,
         "within_weather_cell_no_verdict": within_cell,
+        "within_weather_cell_block_clustered_no_verdict": within_cell_by_block,
         "by_block": blocks_report, "level1": level1, "by_year": by_year,
         "side_runs": side, "comparison_rank_correlation_over_shaded": rho,
         "final_model_configuration": best_full,
@@ -992,6 +1010,8 @@ def cmd_figures(work: Path, evidence: Path) -> None:
             "base_minus_B": base_minus_b_figures(data.y, data.w, data.clusters, data.blocks, preds,
                                                  r),
             "within_weather_cell": within_cell_figures(data.y, data.w, data.clusters, preds, r),
+            "within_weather_cell_block_clustered": within_cell_block_clustered_figures(
+                data.y, data.w, data.clusters, data.blocks, preds, r),
             "block_clustered": block_clustered_figures(data.y, data.w, data.blocks, preds, fsel, r),
         },
         "side_runs": {},
@@ -1006,6 +1026,8 @@ def cmd_figures(work: Path, evidence: Path) -> None:
             "presences": sd.n_presences, "background": sd.n_background,
             "pooled_auc": {k: auc(sd, v) for k, v in sp.items()},
             "within_weather_cell": within_cell_figures(sd.y, sd.w, sd.clusters, sp, r),
+            "within_weather_cell_block_clustered": within_cell_block_clustered_figures(
+                sd.y, sd.w, sd.clusters, sd.blocks, sp, r),
             "block_clustered": block_clustered_figures(sd.y, sd.w, sd.blocks, sp, sf, r),
         }  # fmt: skip
         del sd
