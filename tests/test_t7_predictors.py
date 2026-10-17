@@ -14,6 +14,9 @@ from forager_forecast.t6b_layers import TREE_BANDS, Tile
 from forager_forecast.t6b_mask import COUNTRY_CAN, COUNTRY_NONE, COUNTRY_US48, ECO_OTHER
 from forager_forecast.t7.keying import weather_cells_for_window
 from forager_forecast.t7.predictors import (
+    ACCESS_BANDS,
+    ACCESS_MAIN_BANDS,
+    ACCESS_SIDE_BANDS,
     CODE_CANADA,
     CODE_IN,
     CODE_NO_SHARES,
@@ -130,3 +133,47 @@ def test_cells_outside_the_box_are_code_0(tmp_path):
     east = LonLatBox(south=40.0, north=49.0, west=-110.0, east=-100.0)
     cells = read_tile(tile, tree, flags, soil, mask, east, polygons)
     assert (cells.code == CODE_OUTSIDE).all() and len(cells.cell_id) == 0
+
+
+def _access(tmp_path, tile):
+    from t7_synthetic import write_raster as wr
+
+    w = tile.window
+    vals = {b: np.arange(N * N, dtype=float).reshape(N, N) * (k + 1) + 0.5
+            for k, b in enumerate(ACCESS_BANDS)}  # fmt: skip
+    vals["dist_trail_m"][2, 2] = np.nan  # a trails-not-published cell stays NaN, never filled
+    path = tmp_path / "access.tif"
+    wr(path, w, vals, nodata=float("nan"))
+    return path, vals
+
+
+def test_access_bands_are_off_by_default_and_change_nothing_else(tmp_path):
+    tile, tree, flags, soil, mask, polygons = _layers(tmp_path)
+    base = read_tile(tile, tree, flags, soil, mask, BOX, polygons)
+    assert base.access.shape == (10, 0) and base.access_bands == ()
+    assert set(ACCESS_BANDS).isdisjoint(FEATURES)
+    path, vals = _access(tmp_path, tile)
+    on = read_tile(tile, tree, flags, soil, mask, BOX, polygons, access_path=path,
+                   access_bands=ACCESS_BANDS)  # fmt: skip
+    assert np.array_equal(on.features, base.features) and np.array_equal(on.code, base.code)
+    assert on.access_bands == ACCESS_BANDS and on.access.shape == (10, 3)
+    for k, b in enumerate(ACCESS_BANDS):
+        assert on.access[:, k].tolist() == pytest.approx(
+            vals[b][on.rows, on.cols].tolist(), nan_ok=True)
+    k = list(on.rows * N + on.cols).index(2 * N + 2)
+    assert np.isnan(on.access[k, 1])
+
+
+def test_the_main_access_band_is_roads_and_the_others_are_named_side_bands():
+    assert ACCESS_MAIN_BANDS == ("dist_road_m",)
+    assert ACCESS_SIDE_BANDS == ("dist_trail_m", "dist_any_m")
+
+
+def test_an_access_band_the_file_lacks_or_no_file_is_refused(tmp_path):
+    tile, tree, flags, soil, mask, polygons = _layers(tmp_path)
+    path, _ = _access(tmp_path, tile)
+    with pytest.raises(LayoutMismatch):
+        read_tile(tile, tree, flags, soil, mask, BOX, polygons, access_path=path,
+                  access_bands=("dist_rail_m",))  # fmt: skip
+    with pytest.raises(ValueError):
+        read_tile(tile, tree, flags, soil, mask, BOX, polygons, access_bands=("dist_road_m",))
