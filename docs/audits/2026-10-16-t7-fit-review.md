@@ -445,3 +445,77 @@ Premises 3) both misstate the count. **No figure depends on it:**
 - D139's 18 and 17 forested blocks stand.
 
 It is a documentation correction.
+
+## Q5. Looking at the map
+
+The images were rendered by `render.py`, my own code, and are in this folder. They are not
+published. I looked at each of them; what follows is OBSERVED by eye unless marked COMPUTED.
+
+The images are drawn in the grid's equal-area projection, so the box's edges at 49°N and −111°
+appear as slanted straight lines.
+
+| image | what it shows |
+|---|---|
+| `habitat_overview.png` | the score as its percentile among shaded cells, dark purple (low) to yellow (high), at 1.25 km |
+| `applicability_overview.png` | the codes alone |
+| `searched_overlay.png` | the same score, with shaded cells outside T6's frame in a separate blue-to-pale ramp |
+| `crop_*.png` | 150 km squares at 250 m: Puget and the border, Mount Hood, the Oregon Coast Range, the Klamath, the Idaho Batholith |
+
+**Where it is high:**
+- the northern Rockies interior: north Idaho, the Idaho Batholith, northeast Washington and
+  western Montana, broadly yellow;
+- the Blue and Wallowa Mountains;
+- the higher west-side Cascades: around Mount Hood the mid and upper west slopes are bright;
+- parts of the Olympics and the North Cascades. In the North Cascades crop the bright cells form
+  bands along valley sides, and the broad uplands between them are darker.
+
+**Where it is low:**
+- the Klamath and Siskiyou region and southwest Oregon, mostly dark blue and purple;
+- the dry east slope of the Oregon Cascades and the pine country east of it, the darkest
+  continuous band on the map;
+- scattered woodland in the Great Basin and Snake River ranges;
+- the California foothills.
+
+The Oregon Coast Range is mixed, mid-range.
+
+COMPUTED (`render.json`): the mean percentile rises from 0.31 to 0.36 between 40° and 43°N to
+0.54 to 0.60 between 44° and 49°N. By longitude it peaks at 0.64 to 0.67 between −117° and −115°.
+
+This matches Q1's block table: the map's high ground is not where people search most.
+
+**Artefacts:**
+- **Tile seams: none seen, and none measured.** The mean absolute change in percentile across
+  T6b's 256-cell tile edges is 0.1233 (columns) and 0.1235 (rows). One cell away from an edge it is
+  0.1237 and 0.1222. No straight seams are visible in any crop.
+- **Stripes: none visible.** The mean change between adjacent row means and adjacent column means
+  is under 0.008 (COMPUTED).
+- **The Canada mask edge.** The box's north edge is 49°N, so on the mainland the border and the
+  box edge coincide, and the map simply stops at a straight line. Code 3 (pale blue) shows only
+  south of 49° on southern Vancouver Island and the Gulf Islands, as expected. There is no visible
+  artefact along it. A reader will see the shading end abruptly at the border with no "Canada not
+  modelled" cue unless the legend gives one.
+- **Code 2 (outside the area of applicability)** shows as scattered single red pixels, densest in
+  the Klamath and the Siskiyous. These are speckle, not blocks.
+- **Code 4 (no host shares)** dominates the Columbia Plateau and the Great Basin as grey, as
+  expected.
+
+**Shading in forest no one searched:**
+- COMPUTED: 46% of shaded cells, 3,212,655, sit outside T6's frame. Their mean percentile is
+  0.47, against 0.53 inside.
+- COMPUTED (`q5_outside_frame_by_block.py`): 47% of the top-fifth cells are outside the frame,
+  about the same as the 46% of all shaded cells.
+- In the interior forest blocks the map ranks highest, most shaded cells are outside the frame
+  (the basin-and-range blocks run higher still, 83 to 89%, but score low):
+
+  | block | shaded cells outside the frame | mean percentile, outside the frame |
+  |---|---:|---:|
+  | Idaho Batholith | 66% | 0.67 |
+  | Canadian Rockies | 65% | 0.72 |
+  | Blue Mountains | 65% | 0.45 |
+  | Columbia Mountains/Northern Rockies | 56% | 0.58 |
+
+  It is lowest in the Puget Lowland (2%) and the Willamette Valley (1%).
+- OBSERVED: `searched_overlay.png` shows the same thing.
+
+So the map's brightest region rests largely on forest with no effort surface. That is where the
+held-out test, which needs presences, could not look (INFERRED).

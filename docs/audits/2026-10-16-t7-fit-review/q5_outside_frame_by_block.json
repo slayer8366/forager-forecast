@@ -1,0 +1,132 @@
+{
+ "top_fifth_cells_outside_frame_share": 0.4723221511270326,
+ "all_shaded_outside_frame_share": 0.4622013100706828,
+ "by_block": [
+  {
+   "block": "10.1.5 Central Basin and Range",
+   "shaded": 98100,
+   "outside_frame_share": 0.89,
+   "pct_inside_frame": 0.18118754594319714,
+   "pct_outside_frame": 0.06742124926834935
+  },
+  {
+   "block": "10.1.3 Northern Basin and Range",
+   "shaded": 165384,
+   "outside_frame_share": 0.8344579886808882,
+   "pct_inside_frame": 0.34862544993839156,
+   "pct_outside_frame": 0.18604517699831363
+  },
+  {
+   "block": "6.2.10 Middle Rockies",
+   "shaded": 639987,
+   "outside_frame_share": 0.7579341455373312,
+   "pct_inside_frame": 0.4551232035577929,
+   "pct_outside_frame": 0.41376840339935933
+  },
+  {
+   "block": "6.2.15 Idaho Batholith",
+   "shaded": 621964,
+   "outside_frame_share": 0.6614771916059451,
+   "pct_inside_frame": 0.6987584363958143,
+   "pct_outside_frame": 0.6666974009138239
+  },
+  {
+   "block": "6.2.4 Canadian Rockies",
+   "shaded": 228315,
+   "outside_frame_share": 0.6504390863499989,
+   "pct_inside_frame": 0.7532416359861408,
+   "pct_outside_frame": 0.7209612945072736
+  },
+  {
+   "block": "6.2.9 Blue Mountains",
+   "shaded": 614355,
+   "outside_frame_share": 0.6469533087547102,
+   "pct_inside_frame": 0.6048422688903717,
+   "pct_outside_frame": 0.4499050417215495
+  },
+  {
+   "block": "10.1.2 Columbia Plateau",
+   "shaded": 51165,
+   "outside_frame_share": 0.5993745724616437,
+   "pct_inside_frame": 0.20427118264536467,
+   "pct_outside_frame": 0.22561200205683257
+  },
+  {
+   "block": "6.2.8 Eastern Cascades Slopes and Foothills",
+   "shaded": 490846,
+   "outside_frame_share": 0.5760645905233006,
+   "pct_inside_frame": 0.4267610781893784,
+   "pct_outside_frame": 0.28654153202752497
+  },
+  {
+   "block": "6.2.3 Columbia Mountains/Northern Rockies",
+   "shaded": 1064670,
+   "outside_frame_share": 0.5594202898550724,
+   "pct_inside_frame": 0.6399688862984192,
+   "pct_outside_frame": 0.5838156318981363
+  },
+  {
+   "block": "11.1.1 Central California Foothills and Coastal Mountains",
+   "shaded": 41634,
+   "outside_frame_share": 0.4999039246769467,
+   "pct_inside_frame": 0.14903030094394953,
+   "pct_outside_frame": 0.14869602637666848
+  },
+  {
+   "block": "6.2.13 Wasatch and Uinta Mountains",
+   "shaded": 150084,
+   "outside_frame_share": 0.4868207137336425,
+   "pct_inside_frame": 0.41538453905975514,
+   "pct_outside_frame": 0.39436050169697306
+  },
+  {
+   "block": "6.2.12 Sierra Nevada",
+   "shaded": 24833,
+   "outside_frame_share": 0.35537389763620986,
+   "pct_inside_frame": 0.4918067493889562,
+   "pct_outside_frame": 0.4211984060004749
+  },
+  {
+   "block": "6.2.11 Klamath Mountains",
+   "shaded": 551947,
+   "outside_frame_share": 0.24342373452523522,
+   "pct_inside_frame": 0.3073015762585873,
+   "pct_outside_frame": 0.31690760760357517
+  },
+  {
+   "block": "6.2.5 North Cascades",
+   "shaded": 390699,
+   "outside_frame_share": 0.20896393387236722,
+   "pct_inside_frame": 0.596563982596085,
+   "pct_outside_frame": 0.5492030691144021
+  },
+  {
+   "block": "6.2.7 Cascades",
+   "shaded": 830535,
+   "outside_frame_share": 0.18867115774771684,
+   "pct_inside_frame": 0.5746464255167485,
+   "pct_outside_frame": 0.4895741074080164
+  },
+  {
+   "block": "7.1.8 Coastal Range",
+   "shaded": 690633,
+   "outside_frame_share": 0.1829857536491885,
+   "pct_inside_frame": 0.5408819662683062,
+   "pct_outside_frame": 0.5000841245701174
+  },
+  {
+   "block": "7.1.7 Strait of Georgia/Puget Lowland",
+   "shaded": 165897,
+   "outside_frame_share": 0.019198659409151463,
+   "pct_inside_frame": 0.43482944599117934,
+   "pct_outside_frame": 0.33620147208474005
+  },
+  {
+   "block": "7.1.9 Willamette Valley",
+   "shaded": 94176,
+   "outside_frame_share": 0.012232415902140673,
+   "pct_inside_frame": 0.4603197159059681,
+   "pct_outside_frame": 0.4252329350740997
+  }
+ ]
+}
