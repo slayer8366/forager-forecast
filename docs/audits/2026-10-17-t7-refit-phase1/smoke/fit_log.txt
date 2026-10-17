@@ -1,0 +1,126 @@
+2026-10-17T10:19:44+00:00 data: 15624 presences, 50000 background, pool 3745167
+2026-10-17T10:19:44+00:00 access: dist_road_m, monotone 0, held 258.3 m, quartiles [97.23507118225098, 701.5770568847656]
+2026-10-17T10:19:44+00:00 forested blocks: 18 in the box, 17 in the fit
+2026-10-17T10:19:52+00:00 block 4: 266 points, 6 presences, c01
+2026-10-17T10:19:59+00:00 block 5: 392 points, 15 presences, c01
+2026-10-17T10:20:06+00:00 block 6: 3 points, 0 presences, c01
+2026-10-17T10:20:13+00:00 block 7: 152 points, 6 presences, c01
+2026-10-17T10:20:20+00:00 block 8: 1 points, 0 presences, c01
+2026-10-17T10:20:26+00:00 block 10: 61 points, 7 presences, c01
+2026-10-17T10:20:33+00:00 block 15: 328 points, 37 presences, c01
+2026-10-17T10:20:40+00:00 block 16: 4 points, 1 presences, c01
+2026-10-17T10:20:46+00:00 block 109: 2186 points, 91 presences, c01
+2026-10-17T10:20:52+00:00 block 110: 6091 points, 462 presences, c01
+2026-10-17T10:20:58+00:00 block 111: 224 points, 7 presences, c01
+2026-10-17T10:21:05+00:00 block 112: 1213 points, 179 presences, c01
+2026-10-17T10:21:12+00:00 block 114: 3223 points, 410 presences, c01
+2026-10-17T10:21:18+00:00 block 116: 6796 points, 463 presences, c01
+2026-10-17T10:21:25+00:00 block 117: 1101 points, 53 presences, c01
+2026-10-17T10:21:31+00:00 block 118: 5558 points, 1422 presences, c01
+2026-10-17T10:21:39+00:00 block 120: 12073 points, 3137 presences, c01
+2026-10-17T10:21:45+00:00 block 121: 3026 points, 229 presences, c01
+2026-10-17T10:21:52+00:00 block 122: 3007 points, 141 presences, c01
+2026-10-17T10:21:58+00:00 block 129: 4518 points, 2330 presences, c01
+2026-10-17T10:22:04+00:00 block 130: 13488 points, 5992 presences, c01
+2026-10-17T10:22:10+00:00 block 131: 1895 points, 636 presences, c01
+2026-10-17T10:22:17+00:00 block 171: 1 points, 0 presences, c01
+2026-10-17T10:22:23+00:00 block 172: 17 points, 0 presences, c01
+2026-10-17T10:22:23+00:00 A: effort only: 159 s, pooled AUC 0.8877, within-weather-cell AUC 0.6367 [0.6202, 0.6584]
+2026-10-17T10:22:31+00:00 block 4: 266 points, 6 presences, c01
+2026-10-17T10:22:38+00:00 block 5: 392 points, 15 presences, c01
+2026-10-17T10:22:45+00:00 block 6: 3 points, 0 presences, c01
+2026-10-17T10:22:53+00:00 block 7: 152 points, 6 presences, c01
+2026-10-17T10:23:00+00:00 block 8: 1 points, 0 presences, c01
+2026-10-17T10:23:07+00:00 block 10: 61 points, 7 presences, c01
+2026-10-17T10:23:14+00:00 block 15: 328 points, 37 presences, c01
+2026-10-17T10:23:21+00:00 block 16: 4 points, 1 presences, c01
+2026-10-17T10:23:28+00:00 block 109: 2186 points, 91 presences, c01
+2026-10-17T10:23:35+00:00 block 110: 6091 points, 462 presences, c01
+2026-10-17T10:23:42+00:00 block 111: 224 points, 7 presences, c01
+2026-10-17T10:23:49+00:00 block 112: 1213 points, 179 presences, c01
+2026-10-17T10:23:55+00:00 block 114: 3223 points, 410 presences, c01
+2026-10-17T10:24:02+00:00 block 116: 6796 points, 463 presences, c01
+2026-10-17T10:24:09+00:00 block 117: 1101 points, 53 presences, c01
+2026-10-17T10:24:15+00:00 block 118: 5558 points, 1422 presences, c01
+2026-10-17T10:24:21+00:00 block 120: 12073 points, 3137 presences, c01
+2026-10-17T10:24:28+00:00 block 121: 3026 points, 229 presences, c01
+2026-10-17T10:24:35+00:00 block 122: 3007 points, 141 presences, c01
+2026-10-17T10:24:42+00:00 block 129: 4518 points, 2330 presences, c01
+2026-10-17T10:24:48+00:00 block 130: 13488 points, 5992 presences, c01
+2026-10-17T10:24:54+00:00 block 131: 1895 points, 636 presences, c01
+2026-10-17T10:25:01+00:00 block 171: 1 points, 0 presences, c01
+2026-10-17T10:25:08+00:00 block 172: 17 points, 0 presences, c01
+2026-10-17T10:25:08+00:00 B: forest only: 165 s, pooled AUC 0.8886, within-weather-cell AUC 0.6249 [0.6066, 0.6445]
+2026-10-17T10:25:19+00:00 block 4: 266 points, 6 presences, c01
+2026-10-17T10:25:30+00:00 block 5: 392 points, 15 presences, c01
+2026-10-17T10:25:41+00:00 block 6: 3 points, 0 presences, c01
+2026-10-17T10:25:52+00:00 block 7: 152 points, 6 presences, c01
+2026-10-17T10:26:02+00:00 block 8: 1 points, 0 presences, c01
+2026-10-17T10:26:12+00:00 block 10: 61 points, 7 presences, c01
+2026-10-17T10:26:23+00:00 block 15: 328 points, 37 presences, c01
+2026-10-17T10:26:34+00:00 block 16: 4 points, 1 presences, c01
+2026-10-17T10:26:44+00:00 block 109: 2186 points, 91 presences, c01
+2026-10-17T10:26:55+00:00 block 110: 6091 points, 462 presences, c01
+2026-10-17T10:27:05+00:00 block 111: 224 points, 7 presences, c01
+2026-10-17T10:27:16+00:00 block 112: 1213 points, 179 presences, c01
+2026-10-17T10:27:26+00:00 block 114: 3223 points, 410 presences, c01
+2026-10-17T10:27:35+00:00 block 116: 6796 points, 463 presences, c01
+2026-10-17T10:27:46+00:00 block 117: 1101 points, 53 presences, c01
+2026-10-17T10:27:56+00:00 block 118: 5558 points, 1422 presences, c01
+2026-10-17T10:28:05+00:00 block 120: 12073 points, 3137 presences, c01
+2026-10-17T10:28:15+00:00 block 121: 3026 points, 229 presences, c01
+2026-10-17T10:28:26+00:00 block 122: 3007 points, 141 presences, c01
+2026-10-17T10:28:36+00:00 block 129: 4518 points, 2330 presences, c01
+2026-10-17T10:28:44+00:00 block 130: 13488 points, 5992 presences, c01
+2026-10-17T10:28:55+00:00 block 131: 1895 points, 636 presences, c01
+2026-10-17T10:29:06+00:00 block 171: 1 points, 0 presences, c01
+2026-10-17T10:29:16+00:00 block 172: 17 points, 0 presences, c01
+2026-10-17T10:29:16+00:00 base: 248 s, pooled AUC 0.8890, within-weather-cell AUC 0.6433 [0.6264, 0.6614]
+2026-10-17T10:29:43+00:00 base + share_Larix: difference -0.0009 [-0.0014, -0.0004]
+2026-10-17T10:30:10+00:00 base + share_Betula: difference -0.0016 [-0.0020, -0.0011]
+2026-10-17T10:30:36+00:00 base + share_Populus: difference -0.0014 [-0.0021, -0.0009]
+2026-10-17T10:31:02+00:00 base + share_Alnus: difference -0.0026 [-0.0034, -0.0020]
+2026-10-17T10:31:29+00:00 base + share_Lithocarpus: difference -0.0007 [-0.0012, -0.0001]
+2026-10-17T10:31:56+00:00 base + share_Chrysolepis: difference -0.0006 [-0.0011, -0.0002]
+2026-10-17T10:32:21+00:00 base + share_Arbutus: difference -0.0010 [-0.0015, -0.0006]
+2026-10-17T10:32:49+00:00 base + share_ecm_hosts: difference -0.0007 [-0.0016, -0.0001]
+2026-10-17T10:32:51+00:00 P10 (D140, reported beside, no verdict): fail
+2026-10-17T10:32:51+00:00 full minus A, all blocks, block-clustered: +0.00133 [-0.00196, +0.00762]
+2026-10-17T10:32:51+00:00 full minus B, all blocks, block-clustered: +0.00035 [-0.00161, +0.00432]
+2026-10-17T10:32:51+00:00 full minus A, forested blocks, block-clustered: +0.00121 [-0.00242, +0.01039]
+2026-10-17T10:32:51+00:00 full minus B, forested blocks, block-clustered: +0.00030 [-0.00215, +0.00635]
+2026-10-17T10:32:51+00:00 base minus B: weather cell +0.00035 [-0.00156, +0.00203], block-clustered +0.00035 [-0.00161, +0.00432]
+2026-10-17T10:32:51+00:00 within one weather cell (pair weight share 0.02630%): A 0.6367 [0.6202, 0.6584], B 0.6249 [0.6066, 0.6445], base 0.6433 [0.6264, 0.6614], full 0.6433 [0.6264, 0.6614]; full minus A +0.00660 [-0.01035, +0.02756], full minus B +0.01840 [+0.00426, +0.03545]
+2026-10-17T10:33:02+00:00 final full model: c01, 11 s
+2026-10-17T10:33:05+00:00 area of applicability: threshold 0.2157, 3 s
+2026-10-17T10:33:14+00:00 data: 17261 presences, 50000 background, pool 3745167
+2026-10-17T10:34:15+00:00 M2 side run: {'full': 0.8896598351375548, 'A: effort only': 0.88848250817938, 'B: forest only': 0.8894667677718343}
+2026-10-17T10:34:25+00:00 data: 1586 presences, 19260 background, pool 3745167
+2026-10-17T10:34:40+00:00 licence track: {'full': 0.8443553005298645, 'A: effort only': 0.8362669116833199, 'B: forest only': 0.8433289715534478}
+2026-10-17T10:34:49+00:00 data: 606 presences, 50000 background, pool 3745167
+2026-10-17T10:35:32+00:00 comparison group: {'full': 0.8716687788784787, 'A: effort only': 0.8474188118812899, 'B: forest only': 0.8559828052810762}
+2026-10-17T10:35:41+00:00 data: 9591 presences, 50000 background, pool 3745167
+2026-10-17T10:36:31+00:00 saprotroph main: {'full': 0.9208765508530219, 'A: effort only': 0.9200709068055198, 'B: forest only': 0.9190316163885611}
+2026-10-17T10:36:40+00:00 data: 14163 presences, 50000 background, pool 3745167
+2026-10-17T10:37:34+00:00 saprotroph side: {'full': 0.9199419216611538, 'A: effort only': 0.9195599605863818, 'B: forest only': 0.9191038205945735}
+2026-10-17T10:37:42+00:00 data: 15624 presences, 50000 background, pool 3745167
+2026-10-17T10:38:40+00:00 trails side check: {'full': 0.908893752722916, 'A: effort only': 0.9085936810223776, 'B: forest only': 0.9083088198592353}
+2026-10-17T10:38:40+00:00 condition 3: contrast +0.00052 [-0.00239, +0.00589]; over 13 shared forested blocks +0.00056 [-0.00231, +0.00771]
+2026-10-17T10:38:40+00:00 P10b: fail
+2026-10-17T10:38:49+00:00 map pass 500000 of 6967248, 8 s
+2026-10-17T10:38:58+00:00 map pass 1000000 of 6967248, 17 s
+2026-10-17T10:39:07+00:00 map pass 1500000 of 6967248, 26 s
+2026-10-17T10:39:15+00:00 map pass 2000000 of 6967248, 34 s
+2026-10-17T10:39:23+00:00 map pass 2500000 of 6967248, 42 s
+2026-10-17T10:39:31+00:00 map pass 3000000 of 6967248, 50 s
+2026-10-17T10:39:40+00:00 map pass 3500000 of 6967248, 59 s
+2026-10-17T10:39:49+00:00 map pass 4000000 of 6967248, 68 s
+2026-10-17T10:39:58+00:00 map pass 4500000 of 6967248, 77 s
+2026-10-17T10:40:08+00:00 map pass 5000000 of 6967248, 87 s
+2026-10-17T10:40:17+00:00 map pass 5500000 of 6967248, 96 s
+2026-10-17T10:40:26+00:00 map pass 6000000 of 6967248, 105 s
+2026-10-17T10:40:35+00:00 map pass 6500000 of 6967248, 114 s
+2026-10-17T10:40:43+00:00 map pass 6967248 of 6967248, 122 s
+2026-10-17T10:40:52+00:00 P6: ranking same at effort quartiles True, at access quartiles True
+2026-10-17T10:41:21+00:00 rasters written: {'relative_habitat_pnw.tif': 'a279d0e3028acf318bed0f4b4ec3a197719908accb6b0ddc9cb18eb163806868', 'applicability_pnw.tif': 'cc59c742b6415b17df834bdcb24178a4d50ba35184d923f302064e36bfc66cb0'}
+2026-10-17T10:41:44+00:00 manifest eb08f1205c60710ba6b3b564d5f7c386a8e2521008c1287ecd341c2f76b86c8f; done in 1330 s
