@@ -1,0 +1,25 @@
+Revert checks on c67b608 (runner revert_one.sh beside this file: scratch worktree and branch per edit, compile/collection log read first, restore from a saved copy, forward line confirmed after). Tests: tests/test_t7_saprotroph_group.py (7).
+== p1-unspecified-in: unspecified_saprotroph added to the lifestyles
+tests 7 failures 3 errors 0
+  FAIL test_the_rule_takes_litter_and_soil_mushroom_formers_and_splits_main_from_side | AssertionError: assert ('Litter', 'S...'Unspecified') == ('Litter', 'S...'SoilComment')
+  FAIL test_unspecified_saprotroph_and_non_mushroom_formers_are_out | AssertionError: assert not ({'EcmComment', 'EcmSecond', 'Litter', 'LitterSecond', 'Soil', 'SoilComment', ...} & {'Ecm', 'Flat', 'NoFruit', 'Unspecified', 'Wood'
+  FAIL test_on_the_committed_export_the_nine_are_out_and_669_genera_meet_d146 | AssertionError: assert ((571 + 129) + 9) == 669
+== p2-nine-kept: the ectomycorrhizal-secondary/comment exclusion removed
+tests 7 failures 3 errors 0
+  FAIL test_the_rule_takes_litter_and_soil_mushroom_formers_and_splits_main_from_side | AssertionError: assert ('EcmComment'...'SoilComment') == ('Litter', 'S...'SoilComment')
+  FAIL test_on_the_committed_export_the_nine_are_out_and_669_genera_meet_d146 | AssertionError: assert set() == {'Ceratorhiza...ydropus', ...}
+  FAIL test_on_the_committed_export_the_group_shares_no_genus_with_the_mycorrhizal_group | AssertionError: assert {'Ceratorhiza... 'mixed', ...} == {}
+== p3-secondary-in-main: genera with a secondary lifestyle put in the main run
+tests 7 failures 2 errors 0
+  FAIL test_the_rule_takes_litter_and_soil_mushroom_formers_and_splits_main_from_side | AssertionError: assert ('Litter', 'L...'SoilComment') == ('Litter', 'S...'SoilComment')
+  FAIL test_on_the_committed_export_the_nine_are_out_and_669_genera_meet_d146 | assert False
+== p4-overlap-blind: the overlap check never matches
+tests 7 failures 2 errors 0
+  FAIL test_the_overlap_check_names_any_genus_the_list_classes_ectomycorrhizal | AssertionError: assert {} == {'A': 'clear', 'B': 'mixed'}
+  FAIL test_on_the_committed_export_the_group_shares_no_genus_with_the_mycorrhizal_group | assert 0 == 9
+== p5-multirow-resolved: a qualifying genus on two rows not refused
+tests 7 failures 1 errors 0
+  FAIL test_a_qualifying_genus_on_two_rows_is_refused_not_resolved | Failed: DID NOT RAISE ValueError
+== p6-side-without-secondary: the side run without the secondary-lifestyle genera
+tests 7 failures 1 errors 0
+  FAIL test_the_count_runs_the_group_by_genus_through_the_v9_join | AssertionError: assert ('Litter', 'Soil') == ('Litter', 'L...cond', 'Soil')

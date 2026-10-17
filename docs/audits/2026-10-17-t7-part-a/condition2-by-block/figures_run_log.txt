@@ -1,0 +1,7 @@
+2026-10-17T07:49:57Z
+data: 15624 presences, 500000 background, pool 3745167
+data: 17261 presences, 500000 background, pool 3745167
+data: 1586 presences, 192593 background, pool 3745167
+data: 606 presences, 500000 background, pool 3745167
+exit 0
+2026-10-17T08:02:54Z

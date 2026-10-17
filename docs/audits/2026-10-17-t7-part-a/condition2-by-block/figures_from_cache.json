@@ -1,0 +1,430 @@
+{
+ "written_utc": "2026-10-17T07:50:08+00:00",
+ "code_commit": "691d2ee709e365ab9956e0a525ec681a2499a5aa",
+ "cache": "/mnt/work/Zynergy/forecast-data/t7/fit/cache",
+ "resamples": 1000,
+ "seed": 20260918,
+ "main": {
+  "presences": 15624,
+  "background": 500000,
+  "pooled_auc": {
+   "A: effort only": 0.8772775527294848,
+   "B: forest only": 0.8788028832027539,
+   "base": 0.8796109760277251,
+   "full": 0.8814635130077574
+  },
+  "base_minus_B": {
+   "weather_cell": {
+    "point": 0.000808092824971185,
+    "low": -0.000934817942425012,
+    "high": 0.0025604614261054144,
+    "resamples": 1000,
+    "interval_wholly_above_zero": false
+   },
+   "block_clustered": {
+    "point": 0.000808092824971185,
+    "low": -0.0017769235388682564,
+    "high": 0.0056843687206108605,
+    "resamples": 1000,
+    "interval_wholly_above_zero": false
+   }
+  },
+  "within_weather_cell": {
+   "clusters": "weather cell",
+   "auc": {
+    "A": {
+     "point": 0.4938638679231082,
+     "low": 0.48986870310578357,
+     "high": 0.49800444981903697,
+     "resamples": 1000
+    },
+    "B": {
+     "point": 0.5004775447568982,
+     "low": 0.482558302453864,
+     "high": 0.5188747683379737,
+     "resamples": 1000
+    },
+    "base": {
+     "point": 0.5388337519067936,
+     "low": 0.5204949812561595,
+     "high": 0.5549766629357393,
+     "resamples": 1000
+    },
+    "full": {
+     "point": 0.5478859154264852,
+     "low": 0.5296673927694763,
+     "high": 0.5637700337736491,
+     "resamples": 1000
+    }
+   },
+   "pair_mass_share": 0.00026520993383996155,
+   "full_minus_A": {
+    "point": 0.054022047503377,
+    "low": 0.03542414856347533,
+    "high": 0.07053235642562138,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "full_minus_B": {
+    "point": 0.04740837066958707,
+    "low": 0.029321249606102776,
+    "high": 0.06511535587387755,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   }
+  },
+  "within_weather_cell_block_clustered": {
+   "pairs": "inside one weather cell",
+   "resampled": "level III block, rows weighted by their block's draw count",
+   "full_minus_A": {
+    "point": 0.054022047503377,
+    "low": 0.016011783364602374,
+    "high": 0.06389056725957379,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "full_minus_B": {
+    "point": 0.04740837066958703,
+    "low": -0.0043178995884970515,
+    "high": 0.07619553091088255,
+    "resamples": 1000,
+    "interval_wholly_above_zero": false
+   }
+  },
+  "block_clustered": {
+   "all": {
+    "A": {
+     "point": 0.00418596027827256,
+     "low": -0.0006251460355905255,
+     "high": 0.011998204386645084,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    },
+    "B": {
+     "point": 0.0026606298050034782,
+     "low": -0.0004122902433453839,
+     "high": 0.008113959951897261,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    }
+   },
+   "forested": {
+    "A": {
+     "point": 0.004075257778394681,
+     "low": -0.0009100223690424947,
+     "high": 0.01151655464645974,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    },
+    "B": {
+     "point": 0.002655721457776705,
+     "low": -0.00013310664790354881,
+     "high": 0.008260886377679173,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    }
+   }
+  }
+ },
+ "side_runs": {
+  "M2 side run": {
+   "presences": 17261,
+   "background": 500000,
+   "pooled_auc": {
+    "full": 0.8815304570579369,
+    "A: effort only": 0.8775892789789644,
+    "B: forest only": 0.8792802701015939
+   },
+   "within_weather_cell": {
+    "clusters": "weather cell",
+    "auc": {
+     "A": {
+      "point": 0.4959262407247363,
+      "low": 0.4916390266960309,
+      "high": 0.4999100238136895,
+      "resamples": 1000
+     },
+     "B": {
+      "point": 0.5062784834073946,
+      "low": 0.48844172938632974,
+      "high": 0.5231843885547424,
+      "resamples": 1000
+     },
+     "full": {
+      "point": 0.5506461449299948,
+      "low": 0.5336992486181729,
+      "high": 0.565742842692089,
+      "resamples": 1000
+     }
+    },
+    "pair_mass_share": 0.00026676750364353785,
+    "full_minus_A": {
+     "point": 0.0547199042052585,
+     "low": 0.037189687287751474,
+     "high": 0.07063861901133678,
+     "resamples": 1000,
+     "interval_wholly_above_zero": true
+    },
+    "full_minus_B": {
+     "point": 0.04436766152260009,
+     "low": 0.026056063093011735,
+     "high": 0.0627124715189493,
+     "resamples": 1000,
+     "interval_wholly_above_zero": true
+    }
+   },
+   "within_weather_cell_block_clustered": {
+    "pairs": "inside one weather cell",
+    "resampled": "level III block, rows weighted by their block's draw count",
+    "full_minus_A": {
+     "point": 0.054719904205258504,
+     "low": 0.007204308092919689,
+     "high": 0.06940217092766943,
+     "resamples": 1000,
+     "interval_wholly_above_zero": true
+    },
+    "full_minus_B": {
+     "point": 0.04436766152260002,
+     "low": -0.005063214818237536,
+     "high": 0.07126585599738407,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    }
+   },
+   "block_clustered": {
+    "all": {
+     "A": {
+      "point": 0.003941178078972429,
+      "low": -0.00024618983172707383,
+      "high": 0.01091289000657064,
+      "resamples": 1000,
+      "interval_wholly_above_zero": false
+     },
+     "B": {
+      "point": 0.0022501869563429366,
+      "low": -0.0005869214467362288,
+      "high": 0.0072235413795693915,
+      "resamples": 1000,
+      "interval_wholly_above_zero": false
+     }
+    },
+    "forested": {
+     "A": {
+      "point": 0.003797085176416859,
+      "low": -0.0004700040771912679,
+      "high": 0.010464793169452057,
+      "resamples": 1000,
+      "interval_wholly_above_zero": false
+     },
+     "B": {
+      "point": 0.0021936210486028784,
+      "low": -0.00035655009451596154,
+      "high": 0.007262976728434704,
+      "resamples": 1000,
+      "interval_wholly_above_zero": false
+     }
+    }
+   }
+  },
+  "licence track": {
+   "presences": 1586,
+   "background": 192593,
+   "pooled_auc": {
+    "full": 0.8344295331319701,
+    "A: effort only": 0.8149983250161844,
+    "B: forest only": 0.8262406859727756
+   },
+   "within_weather_cell": {
+    "clusters": "weather cell",
+    "auc": {
+     "A": {
+      "point": 0.49452149335218953,
+      "low": 0.4854745339819026,
+      "high": 0.5028360635008705,
+      "resamples": 1000
+     },
+     "B": {
+      "point": 0.5451893478818087,
+      "low": 0.5135568310816107,
+      "high": 0.5743493773807274,
+      "resamples": 1000
+     },
+     "full": {
+      "point": 0.5801118837127759,
+      "low": 0.5473944015471593,
+      "high": 0.6133622111724492,
+      "resamples": 1000
+     }
+    },
+    "pair_mass_share": 0.0006954176551648163,
+    "full_minus_A": {
+     "point": 0.08559039036058635,
+     "low": 0.05211808397207272,
+     "high": 0.11948217438099784,
+     "resamples": 1000,
+     "interval_wholly_above_zero": true
+    },
+    "full_minus_B": {
+     "point": 0.034922535830967126,
+     "low": 0.004433580163911355,
+     "high": 0.07120603871359876,
+     "resamples": 1000,
+     "interval_wholly_above_zero": true
+    }
+   },
+   "within_weather_cell_block_clustered": {
+    "pairs": "inside one weather cell",
+    "resampled": "level III block, rows weighted by their block's draw count",
+    "full_minus_A": {
+     "point": 0.08559039036058627,
+     "low": 0.01963262222263069,
+     "high": 0.10835227745227956,
+     "resamples": 1000,
+     "interval_wholly_above_zero": true
+    },
+    "full_minus_B": {
+     "point": 0.034922535830967175,
+     "low": -0.025315546217840365,
+     "high": 0.0770891991023387,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    }
+   },
+   "block_clustered": {
+    "all": {
+     "A": {
+      "point": 0.019431208115785692,
+      "low": 0.006626566976455858,
+      "high": 0.05034168718602332,
+      "resamples": 1000,
+      "interval_wholly_above_zero": true
+     },
+     "B": {
+      "point": 0.008188847159194546,
+      "low": -0.004956433879705822,
+      "high": 0.03189454089478929,
+      "resamples": 1000,
+      "interval_wholly_above_zero": false
+     }
+    },
+    "forested": {
+     "A": {
+      "point": 0.018812293142872694,
+      "low": 0.005802221241927776,
+      "high": 0.04863898350010456,
+      "resamples": 1000,
+      "interval_wholly_above_zero": true
+     },
+     "B": {
+      "point": 0.007957263504496215,
+      "low": -0.005003776174612963,
+      "high": 0.027723339537192627,
+      "resamples": 1000,
+      "interval_wholly_above_zero": false
+     }
+    }
+   }
+  },
+  "comparison group": {
+   "presences": 606,
+   "background": 500000,
+   "pooled_auc": {
+    "full": 0.8670487970237547,
+    "A: effort only": 0.8438350148514819,
+    "B: forest only": 0.8516993168304194
+   },
+   "within_weather_cell": {
+    "clusters": "weather cell",
+    "auc": {
+     "A": {
+      "point": 0.48290304467897166,
+      "low": 0.4733494026656383,
+      "high": 0.492625967991456,
+      "resamples": 1000
+     },
+     "B": {
+      "point": 0.511499192131035,
+      "low": 0.4804386180327381,
+      "high": 0.5432503309691529,
+      "resamples": 1000
+     },
+     "full": {
+      "point": 0.5420949499745648,
+      "low": 0.5082089490672856,
+      "high": 0.574338851902905,
+      "resamples": 1000
+     }
+    },
+    "pair_mass_share": 0.00028800990099009843,
+    "full_minus_A": {
+     "point": 0.05919190529559314,
+     "low": 0.02147323026236634,
+     "high": 0.09426177870818053,
+     "resamples": 1000,
+     "interval_wholly_above_zero": true
+    },
+    "full_minus_B": {
+     "point": 0.030595757843529758,
+     "low": -0.004083471426250606,
+     "high": 0.0646140304170054,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    }
+   },
+   "within_weather_cell_block_clustered": {
+    "pairs": "inside one weather cell",
+    "resampled": "level III block, rows weighted by their block's draw count",
+    "full_minus_A": {
+     "point": 0.05919190529559314,
+     "low": 0.0011529494479034165,
+     "high": 0.08956584706067211,
+     "resamples": 1000,
+     "interval_wholly_above_zero": true
+    },
+    "full_minus_B": {
+     "point": 0.03059575784352982,
+     "low": -0.031403217868565536,
+     "high": 0.08660110655311054,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    }
+   },
+   "block_clustered": {
+    "all": {
+     "A": {
+      "point": 0.023213782172272768,
+      "low": -0.0017809529733632033,
+      "high": 0.053044683831147535,
+      "resamples": 1000,
+      "interval_wholly_above_zero": false
+     },
+     "B": {
+      "point": 0.015349480193335263,
+      "low": -0.010155790326259755,
+      "high": 0.02808502532981438,
+      "resamples": 1000,
+      "interval_wholly_above_zero": false
+     }
+    },
+    "forested": {
+     "A": {
+      "point": 0.023461886499158258,
+      "low": -0.0008524905297349806,
+      "high": 0.0517320924559586,
+      "resamples": 1000,
+      "interval_wholly_above_zero": false
+     },
+     "B": {
+      "point": 0.01589990126344032,
+      "low": -0.008055598437126185,
+      "high": 0.02936220257690375,
+      "resamples": 1000,
+      "interval_wholly_above_zero": false
+     }
+    }
+   }
+  }
+ },
+ "seconds": 776,
+ "peak_rss_mb": 1013.4
+}
