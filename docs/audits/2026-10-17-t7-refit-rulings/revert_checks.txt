@@ -1,0 +1,67 @@
+revert checks at 1fe707f, test file tests/test_t7_condition4.py
+
+[c1] the circle ignored: own cell only (src/forager_forecast/t7/condition4.py)
+  compile rc 0 
+  import rc 0, model imported from /mnt/work/Zynergy/tmp-pytest-refit/scratch/revert-refit-c1/src/forager_forecast/t7/model.py
+  tests 7, failures 1, errors 0
+    FAILED test_circle_mean_averages_the_cells_whose_centres_lie_within_the_radius: assert 40.0 == 42.25 ± 4.2e-05      comparison failed   Obtained: 40.0   Expected: 42.25 ± 4.2e-05
+  restored from saved copy: equal True, forward text present True
+
+[c2] the point's own cell no longer always included (src/forager_forecast/t7/condition4.py)
+  compile rc 0 
+  import rc 0, model imported from /mnt/work/Zynergy/tmp-pytest-refit/scratch/revert-refit-c2/src/forager_forecast/t7/model.py
+  tests 7, failures 1, errors 0
+    FAILED test_circle_mean_always_includes_the_points_own_cell: assert nan == 40.0  +  where nan = <function circle_mean at 0x7f06c79cfed0>(array([[ 0.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.],\n       [ 9., 10., 11., 12., 13., 14., 15., 16., 17.],\n       [18...   [63., 64., 65., 66
+  restored from saved copy: equal True, forward text present True
+
+[c3] masked cells no longer left out of the mean (src/forager_forecast/t7/condition4.py)
+  compile rc 0 
+  import rc 0, model imported from /mnt/work/Zynergy/tmp-pytest-refit/scratch/revert-refit-c3/src/forager_forecast/t7/model.py
+  tests 7, failures 2, errors 0
+    FAILED test_circle_mean_averages_the_cells_whose_centres_lie_within_the_radius: assert nan == 42.25 ± 4.2e-05      comparison failed   Obtained: nan   Expected: 42.25 ± 4.2e-05
+    FAILED test_condition_4_scores_specimens_against_matched_background_whole_box_and_interior: RuntimeError: a scorable point has no map value in its circle
+  restored from saved copy: equal True, forward text present True
+
+[c4] background no longer matched to the road band (src/forager_forecast/t7/condition4.py)
+  compile rc 0 
+  import rc 0, model imported from /mnt/work/Zynergy/tmp-pytest-refit/scratch/revert-refit-c4/src/forager_forecast/t7/model.py
+  tests 7, failures 2, errors 0
+    FAILED test_background_matches_the_specimens_road_mix_and_carries_their_radii: assert [0, 1, 1, 1, 1, 2, ...] == [0, 0, 0, 0, 0, 0, ...]      At index 1 diff: 1 != 0   Use -v to get more diff
+    FAILED test_condition_4_scores_specimens_against_matched_background_whole_box_and_interior: assert {2: 4, 3: 50, 4: 106, 5: 140} == {3: 15, 4: 95, 5: 190}      Differing items:   {3: 50} != {3: 15}   {4: 106} != {4: 95}   {5: 140} != {5: 190}   Left contains 1 more item:   {2: 4}   Use -v to get more diff
+  restored from saved copy: equal True, forward text present True
+
+[c5] background no longer carrying its specimen's radius (src/forager_forecast/t7/condition4.py)
+  compile rc 0 
+  import rc 0, model imported from /mnt/work/Zynergy/tmp-pytest-refit/scratch/revert-refit-c5/src/forager_forecast/t7/model.py
+  tests 7, failures 1, errors 0
+    FAILED test_background_matches_the_specimens_road_mix_and_carries_their_radii: assert [400.0, 400.0...0, 400.0, ...] == [100.0, 100.0...0, 200.0, ...]      At index 0 diff: 400.0 != 100.0   Use -v to get more diff
+  restored from saved copy: equal True, forward text present True
+
+[c6] condition 4's interval resampling rows, not blocks (src/forager_forecast/t7/metrics.py)
+  compile rc 0 
+  import rc 0, model imported from /mnt/work/Zynergy/tmp-pytest-refit/scratch/revert-refit-c6/src/forager_forecast/t7/model.py
+  tests 7, failures 1, errors 0
+    FAILED test_auc_above_half_is_the_auc_minus_one_half_with_a_block_interval: assert (0.2157926461...6531255967011) == approx((0.215...53 ± 2.5e-07))      comparison failed. Mismatched elements: 2 / 3:   Max absolute difference: 0.023567834298799217   Max relative difference: 0.154211399529255   I
+  restored from saved copy: equal True, forward text present True
+
+[c7] the interior set no longer the interior specimens (src/forager_forecast/t7/condition4.py)
+  compile rc 0 
+  import rc 0, model imported from /mnt/work/Zynergy/tmp-pytest-refit/scratch/revert-refit-c7/src/forager_forecast/t7/model.py
+  tests 7, failures 1, errors 0
+    FAILED test_condition_4_scores_specimens_against_matched_background_whole_box_and_interior: assert (60 == 26)
+  restored from saved copy: equal True, forward text present True
+
+[c8] P10b no longer taking condition 4 (scripts/t7_fit.py)
+  compile rc 0 
+  import rc 0, model imported from /mnt/work/Zynergy/tmp-pytest-refit/scratch/revert-refit-c8/src/forager_forecast/t7/model.py
+  tests 7, failures 1, errors 0
+    FAILED test_p10b_takes_condition_4_when_computed: AssertionError: assert 'pass' == 'fail'      - fail   + pass
+  restored from saved copy: equal True, forward text present True
+
+[c9] specimens on cells with no map value no longer dropped (src/forager_forecast/t7/condition4.py)
+  compile rc 0 
+  import rc 0, model imported from /mnt/work/Zynergy/tmp-pytest-refit/scratch/revert-refit-c9/src/forager_forecast/t7/model.py
+  tests 7, failures 1, errors 0
+    FAILED test_condition_4_scores_specimens_against_matched_background_whole_box_and_interior: RuntimeError: a scorable point has no map value in its circle
+  restored from saved copy: equal True, forward text present True
+

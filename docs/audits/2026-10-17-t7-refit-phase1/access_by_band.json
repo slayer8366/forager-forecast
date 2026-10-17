@@ -1,0 +1,288 @@
+{
+ "note": "descriptive; no model fitted; road band dist_road_m; weights as fitted",
+ "mycorrhizal main": {
+  "bands": [
+   {
+    "band_m": [
+     0,
+     50
+    ],
+    "presences": 4171,
+    "background": 70104,
+    "presence_weight_share": 0.2695744192965296,
+    "background_weight_share": 0.140208,
+    "ratio": 1.922675020658804
+   },
+   {
+    "band_m": [
+     50,
+     100
+    ],
+    "presences": 2801,
+    "background": 57781,
+    "presence_weight_share": 0.17829846737571906,
+    "background_weight_share": 0.11556200000000001,
+    "ratio": 1.542881460823792
+   },
+   {
+    "band_m": [
+     100,
+     250
+    ],
+    "presences": 4063,
+    "background": 117573,
+    "presence_weight_share": 0.2615017437304063,
+    "background_weight_share": 0.23514600000000005,
+    "ratio": 1.1120824667670564
+   },
+   {
+    "band_m": [
+     250,
+     500
+    ],
+    "presences": 2372,
+    "background": 92510,
+    "presence_weight_share": 0.15368466052226692,
+    "background_weight_share": 0.18502,
+    "ratio": 0.8306380960018751
+   },
+   {
+    "band_m": [
+     500,
+     1000
+    ],
+    "presences": 1056,
+    "background": 68766,
+    "presence_weight_share": 0.06121673073605638,
+    "background_weight_share": 0.13753200000000002,
+    "ratio": 0.44510899816810906
+   },
+   {
+    "band_m": [
+     1000,
+     2000
+    ],
+    "presences": 626,
+    "background": 43123,
+    "presence_weight_share": 0.04213036440633645,
+    "background_weight_share": 0.086246,
+    "ratio": 0.4884906477556808
+   },
+   {
+    "band_m": [
+     2000,
+     5000
+    ],
+    "presences": 432,
+    "background": 33529,
+    "presence_weight_share": 0.027229634363406932,
+    "background_weight_share": 0.067058,
+    "ratio": 0.4060609377465318
+   },
+   {
+    "band_m": [
+     5000,
+     null
+    ],
+    "presences": 103,
+    "background": 16614,
+    "presence_weight_share": 0.006363979569278285,
+    "background_weight_share": 0.03322800000000001,
+    "ratio": 0.19152460482961006
+   }
+  ],
+  "weather_cells_with_both": 1860,
+  "cells_presence_median_nearer_road": 1366,
+  "cells_presence_median_farther_from_road": 494
+ },
+ "saprotroph main": {
+  "bands": [
+   {
+    "band_m": [
+     0,
+     50
+    ],
+    "presences": 2735,
+    "background": 70104,
+    "presence_weight_share": 0.29548999772712564,
+    "background_weight_share": 0.14020800000000005,
+    "ratio": 2.1075116806967187
+   },
+   {
+    "band_m": [
+     50,
+     100
+    ],
+    "presences": 1805,
+    "background": 57781,
+    "presence_weight_share": 0.18641016698635085,
+    "background_weight_share": 0.115562,
+    "ratio": 1.613074946663703
+   },
+   {
+    "band_m": [
+     100,
+     250
+    ],
+    "presences": 2853,
+    "background": 117573,
+    "presence_weight_share": 0.29373341177138407,
+    "background_weight_share": 0.235146,
+    "ratio": 1.2491533420572074
+   },
+   {
+    "band_m": [
+     250,
+     500
+    ],
+    "presences": 1451,
+    "background": 92510,
+    "presence_weight_share": 0.14367178063016312,
+    "background_weight_share": 0.18502000000000002,
+    "ratio": 0.7765202714850454
+   },
+   {
+    "band_m": [
+     500,
+     1000
+    ],
+    "presences": 496,
+    "background": 68766,
+    "presence_weight_share": 0.05176783531822856,
+    "background_weight_share": 0.13753200000000002,
+    "ratio": 0.3764057478857906
+   },
+   {
+    "band_m": [
+     1000,
+     2000
+    ],
+    "presences": 172,
+    "background": 43123,
+    "presence_weight_share": 0.017809763700460172,
+    "background_weight_share": 0.08624600000000002,
+    "ratio": 0.20649959071099144
+   },
+   {
+    "band_m": [
+     2000,
+     5000
+    ],
+    "presences": 61,
+    "background": 33529,
+    "presence_weight_share": 0.007689866485798633,
+    "background_weight_share": 0.067058,
+    "ratio": 0.11467485588294658
+   },
+   {
+    "band_m": [
+     5000,
+     null
+    ],
+    "presences": 18,
+    "background": 16614,
+    "presence_weight_share": 0.0034271773804889437,
+    "background_weight_share": 0.03322800000000001,
+    "ratio": 0.10314124775758225
+   }
+  ],
+  "weather_cells_with_both": 1462,
+  "cells_presence_median_nearer_road": 1106,
+  "cells_presence_median_farther_from_road": 356
+ },
+ "comparison group (Laetiporus)": {
+  "bands": [
+   {
+    "band_m": [
+     0,
+     50
+    ],
+    "presences": 122,
+    "background": 70104,
+    "presence_weight_share": 0.2013201320132013,
+    "background_weight_share": 0.14020799999999994,
+    "ratio": 1.435867653865695
+   },
+   {
+    "band_m": [
+     50,
+     100
+    ],
+    "presences": 93,
+    "background": 57781,
+    "presence_weight_share": 0.1534653465346534,
+    "background_weight_share": 0.11556200000000001,
+    "ratio": 1.3279914377966233
+   },
+   {
+    "band_m": [
+     100,
+     250
+    ],
+    "presences": 138,
+    "background": 117573,
+    "presence_weight_share": 0.22772277227722773,
+    "background_weight_share": 0.23514600000000002,
+    "ratio": 0.9684314097506558
+   },
+   {
+    "band_m": [
+     250,
+     500
+    ],
+    "presences": 95,
+    "background": 92510,
+    "presence_weight_share": 0.1567656765676567,
+    "background_weight_share": 0.18502,
+    "ratio": 0.8472904365347351
+   },
+   {
+    "band_m": [
+     500,
+     1000
+    ],
+    "presences": 52,
+    "background": 68766,
+    "presence_weight_share": 0.08580858085808583,
+    "background_weight_share": 0.137532,
+    "ratio": 0.6239172036914016
+   },
+   {
+    "band_m": [
+     1000,
+     2000
+    ],
+    "presences": 53,
+    "background": 43123,
+    "presence_weight_share": 0.08745874587458749,
+    "background_weight_share": 0.08624599999999999,
+    "ratio": 1.014061473860672
+   },
+   {
+    "band_m": [
+     2000,
+     5000
+    ],
+    "presences": 35,
+    "background": 33529,
+    "presence_weight_share": 0.05775577557755777,
+    "background_weight_share": 0.067058,
+    "ratio": 0.8612809146941119
+   },
+   {
+    "band_m": [
+     5000,
+     null
+    ],
+    "presences": 18,
+    "background": 16614,
+    "presence_weight_share": 0.02970297029702971,
+    "background_weight_share": 0.03322800000000001,
+    "ratio": 0.8939138767614573
+   }
+  ],
+  "weather_cells_with_both": 357,
+  "cells_presence_median_nearer_road": 236,
+  "cells_presence_median_farther_from_road": 121
+ }
+}
