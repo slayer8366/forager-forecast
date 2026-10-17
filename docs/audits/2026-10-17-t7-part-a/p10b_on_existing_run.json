@@ -1,0 +1,26 @@
+{
+ "condition_1_full_minus_B_block_clustered_all_blocks": {
+  "point": 0.0026606298050034782,
+  "low": -0.0004122902433453839,
+  "high": 0.008113959951897261,
+  "resamples": 1000,
+  "interval_wholly_above_zero": false
+ },
+ "condition_2_full_minus_A_within_weather_cell": {
+  "point": 0.054022047503377,
+  "low": 0.03542414856347533,
+  "high": 0.07053235642562138,
+  "resamples": 1000,
+  "interval_wholly_above_zero": true
+ },
+ "condition_3_host_specific_contrast": "not supplied: part C's group is not built",
+ "condition_4_independent_data": "not supplied: no independent data (part D not done)",
+ "conditions": {
+  "1": false,
+  "2": true,
+  "3": null,
+  "4": null
+ },
+ "verdict": "fail",
+ "passes": false
+}

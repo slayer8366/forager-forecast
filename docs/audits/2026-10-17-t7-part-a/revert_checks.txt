@@ -1,0 +1,25 @@
+== r1-within-pairs.xml
+tests 9 failures 3 errors 0
+  FAIL test_the_within_cell_auc_counts_only_pairs_that_share_a_cluster_ties_half | assert 12.266850249364163 == 0.6442297837349794 ± 1.0e-12
+  FAIL test_a_score_constant_within_each_cluster_scores_one_half_within_however_it_ranks_between | assert 38.07802705377763 == 0.5 ± 1.0e-12
+  FAIL test_the_interval_resamples_whole_clusters_each_drawn_copy_counted_once_and_is_seeded | assert 4.170506926757501 == 0.4434043416939161 ± 4.4e-11
+== r2-bootstrap-copies.xml
+tests 9 failures 2 errors 0
+  FAIL test_the_interval_resamples_whole_clusters_each_drawn_copy_counted_once_and_is_seeded | assert 0.3363346084742505 == 0.4434043416939161 ± 4.4e-11
+  FAIL test_the_difference_is_paired_on_the_same_cluster_draws | assert (-0.19544748503986956 == -0.11292299509072379 ± 1.1e-11
+== r3-incomplete.xml
+tests 9 failures 1 errors 0
+  FAIL test_p10b_without_the_host_specific_contrast_is_incomplete_never_a_pass | AssertionError: assert ('pass' == 'incomplete'
+== r4-interval-not-point.xml
+tests 9 failures 2 errors 0
+  FAIL test_p10b_passes_only_when_every_required_interval_is_wholly_above_zero | AssertionError: block_clustered_full_minus_b
+  FAIL test_p10b_without_the_host_specific_contrast_is_incomplete_never_a_pass | AssertionError: assert ('incomplete' == 'fail'
+== r5-base-b-blocks.xml
+tests 5 failures 1 errors 0
+  FAIL test_base_minus_b_is_reported_with_its_weather_cell_and_its_block_clustered_interval | assert (0.07214888468008529 == 0.07214888468008529 and 0.05024429702720851 == 0.027993458177917326)
+== r6-within-diff.xml
+tests 5 failures 1 errors 0
+  FAIL test_the_within_cell_auc_of_every_model_is_reported_with_its_interval | assert (0.1607864102505634 == 0.415404538671339)
+== r7-cache-rows.xml
+tests 5 failures 1 errors 0
+  FAIL test_the_cache_reader_returns_the_saved_predictions_and_refuses_rather_than_fit | Failed: DID NOT RAISE SystemExit
