@@ -91,7 +91,12 @@ def cmd_fetch(record: Path, data: Path) -> None:
     rec = json.loads(record.read_text(encoding="utf-8"))
     key = rec["download_key"]
     while True:
-        status = gd.download_status(key)
+        try:
+            status = gd.download_status(key)
+        except OSError as error:  # a status read only, never the file: logged, read again
+            print(f"{now()} status read failed: {error!r}; trying again in 60 s", flush=True)
+            time.sleep(60)
+            continue
         if status["status"] in ("SUCCEEDED", "FAILED", "KILLED", "CANCELLED", "FILE_ERASED"):
             break
         print(f"{now()} {status['status']}", flush=True)
