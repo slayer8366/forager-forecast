@@ -26,8 +26,12 @@ out = {
     "condition_2_full_minus_A_within_weather_cell": fig["within_weather_cell"]["full_minus_A"],
     "condition_3_host_specific_contrast": "not supplied: part C's group is not built",
     "condition_4_independent_data": "not supplied: no independent data (part D not done)",
-    "conditions": {"1": v.block_clustered_over_b, "2": v.within_cell_over_a,
-                   "3": v.host_specific_contrast, "4": v.independent_data},  # fmt: skip
+    "conditions": {
+        "1": v.block_clustered_over_b,
+        "2": v.within_cell_over_a,
+        "3": v.host_specific_contrast,
+        "4": v.independent_data,
+    },  # fmt: skip
     "verdict": v.verdict,
     "passes": v.passes,
 }
