@@ -250,3 +250,48 @@ def convert_export(
     traits = read_traits_export(path, expected_sha256)
     rows = to_list_rows(traits, export_source_id(expected_sha256))
     return write_list(out, rows)
+
+
+# --- T7 part C: the saprotroph comparison group (D146; Forager RECORD -1164, -1167) -------------
+
+SAPROTROPH_LIFESTYLES = ("litter_saprotroph", "soil_saprotroph")
+
+
+@dataclass(frozen=True)
+class SaprotrophGenera:
+    main: tuple[str, ...]
+    side_only: tuple[str, ...]
+    excluded_ectomycorrhizal: tuple[str, ...]
+
+
+def _qualifies(t: GenusTraits) -> bool:
+    return t.primary in SAPROTROPH_LIFESTYLES and t.fruitbody in MUSHROOM_FRUITBODIES
+
+
+def saprotroph_genera(traits: list[GenusTraits]) -> SaprotrophGenera:
+    """The saprotroph comparison group from the table's rows, sorted by genus.
+
+    A genus qualifies when its primary lifestyle is litter or soil saprotroph (D146; not
+    ``unspecified_saprotroph``, Forager RECORD -1164) and its fruitbody type is mushroom-forming
+    (D144 rule 1, ``MUSHROOM_FRUITBODIES``). Of those (RECORD -1167): a genus with
+    "ectomycorrhizal" in its secondary lifestyle or lifestyle comment is out (the adapter's
+    ``classify`` puts these in the mycorrhizal group's side run); a genus with any other
+    secondary lifestyle enters the side run only; the main run takes the rest, which have no
+    secondary lifestyle. A qualifying genus on more than one row is refused: no ruling covers it."""
+    rows: dict[str, list[GenusTraits]] = {}
+    for t in traits:
+        rows.setdefault(t.genus, []).append(t)
+    main, side, out = [], [], []
+    for genus, group in sorted(rows.items()):
+        if not any(_qualifies(t) for t in group):
+            continue
+        if len(group) > 1:
+            raise ValueError(f"{genus}: on {len(group)} rows, one of which meets D146; no ruling")
+        t = group[0]
+        if ECM in t.secondary.lower() or ECM in t.lifestyle_comment.lower():
+            out.append(genus)
+        elif t.secondary:
+            side.append(genus)
+        else:
+            main.append(genus)
+    return SaprotrophGenera(tuple(main), tuple(side), tuple(out))

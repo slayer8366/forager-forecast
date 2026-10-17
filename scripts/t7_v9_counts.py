@@ -2,6 +2,11 @@
 
 Usage:
   python scripts/t7_v9_counts.py <evidence dir in the repo> <data dir outside the repo>
+  python scripts/t7_v9_counts.py <evidence dir> <data dir> saprotroph
+
+The second form (T7 part C, Forager RECORD -1164, -1167) runs the same steps for the saprotroph
+comparison group (``fungaltraits.saprotroph_genera``) instead of the three runs below: a main run
+and a side run, refused if any genus is one the list classes ectomycorrhizal.
 
 1. Checks the D26 zip's sha256 against its pull record (docs/pulls/
    gbif-fungi-us-canada-2015-2025.doi.json, "sha256_of_zip"); refuses on a difference.
@@ -65,7 +70,9 @@ from forager_forecast.t7.membership import (
     MAIN_RUN,
     MYCORRHIZAL_GROUP,
     SIDE_RUN,
+    GroupSpec,
     Join,
+    ectomycorrhizal_overlap,
     load_list,
 )
 from forager_forecast.t7.names import load_named, missing_name_columns
@@ -96,6 +103,25 @@ RUNS = {
     "side": (MYCORRHIZAL_GROUP, SIDE_RUN),
     "comparison": (COMPARISON_GROUP, MAIN_RUN),
 }
+SAPROTROPH = "saprotroph"  # the optional third argument: count T7 part C's group instead
+SAPROTROPH_MAIN = "saprotroph group (litter and soil saprotrophs, no secondary lifestyle)"
+SAPROTROPH_SIDE = "saprotroph group, side run (adds those with a secondary lifestyle)"
+V9_COUNTS = Path("/mnt/work/Zynergy/forecast-data/t7/v9/counts.json")
+
+
+def saprotroph_runs(genera: ft.SaprotrophGenera) -> dict:
+    """T7 part C (D146; Forager RECORD -1164, -1167): the saprotroph group as two groups by genus
+    name, joined through the same ``Join`` as Laetiporus (M4): the main run takes the genera with
+    no secondary lifestyle, the side run adds those with one. A record named only to family joins
+    neither (D144 rule 2 keeps such records out of the main run; no ruling puts them in this
+    group's side run)."""
+    return {
+        "saprotroph_main": (GroupSpec(SAPROTROPH_MAIN, genera=genera.main), MAIN_RUN),
+        "saprotroph_side": (
+            GroupSpec(SAPROTROPH_SIDE, genera=tuple(sorted(genera.main + genera.side_only))),
+            SIDE_RUN,
+        ),
+    }
 
 
 def sha256_file(path: Path) -> str:
@@ -232,7 +258,7 @@ def write_presences(path: Path, presences) -> str:
     return sha256_file(path)
 
 
-def main(evidence: Path, data: Path) -> None:
+def main(evidence: Path, data: Path, group: str = "") -> None:
     t0 = time.monotonic()
     started = datetime.now(UTC).isoformat(timespec="seconds")
     record = json.loads(PULL_RECORD.read_text(encoding="utf-8"))
@@ -254,6 +280,27 @@ def main(evidence: Path, data: Path) -> None:
     list_path = data / "membership_list_fungaltraits_export.tsv"
     list_sha = ft.convert_export(list_path)
     members = load_list(list_path, ft.NORMALISED_LIST_SHA256)
+    runs, group_rule = RUNS, None
+    if group == SAPROTROPH:
+        sg = ft.saprotroph_genera(ft.read_traits_export())
+        shared = ectomycorrhizal_overlap(sg.main + sg.side_only, members)
+        if shared:
+            raise SystemExit(
+                f"the saprotroph group shares genera with the mycorrhizal group: {shared}"
+            )
+        v9_main = set(json.loads(V9_COUNTS.read_text())["runs"]["main"]["thinned"]["per_genus"])
+        runs = saprotroph_runs(sg)
+        group_rule = {
+            "rule": "D146 as ruled in Forager RECORD -1164 and -1167: FungalTraits primary "
+            "lifestyle litter_saprotroph or soil_saprotroph (not unspecified_saprotroph), "
+            "mushroom-forming fruitbody (D144 rule 1); 'ectomycorrhizal' in the secondary "
+            "lifestyle or lifestyle comment out; a secondary lifestyle to the side run only",
+            "genera_main_run": len(sg.main),
+            "genera_side_run_only": list(sg.side_only),
+            "genera_excluded_ectomycorrhizal": list(sg.excluded_ectomycorrhizal),
+            "shared_with_mycorrhizal_list_genera": shared,
+            "shared_with_v9_main_run_genera": sorted(v9_main & set(sg.main + sg.side_only)),
+        }  # fmt: skip
     frame = set()
     with EFFORT_CELLS.open(encoding="utf-8", newline="") as h:
         for row in csv.DictReader(h):
@@ -277,13 +324,20 @@ def main(evidence: Path, data: Path) -> None:
         "below",  # fmt: skip
         "runs": {},
     }
+    if group_rule is not None:
+        out["rules"] = (
+            "D144 as for the mycorrhizal group: (1) mushroom-forming genera only by fruitbody "
+            "type; (2) family-only records in neither run; (3) one presence per genus per 250 m "
+            "cell; (4) 30 to count alone, pooled below"
+        )
+        out["group_rule"] = group_rule
     files = {}
-    for name, (group, run) in RUNS.items():
+    for name, (spec, run) in runs.items():
         t = time.monotonic()
-        raw_presences, counts, loader = one_pass(Join(members, list_sha, group, run))
+        raw_presences, counts, loader = one_pass(Join(members, list_sha, spec, run))
         thinned = thin(raw_presences)
         entry = {
-            "group": group.name,
+            "group": spec.name,
             "run": run,
             "rows_read": loader.rows_read,
             "unloadable": dict(loader.unloadable.most_common()),
@@ -309,12 +363,18 @@ def main(evidence: Path, data: Path) -> None:
                 g: members.rows[g].note for g in entry["genera_added_by_side_run"]
                 if g in members.rows
             }  # fmt: skip
+        if name == "saprotroph_side":
+            main_genera = set(out["runs"]["saprotroph_main"]["thinned"].get("per_genus", {}))
+            entry["genera_added_by_side_run"] = {
+                g: n for g, n in entry["thinned"].get("per_genus", {}).items()
+                if g not in main_genera
+            }  # fmt: skip
         out["runs"][name] = entry
         files[name] = write_presences(data / f"presences_{name}.csv", thinned)
         if name == "main":
             cc = thin([p for p in raw_presences if p.license in CC_TRACK_LICENSES])
             out["runs"]["licence_track"] = {
-                "group": group.name, "run": "main, CC0 and CC BY records only (D108)",
+                "group": spec.name, "run": "main, CC0 and CC BY records only (D108)",
                 "licences": sorted(CC_TRACK_LICENSES),
                 "presences_before_thinning": sum(p.license in CC_TRACK_LICENSES
                                                  for p in raw_presences),
@@ -336,6 +396,6 @@ def main(evidence: Path, data: Path) -> None:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
+    if len(sys.argv) not in (3, 4) or (len(sys.argv) == 4 and sys.argv[3] != SAPROTROPH):
         raise SystemExit(__doc__)
-    main(Path(sys.argv[1]), Path(sys.argv[2]))
+    main(Path(sys.argv[1]), Path(sys.argv[2]), *sys.argv[3:])

@@ -1,0 +1,670 @@
+{
+ "work": "/mnt/work/Zynergy/forecast-data/t7/fit",
+ "minimum_per_block": 30,
+ "forested_cut": 0.15,
+ "groups": {
+  "mycorrhizal main (V9)": {
+   "file": "/mnt/work/Zynergy/forecast-data/t7/v9/presences_main.csv",
+   "presence_outcomes": {
+    "thinned presences in the file": 23069,
+    "by cell code": {
+     "1": 15626,
+     "5": 1025,
+     "3": 1928,
+     "4": 4160,
+     "0": 329,
+     "6": 1
+    },
+    "eligible but weather cell outside the effort frame": 2,
+    "entering the fit": 15624,
+    "eligible, record's weather cell differs from its 250 m cell centre's": 223
+   },
+   "presences_entering": 15624,
+   "genera_counting_alone": 44,
+   "presences_per_genus_counting_alone": {
+    "Albatrellopsis": 122,
+    "Albatrellus": 41,
+    "Amanita": 2614,
+    "Aureoboletus": 392,
+    "Boletinus": 48,
+    "Boletus": 916,
+    "Butyriboletus": 40,
+    "Caloboletus": 187,
+    "Cantharellus": 851,
+    "Catathelasma": 55,
+    "Clavulina": 309,
+    "Coltricia": 125,
+    "Cortinarius": 954,
+    "Craterellus": 427,
+    "Gastroboletus": 50,
+    "Gomphus": 150,
+    "Hebeloma": 51,
+    "Helvella": 832,
+    "Hydnellum": 402,
+    "Hydnum": 88,
+    "Hygrophorus": 414,
+    "Inocybe": 298,
+    "Laccaria": 583,
+    "Lactarius": 807,
+    "Leccinum": 145,
+    "Leotia": 67,
+    "Otidea": 45,
+    "Paxillus": 51,
+    "Phaeocollybia": 59,
+    "Phellodon": 38,
+    "Phylloporus": 98,
+    "Porphyrellus": 121,
+    "Rhizopogon": 52,
+    "Rubroboletus": 53,
+    "Russula": 1008,
+    "Sarcodon": 102,
+    "Sarcosphaera": 117,
+    "Suillus": 850,
+    "Thaxterogaster": 59,
+    "Thelephora": 52,
+    "Tricholoma": 483,
+    "Truncocolumella": 30,
+    "Turbinellus": 583,
+    "Xerocomellus": 570
+   },
+   "genera_pooled": 40,
+   "presences_in_pool": 285,
+   "per_block": {
+    "10.1.2 Columbia Plateau": {
+     "presences": 6,
+     "forested": false,
+     "in_fit": true
+    },
+    "10.1.3 Northern Basin and Range": {
+     "presences": 15,
+     "forested": false,
+     "in_fit": true
+    },
+    "10.1.4 Wyoming Basin": {
+     "presences": 0,
+     "forested": false,
+     "in_fit": true
+    },
+    "10.1.5 Central Basin and Range": {
+     "presences": 6,
+     "forested": false,
+     "in_fit": true
+    },
+    "10.1.6 Colorado Plateaus": {
+     "presences": 0,
+     "forested": true,
+     "in_fit": true
+    },
+    "10.1.8 Snake River Plain": {
+     "presences": 7,
+     "forested": false,
+     "in_fit": true
+    },
+    "11.1.1 Central California Foothills and Coastal Mountains": {
+     "presences": 37,
+     "forested": true,
+     "in_fit": true
+    },
+    "11.1.2 Central California Valley": {
+     "presences": 1,
+     "forested": false,
+     "in_fit": true
+    },
+    "6.2.10 Middle Rockies": {
+     "presences": 91,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.11 Klamath Mountains": {
+     "presences": 462,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.12 Sierra Nevada": {
+     "presences": 7,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.13 Wasatch and Uinta Mountains": {
+     "presences": 179,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.15 Idaho Batholith": {
+     "presences": 410,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.3 Columbia Mountains/Northern Rockies": {
+     "presences": 463,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.4 Canadian Rockies": {
+     "presences": 53,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.5 North Cascades": {
+     "presences": 1422,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.7 Cascades": {
+     "presences": 3137,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.8 Eastern Cascades Slopes and Foothills": {
+     "presences": 229,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.9 Blue Mountains": {
+     "presences": 141,
+     "forested": true,
+     "in_fit": true
+    },
+    "7.1.5 Coastal Western Hemlock-Sitka Spruce Forests": {
+     "presences": 0,
+     "forested": true,
+     "in_fit": false
+    },
+    "7.1.7 Strait of Georgia/Puget Lowland": {
+     "presences": 2330,
+     "forested": true,
+     "in_fit": true
+    },
+    "7.1.8 Coastal Range": {
+     "presences": 5992,
+     "forested": true,
+     "in_fit": true
+    },
+    "7.1.9 Willamette Valley": {
+     "presences": 636,
+     "forested": true,
+     "in_fit": true
+    },
+    "9.3.1 Northwestern Glaciated Plains": {
+     "presences": 0,
+     "forested": false,
+     "in_fit": true
+    },
+    "9.3.3 Northwestern Great Plains": {
+     "presences": 0,
+     "forested": true,
+     "in_fit": true
+    }
+   },
+   "forested_blocks_in_box": 18,
+   "forested_blocks_in_fit": 17,
+   "forested_blocks_reaching_minimum": [
+    "11.1.1 Central California Foothills and Coastal Mountains",
+    "6.2.10 Middle Rockies",
+    "6.2.11 Klamath Mountains",
+    "6.2.13 Wasatch and Uinta Mountains",
+    "6.2.15 Idaho Batholith",
+    "6.2.3 Columbia Mountains/Northern Rockies",
+    "6.2.4 Canadian Rockies",
+    "6.2.5 North Cascades",
+    "6.2.7 Cascades",
+    "6.2.8 Eastern Cascades Slopes and Foothills",
+    "6.2.9 Blue Mountains",
+    "7.1.7 Strait of Georgia/Puget Lowland",
+    "7.1.8 Coastal Range",
+    "7.1.9 Willamette Valley"
+   ],
+   "blocks_reaching_minimum": 14
+  },
+  "saprotroph main": {
+   "file": "/mnt/work/Zynergy/forecast-data/t7/v9c/presences_saprotroph_main.csv",
+   "presence_outcomes": {
+    "thinned presences in the file": 17403,
+    "by cell code": {
+     "1": 9591,
+     "3": 1492,
+     "4": 5300,
+     "5": 796,
+     "0": 223,
+     "6": 1
+    },
+    "eligible but weather cell outside the effort frame": 0,
+    "entering the fit": 9591,
+    "eligible, record's weather cell differs from its 250 m cell centre's": 123
+   },
+   "presences_entering": 9591,
+   "genera_counting_alone": 47,
+   "presences_per_genus_counting_alone": {
+    "Agaricus": 473,
+    "Agrocybe": 99,
+    "Aleuria": 319,
+    "Ampulloclitocybe": 55,
+    "Auriscalpium": 364,
+    "Baeospora": 86,
+    "Calbovista": 52,
+    "Calvatia": 92,
+    "Caulorhiza": 61,
+    "Chlorophyllum": 271,
+    "Clavicorona": 65,
+    "Clitocybe": 330,
+    "Clitopilus": 108,
+    "Connopus": 77,
+    "Conocybe": 37,
+    "Coprinellus": 288,
+    "Coprinopsis": 260,
+    "Crucibulum": 134,
+    "Cyathus": 247,
+    "Cystoderma": 105,
+    "Cystodermella": 66,
+    "Deconica": 77,
+    "Entocybe": 35,
+    "Floccularia": 83,
+    "Geastrum": 194,
+    "Gymnopus": 99,
+    "Infundibulicybe": 44,
+    "Lepiota": 238,
+    "Leratiomyces": 114,
+    "Leucoagaricus": 179,
+    "Leucocoprinus": 352,
+    "Lycoperdon": 487,
+    "Macrocystidia": 37,
+    "Marasmiellus": 430,
+    "Nidula": 507,
+    "Paralepista": 40,
+    "Plectania": 82,
+    "Pluteus": 234,
+    "Pseudoomphalina": 41,
+    "Pseudoplectania": 30,
+    "Psilocybe": 75,
+    "Rhodocollybia": 73,
+    "Roridomyces": 39,
+    "Strobilurus": 525,
+    "Stropharia": 1172,
+    "Tubaria": 85,
+    "Verpa": 166
+   },
+   "genera_pooled": 77,
+   "presences_in_pool": 564,
+   "per_block": {
+    "10.1.2 Columbia Plateau": {
+     "presences": 20,
+     "forested": false,
+     "in_fit": true
+    },
+    "10.1.3 Northern Basin and Range": {
+     "presences": 29,
+     "forested": false,
+     "in_fit": true
+    },
+    "10.1.4 Wyoming Basin": {
+     "presences": 0,
+     "forested": false,
+     "in_fit": true
+    },
+    "10.1.5 Central Basin and Range": {
+     "presences": 13,
+     "forested": false,
+     "in_fit": true
+    },
+    "10.1.6 Colorado Plateaus": {
+     "presences": 0,
+     "forested": true,
+     "in_fit": true
+    },
+    "10.1.8 Snake River Plain": {
+     "presences": 5,
+     "forested": false,
+     "in_fit": true
+    },
+    "11.1.1 Central California Foothills and Coastal Mountains": {
+     "presences": 31,
+     "forested": true,
+     "in_fit": true
+    },
+    "11.1.2 Central California Valley": {
+     "presences": 2,
+     "forested": false,
+     "in_fit": true
+    },
+    "6.2.10 Middle Rockies": {
+     "presences": 44,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.11 Klamath Mountains": {
+     "presences": 373,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.12 Sierra Nevada": {
+     "presences": 7,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.13 Wasatch and Uinta Mountains": {
+     "presences": 90,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.15 Idaho Batholith": {
+     "presences": 148,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.3 Columbia Mountains/Northern Rockies": {
+     "presences": 200,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.4 Canadian Rockies": {
+     "presences": 13,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.5 North Cascades": {
+     "presences": 376,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.7 Cascades": {
+     "presences": 1186,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.8 Eastern Cascades Slopes and Foothills": {
+     "presences": 123,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.9 Blue Mountains": {
+     "presences": 60,
+     "forested": true,
+     "in_fit": true
+    },
+    "7.1.5 Coastal Western Hemlock-Sitka Spruce Forests": {
+     "presences": 0,
+     "forested": true,
+     "in_fit": false
+    },
+    "7.1.7 Strait of Georgia/Puget Lowland": {
+     "presences": 2832,
+     "forested": true,
+     "in_fit": true
+    },
+    "7.1.8 Coastal Range": {
+     "presences": 2963,
+     "forested": true,
+     "in_fit": true
+    },
+    "7.1.9 Willamette Valley": {
+     "presences": 1076,
+     "forested": true,
+     "in_fit": true
+    },
+    "9.3.1 Northwestern Glaciated Plains": {
+     "presences": 0,
+     "forested": false,
+     "in_fit": true
+    },
+    "9.3.3 Northwestern Great Plains": {
+     "presences": 0,
+     "forested": true,
+     "in_fit": true
+    }
+   },
+   "forested_blocks_in_box": 18,
+   "forested_blocks_in_fit": 17,
+   "forested_blocks_reaching_minimum": [
+    "11.1.1 Central California Foothills and Coastal Mountains",
+    "6.2.10 Middle Rockies",
+    "6.2.11 Klamath Mountains",
+    "6.2.13 Wasatch and Uinta Mountains",
+    "6.2.15 Idaho Batholith",
+    "6.2.3 Columbia Mountains/Northern Rockies",
+    "6.2.5 North Cascades",
+    "6.2.7 Cascades",
+    "6.2.8 Eastern Cascades Slopes and Foothills",
+    "6.2.9 Blue Mountains",
+    "7.1.7 Strait of Georgia/Puget Lowland",
+    "7.1.8 Coastal Range",
+    "7.1.9 Willamette Valley"
+   ],
+   "blocks_reaching_minimum": 13
+  },
+  "saprotroph side": {
+   "file": "/mnt/work/Zynergy/forecast-data/t7/v9c/presences_saprotroph_side.csv",
+   "presence_outcomes": {
+    "thinned presences in the file": 24272,
+    "by cell code": {
+     "1": 14163,
+     "3": 2137,
+     "4": 6512,
+     "5": 1118,
+     "0": 340,
+     "6": 2
+    },
+    "eligible but weather cell outside the effort frame": 0,
+    "entering the fit": 14163,
+    "eligible, record's weather cell differs from its 250 m cell centre's": 176
+   },
+   "presences_entering": 14163,
+   "genera_counting_alone": 66,
+   "presences_per_genus_counting_alone": {
+    "Agaricus": 473,
+    "Agrocybe": 99,
+    "Aleuria": 319,
+    "Ampulloclitocybe": 55,
+    "Armillaria": 167,
+    "Arrhenia": 94,
+    "Auriscalpium": 364,
+    "Baeospora": 86,
+    "Calbovista": 52,
+    "Calvatia": 92,
+    "Caulorhiza": 61,
+    "Chlorophyllum": 271,
+    "Chromosera": 56,
+    "Clavaria": 189,
+    "Clavicorona": 65,
+    "Clavulinopsis": 116,
+    "Clitocybe": 330,
+    "Clitopilus": 108,
+    "Coccomyces": 106,
+    "Connopus": 77,
+    "Conocybe": 37,
+    "Coprinellus": 288,
+    "Coprinopsis": 260,
+    "Crucibulum": 134,
+    "Cuphophyllus": 96,
+    "Cyathus": 247,
+    "Cystoderma": 105,
+    "Cystodermella": 66,
+    "Deconica": 77,
+    "Entocybe": 35,
+    "Floccularia": 83,
+    "Geastrum": 194,
+    "Geopyxis": 73,
+    "Gliophorus": 217,
+    "Gymnopus": 99,
+    "Hygrocybe": 552,
+    "Hygrophoropsis": 467,
+    "Infundibulicybe": 44,
+    "Lachnum": 55,
+    "Lepiota": 238,
+    "Leratiomyces": 114,
+    "Leucoagaricus": 179,
+    "Leucocoprinus": 352,
+    "Leucopaxillus": 115,
+    "Lycoperdon": 487,
+    "Macrocystidia": 37,
+    "Marasmiellus": 430,
+    "Marasmius": 277,
+    "Melanoleuca": 38,
+    "Morchella": 273,
+    "Mycena": 1373,
+    "Nidula": 507,
+    "Paralepista": 40,
+    "Plectania": 82,
+    "Pluteus": 234,
+    "Porpolomopsis": 37,
+    "Pseudoomphalina": 41,
+    "Pseudoplectania": 30,
+    "Psilocybe": 75,
+    "Ramariopsis": 37,
+    "Rhodocollybia": 73,
+    "Roridomyces": 39,
+    "Strobilurus": 525,
+    "Stropharia": 1172,
+    "Tubaria": 85,
+    "Verpa": 166
+   },
+   "genera_pooled": 104,
+   "presences_in_pool": 798,
+   "per_block": {
+    "10.1.2 Columbia Plateau": {
+     "presences": 27,
+     "forested": false,
+     "in_fit": true
+    },
+    "10.1.3 Northern Basin and Range": {
+     "presences": 33,
+     "forested": false,
+     "in_fit": true
+    },
+    "10.1.4 Wyoming Basin": {
+     "presences": 0,
+     "forested": false,
+     "in_fit": true
+    },
+    "10.1.5 Central Basin and Range": {
+     "presences": 15,
+     "forested": false,
+     "in_fit": true
+    },
+    "10.1.6 Colorado Plateaus": {
+     "presences": 0,
+     "forested": true,
+     "in_fit": true
+    },
+    "10.1.8 Snake River Plain": {
+     "presences": 6,
+     "forested": false,
+     "in_fit": true
+    },
+    "11.1.1 Central California Foothills and Coastal Mountains": {
+     "presences": 40,
+     "forested": true,
+     "in_fit": true
+    },
+    "11.1.2 Central California Valley": {
+     "presences": 2,
+     "forested": false,
+     "in_fit": true
+    },
+    "6.2.10 Middle Rockies": {
+     "presences": 67,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.11 Klamath Mountains": {
+     "presences": 572,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.12 Sierra Nevada": {
+     "presences": 13,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.13 Wasatch and Uinta Mountains": {
+     "presences": 114,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.15 Idaho Batholith": {
+     "presences": 255,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.3 Columbia Mountains/Northern Rockies": {
+     "presences": 325,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.4 Canadian Rockies": {
+     "presences": 30,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.5 North Cascades": {
+     "presences": 589,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.7 Cascades": {
+     "presences": 1792,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.8 Eastern Cascades Slopes and Foothills": {
+     "presences": 198,
+     "forested": true,
+     "in_fit": true
+    },
+    "6.2.9 Blue Mountains": {
+     "presences": 86,
+     "forested": true,
+     "in_fit": true
+    },
+    "7.1.5 Coastal Western Hemlock-Sitka Spruce Forests": {
+     "presences": 0,
+     "forested": true,
+     "in_fit": false
+    },
+    "7.1.7 Strait of Georgia/Puget Lowland": {
+     "presences": 3934,
+     "forested": true,
+     "in_fit": true
+    },
+    "7.1.8 Coastal Range": {
+     "presences": 4712,
+     "forested": true,
+     "in_fit": true
+    },
+    "7.1.9 Willamette Valley": {
+     "presences": 1353,
+     "forested": true,
+     "in_fit": true
+    },
+    "9.3.1 Northwestern Glaciated Plains": {
+     "presences": 0,
+     "forested": false,
+     "in_fit": true
+    },
+    "9.3.3 Northwestern Great Plains": {
+     "presences": 0,
+     "forested": true,
+     "in_fit": true
+    }
+   },
+   "forested_blocks_in_box": 18,
+   "forested_blocks_in_fit": 17,
+   "forested_blocks_reaching_minimum": [
+    "11.1.1 Central California Foothills and Coastal Mountains",
+    "6.2.10 Middle Rockies",
+    "6.2.11 Klamath Mountains",
+    "6.2.13 Wasatch and Uinta Mountains",
+    "6.2.15 Idaho Batholith",
+    "6.2.3 Columbia Mountains/Northern Rockies",
+    "6.2.4 Canadian Rockies",
+    "6.2.5 North Cascades",
+    "6.2.7 Cascades",
+    "6.2.8 Eastern Cascades Slopes and Foothills",
+    "6.2.9 Blue Mountains",
+    "7.1.7 Strait of Georgia/Puget Lowland",
+    "7.1.8 Coastal Range",
+    "7.1.9 Willamette Valley"
+   ],
+   "blocks_reaching_minimum": 15
+  }
+ }
+}
