@@ -509,6 +509,27 @@ def dd(d: mt.Difference) -> dict:
             "interval_wholly_above_zero": d.excludes_zero_above}  # fmt: skip
 
 
+# --- figures reported beside every fit (T7 part A, Forager RECORD -1156, -1157) -------------------
+
+A_KEY, B_KEY = "A: effort only", "B: forest only"
+
+
+def within_cell_figures(y, w, clusters, preds: dict, resamples: int) -> dict:
+    return {}  # stub
+
+
+def block_clustered_figures(y, w, blocks, preds: dict, forested_sel, resamples: int) -> dict:
+    return {}  # stub
+
+
+def base_minus_b_figures(y, w, clusters, blocks, preds: dict, resamples: int) -> dict:
+    return {}  # stub
+
+
+def cached_predictions(cache: Path, key: str, n: int) -> np.ndarray:
+    return np.zeros(n)  # stub
+
+
 def auc(data: Data, p, select=None) -> float | None:
     s = np.ones(len(data.y), bool) if select is None else select
     try:

@@ -78,3 +78,54 @@ def p10_passes(all_blocks: dict[str, Difference], forested: dict[str, Difference
     """D140: full minus A and full minus B, pooled over all blocks and over forested blocks,
     each interval wholly above zero."""
     return all(d[k].excludes_zero_above for d in (all_blocks, forested) for k in ("A", "B"))
+
+
+# --- within one cluster (T7 part A, Forager RECORD -1156, -1157) ---------------------------------
+
+
+@dataclass(frozen=True)
+class WithinAUC:
+    """A weighted AUC over the (presence, background) pairs that share a cluster, with its
+    percentile interval over cluster resamples, and the share of all pair weight those pairs hold."""
+
+    point: float
+    low: float
+    high: float
+    resamples: int
+    pair_mass_share: float
+
+
+def within_cluster_auc(scores, outcomes, weights, clusters, resamples: int = RESAMPLES,
+                       seed: int = SEED, level: float = 0.95) -> WithinAUC:  # fmt: skip
+    p = weighted_auc(scores, outcomes, weights)  # stub: the pooled AUC
+    return WithinAUC(p, p, p, resamples, 1.0)
+
+
+def within_cluster_auc_difference(a, b, outcomes, weights, clusters, resamples: int = RESAMPLES,
+                                  seed: int = SEED, level: float = 0.95) -> Difference:  # fmt: skip
+    return clustered_auc_difference(a, b, outcomes, weights, clusters, resamples, seed, level)  # stub
+
+
+# --- P10b (D145) -----------------------------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class P10bVerdict:
+    block_clustered_over_b: bool
+    within_cell_over_a: bool
+    host_specific_contrast: bool | None
+    independent_data: bool | None
+
+    @property
+    def verdict(self) -> str:
+        return "pass"  # stub
+
+    @property
+    def passes(self) -> bool:
+        return self.verdict == "pass"
+
+
+def p10b(*, block_clustered_full_minus_b: Difference, within_cell_full_minus_a: Difference,
+         host_specific_contrast: Difference | None,
+         independent_data: Difference | None) -> P10bVerdict:  # fmt: skip
+    return P10bVerdict(True, True, True, True)  # stub
