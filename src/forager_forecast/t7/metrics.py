@@ -173,6 +173,13 @@ def within_cluster_auc_difference(a, b, outcomes, weights, clusters, resamples: 
     return Difference(float((ca - cb).sum() / mass.sum()), low, high, resamples)
 
 
+def within_cluster_auc_difference_rows_resampled(a, b, outcomes, weights, clusters, resample_by,
+                                                 resamples: int = RESAMPLES, seed: int = SEED,
+                                                 level: float = 0.95) -> Difference:  # fmt: skip
+    """STUB (tests first)."""
+    return Difference(float("nan"), float("nan"), float("nan"), resamples)
+
+
 # --- P10b (D145) ----------------------------------------------------------------------------------
 
 

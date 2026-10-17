@@ -547,6 +547,12 @@ def within_cell_figures(y, w, clusters, preds: dict, resamples: int) -> dict:
     return out
 
 
+def within_cell_block_clustered_figures(y, w, clusters, blocks, preds: dict,
+                                        resamples: int) -> dict:  # fmt: skip
+    """STUB (tests first)."""
+    return {}
+
+
 def block_clustered_figures(y, w, blocks, preds: dict, forested_sel, resamples: int) -> dict:
     """Full minus A and full minus B with intervals clustered by level III block, over all blocks
     and over the forested blocks, printed beside the weather-cell ones (P7 point 6)."""
