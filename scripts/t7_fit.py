@@ -1,10 +1,20 @@
 """T7 P3 to P10: the full PNW fit, under D133 to D141 and D144 (Forager RECORD -1062, -1081).
 
 Usage:
-  python scripts/t7_fit.py table   <work dir>
-  python scripts/t7_fit.py timing  <work dir> <evidence dir>
-  python scripts/t7_fit.py fit     <work dir> <evidence dir> [--threads N]
+  python scripts/t7_fit.py table   <work dir> [--access]
+  python scripts/t7_fit.py timing  <work dir> <evidence dir> --access-monotone {-1,0,1}
+  python scripts/t7_fit.py fit     <work dir> <evidence dir> --access-monotone {-1,0,1}
+                                   --out <new folder> [--threads N] [--smoke]
   python scripts/t7_fit.py figures <work dir> <evidence dir>
+
+The re-fit (dispatch 2026-10-17-T7R, Forager RECORD -1182, -1183): ``table --access`` stores the
+access bands beside the features; ``timing`` and ``fit`` put the road band (``dist_road_m``) in
+every model beside effort, in effort's interaction group, with the monotone direction passed on the
+command line (an open ruling, never defaulted); ``fit`` runs the trails side check and the
+saprotroph group's runs among the side runs, evaluates P10b (D145) with conditions 1 to 3 and
+reports P10 (D140) beside it with no verdict, and writes the map to ``--out``, which may not be
+inside the judged run's folders. ``fit`` at the commit before the re-fit (5c1a9df) is the judged
+run's code.
 
 ``table`` reads every tree tile of the PNW box with its flags, soil tile, the T6b mask and the
 level III file (all read only, on the flash drive), through ``t7/predictors.read_tile`` (P4 as
@@ -19,7 +29,7 @@ and times ONE outer fold of the base model, the inner tuning included, then proj
 figures, the side runs, the area of applicability (P8), the map pass and the outputs (P9) to the
 work dir, and writes the block report and every figure to the evidence dir. Beside every pooled
 AUC it reports base minus B, the within-weather-cell AUCs and the block-clustered intervals (T7
-part A, Forager RECORD -1156); P10b (D145) is not evaluated here.
+part A, Forager RECORD -1156).
 
 ``figures`` recomputes those beside-figures from a finished fit's cache, and never fits.
 
@@ -38,6 +48,7 @@ import time
 from collections import Counter, defaultdict
 from datetime import UTC, datetime
 from pathlib import Path
+from types import SimpleNamespace
 
 import numpy as np
 import rasterio
@@ -58,6 +69,7 @@ from forager_forecast.t7.ecoregions import burn_level3, read_level3
 from forager_forecast.t7.keying import pack, static_effort
 from forager_forecast.t7.predictors import (
     ACCESS_BANDS,
+    ACCESS_MAIN_BANDS,
     BASE_BANDS,
     CANDIDATE_BANDS,
     CODE_IN,
@@ -138,6 +150,11 @@ JUDGED = (
     V9C,
 )
 CONDITION_4_PENDING = "pending: data exist, scoring not yet ruled"
+
+
+def access_attribution() -> str:
+    """The access layer's credit line, as part B's manifest writes it (D148)."""
+    return json.loads((ACCESS.parent / "manifest.json").read_text(encoding="utf-8"))["attribution"]
 
 
 def check_out_dir(path: Path) -> Path:
@@ -390,7 +407,8 @@ def tile_code_of(cell_ids: np.ndarray, codes) -> np.ndarray:
 class Data:
     """The training table: presences and background with their features, weights and groups."""
 
-    def __init__(self, work: Path, presence_file: Path, track: str = "all", log=print) -> None:
+    def __init__(self, work: Path, presence_file: Path, track: str = "all", log=print,
+                 access_band: str | None = None) -> None:  # fmt: skip
         tab = np.load(work / "table.npz")
         self.meta = json.loads((work / "table_meta.json").read_text(encoding="utf-8"))
         codes = dict(np.load(work / "codes.npz"))
@@ -449,6 +467,22 @@ class Data:
         b_has = np.array([int(k) in log_eff for k in wkey[bi]])
         self.background_dropped_no_track_effort = int((~b_has).sum())
         bi = bi[b_has]
+        # the access band (dispatch 2026-10-17-T7R): read for every row from the table's access
+        # columns; its held value and quartiles are over the background draw as drawn (before the
+        # trial run's thinning), so a trial holds the value the full run would
+        self.access_band = access_band
+        acc = None
+        if access_band is not None:
+            bands = self.meta.get("access_bands", [])
+            if access_band not in bands:
+                raise SystemExit(f"the table has no access band {access_band!r} (it has {bands})")
+            acc = tab["access"][:, bands.index(access_band)].astype(np.float64)
+            on_background = acc[bi]
+            finite = np.isfinite(on_background)
+            self.access_background_nan = int((~finite).sum())
+            self.held_access = md.held_access(on_background) if finite.all() else None
+            self.access_quartiles = [float(q) for q in
+                                     np.quantile(on_background[finite], [0.25, 0.75])]  # fmt: skip
         if SMOKE:
             bi = bi[::10]
         bw = bg.background_weights(len(bi), float(pw.sum()))
@@ -468,6 +502,13 @@ class Data:
                                               f[:, names.index("total_cover_pct")])  # fmt: skip
         self.columns = [*names, md.EFFORT, md.CONIFER_COVER, md.BROADLEAF_COVER]
         self.x = np.column_stack([f, le, conifer, broadleaf])
+        if acc is not None:
+            a = acc[idx]
+            self.access_nan_rows = int(np.isnan(a).sum())
+            if access_band in ACCESS_MAIN_BANDS and self.access_nan_rows:
+                raise SystemExit(f"{self.access_nan_rows} rows have no {access_band}")
+            self.columns.append(md.ACCESS)
+            self.x = np.column_stack([self.x, a])
         self.n_presences, self.n_background = len(pi), len(bi)
         log(f"data: {len(pi)} presences, {len(bi)} background, pool {self.background_pool}")
 
@@ -502,15 +543,17 @@ def configs() -> list[dict]:
 def cmd_timing(work: Path, evidence: Path, threads: int) -> None:
     evidence.mkdir(parents=True, exist_ok=True)
     log = Log(work / "timing.log")
-    data = Data(work, V9 / "presences_main.csv", log=log)
-    features = [*BASE_BANDS, md.EFFORT]
+    if ACCESS_MONOTONE is None:
+        raise SystemExit("timing needs --access-monotone (-1, 0 or 1): the direction is a ruling")
+    data = Data(work, V9 / "presences_main.csv", log=log, access_band=MAIN_ACCESS)
+    features = [*BASE_BANDS, md.EFFORT, md.ACCESS]
     x = data.cols(features)
     folds = fd.leave_one_block_out_folds(data.blocks)
     for f in folds:
         fd.assert_no_leakage(f, data.blocks)
     sizes = sorted(((len(f.test), f.block) for f in folds), reverse=True)
     fold = next(f for f in folds if f.block == sizes[len(sizes) // 2][1])  # a median-size block
-    fit = md.fitter_for(features, threads)
+    fit = md.fitter_for(features, threads, ACCESS_MONOTONE)
     t = time.monotonic()
     per_config = {}
 
@@ -529,10 +572,13 @@ def cmd_timing(work: Path, evidence: Path, threads: int) -> None:
     fold_seconds = round(time.monotonic() - t, 1)
     n_folds = len(folds)
     tuned_models = 4  # A, B, base, full (full may equal base; counted to be safe)
-    untuned_fits = 8 * n_folds + 3 * 3 * n_folds + 3 * 81  # add-ones, side runs, final models
+    side_runs = len(REFIT_SIDE_RUNS)
+    # add-ones, side runs (full, A, B each), final models
+    untuned_fits = 8 * n_folds + side_runs * 3 * n_folds + 3 * 81
     mean_fit = float(np.mean([v for vs in per_config.values() for v in vs]))
     projection = tuned_models * n_folds * fold_seconds + untuned_fits * mean_fit
     out = {
+        "access_band": MAIN_ACCESS, "access_monotone": ACCESS_MONOTONE, "side_runs": side_runs,
         "fold_block": fold.block, "train_points": int(len(tr)), "test_points": int(len(te)),
         "features": features, "threads": threads, "inner_fits": sum(len(v) for v in
                                                                     per_config.values()),
@@ -573,6 +619,21 @@ def cmd_timing(work: Path, evidence: Path, threads: int) -> None:
 
 CACHE: Path | None = None  # set by cmd_fit: held-out predictions saved per model, reused on rerun
 SMOKE = False  # --smoke: 2 configurations, a tenth of the background, 50 resamples, own folders
+# --access-monotone: the access band's monotone direction (-1, 0 or 1), an open ruling; required by
+# ``fit`` and ``timing``, which refuse to run without it rather than default it
+ACCESS_MONOTONE: int | None = None
+MAIN_ACCESS = ACCESS_MAIN_BANDS[0]  # dist_road_m (D150 ruling 1)
+TRAILS_CHECK_ACCESS = "dist_any_m"  # the trails side check (-1168), in place of the road band
+REFIT_SIDE_RUNS = (
+    # (name, presences, effort track, access band); configurations reused (P7 point 9)
+    ("M2 side run", V9 / "presences_side.csv", "all", MAIN_ACCESS),
+    ("licence track", V9 / "presences_licence_track.csv", "cc", MAIN_ACCESS),
+    ("comparison group", V9 / "presences_comparison.csv", "all", MAIN_ACCESS),
+    ("saprotroph main", V9C / "presences_saprotroph_main.csv", "all", MAIN_ACCESS),
+    ("saprotroph side", V9C / "presences_saprotroph_side.csv", "all", MAIN_ACCESS),
+    ("trails side check", V9 / "presences_main.csv", "all", TRAILS_CHECK_ACCESS),
+)
+SAPROTROPH_MAIN = "saprotroph main"  # condition 3's group (D146, D155)
 
 
 def lobo(data: Data, features: list[str], threads: int, log, chosen=None, key=None):
@@ -581,12 +642,16 @@ def lobo(data: Data, features: list[str], threads: int, log, chosen=None, key=No
         pp, cp = CACHE / f"lobo_{key}.npy", CACHE / f"lobo_{key}.json"
         if pp.exists() and cp.exists():
             meta = json.loads(cp.read_text())
-            if meta["features"] == features and meta["n"] == len(data.y):
+            if (meta["features"] == features and meta["n"] == len(data.y)
+                    and meta.get("access_monotone") == ACCESS_MONOTONE
+                    and meta.get("access_band") == getattr(data, "access_band", None)):  # fmt: skip
                 log(f"{key}: reused from cache")
                 return np.load(pp), {int(k): v for k, v in meta["chosen"].items()}
         preds, ch = _lobo(data, features, threads, log, chosen)
         np.save(pp, preds)
-        cp.write_text(json.dumps({"features": features, "n": len(data.y), "chosen": ch}))
+        cp.write_text(json.dumps({"features": features, "n": len(data.y), "chosen": ch,
+                                  "access_monotone": ACCESS_MONOTONE,
+                                  "access_band": getattr(data, "access_band", None)}))  # fmt: skip
         return preds, ch
     return _lobo(data, features, threads, log, chosen)
 
@@ -594,7 +659,7 @@ def lobo(data: Data, features: list[str], threads: int, log, chosen=None, key=No
 def _lobo(data: Data, features: list[str], threads: int, log, chosen=None):
     """Held-out predictions over every block. ``chosen``: block -> config to reuse (no tuning)."""
     x = data.cols(features)
-    fit = md.fitter_for(features, threads)
+    fit = md.fitter_for(features, threads, ACCESS_MONOTONE)
     cfgs = {c["id"]: c for c in configs()}
     if chosen is None:
         preds, results = fd.leave_one_block_out(list(cfgs.values()), x, data.y, data.w,
@@ -749,24 +814,38 @@ def checkpoint(work: Path, name: str, value) -> None:
     np.save(work / f"pred_{name}.npy", value)
 
 
-def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
+def as_difference(d: dict) -> mt.Difference:
+    return mt.Difference(d["point"], d["low"], d["high"], d["resamples"])
+
+
+def cmd_fit(work: Path, evidence: Path, threads: int, out_dir: Path) -> None:
+    """The re-fit (dispatch 2026-10-17-T7R): the ladder with the access band beside effort in
+    every model, the side runs (the trails side check and the saprotroph group's two runs among
+    them), condition 3's contrast and P10b with P10 beside it, the area of applicability on the
+    habitat bands only, and the map with effort and access held. Needs a table built with
+    ``--access`` and a ruled ``--access-monotone``."""
     global CACHE
+    if ACCESS_MONOTONE is None:
+        raise SystemExit("fit needs --access-monotone (-1, 0 or 1): the direction is a ruling")
+    out_dir = check_out_dir(out_dir)
     CACHE = work / ("cache_smoke" if SMOKE else "cache")
     CACHE.mkdir(parents=True, exist_ok=True)
     evidence.mkdir(parents=True, exist_ok=True)
     log = Log(work / "fit.log")
     t0 = time.monotonic()
     t6_hashes = check_t6()
-    data = Data(work, V9 / "presences_main.csv", log=log)
+    data = Data(work, V9 / "presences_main.csv", log=log, access_band=MAIN_ACCESS)
     meta = data.meta
     level3 = {e["code"]: e for e in meta["level3_table"]}
+    log(f"access: {MAIN_ACCESS}, monotone {ACCESS_MONOTONE}, held {data.held_access:.1f} m, "
+        f"quartiles {data.access_quartiles}")  # fmt: skip
     study = {int(k): v for k, v in meta["block_study_cells"].items()}
     shares = {int(k): v for k, v in meta["block_share_cells"].items()}
     forested_all, in_fit, forested, forested_sel = forested_selection(data)
     resamples = 50 if SMOKE else mt.RESAMPLES
     log(f"forested blocks: {len(forested_all)} in the box, {len(forested)} in the fit")
 
-    ladder = md.ladder(list(BASE_BANDS) + [md.EFFORT], list(CANDIDATE_BANDS))
+    ladder = md.ladder_with_access(list(BASE_BANDS) + [md.EFFORT], list(CANDIDATE_BANDS))
     preds: dict[str, np.ndarray] = {}
     chosen: dict[str, dict] = {}
     for name in ("A: effort only", "B: forest only", "base"):
@@ -786,7 +865,7 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
         log(f"{key}: difference {add_one[c].point:+.4f} [{add_one[c].low:+.4f}, "
             f"{add_one[c].high:+.4f}]")  # fmt: skip
     kept = [c for c in CANDIDATE_BANDS if add_one[c].excludes_zero_above]
-    full_features = [*BASE_BANDS, *kept, md.EFFORT]
+    full_features = [*BASE_BANDS, *kept, md.EFFORT, md.ACCESS]
     if kept:
         s = time.monotonic()
         preds["full"], chosen["full"] = lobo(data, full_features, threads, log, key="full")
@@ -807,7 +886,7 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
     )
     base_minus_b = base_minus_b_figures(data.y, data.w, data.clusters, data.blocks, preds,
                                         resamples)  # fmt: skip
-    log(f"P10: {'pass' if verdict else 'fail'}")
+    log(f"P10 (D140, reported beside, no verdict): {'pass' if verdict else 'fail'}")
     log_reported_beside(log, by_block_cluster, within_cell, base_minus_b)
 
     # per block and level I
@@ -844,21 +923,21 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
     s = time.monotonic()
     xf = data.cols(full_features)
     best_full, _ = fd.inner_choice(cfgs, xf, data.y, data.w, data.blocks,
-                                   md.fitter_for(full_features, threads))  # fmt: skip
-    booster = md.train(best_full, full_features, xf, data.y, data.w, threads)
+                                   md.fitter_for(full_features, threads,
+                                                 ACCESS_MONOTONE))  # fmt: skip
+    booster = md.train(best_full, full_features, xf, data.y, data.w, threads, ACCESS_MONOTONE)
     log(f"final full model: {best_full['id']}, {round(time.monotonic() - s)} s")
     gains = booster.feature_importance("gain")
-    habitat = [f for f in full_features if f != md.EFFORT]
-    hab_gain = np.array([gains[full_features.index(f)] for f in habitat])
     s = time.monotonic()
-    aoa = fit_aoa(data.cols(habitat), hab_gain, data.blocks)
+    aoa, habitat = area_of_applicability(data, full_features, gains)
     log(f"area of applicability: threshold {aoa.threshold:.4f}, {round(time.monotonic() - s)} s")
 
     # side runs, reusing each fold's chosen configurations (P7 point 9)
     side = {}
-    for name, path, track in SIDE_RUNS:
+    sap = None
+    for name, path, track, band in REFIT_SIDE_RUNS:
         s = time.monotonic()
-        sd = Data(work, path, track=track, log=log)
+        sd = Data(work, path, track=track, log=log, access_band=band)
         sp = {}
         for k, feats in (
             ("full", full_features),
@@ -884,13 +963,48 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
             "within_weather_cell": within_cell_figures(sd.y, sd.w, sd.clusters, sp, resamples),
             "within_weather_cell_block_clustered": within_cell_block_clustered_figures(
                 sd.y, sd.w, sd.clusters, sd.blocks, sp, resamples),
+            "access_band": band, "access_nan_rows": sd.access_nan_rows,
             "seconds": round(time.monotonic() - s),
         }  # fmt: skip
         if name == "comparison group":
             comp_booster = md.train(best_full, full_features, sd.cols(full_features), sd.y,
-                                    sd.w, threads)  # fmt: skip
+                                    sd.w, threads, ACCESS_MONOTONE)  # fmt: skip
+        if name == SAPROTROPH_MAIN:
+            sap = mt.GroupScores(sp["full"], sp["A: effort only"], sd.y, sd.w, sd.blocks)
+            side[name]["genus_units"] = {
+                "alone": sum(1 for u in sd.genus_weights.presences_per_unit if u != POOLED),
+                "pooled_presences": sd.genus_weights.presences_per_unit.get(POOLED, 0)}  # fmt: skip
         log(f"{name}: {side[name]['auc']}")
         del sd
+
+    # P10b condition 3: the host-specific contrast, one block resampling for both groups
+    myc = mt.GroupScores(preds["full"], preds["A: effort only"], data.y, data.w, data.blocks)
+    shared = shared_forested_blocks(forested, data.blocks, data.y, sap.blocks, sap.y)
+    contrast = mt.host_specific_contrast(myc, sap, resamples)
+
+    def _subset(g, keep):
+        k = np.isin(g.blocks, keep)
+        return mt.GroupScores(g.full[k], g.a[k], g.y[k], g.w[k], g.blocks[k])
+
+    contrast_shared = mt.host_specific_contrast(_subset(myc, shared), _subset(sap, shared),
+                                                resamples)  # fmt: skip
+
+    def _gain(g):
+        return auc(SimpleNamespace(y=g.y, w=g.w), g.full) - auc(SimpleNamespace(y=g.y, w=g.w), g.a)
+
+    condition_3 = {
+        "gain_mycorrhizal_full_minus_A": _gain(myc), "gain_saprotroph_full_minus_A": _gain(sap),
+        "contrast_all_blocks": dd(contrast),
+        "resampled": "level III blocks, one draw per resample applied to both groups",
+        "shared_forested_blocks": shared,
+        "contrast_shared_forested_blocks_no_verdict": dd(contrast_shared),
+    }  # fmt: skip
+    p10b = p10b_figures(as_difference(by_block_cluster["all"]["B"]),
+                        as_difference(within_cell_by_block["full_minus_A"]), contrast,
+                        CONDITION_4_PENDING, verdict)  # fmt: skip
+    log(f"condition 3: contrast {_iv(dd(contrast))}; over {len(shared)} shared forested "
+        f"blocks {_iv(dd(contrast_shared))}")  # fmt: skip
+    log(f"P10b: {p10b['verdict']}")
 
     # the map pass
     from forager_forecast.t7.outputs import HabitatWriter, attribution  # noqa: PLC0415
@@ -906,17 +1020,14 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
     inside_all = np.empty(len(cell_id), dtype=bool)
     chunk = 500_000
     s = time.monotonic()
+    held_access = data.held_access
+    hold = {md.EFFORT: held, md.ACCESS: held_access}
     for i0 in range(0, len(cell_id), chunk):
         f = feats[i0 : i0 + chunk].astype(np.float64)
-        con, brd = md.cover_columns(f[:, names.index("share_conifer")],
-                                    f[:, names.index("share_broadleaf")],
-                                    f[:, names.index("total_cover_pct")])  # fmt: skip
-        cols = {**{n: f[:, k] for k, n in enumerate(names)}, md.EFFORT: np.full(len(f), held),
-                md.CONIFER_COVER: con, md.BROADLEAF_COVER: brd}  # fmt: skip
-        xm = np.column_stack([cols[c] for c in full_features])
-        scores_all[i0 : i0 + chunk] = md.predict_at_effort(booster, full_features, xm, held)
-        comp_all[i0 : i0 + chunk] = md.predict_at_effort(comp_booster, full_features, xm, held)
-        inside_all[i0 : i0 + chunk] = aoa.inside(np.column_stack([cols[c] for c in habitat]))
+        xm = map_columns(f, names, full_features, held, held_access)
+        scores_all[i0 : i0 + chunk] = md.predict_held(booster, full_features, xm, hold)
+        comp_all[i0 : i0 + chunk] = md.predict_held(comp_booster, full_features, xm, hold)
+        inside_all[i0 : i0 + chunk] = aoa.inside(f[:, [names.index(c) for c in habitat]])
         log(f"map pass {i0 + len(f)} of {len(cell_id)}, {round(time.monotonic() - s)} s")
     np.save(work / "scores_all.npy", scores_all)
     np.save(work / "inside_all.npy", inside_all)
@@ -929,23 +1040,25 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
     rng = np.random.default_rng(SEED)
     pick = rng.choice(len(cell_id), size=min(200_000, len(cell_id)), replace=False)
     f = feats[pick].astype(np.float64)
-    con, brd = md.cover_columns(f[:, names.index("share_conifer")],
-                                f[:, names.index("share_broadleaf")],
-                                f[:, names.index("total_cover_pct")])  # fmt: skip
-    cols = {**{n: f[:, k] for k, n in enumerate(names)}, md.EFFORT: np.zeros(len(f)),
-            md.CONIFER_COVER: con, md.BROADLEAF_COVER: brd}  # fmt: skip
-    xm = np.column_stack([cols[c] for c in full_features])
-    # P6: the 25th and 75th percentiles of the distribution the held value is the median of
+    xm = map_columns(f, names, full_features, held, held_access)
+    # P6: the 25th and 75th percentiles of the distribution the held value is the median of; for
+    # effort with access held, and for access (over the background draw) with effort held
     q25, q75 = np.quantile(data.log_effort_values, [0.25, 0.75])
-    r25 = md.predict_at_effort(booster, full_features, xm, q25)
-    r75 = md.predict_at_effort(booster, full_features, xm, q75)
+    r25 = md.predict_held(booster, full_features, xm, {md.EFFORT: q25, md.ACCESS: held_access})
+    r75 = md.predict_held(booster, full_features, xm, {md.EFFORT: q75, md.ACCESS: held_access})
     ranking_same = bool(np.array_equal(np.argsort(r25, kind="stable"),
                                        np.argsort(r75, kind="stable")))  # fmt: skip
     shift = r75 - r25
+    a25, a75 = data.access_quartiles
+    s25 = md.predict_held(booster, full_features, xm, {md.EFFORT: held, md.ACCESS: a25})
+    s75 = md.predict_held(booster, full_features, xm, {md.EFFORT: held, md.ACCESS: a75})
+    access_ranking_same = bool(np.array_equal(np.argsort(s25, kind="stable"),
+                                              np.argsort(s75, kind="stable")))  # fmt: skip
+    access_shift = s75 - s25
+    log(f"P6: ranking same at effort quartiles {ranking_same}, at access quartiles "
+        f"{access_ranking_same}")  # fmt: skip
 
     # writers
-    stem = "smoke" if SMOKE else "pnw"
-    out_dir = Path("/mnt/work/Zynergy/forecast-data/t7") / f"{stem}-{datetime.now(UTC):%Y-%m-%d}"
     commit = subprocess.run(["git", "-C", str(REPO), "rev-parse", "HEAD"], capture_output=True,
                             text=True, check=True).stdout.strip()  # fmt: skip
     attrib = attribution(
@@ -959,6 +1072,7 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
             "GBIF.org (6 October 2026) GBIF Occurrence Download https://doi.org/10.15468/dl.8jxmeb",
             "Commission for Environmental Cooperation (CEC). 2021. North American "
             "Environmental Atlas - Terrestrial Ecoregions: Level III. Ed. 2.0",
+            access_attribution(),
         ],
     )
     writer = HabitatWriter(out_dir, window, {"label": "relative habitat, PNW pilot, not shown",
@@ -1030,6 +1144,16 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
         "held_effort": held, "effort_quartiles": [float(q25), float(q75)],
         "ranking_same_at_quartiles": ranking_same,
         "score_shift_at_quartiles": [float(shift.min()), float(shift.max())],
+        "access": {"band": MAIN_ACCESS, "monotone": ACCESS_MONOTONE, "held": held_access,
+                   "held_rule": "median over the background draw",
+                   "quartiles_over_background": data.access_quartiles,
+                   "ranking_same_at_quartiles": access_ranking_same,
+                   "score_shift_at_quartiles": [float(access_shift.min()),
+                                                float(access_shift.max())],
+                   "in_interaction_group_with": md.EFFORT,
+                   "excluded_from_area_of_applicability": True},
+        "model_features": {**ladder, "full": full_features},
+        "smoke": SMOKE, "resamples": resamples,
         "blocks_in_fit": len(in_fit), "forested_blocks_in_box": len(forested_all),
         "forested_blocks_in_fit": sorted(int(b) for b in forested),
         "informative_blocks": sorted(int(b) for b in informative),
@@ -1037,9 +1161,10 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
         "forested_auc": {k: auc(data, v, forested_sel) for k, v in preds.items()},
         "add_one": {c: dd(d) for c, d in add_one.items()}, "kept_candidates": kept,
         "full_features": full_features,
-        "p10": {"all_blocks": {k: dd(v) for k, v in pooled.items()},
-                "forested_blocks": {k: dd(v) for k, v in forest.items()},
-                "passes": verdict},
+        "p10b": p10b, "condition_3": condition_3,
+        "p10_no_verdict": {"all_blocks": {k: dd(v) for k, v in pooled.items()},
+                           "forested_blocks": {k: dd(v) for k, v in forest.items()},
+                           "passes": verdict},
         "block_clustered_intervals_no_verdict": by_block_cluster,
         "base_minus_B_no_verdict": base_minus_b,
         "within_weather_cell_no_verdict": within_cell,
@@ -1077,9 +1202,11 @@ def cmd_fit(work: Path, evidence: Path, threads: int) -> None:
         "final_model_configuration": best_full,
         "share_floor": SHARE_FLOOR, "held_effort": held,
         "aoa": {"threshold": aoa.threshold, "mean_distance": aoa.mean_distance,
-                "excluded": [md.EFFORT]},
+                "excluded": [md.EFFORT, md.ACCESS]},
+        "access": {"input": meta["inputs"].get("access"), "band": MAIN_ACCESS,
+                   "monotone": ACCESS_MONOTONE, "held": held_access},
         "licence_track": "reported beside (CC0 and CC BY records, T6's cc surface)",
-        "attribution": attrib, "codes": CODE_LEGEND,
+        "attribution": attrib, "codes": CODE_LEGEND, "smoke": SMOKE,
         "level3_codes": meta["level3_table"], "features": full_features,
         "left_out_bands": list(LEFT_OUT_BANDS), "threads": threads,
         "outputs": {**digests, "mask_map.png": png_sha},
@@ -1255,14 +1382,30 @@ if __name__ == "__main__":
         k = args.index("--threads")
         threads = int(args[k + 1])
         del args[k : k + 2]
+    if "--access-monotone" in args:
+        k = args.index("--access-monotone")
+        ACCESS_MONOTONE = int(args[k + 1])
+        if ACCESS_MONOTONE not in (-1, 0, 1):
+            raise SystemExit("--access-monotone is -1, 0 or 1")
+        del args[k : k + 2]
+    out = None
+    if "--out" in args:
+        k = args.index("--out")
+        out = Path(args[k + 1])
+        del args[k : k + 2]
+    access_table = "--access" in args
+    if access_table:
+        args.remove("--access")
     if not args:
         raise SystemExit(__doc__)
     if args[0] == "table":
-        cmd_table(Path(args[1]), ACCESS if "--access" in args else None)
+        cmd_table(Path(args[1]), ACCESS if access_table else None)
     elif args[0] == "timing":
         cmd_timing(Path(args[1]), Path(args[2]), threads)
     elif args[0] == "fit":
-        cmd_fit(Path(args[1]), Path(args[2]), threads)
+        if out is None:
+            raise SystemExit("fit needs --out <new folder> for the map (never the judged run's)")
+        cmd_fit(Path(args[1]), Path(args[2]), threads, out)
     elif args[0] == "figures":
         cmd_figures(Path(args[1]), Path(args[2]))
     else:
