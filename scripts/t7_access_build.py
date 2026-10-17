@@ -431,7 +431,8 @@ def cmd_coverage() -> None:
         })  # fmt: skip
     total = {"cells": int(len(l3)), "road_values": int(np.isfinite(road).sum()),
              "trail_values": int(np.isfinite(trail).sum()), "trails_unpublished": int(un.sum()),
-             "table": str(FT / "table.npz"), "table_cells_are": "T7's eligible cells (code 1)",
+             "table": str(FT / "table.npz"),
+             "table_cells_are": "T7's table cells, eligible under P4 (codes 1 and 2)",
              "table_meta_sha256": hashlib.sha256((FT / "table_meta.json").read_bytes()).hexdigest()
              }  # fmt: skip
     (OUT / "coverage_by_block.json").write_text(json.dumps({"total": total, "blocks": out},
