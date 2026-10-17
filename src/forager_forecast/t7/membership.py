@@ -209,5 +209,11 @@ class Join:
 
 
 def ectomycorrhizal_overlap(genera, members: MembershipList) -> dict[str, str]:
-    """STUB (tests first)."""
-    return {}
+    """The given genera that the list classes ectomycorrhizal, each with its certainty ("clear"
+    is the mycorrhizal group's main run; "mixed" and "uncertain" its side run). A comparison group
+    must return none (T7 part C)."""
+    return {
+        g: members.rows[g].certainty
+        for g in genera
+        if g in members.rows and members.rows[g].lifestyle == "ectomycorrhizal"
+    }
