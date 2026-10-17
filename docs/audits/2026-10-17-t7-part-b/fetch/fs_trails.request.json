@@ -1,0 +1,25 @@
+{
+  "name": "fs_trails",
+  "url": "https://data.fs.usda.gov/geodata/edw/edw_resources/fc/Trans_Trail_NFS_Publish.gdb.zip",
+  "fetched_utc": "2026-10-17T07:49:03+00:00",
+  "seconds": 76.2,
+  "http": {
+    "date": "Sat, 17 Oct 2026 07:49:03 GMT",
+    "server": "Apache",
+    "x-frame-options": "SAMEORIGIN",
+    "last-modified": "Mon, 12 Oct 2026 02:51:49 GMT",
+    "etag": "\"71ead39-65d9bc791c5f5\"",
+    "accept-ranges": "bytes",
+    "content-length": "119450937",
+    "content-security-policy": "frame-ancestors 'self';",
+    "access-control-allow-origin": "https://www.fs.usda.gov",
+    "content-type": "application/zip",
+    "x-content-type-options": "nosniff",
+    "strict-transport-security": "max-age=31536000; includeSubDomains"
+  },
+  "size_bytes": 119450937,
+  "sha256": "829430c94dbc5de2ff9433881e8816be20595d50192d39e6e297d4c61e1922f7",
+  "check": "served length",
+  "check_expected": "119450937",
+  "check_passed": true
+}

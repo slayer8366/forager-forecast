@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="9" time="0.583" timestamp="2026-10-17T00:59:05.035762-07:00" hostname="zynergy-labs-HP-Laptop-17t-by200"><testcase classname="tests.test_t7_access" name="test_distance_perpendicular_beyond_an_end_on_the_line_and_the_nearer_of_two" time="0.002" /><testcase classname="tests.test_t7_access" name="test_a_multiline_counts_as_its_nearest_part" time="0.001" /><testcase classname="tests.test_t7_access" name="test_no_lines_gives_nan_not_a_number_made_up" time="0.001" /><testcase classname="tests.test_t7_access" name="test_cell_centres_are_the_grid_convention" time="0.006" /><testcase classname="tests.test_t7_access" name="test_block_distances_are_exact_when_the_nearest_line_is_far_outside_the_first_radius" time="0.003" /><testcase classname="tests.test_t7_access" name="test_block_distances_give_nan_when_no_line_exists_within_the_largest_radius" time="0.001" /><testcase classname="tests.test_t7_access" name="test_combine_takes_the_nearer_and_masks_unpublished_trail_cells" time="0.002"><failure message="AssertionError: assert ([300.0, 200.0] == [300.0, 200.0]&#10;  &#10;  Use -v to get more diff and np.False_)&#10; +  where np.False_ = &lt;ufunc 'isnan'&gt;(np.float64(10.0))&#10; +    where &lt;ufunc 'isnan'&gt; = np.isnan">def test_combine_takes_the_nearer_and_masks_unpublished_trail_cells():
+        road = np.array([[100.0, 900.0], [50.0, np.nan]])
+        trail = np.array([[300.0, 200.0], [10.0, 40.0]])
+        unpublished = np.array([[False, False], [True, False]])
+        t, a = combine(road, trail, unpublished)
+&gt;       assert t[0].tolist() == [300.0, 200.0] and np.isnan(t[1, 0]) and t[1, 1] == 40.0
+E       AssertionError: assert ([300.0, 200.0] == [300.0, 200.0]
+E         
+E         Use -v to get more diff and np.False_)
+E        +  where np.False_ = &lt;ufunc 'isnan'&gt;(np.float64(10.0))
+E        +    where &lt;ufunc 'isnan'&gt; = np.isnan
+
+tests/test_t7_access.py:98: AssertionError</failure></testcase><testcase classname="tests.test_t7_access" name="test_only_federal_trail_sources_are_kept" time="0.001" /><testcase classname="tests.test_t7_access" name="test_ferries_and_tunnels_are_not_roads_and_every_other_class_is" time="0.001" /></testsuite></testsuites>

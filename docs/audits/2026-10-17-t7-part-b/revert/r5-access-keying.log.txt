@@ -1,0 +1,49 @@
+.....F..                                                                 [100%]
+=================================== FAILURES ===================================
+_________ test_access_bands_are_off_by_default_and_change_nothing_else _________
+
+tmp_path = PosixPath('/tmp/pytest-of-zynergy-labs/pytest-153/test_access_bands_are_off_by_d0')
+
+    def test_access_bands_are_off_by_default_and_change_nothing_else(tmp_path):
+        tile, tree, flags, soil, mask, polygons = _layers(tmp_path)
+        base = read_tile(tile, tree, flags, soil, mask, BOX, polygons)
+        assert base.access.shape == (10, 0) and base.access_bands == ()
+        assert set(ACCESS_BANDS).isdisjoint(FEATURES)
+        path, vals = _access(tmp_path, tile)
+        on = read_tile(tile, tree, flags, soil, mask, BOX, polygons, access_path=path,
+                       access_bands=ACCESS_BANDS)  # fmt: skip
+        assert np.array_equal(on.features, base.features) and np.array_equal(on.code, base.code)
+        assert on.access_bands == ACCESS_BANDS and on.access.shape == (10, 3)
+        for k, b in enumerate(ACCESS_BANDS):
+>           assert on.access[:, k].tolist() == pytest.approx(
+                vals[b][on.rows, on.cols].tolist(), nan_ok=True
+            )
+E           AssertionError: assert [9.5, 13.5, 2....5, 14.5, ...] == approx([6.5 ±....5 ± 1.6e-05])
+E             
+E             comparison failed. Mismatched elements: 8 / 10:
+E             Max absolute difference: 9.0
+E             Max relative difference: 2.5714285714285716
+E             Index | Obtained | Expected      
+E             0     | 9.5      | 6.5 ± 6.5e-06 
+E             1     | 13.5     | 7.5 ± 7.5e-06 ...
+E             
+E             ...Full output truncated (6 lines hidden), use '-vv' to show
+
+tests/test_t7_predictors.py:161: AssertionError
+=============================== warnings summary ===============================
+tests/test_t7_predictors.py: 36 warnings
+  /home/zynergy-labs/Zynergy/forager-forecast-t7-part-b/.venv/lib/python3.14/site-packages/rasterio/transform.py:178: PendingDeprecationWarning: Use `@` matmul instead of `*` mul operator for matrix multiplication
+    return Affine.translation(west, north) * Affine.scale(xsize, -ysize)
+
+tests/test_t7_predictors.py: 339 warnings
+  /home/zynergy-labs/Zynergy/forager-forecast-t7-part-b/.venv/lib/python3.14/site-packages/rasterio/windows.py:360: PendingDeprecationWarning: Use `@` matmul instead of `*` mul operator for matrix multiplication
+    x, y = transform * (window.col_off or 0.0, window.row_off or 0.0)
+
+tests/test_t7_predictors.py: 339 warnings
+  /home/zynergy-labs/Zynergy/forager-forecast-t7-part-b/.venv/lib/python3.14/site-packages/rasterio/windows.py:361: PendingDeprecationWarning: Use `@` matmul instead of `*` mul operator for matrix multiplication
+    return Affine.translation(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_t7_predictors.py::test_access_bands_are_off_by_default_and_change_nothing_else
+1 failed, 7 passed, 714 warnings in 17.38s

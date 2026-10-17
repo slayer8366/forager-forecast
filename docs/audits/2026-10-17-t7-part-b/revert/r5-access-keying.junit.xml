@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="8" time="17.380" timestamp="2026-10-17T00:59:18.202063-07:00" hostname="zynergy-labs-HP-Laptop-17t-by200"><testcase classname="tests.test_t7_predictors" name="test_each_cell_gets_its_code_and_only_eligible_cells_carry_values" time="1.618" /><testcase classname="tests.test_t7_predictors" name="test_a_pending_study_cell_stops_the_run" time="2.125" /><testcase classname="tests.test_t7_predictors" name="test_a_pending_cell_outside_the_study_area_does_not" time="2.547" /><testcase classname="tests.test_t7_predictors" name="test_a_tile_of_another_band_layout_is_refused" time="0.098" /><testcase classname="tests.test_t7_predictors" name="test_cells_outside_the_box_are_code_0" time="2.484" /><testcase classname="tests.test_t7_predictors" name="test_access_bands_are_off_by_default_and_change_nothing_else" time="5.366"><failure message="AssertionError: assert [9.5, 13.5, 2....5, 14.5, ...] == approx([6.5 ±....5 ± 1.6e-05])&#10;  &#10;  comparison failed. Mismatched elements: 8 / 10:&#10;  Max absolute difference: 9.0&#10;  Max relative difference: 2.5714285714285716&#10;  Index | Obtained | Expected      &#10;  0     | 9.5      | 6.5 ± 6.5e-06 &#10;  1     | 13.5     | 7.5 ± 7.5e-06 ...&#10;  &#10;  ...Full output truncated (6 lines hidden), use '-vv' to show">tmp_path = PosixPath('/tmp/pytest-of-zynergy-labs/pytest-153/test_access_bands_are_off_by_d0')
+
+    def test_access_bands_are_off_by_default_and_change_nothing_else(tmp_path):
+        tile, tree, flags, soil, mask, polygons = _layers(tmp_path)
+        base = read_tile(tile, tree, flags, soil, mask, BOX, polygons)
+        assert base.access.shape == (10, 0) and base.access_bands == ()
+        assert set(ACCESS_BANDS).isdisjoint(FEATURES)
+        path, vals = _access(tmp_path, tile)
+        on = read_tile(tile, tree, flags, soil, mask, BOX, polygons, access_path=path,
+                       access_bands=ACCESS_BANDS)  # fmt: skip
+        assert np.array_equal(on.features, base.features) and np.array_equal(on.code, base.code)
+        assert on.access_bands == ACCESS_BANDS and on.access.shape == (10, 3)
+        for k, b in enumerate(ACCESS_BANDS):
+&gt;           assert on.access[:, k].tolist() == pytest.approx(
+                vals[b][on.rows, on.cols].tolist(), nan_ok=True
+            )
+E           AssertionError: assert [9.5, 13.5, 2....5, 14.5, ...] == approx([6.5 ±....5 ± 1.6e-05])
+E             
+E             comparison failed. Mismatched elements: 8 / 10:
+E             Max absolute difference: 9.0
+E             Max relative difference: 2.5714285714285716
+E             Index | Obtained | Expected      
+E             0     | 9.5      | 6.5 ± 6.5e-06 
+E             1     | 13.5     | 7.5 ± 7.5e-06 ...
+E             
+E             ...Full output truncated (6 lines hidden), use '-vv' to show
+
+tests/test_t7_predictors.py:161: AssertionError</failure></testcase><testcase classname="tests.test_t7_predictors" name="test_the_main_access_band_is_roads_and_the_others_are_named_side_bands" time="0.001" /><testcase classname="tests.test_t7_predictors" name="test_an_access_band_the_file_lacks_or_no_file_is_refused" time="2.682" /></testsuite></testsuites>

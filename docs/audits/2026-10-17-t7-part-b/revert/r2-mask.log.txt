@@ -1,0 +1,20 @@
+......F..                                                                [100%]
+=================================== FAILURES ===================================
+_______ test_combine_takes_the_nearer_and_masks_unpublished_trail_cells ________
+
+    def test_combine_takes_the_nearer_and_masks_unpublished_trail_cells():
+        road = np.array([[100.0, 900.0], [50.0, np.nan]])
+        trail = np.array([[300.0, 200.0], [10.0, 40.0]])
+        unpublished = np.array([[False, False], [True, False]])
+        t, a = combine(road, trail, unpublished)
+>       assert t[0].tolist() == [300.0, 200.0] and np.isnan(t[1, 0]) and t[1, 1] == 40.0
+E       AssertionError: assert ([300.0, 200.0] == [300.0, 200.0]
+E         
+E         Use -v to get more diff and np.False_)
+E        +  where np.False_ = <ufunc 'isnan'>(np.float64(10.0))
+E        +    where <ufunc 'isnan'> = np.isnan
+
+tests/test_t7_access.py:98: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_t7_access.py::test_combine_takes_the_nearer_and_masks_unpublished_trail_cells
+1 failed, 8 passed in 0.58s

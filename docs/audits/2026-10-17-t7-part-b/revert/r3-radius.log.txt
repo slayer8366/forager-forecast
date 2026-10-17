@@ -1,0 +1,30 @@
+....F....                                                                [100%]
+=================================== FAILURES ===================================
+_ test_block_distances_are_exact_when_the_nearest_line_is_far_outside_the_first_radius _
+
+    def test_block_distances_are_exact_when_the_nearest_line_is_far_outside_the_first_radius():
+        w = GridWindow(0, 0, 4 * CELL_SIZE_M, 4 * CELL_SIZE_M)
+        far = _line((0, 50_000), (1000, 50_000))  # 49 km north of the block
+        near = _line((-300, -300), (-300, 2000))  # beside the block's west edge
+        lines = np.array([far, near])
+        calls = []
+    
+        def read(bbox):
+            calls.append(bbox)
+            return lines[shapely.intersects(lines, shapely.box(*bbox))]
+    
+        inside = np.ones((4, 4), dtype=bool)
+        inside[0, 0] = False
+        d = block_distances(read, w, inside, start_radius=1000.0)
+        x, y = cell_centres(w)
+        truth = nearest_distance(lines, x.ravel(), y.ravel()).reshape(4, 4)
+        assert np.isnan(d[0, 0])
+>       assert np.allclose(d[inside], truth[inside])
+E       assert False
+E        +  where False = <function allclose at 0x775d0c3601b0>(array([675., 925.,  nan, 425., 675., 925.,  nan, 425., 675., 925.,  nan,\n       425., 675., 925.,  nan]), array([ 675.,  925., 1175.,  425.,  675.,  925., 1175.,  425.,  675.,\n        925., 1175.,  425.,  675.,  925., 1175.]))
+E        +    where <function allclose at 0x775d0c3601b0> = np.allclose
+
+tests/test_t7_access.py:75: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_t7_access.py::test_block_distances_are_exact_when_the_nearest_line_is_far_outside_the_first_radius
+1 failed, 8 passed in 0.48s

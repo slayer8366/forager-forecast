@@ -1,0 +1,23 @@
+{
+  "name": "ntd_utah",
+  "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Tran/GDB/TRAN_Utah_State_GDB.zip",
+  "fetched_utc": "2026-10-17T07:46:33+00:00",
+  "seconds": 10.0,
+  "http": {
+    "x-amz-id-2": "6Tmy4jrfNDDrciqX1Atw+bXrL2vA9ySF7empc4PwXZkUtin/+HLtCJa3ivICpOTwKnbl8FM05lhhjEaBBIvxRs1oqUkS9mwc",
+    "x-amz-request-id": "GN5Y1D24WR6ZBJFV",
+    "server": "AmazonS3",
+    "date": "Sat, 17 Oct 2026 07:46:34 GMT",
+    "last-modified": "Thu, 12 Feb 2026 14:33:36 GMT",
+    "etag": "\"13a8a1c8d679428f632107eaa55a5394-19\"",
+    "x-amz-server-side-encryption": "AES256",
+    "accept-ranges": "bytes",
+    "content-length": "155430400",
+    "content-type": "binary/octet-stream"
+  },
+  "size_bytes": 155430400,
+  "sha256": "9549db52c7e711bb2f1c4c5ca69e8e16782075aade56dbcfa5e1d4800c2f419c",
+  "check": "s3 multipart etag",
+  "check_expected": "\"13a8a1c8d679428f632107eaa55a5394-19\"",
+  "check_passed": true
+}

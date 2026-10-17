@@ -1,0 +1,212 @@
+[
+  {
+    "label": "Portland, OR, downtown",
+    "cell_centre_lonlat": [
+      -122.67707,
+      45.52362
+    ],
+    "row": 1762,
+    "col": 1440,
+    "layer": {
+      "dist_road_m": 17.456724166870117,
+      "dist_trail_m": 11382.4736328125,
+      "dist_any_m": 17.456724166870117
+    },
+    "trails_unpublished": 0,
+    "check_dist_road_m": 17.46,
+    "check_dist_road_m_source": "ntd_oregon",
+    "check_dist_road_m_lines_read": 170699,
+    "check_dist_trail_m": 11382.47,
+    "check_dist_trail_m_source": "ntd_washington",
+    "check_dist_trail_m_lines_read": 1543
+  },
+  {
+    "label": "Eagle Cap Wilderness core (Wallowa-Whitman, masked)",
+    "cell_centre_lonlat": [
+      -117.29967,
+      45.16923
+    ],
+    "row": 2321,
+    "col": 2933,
+    "layer": {
+      "dist_road_m": 10624.6640625,
+      "dist_trail_m": NaN,
+      "dist_any_m": NaN
+    },
+    "trails_unpublished": 1,
+    "check_dist_road_m": 10624.66,
+    "check_dist_road_m_source": "ntd_oregon",
+    "check_dist_road_m_lines_read": 35854,
+    "check_dist_trail_m": 657.36,
+    "check_dist_trail_m_source": "ntd_oregon",
+    "check_dist_trail_m_lines_read": 2687
+  },
+  {
+    "label": "Frank Church wilderness interior, ID",
+    "cell_centre_lonlat": [
+      -115.10165,
+      45.25015
+    ],
+    "row": 2421,
+    "col": 3576,
+    "layer": {
+      "dist_road_m": 18033.857421875,
+      "dist_trail_m": 909.262451171875,
+      "dist_any_m": 909.262451171875
+    },
+    "trails_unpublished": 0,
+    "check_dist_road_m": 18033.86,
+    "check_dist_road_m_source": "fs_roads",
+    "check_dist_road_m_lines_read": 6919,
+    "check_dist_trail_m": 909.26,
+    "check_dist_trail_m_source": "ntd_idaho",
+    "check_dist_trail_m_lines_read": 2045
+  },
+  {
+    "label": "Olympic NP interior, WA",
+    "cell_centre_lonlat": [
+      -123.60061,
+      47.79966
+    ],
+    "row": 656,
+    "col": 1488,
+    "layer": {
+      "dist_road_m": 19865.294921875,
+      "dist_trail_m": 5722.42431640625,
+      "dist_any_m": 5722.42431640625
+    },
+    "trails_unpublished": 0,
+    "check_dist_road_m": 19865.29,
+    "check_dist_road_m_source": "ntd_washington",
+    "check_dist_road_m_lines_read": 25537,
+    "check_dist_trail_m": 5722.42,
+    "check_dist_trail_m_source": "ntd_washington",
+    "check_dist_trail_m_lines_read": 1109
+  },
+  {
+    "label": "Bob Marshall Wilderness, MT",
+    "cell_centre_lonlat": [
+      -113.1989,
+      47.6011
+    ],
+    "row": 1436,
+    "col": 4328,
+    "layer": {
+      "dist_road_m": 24856.458984375,
+      "dist_trail_m": 294.63360595703125,
+      "dist_any_m": 294.63360595703125
+    },
+    "trails_unpublished": 0,
+    "check_dist_road_m": 24856.46,
+    "check_dist_road_m_source": "fs_roads",
+    "check_dist_road_m_lines_read": 19231,
+    "check_dist_trail_m": 294.63,
+    "check_dist_trail_m_source": "fs_trails",
+    "check_dist_trail_m_lines_read": 5735
+  },
+  {
+    "label": "Mount Hood NF slope, OR",
+    "cell_centre_lonlat": [
+      -121.79899,
+      45.30073
+    ],
+    "row": 1934,
+    "col": 1660,
+    "layer": {
+      "dist_road_m": 896.0950317382812,
+      "dist_trail_m": 168.97117614746094,
+      "dist_any_m": 168.97117614746094
+    },
+    "trails_unpublished": 0,
+    "check_dist_road_m": 896.1,
+    "check_dist_road_m_source": "ntd_oregon",
+    "check_dist_road_m_lines_read": 81175,
+    "check_dist_trail_m": 168.97,
+    "check_dist_trail_m_source": "fs_trails",
+    "check_dist_trail_m_lines_read": 5789
+  },
+  {
+    "label": "Salt Lake City, UT",
+    "cell_centre_lonlat": [
+      -111.8908,
+      40.75908
+    ],
+    "row": 4688,
+    "col": 4154,
+    "layer": {
+      "dist_road_m": 22.925960540771484,
+      "dist_trail_m": 4978.306640625,
+      "dist_any_m": 22.925960540771484
+    },
+    "trails_unpublished": 0,
+    "check_dist_road_m": 22.93,
+    "check_dist_road_m_source": "ntd_utah",
+    "check_dist_road_m_lines_read": 150262,
+    "check_dist_trail_m": 4978.31,
+    "check_dist_trail_m_source": "fs_trails",
+    "check_dist_trail_m_lines_read": 2095
+  },
+  {
+    "label": "Black Rock Desert, NV",
+    "cell_centre_lonlat": [
+      -119.10052,
+      40.89943
+    ],
+    "row": 4156,
+    "col": 1928,
+    "layer": {
+      "dist_road_m": 4118.64453125,
+      "dist_trail_m": 11285.857421875,
+      "dist_any_m": 4118.64453125
+    },
+    "trails_unpublished": 0,
+    "check_dist_road_m": 4118.64,
+    "check_dist_road_m_source": "ntd_nevada",
+    "check_dist_road_m_lines_read": 4830,
+    "check_dist_trail_m": 11285.86,
+    "check_dist_trail_m_source": "ntd_nevada",
+    "check_dist_trail_m_lines_read": 2
+  },
+  {
+    "label": "Klamath Mountains, Trinity Alps, CA",
+    "cell_centre_lonlat": [
+      -122.99976,
+      40.99904
+    ],
+    "row": 3788,
+    "col": 748,
+    "layer": {
+      "dist_road_m": 9500.0888671875,
+      "dist_trail_m": 539.1489868164062,
+      "dist_any_m": 539.1489868164062
+    },
+    "trails_unpublished": 0,
+    "check_dist_road_m": 9500.09,
+    "check_dist_road_m_source": "fs_roads",
+    "check_dist_road_m_lines_read": 46253,
+    "check_dist_trail_m": 539.15,
+    "check_dist_trail_m_source": "ntd_california",
+    "check_dist_trail_m_lines_read": 2377
+  },
+  {
+    "label": "Malheur NF, Strawberry Mountain, OR",
+    "cell_centre_lonlat": [
+      -118.70157,
+      44.29963
+    ],
+    "row": 2625,
+    "col": 2432,
+    "layer": {
+      "dist_road_m": 2338.397216796875,
+      "dist_trail_m": 97.897705078125,
+      "dist_any_m": 97.897705078125
+    },
+    "trails_unpublished": 0,
+    "check_dist_road_m": 2338.4,
+    "check_dist_road_m_source": "ntd_oregon",
+    "check_dist_road_m_lines_read": 55616,
+    "check_dist_trail_m": 97.9,
+    "check_dist_trail_m_source": "fs_trails",
+    "check_dist_trail_m_lines_read": 541
+  }
+]

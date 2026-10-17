@@ -1,0 +1,468 @@
+{
+  "dispatch": "docs/dispatch/2026-10-17-t7-part-b.md (origin/t7-strengthen-plan)",
+  "record": "Forager RECORD -1163 (intent), -1168 (go, the owner's rulings)",
+  "code_commit": "5d4c94fa9c27cb43b27f4857d02e2fbd0090d30c",
+  "started_utc": "2026-10-17T08:09:29+00:00",
+  "finished_utc": "2026-10-17T09:00:15+00:00",
+  "seconds": 3046.3,
+  "window": [
+    -2295000,
+    95000,
+    -1033000,
+    1367250
+  ],
+  "crs": "ESRI:102008",
+  "cell_size_m": 250,
+  "box": {
+    "south": 40.0,
+    "north": 49.0,
+    "west": -125.0,
+    "east": -111.0
+  },
+  "pad_m": 50000,
+  "read_bbox_lonlat": [
+    -125.75,
+    39.5,
+    -110.25,
+    49.5
+  ],
+  "start_radius_m": 8000.0,
+  "max_radius_m": 2000000.0,
+  "bands": [
+    "dist_road_m",
+    "dist_trail_m",
+    "dist_any_m"
+  ],
+  "rules": {
+    "roads": "NTD road segments except classes 7 (ferry) and 8 (tunnel); every Forest Service road incl. closed (maintenance level 1) (ruling 3)",
+    "trails": "NTD trail segments whose source originator is one of ['Bureau of Land Management', 'National Park Service', 'U.S. Fish and Wildlife Service', 'U.S. Forest Service']; every Forest Service trail with a line; every BLM managed trail (ruling 2)",
+    "unpublished": "cells by centre in {'0614': 'Umatilla National Forest', '0616': 'Wallowa-Whitman National Forest'}: trail and combined bands NaN (ruling 1)",
+    "distance": "exact centre-to-nearest-line, grid-plane metres; scale 0.940 to 0.945 along parallels, 1.058 to 1.063 along meridians over the box",
+    "outside_box": "NaN",
+    "domain": "cells of the box whose code in the domain raster is not 0; others NaN"
+  },
+  "cells_without_any_line_within_max_radius": {
+    "dist_road_m": 0,
+    "dist_trail_m": 0
+  },
+  "unpublished_cells_in_domain": 260507,
+  "domain": {
+    "path": "/mnt/work/Zynergy/forecast-data/t7/pnw-2026-10-17/applicability_pnw.tif",
+    "sha256": "07baec5f0990a116b7ec7512aaa993215f689ceac6a5f4571083bf05ed539c67",
+    "cells": 16674133
+  },
+  "inputs": {
+    "blm_trails": {
+      "url": "https://gbp-blm-egis.hub.arcgis.com/api/download/v1/items/974363b4f22244d49350753f8fb5af32/filegdb?layers=2",
+      "fetched_utc": "2026-10-17T07:51:10+00:00",
+      "size_bytes": 11194893,
+      "sha256": "ebe0f69b620f9d87a913779ee4c075126fb22b2364120a6f3550bb0f8b8ff8a5",
+      "check": "served length",
+      "check_expected": "11194893"
+    },
+    "fs_admin_forests": {
+      "url": "https://data.fs.usda.gov/geodata/edw/edw_resources/fc/BdyAdm_LSRS_AdministrativeForest.gdb.zip",
+      "fetched_utc": "2026-10-17T07:51:39+00:00",
+      "size_bytes": 40097470,
+      "sha256": "7e48e4ede9f95cb83b6dd348008fcae775e12bb3985b88a97b35cbf824b5cb13",
+      "check": "served length",
+      "check_expected": "40097470"
+    },
+    "fs_roads": {
+      "url": "https://data.fs.usda.gov/geodata/edw/edw_resources/fc/Trans_RoadCore_FS.gdb.zip",
+      "fetched_utc": "2026-10-17T07:46:50+00:00",
+      "size_bytes": 239731295,
+      "sha256": "d34ce6045b4cb289c0c51de9f2e6be37bc08b9bc73dbd49255c6fbdc2ec1ac17",
+      "check": "served length",
+      "check_expected": "239731295"
+    },
+    "fs_trails": {
+      "url": "https://data.fs.usda.gov/geodata/edw/edw_resources/fc/Trans_Trail_NFS_Publish.gdb.zip",
+      "fetched_utc": "2026-10-17T07:49:03+00:00",
+      "size_bytes": 119450937,
+      "sha256": "829430c94dbc5de2ff9433881e8816be20595d50192d39e6e297d4c61e1922f7",
+      "check": "served length",
+      "check_expected": "119450937"
+    },
+    "ntd_california": {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Tran/GDB/TRAN_California_State_GDB.zip",
+      "fetched_utc": "2026-10-17T07:45:20+00:00",
+      "size_bytes": 754066747,
+      "sha256": "64301baf6f9547cefb061e1661aa59864f65d0b4654c9a2c6172571eb7450424",
+      "check": "s3 multipart etag",
+      "check_expected": "\"fc55b75543642a5fd16e402573db31fb-90\""
+    },
+    "ntd_idaho": {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Tran/GDB/TRAN_Idaho_State_GDB.zip",
+      "fetched_utc": "2026-10-17T07:45:00+00:00",
+      "size_bytes": 155883470,
+      "sha256": "792828b9c084032bb5e8476ba298645bcbdee1dcbcccbbf4786542e5cbc75a3a",
+      "check": "s3 multipart etag",
+      "check_expected": "\"afd203fb8740faf755ddd336168a02d0-19\""
+    },
+    "ntd_montana": {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Tran/GDB/TRAN_Montana_State_GDB.zip",
+      "fetched_utc": "2026-10-17T07:45:07+00:00",
+      "size_bytes": 163233822,
+      "sha256": "ceb1fdadf0e94fdb1db690fc820daded01bb8aa592c230cb1b7ee32a9680b0d0",
+      "check": "s3 multipart etag",
+      "check_expected": "\"61f7f41e7c80d83501645ee615595622-20\""
+    },
+    "ntd_nevada": {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Tran/GDB/TRAN_Nevada_State_GDB.zip",
+      "fetched_utc": "2026-10-17T07:46:27+00:00",
+      "size_bytes": 130639584,
+      "sha256": "0e0f5eec23c0a23e7e104b1619b9b4c92990a18f0337b2d6fcae15eabce1ae53",
+      "check": "s3 multipart etag",
+      "check_expected": "\"819b7d17a12d2b665c3264e558ff2874-16\""
+    },
+    "ntd_oregon": {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Tran/GDB/TRAN_Oregon_State_GDB.zip",
+      "fetched_utc": "2026-10-17T07:44:44+00:00",
+      "size_bytes": 247040261,
+      "sha256": "acb03830fe92fd23b83206b8d50379331aafbd2390ac2a1e38153f263e94b876",
+      "check": "s3 multipart etag",
+      "check_expected": "\"2454b57deaa96051dc62c81f8b60e9fb-30\""
+    },
+    "ntd_utah": {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Tran/GDB/TRAN_Utah_State_GDB.zip",
+      "fetched_utc": "2026-10-17T07:46:33+00:00",
+      "size_bytes": 155430400,
+      "sha256": "9549db52c7e711bb2f1c4c5ca69e8e16782075aade56dbcfa5e1d4800c2f419c",
+      "check": "s3 multipart etag",
+      "check_expected": "\"13a8a1c8d679428f632107eaa55a5394-19\""
+    },
+    "ntd_washington": {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Tran/GDB/TRAN_Washington_State_GDB.zip",
+      "fetched_utc": "2026-10-17T07:44:52+00:00",
+      "size_bytes": 214095086,
+      "sha256": "eb040ce5829d5e230b7f8b6e78dd34afd72d16d51d7cb49014355081779b5192",
+      "check": "s3 multipart etag",
+      "check_expected": "\"4a8a0ce9ac54937f048c38c3864d285e-26\""
+    },
+    "ntd_wyoming": {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Tran/GDB/TRAN_Wyoming_State_GDB.zip",
+      "fetched_utc": "2026-10-17T07:46:44+00:00",
+      "size_bytes": 103517516,
+      "sha256": "d94d1050ef009e06e56610829ba63fed709deb719b6921093f127f111f888262",
+      "check": "s3 multipart etag",
+      "check_expected": "\"4cd4f0da0cf6344fcd04693e961449b4-13\""
+    }
+  },
+  "prepare": {
+    "started_utc": "2026-10-17T07:55:50+00:00",
+    "read_bbox_lonlat": [
+      -125.75,
+      39.5,
+      -110.25,
+      49.5
+    ],
+    "sources": {
+      "ntd_oregon": {
+        "roads_read": 722875,
+        "roads_kept": 722846,
+        "roads_dropped_by_class": {
+          "8": 23,
+          "7": 6
+        },
+        "roads_by_originator": {
+          "U.S. Department of Commerce, U.S. Census Bureau, Geography Division": 548554,
+          "U.S. Forest Service": 174096,
+          "National Park Service": 196
+        },
+        "roads_no_geometry": 0,
+        "trails_read": 23876,
+        "trails_kept": 23875,
+        "trails_dropped_by_originator": {
+          "California Coastal Commission": 1
+        },
+        "trails_kept_by_originator": {
+          "Bureau of Land Management": 9781,
+          "U.S. Forest Service": 13130,
+          "U.S. Fish and Wildlife Service": 210,
+          "National Park Service": 754
+        },
+        "trails_no_geometry": 0
+      },
+      "ntd_washington": {
+        "roads_read": 691944,
+        "roads_kept": 691492,
+        "roads_dropped_by_class": {
+          "8": 405,
+          "7": 47
+        },
+        "roads_by_originator": {
+          "U.S. Department of Commerce, U.S. Census Bureau, Geography Division": 653021,
+          "U.S. Forest Service": 36532,
+          "National Park Service": 1939
+        },
+        "roads_no_geometry": 0,
+        "trails_read": 9052,
+        "trails_kept": 6985,
+        "trails_dropped_by_originator": {
+          "Washington State Parks and Recreation Commission": 2067
+        },
+        "trails_kept_by_originator": {
+          "U.S. Forest Service": 4252,
+          "U.S. Fish and Wildlife Service": 257,
+          "National Park Service": 2100,
+          "Bureau of Land Management": 376
+        },
+        "trails_no_geometry": 0
+      },
+      "ntd_idaho": {
+        "roads_read": 435792,
+        "roads_kept": 435778,
+        "roads_dropped_by_class": {
+          "8": 14
+        },
+        "roads_by_originator": {
+          "U.S. Department of Commerce, U.S. Census Bureau, Geography Division": 362822,
+          "U.S. Forest Service": 72749,
+          "National Park Service": 207
+        },
+        "roads_no_geometry": 0,
+        "trails_read": 10200,
+        "trails_kept": 9769,
+        "trails_dropped_by_originator": {
+          "Washington State Parks and Recreation Commission": 5,
+          "Continental Divide Trail Coalition": 24,
+          "Utah Automated Geographic Reference Center (AGRC)": 1,
+          "Idaho Department of Parks and Recreation": 401
+        },
+        "trails_kept_by_originator": {
+          "U.S. Forest Service": 8051,
+          "Bureau of Land Management": 1559,
+          "U.S. Fish and Wildlife Service": 62,
+          "National Park Service": 97
+        },
+        "trails_no_geometry": 0
+      },
+      "ntd_montana": {
+        "roads_read": 303773,
+        "roads_kept": 303766,
+        "roads_dropped_by_class": {
+          "7": 2,
+          "8": 5
+        },
+        "roads_by_originator": {
+          "U.S. Forest Service": 72859,
+          "U.S. Department of Commerce, U.S. Census Bureau, Geography Division": 230377,
+          "National Park Service": 530
+        },
+        "roads_no_geometry": 0,
+        "trails_read": 15277,
+        "trails_kept": 15091,
+        "trails_dropped_by_originator": {
+          "Continental Divide Trail Coalition": 186
+        },
+        "trails_kept_by_originator": {
+          "U.S. Forest Service": 13951,
+          "Bureau of Land Management": 433,
+          "U.S. Fish and Wildlife Service": 57,
+          "National Park Service": 650
+        },
+        "trails_no_geometry": 0
+      },
+      "ntd_california": {
+        "roads_read": 234811,
+        "roads_kept": 234803,
+        "roads_dropped_by_class": {
+          "8": 7,
+          "7": 1
+        },
+        "roads_by_originator": {
+          "U.S. Forest Service": 67972,
+          "U.S. Department of Commerce, U.S. Census Bureau, Geography Division": 166025,
+          "National Park Service": 806
+        },
+        "roads_no_geometry": 0,
+        "trails_read": 6478,
+        "trails_kept": 5132,
+        "trails_dropped_by_originator": {
+          "California Department of Parks and Recreation": 862,
+          "California Coastal Commission": 484
+        },
+        "trails_kept_by_originator": {
+          "U.S. Forest Service": 3535,
+          "U.S. Fish and Wildlife Service": 189,
+          "Bureau of Land Management": 237,
+          "National Park Service": 1171
+        },
+        "trails_no_geometry": 0
+      },
+      "ntd_nevada": {
+        "roads_read": 105771,
+        "roads_kept": 105769,
+        "roads_dropped_by_class": {
+          "8": 2
+        },
+        "roads_by_originator": {
+          "U.S. Department of Commerce, U.S. Census Bureau, Geography Division": 101409,
+          "U.S. Forest Service": 4360
+        },
+        "roads_no_geometry": 0,
+        "trails_read": 2343,
+        "trails_kept": 2313,
+        "trails_dropped_by_originator": {
+          "Nevada Department of Conservation and Natural Resources": 30
+        },
+        "trails_kept_by_originator": {
+          "U.S. Forest Service": 2157,
+          "U.S. Fish and Wildlife Service": 20,
+          "Bureau of Land Management": 136
+        },
+        "trails_no_geometry": 0
+      },
+      "ntd_utah": {
+        "roads_read": 249887,
+        "roads_kept": 249879,
+        "roads_dropped_by_class": {
+          "8": 8
+        },
+        "roads_by_originator": {
+          "U.S. Department of Commerce, U.S. Census Bureau, Geography Division": 236576,
+          "U.S. Forest Service": 13237,
+          "National Park Service": 66
+        },
+        "roads_no_geometry": 0,
+        "trails_read": 10748,
+        "trails_kept": 2512,
+        "trails_dropped_by_originator": {
+          "Utah Automated Geographic Reference Center (AGRC)": 8236
+        },
+        "trails_kept_by_originator": {
+          "U.S. Forest Service": 2440,
+          "Bureau of Land Management": 59,
+          "U.S. Fish and Wildlife Service": 1,
+          "National Park Service": 12
+        },
+        "trails_no_geometry": 0
+      },
+      "ntd_wyoming": {
+        "roads_read": 26150,
+        "roads_kept": 26149,
+        "roads_dropped_by_class": {
+          "8": 1
+        },
+        "roads_by_originator": {
+          "National Park Service": 3450,
+          "U.S. Forest Service": 3479,
+          "U.S. Department of Commerce, U.S. Census Bureau, Geography Division": 19220
+        },
+        "roads_no_geometry": 0,
+        "trails_read": 3293,
+        "trails_kept": 3289,
+        "trails_dropped_by_originator": {
+          "Continental Divide Trail Coalition": 4
+        },
+        "trails_kept_by_originator": {
+          "U.S. Forest Service": 1212,
+          "U.S. Fish and Wildlife Service": 5,
+          "National Park Service": 2071,
+          "Bureau of Land Management": 1
+        },
+        "trails_no_geometry": 0
+      },
+      "fs_roads": {
+        "roads_read": 168049,
+        "roads_kept": 168049,
+        "roads_no_geometry": 0,
+        "by_maintenance_level": {
+          "1 - BASIC CUSTODIAL CARE (CLOSED)": 76111,
+          "2 - HIGH CLEARANCE VEHICLES": 79070,
+          "5 - HIGH DEGREE OF USER COMFORT": 985,
+          "3 - SUITABLE FOR PASSENGER CARS": 9556,
+          "4 - MODERATE DEGREE OF USER COMFORT": 2138,
+          "None": 116,
+          "NA - NOT APPLICABLE": 42,
+          "0 - NOT MAINTAINED": 31
+        }
+      },
+      "fs_trails": {
+        "trails_read": 30852,
+        "trails_no_geometry": 0,
+        "no_geometry_by_forest": {},
+        "with_geometry_by_forest": {
+          "0116": 769,
+          "0111": 1388,
+          "0612": 139,
+          "0114": 2079,
+          "0115": 1304,
+          "0110": 878,
+          "0511": 425,
+          "0417": 2165,
+          "0104": 919,
+          "0401": 221,
+          "0617": 1424,
+          "0517": 195,
+          "0117": 1472,
+          "0602": 419,
+          "0618": 755,
+          "0415": 1181,
+          "0419": 1718,
+          "0605": 685,
+          "0102": 697,
+          "0615": 1580,
+          "0402": 1035,
+          "0506": 357,
+          "0103": 622,
+          "0606": 747,
+          "0410": 127,
+          "0622": 144,
+          "0510": 285,
+          "0514": 818,
+          "0505": 310,
+          "0601": 1049,
+          "0603": 547,
+          "0610": 528,
+          "0604": 212,
+          "0412": 527,
+          "0414": 975,
+          "0609": 169,
+          "": 12,
+          "0508": 122,
+          "0403": 549,
+          "0413": 852,
+          "0621": 252,
+          "0607": 147,
+          "0509": 49,
+          "0616": 3,
+          "01": 1
+        }
+      },
+      "blm_trails": {
+        "trails_read": 6188,
+        "trails_no_geometry": 0
+      }
+    },
+    "finished_utc": "2026-10-17T07:57:45+00:00"
+  },
+  "intermediates": {
+    "roads_fs_roads.fgb": "6a38ee34cc91671d3672dc18e2055d364d0094a2be2da810bd1ec4749cb35ce3",
+    "roads_ntd_california.fgb": "89845362a1ae69cc6c22fed186881281cf1228070170fd7e4536987e218737a6",
+    "roads_ntd_idaho.fgb": "2dd27d15101bd50d07375985b0e28103d72e8fd68815fbf41c0011ef3901c8e4",
+    "roads_ntd_montana.fgb": "ac64029e0b63caf083d6cafb3ed3064bbc25c33232f200e19a68c8a19ac32492",
+    "roads_ntd_nevada.fgb": "dc3b2899e2809ec7dce8e947e8a2d41c62ecea27eaec5e0d15db689b3bd5f9ad",
+    "roads_ntd_oregon.fgb": "76cd60efd8a4860e2d433c37371ca4d70554bae03d8f6f0d6a153029e8e2a63d",
+    "roads_ntd_utah.fgb": "212c253731fae42a1c9dc3e0dfeae117aa0e3c9e287c972454a44a8974571e17",
+    "roads_ntd_washington.fgb": "0e80dd5249c23e78879032514c386de3a9bf7ab310464baf5e6f98eceddafa51",
+    "roads_ntd_wyoming.fgb": "d2bd500e12a21fdbad88833d5bfbbfc2c7f2baf6f99f781a703b88a94d2af416",
+    "trails_blm_trails.fgb": "b97ab14332ae49acbea67ad2d2290dad7902235f4e6b23361512caed60453e26",
+    "trails_fs_trails.fgb": "5721e55931d5d161079fb22ee165bdec38b08b2a7a7ef2f72aa3b53765610c3d",
+    "trails_ntd_california.fgb": "ceb500a73d4feb898d156096fcbe61a2eb939250e72eb92e012f27dade8b8562",
+    "trails_ntd_idaho.fgb": "2406bb69eedab354d34693c8733b306ede22eedf4b187423607a074fdc44652e",
+    "trails_ntd_montana.fgb": "31bad98372a6cbbcaf7b97b5287d1b1919cf6bf36327ec48d7f94a24f6159345",
+    "trails_ntd_nevada.fgb": "c8c750a677557e1781c9207d11ae24d506e422ad1a535605c919aa17b8c47e38",
+    "trails_ntd_oregon.fgb": "95348084207385ff9903f865ec9ed031933401b713c3a773cd41d81612dd30c7",
+    "trails_ntd_utah.fgb": "81527f7d5e2d1cf3b4d16b4d1979cb37b53a43a2954fa71b8153a93d383df849",
+    "trails_ntd_washington.fgb": "3bb441ac945e80862958532d4fb0d942e6c4c2f2bff11de2446a31319970badc",
+    "trails_ntd_wyoming.fgb": "7597428a88e38a5096c68d7df3c6819e0613399c960f14c036ac320e070b2a4b"
+  },
+  "outputs": {
+    "access_pnw.tif": "7748fe0b5018a823ef0e41c64b0a8a0f3675951026461c8a39a0f5aa9682d38a",
+    "trails_unpublished_pnw.tif": "55aa7d2abaa81d617c5b725478a5d2e048e07b112752c0a3ba2c787ff4ea4910"
+  },
+  "label": "Distance from each 250 m cell centre to the nearest road, trail, or either, in metres on the grid plane (ESRI:102008; up to about 6% from ground distance). A model input. Not a forecast.",
+  "attribution": "Roads and trails: USGS National Transportation Dataset (acknowledgment of the U.S. Geological Survey); National Forest System Roads, National Forest System Trails and Administrative Forest Boundaries, USDA Forest Service, CC BY 4.0; BLM National GTLF Public Managed Trails, Bureau of Land Management, public domain."
+}

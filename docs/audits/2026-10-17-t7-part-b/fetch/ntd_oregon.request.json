@@ -1,0 +1,23 @@
+{
+  "name": "ntd_oregon",
+  "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Tran/GDB/TRAN_Oregon_State_GDB.zip",
+  "fetched_utc": "2026-10-17T07:44:44+00:00",
+  "seconds": 7.7,
+  "http": {
+    "x-amz-id-2": "XEKl7wxQfG7czcKipEEWt8y7xxUNM3QdiRHbjnaoeJe/C1Q5r5vUPci1BVrYU286dO5aDr12FTA=",
+    "x-amz-request-id": "X60V8QNKZJAPDZRC",
+    "date": "Sat, 17 Oct 2026 07:44:45 GMT",
+    "last-modified": "Thu, 12 Feb 2026 14:33:20 GMT",
+    "etag": "\"2454b57deaa96051dc62c81f8b60e9fb-30\"",
+    "x-amz-server-side-encryption": "AES256",
+    "accept-ranges": "bytes",
+    "content-type": "binary/octet-stream",
+    "content-length": "247040261",
+    "server": "AmazonS3"
+  },
+  "size_bytes": 247040261,
+  "sha256": "acb03830fe92fd23b83206b8d50379331aafbd2390ac2a1e38153f263e94b876",
+  "check": "s3 multipart etag",
+  "check_expected": "\"2454b57deaa96051dc62c81f8b60e9fb-30\"",
+  "check_passed": true
+}

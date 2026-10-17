@@ -1,0 +1,23 @@
+{
+  "name": "ntd_montana",
+  "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Tran/GDB/TRAN_Montana_State_GDB.zip",
+  "fetched_utc": "2026-10-17T07:45:07+00:00",
+  "seconds": 12.2,
+  "http": {
+    "x-amz-id-2": "0Lh4RFTrHvW4SqPEexLSRZ9iURmAl5TvIj1805aXzK0DYUW54KLHIW2TPU4MZ7wiY3I2yHmdiMmJ4Jqu2g2/iA3S6A4+LjAh",
+    "x-amz-request-id": "VG053YTYJEAD0S1Z",
+    "server": "AmazonS3",
+    "date": "Sat, 17 Oct 2026 07:45:08 GMT",
+    "last-modified": "Thu, 12 Feb 2026 14:33:04 GMT",
+    "etag": "\"61f7f41e7c80d83501645ee615595622-20\"",
+    "x-amz-server-side-encryption": "AES256",
+    "accept-ranges": "bytes",
+    "content-length": "163233822",
+    "content-type": "binary/octet-stream"
+  },
+  "size_bytes": 163233822,
+  "sha256": "ceb1fdadf0e94fdb1db690fc820daded01bb8aa592c230cb1b7ee32a9680b0d0",
+  "check": "s3 multipart etag",
+  "check_expected": "\"61f7f41e7c80d83501645ee615595622-20\"",
+  "check_passed": true
+}

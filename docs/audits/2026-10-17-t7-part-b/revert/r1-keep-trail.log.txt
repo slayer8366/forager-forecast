@@ -1,0 +1,19 @@
+.......F.                                                                [100%]
+=================================== FAILURES ===================================
+___________________ test_only_federal_trail_sources_are_kept ___________________
+
+    def test_only_federal_trail_sources_are_kept():
+        src = np.array(["U.S. Forest Service", "Bureau of Land Management", "National Park Service",
+                        "U.S. Fish and Wildlife Service", "Continental Divide Trail Coalition",
+                        "Utah Automated Geographic Reference Center (AGRC)", None, ""],
+                       dtype=object)  # fmt: skip
+>       assert keep_trail(src).tolist() == [True, True, True, True, False, False, False, False]
+E       assert [True, True, ...ue, True, ...] == [True, True, ...e, False, ...]
+E         
+E         At index 4 diff: True != False
+E         Use -v to get more diff
+
+tests/test_t7_access.py:110: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_t7_access.py::test_only_federal_trail_sources_are_kept - as...
+1 failed, 8 passed in 0.58s

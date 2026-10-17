@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="9" time="0.588" timestamp="2026-10-17T00:58:58.146379-07:00" hostname="zynergy-labs-HP-Laptop-17t-by200"><testcase classname="tests.test_t7_access" name="test_distance_perpendicular_beyond_an_end_on_the_line_and_the_nearer_of_two" time="0.002" /><testcase classname="tests.test_t7_access" name="test_a_multiline_counts_as_its_nearest_part" time="0.001" /><testcase classname="tests.test_t7_access" name="test_no_lines_gives_nan_not_a_number_made_up" time="0.001" /><testcase classname="tests.test_t7_access" name="test_cell_centres_are_the_grid_convention" time="0.007" /><testcase classname="tests.test_t7_access" name="test_block_distances_are_exact_when_the_nearest_line_is_far_outside_the_first_radius" time="0.004" /><testcase classname="tests.test_t7_access" name="test_block_distances_give_nan_when_no_line_exists_within_the_largest_radius" time="0.001" /><testcase classname="tests.test_t7_access" name="test_combine_takes_the_nearer_and_masks_unpublished_trail_cells" time="0.001" /><testcase classname="tests.test_t7_access" name="test_only_federal_trail_sources_are_kept" time="0.002"><failure message="assert [True, True, ...ue, True, ...] == [True, True, ...e, False, ...]&#10;  &#10;  At index 4 diff: True != False&#10;  Use -v to get more diff">def test_only_federal_trail_sources_are_kept():
+        src = np.array(["U.S. Forest Service", "Bureau of Land Management", "National Park Service",
+                        "U.S. Fish and Wildlife Service", "Continental Divide Trail Coalition",
+                        "Utah Automated Geographic Reference Center (AGRC)", None, ""],
+                       dtype=object)  # fmt: skip
+&gt;       assert keep_trail(src).tolist() == [True, True, True, True, False, False, False, False]
+E       assert [True, True, ...ue, True, ...] == [True, True, ...e, False, ...]
+E         
+E         At index 4 diff: True != False
+E         Use -v to get more diff
+
+tests/test_t7_access.py:110: AssertionError</failure></testcase><testcase classname="tests.test_t7_access" name="test_ferries_and_tunnels_are_not_roads_and_every_other_class_is" time="0.001" /></testsuite></testsuites>

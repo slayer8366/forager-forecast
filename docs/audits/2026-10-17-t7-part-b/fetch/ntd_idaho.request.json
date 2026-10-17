@@ -1,0 +1,23 @@
+{
+  "name": "ntd_idaho",
+  "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Tran/GDB/TRAN_Idaho_State_GDB.zip",
+  "fetched_utc": "2026-10-17T07:45:00+00:00",
+  "seconds": 6.5,
+  "http": {
+    "x-amz-id-2": "y0UyiFAJcxzJXTtJsbWF8pIIMYHVc1LUSGJ3Pt81IXLUj8H2/8cxigoEl26EvObM3Xn5pwuNUw4=",
+    "x-amz-request-id": "JQ4Y80DW15BGAQVT",
+    "date": "Sat, 17 Oct 2026 07:45:01 GMT",
+    "last-modified": "Thu, 12 Feb 2026 14:32:42 GMT",
+    "etag": "\"afd203fb8740faf755ddd336168a02d0-19\"",
+    "x-amz-server-side-encryption": "AES256",
+    "accept-ranges": "bytes",
+    "content-type": "binary/octet-stream",
+    "content-length": "155883470",
+    "server": "AmazonS3"
+  },
+  "size_bytes": 155883470,
+  "sha256": "792828b9c084032bb5e8476ba298645bcbdee1dcbcccbbf4786542e5cbc75a3a",
+  "check": "s3 multipart etag",
+  "check_expected": "\"afd203fb8740faf755ddd336168a02d0-19\"",
+  "check_passed": true
+}

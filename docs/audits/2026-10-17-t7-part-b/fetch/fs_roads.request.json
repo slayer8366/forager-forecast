@@ -1,0 +1,25 @@
+{
+  "name": "fs_roads",
+  "url": "https://data.fs.usda.gov/geodata/edw/edw_resources/fc/Trans_RoadCore_FS.gdb.zip",
+  "fetched_utc": "2026-10-17T07:46:50+00:00",
+  "seconds": 131.2,
+  "http": {
+    "date": "Sat, 17 Oct 2026 07:46:50 GMT",
+    "server": "Apache",
+    "x-frame-options": "SAMEORIGIN",
+    "last-modified": "Mon, 12 Oct 2026 02:51:47 GMT",
+    "etag": "\"e4a025f-65d9bc771eda2\"",
+    "accept-ranges": "bytes",
+    "content-length": "239731295",
+    "content-security-policy": "frame-ancestors 'self';",
+    "access-control-allow-origin": "https://www.fs.usda.gov",
+    "content-type": "application/zip",
+    "x-content-type-options": "nosniff",
+    "strict-transport-security": "max-age=31536000; includeSubDomains"
+  },
+  "size_bytes": 239731295,
+  "sha256": "d34ce6045b4cb289c0c51de9f2e6be37bc08b9bc73dbd49255c6fbdc2ec1ac17",
+  "check": "served length",
+  "check_expected": "239731295",
+  "check_passed": true
+}
