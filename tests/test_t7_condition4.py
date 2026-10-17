@@ -9,7 +9,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from forager_forecast.grid import GridWindow
+from forager_forecast.grid import GridCell, GridWindow
 from forager_forecast.t7 import condition4 as c4
 from forager_forecast.t7 import metrics as mt
 
@@ -92,22 +92,26 @@ def _scene(seed=4):
     rr, cc = np.mgrid[0:40, 0:40]
     raster = cc.astype(np.float32) / 40
     raster[:, :3] = np.nan  # masked cells
-    cell_id = np.arange(1600)  # raster order
-    access = (rr * 37 + cc * 11) % 3000 * 1.0
-    level3 = (cc // 10).ravel()
-    scorable = np.isfinite(raster).ravel()
+    # real packed master-grid ids, sorted as the table holds them
+    pairs = zip(rr.ravel(), cc.ravel(), strict=True)
+    ids = np.array([GridCell(col=int(c), row=39 - int(r)).id for r, c in pairs])
+    order = np.argsort(ids)
+    cell_id = ids[order]
+    access = ((rr * 37 + cc * 11) % 3000 * 1.0).ravel()[order]
+    level3 = ((rr // 5) * 8 + cc // 5).ravel()[order]  # 64 blocks
+    scorable = np.isfinite(raster).ravel()[order]
     rng = np.random.default_rng(seed)
     spec_rc = [(int(r), int(c)) for r, c in zip(rng.integers(0, 40, 60), rng.integers(25, 40, 60),
                                                strict=True)]  # fmt: skip
     spec_rc += [(5, 1), (6, 2)]  # on masked cells: not scorable
     xs, ys = zip(*[(w.left + (c + 0.5) * 250, w.top - (r + 0.5) * 250) for r, c in spec_rc],
                  strict=True)  # fmt: skip
-    spec_cell = np.array([r * 40 + c for r, c in spec_rc])
+    spec_cell = np.array([GridCell(col=c, row=39 - r).id for r, c in spec_rc])
     radii = rng.choice([200.0, 600.0, 1000.0], len(spec_rc))
     interior = np.array([r < 20 for r, _ in spec_rc])
     return dict(raster=raster, window=w, spec_x=np.array(xs), spec_y=np.array(ys),
                 spec_cell=spec_cell, spec_radius=radii, spec_interior=interior, cell_id=cell_id,
-                access=access.ravel(), level3=level3, scorable=scorable)  # fmt: skip
+                access=access, level3=level3, scorable=scorable)  # fmt: skip
 
 
 def test_condition_4_scores_specimens_against_matched_background_whole_box_and_interior():

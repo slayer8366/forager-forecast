@@ -343,4 +343,10 @@ def host_specific_contrast(mycorrhizal: GroupScores, saprotroph: GroupScores,
 
 def auc_above_half(scores, outcomes, clusters, resamples: int = RESAMPLES, seed: int = SEED,
                    level: float = 0.95) -> Difference:  # fmt: skip
-    raise NotImplementedError
+    """P10b condition 4's figure: the unweighted AUC of independent presences against background,
+    minus 0.5, with its interval over whole-cluster resamples (level III blocks). Computed as
+    ``clustered_auc_difference`` against a constant score, whose AUC is exactly 0.5 under every
+    draw (all pairs tied), so the draws are condition 1's."""
+    s = np.asarray(scores, dtype=np.float64)
+    return clustered_auc_difference(s, np.zeros(len(s)), outcomes, np.ones(len(s)), clusters,
+                                    resamples, seed, level)  # fmt: skip

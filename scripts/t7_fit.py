@@ -152,6 +152,44 @@ JUDGED = (
 CONDITION_4_PENDING = "pending: data exist, scoring not yet ruled"
 
 
+SPECIMENS = Path("/mnt/work/Zynergy/forecast-data/t7/specimens/specimens_kept.csv")
+SPECIMENS_SHA256 = "c9e8c66f1d5719db037a8b926f36c02e9171fe3ec32667e0cbfdf74fcd8cadb6"
+
+
+def condition_4_figures(out_dir: Path, window, tab, meta, inside_all, resamples: int) -> dict:
+    """P10b condition 4 as ruled (Forager RECORD -1187; ``t7/condition4.py``): the kept specimens
+    (sha256-checked) scored on the habitat raster just written, by the mean over each one's
+    uncertainty circle, against background matched to their road-distance mix at the same radii;
+    the whole box with the interior beside. Scorable cells are the eligible cells inside the area
+    of applicability (``inside_all``), which are exactly the raster's valued cells."""
+    from forager_forecast.grid import lonlat_transformer  # noqa: PLC0415
+    from forager_forecast.t7 import condition4 as c4  # noqa: PLC0415
+
+    if sha256_file(SPECIMENS) != SPECIMENS_SHA256:
+        raise SystemExit(f"{SPECIMENS} is not the registered kept set")
+    rows = load_presences(SPECIMENS)
+    lon = np.array([float(r["lon"]) for r in rows])
+    lat = np.array([float(r["lat"]) for r in rows])
+    x, y = lonlat_transformer().transform(lon, lat)
+    with rasterio.open(out_dir / "relative_habitat_pnw.tif") as ds:
+        raster = ds.read(1)
+    road = tab["access"][:, meta["access_bands"].index(MAIN_ACCESS)].astype(np.float64)
+    got = c4.score_condition_4(
+        raster, window, x, y, np.array([int(r["cell_id"]) for r in rows]),
+        np.array([float(r["uncertainty_m"]) for r in rows]),
+        np.array([r["interior"] == "True" for r in rows]), tab["cell_id"], road, tab["level3"],
+        inside_all, resamples=resamples)  # fmt: skip
+    for part in got.values():
+        part["difference"] = dd(part["difference"])
+    got["specimens_file"] = {"path": str(SPECIMENS), "sha256": SPECIMENS_SHA256}
+    got["rules"] = {"score": "mean over the stated uncertainty circle (own cell always)",
+                    "background": f"{c4.BACKGROUND_PER_SPECIMEN} per specimen, same road band "
+                                  f"(edges {list(c4.ROAD_BANDS_M[1:-1])} m), same radius",
+                    "interval": "level III blocks, unweighted AUC minus 0.5",
+                    "verdict": "whole box; interior beside, no verdict"}  # fmt: skip
+    return got
+
+
 def access_attribution() -> str:
     """The access layer's credit line, as part B's manifest writes it (D148)."""
     return json.loads((ACCESS.parent / "manifest.json").read_text(encoding="utf-8"))["attribution"]
@@ -212,7 +250,7 @@ def p10b_figures(condition_1, condition_2, condition_3, condition_4_status, p10_
     while its data exist and its scoring is not ruled (``CONDITION_4_PENDING``), the verdict is
     never "pass", since D145 requires condition 4 wherever usable data exist."""
     v = mt.p10b(block_clustered_full_minus_b=condition_1, within_cell_full_minus_a=condition_2,
-                host_specific_contrast=condition_3, independent_data=None)  # fmt: skip
+                host_specific_contrast=condition_3, independent_data=condition_4)  # fmt: skip
     verdict = v.verdict
     if condition_4_status == CONDITION_4_PENDING and verdict == "pass":
         verdict = "incomplete: conditions 1 to 3 pass; condition 4 not yet evaluated"
@@ -222,7 +260,10 @@ def p10b_figures(condition_1, condition_2, condition_3, condition_4_status, p10_
             "1_block_clustered_full_minus_B": dd(condition_1),
             "2_within_cell_full_minus_A_block_resampled": dd(condition_2),
             "3_host_specific_contrast": None if condition_3 is None else dd(condition_3),
-            "4_independent_data": {"status": condition_4_status},
+            "4_independent_data": {
+                "status": condition_4_status,
+                **({} if condition_4 is None else dd(condition_4)),
+            },
         },
         "p10_d140": {"passes": bool(p10_passes), "reading": "no verdict"},
     }
@@ -1000,12 +1041,8 @@ def cmd_fit(work: Path, evidence: Path, threads: int, out_dir: Path) -> None:
         "shared_forested_blocks": shared,
         "contrast_shared_forested_blocks_no_verdict": dd(contrast_shared),
     }  # fmt: skip
-    p10b = p10b_figures(as_difference(by_block_cluster["all"]["B"]),
-                        as_difference(within_cell_by_block["full_minus_A"]), contrast,
-                        CONDITION_4_PENDING, verdict)  # fmt: skip
     log(f"condition 3: contrast {_iv(dd(contrast))}; over {len(shared)} shared forested "
         f"blocks {_iv(dd(contrast_shared))}")  # fmt: skip
-    log(f"P10b: {p10b['verdict']}")
 
     # the map pass
     from forager_forecast.t7.outputs import HabitatWriter, attribution  # noqa: PLC0415
@@ -1113,6 +1150,20 @@ def cmd_fit(work: Path, evidence: Path, threads: int, out_dir: Path) -> None:
     digests = writer.close()
     log(f"rasters written: {digests}")
 
+    # P10b condition 4 as ruled (-1187), on the map as written; then the verdict
+    s = time.monotonic()
+    condition_4 = condition_4_figures(out_dir, window, tab, meta, inside_all, resamples)
+    box, inner = condition_4["whole_box"], condition_4["interior_no_verdict"]
+    log(f"condition 4: {box['specimens_scored']} specimens, {box['background']} background, "
+        f"AUC minus 0.5 {_iv(box['difference'])}; interior (no verdict) "
+        f"{inner['specimens_scored']} and {inner['background']}, {_iv(inner['difference'])}; "
+        f"{round(time.monotonic() - s)} s")  # fmt: skip
+    p10b = p10b_figures(as_difference(by_block_cluster["all"]["B"]),
+                        as_difference(within_cell_by_block["full_minus_A"]), contrast,
+                        "computed", verdict,
+                        condition_4=as_difference(box["difference"]))  # fmt: skip
+    log(f"P10b: {p10b['verdict']}")
+
     # AOA counts by side (US only in the fit), block and frame
     wkey_all, l3_all = tab["wkey"], tab["level3"]
     frame_keys = np.array(sorted(_frame_keys(T6 / "all")), dtype=np.int64)
@@ -1162,7 +1213,7 @@ def cmd_fit(work: Path, evidence: Path, threads: int, out_dir: Path) -> None:
         "forested_auc": {k: auc(data, v, forested_sel) for k, v in preds.items()},
         "add_one": {c: dd(d) for c, d in add_one.items()}, "kept_candidates": kept,
         "full_features": full_features,
-        "p10b": p10b, "condition_3": condition_3,
+        "p10b": p10b, "condition_3": condition_3, "condition_4": condition_4,
         "p10_no_verdict": {"all_blocks": {k: dd(v) for k, v in pooled.items()},
                            "forested_blocks": {k: dd(v) for k, v in forest.items()},
                            "passes": verdict},
