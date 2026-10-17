@@ -1,0 +1,9 @@
+{
+ "mode": "fixed",
+ "weight_sum": 515624.0,
+ "weight_mean": 1.0,
+ "auc_A": 0.877277552729475,
+ "max_abs_diff_vs_cache_A": 0.0,
+ "auc_cache_A": 0.877277552729475,
+ "distinct_A": 361
+}
