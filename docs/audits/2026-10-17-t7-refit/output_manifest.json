@@ -1,0 +1,2816 @@
+{
+  "access": {
+    "band": "dist_road_m",
+    "held": 258.2871398925781,
+    "input": {
+      "path": "/mnt/work/Zynergy/forecast-data/access/pnw-2026-10-17/access_pnw.tif",
+      "sha256": "7748fe0b5018a823ef0e41c64b0a8a0f3675951026461c8a39a0f5aa9682d38a"
+    },
+    "monotone": -1
+  },
+  "aoa": {
+    "excluded": [
+      "log_effort",
+      "access_dist_m"
+    ],
+    "mean_distance": 645609.328071242,
+    "threshold": 0.17464276529749684
+  },
+  "attribution": [
+    "Zimmer, Scott N.; Houtman, Rachel M.; Leatherman, Lila S. T.; Shaw, John D.; Housman, Ian W.; Shrestha, Abhinav; Borja Arboleda, Maria O.; Grenfell, Isaac C.; Finney, Mark A.; Riley, Karin L. 2026. TreeMap 2023 CONUS: A tree-level model of the forests of the conterminous United States circa 2023. Fort Collins, CO: Forest Service Research Data Archive. https://doi.org/10.2737/RDS-2026-0038",
+    "Commission for Environmental Cooperation (CEC). 2024. \"North American Environmental Atlas - Land Cover 2020 30m\". North American Land Change Monitoring System. Ed. 2.0. CC BY 4.0.",
+    "Soil pH: SoilGrids 2.0, ISRIC - World Soil Information, CC BY 4.0. Poggio, L., de Sousa, L. M., Batjes, N. H., Heuvelink, G. B. M., Kempen, B., Ribeiro, E., and Rossiter, D.: SoilGrids 2.0: producing soil information for the globe with quantified spatial uncertainty, SOIL, 7, 217–240, 2021.",
+    "Põlme, S. et al. 2020. FungalTraits. Fungal Diversity 105: 1-16. doi 10.1007/s13225-020-00466-2 (Table S1, with the corresponding author's consent)",
+    "GBIF.org (6 October 2026) GBIF Occurrence Download https://doi.org/10.15468/dl.8jxmeb",
+    "Commission for Environmental Cooperation (CEC). 2021. North American Environmental Atlas - Terrestrial Ecoregions: Level III. Ed. 2.0",
+    "Roads and trails: USGS National Transportation Dataset (acknowledgment of the U.S. Geological Survey); National Forest System Roads, National Forest System Trails and Administrative Forest Boundaries, USDA Forest Service, CC BY 4.0; BLM National GTLF Public Managed Trails, Bureau of Land Management, public domain."
+  ],
+  "background": {
+    "n": 500000,
+    "pool": 3745167,
+    "sha256": "3a411eb209dc79ccc2e8ab91cab632f96c3eaa85ee1f007cdc844be91f2b5184"
+  },
+  "chosen_configurations": {
+    "A: effort only": {
+      "4": "c02",
+      "5": "c02",
+      "6": "c02",
+      "7": "c02",
+      "8": "c02",
+      "10": "c02",
+      "15": "c02",
+      "16": "c02",
+      "109": "c02",
+      "110": "c02",
+      "111": "c10",
+      "112": "c02",
+      "114": "c02",
+      "116": "c02",
+      "117": "c02",
+      "118": "c02",
+      "120": "c02",
+      "121": "c19",
+      "122": "c19",
+      "129": "c03",
+      "130": "c08",
+      "131": "c05",
+      "171": "c05",
+      "172": "c05"
+    },
+    "B: forest only": {
+      "4": "c16",
+      "5": "c16",
+      "6": "c16",
+      "7": "c16",
+      "8": "c16",
+      "10": "c16",
+      "15": "c16",
+      "16": "c16",
+      "109": "c16",
+      "110": "c16",
+      "111": "c16",
+      "112": "c16",
+      "114": "c16",
+      "116": "c16",
+      "117": "c16",
+      "118": "c16",
+      "120": "c16",
+      "121": "c16",
+      "122": "c16",
+      "129": "c16",
+      "130": "c16",
+      "131": "c16",
+      "171": "c16",
+      "172": "c16"
+    },
+    "base": {
+      "4": "c16",
+      "5": "c16",
+      "6": "c16",
+      "7": "c16",
+      "8": "c16",
+      "10": "c16",
+      "15": "c16",
+      "16": "c16",
+      "109": "c16",
+      "110": "c16",
+      "111": "c16",
+      "112": "c16",
+      "114": "c16",
+      "116": "c16",
+      "117": "c16",
+      "118": "c16",
+      "120": "c16",
+      "121": "c16",
+      "122": "c16",
+      "129": "c16",
+      "130": "c16",
+      "131": "c16",
+      "171": "c16",
+      "172": "c16"
+    },
+    "full": {
+      "4": "c16",
+      "5": "c16",
+      "6": "c16",
+      "7": "c16",
+      "8": "c16",
+      "10": "c16",
+      "15": "c16",
+      "16": "c16",
+      "109": "c16",
+      "110": "c16",
+      "111": "c16",
+      "112": "c16",
+      "114": "c16",
+      "116": "c16",
+      "117": "c16",
+      "118": "c16",
+      "120": "c16",
+      "121": "c16",
+      "122": "c16",
+      "129": "c16",
+      "130": "c16",
+      "131": "c16",
+      "171": "c16",
+      "172": "c16"
+    }
+  },
+  "code_commit": "0560daeed37da46aaf07aeece64f25513b7133c8",
+  "codes": "0 outside the study area or box; 1 in (shaded); 2 out of the area of applicability; 3 Canada, out of the pilot (D136); 4 no host shares (canopy cover under D89 (3)'s threshold, or under half the cell valid); 5 no soil pH; 6 water or unmapped (no valid tree pixel)",
+  "features": [
+    "share_Pseudotsuga",
+    "share_Tsuga",
+    "share_Picea",
+    "share_Abies",
+    "share_Pinus",
+    "share_Quercus",
+    "share_conifer",
+    "share_broadleaf",
+    "total_cover_pct",
+    "ph_mean_0_30cm",
+    "share_Lithocarpus",
+    "share_Chrysolepis",
+    "share_Arbutus",
+    "log_effort",
+    "access_dist_m"
+  ],
+  "final_model_configuration": {
+    "feature_fraction": 0.7,
+    "id": "c04",
+    "lambda_l2": 10.0,
+    "learning_rate": 0.03,
+    "min_data_in_leaf": 50,
+    "num_boost_round": 500,
+    "num_leaves": 15
+  },
+  "held_effort": 1.440701409312872,
+  "inputs": {
+    "d26_zip_sha256": "c0d5f6a1a775ddb902f73ca2c1978946c056a4f326beb7e13349677c0f72b26c",
+    "presence_files": {
+      "comparison": {
+        "path": "/mnt/work/Zynergy/forecast-data/t7/v9/presences_comparison.csv",
+        "sha256": "066a185b7caf1f1772c1b2ed79c10998dcab1d9cd6634ca25cb281bd849632d0"
+      },
+      "licence_track": {
+        "path": "/mnt/work/Zynergy/forecast-data/t7/v9/presences_licence_track.csv",
+        "sha256": "4a2f2754cd30a1c8f19d8eed09e3bf8883110cd7ac60b46c2dbf50ae7fc867da"
+      },
+      "main": {
+        "path": "/mnt/work/Zynergy/forecast-data/t7/v9/presences_main.csv",
+        "sha256": "185e12227027152b08394752e58f6e83303afc50a8657e3f8e105a4c8c80cc85"
+      },
+      "side": {
+        "path": "/mnt/work/Zynergy/forecast-data/t7/v9/presences_side.csv",
+        "sha256": "8b778497cbf952a67b9ecbed875986a84d5567010449792120c8a6ac1c48ef42"
+      }
+    },
+    "t6_surface": {
+      "data/t6/all/cell_level.csv": "5c243721d41349d7dbc6b27a55bcc24ed060ffaa3d0e1ba10992a5ffe46893ff",
+      "data/t6/all/day_type.csv": "f32b85dc6e7a8bf068f40f3eec9404ac0a1de70d44d63ae15ff74597c56034bd",
+      "data/t6/all/effort_manifest.json": "cb84163da0dd785dbc9142a8e5507f240c971881ebe20f442139ac3bcb22db26",
+      "data/t6/all/season.csv": "642971d2e8b2ff914416555c672cab352a93dc9b1eca25a7b34e732e71fbe548",
+      "data/t6/all/year_level.csv": "0ab0e21a8fe760241290390360b2575452633ee69ea822fd615c7e25f1822b80",
+      "data/t6/cc/cell_level.csv": "1a48c3c0fe146c5d500808c0b56b12edf32ee7f9bdfa1a43041bc3d9bf840f04",
+      "data/t6/cc/day_type.csv": "77972740d06515605421ccbd6c282a6df2182633dc0e2932194196201c5c78d2",
+      "data/t6/cc/effort_manifest.json": "c7e2276338cbe98b41776522c3b12d048b4f056f887772bf2c5ed2f474a61990",
+      "data/t6/cc/season.csv": "ffe66e16206424f1837aa4407bbaedfef39ace468ee84d0225e04c7bfac6d9f1",
+      "data/t6/cc/year_level.csv": "15e22a0204739340dd7d4b5b9a6e00101422114318889d57c984d8c88ea733c7"
+    },
+    "t6b": {
+      "access": {
+        "path": "/mnt/work/Zynergy/forecast-data/access/pnw-2026-10-17/access_pnw.tif",
+        "sha256": "7748fe0b5018a823ef0e41c64b0a8a0f3675951026461c8a39a0f5aa9682d38a"
+      },
+      "level3": {
+        "path": "/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/sources/terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.shp",
+        "sha256": "10c9139578611f05ac0ccc71ad9d624b99d06b3ffdc4783903594ff976613c68"
+      },
+      "mask": {
+        "path": "/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/mask.tif",
+        "sha256": "2a71f873cf2f10393a9d1b3e71a1e0291cd4f616b232fbd63214f8fc6c9dacfc"
+      },
+      "tiles": {
+        "256_-17_12": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-17_12.tif": "2e38f1f06ca7316381147e4f67fa2b4ca17f75bd6dae59d570c864dd4fb3416e",
+          "trees_flags_256_-17_12.tif": "d70e9cef55d117599fbfcdf65d757bf3f32daccbe67b912a76d6f13884213c20"
+        },
+        "256_-17_13": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-17_13.tif": "cb1a9b8626c260e46889d9664236bdddc0e99bb56e4cae12454d9372b163b338",
+          "trees_flags_256_-17_13.tif": "adffd27b126bf58e254ff1ec65df2afaaad729c6caf880a611e72c09a9a8b8e2"
+        },
+        "256_-17_14": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-17_14.tif": "c152a1de37e3670ec455ac18b641dc03e175b0ae5f4ca7325914809d8c20423f",
+          "trees_flags_256_-17_14.tif": "6615dbf81a799f1ccb5646600b63ab097a30be6a097c17a96f1d6b4800250536"
+        },
+        "256_-17_15": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-17_15.tif": "b17a5cc2715ba7c3aa1160b3efcf75345af91b7f6d0c6edfa9d09f74f74e317b",
+          "trees_flags_256_-17_15.tif": "c594b29110427db399b274ed522514715aacd8c6ad1d9a92a02bf09d54153666"
+        },
+        "256_-17_16": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_256_-17_16.tif": "bab06d57c15894410a32491800aa8edf245d4fee34a2d437256c1fb830d58c77",
+          "trees_flags_256_-17_16.tif": "013ff553f6aa423b077f04185018a3cd512057f02b791db55ea3bf4ca048ac51"
+        },
+        "256_-17_17": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_flags_us_half_256_-17_17.tif": "84d69fb59b4c55ff4ff4e324ada316fdbaa090a6f20eccd52e1e96f261332df9",
+          "trees_us_half_256_-17_17.tif": "857eb0056f7d16cc52663053ab99a8159c57da1c779f3914dc0a3090a4cf4587"
+        },
+        "256_-17_18": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_flags_us_half_256_-17_18.tif": "ddc233f2c9ef6b53ba119e40a2213dd019339c96e953bc8c9744222649583c5d",
+          "trees_us_half_256_-17_18.tif": "9603d8df46a4049829da73128fa8cd11aa5dbf1758a121f5cfb1b0aece24ec32"
+        },
+        "256_-18_10": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-18_10.tif": "61a591d0b887b5f51094a25b40ef3b02e8560acd988ca32ef891f4c915eb57e4",
+          "trees_flags_256_-18_10.tif": "4a01657fb786c31c4879379720a6ddaea62076ca37ebcb52a07583510c726304"
+        },
+        "256_-18_11": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-18_11.tif": "5157f84c881c8ada982e08b782683b940f159f93dbf102b16ff7d6251f91137d",
+          "trees_flags_256_-18_11.tif": "18e4075f88842a0c88052fdb36a34747e8cea7aef3d8004987ac22897c66d3ad"
+        },
+        "256_-18_12": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-18_12.tif": "9fc157d282a27bd57ebee8db10a54003c96b1e13709a228d8ac603cbf35d0c38",
+          "trees_flags_256_-18_12.tif": "69777a28347c8e668521ce7074b5c5f78a5ed8ee46a72fa152f02b4fcd224c8b"
+        },
+        "256_-18_13": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-18_13.tif": "f848624c050a85ebb47d17f9e45f34fcc21f892a9c905258665c39200dcf3cab",
+          "trees_flags_256_-18_13.tif": "727a75d4c4169081e473cfaa464eb70f55d15b3c1b1225209fe461ad65c31b49"
+        },
+        "256_-18_14": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-18_14.tif": "e1b9765d41e14d92ccd0cb8fb8177def4247f45a73e20c157311fd2cd373b131",
+          "trees_flags_256_-18_14.tif": "1a2133f425e28182aef2a4dce65fc3bbc226780af9f3e38b21ff3dbaeceb4dfb"
+        },
+        "256_-18_15": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-18_15.tif": "7a5b33717e10082c5e8bb23c8c96fc665b939a808f17e77d50544a1c5333b3e7",
+          "trees_flags_256_-18_15.tif": "6024a36757e3fa05997a02e91360b24ef2c5ec548c366017775fe6633277c1b5"
+        },
+        "256_-18_16": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_256_-18_16.tif": "5027ac68d63ccf19afb7d9a5d79ba940fe913c37042273f3449b110f98e28f64",
+          "trees_flags_256_-18_16.tif": "ace3f67105d459293ad3cfb495893545b87f29efcdbccaa2f7ac89f7cddf00c8"
+        },
+        "256_-18_17": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_256_-18_17.tif": "268c32db3dc7d46b3c08fb5e92319f4a515fd9e7fa67cfa5a6c362348d555f6f",
+          "trees_flags_256_-18_17.tif": "bedffc63ef827e9180bb4b44fae2c6864962f276679fab9d7ceb0708a9269b90"
+        },
+        "256_-18_18": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_flags_us_half_256_-18_18.tif": "aabef1b172895cf08f582da06cf6abc769eac38a9f9edb908e6295dc9e0da4e0",
+          "trees_us_half_256_-18_18.tif": "ac53b3b57fa72f8fda53df98a565057679f69423cca9924651c5d635c74f99cc"
+        },
+        "256_-18_6": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-18_6.tif": "9121f23f6bcf1d4f27ba377ae7a19fb9daa4842814abd16317e0b50e3608a073",
+          "trees_flags_256_-18_6.tif": "ba46226fb6ddc1b1fb061a286756ceacac77550cd279fcacdc31224e0d769189"
+        },
+        "256_-18_7": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-18_7.tif": "0800c1e7a06499ab1b84e54db53ca298b24b0feaa3a5135a915075d63c4606d2",
+          "trees_flags_256_-18_7.tif": "bfa4f5add80582bccef5b608aa5aae7d0880a08e6106dea4fae5331eda6a70d1"
+        },
+        "256_-18_8": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-18_8.tif": "3d01a92fda29734932329449106ebdb236ba515f0739d0ebeb6ebacf497f5b8a",
+          "trees_flags_256_-18_8.tif": "5d0d91f48090c80fd8857356f29535ed82771b7fb13d3b01f15df152ef7666e0"
+        },
+        "256_-18_9": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-18_9.tif": "d91898457a146dfd95e81e7c1e20ba12ee3068603e03c86e43e04f1388bd7eeb",
+          "trees_flags_256_-18_9.tif": "9121171376c2bd6f7bafdb0d87be5b10fc012a8532978d123ee83ce262e3cd7e"
+        },
+        "256_-19_1": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-19_1.tif": "9652f48ce07037ffa9673c9fcb8f13b3824852139ab1a38e7dac39e51c44fb2b",
+          "trees_flags_256_-19_1.tif": "d0ecf87ab78faaabe9fca1108b34b5912a80902ae05b38438cf305605ecf0b49"
+        },
+        "256_-19_10": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-19_10.tif": "972b4034fe7a926704ddcda09edee0ce1684209b8faa0a7b0ddc74a077ac08e7",
+          "trees_flags_256_-19_10.tif": "4a92c28dd7f38888f309e8cdb2d1fd811dd9e24b9f3a5fcf5595209151efebbd"
+        },
+        "256_-19_11": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-19_11.tif": "cfff37d18ec7b266528bd000535dfadcd8530c4918078a3e2d075902cd993dc6",
+          "trees_flags_256_-19_11.tif": "18a2d49dd860b09987d147c13b4c880e48e1f29d630318f26a6e4a03c5320e84"
+        },
+        "256_-19_12": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-19_12.tif": "f0332b901ff403c8142a37ca4068cb6a313aede88525981b0cf8cfba40874426",
+          "trees_flags_256_-19_12.tif": "85312a412dec78f564da200e596c241c7f3319a9017e1922cdb4e9c72e87e5b7"
+        },
+        "256_-19_13": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-19_13.tif": "9ad4e332c9a97883a1641e24292fb85200dc32b446d209835cd4c07e3874a528",
+          "trees_flags_256_-19_13.tif": "776863fa1f2837030c20f3b0b1b616656d1439816e50087133da261ad6072e23"
+        },
+        "256_-19_14": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-19_14.tif": "9c2e3b521de24f72b4bd4faaccbbfa36415b5f3744eaf3a537b05950e8ef3329",
+          "trees_flags_256_-19_14.tif": "01eda10e76cac8a2cadc415de2d09810dea2daab8728fd6940ecf92a33e9aefd"
+        },
+        "256_-19_15": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-19_15.tif": "7b567653cf56ccc8230e646feda981d7453cdf6cb060fbe376474362e4541edb",
+          "trees_flags_256_-19_15.tif": "96ebb5a2d5f0648f29e767fe95b7c83b78f074bc550853ecae4473a61f3ab685"
+        },
+        "256_-19_16": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_256_-19_16.tif": "59bad18c09c07c14a2eca36eb9d564b3e842e238538f5050b13ba55071b33f2c",
+          "trees_flags_256_-19_16.tif": "ab29cb88ed54c751392705dfa4c75a36324516e6b7651d32bafbf02d70b896a3"
+        },
+        "256_-19_17": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_256_-19_17.tif": "3a9391edef529cd1dbaf8b328a2ffbde641d23cc4f90b971c6bdbbb4f9cf9db0",
+          "trees_flags_256_-19_17.tif": "1ca32c9e5b5d8adce5e5c84cd76dc5eecdefe5eda16f285e5ae604240890a4b2"
+        },
+        "256_-19_18": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_flags_us_half_256_-19_18.tif": "0979588efe57704651e1c9fe7fe86c477a42e3e2e400d61bf871f5ba54feab4d",
+          "trees_us_half_256_-19_18.tif": "2c0c358e4aefad0e3c136423b18724cf9d44e8d1ca8c6009e51fe5991846ea35"
+        },
+        "256_-19_2": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-19_2.tif": "299fb3377fa31488aa301c02a67f046d74ac3ceb098ce1bfb57f2faa5af500ed",
+          "trees_flags_256_-19_2.tif": "b42bee576b71e3a8e20deb63e1647044108796bef3201948543f37c2b38ab5cb"
+        },
+        "256_-19_3": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-19_3.tif": "71e6b800ea282e59f359cb06b6d49de42513913de80be14293b9bc3d51a70758",
+          "trees_flags_256_-19_3.tif": "e23ecf7b8952d54d0bbdbba8598d951066c706f22a2d23782cb0199ca5b9be7a"
+        },
+        "256_-19_4": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-19_4.tif": "22793137bcd6d90c5f6c4eb884c6753dc00b86a667eae2a12b32dda2bd6a1b84",
+          "trees_flags_256_-19_4.tif": "b4421b69d3bd49880ef12f5d4447a7d99933c578744a514759bf443ee0304d8d"
+        },
+        "256_-19_5": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-19_5.tif": "06251442d947afd809d4ecccfd687f74ccf22cde131f594fda54a169b1ad4b01",
+          "trees_flags_256_-19_5.tif": "35fb695e65a185caf8887975737cfbc5c883ca1ea20a51a562bea3d0f30bd88b"
+        },
+        "256_-19_6": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-19_6.tif": "f8e142634756ec9698472df210222d909ab487431841d843b706ff76c70c2901",
+          "trees_flags_256_-19_6.tif": "62fbe94ec2fe3d2ff4ae70726ebe2592aafbdc244c0c39fee1e0c5f1992cc684"
+        },
+        "256_-19_7": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-19_7.tif": "7a3eaeb79d0b1c60b8d8b0a1cd9f4e268908e8b25e244de04a6ba7a9c97425bd",
+          "trees_flags_256_-19_7.tif": "0506ffb45c05fbc3ad2b10673ad857aba823f4331a2fa596a7b76e5a02e21f4f"
+        },
+        "256_-19_8": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-19_8.tif": "2e1b1d9e9e7862eda25668beee845ff972d0e93b3ad087414ddc1b1ad1cb44f0",
+          "trees_flags_256_-19_8.tif": "79405ba04a2d2ef13d7a3bba5ab6867e36104b638ac4ca9db2a09ac5f2808271"
+        },
+        "256_-19_9": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-19_9.tif": "508c27bcd2750ea75694e69f43745167d57581ed84d41464d42d13b7e714c0f8",
+          "trees_flags_256_-19_9.tif": "d81545423ac9858ed569265c9a08ad4fb9dd6bc0e5d7a6d071d3b0737304c16f"
+        },
+        "256_-20_1": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-20_1.tif": "927bf5b42ba9239f5db73bb8a63718796988021968a5a79ce2d4be2a26182bb0",
+          "trees_flags_256_-20_1.tif": "21d389ac08a39408a2fcce56ccb2004224b505fc87398b563e6960f406e2d1f0"
+        },
+        "256_-20_10": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-20_10.tif": "23fa43d42bdf44e0822d56a91300b15b6a5d493be86448c9809d7983d73b1873",
+          "trees_flags_256_-20_10.tif": "de498414b3635af2b187065c79e45143c44fda79d917691d0a1300e15ea0ff99"
+        },
+        "256_-20_11": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-20_11.tif": "e4ea2cedf36bc15e46e2c087416fa463099440c909e42ef5f6ae09823da47f28",
+          "trees_flags_256_-20_11.tif": "dd1d6ccbb149e097106e9f3397d9231197ba1624adf0a1e675ccf4db05c4d9bc"
+        },
+        "256_-20_12": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-20_12.tif": "7a88b31c7b6c671d1a6915e716878e752da14f3c01d87c7bf809c7f648655efb",
+          "trees_flags_256_-20_12.tif": "25bd1674bae0cfabf62d51030a0c99ff350510182d9f8f63496354a8510114a4"
+        },
+        "256_-20_13": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-20_13.tif": "99204ea90d055846b0a6ca9f170fba353ed7ff7ff23bf50c3a4aa612a4ed229b",
+          "trees_flags_256_-20_13.tif": "6f2ef23231c813b233490276b5dd9e73128ef786b5af66cd0ee90f64e18316c2"
+        },
+        "256_-20_14": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-20_14.tif": "e0d4ab8eeeb7cdc81218ca4a29e9223284560cd256f494db556ba699adc9e566",
+          "trees_flags_256_-20_14.tif": "346b8c896dbbee67b82333d1daedd4fc51cc348895646f42f0be3a26dd2cb1bb"
+        },
+        "256_-20_15": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-20_15.tif": "33e2c8df21faf637063de8fa8f24b2ef04a11f9302cadf54187394d33971668b",
+          "trees_flags_256_-20_15.tif": "d994aa925f13c5a8039cd0ea3a1ca10721089fccf1d7876ad27d8ad684bc1aab"
+        },
+        "256_-20_16": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_256_-20_16.tif": "735d19db6e67d0945cacd5c6bdd84e1b3142a3c3a2a2864634cc90ecb5187c4b",
+          "trees_flags_256_-20_16.tif": "79ab073bed8b0bb90456673e42ca46915858fb427ef69fd461d30cbe5fa5c338"
+        },
+        "256_-20_17": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_256_-20_17.tif": "eb0da012a94794a9b9f08744568a56aa4887ef3ceabfcd0ea5cb1d1018afc42b",
+          "trees_flags_256_-20_17.tif": "69798d8aeffb7411d5678164c48b2191f7c572e47ecb87eb4c49fd1711a97adf"
+        },
+        "256_-20_18": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_flags_us_half_256_-20_18.tif": "57ed1ad9e671ff0f8f323e929481f56f906e8b0e6bfabf160e481aeec4a6166c",
+          "trees_us_half_256_-20_18.tif": "16564e9f64e51f4900d221ceef7203fb9d94ab63ad21597fd1bf12e93d5cb35c"
+        },
+        "256_-20_2": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-20_2.tif": "9f970327df8031e0013a45b9ecba483b5eebf4bffdcd650a99fdbe4cfa32561f",
+          "trees_flags_256_-20_2.tif": "44908995a804a13c81df39b3a3a93aecebf29b6729d33c281b85299aa5586f10"
+        },
+        "256_-20_3": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-20_3.tif": "91c6b8812f2d8e5d66f6d673f0fabda8da80afb720ee57179694ba4513fec628",
+          "trees_flags_256_-20_3.tif": "9e3d26a9971cd9b536084c6c3563e1c95da1044a24d5c57863364a2c8a6456be"
+        },
+        "256_-20_4": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-20_4.tif": "0aec34af925c5cc28f383078a8401de3e11a212d2c0852c8eecf1b33932a89c3",
+          "trees_flags_256_-20_4.tif": "f54d0cb894ad87c85e5dc6a2ce8497b058959ced74cdadf1bce5aa8635febe31"
+        },
+        "256_-20_5": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-20_5.tif": "3ff92ec73afd2957abfacb379e555a82ea46c43c42ba5719286f79802924d5ff",
+          "trees_flags_256_-20_5.tif": "b2fba08e12f7e312e6a6a81f37f34adf44f7e9964738f19bb8ca8bac374d8b6c"
+        },
+        "256_-20_6": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-20_6.tif": "0fa510bc3ca4216b00352b118306ef11638ae35f152ced7696dec5a0c6c99c77",
+          "trees_flags_256_-20_6.tif": "ba88131b6553c6e3497837e592b85db0f1251606b0db9bc05a937d095ea534c4"
+        },
+        "256_-20_7": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-20_7.tif": "b5aedcad1b4b4b0aad5e30f4b762bf23a1f22b1fe204a986c962c0afad85af81",
+          "trees_flags_256_-20_7.tif": "46563c82634397c1c6e5ae366a48d95b54b6b198467236ac6c7a7b8cc8436c47"
+        },
+        "256_-20_8": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-20_8.tif": "fe6e3ad0fa84c66daccc4d289551f765507495f9738ab9892477f5a28d67100b",
+          "trees_flags_256_-20_8.tif": "252aaaac010228c1d9ea951c908a5ae80fab9f863a87bf1e141b22c4a905b47e"
+        },
+        "256_-20_9": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-20_9.tif": "53f79360ec57aa03c50865f8532204818c08c52da83488f351825670db4fdafd",
+          "trees_flags_256_-20_9.tif": "951c07d655689937e58d96e59fdafaef5d0cd9c0c6ac8c82373059fed7bbcf36"
+        },
+        "256_-21_1": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-21_1.tif": "715f91ea6a101d84ff4855763aa11378d394bfff14885003f3f529bca23d318b",
+          "trees_flags_256_-21_1.tif": "e506db3399a0736ba74a94bd555b589413e5dcbbe61d3cbe93505fa3a75cacfb"
+        },
+        "256_-21_10": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-21_10.tif": "e16334e8e031f37ae87d52e60a4ae174b96e283529c8ff54ca559af6ca1af8b5",
+          "trees_flags_256_-21_10.tif": "5b38494b99c556fb46412371fdca7edc3f1b7bd57331921eb7088317a0ff6aff"
+        },
+        "256_-21_11": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-21_11.tif": "a00c9e21e895f4621b173fc2feddf44c8e4862c03283929103f75aa91ceae9ba",
+          "trees_flags_256_-21_11.tif": "2693473861af9abf25c98431bdb06edcd10f03c4f6be012bd4ab1bb5292e3833"
+        },
+        "256_-21_12": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-21_12.tif": "60deca1d5fd200795c6ca007119ae5a583e8ab0a02c8dbfda3404c38b6c1516f",
+          "trees_flags_256_-21_12.tif": "2f8308e5b0092beb3d48acca600cab20aee7dd002bdd4a7f348d9a4e7918462f"
+        },
+        "256_-21_13": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-21_13.tif": "312cbef9a31efd2eefabff78a2bfb7de5ec635db3637fcac3c66b2542f0fbece",
+          "trees_flags_256_-21_13.tif": "f354ea2346da64d98f084f6ccb83002212689560736280eda6289600255afb69"
+        },
+        "256_-21_14": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-21_14.tif": "7f90d1232b4c1fbaed24a983375ddc346f10d88e4405b84f8703d3912d94f327",
+          "trees_flags_256_-21_14.tif": "03b31c99b3149195968ec2b83c8f7b6c800c5109c52600787086b0bd83155af3"
+        },
+        "256_-21_15": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-21_15.tif": "010417710cfa59fc1d076af60546c669c0cf30891835cd03c9e720dba8f3b700",
+          "trees_flags_256_-21_15.tif": "4e641107744f87a0e2dee601e772b5bb8325e2de5dbb0cba17a3cff7083ef247"
+        },
+        "256_-21_16": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_256_-21_16.tif": "b0a259593e300f8d0b8c58792592aefb7444b19e0218b2331d7429d6f7889c27",
+          "trees_flags_256_-21_16.tif": "44cc1296266b14e7fdf1768de7a8d62700a453a7ac69128608b17154c8c43a61"
+        },
+        "256_-21_17": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_256_-21_17.tif": "434960436bae9585231cbca09991164238be02d8b588810deef873c8f7753fde",
+          "trees_flags_256_-21_17.tif": "7b4b90a254794c7fcf10452bf0516e195cb4470c29fbeafdb96cb02475cb605c"
+        },
+        "256_-21_18": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_flags_us_half_256_-21_18.tif": "e99093e1f57cceb58abce85ecd563bb3ada8514c122d833f3e06dcbac1edc77f",
+          "trees_us_half_256_-21_18.tif": "f356cd3851df10bebc43534938f897f7ffd4619e5bec85538a5416d4ceeea0e1"
+        },
+        "256_-21_2": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-21_2.tif": "da13449df3207a88b8b1ba5b264f4433941ccb50218ae4ee5bf32962108e73eb",
+          "trees_flags_256_-21_2.tif": "4dbf4be43efb5e8f5f4333c89ea808a05685c61f3486de45fa277e30d0fe7e68"
+        },
+        "256_-21_3": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-21_3.tif": "e4a54d5dfa46b26d0113d007df25f720892c797a1d8b2791d5a3ad21cefd6c3b",
+          "trees_flags_256_-21_3.tif": "8d452bf8c0a07d371ecc40678553ece8dcd296f7e99cab77ef5b4b32f61590f8"
+        },
+        "256_-21_4": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-21_4.tif": "8f4d4adc13093a8c02dd3caf83ed3110cb1916a44e75dcd3abc071b9e7aa875b",
+          "trees_flags_256_-21_4.tif": "ae6baa357ab28e582261799fc9f25264ad11de1d4523f8a9444920e878faeb65"
+        },
+        "256_-21_5": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-21_5.tif": "3dda5005f9debfbd9d274e5a8add6edc85795bb08ef537d059814bb0b3779961",
+          "trees_flags_256_-21_5.tif": "6cf07c25889ffcaf393b9ead5934a212437cdd61a02a6aea4cc5122ceb61c04f"
+        },
+        "256_-21_6": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-21_6.tif": "53c90cf30f9f57f7943b1dc4da44718fd2cf76be97e58a143b5b915310589d81",
+          "trees_flags_256_-21_6.tif": "b836da02f91f66589215af5001591bf6cb51905523a32ca977b47a95a731b40d"
+        },
+        "256_-21_7": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-21_7.tif": "83d5dd55ace22b07e9de67432908f31769122afa028dd60d44a50b58f630318b",
+          "trees_flags_256_-21_7.tif": "1cd1a1ea514c81979352997609adfa11f2c394f7d57e0047c7a2f835a9225d1f"
+        },
+        "256_-21_8": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-21_8.tif": "003656b17d7e61c3d38d6b2ab7d3a7681783d605739433a925bb4b842c61f309",
+          "trees_flags_256_-21_8.tif": "a52821e9a3f4808e6516397a7191346fc087d08f604f2bb14feeac802b076fc9"
+        },
+        "256_-21_9": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-21_9.tif": "8acc5c7741003e7b8e665356857ac065ced11bb81ff13317d7e29fb056454317",
+          "trees_flags_256_-21_9.tif": "df9585a3117b270429f7a53f734e341d7bb24fb3b8ef7220595eb3615739166d"
+        },
+        "256_-22_1": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-22_1.tif": "f0f1e7a4aff66e233ca32bfecb576a6b580a7e0b5a8c004f49219de69f17d528",
+          "trees_flags_256_-22_1.tif": "90c3dc8a17e366447f842f47e1879eeb198dea6686900f98954920e9fe20ae4d"
+        },
+        "256_-22_10": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-22_10.tif": "fda7e4e11039c986e159c453649346135608197b97c4fd5e91fd6d1d6eb907ad",
+          "trees_flags_256_-22_10.tif": "90814c28737e129ab44c50185bb5555e07b37ab12455158c4824bfcf864bda93"
+        },
+        "256_-22_11": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-22_11.tif": "2d340b5977132f47c49cb0c85cb9940cc965be773966f24f661eaad4289ea054",
+          "trees_flags_256_-22_11.tif": "b01220cf43346c9976f31eedd5bcd2072a8d72dfadfee002ac6eb00df3f81d39"
+        },
+        "256_-22_12": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-22_12.tif": "4b4a4142d2d3c5c56b3b35f627fa95280e5fc2b620242937f0bece76fb0ab06a",
+          "trees_flags_256_-22_12.tif": "1bca7264554459583ef86351e1d2476efef057fd1969b88a17924e2519ed9edb"
+        },
+        "256_-22_13": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-22_13.tif": "cc30bebe836bd2232d4949653da3a5c30b9aa559e19da639dcab047eda7f53bd",
+          "trees_flags_256_-22_13.tif": "c4693ab4fe5f6850062ce038179060c7588c660bf3c9e7e7e044a2099d395526"
+        },
+        "256_-22_14": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-22_14.tif": "f049b7e5548c0468f2b132d048c5fc619fce85b7776704f458479b87f7517a21",
+          "trees_flags_256_-22_14.tif": "4eac53e7d9e54c137bbf453c7802da7a105746b9aa43aca06486eac9692ccfae"
+        },
+        "256_-22_15": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-22_15.tif": "983f2e58d7c57a9336274203f6033b6c044aafc61181dbfca84a7da254c49c0d",
+          "trees_flags_256_-22_15.tif": "341743532a81de6d2d213829dccbef2f75e4bda5728127f12650344620996d82"
+        },
+        "256_-22_16": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_256_-22_16.tif": "ddda89056aa4f1b034ca5d0fb9a01ab5bc1fc1345aa3877aa87c583f6fdd23aa",
+          "trees_flags_256_-22_16.tif": "5726e821012f3c84e78cd0450b3adf359dd0a69c80cc080d184b448f84c4db0c"
+        },
+        "256_-22_17": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_256_-22_17.tif": "8e34e5b081b019bd149c9be78f6b77ebdb9cb62e89588e85e926b158295d8644",
+          "trees_flags_256_-22_17.tif": "2914a204c32c7bb0c16dd2eceddcd06e101f47b159ff7f495acc763c696d8788"
+        },
+        "256_-22_18": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_flags_us_half_256_-22_18.tif": "3cbb0dde74a3db5422747fdd7e01539b230d60c9e7d915d0047459a9acd5e97d",
+          "trees_us_half_256_-22_18.tif": "2d7fce80663aeb60ee5873bc640bc6397e48d71423cd044eb8d04f9fc2393610"
+        },
+        "256_-22_2": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-22_2.tif": "551da4c4aecd0196a6474fd06ea7cedaa04d9f7281e3e4dc889b9cee35baa9a4",
+          "trees_flags_256_-22_2.tif": "d35426a0567792310a15e8c2e9956977fc663b79d71cec620ed9fc0d6c5ad7ba"
+        },
+        "256_-22_3": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-22_3.tif": "e10afbb7339980d4619ebb8c52b240f9ca64007c881f15c1e732fcee9b6aa0db",
+          "trees_flags_256_-22_3.tif": "eb7995dafe8cabf2f93f0c7307529622101fd89e827b86f11968613a5c17eb33"
+        },
+        "256_-22_4": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-22_4.tif": "95fae1d4130e6aea53e38c62e3ab6d5142b7b52dc0608e840553a2ae65d6b362",
+          "trees_flags_256_-22_4.tif": "93e0a576bced17b51327cfc0b7572b81d3c3169a9c1c06d763d777d22d6f0aa6"
+        },
+        "256_-22_5": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-22_5.tif": "3a65ace52feaca821d581acfc5637a78ed169fb0bb99807baa55152a5bc5bb57",
+          "trees_flags_256_-22_5.tif": "cc33a9c0d4f6d29d0081ca0e124128cefdc2a286dd5c4f42a259738272cef420"
+        },
+        "256_-22_6": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-22_6.tif": "c5b50ef65f108d986ff50d395e94738e04f4c41b4c5098f786e48142f12791b6",
+          "trees_flags_256_-22_6.tif": "e387fedd7b7bcc5bc91474acb8a15218a7ac25083f687c65e28f0a440fdd42c6"
+        },
+        "256_-22_7": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-22_7.tif": "32f37ded4fa7ec5fc9a76ff4a234ece1ce66c60e57fd9892cdf81924a5a9702b",
+          "trees_flags_256_-22_7.tif": "ce75389e3ffaa7a70e41393b8ed091779529f5e235cc4ec055c12852880db517"
+        },
+        "256_-22_8": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-22_8.tif": "5667b9a1bce2105bad6034df186c5e8a86e5d85565abebf7ba76079f425a345d",
+          "trees_flags_256_-22_8.tif": "99b3d0ea300dafd379e8488e559c8c1db680a176180de44cd96bf8bcb73a35a6"
+        },
+        "256_-22_9": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-22_9.tif": "226038b3848efd60003df5d1806636c94b59ed63d1abf839d9110fb6e6b9b4c6",
+          "trees_flags_256_-22_9.tif": "8cbf1a8e65c294b960a8e86782492f2146b0f99b389433cee391ba6e74767a7f"
+        },
+        "256_-23_10": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-23_10.tif": "cb13713324454854b0dd0b5abbd2b07460704483aa3892890dbea26a86044629",
+          "trees_flags_256_-23_10.tif": "a4fae99ecd21859553bfd4c0a87115d1d9ebd650f1ecd6a15661b8b7934087a8"
+        },
+        "256_-23_11": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-23_11.tif": "5ce9d2f0e3df4e5d204a5398d03dc62f5e4e20dbe7c287f90fcfa223ee15d41b",
+          "trees_flags_256_-23_11.tif": "9d657ff0f945b4ddab69fa1609f274f11e18b606912b5faa033c94a9b26c3e37"
+        },
+        "256_-23_12": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-23_12.tif": "c114079de3c513c2d72a9c5f15f9849a1bedcb14219b05cb8f92678f95901613",
+          "trees_flags_256_-23_12.tif": "218bf2dd390242875c523230ca9c95ae51c84fc4573c99f63b0c5f9f666c2247"
+        },
+        "256_-23_13": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-23_13.tif": "160b62a3edd72a59242a691a6fdcda5b830a228a9da66b8f90b38631e828b69d",
+          "trees_flags_256_-23_13.tif": "7e8b90233e69101df846e0a5c97a599f4d4ab2f2b69b06972f05bc04a586811c"
+        },
+        "256_-23_14": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-23_14.tif": "eb590454712c11b92853c772acb4887765730f9ab91546e31d028942d277c311",
+          "trees_flags_256_-23_14.tif": "ef365cdb949c842d001134cf2b3579a89d40ad61c1461c4b2284255fc3f045a3"
+        },
+        "256_-23_15": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-23_15.tif": "16ee1ed3d0f83f96aa4d2680888f16b05c88044b7f3a4e91aaa4525c96dc6fd6",
+          "trees_flags_256_-23_15.tif": "2c25986d104df945edcdf66ff5288010f367ef0735453439259c9a54ca9b16f7"
+        },
+        "256_-23_16": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_256_-23_16.tif": "53861b759664417deddb86677eb2b034a38cf307383df647c4d5c4fe3fd3caf5",
+          "trees_flags_256_-23_16.tif": "5f5504cf36d3b9adeb126cead1fa87e8db649ca57c8c1d403d31f4efcb5a41f6"
+        },
+        "256_-23_17": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_256_-23_17.tif": "470dcd105bb9b1e140ea7a51811065ff21059c48d245755917095b8070ff4f34",
+          "trees_flags_256_-23_17.tif": "3469a719d04e481cec07481d7fdf9a1acca5466f5c670c03a8a86aaa551e0b1c"
+        },
+        "256_-23_18": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_flags_us_half_256_-23_18.tif": "56b03c22c62dd20391252dcc6f57cc491157db4649d5858a1e74b943e95716d1",
+          "trees_us_half_256_-23_18.tif": "5e9bfa710bc813da5a674009cd94d100f5afdeaf53a8fca65eb5e04e0f09fdbc"
+        },
+        "256_-23_19": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_flags_us_half_256_-23_19.tif": "651aec26b750e7d15acf98a3ba9d4c361fa852a93f7c846048eac07bd10d8bbc",
+          "trees_us_half_256_-23_19.tif": "61072bae664400f6f82d16443b69a9fd6362c034c09de0f702a489a9771f23ef"
+        },
+        "256_-23_2": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-23_2.tif": "6b36399bd48e8523bd42ef5e0c136ac389431d454a10baf1312af83f6e59e80c",
+          "trees_flags_256_-23_2.tif": "9b7039a7b7578cc3098d9f35099cbacecc6a3f270e257f355c608cc403447f45"
+        },
+        "256_-23_3": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-23_3.tif": "4f161b0346b44724fda21888b3aca126c1a00f94a23adf88327d2c7a24b5621c",
+          "trees_flags_256_-23_3.tif": "8249853888e9f02d1485470ed630e51bac1ce961aa0929a307f3c7deec4da591"
+        },
+        "256_-23_4": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-23_4.tif": "d36b1cdcf28a2f8555b235d462be7ad0b8b09c186c5897b58fb33f73fa29883c",
+          "trees_flags_256_-23_4.tif": "643a4d82b0919eb0f380d5efb686cd76f9af2dfd5e1e6a2def2409eb1e9eb226"
+        },
+        "256_-23_5": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-23_5.tif": "1e04bcbb8066d6889731dc0d4298c3c54ac7f33d816cf3967af6a59948552c18",
+          "trees_flags_256_-23_5.tif": "a6f7bede4871f2c7f981ff9eb41899fc7ac3738b8e6e1601db442b427bc77b9e"
+        },
+        "256_-23_6": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-23_6.tif": "bc55aad6ca78f977a86ba4431766d469aa641675e37c83ed1d6cfb73aececb82",
+          "trees_flags_256_-23_6.tif": "2e692eed85408d04d040fe64ca3fd63bfe66df8b6efb6fdb0ce83c894fac8d5b"
+        },
+        "256_-23_7": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-23_7.tif": "a4002575699dd1e96ba8cb85d8641f3d582f96a8997d6cb3922e58d33f2092b2",
+          "trees_flags_256_-23_7.tif": "eab8b522158b1d55fed3913498d66224bbd850fae41befae00b25c862491d2aa"
+        },
+        "256_-23_8": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-23_8.tif": "fe044360378df4cf320f0566d8d68f23951c30ab53b88154bf03d1698da0fefb",
+          "trees_flags_256_-23_8.tif": "5956813d958dd3370ba1805b0cf60dc70aef089cb40577fb9fa780d4ed35d0f9"
+        },
+        "256_-23_9": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-23_9.tif": "1b10206f8771b7061b6179dc6d8a198026873f76a31deac312b7b8ccdd4f1ace",
+          "trees_flags_256_-23_9.tif": "e05f06ea64530d80f6c55b652f95a0eb53efad63639213570d218b5e5ddfe8f8"
+        },
+        "256_-24_10": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-24_10.tif": "d9fc98d080fb7ca92a4940692f76a68bca4f00273fc47d42e272422df4ae2bb0",
+          "trees_flags_256_-24_10.tif": "eceec20151ba249df15da5d13fdf8d28cb40cd720db6d894fa52aca67699c4d1"
+        },
+        "256_-24_11": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-24_11.tif": "37d1fa951e672bb9304793f6ca95f1bf5318098957134c4de906a536a319a49e",
+          "trees_flags_256_-24_11.tif": "098ac8a9aa31f77480480df010c0695428ebd1199d5bab539b491d8ed8e83179"
+        },
+        "256_-24_12": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-24_12.tif": "f1fc0bafe0ffb3efe1f6dc4f09876c657ca6d19a081bd7bef7840275b97d9842",
+          "trees_flags_256_-24_12.tif": "3efd98fcbb110ae23fc3b5ee06f38f44734eec69b59400cff4d9ee6c59f4e410"
+        },
+        "256_-24_13": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-24_13.tif": "26ffb0d54bd09825f53b08497ad8699828997f968793d571002a301aafd747ae",
+          "trees_flags_256_-24_13.tif": "3a9ad0be19bb31c088ded93c0c2d2183a9905fae0b3515dafc015771a3ec4282"
+        },
+        "256_-24_14": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-24_14.tif": "3ef6c8a4f7a9acbde19893ee856e2b59c41237232d417895cd1226513c2241a9",
+          "trees_flags_256_-24_14.tif": "a5205d7dccc2539250790cd94478b218a93edcd5dc1ea56042fb1a71b36ff03d"
+        },
+        "256_-24_15": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-24_15.tif": "af9ae27bf44a1574bd353d3648e876604290421ab75e20416084de5b48f10c92",
+          "trees_flags_256_-24_15.tif": "26a89a3584d9e3aa48edc4ec18d6f120852b2e8d3d7ba84e9ecdf634302ff005"
+        },
+        "256_-24_16": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_256_-24_16.tif": "5dd65dd6220fa19d9c221101ca351791337a4d3338840ff39e5d5712b93ec9d4",
+          "trees_flags_256_-24_16.tif": "f6c988fd8ff050215beb02f901abc9e43b54b51d0cb267d0b5f8cc5bc4c47219"
+        },
+        "256_-24_17": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_256_-24_17.tif": "a44bd4fd986c923a44bf569b889a4e8030fc1392dd117800403e9c6b6f9ef559",
+          "trees_flags_256_-24_17.tif": "57e036b5d933ac02d19e56e2fe5b180330134e0992f5748cd1d6632063460458"
+        },
+        "256_-24_18": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_256_-24_18.tif": "ed6778d0a5b80d29bc519ea154e2bf2a3cfbcbe052ccda0957ee6046ffbf56fa",
+          "trees_flags_256_-24_18.tif": "bf17c19148f6d8cd95d27c4f0d80c3f7b65080d805a3c9f2924247db216d7ec6"
+        },
+        "256_-24_19": {
+          "soil_2048_-3_2.tif": "4c20e1a8bf0981952a17006aad27cb3f0185bd7c1cfd8909f51cb547ba8d2bb9",
+          "trees_flags_us_half_256_-24_19.tif": "bd693d7d8f1b6690d86c363a4f853b2cc0324577b2ed7120bf7b4944b4389602",
+          "trees_us_half_256_-24_19.tif": "bf83db3326be3e65e6e2ef1546d535d6603a0ec0834f506b36e39bd3bae985cc"
+        },
+        "256_-24_2": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-24_2.tif": "aa0c369748b10b343b51c3e519162ef959341a9a37fad6ee5b6e7b2eaade869d",
+          "trees_flags_256_-24_2.tif": "97709c2486cfda888723a81d5fd1a5b41d406b3d13e1a96826553201eedbc396"
+        },
+        "256_-24_3": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-24_3.tif": "8ec007c57902ce084eda4186f38c0d920954894617021a00f80a0d49badbaaf0",
+          "trees_flags_256_-24_3.tif": "2cf2db954eb8d7352cb5a48b9be61d39daab058ad1728ac16fd7f0e6e28e6302"
+        },
+        "256_-24_4": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-24_4.tif": "3f1d8ac8403399d750ff0896d453042fb2ffb0059f590f583f1eaa1449cd2d1e",
+          "trees_flags_256_-24_4.tif": "9a6d0194172bceb6fd34793d13a7a184aa155b300c38373f5e756b21edd3ef64"
+        },
+        "256_-24_5": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-24_5.tif": "00015c4ea153611198b8066667cba35abc21284ee79d745873419d9cfb5a94a2",
+          "trees_flags_256_-24_5.tif": "8ca161c9d729cb26f76ac1a200017a4f8783e0a4cb2adb83e87611df3668ed66"
+        },
+        "256_-24_6": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-24_6.tif": "a5341157b1b0851e0eda13586d49000fde0154fe70bef74bc72ec3c1513ef8e6",
+          "trees_flags_256_-24_6.tif": "78fd4a8b189ab6f40d9b96bff3cc4874607b166959aa9dbca65342756119bcd7"
+        },
+        "256_-24_7": {
+          "soil_2048_-3_0.tif": "e53bce1335d615b2bc6601ad45489f6a072a13c62fa772d3c500dc043ef9ee76",
+          "trees_256_-24_7.tif": "03ab2eaeb2f14f1c38266159694d8915606e8d5aa8b356956eccd5daa814e3b0",
+          "trees_flags_256_-24_7.tif": "eecd47ae38e310c0272e0d2ab300026ead0df9082fea00ac4a290bb2ab2eb5b6"
+        },
+        "256_-24_8": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-24_8.tif": "c0678367cdf662f01ae7fcd5ef9efe7e034de2ce026cef404701fa4c39156929",
+          "trees_flags_256_-24_8.tif": "1fbc31d6f485d987fa2d3eb853bacc61ceb2eabcba80ed703c8da3b6e95879bf"
+        },
+        "256_-24_9": {
+          "soil_2048_-3_1.tif": "4d718831a05fc1e7aeec69ee9b8f9bbdba67fb6e0f7bc947c5577107b23f69a3",
+          "trees_256_-24_9.tif": "55c6488d20ad558310c5856ce81b39b3be2a53fc7866fcfdf19f9e84147c5e8e",
+          "trees_flags_256_-24_9.tif": "ae4cfca9605166cb46357e1c3db5204436cad3d92bf19f39e730a5a81ae611d6"
+        },
+        "256_-25_10": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-25_10.tif": "71bfa321bf1f407b1b964ba7adafeb5842530c621d981d778e6ed90a9af46efe",
+          "trees_flags_256_-25_10.tif": "eb1cbf0bfc7396ea84242ae1fd7064263da81925aa9ce8fd063c811c7a77373a"
+        },
+        "256_-25_11": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-25_11.tif": "46b8aa5126516d2231afd049332b128ec20c41b2ce05b6cace387c50c5c9d363",
+          "trees_flags_256_-25_11.tif": "e382e28da5704aa7a82d5a9bfd94dbcaf0c5b0a656b39699e51e09b3094f0d9e"
+        },
+        "256_-25_12": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-25_12.tif": "d3634f7f8b376ab19ea9eb090b0a9d570c7cccd6f723bd39a2ef7f2cd470a562",
+          "trees_flags_256_-25_12.tif": "8b9bbc00a090af636e9da197db1ea8f27e32fd8187650523eefeed40cac5b3c2"
+        },
+        "256_-25_13": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-25_13.tif": "3ee728038d79a13d920e81d5e9103ff8deca7a31558192b269d4b0ca5cebb776",
+          "trees_flags_256_-25_13.tif": "6b1082bf7b78812d70e4c4cd86a3e9ecd87aed52ab9f45dfdd11578ef0f59ba7"
+        },
+        "256_-25_14": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-25_14.tif": "0cebfaf58c9dddf5cd23d0a1f318edab97db2ab647a6354ad9f34c9653a6b7f1",
+          "trees_flags_256_-25_14.tif": "1b23d8828c8fa65c9ce8ad674fe2b74147a682523c9adb2adfff25c5655250b9"
+        },
+        "256_-25_15": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-25_15.tif": "3732961c5e21a8b0bd5d87ce7d0ae306c2bf7eeab28a59a1cef04b68521f4eaf",
+          "trees_flags_256_-25_15.tif": "2b3ad4eae91261fe4a73e26bffed8638ecac171ebe8a9e711f61e0459777bb1c"
+        },
+        "256_-25_16": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-25_16.tif": "2178289614f74ec2b88bc88ffaedf3dd2dc325bcc0f1b9172d5901b7cb547cc0",
+          "trees_flags_256_-25_16.tif": "f131f2d160f3b377ce40b37b07fd6f917578bc5e888f4ed5d55ac81993f8bd34"
+        },
+        "256_-25_17": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-25_17.tif": "4bacba5a45af63669b5e74524aeaee8361a89eba0f6708da7e6c5eeac561d879",
+          "trees_flags_256_-25_17.tif": "b707d002a8eff005c5be9795cf8080bb64184caedefa335b4eef6ea53f89bfc3"
+        },
+        "256_-25_18": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-25_18.tif": "fad314d6c23850d7943092c6156c029cd0bf3f635fbca867ef41cb246171f910",
+          "trees_flags_256_-25_18.tif": "583da8bb7601f5643014908957e89b5dbaad960e851f7ff4a5cebacde61c80a7"
+        },
+        "256_-25_19": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_flags_us_half_256_-25_19.tif": "d8fb823d495592d29e9c2aa4d276d2c3f6404624b31324dd384e3c336e0aeed6",
+          "trees_us_half_256_-25_19.tif": "e3b75956db78277e4cc58c21c10eecc2c92fb3a50939a75097f56d6967a083ea"
+        },
+        "256_-25_2": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-25_2.tif": "f8e4b56ce8c2ba4d5099284d38b074c07301a62b21f355fa01cc0175c49cecec",
+          "trees_flags_256_-25_2.tif": "89bb71316c68a6d6fcb7e21183b1552859312059f325aa71da1bf278c8e3c8c7"
+        },
+        "256_-25_3": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-25_3.tif": "d225a38b8ff78fdd153aceac184e3e88cd42c89e0103f25ef6a43ab0e99f3999",
+          "trees_flags_256_-25_3.tif": "17f4944b22469e96aa0377791984f42bbc0cb07696690070e37b1c40f7ccb7aa"
+        },
+        "256_-25_4": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-25_4.tif": "175fa537c686127841662d0d37bc10ffe0a5bfa5469745cd140b2a0cb8c084bb",
+          "trees_flags_256_-25_4.tif": "8a55ecdc9dc52f38dcd733b7bc66c9df6a301ede03040dbe36cb9f2e985e1056"
+        },
+        "256_-25_5": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-25_5.tif": "14d3f3600367851a96a6c284e57ac7f28c7df2337b79f5752e93386fe09e8f6b",
+          "trees_flags_256_-25_5.tif": "77e7342ccceab5ec6b3a2dbf73cf89a398d5e61e22cfcb48e9b2de2d1ccecf34"
+        },
+        "256_-25_6": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-25_6.tif": "8642474eeae555643327de9d527b0e6e62f5098a3aeb7e8a938d7860a2bf5498",
+          "trees_flags_256_-25_6.tif": "ff5aef5d721b65686b0bc28ddbf4e9a988d3cb41100ce07c6d9ca0bd626dd1d8"
+        },
+        "256_-25_7": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-25_7.tif": "53be866938cf5ae8e4d3f22271e13e5abd45414cee1c7844cdba426aa3c823ee",
+          "trees_flags_256_-25_7.tif": "1cf1b61188a26c9b3325e042c4ffdffb7043d66d0d9f046cd53e26543f3f3bac"
+        },
+        "256_-25_8": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-25_8.tif": "bab0ecb1e7fa692fb3497ab362b802d2fe637a64226d40438e168e44c6f031dd",
+          "trees_flags_256_-25_8.tif": "d72b9e3abc8e61aa0db78c068f9a2dbd9b6c40c445bebe400292bdb51d52b96c"
+        },
+        "256_-25_9": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-25_9.tif": "cea326933abb7ac4943d9c6168f45987586f052e361a2813a253fc3396011229",
+          "trees_flags_256_-25_9.tif": "3c42ce36e9b8e23aae3976352c1bc9c174412ef49ef2e8846ee46bc46340f3d0"
+        },
+        "256_-26_10": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-26_10.tif": "98920ef3c058b05a7c9bf1ed279f46d5ab6eb73c69d746d73df0a1c0f00e6f25",
+          "trees_flags_256_-26_10.tif": "b5f36e20aa85398efe5e9af1f92e8a461b6133f65224e5ea3d695bdb84526458"
+        },
+        "256_-26_11": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-26_11.tif": "896552d314ada4585819a1c3e0cfc5c4510a94b8b356b4c1897cbf5844a3326c",
+          "trees_flags_256_-26_11.tif": "2faf7ae28711e1fd9fe4080950a2df3e61603dc3f035a8c9f9d4c2095ee50776"
+        },
+        "256_-26_12": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-26_12.tif": "f8005d33b1431e42a27076c48533ab1ff7f034fc9f081029a146ef9545d4d526",
+          "trees_flags_256_-26_12.tif": "509efb591c2dc0389825e99fe5c340d476a7123606108bf50208f9f6b5576253"
+        },
+        "256_-26_13": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-26_13.tif": "c1768d1a94a0211f5e96a205fe1c1b23a95c52ab4de11ca6cbf0875e506209a5",
+          "trees_flags_256_-26_13.tif": "4d6584d92718caf1730cdf1fe5f3bf08315c0bb9a5453b86ee19a9b55672e846"
+        },
+        "256_-26_14": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-26_14.tif": "ca526152f3b38ca72808c8eae2b39d967a5d7e183993fe89afda31373faedab3",
+          "trees_flags_256_-26_14.tif": "7ed5b6c585b31e08898d06320151ee3ce36c0f25eed1dc535c6ff26800836e07"
+        },
+        "256_-26_15": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-26_15.tif": "506bc2d4449ccbc5a1b08032d83b4dc7fd43dbf600a5db2f8835280b9fe93653",
+          "trees_flags_256_-26_15.tif": "b6402d477608e36cb68f751d0ad129f4933d330f68b00c19aebe02559ae505eb"
+        },
+        "256_-26_16": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-26_16.tif": "d3d31622b6f368f0ed9aa105ad6e1b0d9c967c495a31ce27520a7bfda7ca8e23",
+          "trees_flags_256_-26_16.tif": "c7e0f48ffc6acc0915fc75a92ba167d7927d9f802b258144e7341b686bf8651e"
+        },
+        "256_-26_17": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-26_17.tif": "77d676b3e47ff2da9a79bcd1d381ce69982ed6be747bf3dc540ff1b9028f83ec",
+          "trees_flags_256_-26_17.tif": "b1141eca3424ddfe01edb2b37b0b3671878c48be0695f3b285ffe75873ed8137"
+        },
+        "256_-26_18": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-26_18.tif": "438eb061dc261f8e00c16f3f1f32df2c450bc620046d4beaef82e42c2559a366",
+          "trees_flags_256_-26_18.tif": "28fbbfa97d8193734ab04c7e7c9c4179da9a166d224683b4b90f5aa23b194554"
+        },
+        "256_-26_19": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_flags_us_half_256_-26_19.tif": "6da65dff3a84d8198d2e74deeca7ee8111cc6cca1e476946efd74fa185c3a9ab",
+          "trees_us_half_256_-26_19.tif": "ec8a70f326b74123ba315407f1d45d3ea4605c6816e1199ab48fb7204096d686"
+        },
+        "256_-26_2": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-26_2.tif": "3719c9cef5835a202e158b97db3190b6da2264b510f8133e1d1fc3bdc193fc4c",
+          "trees_flags_256_-26_2.tif": "12dcdeb4d05c39214323c6b59e538edd6a592c63de5963d3443c00d087863c0b"
+        },
+        "256_-26_3": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-26_3.tif": "29552f43dbfa1a22ee21dea3104fe5470e48efc011dd4d382cb3dd966b4face2",
+          "trees_flags_256_-26_3.tif": "f9dd283c08d1824af82234b62fbf2064056cb1e93bb1d09b0918dfc868980404"
+        },
+        "256_-26_4": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-26_4.tif": "e44c6ec9c076e6b525bf7507208a8c9a3c4aa4111f5307acdc01a093c25e8223",
+          "trees_flags_256_-26_4.tif": "5d4a8c97d92f45ec7839ee52493a18ef877ed6dd7b62d39027335f63a732d7af"
+        },
+        "256_-26_5": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-26_5.tif": "1e930d6d26fa19cea1e0edba1f227c081ff21aa588d20a994ee7ddae19045d89",
+          "trees_flags_256_-26_5.tif": "02088178a31ee640d658ec56846ecfb668c499509aca4db023886842d49e11cf"
+        },
+        "256_-26_6": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-26_6.tif": "0488b07863495fabbfbaf356952f99e7fcc57b9b4443059fd3e46c11646680ba",
+          "trees_flags_256_-26_6.tif": "6ff1629ade095dfc2948b66c41289b23a2bdb33f206591f32d8cf61da2360e70"
+        },
+        "256_-26_7": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-26_7.tif": "71bda56b0724eaf1e159e7e9e19fbe8c547e8625ba4a22fa3cf7d040d7b06a69",
+          "trees_flags_256_-26_7.tif": "5e3df164ab01b5010bbb18a89a8bb5d836cfefcfaf4a3a3abb2cf1c2c8607c8c"
+        },
+        "256_-26_8": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-26_8.tif": "754de54d346513337242fa58b9217986d161033e342cb778157b4f24c39503b3",
+          "trees_flags_256_-26_8.tif": "0e6b9f8fe9cd02efa9db96c0a19d3f11cdeb9f6e04229631262c7b5aacc6400d"
+        },
+        "256_-26_9": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-26_9.tif": "55dc51c6ec398f3280e14539410f8e01cddf951c661e774f1229fd9dac3dae0c",
+          "trees_flags_256_-26_9.tif": "88b35b29ca5fce1d4167172f06000865b0c034b29a3ff817d9b73fd4a41bc1a6"
+        },
+        "256_-27_10": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-27_10.tif": "ff5bef5d80299e0c63d570c6dd873970d4a73c2c12e7c22dff6dd2feb4a18f81",
+          "trees_flags_256_-27_10.tif": "0c9995254d3afb7364974fe1b636267e6d2fb8baf716b6e858038ce0033d42ab"
+        },
+        "256_-27_11": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-27_11.tif": "811d1b9d86f1f343d4d2851e959e422031f0a5b98659417465484d264133b776",
+          "trees_flags_256_-27_11.tif": "836b8143eb69887038faa809a15ae0747e97852c74a21dc10e7442d292975c2b"
+        },
+        "256_-27_12": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-27_12.tif": "ccf713909d2ab5d301b05697ad0a005505300708db3798a3fbf8ca1c4d621d29",
+          "trees_flags_256_-27_12.tif": "c0d6c6e5c96f30810d6bfdf7ee3badb7caa72231551ea7f910d1526d338ae9d1"
+        },
+        "256_-27_13": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-27_13.tif": "1549b87da7bab08772d198d12012beff1af760c94f93d324d37f54229e34e009",
+          "trees_flags_256_-27_13.tif": "26bc45ddc2edefb93e7b0a82e7b09487408fed68351e9f8c6a16f245e8b4aaac"
+        },
+        "256_-27_14": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-27_14.tif": "3268c58641c6d71397d5a63ffcfed20d6932247079c9acf8d33e425ef021acb1",
+          "trees_flags_256_-27_14.tif": "4b01eb936337f46c0a21d8492c81d67cb66eb9e9d30eabf70ec611ef1b353882"
+        },
+        "256_-27_15": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-27_15.tif": "869e738d6f64bf131ad5a5d1a2419231254a3bd331575c0a2787e180562454df",
+          "trees_flags_256_-27_15.tif": "437d78c9a0368b610282b97b03eb66deb9a523cad2aa8cd661810d79f0df8095"
+        },
+        "256_-27_16": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-27_16.tif": "5440ddfa02c4ecd6434b076af4f2ee9bb2fcadb9d92b15a3b7c5a165707b6940",
+          "trees_flags_256_-27_16.tif": "47de24e1632b613e02abcc25acc5bac05a59b804f048c2a47f3a465ed22b7243"
+        },
+        "256_-27_17": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-27_17.tif": "dfbfab43b5bafd7b1c0257f858449f987ca8263937e304200306b3beecc0c9a7",
+          "trees_flags_256_-27_17.tif": "bf6ebb69b6bd60a5671aee57dbbf813e954b8dfde1c33aedd4c0e7a856afa087"
+        },
+        "256_-27_18": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-27_18.tif": "178811bfc0b4f6eef44912b54bab5cefb1cc6333ce335658ef4e01cc73872297",
+          "trees_flags_256_-27_18.tif": "5d8f21759565565b9c35e3b6af967e80eda748c201eb83f2068723406641dece"
+        },
+        "256_-27_19": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_flags_us_half_256_-27_19.tif": "9c909f11c9f9d35764693a1a413c38a4ad3bb31dd4b0a5b8adc609ffe688c5fb",
+          "trees_us_half_256_-27_19.tif": "294b39e776b2ce205ed152d5e0708d865321c95f35977a249a8bd5ab9ffb37f9"
+        },
+        "256_-27_2": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-27_2.tif": "b1469b8937ebec4888c0b169f40f8d939b0137d97b1c805fd1ce3c03e96bcaa1",
+          "trees_flags_256_-27_2.tif": "8091b7470375d356555a8e73ecab4a4bf1c64ab34f16133c145baaeab3a03921"
+        },
+        "256_-27_20": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-27_20.tif": "db07d9d8f48d6ce52475737f7de0109c0d5738f8789fbe5daee89c0eb5f2daf7",
+          "trees_flags_256_-27_20.tif": "d3966cb8ec4b8d12d8f64e6e8d8bc6b4afbee4dd61450f7a0aeda28ad5f5e82e"
+        },
+        "256_-27_3": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-27_3.tif": "de3b0029236888dd21b1db740e757d43673eb2feb77da30b40147b3239204bfb",
+          "trees_flags_256_-27_3.tif": "1890631624f0787e1a62ca107e3039bef7709371b4c81512c469167af43c5f3e"
+        },
+        "256_-27_4": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-27_4.tif": "2ed9420dae60312f273e31bc6135c70b96add6ffb4db2285b4eb30f1d76b2a12",
+          "trees_flags_256_-27_4.tif": "c31913a44fb4d393552c3df46ed792e024b57bdf8d892cefa446e2a4eaceb4d6"
+        },
+        "256_-27_5": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-27_5.tif": "d502c56e409bc7b13ad24fdf9acfb74d39f7e9d39285accadfeaa1fabb2f24dd",
+          "trees_flags_256_-27_5.tif": "7a07739502c83ee2e4a178ae223cef07f540f7fe37a90873f49e3e46481c614c"
+        },
+        "256_-27_6": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-27_6.tif": "e14e9f465113e25a7900bae065674430c6b847686254e0ffd63e6550bf079d35",
+          "trees_flags_256_-27_6.tif": "6372c527d5a82176e0fe6c2db6ebfadfc8dfb26ee9ab111660f8294432f05c6c"
+        },
+        "256_-27_7": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-27_7.tif": "575d9b5f40815225e858312c0fdc1aeb0b662a05e8e9d020536e08c5ca113764",
+          "trees_flags_256_-27_7.tif": "9a658e5a1ecd4311d167da2e780eb9806920b97861e128a72af8e9cf8188b4f5"
+        },
+        "256_-27_8": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-27_8.tif": "b0dfe954e18f4aaeb415187f818265cf171995e96c43c1e43d25adf27b3b1d07",
+          "trees_flags_256_-27_8.tif": "7d2381c19dd0b468c0529ff8cf2a20298019899a846c8e9ca312903f2caef757"
+        },
+        "256_-27_9": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-27_9.tif": "7c0122ff5635067cd104dbd85c5aa26b3a3e3fe388a0c8d1c1d6dc242d9988a2",
+          "trees_flags_256_-27_9.tif": "2fdc6a478d4856d4113810e6f52b9ad2dc48a4faf7b1c6c85018dd03adceb4fa"
+        },
+        "256_-28_10": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-28_10.tif": "829f57f8ad0c3be501c75c748d325eb65c70789c883184aa83d643bee61585f8",
+          "trees_flags_256_-28_10.tif": "07ed489095d1031a6f40f27a4498ce5ae4423de7df69c2b1e13a1b5de4d88c94"
+        },
+        "256_-28_11": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-28_11.tif": "4492a236eb99a1d544214304affcc3f3e41f9d0dfb2a9602728be030573cd97d",
+          "trees_flags_256_-28_11.tif": "8c422b242c73a4c8ea18b013ace7f35ac1d4838788bedd851e682451e2e47efb"
+        },
+        "256_-28_12": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-28_12.tif": "1a50b822a952eada2c253e68d67082c6b8cb7b04002a5f09180acdb18e36cb6b",
+          "trees_flags_256_-28_12.tif": "0679c9ab4d20e455ae9f930d608d17322925c8ee91caae8a24880b91c3852e6b"
+        },
+        "256_-28_13": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-28_13.tif": "74abaf778d682dbeff3844b5691cb0135ba78e78e9a11a641e1a8a7db157fc86",
+          "trees_flags_256_-28_13.tif": "bf40d9ea91266e6c21cf9116fe40febaef5fcf925214020c6417224638616701"
+        },
+        "256_-28_14": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-28_14.tif": "29f42d083c71aa159715c8cee6027216c6b809f2704920a8d13961e29f9d9fdb",
+          "trees_flags_256_-28_14.tif": "47bf8ea816d894f437f64b41a5f4b8626534b8b2c9390e5bd281f747bf7989b4"
+        },
+        "256_-28_15": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-28_15.tif": "5f8eb377b7f937df3cce58720e994778ebdf4d2203784e8affca02f6a28eebe7",
+          "trees_flags_256_-28_15.tif": "64d3a083764868bbfeb88d85ea5312764fac47e45a485f00a401acd3338b64fd"
+        },
+        "256_-28_16": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-28_16.tif": "d27290b171dd562f207542c13b84eeecdb955944dab9bee01627221951f4d846",
+          "trees_flags_256_-28_16.tif": "c37ea88f96e919b548e2c69de2d10b50c488ae6ffbe696a1e648fd7025ef9289"
+        },
+        "256_-28_17": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-28_17.tif": "1f8df6749ec88c7c64900520014a7cc261ab4d216617151ef7ed6f5d20446f05",
+          "trees_flags_256_-28_17.tif": "d64111178f6d12426a0d1ad0a6be8a4c30081349bc24a4a708827a7ede875aef"
+        },
+        "256_-28_18": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-28_18.tif": "3707f4b2c23228f030f4257dfc3413a531bae93d6cf81610df5843c31a922b5f",
+          "trees_flags_256_-28_18.tif": "bfd47ef460ce7954d4b10300fcac7cd880939df4be9c3dcec0c28affaac152b0"
+        },
+        "256_-28_19": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-28_19.tif": "5eea12cb701a228bde1a532c22263630583f1a891173db3379554f90c31f6489",
+          "trees_flags_256_-28_19.tif": "73e7f23883a0f03966104fde9ceabee9cea4c1a574b5ec4d1ee10d7d1711734e"
+        },
+        "256_-28_20": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-28_20.tif": "d992851b0e658b5a45f5ecab58c6fe3bb9b19fda000038d8446143d166b07201",
+          "trees_flags_256_-28_20.tif": "495c30a479fcce255afec450004d8f72a17064ef3952b836415e6b6f7eb3ca1e"
+        },
+        "256_-28_3": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-28_3.tif": "a6456520be337337b7557fa905a6f95a202bd50659b4c07a98696bc185556a50",
+          "trees_flags_256_-28_3.tif": "6264a8b6e537c9c0659ac4066bcf278f930a22d960ddbf952c8750253f7a1d5a"
+        },
+        "256_-28_4": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-28_4.tif": "48c489aa6b5828ce0a6c35a61d7f1b0ebdbf3fa57d03f61712850ef8ac87cc25",
+          "trees_flags_256_-28_4.tif": "ff5e95b7f8d814fd10e001d8481e9022e3bf11cd0b9b786fe9ad1b08059349f5"
+        },
+        "256_-28_5": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-28_5.tif": "f40b81bda4e0a782fd7b949242f92653a5a432cebe5af61eb31d98af8b71e3b1",
+          "trees_flags_256_-28_5.tif": "0847d1f1a02a92c8339a46a25027cd991da60f6d2a5cf956181c21fdd27bec98"
+        },
+        "256_-28_6": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-28_6.tif": "9ecd84273ba13908b48c7d0290523ea25345826ba16ef0efe4ccbf19f30eb65c",
+          "trees_flags_256_-28_6.tif": "dadc70f7b2f6b0655c115018cc32aa6f6823cf77db7a0393f4267a7284fc051a"
+        },
+        "256_-28_7": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-28_7.tif": "691f4ca18335a7fcaf7cac611acee1ad785e6ca6b3e20c873823f951e45265e7",
+          "trees_flags_256_-28_7.tif": "840e2506ff0736c64efc97bdfac72cf170b7b95d7e31d3408f9facbcc2279f24"
+        },
+        "256_-28_8": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-28_8.tif": "423ca314402d6e3c196025af176ff3c2195b4e84d18366a6cf1efa3d85a13e9d",
+          "trees_flags_256_-28_8.tif": "a5b3befca2f98e97293e43903f3c66e8af1e64a1080439577885dcd4586acc0b"
+        },
+        "256_-28_9": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-28_9.tif": "8b543200e560a0961f967d3b22c18ed101c4dae6a13ff9e808653e37cd594f50",
+          "trees_flags_256_-28_9.tif": "42cdd51225a31c65129ea43a8cfe021f89c90d14ed9e8b41a8fe65956c07671e"
+        },
+        "256_-29_10": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-29_10.tif": "9dd7b121344fd23082278f52d420e4135cccb3557ae82647b57320d6cb0a164c",
+          "trees_flags_256_-29_10.tif": "dd0d496376116865b445f4870e4dbd17959411cc0a319f91f509e854ad4980f3"
+        },
+        "256_-29_11": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-29_11.tif": "e0218c4b7d9dcc258eea5948cb3b02839c798aaf3ac7ddfbbd58b9e53a4ed4a5",
+          "trees_flags_256_-29_11.tif": "e2ec21b553a8c62dcf6b909e891b9c95dcae4f117ea028009cbc8f02f35152ba"
+        },
+        "256_-29_12": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-29_12.tif": "8badc3506163e15d134b5d2ee49a834a1013917d1cdda68459bb1e5a0d0bb95b",
+          "trees_flags_256_-29_12.tif": "0aa3d18f63ab568c214d8f9c776dd343382b88a5f5918d878e9f8ea732146e15"
+        },
+        "256_-29_13": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-29_13.tif": "cd91a5ec6989c942376d7d727f179681e7407d57c82f05201eaddb0d5a7cd1e8",
+          "trees_flags_256_-29_13.tif": "a381e34f5f1d0334fe13b8ded373696a06eca9669e7c2ca406947a47ec660c38"
+        },
+        "256_-29_14": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-29_14.tif": "693e5a21da28201a9902ebb07696990ec538b36a561fd91eb01887770c9ea9c0",
+          "trees_flags_256_-29_14.tif": "bce69176ede05e72783638b4189f876d59580ac88ff3263f9fb0a86bcea5bb85"
+        },
+        "256_-29_15": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-29_15.tif": "a65068b81dc73fb8547132c4bf94cff327f129e2b8205ab4e2c1f3ddee264f6c",
+          "trees_flags_256_-29_15.tif": "c12abb21c5b544bf078e044fe5d9055c8e21183eb4b58bd68cd33a0e724a2979"
+        },
+        "256_-29_16": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-29_16.tif": "8eacbb64c970c635c5cdd51fc308ab216c304c838b3d48474943f2f10a1e7fb2",
+          "trees_flags_256_-29_16.tif": "9b5fe8a20b22fc8d6f4f10e9b433aaf4f810e24286b2dab62eda06d08b3ea514"
+        },
+        "256_-29_17": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-29_17.tif": "70a4f64d2e1cc7bffdadf73c7fde465d938f37ccf905f8445ae32da24cf51344",
+          "trees_flags_256_-29_17.tif": "0ae680efc179165f2a89b87d4f5f006ccea89a3d19ea273519cecb9c58d9c059"
+        },
+        "256_-29_18": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-29_18.tif": "b72b3a8fcdcce0573fee8f4c6f749530a36eed8e7a67cbb6e809de8df87a9e26",
+          "trees_flags_256_-29_18.tif": "841057a77a9e325b0967b857f1cd9975ac2058f8a373c8aac70900c9545a7b0a"
+        },
+        "256_-29_19": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-29_19.tif": "d94fc77f829715f820b75fd6ce76b42356e9ec4711bb8171459cef4e2fa461ff",
+          "trees_flags_256_-29_19.tif": "806146155f02d7f88a5b4c31c1654fbb2543b6edd416aad447b842e17d5edbef"
+        },
+        "256_-29_20": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-29_20.tif": "ff87fcdbd2d1003a9b1c68f563f55218cb52799e0daae185f3dc705f089efccb",
+          "trees_flags_256_-29_20.tif": "29030fa7ad2bf3d39b7a32b5a6dd81d04f14e12bd24f3c000da3a58779d289e0"
+        },
+        "256_-29_3": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-29_3.tif": "4a24955356948df7def3f3ca5017b566fc085c7d9d7b74f6c0b9f4d8bf9b570e",
+          "trees_flags_256_-29_3.tif": "4e3a4f2341bab7abd53781082b2354482e60cfe35bdaad8c09d33d9d68464b66"
+        },
+        "256_-29_4": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-29_4.tif": "955a45454bfb186bacc5b94b7f9ddf2470eeb22b2685f8be6bb3d2c996f6bd69",
+          "trees_flags_256_-29_4.tif": "9e1b4cc8f6b8bb0408c7af7d8143cd5d6f7bc9222862f974e592bd24a408917e"
+        },
+        "256_-29_5": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-29_5.tif": "b92a02e6ba52e9d18923b37ce7a1a0b0b0fe6a2b0b2ffe0ea4ab1dab93964dcd",
+          "trees_flags_256_-29_5.tif": "e8ee9b5aa62e0717a0ec02df6b06e8891b6743d94fd1ea1bcd47bc8be48191ce"
+        },
+        "256_-29_6": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-29_6.tif": "d47ec0abc89ef33296a06eda2dac69f688ac3f0b0cd1e2252c5cebb5815868b5",
+          "trees_flags_256_-29_6.tif": "3214287ad77f0706405516178707b3d9bce66a200996fb085fe9bb363d1cfe9d"
+        },
+        "256_-29_7": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-29_7.tif": "c49a10b1122676728c9c7d40b9d8cea710bbb63ae4f67a155498333e3e9c5d01",
+          "trees_flags_256_-29_7.tif": "1f5b39d9b2ce7d23781252f6b12295092853895718a8c892d043fb3c9b12e66f"
+        },
+        "256_-29_8": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-29_8.tif": "301d6d6373bc8f39f754762c0aa40cd038fc31e9660429c7b3ea868232df560f",
+          "trees_flags_256_-29_8.tif": "bee9d23f7fdb59f46431b18d184fdd6c526e5bd7c69c4f76c8bf99e041c7f1e8"
+        },
+        "256_-29_9": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-29_9.tif": "ff80d80c79b8c11685f842ea807b7cd3a106f6eb672c59c98beba8e7bd518b76",
+          "trees_flags_256_-29_9.tif": "1802cd1459900b18a132547238b1486dadd2b29b9f57c2914c6f8be77d35e140"
+        },
+        "256_-30_10": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-30_10.tif": "3ba2cc1172e11eb081838e81594216e491e4bbd8edbe53deed0796eebd66238b",
+          "trees_flags_256_-30_10.tif": "1dfa856a5ad02a1789dbda64884dbf85c871a4e42922ae7ad9631f3a8669a0be"
+        },
+        "256_-30_11": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-30_11.tif": "74c447a41af11b2a84af97ffa36a77b4a9b7452df44566a92833e08482a3d5db",
+          "trees_flags_256_-30_11.tif": "3c7aa83e0b308b20dfc8f0ff29b75113a18d5705c7d510e313c22c9a585f06a1"
+        },
+        "256_-30_12": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-30_12.tif": "86bea99009d0cffcd4bb4172a9f3b995c319c4110240752012df8648cfa3e2e1",
+          "trees_flags_256_-30_12.tif": "53e01b7507cb88f405914c03d7539102d70bb0c003e82fac349fc3fe2694c93e"
+        },
+        "256_-30_13": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-30_13.tif": "e2ff6a445e70102d24c25fb08a72aa1588297854ebd9ed17d5042eb1a3423013",
+          "trees_flags_256_-30_13.tif": "ef2d6523090152fe4e1959ab23d33ada4f77efad6f1c3e85bd02206beb7eb13c"
+        },
+        "256_-30_14": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-30_14.tif": "7c485ff3ec696edfece125a31a2b250e7aefe499b1bee9db518778d3d4f9bcd9",
+          "trees_flags_256_-30_14.tif": "280c88924700c1964652b356f6fdd194c2adc1684a949955408c475016aabde5"
+        },
+        "256_-30_15": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-30_15.tif": "de1e6dae42eeb0640506e1a08041cbcc4557eb57b336b566f67457ea2ead84b7",
+          "trees_flags_256_-30_15.tif": "6dc17a1b7fba80457ad0df6bd393ab8f4a9e8f0696d84d0952b7a97393e0628b"
+        },
+        "256_-30_16": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-30_16.tif": "ac5f98040d7c119fe058232637c70f9d6914c8b0a0d79d5a40a0256fc100a666",
+          "trees_flags_256_-30_16.tif": "ed6f939c8234657ef2edad53c35b04478706add20f883e25c7bd7db9e6fdebe1"
+        },
+        "256_-30_17": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-30_17.tif": "527eabd12c3e4111d0a2b056fb42f0fe32504f6f377b052a3f47a6ca2d8f5b31",
+          "trees_flags_256_-30_17.tif": "b84d8da01ce0c0833101963a6145f85531325943c077861db61c19b6dd853e1d"
+        },
+        "256_-30_18": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-30_18.tif": "4f4b09698c275da4899be38366e8fbec227413f98e298653b94fedd50f6a5878",
+          "trees_flags_256_-30_18.tif": "0d4a8ca3198b5636cc8a47157762709776bff3a71513ecc2406d9792dd4e1fc1"
+        },
+        "256_-30_19": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-30_19.tif": "6140fcc90b013d872ae0cb5a6fd893070712bd19f7396ac9cecf3d7626587da1",
+          "trees_flags_256_-30_19.tif": "cb0e7c9b51ded0702cd5d8a33fe66534738d1e463e561f1c07c771fe94fbfbcf"
+        },
+        "256_-30_20": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-30_20.tif": "c80403dc88c4c76dccd1f4da606df89447e2b61b15daaf90f236fcffaef1f46c",
+          "trees_flags_256_-30_20.tif": "b6401d87ea9bc6eb67287ca70122972d623c49194d4e4be3f6591f197b18377a"
+        },
+        "256_-30_21": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-30_21.tif": "b5472ec208bbc0b378cbdffdd657225353b29935f9c69d1c8cdf2026e7c9b373",
+          "trees_flags_256_-30_21.tif": "4e7a9be45749e68394d067d7900ac851b228c6d082965fc76ca6d311ac8bac74"
+        },
+        "256_-30_3": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-30_3.tif": "244cc3f146c5e06e82350a7ef5ee8096f5043b1fe657857ac775d165108233d1",
+          "trees_flags_256_-30_3.tif": "06c414ae0ab8769cf807d1ce42d6fd6736a78ead64619bc9a48f3842e50238cf"
+        },
+        "256_-30_4": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-30_4.tif": "9d13a802f3ebaf14f1930d4c78a7e2757f2c9c0813459c23574e7c60fe56cba2",
+          "trees_flags_256_-30_4.tif": "9d6aee6a792a43944a157622251c5cbe1a9c33f94fe876c9c339fdace1510088"
+        },
+        "256_-30_5": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-30_5.tif": "5380295e3d7e2aff0f41846aab512898185af1c84d624ea96dcd5e5fbd86a1e5",
+          "trees_flags_256_-30_5.tif": "c4074e29163c9ed9a2df53ddb2a45c6f2b78585797f7e1867811dd090d183464"
+        },
+        "256_-30_6": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-30_6.tif": "72f11e4bb336cfaeaa143ab638f652bd0bcc7e72b524a67a73881d728ba7b0da",
+          "trees_flags_256_-30_6.tif": "a8a93d9ffefac5012f0985b20731f5867bdbb848c7600fa581cbca74f99362d1"
+        },
+        "256_-30_7": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-30_7.tif": "c27f46a5a4ff62334ce5451db2ed76097dda2b8d9ef4c523d6c2e3edd17b8dbc",
+          "trees_flags_256_-30_7.tif": "3e62269bed5836681090493fc53751d2057b9f3c33fba11398238de597ff54bf"
+        },
+        "256_-30_8": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-30_8.tif": "841412241b7c28af6d5ad97e843c615416a0bd275759a29290e3fb56c8009a27",
+          "trees_flags_256_-30_8.tif": "c991dcf8243775e5fefa130d10467890de4c6d3df1ab8da9a2795484477f0534"
+        },
+        "256_-30_9": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-30_9.tif": "286e621ded00d1d3f2873f5ca052fe4d359f9b07c70989ce00d1d37c746e4c44",
+          "trees_flags_256_-30_9.tif": "d522d0d69a1889cce89463f9ea50dca857c86ca692f0acd67235a42b474c89b5"
+        },
+        "256_-31_10": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-31_10.tif": "96431f8ee55f5f6476297729c47a8d80ad52e8b662d688909bbaa9c9d92776fa",
+          "trees_flags_256_-31_10.tif": "0f79a2ef9f41eab00c7c2eb51a8fe2b302bf201ac64c5e8ae5210ddfbd426ae4"
+        },
+        "256_-31_11": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-31_11.tif": "a987a6b338cfef25912e287500a0429aacabe19a5c03787489638538a5cf2cf9",
+          "trees_flags_256_-31_11.tif": "5ee9646fe824bf858158215c8afd162ac9e053d4a5bd89a53cae0a1b82251bbd"
+        },
+        "256_-31_12": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-31_12.tif": "92a56a57609233214c057d6582f6f4b284f5604b25f374585286251219043742",
+          "trees_flags_256_-31_12.tif": "8856f4a4a5eae01cfa0bd19ddcc10262dffabd70d31478473e88fcb7d9d7ce5f"
+        },
+        "256_-31_13": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-31_13.tif": "db0f6f2a14fcd89b03f1f92ccf9498e11fb126c42a12c52567a02ea935fc26c0",
+          "trees_flags_256_-31_13.tif": "242e9e052d64cf4aa3f42de0f7c73dae83d1d480a36b3189c1cef8df956227f3"
+        },
+        "256_-31_14": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-31_14.tif": "6012aa877d7f0fb3aa693a79adf2b352451bf662e28142d4708c9845649615db",
+          "trees_flags_256_-31_14.tif": "3fee62d9de983ca5d3f525fceeaf461d2b0161d1acbff9275b65f28b6366a648"
+        },
+        "256_-31_15": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-31_15.tif": "09ca9474040a1be9d42606934e9ee926d6f078c6b1f46f97f898ff7fb1f32cce",
+          "trees_flags_256_-31_15.tif": "ca62bf3ce15ddf4413256e790ec28b1934b1568f08a21a4a0c9b5076006c00d8"
+        },
+        "256_-31_16": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-31_16.tif": "dfa01ea5143547b6615c687a9a48de5359fec1781de9b00522207b07899996fe",
+          "trees_flags_256_-31_16.tif": "72674dca5c8c6646c513a80f509627333989e1e1fcc2550c4b7129db1677cd77"
+        },
+        "256_-31_17": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-31_17.tif": "7eed31fe28ef74602650ff881a636823f080c95b96acb21de2996da606230a08",
+          "trees_flags_256_-31_17.tif": "9bfe87901468724d85f687a040a7662b2b6866ee5f094140f7ca69f7261bf07e"
+        },
+        "256_-31_18": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-31_18.tif": "c42a21ecbf858deb1a9593e7f984afda4dd1af890118bd9dea806f7c30556a4b",
+          "trees_flags_256_-31_18.tif": "6e3e59c9259b66e4e7df20e9f111cb6424fa9988ecec9c29669d5265d52d30cd"
+        },
+        "256_-31_19": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-31_19.tif": "a4a0fbec582e6bdb8eb35e4077b8f8dabe3932cedc1ceb972574b740a6c35488",
+          "trees_flags_256_-31_19.tif": "cd0a616afc9d33169ccd6bce023604c1b99be05d875f4bcd3508890a76dd13c9"
+        },
+        "256_-31_20": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-31_20.tif": "b4168ae34de21943cc15c3002f0ca9fe358181365b33535f0c3d1a48687ef277",
+          "trees_flags_256_-31_20.tif": "77c46d1715bb35bd58e0e2d23ac692bc6603e5c693d9e6b64962231747d3b486"
+        },
+        "256_-31_21": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-31_21.tif": "dac821864bff09a33f00c7456532d0827780affc481a9535a21500122cdff986",
+          "trees_flags_256_-31_21.tif": "19aa97375465917128acb0a234612640c12dd80a3f5f6a4a0a5b48eb924d105f"
+        },
+        "256_-31_3": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-31_3.tif": "858db1115e847ac554bfe25fe552b73d5e2c71126c499b572eeea18dd0452147",
+          "trees_flags_256_-31_3.tif": "d2c4e6ce2405427a4ef9f90a66b6f03bdddf046aa49c560a738328aa37331dfc"
+        },
+        "256_-31_4": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-31_4.tif": "9aa824f8fb5a8243eaa018d88aefa5993c0467da49c5034d0ddf7a286b1287b4",
+          "trees_flags_256_-31_4.tif": "8ff7fdc77f14e73f6516e8c1835156c027211335dcc2571cc0a9fb4f19197324"
+        },
+        "256_-31_5": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-31_5.tif": "47279bc8f6e84cabb5acfa6dc6a56df31adc1a058277967a3ec3e75e92b82a5e",
+          "trees_flags_256_-31_5.tif": "07c59db56aad4148df8a675ffdc503b60c5d8f50bfc37c86705d3e9e23513eef"
+        },
+        "256_-31_6": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-31_6.tif": "65a67d70e2d5fcc607a27de43366ae66e7ea1a572d332cf6add8e4ee7f80d616",
+          "trees_flags_256_-31_6.tif": "d91b4cd45479766389d7e67124f4d23a4d7a16e751cfdfd17ed0e6e5ed9524ec"
+        },
+        "256_-31_7": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-31_7.tif": "2e594bc35d99955a3f3da59e6748112c0e959698918c6dea56c1070366902543",
+          "trees_flags_256_-31_7.tif": "270ae2a9e9e934c4e7a6463e7caacfedb700057dbc4a1340906c38837c509f99"
+        },
+        "256_-31_8": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-31_8.tif": "ab398b2d6dc60c16584c85b8cb71ffb5bd48d7f6d3cd8d11594fc2ad30919afb",
+          "trees_flags_256_-31_8.tif": "c10837ed9b891404e616921f48aaa77a760e8215678c55178fc779614826a02f"
+        },
+        "256_-31_9": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-31_9.tif": "979b9e919b7350f5cd35cb2adf15c6968ca065451476c0d7fc0c1aa750debc48",
+          "trees_flags_256_-31_9.tif": "b198adfe5ddae456c71afac83bea2306b4eba65d31248e38bc514b7a1f9365df"
+        },
+        "256_-32_10": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-32_10.tif": "7bb9f50f5d54c12032a925279760a0458e917dc16b2bbe2f4cb4a1424d5fe3c8",
+          "trees_flags_256_-32_10.tif": "f66d241f5cbebac3a68decbb76d45b3de5065922077c78bfe8d2d718d8225185"
+        },
+        "256_-32_11": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-32_11.tif": "518af68144f754c7a536b82aa0e2a71232f2822f7e19bfa911263f5c75b92f60",
+          "trees_flags_256_-32_11.tif": "cd6473ae4f38773c37f9bc58bfa57975b83dae78cb3c6492a4cb2118470be24b"
+        },
+        "256_-32_12": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-32_12.tif": "f8f424c5b6791c1b761337660b9ae4b7e33ff85542707975397c2c6a49e87275",
+          "trees_flags_256_-32_12.tif": "980e015ad664a767c4ac281846c973d76fa52cf20ba0f7e6fd4022c754f20b21"
+        },
+        "256_-32_13": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-32_13.tif": "4b228d03203f7dc50c87961d3bfcfc1624f8d0d2225fed72b342ecc88c514d1b",
+          "trees_flags_256_-32_13.tif": "c28e0b00e5dad7b51311a1aeb3191ed24f3ea1360101bd2f37745f2a0947c33a"
+        },
+        "256_-32_14": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-32_14.tif": "3a6ca95529e3a0f69db88fe586bf743cf52a7223a1f541e6b2dcd26ecff9e461",
+          "trees_flags_256_-32_14.tif": "992a3e2f5d0354e55a5b9fa2d9a910b9de635a5bbd9824dc89aeac571b871234"
+        },
+        "256_-32_15": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-32_15.tif": "cc7a2f0543b84ca5e2e4743aaae38e7a9dacec46f50ac78c09de358b03a3523a",
+          "trees_flags_256_-32_15.tif": "da774650966fbeb3d6c4afbe1d23cba3f7c3bd1881c836d33be12d0b642a8069"
+        },
+        "256_-32_16": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-32_16.tif": "b5ee3d874a68d313ded61bf7407d990ba7e9f75a850471d494d4fd9b5d189898",
+          "trees_flags_256_-32_16.tif": "347c4ef175f3f03b35877c9c74f6e35a5a2b92f296ee33aae64ac32b5af92d88"
+        },
+        "256_-32_17": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-32_17.tif": "c996b50b3532d8ad1b201f3658e952aa18573a54125a381388507981e7bbc694",
+          "trees_flags_256_-32_17.tif": "d2b3dcabd6d5688710287b39c332aa1730af4680a9efc721e77a672226724b4b"
+        },
+        "256_-32_18": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-32_18.tif": "e0196551bb1f823519c3c933d847300126fe248c063e765e71481de6ca1c9f2b",
+          "trees_flags_256_-32_18.tif": "6ec997617708faa79f107a886cafdaabf9ae104b5dd03964ec37a7727ffc41ad"
+        },
+        "256_-32_19": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-32_19.tif": "84ff2ce8c6cb665261c717ab4ad3f72807e91f782099d53a1778224513f54c6e",
+          "trees_flags_256_-32_19.tif": "af55e864b58de7faa0ad7c78ee69ca8ebad030e3bfba6f257690ba294c1d3593"
+        },
+        "256_-32_20": {
+          "soil_2048_-4_2.tif": "b0a1b62627bd45c1530da9e38f3707f6898e54d1d92a93809e18212969056c7c",
+          "trees_256_-32_20.tif": "0a1efe3dacddc26642ed65d3db44dce98a9e374be86dac274052137c4895534d",
+          "trees_flags_256_-32_20.tif": "a1f0acf13ac1add9fc7a19173cc89b2f830db29f3c764f33054c2a45a66268fc"
+        },
+        "256_-32_4": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-32_4.tif": "2cab1a73d3ed2ffbdf12ddac0e7d2f6918e667a91ffd7933045025cb98ccc887",
+          "trees_flags_256_-32_4.tif": "8d619b6558e8397ad22f33ca5f5701dadac0a0a07e46db892be5f06cd453ef3c"
+        },
+        "256_-32_5": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-32_5.tif": "8dcbd785857e06d8c564107fdc7a31ee5556d4a471f3d0122763ae4e2ac85c54",
+          "trees_flags_256_-32_5.tif": "272cb7885f19126dfe6d84087f6c7efa978b87036d100f2f81b4967a67e403dc"
+        },
+        "256_-32_6": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-32_6.tif": "d608e555901377c31b22f1a093f54179e160b580a324599b939b50af9506ddd0",
+          "trees_flags_256_-32_6.tif": "b02c779565794da7be48a91d20f3d9a7b4a6d7efe2116dddb0704fdf4465670a"
+        },
+        "256_-32_7": {
+          "soil_2048_-4_0.tif": "4551c60673743b3c3f57b8782d71d0e1bb8f2062f5327ae291a11ddcade65282",
+          "trees_256_-32_7.tif": "f2713295c07b9d836572dd8bf6a694bb7dbaa6e4294e5000002d872f72035e64",
+          "trees_flags_256_-32_7.tif": "e7f9a38fe1b9b31df5245c21180701e5f91912e507d01c2abca5fea406531bf5"
+        },
+        "256_-32_8": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-32_8.tif": "a5d4f0bc8b286a96274add2777e02e08810c5688e8e76e86d495af0ff80490b9",
+          "trees_flags_256_-32_8.tif": "70f4911398f29ec840629c2901b51ead8d397f39299cfad03c3637c0c99b07b0"
+        },
+        "256_-32_9": {
+          "soil_2048_-4_1.tif": "73803186e2730bf40004f14f0995729269d871616442be8e3c0f7599c5ada84e",
+          "trees_256_-32_9.tif": "bc90c7f91930b16b892046efb639c152f3af62732ea279239fc45a4d5ddcbc08",
+          "trees_flags_256_-32_9.tif": "6a1501d476467ee915e2b361c4b09dcd2f020c80f584addbf253183dbcd349f8"
+        },
+        "256_-33_10": {
+          "soil_2048_-5_1.tif": "8a258de443664505428077c068be8c19b2ea64a5305d7860d73823f8655bf5f0",
+          "trees_256_-33_10.tif": "691d9279c9813ad5a945e695fdcb0001587ca26fa182488bc7d2c08363fe3e4f",
+          "trees_flags_256_-33_10.tif": "16707fe83b4874d25c2b95ac8b97cbbad158cf761d8e9fe20251d492b1a4ecee"
+        },
+        "256_-33_11": {
+          "soil_2048_-5_1.tif": "8a258de443664505428077c068be8c19b2ea64a5305d7860d73823f8655bf5f0",
+          "trees_256_-33_11.tif": "437fa700ecf524549124ca68abc8853040ba195123c5a739cf386b8280bcdacb",
+          "trees_flags_256_-33_11.tif": "6c42cc0018654c5f30c2bfc04491ca3f0983915bcfcfb830f5045efcb7df02d6"
+        },
+        "256_-33_12": {
+          "soil_2048_-5_1.tif": "8a258de443664505428077c068be8c19b2ea64a5305d7860d73823f8655bf5f0",
+          "trees_256_-33_12.tif": "6cf0a30d8f10e3806f445f5835837b69a25ae068be1117bfcc2c7cf90493bc6e",
+          "trees_flags_256_-33_12.tif": "9d9e81053a608d04c8400606cf20411815d28813d892b06b1ca7bdd692dc1114"
+        },
+        "256_-33_13": {
+          "soil_2048_-5_1.tif": "8a258de443664505428077c068be8c19b2ea64a5305d7860d73823f8655bf5f0",
+          "trees_256_-33_13.tif": "1f5f13dfe1a3c7d6ac058349d8484e6ef0211f339b48953d629db5e0b40e6a21",
+          "trees_flags_256_-33_13.tif": "52804c2db1bd6299fb398a0ed265abbe8eb6132d6a91b57d5036a2dae8716579"
+        },
+        "256_-33_4": {
+          "soil_2048_-5_0.tif": "ca32b94823e1806116f65732d7508d424827966555b5a539acca2c4807baec91",
+          "trees_256_-33_4.tif": "7a568201bc339c06328b80c948f341167adc24e8217de696cdcf4790013284a6",
+          "trees_flags_256_-33_4.tif": "4253e07741f03e18c5f3c779bcb86f22e609a877831cbfd3b35970c909264100"
+        },
+        "256_-33_5": {
+          "soil_2048_-5_0.tif": "ca32b94823e1806116f65732d7508d424827966555b5a539acca2c4807baec91",
+          "trees_256_-33_5.tif": "deb0e825bc14b6c7d08f6adf09f2f8f026a821835a24230bef81be0664024e05",
+          "trees_flags_256_-33_5.tif": "d722cd6cab4a194a776d94e86305abd8c70aad4eb72f7358f11acb39c4565d3b"
+        },
+        "256_-33_6": {
+          "soil_2048_-5_0.tif": "ca32b94823e1806116f65732d7508d424827966555b5a539acca2c4807baec91",
+          "trees_256_-33_6.tif": "e753c8f584355d549c1c499954d76c5d38ad36628b54b472c1502b9d0fd54b0a",
+          "trees_flags_256_-33_6.tif": "cb6c599ffbf0f56bb027212d256a1d219b897c7c9e31cfaf1303b98742985891"
+        },
+        "256_-33_7": {
+          "soil_2048_-5_0.tif": "ca32b94823e1806116f65732d7508d424827966555b5a539acca2c4807baec91",
+          "trees_256_-33_7.tif": "83a1918b5d1d00bc235b923a15a7c5e5edecdfe8e0398ecf4ea63b8b7c3e86a9",
+          "trees_flags_256_-33_7.tif": "0e1fde2a9c10c48c243e5f9246ba2be87925d2f2af8cbc9d3e1eb95c950c0c2d"
+        },
+        "256_-33_8": {
+          "soil_2048_-5_1.tif": "8a258de443664505428077c068be8c19b2ea64a5305d7860d73823f8655bf5f0",
+          "trees_256_-33_8.tif": "31692cda8b896160a1ee5a4c68588f82b81acff004d39fed1010e72b0702205d",
+          "trees_flags_256_-33_8.tif": "ddd642de14a0043231c67737e8c07795d50dd5bdaa957c3da8ff71e63f1a3322"
+        },
+        "256_-33_9": {
+          "soil_2048_-5_1.tif": "8a258de443664505428077c068be8c19b2ea64a5305d7860d73823f8655bf5f0",
+          "trees_256_-33_9.tif": "17012af7f03896fa7a6ab724faf851fae6bc65c4c7a461d1565fbee210ce13ff",
+          "trees_flags_256_-33_9.tif": "09cbd5562cfee1c128b8d667fbdaa92ea8a922f82082ea73942dea73a66b206d"
+        },
+        "256_-34_10": {
+          "soil_2048_-5_1.tif": "8a258de443664505428077c068be8c19b2ea64a5305d7860d73823f8655bf5f0",
+          "trees_256_-34_10.tif": "06451621a00cf88bebcb7e8e576b45a933ddc00bffad3e854a2b71ba171dea71",
+          "trees_flags_256_-34_10.tif": "571eeff366868b25a7c480fb94a88ca24511e10eed1b27c0429f5c98e08b0f5e"
+        },
+        "256_-34_11": {
+          "soil_2048_-5_1.tif": "8a258de443664505428077c068be8c19b2ea64a5305d7860d73823f8655bf5f0",
+          "trees_256_-34_11.tif": "7b517f5ce71389c97b546b2f329a1c5f6997175eab8beaebc68c008c0361b8ff",
+          "trees_flags_256_-34_11.tif": "e9343f24a2d92d78c86993df2ba806d368a1ef438a3a2dcacec989e39d9fa8e3"
+        },
+        "256_-34_4": {
+          "soil_2048_-5_0.tif": "ca32b94823e1806116f65732d7508d424827966555b5a539acca2c4807baec91",
+          "trees_256_-34_4.tif": "89841eb1659c04191db72eef913d280225ff1ba6dc54b465eee390124189bc1a",
+          "trees_flags_256_-34_4.tif": "368d2c99b43eee2fe41947fce8b25436b66bf28fbb21e9d0574f69ab503e191e"
+        },
+        "256_-34_5": {
+          "soil_2048_-5_0.tif": "ca32b94823e1806116f65732d7508d424827966555b5a539acca2c4807baec91",
+          "trees_256_-34_5.tif": "2d7f53bacac727a07f7d3096587b90bc18c88e8a93af1cc78c3dc5f601dffb74",
+          "trees_flags_256_-34_5.tif": "73f758195ba4362dc4a301447a820b68002f82fe7f54406f2e2f368ce030d685"
+        },
+        "256_-34_6": {
+          "soil_2048_-5_0.tif": "ca32b94823e1806116f65732d7508d424827966555b5a539acca2c4807baec91",
+          "trees_256_-34_6.tif": "d852579db3f3f0d48b196944e0e606c7e632277c5498120a6535e322a7cfb3ea",
+          "trees_flags_256_-34_6.tif": "f3e68cf205ac3cc946a50bb79ebe60219f2400e8fec667fcaeaf6064b5e7058d"
+        },
+        "256_-34_7": {
+          "soil_2048_-5_0.tif": "ca32b94823e1806116f65732d7508d424827966555b5a539acca2c4807baec91",
+          "trees_256_-34_7.tif": "9aa6a5ff9591769479601518180f2d4df9571f6b267491696d86feecb1c29177",
+          "trees_flags_256_-34_7.tif": "c826006a222fd2f0ce5a7ab1632c1d4cc444892ab5a8117fb2ca03fa60033608"
+        },
+        "256_-34_8": {
+          "soil_2048_-5_1.tif": "8a258de443664505428077c068be8c19b2ea64a5305d7860d73823f8655bf5f0",
+          "trees_256_-34_8.tif": "0d0f403d59202f7c82cdb564cb4f6d9868c5ea5492515ea63653a362ab678445",
+          "trees_flags_256_-34_8.tif": "4fe520f7038f84f78c764ba8c543add501dcbb96e6f77e7cbbba3f664fa0cb57"
+        },
+        "256_-34_9": {
+          "soil_2048_-5_1.tif": "8a258de443664505428077c068be8c19b2ea64a5305d7860d73823f8655bf5f0",
+          "trees_256_-34_9.tif": "cfc52ad194e047a431ddda19ff7dca1bdf8328234f9200aef3ac662f452ba6b2",
+          "trees_flags_256_-34_9.tif": "3e8beeed4e71b7b164ff18763dfc272e9e0483811169e1047949a0327b22ebcc"
+        },
+        "256_-35_4": {
+          "soil_2048_-5_0.tif": "ca32b94823e1806116f65732d7508d424827966555b5a539acca2c4807baec91",
+          "trees_256_-35_4.tif": "537e2151071337f7a9ad70cac20eb61e44ec072bf17d3b35b50ec80bbfa9c0a5",
+          "trees_flags_256_-35_4.tif": "c4b35e6af0df2db77bb62b2d71531611cfd5aff648d94f91c30915cef06c58ec"
+        },
+        "256_-35_5": {
+          "soil_2048_-5_0.tif": "ca32b94823e1806116f65732d7508d424827966555b5a539acca2c4807baec91",
+          "trees_256_-35_5.tif": "1ba0c46adb100ffc5e1ad1d37bb8306e090c73f982103bb0d2bbb8a69228289e",
+          "trees_flags_256_-35_5.tif": "ecbf2af96feff25578b562846153eb809556395bef3dd545176718a4a5d135d4"
+        },
+        "256_-35_6": {
+          "soil_2048_-5_0.tif": "ca32b94823e1806116f65732d7508d424827966555b5a539acca2c4807baec91",
+          "trees_256_-35_6.tif": "5969998789b84abfac339d297d1c1fb2830e5f2f4c8cdd3e723276d90a6c9846",
+          "trees_flags_256_-35_6.tif": "45ed1746edf3aee36a96b298eb6b2726af797fdd3cdc1c13a0b8a7af8b0aa74f"
+        },
+        "256_-35_7": {
+          "soil_2048_-5_0.tif": "ca32b94823e1806116f65732d7508d424827966555b5a539acca2c4807baec91",
+          "trees_256_-35_7.tif": "4068bddbbf9f732ae1f232f4d1535912ba47759897e19906bfa26f6e7040a7e2",
+          "trees_flags_256_-35_7.tif": "f4c3251dc5603aced92f8b3162b2f7f6854f41093c7cab5a9573dcdfa876849d"
+        }
+      }
+    }
+  },
+  "labels": [
+    "relative habitat, PNW pilot, not shown"
+  ],
+  "left_out_bands": [
+    "share_Fagus",
+    "share_Carya",
+    "share_Tilia",
+    "share_Ostrya",
+    "share_Carpinus"
+  ],
+  "level3_codes": [
+    {
+      "code": 1,
+      "level1": "1",
+      "level3": "1.1.1",
+      "name": "Ellesmere and Devon Islands Ice Caps"
+    },
+    {
+      "code": 2,
+      "level1": "1",
+      "level3": "1.1.2",
+      "name": "Baffin and Torngat Mountains"
+    },
+    {
+      "code": 3,
+      "level1": "10",
+      "level3": "10.1.1",
+      "name": "Thompson-Okanagan Plateau"
+    },
+    {
+      "code": 4,
+      "level1": "10",
+      "level3": "10.1.2",
+      "name": "Columbia Plateau"
+    },
+    {
+      "code": 5,
+      "level1": "10",
+      "level3": "10.1.3",
+      "name": "Northern Basin and Range"
+    },
+    {
+      "code": 6,
+      "level1": "10",
+      "level3": "10.1.4",
+      "name": "Wyoming Basin"
+    },
+    {
+      "code": 7,
+      "level1": "10",
+      "level3": "10.1.5",
+      "name": "Central Basin and Range"
+    },
+    {
+      "code": 8,
+      "level1": "10",
+      "level3": "10.1.6",
+      "name": "Colorado Plateaus"
+    },
+    {
+      "code": 9,
+      "level1": "10",
+      "level3": "10.1.7",
+      "name": "Arizona/New Mexico Plateau"
+    },
+    {
+      "code": 10,
+      "level1": "10",
+      "level3": "10.1.8",
+      "name": "Snake River Plain"
+    },
+    {
+      "code": 11,
+      "level1": "10",
+      "level3": "10.2.1",
+      "name": "Mojave Basin and Range"
+    },
+    {
+      "code": 12,
+      "level1": "10",
+      "level3": "10.2.2",
+      "name": "Sonoran Desert"
+    },
+    {
+      "code": 13,
+      "level1": "10",
+      "level3": "10.2.3",
+      "name": "Baja Californian Desert"
+    },
+    {
+      "code": 14,
+      "level1": "10",
+      "level3": "10.2.4",
+      "name": "Chihuahuan Desert"
+    },
+    {
+      "code": 15,
+      "level1": "11",
+      "level3": "11.1.1",
+      "name": "Central California Foothills and Coastal Mountains"
+    },
+    {
+      "code": 16,
+      "level1": "11",
+      "level3": "11.1.2",
+      "name": "Central California Valley"
+    },
+    {
+      "code": 17,
+      "level1": "11",
+      "level3": "11.1.3",
+      "name": "Southern and Baja California Pine-Oak Mountains"
+    },
+    {
+      "code": 18,
+      "level1": "11",
+      "level3": "11.1.4",
+      "name": "Southern California/Northern Baja California Coast"
+    },
+    {
+      "code": 19,
+      "level1": "12",
+      "level3": "12.1.1",
+      "name": "Madrean Archipelago"
+    },
+    {
+      "code": 20,
+      "level1": "12",
+      "level3": "12.1.2",
+      "name": "Piedmonts and Plains with Grasslands, Xeric Shrub, and Oak and Conifer Forests"
+    },
+    {
+      "code": 21,
+      "level1": "12",
+      "level3": "12.2.1",
+      "name": "Hills and Interior Plains with Xeric Shrub and Mesquite Low Forest"
+    },
+    {
+      "code": 22,
+      "level1": "13",
+      "level3": "13.1.1",
+      "name": "Arizona/New Mexico Mountains"
+    },
+    {
+      "code": 23,
+      "level1": "13",
+      "level3": "13.2.1",
+      "name": "Sierra Madre Occidental with Conifer, Oak, and Mixed Forests"
+    },
+    {
+      "code": 24,
+      "level1": "13",
+      "level3": "13.3.1",
+      "name": "Sierra Madre Oriental with Conifer, Oak, and Mixed Forests"
+    },
+    {
+      "code": 25,
+      "level1": "13",
+      "level3": "13.4.1",
+      "name": "Interior Plains and Piedmonts with Grasslands and Xeric Shrub"
+    },
+    {
+      "code": 26,
+      "level1": "13",
+      "level3": "13.4.2",
+      "name": "Hills and Sierras with Conifer, Oak, and Mixed Forests"
+    },
+    {
+      "code": 27,
+      "level1": "13",
+      "level3": "13.5.1",
+      "name": "Sierras of Jalisco and Michoacán with Conifer, Oak, and Mixed Forests"
+    },
+    {
+      "code": 28,
+      "level1": "13",
+      "level3": "13.5.2",
+      "name": "Sierras of Guerrero and Oaxaca with Conifer, Oak, and Mixed Forests"
+    },
+    {
+      "code": 29,
+      "level1": "13",
+      "level3": "13.6.1",
+      "name": "Central American Sierra Madre with Conifer, Oak, and Mixed Forests"
+    },
+    {
+      "code": 30,
+      "level1": "13",
+      "level3": "13.6.2",
+      "name": "Chiapas Highlands with Conifer, Oak, and Mixed Forests"
+    },
+    {
+      "code": 31,
+      "level1": "14",
+      "level3": "14.1.1",
+      "name": "Coastal Plain with Low Tropical Deciduous and Thorn Forest"
+    },
+    {
+      "code": 32,
+      "level1": "14",
+      "level3": "14.1.2",
+      "name": "Hills and Sierras with Low Tropical Deciduous Forest and Oak Forest"
+    },
+    {
+      "code": 33,
+      "level1": "14",
+      "level3": "14.2.1",
+      "name": "Northwestern Yucatan Plain with Low Tropical Deciduous Forest"
+    },
+    {
+      "code": 34,
+      "level1": "14",
+      "level3": "14.3.1",
+      "name": "Sinaloa Coastal Plain with Low Tropical Thorn Forest and Wetlands"
+    },
+    {
+      "code": 35,
+      "level1": "14",
+      "level3": "14.3.2",
+      "name": "Sinaloa and Sonora Hills and Canyons with Xeric Shrub and Low Tropical Deciduous Forest"
+    },
+    {
+      "code": 36,
+      "level1": "14",
+      "level3": "14.4.1",
+      "name": "Balsas Depression with Low Tropical Deciduous Forest and Xerophytic Shrub"
+    },
+    {
+      "code": 37,
+      "level1": "14",
+      "level3": "14.4.2",
+      "name": "Chiapas Depression with Low Tropical Deciduous and Medium-high Semi-Deciduous Forest"
+    },
+    {
+      "code": 38,
+      "level1": "14",
+      "level3": "14.4.3",
+      "name": "Valleys and Depressions of Oaxaca and Puebla with Xeric Shrub and Low Tropical Deciduous Forest"
+    },
+    {
+      "code": 39,
+      "level1": "14",
+      "level3": "14.5.1",
+      "name": "Tehuantepec Canyon and Coastal Plain with Low Tropical Deciduous Forest and Low Thorn Forest"
+    },
+    {
+      "code": 40,
+      "level1": "14",
+      "level3": "14.5.2",
+      "name": "Southern Mexican Pacific Hills and Piedmonts with Low Tropical Deciduous Forest"
+    },
+    {
+      "code": 41,
+      "level1": "14",
+      "level3": "14.6.1",
+      "name": "Los Cabos Plain and Hills with Low Tropical Deciduous Forest and Xeric Shrub"
+    },
+    {
+      "code": 42,
+      "level1": "14",
+      "level3": "14.6.2",
+      "name": "Sierra La Laguna with Oak and Conifer Forests"
+    },
+    {
+      "code": 43,
+      "level1": "15",
+      "level3": "15.1.1",
+      "name": "Gulf of Mexico Coastal Plain with Wetlands and Tropical Evergreen Forest"
+    },
+    {
+      "code": 44,
+      "level1": "15",
+      "level3": "15.1.2",
+      "name": "Hills with High and Medium-high Tropical Evergreen Forest"
+    },
+    {
+      "code": 45,
+      "level1": "15",
+      "level3": "15.2.1",
+      "name": "Plain with Low and Medium-high Tropical Deciduous Forest"
+    },
+    {
+      "code": 46,
+      "level1": "15",
+      "level3": "15.2.2",
+      "name": "Plain with High and Medium-high Tropical Semi-Evergreen Forest"
+    },
+    {
+      "code": 47,
+      "level1": "15",
+      "level3": "15.2.3",
+      "name": "Hills with High and Medium-high Tropical Semi-Evergreen Forest"
+    },
+    {
+      "code": 48,
+      "level1": "15",
+      "level3": "15.3.1",
+      "name": "Sierra Los Tuxtlas with High Tropical Evergreen Forest"
+    },
+    {
+      "code": 49,
+      "level1": "15",
+      "level3": "15.4.1",
+      "name": "Southern Florida Coastal Plain"
+    },
+    {
+      "code": 50,
+      "level1": "15",
+      "level3": "15.5.1",
+      "name": "Nayarit and Sinaloa Plain with Low Tropical Thorn Forest"
+    },
+    {
+      "code": 51,
+      "level1": "15",
+      "level3": "15.5.2",
+      "name": "Jalisco and Nayarit Hills and Coastal Plain with Medium-high Tropical Semi-Evergreen Forest"
+    },
+    {
+      "code": 52,
+      "level1": "15",
+      "level3": "15.6.1",
+      "name": "Coastal Plain and Hills with High and Medium-high Tropical Evergreen Forest and Wetlands"
+    },
+    {
+      "code": 53,
+      "level1": "2",
+      "level3": "2.1.1",
+      "name": "Sverdrup Islands Lowland"
+    },
+    {
+      "code": 54,
+      "level1": "2",
+      "level3": "2.1.2",
+      "name": "Ellesmere Mountains and Eureka Hills"
+    },
+    {
+      "code": 55,
+      "level1": "2",
+      "level3": "2.1.3",
+      "name": "Parry Islands Plateau"
+    },
+    {
+      "code": 56,
+      "level1": "2",
+      "level3": "2.1.4",
+      "name": "Lancaster and Borden Peninsula Plateaus"
+    },
+    {
+      "code": 57,
+      "level1": "2",
+      "level3": "2.1.5",
+      "name": "Foxe Uplands"
+    },
+    {
+      "code": 58,
+      "level1": "2",
+      "level3": "2.1.6",
+      "name": "Baffin Uplands"
+    },
+    {
+      "code": 59,
+      "level1": "2",
+      "level3": "2.1.7",
+      "name": "Gulf of Boothia and Foxe Basin Plains"
+    },
+    {
+      "code": 60,
+      "level1": "2",
+      "level3": "2.1.8",
+      "name": "Victoria Island Lowlands"
+    },
+    {
+      "code": 61,
+      "level1": "2",
+      "level3": "2.1.9",
+      "name": "Banks Island and Amundsen Gulf Lowlands"
+    },
+    {
+      "code": 62,
+      "level1": "2",
+      "level3": "2.2.1",
+      "name": "Arctic Coastal Plain"
+    },
+    {
+      "code": 63,
+      "level1": "2",
+      "level3": "2.2.2",
+      "name": "Arctic Foothills"
+    },
+    {
+      "code": 64,
+      "level1": "2",
+      "level3": "2.2.3",
+      "name": "Subarctic Coastal Plains"
+    },
+    {
+      "code": 65,
+      "level1": "2",
+      "level3": "2.2.4",
+      "name": "Seward Peninsula"
+    },
+    {
+      "code": 66,
+      "level1": "2",
+      "level3": "2.2.5",
+      "name": "Bristol Bay-Nushagak Lowlands"
+    },
+    {
+      "code": 67,
+      "level1": "2",
+      "level3": "2.2.6",
+      "name": "Aleutian Islands"
+    },
+    {
+      "code": 68,
+      "level1": "2",
+      "level3": "2.3.1",
+      "name": "Brooks Range/Richardson Mountains"
+    },
+    {
+      "code": 69,
+      "level1": "2",
+      "level3": "2.4.1",
+      "name": "Amundsen Plains"
+    },
+    {
+      "code": 70,
+      "level1": "2",
+      "level3": "2.4.2",
+      "name": "Aberdeen Plains"
+    },
+    {
+      "code": 71,
+      "level1": "2",
+      "level3": "2.4.3",
+      "name": "Central Ungava Peninsula and Ottawa and Belcher Islands"
+    },
+    {
+      "code": 72,
+      "level1": "2",
+      "level3": "2.4.4",
+      "name": "Queen Maud Gulf and Chantrey Inlet Lowlands"
+    },
+    {
+      "code": 73,
+      "level1": "3",
+      "level3": "3.1.1",
+      "name": "Interior Forested Lowlands and Uplands"
+    },
+    {
+      "code": 74,
+      "level1": "3",
+      "level3": "3.1.2",
+      "name": "Interior Bottomlands"
+    },
+    {
+      "code": 75,
+      "level1": "3",
+      "level3": "3.1.3",
+      "name": "Yukon Flats"
+    },
+    {
+      "code": 76,
+      "level1": "3",
+      "level3": "3.2.1",
+      "name": "Ogilvie Mountains"
+    },
+    {
+      "code": 77,
+      "level1": "3",
+      "level3": "3.2.2",
+      "name": "Mackenzie and Selwyn Mountains"
+    },
+    {
+      "code": 78,
+      "level1": "3",
+      "level3": "3.2.3",
+      "name": "Peel River and Nahanni Plateaus"
+    },
+    {
+      "code": 79,
+      "level1": "3",
+      "level3": "3.3.1",
+      "name": "Great Bear Plains"
+    },
+    {
+      "code": 80,
+      "level1": "3",
+      "level3": "3.3.2",
+      "name": "Hay and Slave River Lowlands"
+    },
+    {
+      "code": 81,
+      "level1": "3",
+      "level3": "3.4.1",
+      "name": "Kazan River and Selwyn Lake Uplands"
+    },
+    {
+      "code": 82,
+      "level1": "3",
+      "level3": "3.4.2",
+      "name": "La Grande Hills and New Quebec Central Plateau"
+    },
+    {
+      "code": 83,
+      "level1": "3",
+      "level3": "3.4.3",
+      "name": "Smallwood Uplands"
+    },
+    {
+      "code": 84,
+      "level1": "3",
+      "level3": "3.4.4",
+      "name": "Ungava Bay Basin and George Plateau"
+    },
+    {
+      "code": 85,
+      "level1": "3",
+      "level3": "3.4.5",
+      "name": "Coppermine River and Tazin Lake Uplands"
+    },
+    {
+      "code": 86,
+      "level1": "4",
+      "level3": "4.1.1",
+      "name": "Coastal Hudson Bay Lowlands"
+    },
+    {
+      "code": 87,
+      "level1": "4",
+      "level3": "4.1.2",
+      "name": "Hudson Bay and James Bay Lowlands"
+    },
+    {
+      "code": 88,
+      "level1": "5",
+      "level3": "5.1.1",
+      "name": "Athabasca Plain and Churchill River Uplands"
+    },
+    {
+      "code": 89,
+      "level1": "5",
+      "level3": "5.1.2",
+      "name": "Lake Nipigon and Lac Seul Uplands"
+    },
+    {
+      "code": 90,
+      "level1": "5",
+      "level3": "5.1.3",
+      "name": "Central Laurentians and Mecatina Plateau"
+    },
+    {
+      "code": 91,
+      "level1": "5",
+      "level3": "5.1.4",
+      "name": "Newfoundland Island"
+    },
+    {
+      "code": 92,
+      "level1": "5",
+      "level3": "5.1.5",
+      "name": "Hayes River Uplands and Big Trout Lake"
+    },
+    {
+      "code": 93,
+      "level1": "5",
+      "level3": "5.1.6",
+      "name": "Abitibi Plains and Rivière Rupert Plateau"
+    },
+    {
+      "code": 94,
+      "level1": "5",
+      "level3": "5.2.1",
+      "name": "Northern Lakes and Forests"
+    },
+    {
+      "code": 95,
+      "level1": "5",
+      "level3": "5.2.2",
+      "name": "Northern Minnesota Wetlands"
+    },
+    {
+      "code": 96,
+      "level1": "5",
+      "level3": "5.2.3",
+      "name": "Algonquin/Southern Laurentians"
+    },
+    {
+      "code": 97,
+      "level1": "5",
+      "level3": "5.3.1",
+      "name": "Northern Appalachians and Atlantic Maritime Highlands"
+    },
+    {
+      "code": 98,
+      "level1": "5",
+      "level3": "5.3.3",
+      "name": "North Central Appalachians"
+    },
+    {
+      "code": 99,
+      "level1": "5",
+      "level3": "5.4.1",
+      "name": "Mid-Boreal Uplands and Peace-Wabaska Lowlands"
+    },
+    {
+      "code": 100,
+      "level1": "5",
+      "level3": "5.4.2",
+      "name": "Clear Hills and Western Alberta Uplands"
+    },
+    {
+      "code": 101,
+      "level1": "5",
+      "level3": "5.4.3",
+      "name": "Mid-Boreal Lowland and Interlake Plain"
+    },
+    {
+      "code": 102,
+      "level1": "6",
+      "level3": "6.1.1",
+      "name": "Interior Highlands and Klondike Plateau"
+    },
+    {
+      "code": 103,
+      "level1": "6",
+      "level3": "6.1.2",
+      "name": "Alaska Range"
+    },
+    {
+      "code": 104,
+      "level1": "6",
+      "level3": "6.1.3",
+      "name": "Copper Plateau"
+    },
+    {
+      "code": 105,
+      "level1": "6",
+      "level3": "6.1.4",
+      "name": "Wrangell and St. Elias Mountains"
+    },
+    {
+      "code": 106,
+      "level1": "6",
+      "level3": "6.1.5",
+      "name": "Watson Highlands"
+    },
+    {
+      "code": 107,
+      "level1": "6",
+      "level3": "6.1.6",
+      "name": "Yukon-Stikine Highlands/Boreal Mountains and Plateaus"
+    },
+    {
+      "code": 108,
+      "level1": "6",
+      "level3": "6.2.1",
+      "name": "Skeena-Omineca-Central Canadian Rocky Mountains"
+    },
+    {
+      "code": 109,
+      "level1": "6",
+      "level3": "6.2.10",
+      "name": "Middle Rockies"
+    },
+    {
+      "code": 110,
+      "level1": "6",
+      "level3": "6.2.11",
+      "name": "Klamath Mountains"
+    },
+    {
+      "code": 111,
+      "level1": "6",
+      "level3": "6.2.12",
+      "name": "Sierra Nevada"
+    },
+    {
+      "code": 112,
+      "level1": "6",
+      "level3": "6.2.13",
+      "name": "Wasatch and Uinta Mountains"
+    },
+    {
+      "code": 113,
+      "level1": "6",
+      "level3": "6.2.14",
+      "name": "Southern Rockies"
+    },
+    {
+      "code": 114,
+      "level1": "6",
+      "level3": "6.2.15",
+      "name": "Idaho Batholith"
+    },
+    {
+      "code": 115,
+      "level1": "6",
+      "level3": "6.2.2",
+      "name": "Chilcotin Ranges and Fraser Plateau"
+    },
+    {
+      "code": 116,
+      "level1": "6",
+      "level3": "6.2.3",
+      "name": "Columbia Mountains/Northern Rockies"
+    },
+    {
+      "code": 117,
+      "level1": "6",
+      "level3": "6.2.4",
+      "name": "Canadian Rockies"
+    },
+    {
+      "code": 118,
+      "level1": "6",
+      "level3": "6.2.5",
+      "name": "North Cascades"
+    },
+    {
+      "code": 119,
+      "level1": "6",
+      "level3": "6.2.6",
+      "name": "Cypress Uplands"
+    },
+    {
+      "code": 120,
+      "level1": "6",
+      "level3": "6.2.7",
+      "name": "Cascades"
+    },
+    {
+      "code": 121,
+      "level1": "6",
+      "level3": "6.2.8",
+      "name": "Eastern Cascades Slopes and Foothills"
+    },
+    {
+      "code": 122,
+      "level1": "6",
+      "level3": "6.2.9",
+      "name": "Blue Mountains"
+    },
+    {
+      "code": 123,
+      "level1": "7",
+      "level3": "7.1.1",
+      "name": "Ahklun and Kilbuck Mountains"
+    },
+    {
+      "code": 124,
+      "level1": "7",
+      "level3": "7.1.2",
+      "name": "Alaska Peninsula Mountains"
+    },
+    {
+      "code": 125,
+      "level1": "7",
+      "level3": "7.1.3",
+      "name": "Cook Inlet"
+    },
+    {
+      "code": 126,
+      "level1": "7",
+      "level3": "7.1.4",
+      "name": "Pacific Coastal Mountains"
+    },
+    {
+      "code": 127,
+      "level1": "7",
+      "level3": "7.1.5",
+      "name": "Coastal Western Hemlock-Sitka Spruce Forests"
+    },
+    {
+      "code": 128,
+      "level1": "7",
+      "level3": "7.1.6",
+      "name": "Pacific and Nass Ranges"
+    },
+    {
+      "code": 129,
+      "level1": "7",
+      "level3": "7.1.7",
+      "name": "Strait of Georgia/Puget Lowland"
+    },
+    {
+      "code": 130,
+      "level1": "7",
+      "level3": "7.1.8",
+      "name": "Coastal Range"
+    },
+    {
+      "code": 131,
+      "level1": "7",
+      "level3": "7.1.9",
+      "name": "Willamette Valley"
+    },
+    {
+      "code": 132,
+      "level1": "8",
+      "level3": "8.1.1",
+      "name": "Eastern Great Lakes and Hudson Lowlands"
+    },
+    {
+      "code": 133,
+      "level1": "8",
+      "level3": "8.1.10",
+      "name": "Erie Drift Plain"
+    },
+    {
+      "code": 134,
+      "level1": "8",
+      "level3": "8.1.2",
+      "name": "Lake Erie Lowland"
+    },
+    {
+      "code": 135,
+      "level1": "8",
+      "level3": "8.1.3",
+      "name": "Northern Appalachian Plateau and Uplands"
+    },
+    {
+      "code": 136,
+      "level1": "8",
+      "level3": "8.1.4",
+      "name": "North Central Hardwood Forests"
+    },
+    {
+      "code": 137,
+      "level1": "8",
+      "level3": "8.1.5",
+      "name": "Driftless Area"
+    },
+    {
+      "code": 138,
+      "level1": "8",
+      "level3": "8.1.6",
+      "name": "Southern Michigan/Northern Indiana Drift Plains"
+    },
+    {
+      "code": 139,
+      "level1": "8",
+      "level3": "8.1.7",
+      "name": "Northeastern Coastal Zone"
+    },
+    {
+      "code": 140,
+      "level1": "8",
+      "level3": "8.1.8",
+      "name": "Maine/New Brunswick Plains and Hills"
+    },
+    {
+      "code": 141,
+      "level1": "8",
+      "level3": "8.1.9",
+      "name": "Maritime Lowlands"
+    },
+    {
+      "code": 142,
+      "level1": "8",
+      "level3": "8.2.1",
+      "name": "Southeastern Wisconsin Till Plains"
+    },
+    {
+      "code": 143,
+      "level1": "8",
+      "level3": "8.2.2",
+      "name": "Huron/Erie Lake Plains"
+    },
+    {
+      "code": 144,
+      "level1": "8",
+      "level3": "8.2.3",
+      "name": "Central Corn Belt Plains"
+    },
+    {
+      "code": 145,
+      "level1": "8",
+      "level3": "8.2.4",
+      "name": "Eastern Corn Belt Plains"
+    },
+    {
+      "code": 146,
+      "level1": "8",
+      "level3": "8.3.1",
+      "name": "Northern Piedmont"
+    },
+    {
+      "code": 147,
+      "level1": "8",
+      "level3": "8.3.2",
+      "name": "Interior River Valleys and Hills"
+    },
+    {
+      "code": 148,
+      "level1": "8",
+      "level3": "8.3.3",
+      "name": "Interior Plateau"
+    },
+    {
+      "code": 149,
+      "level1": "8",
+      "level3": "8.3.4",
+      "name": "Piedmont"
+    },
+    {
+      "code": 150,
+      "level1": "8",
+      "level3": "8.3.5",
+      "name": "Southeastern Plains"
+    },
+    {
+      "code": 151,
+      "level1": "8",
+      "level3": "8.3.6",
+      "name": "Mississippi Valley Loess Plains"
+    },
+    {
+      "code": 152,
+      "level1": "8",
+      "level3": "8.3.7",
+      "name": "South Central Plains"
+    },
+    {
+      "code": 153,
+      "level1": "8",
+      "level3": "8.3.8",
+      "name": "East Central Texas Plains"
+    },
+    {
+      "code": 154,
+      "level1": "8",
+      "level3": "8.4.1",
+      "name": "Ridge and Valley"
+    },
+    {
+      "code": 155,
+      "level1": "8",
+      "level3": "8.4.2",
+      "name": "Central Appalachians"
+    },
+    {
+      "code": 156,
+      "level1": "8",
+      "level3": "8.4.3",
+      "name": "Western Allegheny Plateau"
+    },
+    {
+      "code": 157,
+      "level1": "8",
+      "level3": "8.4.4",
+      "name": "Blue Ridge"
+    },
+    {
+      "code": 158,
+      "level1": "8",
+      "level3": "8.4.5",
+      "name": "Ozark Highlands"
+    },
+    {
+      "code": 159,
+      "level1": "8",
+      "level3": "8.4.6",
+      "name": "Boston Mountains"
+    },
+    {
+      "code": 160,
+      "level1": "8",
+      "level3": "8.4.7",
+      "name": "Arkansas Valley"
+    },
+    {
+      "code": 161,
+      "level1": "8",
+      "level3": "8.4.8",
+      "name": "Ouachita Mountains"
+    },
+    {
+      "code": 162,
+      "level1": "8",
+      "level3": "8.4.9",
+      "name": "Southwestern Appalachians"
+    },
+    {
+      "code": 163,
+      "level1": "8",
+      "level3": "8.5.1",
+      "name": "Middle Atlantic Coastal Plain"
+    },
+    {
+      "code": 164,
+      "level1": "8",
+      "level3": "8.5.2",
+      "name": "Mississippi Alluvial Plain"
+    },
+    {
+      "code": 165,
+      "level1": "8",
+      "level3": "8.5.3",
+      "name": "Southern Coastal Plain"
+    },
+    {
+      "code": 166,
+      "level1": "8",
+      "level3": "8.5.4",
+      "name": "Atlantic Coastal Pine Barrens"
+    },
+    {
+      "code": 167,
+      "level1": "9",
+      "level3": "9.2.1",
+      "name": "Aspen Parkland/Northern Glaciated Plains"
+    },
+    {
+      "code": 168,
+      "level1": "9",
+      "level3": "9.2.2",
+      "name": "Lake Manitoba and Lake Agassiz Plain"
+    },
+    {
+      "code": 169,
+      "level1": "9",
+      "level3": "9.2.3",
+      "name": "Western Corn Belt Plains"
+    },
+    {
+      "code": 170,
+      "level1": "9",
+      "level3": "9.2.4",
+      "name": "Central Irregular Plains"
+    },
+    {
+      "code": 171,
+      "level1": "9",
+      "level3": "9.3.1",
+      "name": "Northwestern Glaciated Plains"
+    },
+    {
+      "code": 172,
+      "level1": "9",
+      "level3": "9.3.3",
+      "name": "Northwestern Great Plains"
+    },
+    {
+      "code": 173,
+      "level1": "9",
+      "level3": "9.3.4",
+      "name": "Nebraska Sand Hills"
+    },
+    {
+      "code": 174,
+      "level1": "9",
+      "level3": "9.4.1",
+      "name": "High Plains"
+    },
+    {
+      "code": 175,
+      "level1": "9",
+      "level3": "9.4.2",
+      "name": "Central Great Plains"
+    },
+    {
+      "code": 176,
+      "level1": "9",
+      "level3": "9.4.3",
+      "name": "Southwestern Tablelands"
+    },
+    {
+      "code": 177,
+      "level1": "9",
+      "level3": "9.4.4",
+      "name": "Flint Hills"
+    },
+    {
+      "code": 178,
+      "level1": "9",
+      "level3": "9.4.5",
+      "name": "Cross Timbers"
+    },
+    {
+      "code": 179,
+      "level1": "9",
+      "level3": "9.4.6",
+      "name": "Edwards Plateau"
+    },
+    {
+      "code": 180,
+      "level1": "9",
+      "level3": "9.4.7",
+      "name": "Texas Blackland Prairies"
+    },
+    {
+      "code": 181,
+      "level1": "9",
+      "level3": "9.5.1",
+      "name": "Western Gulf Coastal Plain"
+    },
+    {
+      "code": 182,
+      "level1": "9",
+      "level3": "9.6.1",
+      "name": "Southern Texas Plains/Interior Plains and Hills with Xerophytic Shrub and Oak Forest"
+    }
+  ],
+  "licence_track": "reported beside (CC0 and CC BY records, T6's cc surface)",
+  "membership": {
+    "export_sha256": "0826341f2c87445835aac9f4f8b579cb473a693124cc3465b09b4878724565de",
+    "list_sha256": "436cac17b16590328e681977a40cf8ccebc9fe9aa0313eecef589dd149b309bf"
+  },
+  "outputs": {
+    "applicability_pnw.tif": "ee8b9e447731edc9f916129c4371acef12012707012a266591587c71c422e323",
+    "mask_map.png": "07f6486c8769b6a043695c4260af1b8ab5e189e07b8b261bcb93f79798dc38d7",
+    "relative_habitat_pnw.tif": "504d59b31f2272c6b99490b00d934322dd3744fff56e705c202dd1083fd99e90"
+  },
+  "seed": 20260918,
+  "share_floor": 0.01,
+  "smoke": false,
+  "threads": 4,
+  "tuning_grid_sha256": "7412d90677ef24031005d64797ba6482a94cddec12c1c0288b4183f9c86a45cd"
+}
