@@ -1,0 +1,67 @@
+revert checks at 9e4181d, test file tests/test_t7_refit.py
+
+[r1] access back among the habitat inputs' interaction group (src/forager_forecast/t7/model.py)
+  compile rc 0 
+  import rc 0, model imported from /mnt/work/Zynergy/tmp-pytest-refit/scratch/revert-refit-r1/src/forager_forecast/t7/model.py
+  tests 19, failures 2, errors 0
+    FAILED test_access_joins_effort_in_the_held_interaction_group_with_the_ruled_direction: assert [[0, 1, 3], [2]] == [[0, 1], [2, 3]]      At index 0 diff: [0, 1, 3] != [0, 1]   Use -v to get more diff
+    FAILED test_access_held_on_the_map_and_the_ranking_unchanged_when_it_moves: assert False  +  where False = <function allclose at 0x7dc8e455e070>((array([-1.8051638 , -1.8051638 , -1.8051638 , -1.8051638 , -1.8051638 ,\n       -1.8051638 , -1.8051638 , -1.55792847, ...051935, -0.07051935, -0.2240
+  restored from saved copy: equal True, forward text present True
+
+[r2] model A without the access band (src/forager_forecast/t7/model.py)
+  compile rc 0 
+  import rc 0, model imported from /mnt/work/Zynergy/tmp-pytest-refit/scratch/revert-refit-r2/src/forager_forecast/t7/model.py
+  tests 19, failures 1, errors 0
+    FAILED test_access_is_in_every_model_that_carries_effort_and_is_never_a_candidate: AssertionError: A: effort only assert 0 == 1  +  where 0 = <built-in method count of list object at 0x7a55647ea700>('access_dist_m')  +    where <built-in method count of list object at 0x7a55647ea700> = ['log_effort'].c
+  restored from saved copy: equal True, forward text present True
+
+[r3] access back among the area of applicability's predictors (src/forager_forecast/t7/model.py)
+  compile rc 0 
+  import rc 0, model imported from /mnt/work/Zynergy/tmp-pytest-refit/scratch/revert-refit-r3/src/forager_forecast/t7/model.py
+  tests 19, failures 1, errors 0
+    FAILED test_access_is_excluded_from_the_area_of_applicability: AssertionError: assert ['h', 'g', 'access_dist_m'] == ['h', 'g']      Left contains one more item: 'access_dist_m'   Use -v to get more diff
+  restored from saved copy: equal True, forward text present True
+
+[r4] each group's resample its own draw (a permutation per group), not one for both (src/forager_forecast/t7/metrics.py)
+  compile rc 0 
+  import rc 0, model imported from /mnt/work/Zynergy/tmp-pytest-refit/scratch/revert-refit-r4/src/forager_forecast/t7/model.py
+  tests 19, failures 2, errors 0
+    FAILED test_contrast_resamples_blocks_once_for_both_groups: assert (0.0 == 0.0 and -0.027174441881844768 == 0.0)  +  where 0.0 = Difference(point=0.0, low=-0.027174441881844768, high=0.023610945294245483, resamples=200).point  +  and   -0.027174441881844768 = Difference(point=0.0
+    FAILED test_contrast_draw_is_by_block_with_the_ruled_seed: assert (0.09429210781193946 == 0.09103423765892432 ± 1.0e-12      comparison failed   Obtained: 0.09429210781193946   Expected: 0.09103423765892432 ± 1.0e-12)
+  restored from saved copy: equal True, forward text present True
+
+[r5] the dataset licence filter removed (src/forager_forecast/t7/specimens.py)
+  compile rc 0 
+  import rc 0, model imported from /mnt/work/Zynergy/tmp-pytest-refit/scratch/revert-refit-r5/src/forager_forecast/t7/model.py
+  tests 19, failures 1, errors 0
+    FAILED test_specimen_licence_filter_keeps_cc0_and_cc_by_by_dataset_and_by_record: AssertionError: assert 'kept' != 'kept'  +  where 'kept' = <function classify at 0x707d17b30d50>({'license': 'CC0_1_0', 'coordinateUncertaintyInMeters': '250', 'genus': 'Suillus', 'family': 'Suillaceae', ...}, 'http://cr
+  restored from saved copy: equal True, forward text present True
+
+[r6] the uncertainty limit at 5 km (src/forager_forecast/t7/specimens.py)
+  compile rc 0 
+  import rc 0, model imported from /mnt/work/Zynergy/tmp-pytest-refit/scratch/revert-refit-r6/src/forager_forecast/t7/model.py
+  tests 19, failures 1, errors 0
+    FAILED test_specimen_uncertainty_filter_keeps_a_stated_value_of_1000_m_or_less: AssertionError: assert 'kept' != 'kept'  +  where 'kept' = <function classify at 0x71ca47c6ce00>({'license': 'CC0_1_0', 'coordinateUncertaintyInMeters': '1000.5', 'genus': 'Suillus', 'family': 'Suillaceae', ...}, 'http:/
+  restored from saved copy: equal True, forward text present True
+
+[r7] a pending condition 4 no longer keeps the verdict from "pass" (scripts/t7_fit.py)
+  compile rc 0 
+  import rc 0, model imported from /mnt/work/Zynergy/tmp-pytest-refit/scratch/revert-refit-r7/src/forager_forecast/t7/model.py
+  tests 19, failures 1, errors 0
+    FAILED test_p10b_with_condition_4_pending_is_never_reported_as_a_pass: AssertionError: assert 'pass' != 'pass'
+  restored from saved copy: equal True, forward text present True
+
+[r8] the judged folders no longer refused (scripts/t7_fit.py)
+  compile rc 0 
+  import rc 0, model imported from /mnt/work/Zynergy/tmp-pytest-refit/scratch/revert-refit-r8/src/forager_forecast/t7/model.py
+  tests 19, failures 1, errors 0
+    FAILED test_the_fit_refuses_to_write_into_the_judged_runs_folders: AssertionError: Regex pattern did not match.   Expected regex: 'judged'   Actual message: '/mnt/work/Zynergy/forecast-data/t7/fit: not empty; the map is written once, into a new folder'
+  restored from saved copy: equal True, forward text present True
+
+[r9] access on the map no longer one held value (scripts/t7_fit.py)
+  compile rc 0 
+  import rc 0, model imported from /mnt/work/Zynergy/tmp-pytest-refit/scratch/revert-refit-r9/src/forager_forecast/t7/model.py
+  tests 19, failures 1, errors 0
+    FAILED test_access_held_on_the_map_and_the_ranking_unchanged_when_it_moves: assert np.False_  +  where np.False_ = <built-in method all of numpy.ndarray object at 0x74c7610e5470>()  +    where <built-in method all of numpy.ndarray object at 0x74c7610e5470> = array([0.        , 0.01005025, 0.0201
+  restored from saved copy: equal True, forward text present True
+

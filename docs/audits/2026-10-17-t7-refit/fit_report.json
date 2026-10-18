@@ -1,0 +1,2344 @@
+{
+ "written_utc": "2026-10-18T02:15:18+00:00",
+ "code_commit": "0560daeed37da46aaf07aeece64f25513b7133c8",
+ "threads": 4,
+ "presences": 15624,
+ "background": 500000,
+ "background_pool": 3745167,
+ "background_sha256": "3a411eb209dc79ccc2e8ab91cab632f96c3eaa85ee1f007cdc844be91f2b5184",
+ "presence_outcomes": {
+  "thinned presences in the file": 23069,
+  "by cell code": {
+   "1": 15626,
+   "5": 1025,
+   "3": 1928,
+   "4": 4160,
+   "0": 329,
+   "6": 1
+  },
+  "eligible but weather cell outside the effort frame": 2,
+  "entering the fit": 15624,
+  "eligible, record's weather cell differs from its 250 m cell centre's": 223
+ },
+ "genus_units": {
+  "alone": 44,
+  "pooled_presences": 285
+ },
+ "held_effort": 1.440701409312872,
+ "effort_quartiles": [
+  0.3801302836042423,
+  2.5702516593266127
+ ],
+ "ranking_same_at_quartiles": true,
+ "score_shift_at_quartiles": [
+  2.42953398287045,
+  2.4295339828704723
+ ],
+ "access": {
+  "band": "dist_road_m",
+  "monotone": -1,
+  "held": 258.2871398925781,
+  "held_rule": "median over the background draw",
+  "quartiles_over_background": [
+   97.23507118225098,
+   701.5770568847656
+  ],
+  "ranking_same_at_quartiles": true,
+  "score_shift_at_quartiles": [
+   -1.1101605289957241,
+   -1.1101605289957095
+  ],
+  "in_interaction_group_with": "log_effort",
+  "excluded_from_area_of_applicability": true
+ },
+ "model_features": {
+  "A: effort only": [
+   "log_effort",
+   "access_dist_m"
+  ],
+  "B: forest only": [
+   "log_effort",
+   "access_dist_m",
+   "conifer_cover_pct",
+   "broadleaf_cover_pct"
+  ],
+  "base": [
+   "share_Pseudotsuga",
+   "share_Tsuga",
+   "share_Picea",
+   "share_Abies",
+   "share_Pinus",
+   "share_Quercus",
+   "share_conifer",
+   "share_broadleaf",
+   "total_cover_pct",
+   "ph_mean_0_30cm",
+   "log_effort",
+   "access_dist_m"
+  ],
+  "base + share_Larix": [
+   "share_Pseudotsuga",
+   "share_Tsuga",
+   "share_Picea",
+   "share_Abies",
+   "share_Pinus",
+   "share_Quercus",
+   "share_conifer",
+   "share_broadleaf",
+   "total_cover_pct",
+   "ph_mean_0_30cm",
+   "log_effort",
+   "access_dist_m",
+   "share_Larix"
+  ],
+  "base + share_Betula": [
+   "share_Pseudotsuga",
+   "share_Tsuga",
+   "share_Picea",
+   "share_Abies",
+   "share_Pinus",
+   "share_Quercus",
+   "share_conifer",
+   "share_broadleaf",
+   "total_cover_pct",
+   "ph_mean_0_30cm",
+   "log_effort",
+   "access_dist_m",
+   "share_Betula"
+  ],
+  "base + share_Populus": [
+   "share_Pseudotsuga",
+   "share_Tsuga",
+   "share_Picea",
+   "share_Abies",
+   "share_Pinus",
+   "share_Quercus",
+   "share_conifer",
+   "share_broadleaf",
+   "total_cover_pct",
+   "ph_mean_0_30cm",
+   "log_effort",
+   "access_dist_m",
+   "share_Populus"
+  ],
+  "base + share_Alnus": [
+   "share_Pseudotsuga",
+   "share_Tsuga",
+   "share_Picea",
+   "share_Abies",
+   "share_Pinus",
+   "share_Quercus",
+   "share_conifer",
+   "share_broadleaf",
+   "total_cover_pct",
+   "ph_mean_0_30cm",
+   "log_effort",
+   "access_dist_m",
+   "share_Alnus"
+  ],
+  "base + share_Lithocarpus": [
+   "share_Pseudotsuga",
+   "share_Tsuga",
+   "share_Picea",
+   "share_Abies",
+   "share_Pinus",
+   "share_Quercus",
+   "share_conifer",
+   "share_broadleaf",
+   "total_cover_pct",
+   "ph_mean_0_30cm",
+   "log_effort",
+   "access_dist_m",
+   "share_Lithocarpus"
+  ],
+  "base + share_Chrysolepis": [
+   "share_Pseudotsuga",
+   "share_Tsuga",
+   "share_Picea",
+   "share_Abies",
+   "share_Pinus",
+   "share_Quercus",
+   "share_conifer",
+   "share_broadleaf",
+   "total_cover_pct",
+   "ph_mean_0_30cm",
+   "log_effort",
+   "access_dist_m",
+   "share_Chrysolepis"
+  ],
+  "base + share_Arbutus": [
+   "share_Pseudotsuga",
+   "share_Tsuga",
+   "share_Picea",
+   "share_Abies",
+   "share_Pinus",
+   "share_Quercus",
+   "share_conifer",
+   "share_broadleaf",
+   "total_cover_pct",
+   "ph_mean_0_30cm",
+   "log_effort",
+   "access_dist_m",
+   "share_Arbutus"
+  ],
+  "base + share_ecm_hosts": [
+   "share_Pseudotsuga",
+   "share_Tsuga",
+   "share_Picea",
+   "share_Abies",
+   "share_Pinus",
+   "share_Quercus",
+   "share_conifer",
+   "share_broadleaf",
+   "total_cover_pct",
+   "ph_mean_0_30cm",
+   "log_effort",
+   "access_dist_m",
+   "share_ecm_hosts"
+  ],
+  "full": [
+   "share_Pseudotsuga",
+   "share_Tsuga",
+   "share_Picea",
+   "share_Abies",
+   "share_Pinus",
+   "share_Quercus",
+   "share_conifer",
+   "share_broadleaf",
+   "total_cover_pct",
+   "ph_mean_0_30cm",
+   "share_Lithocarpus",
+   "share_Chrysolepis",
+   "share_Arbutus",
+   "log_effort",
+   "access_dist_m"
+  ]
+ },
+ "smoke": false,
+ "resamples": 1000,
+ "blocks_in_fit": 24,
+ "forested_blocks_in_box": 18,
+ "forested_blocks_in_fit": [
+  8,
+  15,
+  109,
+  110,
+  111,
+  112,
+  114,
+  116,
+  117,
+  118,
+  120,
+  121,
+  122,
+  129,
+  130,
+  131,
+  172
+ ],
+ "informative_blocks": [
+  15,
+  109,
+  110,
+  112,
+  114,
+  116,
+  117,
+  118,
+  120,
+  121,
+  122,
+  129,
+  130,
+  131
+ ],
+ "pooled_auc": {
+  "A: effort only": 0.8878207414353471,
+  "B: forest only": 0.8889120874903992,
+  "base": 0.8905442356080883,
+  "base + share_Larix": 0.8909530031747418,
+  "base + share_Betula": 0.8904529450104511,
+  "base + share_Populus": 0.8906117241814293,
+  "base + share_Alnus": 0.8900150449351822,
+  "base + share_Lithocarpus": 0.8910930449702266,
+  "base + share_Chrysolepis": 0.891238847297747,
+  "base + share_Arbutus": 0.8915289100818209,
+  "base + share_ecm_hosts": 0.8905371094771295,
+  "full": 0.8927011579869333
+ },
+ "forested_auc": {
+  "A: effort only": 0.8872691524380172,
+  "B: forest only": 0.8882628572402798,
+  "base": 0.8898634061269918,
+  "base + share_Larix": 0.8902728156989733,
+  "base + share_Betula": 0.8897709524306556,
+  "base + share_Populus": 0.8899384144040335,
+  "base + share_Alnus": 0.8893153982862133,
+  "base + share_Lithocarpus": 0.8904245677455648,
+  "base + share_Chrysolepis": 0.8905676854846457,
+  "base + share_Arbutus": 0.8908494410704982,
+  "base + share_ecm_hosts": 0.8898496140861935,
+  "full": 0.8920423967907761
+ },
+ "add_one": {
+  "share_Larix": {
+   "point": 0.000408767566653534,
+   "low": -3.607463572341511e-06,
+   "high": 0.000736740215026177,
+   "resamples": 1000,
+   "interval_wholly_above_zero": false
+  },
+  "share_Betula": {
+   "point": -9.12905976371281e-05,
+   "low": -0.00035693591485774214,
+   "high": 0.00016713974126542067,
+   "resamples": 1000,
+   "interval_wholly_above_zero": false
+  },
+  "share_Populus": {
+   "point": 6.748857334104574e-05,
+   "low": -0.0003460558485748164,
+   "high": 0.0004996248350801729,
+   "resamples": 1000,
+   "interval_wholly_above_zero": false
+  },
+  "share_Alnus": {
+   "point": -0.0005291906729060214,
+   "low": -0.0009445689503755877,
+   "high": -8.477877744400844e-05,
+   "resamples": 1000,
+   "interval_wholly_above_zero": false
+  },
+  "share_Lithocarpus": {
+   "point": 0.0005488093621383028,
+   "low": 8.356534852086994e-05,
+   "high": 0.001014187740986308,
+   "resamples": 1000,
+   "interval_wholly_above_zero": true
+  },
+  "share_Chrysolepis": {
+   "point": 0.0006946116896587862,
+   "low": 0.0003793771682641584,
+   "high": 0.000986515696677534,
+   "resamples": 1000,
+   "interval_wholly_above_zero": true
+  },
+  "share_Arbutus": {
+   "point": 0.0009846744737326274,
+   "low": 0.0005892443419821344,
+   "high": 0.0013765663379156966,
+   "resamples": 1000,
+   "interval_wholly_above_zero": true
+  },
+  "share_ecm_hosts": {
+   "point": -7.126130958767796e-06,
+   "low": -0.0006155258247102001,
+   "high": 0.0006271496456490218,
+   "resamples": 1000,
+   "interval_wholly_above_zero": false
+  }
+ },
+ "kept_candidates": [
+  "share_Lithocarpus",
+  "share_Chrysolepis",
+  "share_Arbutus"
+ ],
+ "full_features": [
+  "share_Pseudotsuga",
+  "share_Tsuga",
+  "share_Picea",
+  "share_Abies",
+  "share_Pinus",
+  "share_Quercus",
+  "share_conifer",
+  "share_broadleaf",
+  "total_cover_pct",
+  "ph_mean_0_30cm",
+  "share_Lithocarpus",
+  "share_Chrysolepis",
+  "share_Arbutus",
+  "log_effort",
+  "access_dist_m"
+ ],
+ "p10b": {
+  "verdict": "fail",
+  "conditions": {
+   "1_block_clustered_full_minus_B": {
+    "point": 0.003789070496534097,
+    "low": 0.001049731194389167,
+    "high": 0.009243820368773857,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "2_within_cell_full_minus_A_block_resampled": {
+    "point": -0.00722461557286069,
+    "low": -0.025700307879335912,
+    "high": 0.01614372288023406,
+    "resamples": 1000,
+    "interval_wholly_above_zero": false
+   },
+   "3_host_specific_contrast": {
+    "point": 0.0027891048438096755,
+    "low": -0.0019573675717263358,
+    "high": 0.010543367572744168,
+    "resamples": 1000,
+    "interval_wholly_above_zero": false
+   },
+   "4_independent_data": {
+    "status": "computed",
+    "point": 0.19615119503263245,
+    "low": 0.06644915636381403,
+    "high": 0.28546814797576076,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   }
+  },
+  "p10_d140": {
+   "passes": true,
+   "reading": "no verdict"
+  }
+ },
+ "condition_3": {
+  "gain_mycorrhizal_full_minus_A": 0.00488041655158622,
+  "gain_saprotroph_full_minus_A": 0.002091311707776544,
+  "contrast_all_blocks": {
+   "point": 0.0027891048438096755,
+   "low": -0.0019573675717263358,
+   "high": 0.010543367572744168,
+   "resamples": 1000,
+   "interval_wholly_above_zero": false
+  },
+  "resampled": "level III blocks, one draw per resample applied to both groups",
+  "shared_forested_blocks": [
+   15,
+   109,
+   110,
+   112,
+   114,
+   116,
+   118,
+   120,
+   121,
+   122,
+   129,
+   130,
+   131
+  ],
+  "contrast_shared_forested_blocks_no_verdict": {
+   "point": 0.0030131592196405155,
+   "low": -0.0015569355997190361,
+   "high": 0.010218070825720783,
+   "resamples": 1000,
+   "interval_wholly_above_zero": false
+  }
+ },
+ "condition_4": {
+  "whole_box": {
+   "specimens_in": 6026,
+   "specimens_not_scorable": 2012,
+   "specimens_scored": 4014,
+   "background": 40140,
+   "difference": {
+    "point": 0.19615119503263245,
+    "low": 0.06644915636381403,
+    "high": 0.28546814797576076,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "specimen_road_bands": {
+    "0": 1579,
+    "1": 640,
+    "2": 1030,
+    "3": 339,
+    "4": 103,
+    "5": 196,
+    "6": 119,
+    "7": 8
+   },
+   "specimen_road_bands_times_per_specimen": {
+    "0": 15790,
+    "1": 6400,
+    "2": 10300,
+    "3": 3390,
+    "4": 1030,
+    "5": 1960,
+    "6": 1190,
+    "7": 80
+   },
+   "background_road_bands": {
+    "0": 15790,
+    "1": 6400,
+    "2": 10300,
+    "3": 3390,
+    "4": 1030,
+    "5": 1960,
+    "6": 1190,
+    "7": 80
+   },
+   "specimen_score_median": -1.654201626777649,
+   "background_score_median": -2.101922021025703
+  },
+  "interior_no_verdict": {
+   "specimens_scored": 390,
+   "background": 3900,
+   "difference": {
+    "point": 0.10332938856015783,
+    "low": -0.15708042234676167,
+    "high": 0.23985146174913885,
+    "resamples": 1000,
+    "interval_wholly_above_zero": false
+   },
+   "specimen_road_bands": {
+    "0": 147,
+    "1": 94,
+    "2": 60,
+    "3": 26,
+    "4": 42,
+    "5": 13,
+    "6": 8
+   },
+   "specimen_road_bands_times_per_specimen": {
+    "0": 1470,
+    "1": 940,
+    "2": 600,
+    "3": 260,
+    "4": 420,
+    "5": 130,
+    "6": 80
+   },
+   "background_road_bands": {
+    "0": 1470,
+    "1": 940,
+    "2": 600,
+    "3": 260,
+    "4": 420,
+    "5": 130,
+    "6": 80
+   },
+   "specimen_score_median": -1.7496297881007195,
+   "background_score_median": -2.14020834581272
+  },
+  "specimens_file": {
+   "path": "/mnt/work/Zynergy/forecast-data/t7/specimens/specimens_kept.csv",
+   "sha256": "c9e8c66f1d5719db037a8b926f36c02e9171fe3ec32667e0cbfdf74fcd8cadb6"
+  },
+  "rules": {
+   "score": "mean over the stated uncertainty circle (own cell always)",
+   "background": "10 per specimen, same road band (edges [50.0, 100.0, 250.0, 500.0, 1000.0, 2000.0, 5000.0] m), same radius",
+   "interval": "level III blocks, unweighted AUC minus 0.5",
+   "verdict": "whole box; interior beside, no verdict"
+  }
+ },
+ "p10_no_verdict": {
+  "all_blocks": {
+   "A": {
+    "point": 0.00488041655158622,
+    "low": 0.0027564596126203465,
+    "high": 0.007238028920352037,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "B": {
+    "point": 0.003789070496534097,
+    "low": 0.0020959545636539266,
+    "high": 0.00545253484562945,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   }
+  },
+  "forested_blocks": {
+   "A": {
+    "point": 0.004773244352758943,
+    "low": 0.00277144123341874,
+    "high": 0.00720425590826329,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "B": {
+    "point": 0.003779539550496369,
+    "low": 0.0020355199498818975,
+    "high": 0.005653410523782303,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   }
+  },
+  "passes": true
+ },
+ "block_clustered_intervals_no_verdict": {
+  "all": {
+   "A": {
+    "point": 0.00488041655158622,
+    "low": -8.125295363929468e-05,
+    "high": 0.01280971799833254,
+    "resamples": 1000,
+    "interval_wholly_above_zero": false
+   },
+   "B": {
+    "point": 0.003789070496534097,
+    "low": 0.001049731194389167,
+    "high": 0.009243820368773857,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   }
+  },
+  "forested": {
+   "A": {
+    "point": 0.004773244352758943,
+    "low": -0.00027792144187752663,
+    "high": 0.012933741871579215,
+    "resamples": 1000,
+    "interval_wholly_above_zero": false
+   },
+   "B": {
+    "point": 0.003779539550496369,
+    "low": 0.0012070592955716426,
+    "high": 0.00924684767562449,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   }
+  }
+ },
+ "base_minus_B_no_verdict": {
+  "weather_cell": {
+   "point": 0.0016321481176890806,
+   "low": -7.590992439993616e-05,
+   "high": 0.0032850267543962576,
+   "resamples": 1000,
+   "interval_wholly_above_zero": false
+  },
+  "block_clustered": {
+   "point": 0.0016321481176890806,
+   "low": -0.0013072617098813877,
+   "high": 0.006700337533083017,
+   "resamples": 1000,
+   "interval_wholly_above_zero": false
+  }
+ },
+ "within_weather_cell_no_verdict": {
+  "clusters": "weather cell",
+  "auc": {
+   "A": {
+    "point": 0.6481247240205694,
+    "low": 0.6323073922057624,
+    "high": 0.6639654364066965,
+    "resamples": 1000
+   },
+   "B": {
+    "point": 0.6115126565748503,
+    "low": 0.5957920116773628,
+    "high": 0.6281041029214358,
+    "resamples": 1000
+   },
+   "base": {
+    "point": 0.6365749316191036,
+    "low": 0.6213162508868733,
+    "high": 0.6504029562420977,
+    "resamples": 1000
+   },
+   "full": {
+    "point": 0.6409001084477087,
+    "low": 0.6252756220030602,
+    "high": 0.6549767981906894,
+    "resamples": 1000
+   }
+  },
+  "pair_mass_share": 0.00026520993383996155,
+  "full_minus_A": {
+   "point": -0.007224615572860676,
+   "low": -0.023269131899763845,
+   "high": 0.007937865303472937,
+   "resamples": 1000,
+   "interval_wholly_above_zero": false
+  },
+  "full_minus_B": {
+   "point": 0.029387451872858572,
+   "low": 0.015377453697897435,
+   "high": 0.04462981192247232,
+   "resamples": 1000,
+   "interval_wholly_above_zero": true
+  }
+ },
+ "within_weather_cell_block_clustered_no_verdict": {
+  "pairs": "inside one weather cell",
+  "resampled": "level III block, rows weighted by their block's draw count",
+  "full_minus_A": {
+   "point": -0.00722461557286069,
+   "low": -0.025700307879335912,
+   "high": 0.01614372288023406,
+   "resamples": 1000,
+   "interval_wholly_above_zero": false
+  },
+  "full_minus_B": {
+   "point": 0.029387451872858593,
+   "low": -0.004412450650325728,
+   "high": 0.06062417412463124,
+   "resamples": 1000,
+   "interval_wholly_above_zero": false
+  }
+ },
+ "by_block": [
+  {
+   "code": 4,
+   "level3": "10.1.2",
+   "name": "Columbia Plateau",
+   "level1": "10",
+   "presences": 6,
+   "background": 2737,
+   "informative": false,
+   "forested": false,
+   "forested_share": 0.0389,
+   "chosen": {
+    "A: effort only": "c02",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": null,
+    "A: effort only": null,
+    "B: forest only": null
+   }
+  },
+  {
+   "code": 5,
+   "level3": "10.1.3",
+   "name": "Northern Basin and Range",
+   "level1": "10",
+   "presences": 15,
+   "background": 3700,
+   "informative": false,
+   "forested": false,
+   "forested_share": 0.074,
+   "chosen": {
+    "A: effort only": "c02",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": null,
+    "A: effort only": null,
+    "B: forest only": null
+   }
+  },
+  {
+   "code": 6,
+   "level3": "10.1.4",
+   "name": "Wyoming Basin",
+   "level1": "10",
+   "presences": 0,
+   "background": 32,
+   "informative": false,
+   "forested": false,
+   "forested_share": 0.0658,
+   "chosen": {
+    "A: effort only": "c02",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": null,
+    "A: effort only": null,
+    "B: forest only": null
+   }
+  },
+  {
+   "code": 7,
+   "level3": "10.1.5",
+   "name": "Central Basin and Range",
+   "level1": "10",
+   "presences": 6,
+   "background": 1505,
+   "informative": false,
+   "forested": false,
+   "forested_share": 0.0533,
+   "chosen": {
+    "A: effort only": "c02",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": null,
+    "A: effort only": null,
+    "B: forest only": null
+   }
+  },
+  {
+   "code": 8,
+   "level3": "10.1.6",
+   "name": "Colorado Plateaus",
+   "level1": "10",
+   "presences": 0,
+   "background": 2,
+   "informative": false,
+   "forested": true,
+   "forested_share": 0.5288,
+   "chosen": {
+    "A: effort only": "c02",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": null,
+    "A: effort only": null,
+    "B: forest only": null
+   }
+  },
+  {
+   "code": 10,
+   "level3": "10.1.8",
+   "name": "Snake River Plain",
+   "level1": "10",
+   "presences": 7,
+   "background": 530,
+   "informative": false,
+   "forested": false,
+   "forested_share": 0.0142,
+   "chosen": {
+    "A: effort only": "c02",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": null,
+    "A: effort only": null,
+    "B: forest only": null
+   }
+  },
+  {
+   "code": 15,
+   "level3": "11.1.1",
+   "name": "Central California Foothills and Coastal Mountains",
+   "level1": "11",
+   "presences": 37,
+   "background": 2793,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.4632,
+   "chosen": {
+    "A: effort only": "c02",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.9503626117079511,
+    "A: effort only": 0.9472968624628285,
+    "B: forest only": 0.9462131330949861
+   }
+  },
+  {
+   "code": 16,
+   "level3": "11.1.2",
+   "name": "Central California Valley",
+   "level1": "11",
+   "presences": 1,
+   "background": 34,
+   "informative": false,
+   "forested": false,
+   "forested_share": 0.0463,
+   "chosen": {
+    "A: effort only": "c02",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": null,
+    "A: effort only": null,
+    "B: forest only": null
+   }
+  },
+  {
+   "code": 109,
+   "level3": "6.2.10",
+   "name": "Middle Rockies",
+   "level1": "6",
+   "presences": 91,
+   "background": 20899,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.449,
+   "chosen": {
+    "A: effort only": "c02",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.85454995075127,
+    "A: effort only": 0.8380679100640407,
+    "B: forest only": 0.8429982860601702
+   }
+  },
+  {
+   "code": 110,
+   "level3": "6.2.11",
+   "name": "Klamath Mountains",
+   "level1": "6",
+   "presences": 462,
+   "background": 56075,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.8233,
+   "chosen": {
+    "A: effort only": "c02",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.8172402980959885,
+    "A: effort only": 0.8236595158324588,
+    "B: forest only": 0.8086235774234467
+   }
+  },
+  {
+   "code": 111,
+   "level3": "6.2.12",
+   "name": "Sierra Nevada",
+   "level1": "6",
+   "presences": 7,
+   "background": 2082,
+   "informative": false,
+   "forested": true,
+   "forested_share": 0.5373,
+   "chosen": {
+    "A: effort only": "c10",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": null,
+    "A: effort only": null,
+    "B: forest only": null
+   }
+  },
+  {
+   "code": 112,
+   "level3": "6.2.13",
+   "name": "Wasatch and Uinta Mountains",
+   "level1": "6",
+   "presences": 179,
+   "background": 10319,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.6577,
+   "chosen": {
+    "A: effort only": "c02",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.8622537652587229,
+    "A: effort only": 0.8640388242426735,
+    "B: forest only": 0.8590312463260747
+   }
+  },
+  {
+   "code": 114,
+   "level3": "6.2.15",
+   "name": "Idaho Batholith",
+   "level1": "6",
+   "presences": 410,
+   "background": 28155,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.6464,
+   "chosen": {
+    "A: effort only": "c02",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.8925071692871146,
+    "A: effort only": 0.8922825490464099,
+    "B: forest only": 0.8839113074112699
+   }
+  },
+  {
+   "code": 116,
+   "level3": "6.2.3",
+   "name": "Columbia Mountains/Northern Rockies",
+   "level1": "6",
+   "presences": 463,
+   "background": 62890,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.816,
+   "chosen": {
+    "A: effort only": "c02",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.8395747821659956,
+    "A: effort only": 0.8486521588912918,
+    "B: forest only": 0.8423862373140033
+   }
+  },
+  {
+   "code": 117,
+   "level3": "6.2.4",
+   "name": "Canadian Rockies",
+   "level1": "6",
+   "presences": 53,
+   "background": 10589,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.7616,
+   "chosen": {
+    "A: effort only": "c02",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.8428523065326414,
+    "A: effort only": 0.8487423451520519,
+    "B: forest only": 0.8358809050962873
+   }
+  },
+  {
+   "code": 118,
+   "level3": "6.2.5",
+   "name": "North Cascades",
+   "level1": "6",
+   "presences": 1422,
+   "background": 41344,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.8068,
+   "chosen": {
+    "A: effort only": "c02",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.8367696089437053,
+    "A: effort only": 0.8220287868126596,
+    "B: forest only": 0.8285903375097975
+   }
+  },
+  {
+   "code": 120,
+   "level3": "6.2.7",
+   "name": "Cascades",
+   "level1": "6",
+   "presences": 3137,
+   "background": 89758,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.8883,
+   "chosen": {
+    "A: effort only": "c02",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.8265945140517403,
+    "A: effort only": 0.8165258145443044,
+    "B: forest only": 0.8183469502785932
+   }
+  },
+  {
+   "code": 121,
+   "level3": "6.2.8",
+   "name": "Eastern Cascades Slopes and Foothills",
+   "level1": "6",
+   "presences": 229,
+   "background": 27679,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.5767,
+   "chosen": {
+    "A: effort only": "c19",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.8831376143910733,
+    "A: effort only": 0.8730982423566344,
+    "B: forest only": 0.872390799410905
+   }
+  },
+  {
+   "code": 122,
+   "level3": "6.2.9",
+   "name": "Blue Mountains",
+   "level1": "6",
+   "presences": 141,
+   "background": 28923,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.5418,
+   "chosen": {
+    "A: effort only": "c19",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.8583038894251311,
+    "A: effort only": 0.831973603639154,
+    "B: forest only": 0.8392179516956637
+   }
+  },
+  {
+   "code": 129,
+   "level3": "7.1.7",
+   "name": "Strait of Georgia/Puget Lowland",
+   "level1": "7",
+   "presences": 2330,
+   "background": 21787,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.6982,
+   "chosen": {
+    "A: effort only": "c03",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.8473411489394158,
+    "A: effort only": 0.8348891113797813,
+    "B: forest only": 0.8482949453079222
+   }
+  },
+  {
+   "code": 130,
+   "level3": "7.1.8",
+   "name": "Coastal Range",
+   "level1": "7",
+   "presences": 5992,
+   "background": 75355,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.9291,
+   "chosen": {
+    "A: effort only": "c08",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.9119553367264771,
+    "A: effort only": 0.9159574481036591,
+    "B: forest only": 0.9092339994577768
+   }
+  },
+  {
+   "code": 131,
+   "level3": "7.1.9",
+   "name": "Willamette Valley",
+   "level1": "7",
+   "presences": 636,
+   "background": 12630,
+   "informative": true,
+   "forested": true,
+   "forested_share": 0.3997,
+   "chosen": {
+    "A: effort only": "c05",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": 0.876912627456332,
+    "A: effort only": 0.8794234784672113,
+    "B: forest only": 0.8811033205566701
+   }
+  },
+  {
+   "code": 171,
+   "level3": "9.3.1",
+   "name": "Northwestern Glaciated Plains",
+   "level1": "9",
+   "presences": 0,
+   "background": 49,
+   "informative": false,
+   "forested": false,
+   "forested_share": 0.0182,
+   "chosen": {
+    "A: effort only": "c05",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": null,
+    "A: effort only": null,
+    "B: forest only": null
+   }
+  },
+  {
+   "code": 172,
+   "level3": "9.3.3",
+   "name": "Northwestern Great Plains",
+   "level1": "9",
+   "presences": 0,
+   "background": 133,
+   "informative": false,
+   "forested": true,
+   "forested_share": 0.2049,
+   "chosen": {
+    "A: effort only": "c05",
+    "B: forest only": "c16",
+    "base": "c16",
+    "full": "c16"
+   },
+   "auc": {
+    "full": null,
+    "A: effort only": null,
+    "B: forest only": null
+   }
+  }
+ ],
+ "level1": {
+  "10": {
+   "full": 0.7814154171930211,
+   "A: effort only": 0.7683284215292333,
+   "B: forest only": 0.785794872336607,
+   "presences": 34
+  },
+  "11": {
+   "full": 0.9432804568625116,
+   "A: effort only": 0.9408036526270571,
+   "B: forest only": 0.9402255459385731,
+   "presences": 38
+  },
+  "6": {
+   "full": 0.8594683381319531,
+   "A: effort only": 0.8501019743405305,
+   "B: forest only": 0.8514838930243229,
+   "presences": 6594
+  },
+  "7": {
+   "full": 0.8849233215786542,
+   "A: effort only": 0.8856832453958572,
+   "B: forest only": 0.8862275851612783,
+   "presences": 8958
+  },
+  "9": {
+   "full": null,
+   "A: effort only": null,
+   "B: forest only": null,
+   "presences": 0
+  }
+ },
+ "by_year": {
+  "2015": {
+   "full": 0.938687964953751,
+   "A: effort only": 0.9243326464470882,
+   "B: forest only": 0.9359958791378106,
+   "presences": 44
+  },
+  "2016": {
+   "full": 0.6956479487333249,
+   "A: effort only": 0.7495061787059275,
+   "B: forest only": 0.7145308667727265,
+   "presences": 55
+  },
+  "2017": {
+   "full": 0.9199523915966743,
+   "A: effort only": 0.9235916564305501,
+   "B: forest only": 0.925858020840663,
+   "presences": 110
+  },
+  "2018": {
+   "full": 0.9275932664192362,
+   "A: effort only": 0.9232891424493165,
+   "B: forest only": 0.9216281896214066,
+   "presences": 397
+  },
+  "2019": {
+   "full": 0.8739087566699985,
+   "A: effort only": 0.8656683953092031,
+   "B: forest only": 0.8709045804471856,
+   "presences": 1028
+  },
+  "2020": {
+   "full": 0.9113155877817479,
+   "A: effort only": 0.9083696124111594,
+   "B: forest only": 0.9133961690204192,
+   "presences": 1473
+  },
+  "2021": {
+   "full": 0.9081039670497782,
+   "A: effort only": 0.9079481180976373,
+   "B: forest only": 0.9071754419565785,
+   "presences": 2252
+  },
+  "2022": {
+   "full": 0.9040758568927639,
+   "A: effort only": 0.8993127694483276,
+   "B: forest only": 0.8994023779559138,
+   "presences": 1623
+  },
+  "2023": {
+   "full": 0.8744437527702313,
+   "A: effort only": 0.8686299236639697,
+   "B: forest only": 0.8676524884223062,
+   "presences": 2644
+  },
+  "2024": {
+   "full": 0.9007951645208073,
+   "A: effort only": 0.8956776416129791,
+   "B: forest only": 0.8981813781267628,
+   "presences": 2875
+  },
+  "2025": {
+   "full": 0.8782722336552633,
+   "A: effort only": 0.8701851167229478,
+   "B: forest only": 0.8712747097134437,
+   "presences": 3123
+  }
+ },
+ "side_runs": {
+  "M2 side run": {
+   "presences": 17261,
+   "background": 500000,
+   "presence_outcomes": {
+    "thinned presences in the file": 25357,
+    "by cell code": {
+     "1": 17263,
+     "5": 1098,
+     "3": 2111,
+     "4": 4529,
+     "0": 355,
+     "6": 1
+    },
+    "eligible but weather cell outside the effort frame": 2,
+    "entering the fit": 17261,
+    "eligible, record's weather cell differs from its 250 m cell centre's": 246
+   },
+   "held_effort": 1.440701409312872,
+   "auc": {
+    "full": 0.8935298375950119,
+    "A: effort only": 0.8886969098344121,
+    "B: forest only": 0.8901150562960881
+   },
+   "full_minus_A": {
+    "point": 0.004832927760599848,
+    "low": 0.003054316298843979,
+    "high": 0.006923603806603079,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "full_minus_B": {
+    "point": 0.003414781298923808,
+    "low": 0.0019361941453198172,
+    "high": 0.0049534834128912904,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "forested_full_minus_A": {
+    "point": 0.004706109475384634,
+    "low": 0.0027711120010800593,
+    "high": 0.006998716457627812,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "forested_full_minus_B": {
+    "point": 0.003385529034870216,
+    "low": 0.0017966093877905304,
+    "high": 0.004937855453227729,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "block_clustered": {
+    "all": {
+     "A": {
+      "point": 0.004832927760599848,
+      "low": 0.000295938496223797,
+      "high": 0.0121573747429729,
+      "resamples": 1000,
+      "interval_wholly_above_zero": true
+     },
+     "B": {
+      "point": 0.003414781298923808,
+      "low": 0.0007731837911416105,
+      "high": 0.008508552013710978,
+      "resamples": 1000,
+      "interval_wholly_above_zero": true
+     }
+    },
+    "forested": {
+     "A": {
+      "point": 0.004706109475384634,
+      "low": 0.00023390618038726294,
+      "high": 0.012050040456407661,
+      "resamples": 1000,
+      "interval_wholly_above_zero": true
+     },
+     "B": {
+      "point": 0.003385529034870216,
+      "low": 0.0008978417082431142,
+      "high": 0.00824051555637612,
+      "resamples": 1000,
+      "interval_wholly_above_zero": true
+     }
+    }
+   },
+   "within_weather_cell": {
+    "clusters": "weather cell",
+    "auc": {
+     "A": {
+      "point": 0.6528671303044046,
+      "low": 0.6372626931195706,
+      "high": 0.6682116074057266,
+      "resamples": 1000
+     },
+     "B": {
+      "point": 0.6231131945449983,
+      "low": 0.6081951012241029,
+      "high": 0.6387522318813524,
+      "resamples": 1000
+     },
+     "full": {
+      "point": 0.6477873963597609,
+      "low": 0.6330147352885055,
+      "high": 0.6623584806608844,
+      "resamples": 1000
+     }
+    },
+    "pair_mass_share": 0.00026676750364353785,
+    "full_minus_A": {
+     "point": -0.00507973394464361,
+     "low": -0.017671113614639453,
+     "high": 0.007024039877104816,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    },
+    "full_minus_B": {
+     "point": 0.02467420181476272,
+     "low": 0.011663891767624996,
+     "high": 0.037962980943152376,
+     "resamples": 1000,
+     "interval_wholly_above_zero": true
+    }
+   },
+   "within_weather_cell_block_clustered": {
+    "pairs": "inside one weather cell",
+    "resampled": "level III block, rows weighted by their block's draw count",
+    "full_minus_A": {
+     "point": -0.005079733944643603,
+     "low": -0.02477847204138377,
+     "high": 0.008250879250204153,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    },
+    "full_minus_B": {
+     "point": 0.024674201814762646,
+     "low": -0.012260156669704626,
+     "high": 0.051581904316021575,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    }
+   },
+   "access_band": "dist_road_m",
+   "access_nan_rows": 0,
+   "seconds": 699
+  },
+  "licence track": {
+   "presences": 1586,
+   "background": 192593,
+   "presence_outcomes": {
+    "thinned presences in the file": 2464,
+    "by cell code": {
+     "1": 1587,
+     "4": 292,
+     "3": 450,
+     "5": 87,
+     "0": 48
+    },
+    "eligible but weather cell outside the effort frame": 1,
+    "entering the fit": 1586,
+    "eligible, record's weather cell differs from its 250 m cell centre's": 26
+   },
+   "held_effort": 0.7264322975048546,
+   "auc": {
+    "full": 0.8468523226247375,
+    "A: effort only": 0.8337222159282569,
+    "B: forest only": 0.8385063272654534
+   },
+   "full_minus_A": {
+    "point": 0.013130106696480626,
+    "low": 0.004360396013958657,
+    "high": 0.022075142264550072,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "full_minus_B": {
+    "point": 0.008345995359284153,
+    "low": 0.001810234909908042,
+    "high": 0.015121481516656156,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "forested_full_minus_A": {
+    "point": 0.01266431732197304,
+    "low": 0.00340886278229001,
+    "high": 0.021939650123153322,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "forested_full_minus_B": {
+    "point": 0.008203655358988815,
+    "low": 0.0015075913425764286,
+    "high": 0.014787245111093613,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "block_clustered": {
+    "all": {
+     "A": {
+      "point": 0.013130106696480626,
+      "low": 0.0018951180908162652,
+      "high": 0.04628187020318828,
+      "resamples": 1000,
+      "interval_wholly_above_zero": true
+     },
+     "B": {
+      "point": 0.008345995359284153,
+      "low": -0.0018743028725123193,
+      "high": 0.03080560376462254,
+      "resamples": 1000,
+      "interval_wholly_above_zero": false
+     }
+    },
+    "forested": {
+     "A": {
+      "point": 0.01266431732197304,
+      "low": 0.001100953152954718,
+      "high": 0.041903540842230934,
+      "resamples": 1000,
+      "interval_wholly_above_zero": true
+     },
+     "B": {
+      "point": 0.008203655358988815,
+      "low": -0.002062101466970433,
+      "high": 0.026230428044383074,
+      "resamples": 1000,
+      "interval_wholly_above_zero": false
+     }
+    }
+   },
+   "within_weather_cell": {
+    "clusters": "weather cell",
+    "auc": {
+     "A": {
+      "point": 0.6334308835504859,
+      "low": 0.6078750894646646,
+      "high": 0.6592966791875833,
+      "resamples": 1000
+     },
+     "B": {
+      "point": 0.6062617949756969,
+      "low": 0.5812030225815547,
+      "high": 0.6307942971016758,
+      "resamples": 1000
+     },
+     "full": {
+      "point": 0.6306842512394133,
+      "low": 0.6026766538895806,
+      "high": 0.6607939797385166,
+      "resamples": 1000
+     }
+    },
+    "pair_mass_share": 0.0006954176551648163,
+    "full_minus_A": {
+     "point": -0.002746632311072705,
+     "low": -0.031156001521915642,
+     "high": 0.022847400748899526,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    },
+    "full_minus_B": {
+     "point": 0.024422456263716422,
+     "low": 0.003136269068121865,
+     "high": 0.046401105850850784,
+     "resamples": 1000,
+     "interval_wholly_above_zero": true
+    }
+   },
+   "within_weather_cell_block_clustered": {
+    "pairs": "inside one weather cell",
+    "resampled": "level III block, rows weighted by their block's draw count",
+    "full_minus_A": {
+     "point": -0.0027466323110726274,
+     "low": -0.03786218888408309,
+     "high": 0.016624006476852537,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    },
+    "full_minus_B": {
+     "point": 0.024422456263716363,
+     "low": -0.019608978894549427,
+     "high": 0.05579561113349235,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    }
+   },
+   "access_band": "dist_road_m",
+   "access_nan_rows": 0,
+   "seconds": 242
+  },
+  "comparison group": {
+   "presences": 606,
+   "background": 500000,
+   "presence_outcomes": {
+    "thinned presences in the file": 820,
+    "by cell code": {
+     "1": 606,
+     "0": 15,
+     "4": 93,
+     "3": 70,
+     "5": 36
+    },
+    "eligible but weather cell outside the effort frame": 0,
+    "entering the fit": 606,
+    "eligible, record's weather cell differs from its 250 m cell centre's": 10
+   },
+   "held_effort": 1.440701409312872,
+   "auc": {
+    "full": 0.8633635957022532,
+    "A: effort only": 0.849295445544542,
+    "B: forest only": 0.8556030363006478
+   },
+   "full_minus_A": {
+    "point": 0.014068150157711234,
+    "low": 0.0004693144898960792,
+    "high": 0.029001715262106143,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "full_minus_B": {
+    "point": 0.00776055940160536,
+    "low": -0.0030312242853330618,
+    "high": 0.019252234400418206,
+    "resamples": 1000,
+    "interval_wholly_above_zero": false
+   },
+   "forested_full_minus_A": {
+    "point": 0.014491760832378797,
+    "low": 0.0006808481173598633,
+    "high": 0.02821717601296247,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "forested_full_minus_B": {
+    "point": 0.008318128257834512,
+    "low": -0.0023582458454815404,
+    "high": 0.019208476696939206,
+    "resamples": 1000,
+    "interval_wholly_above_zero": false
+   },
+   "block_clustered": {
+    "all": {
+     "A": {
+      "point": 0.014068150157711234,
+      "low": -0.008248090552777915,
+      "high": 0.04366976922994182,
+      "resamples": 1000,
+      "interval_wholly_above_zero": false
+     },
+     "B": {
+      "point": 0.00776055940160536,
+      "low": -0.011355439801403088,
+      "high": 0.021119164214446554,
+      "resamples": 1000,
+      "interval_wholly_above_zero": false
+     }
+    },
+    "forested": {
+     "A": {
+      "point": 0.014491760832378797,
+      "low": -0.007472797258121066,
+      "high": 0.04627004934446004,
+      "resamples": 1000,
+      "interval_wholly_above_zero": false
+     },
+     "B": {
+      "point": 0.008318128257834512,
+      "low": -0.00897822837533716,
+      "high": 0.02360862643696007,
+      "resamples": 1000,
+      "interval_wholly_above_zero": false
+     }
+    }
+   },
+   "within_weather_cell": {
+    "clusters": "weather cell",
+    "auc": {
+     "A": {
+      "point": 0.5657751498274343,
+      "low": 0.5422792962468009,
+      "high": 0.5913563197491586,
+      "resamples": 1000
+     },
+     "B": {
+      "point": 0.5433497198202695,
+      "low": 0.509547870198209,
+      "high": 0.5785222093312469,
+      "resamples": 1000
+     },
+     "full": {
+      "point": 0.568840455147451,
+      "low": 0.5307984038794715,
+      "high": 0.602302280759209,
+      "resamples": 1000
+     }
+    },
+    "pair_mass_share": 0.00028800990099009843,
+    "full_minus_A": {
+     "point": 0.0030653053200167158,
+     "low": -0.03576837332193938,
+     "high": 0.03883172030642683,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    },
+    "full_minus_B": {
+     "point": 0.025490735327181487,
+     "low": -0.008197303636000563,
+     "high": 0.05643346513647139,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    }
+   },
+   "within_weather_cell_block_clustered": {
+    "pairs": "inside one weather cell",
+    "resampled": "level III block, rows weighted by their block's draw count",
+    "full_minus_A": {
+     "point": 0.0030653053200166646,
+     "low": -0.05124102017838473,
+     "high": 0.038656088214301366,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    },
+    "full_minus_B": {
+     "point": 0.025490735327181435,
+     "low": -0.04149947286822046,
+     "high": 0.07607140926441053,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    }
+   },
+   "access_band": "dist_road_m",
+   "access_nan_rows": 0,
+   "seconds": 646
+  },
+  "saprotroph main": {
+   "presences": 9591,
+   "background": 500000,
+   "presence_outcomes": {
+    "thinned presences in the file": 17403,
+    "by cell code": {
+     "1": 9591,
+     "3": 1492,
+     "4": 5300,
+     "5": 796,
+     "0": 223,
+     "6": 1
+    },
+    "eligible but weather cell outside the effort frame": 0,
+    "entering the fit": 9591,
+    "eligible, record's weather cell differs from its 250 m cell centre's": 123
+   },
+   "held_effort": 1.440701409312872,
+   "auc": {
+    "full": 0.9222476737025858,
+    "A: effort only": 0.9201563619948092,
+    "B: forest only": 0.9192349455050471
+   },
+   "full_minus_A": {
+    "point": 0.002091311707776544,
+    "low": 0.0008351688490411189,
+    "high": 0.0033720244067132837,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "full_minus_B": {
+    "point": 0.0030127281975386166,
+    "low": 0.001900569540199155,
+    "high": 0.004250481452623497,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "forested_full_minus_A": {
+    "point": 0.0018508611906941086,
+    "low": 0.0006268041445719661,
+    "high": 0.003219021090915819,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "forested_full_minus_B": {
+    "point": 0.0028824710280779264,
+    "low": 0.0017668719751323281,
+    "high": 0.004133411516350094,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "block_clustered": {
+    "all": {
+     "A": {
+      "point": 0.002091311707776544,
+      "low": 0.00010181475939857537,
+      "high": 0.005276449537663218,
+      "resamples": 1000,
+      "interval_wholly_above_zero": true
+     },
+     "B": {
+      "point": 0.0030127281975386166,
+      "low": 0.001997622325847449,
+      "high": 0.005471898435219657,
+      "resamples": 1000,
+      "interval_wholly_above_zero": true
+     }
+    },
+    "forested": {
+     "A": {
+      "point": 0.0018508611906941086,
+      "low": 3.2664837884039336e-05,
+      "high": 0.00464792871964087,
+      "resamples": 1000,
+      "interval_wholly_above_zero": true
+     },
+     "B": {
+      "point": 0.0028824710280779264,
+      "low": 0.001763901880945124,
+      "high": 0.004996837605676273,
+      "resamples": 1000,
+      "interval_wholly_above_zero": true
+     }
+    }
+   },
+   "within_weather_cell": {
+    "clusters": "weather cell",
+    "auc": {
+     "A": {
+      "point": 0.6494606298522078,
+      "low": 0.6286789731141809,
+      "high": 0.6688326155258543,
+      "resamples": 1000
+     },
+     "B": {
+      "point": 0.6252175540664168,
+      "low": 0.6027178897163168,
+      "high": 0.6485114125059999,
+      "resamples": 1000
+     },
+     "full": {
+      "point": 0.642521277191604,
+      "low": 0.6124089266640929,
+      "high": 0.6686166836930961,
+      "resamples": 1000
+     }
+    },
+    "pair_mass_share": 0.00024037532932917442,
+    "full_minus_A": {
+     "point": -0.006939352660603552,
+     "low": -0.023273324192401867,
+     "high": 0.00896809045469458,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    },
+    "full_minus_B": {
+     "point": 0.01730372312518741,
+     "low": 0.0026289216670577027,
+     "high": 0.03150864515915628,
+     "resamples": 1000,
+     "interval_wholly_above_zero": true
+    }
+   },
+   "within_weather_cell_block_clustered": {
+    "pairs": "inside one weather cell",
+    "resampled": "level III block, rows weighted by their block's draw count",
+    "full_minus_A": {
+     "point": -0.0069393526606034055,
+     "low": -0.016426154384979276,
+     "high": 0.01317377872223305,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    },
+    "full_minus_B": {
+     "point": 0.01730372312518752,
+     "low": 0.004834416864689463,
+     "high": 0.03128626247776593,
+     "resamples": 1000,
+     "interval_wholly_above_zero": true
+    }
+   },
+   "access_band": "dist_road_m",
+   "access_nan_rows": 0,
+   "seconds": 682,
+   "genus_units": {
+    "alone": 47,
+    "pooled_presences": 564
+   }
+  },
+  "saprotroph side": {
+   "presences": 14163,
+   "background": 500000,
+   "presence_outcomes": {
+    "thinned presences in the file": 24272,
+    "by cell code": {
+     "1": 14163,
+     "3": 2137,
+     "4": 6512,
+     "5": 1118,
+     "0": 340,
+     "6": 2
+    },
+    "eligible but weather cell outside the effort frame": 0,
+    "entering the fit": 14163,
+    "eligible, record's weather cell differs from its 250 m cell centre's": 176
+   },
+   "held_effort": 1.440701409312872,
+   "auc": {
+    "full": 0.9218067598056318,
+    "A: effort only": 0.920067908749264,
+    "B: forest only": 0.9195600741821099
+   },
+   "full_minus_A": {
+    "point": 0.0017388510563677295,
+    "low": 0.0007283923479546264,
+    "high": 0.0028504623186431433,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "full_minus_B": {
+    "point": 0.0022466856235218158,
+    "low": 0.001290011695286189,
+    "high": 0.003319464606038999,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "forested_full_minus_A": {
+    "point": 0.0015710368515986506,
+    "low": 0.0005606286045849982,
+    "high": 0.002586564972987082,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "forested_full_minus_B": {
+    "point": 0.002201453151020716,
+    "low": 0.0012595915056691639,
+    "high": 0.0032203052742449776,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "block_clustered": {
+    "all": {
+     "A": {
+      "point": 0.0017388510563677295,
+      "low": -0.0009885744917430739,
+      "high": 0.004677881865980648,
+      "resamples": 1000,
+      "interval_wholly_above_zero": false
+     },
+     "B": {
+      "point": 0.0022466856235218158,
+      "low": 0.0008259033801625349,
+      "high": 0.004516687971210597,
+      "resamples": 1000,
+      "interval_wholly_above_zero": true
+     }
+    },
+    "forested": {
+     "A": {
+      "point": 0.0015710368515986506,
+      "low": -0.0007245039902936552,
+      "high": 0.004505254337757581,
+      "resamples": 1000,
+      "interval_wholly_above_zero": false
+     },
+     "B": {
+      "point": 0.002201453151020716,
+      "low": 0.0008851366528729671,
+      "high": 0.004397134370308261,
+      "resamples": 1000,
+      "interval_wholly_above_zero": true
+     }
+    }
+   },
+   "within_weather_cell": {
+    "clusters": "weather cell",
+    "auc": {
+     "A": {
+      "point": 0.6512573503616131,
+      "low": 0.6295544881943536,
+      "high": 0.6710028736509085,
+      "resamples": 1000
+     },
+     "B": {
+      "point": 0.6289360224736851,
+      "low": 0.6064798552073666,
+      "high": 0.6518504252826759,
+      "resamples": 1000
+     },
+     "full": {
+      "point": 0.6503129155115099,
+      "low": 0.6167240690996683,
+      "high": 0.677494737886991,
+      "resamples": 1000
+     }
+    },
+    "pair_mass_share": 0.00024473624092040825,
+    "full_minus_A": {
+     "point": -0.0009444348501032213,
+     "low": -0.0199993807175375,
+     "high": 0.01766856265088896,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    },
+    "full_minus_B": {
+     "point": 0.021376893037825,
+     "low": -0.0004939119703981718,
+     "high": 0.04173206838125225,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    }
+   },
+   "within_weather_cell_block_clustered": {
+    "pairs": "inside one weather cell",
+    "resampled": "level III block, rows weighted by their block's draw count",
+    "full_minus_A": {
+     "point": -0.0009444348501032545,
+     "low": -0.01619528499285508,
+     "high": 0.02007903327130281,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    },
+    "full_minus_B": {
+     "point": 0.021376893037825074,
+     "low": -0.007277777360383523,
+     "high": 0.04513339384285656,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    }
+   },
+   "access_band": "dist_road_m",
+   "access_nan_rows": 0,
+   "seconds": 682
+  },
+  "trails side check": {
+   "presences": 15624,
+   "background": 500000,
+   "presence_outcomes": {
+    "thinned presences in the file": 23069,
+    "by cell code": {
+     "1": 15626,
+     "5": 1025,
+     "3": 1928,
+     "4": 4160,
+     "0": 329,
+     "6": 1
+    },
+    "eligible but weather cell outside the effort frame": 2,
+    "entering the fit": 15624,
+    "eligible, record's weather cell differs from its 250 m cell centre's": 223
+   },
+   "held_effort": 1.440701409312872,
+   "auc": {
+    "full": 0.9104724853267888,
+    "A: effort only": 0.9055476629408235,
+    "B: forest only": 0.9077036035342969
+   },
+   "full_minus_A": {
+    "point": 0.004924822385965366,
+    "low": 0.0025134790964194713,
+    "high": 0.008384605348070347,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "full_minus_B": {
+    "point": 0.0027688817924919062,
+    "low": 0.001615694599806364,
+    "high": 0.0039955957438056544,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "forested_full_minus_A": {
+    "point": 0.004891033643004583,
+    "low": 0.002327069485970602,
+    "high": 0.008173576517572528,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "forested_full_minus_B": {
+    "point": 0.0027988625539814294,
+    "low": 0.0016588201577876357,
+    "high": 0.004061917769066841,
+    "resamples": 1000,
+    "interval_wholly_above_zero": true
+   },
+   "block_clustered": {
+    "all": {
+     "A": {
+      "point": 0.004924822385965366,
+      "low": 0.0010742294014255721,
+      "high": 0.017994760279816432,
+      "resamples": 1000,
+      "interval_wholly_above_zero": true
+     },
+     "B": {
+      "point": 0.0027688817924919062,
+      "low": 0.0015067815955344043,
+      "high": 0.00577744842382938,
+      "resamples": 1000,
+      "interval_wholly_above_zero": true
+     }
+    },
+    "forested": {
+     "A": {
+      "point": 0.004891033643004583,
+      "low": 0.0007975755625380641,
+      "high": 0.017507067706986013,
+      "resamples": 1000,
+      "interval_wholly_above_zero": true
+     },
+     "B": {
+      "point": 0.0027988625539814294,
+      "low": 0.0015145001529275198,
+      "high": 0.00571142586980263,
+      "resamples": 1000,
+      "interval_wholly_above_zero": true
+     }
+    }
+   },
+   "within_weather_cell": {
+    "clusters": "weather cell",
+    "auc": {
+     "A": {
+      "point": 0.7223245124211134,
+      "low": 0.7063366872814221,
+      "high": 0.7376763870106349,
+      "resamples": 1000
+     },
+     "B": {
+      "point": 0.7201988740015823,
+      "low": 0.7051009409395538,
+      "high": 0.7341706633315355,
+      "resamples": 1000
+     },
+     "full": {
+      "point": 0.7263193025300122,
+      "low": 0.711286067709019,
+      "high": 0.7404400652406011,
+      "resamples": 1000
+     }
+    },
+    "pair_mass_share": 0.00026520993383996155,
+    "full_minus_A": {
+     "point": 0.003994790108898834,
+     "low": -0.0057669968231847425,
+     "high": 0.013239698671096032,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    },
+    "full_minus_B": {
+     "point": 0.006120428528429837,
+     "low": -0.0015722530227623714,
+     "high": 0.013551262246974867,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    }
+   },
+   "within_weather_cell_block_clustered": {
+    "pairs": "inside one weather cell",
+    "resampled": "level III block, rows weighted by their block's draw count",
+    "full_minus_A": {
+     "point": 0.0039947901088988194,
+     "low": -0.00979972845364069,
+     "high": 0.015451948260076735,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    },
+    "full_minus_B": {
+     "point": 0.006120428528429759,
+     "low": -0.003973108305474121,
+     "high": 0.015378035358662745,
+     "resamples": 1000,
+     "interval_wholly_above_zero": false
+    }
+   },
+   "access_band": "dist_any_m",
+   "access_nan_rows": 13010,
+   "seconds": 696
+  }
+ },
+ "comparison_rank_correlation_over_shaded": 0.27983378613291887,
+ "final_model_configuration": {
+  "id": "c04",
+  "num_leaves": 15,
+  "min_data_in_leaf": 50,
+  "learning_rate": 0.03,
+  "feature_fraction": 0.7,
+  "lambda_l2": 10.0,
+  "num_boost_round": 500
+ },
+ "aoa": {
+  "threshold": 0.17464276529749684,
+  "mean_distance": 645609.328071242,
+  "mean_distance_exact": false,
+  "weights": {
+   "share_Pseudotsuga": 107445.27077102661,
+   "share_Tsuga": 82309.85511016846,
+   "share_Picea": 115302.74384307861,
+   "share_Abies": 154772.94165039062,
+   "share_Pinus": 334160.6511268616,
+   "share_Quercus": 44989.01538848877,
+   "share_conifer": 63721.09680557251,
+   "share_broadleaf": 35905.24326324463,
+   "total_cover_pct": 112459.34260177612,
+   "ph_mean_0_30cm": 219668.14582824707,
+   "share_Lithocarpus": 87510.93655395508,
+   "share_Chrysolepis": 23438.82364654541,
+   "share_Arbutus": 78875.31838989258
+  },
+  "train_di_quantiles": [
+   9.63929904076438e-05,
+   0.0380143265229432,
+   0.060029825985832425,
+   0.09266570203276465,
+   0.9435677763243779
+  ],
+  "counts": {
+   "eligible": 6967248,
+   "inside": 6950510,
+   "outside": 16738,
+   "inside_in_frame": 3737908,
+   "inside_outside_frame": 3212602,
+   "outside_in_frame": 7259,
+   "outside_outside_frame": 9479,
+   "by_block": {
+    "10.1.2 Columbia Plateau": {
+     "inside": 51151,
+     "outside": 48
+    },
+    "10.1.3 Northern Basin and Range": {
+     "inside": 165392,
+     "outside": 468
+    },
+    "10.1.4 Wyoming Basin": {
+     "inside": 3762,
+     "outside": 473
+    },
+    "10.1.5 Central Basin and Range": {
+     "inside": 97634,
+     "outside": 840
+    },
+    "10.1.6 Colorado Plateaus": {
+     "inside": 432,
+     "outside": 6
+    },
+    "10.1.8 Snake River Plain": {
+     "inside": 11978,
+     "outside": 109
+    },
+    "11.1.1 Central California Foothills and Coastal Mountains": {
+     "inside": 41628,
+     "outside": 18
+    },
+    "11.1.2 Central California Valley": {
+     "inside": 387,
+     "outside": 0
+    },
+    "6.2.10 Middle Rockies": {
+     "inside": 640167,
+     "outside": 1060
+    },
+    "6.2.11 Klamath Mountains": {
+     "inside": 549251,
+     "outside": 6141
+    },
+    "6.2.12 Sierra Nevada": {
+     "inside": 24835,
+     "outside": 1
+    },
+    "6.2.13 Wasatch and Uinta Mountains": {
+     "inside": 150215,
+     "outside": 702
+    },
+    "6.2.15 Idaho Batholith": {
+     "inside": 622217,
+     "outside": 1047
+    },
+    "6.2.3 Columbia Mountains/Northern Rockies": {
+     "inside": 1066218,
+     "outside": 487
+    },
+    "6.2.4 Canadian Rockies": {
+     "inside": 229300,
+     "outside": 158
+    },
+    "6.2.5 North Cascades": {
+     "inside": 391257,
+     "outside": 427
+    },
+    "6.2.7 Cascades": {
+     "inside": 830611,
+     "outside": 607
+    },
+    "6.2.8 Eastern Cascades Slopes and Foothills": {
+     "inside": 490908,
+     "outside": 130
+    },
+    "6.2.9 Blue Mountains": {
+     "inside": 614542,
+     "outside": 36
+    },
+    "7.1.7 Strait of Georgia/Puget Lowland": {
+     "inside": 165912,
+     "outside": 33
+    },
+    "7.1.8 Coastal Range": {
+     "inside": 689385,
+     "outside": 3863
+    },
+    "7.1.9 Willamette Valley": {
+     "inside": 94171,
+     "outside": 38
+    },
+    "9.3.1 Northwestern Glaciated Plains": {
+     "inside": 8014,
+     "outside": 42
+    },
+    "9.3.3 Northwestern Great Plains": {
+     "inside": 11143,
+     "outside": 4
+    }
+   }
+  }
+ },
+ "code_counts_in_box_window": {
+  "0": 2449579,
+  "1": 6950510,
+  "2": 16738,
+  "3": 102543,
+  "4": 9447216,
+  "5": 23834,
+  "6": 133292
+ },
+ "outputs": {
+  "relative_habitat_pnw.tif": "504d59b31f2272c6b99490b00d934322dd3744fff56e705c202dd1083fd99e90",
+  "applicability_pnw.tif": "ee8b9e447731edc9f916129c4371acef12012707012a266591587c71c422e323",
+  "mask_map.png": "07f6486c8769b6a043695c4260af1b8ab5e189e07b8b261bcb93f79798dc38d7"
+ },
+ "seconds": 51983,
+ "peak_rss_mb": 2953.6
+}

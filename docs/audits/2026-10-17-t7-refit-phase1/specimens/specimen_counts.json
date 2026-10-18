@@ -1,0 +1,2067 @@
+{
+ "written_utc": "2026-10-17T10:42:27+00:00",
+ "download_key": "0032050-260928105237408",
+ "doi": "10.15468/dl.5mvzg2",
+ "zip_sha256": "28efb80e2d1e662c5dd389308ef608dd4a5760c60ca1178237249bb76d8634ad",
+ "records_in_archive": 256778,
+ "records_in_aggregator_record": 256778,
+ "datasets_in_archive": 212,
+ "datasets_in_aggregator_record": 212,
+ "membership_list_sha256": "436cac17b16590328e681977a40cf8ccebc9fe9aa0313eecef589dd149b309bf",
+ "group": "mycorrhizal group, main run",
+ "rules": {
+  "licence": "dataset and record licence CC0 or CC BY",
+  "uncertainty": "stated, at most 1000 m",
+  "genus": "in the main run (Join, lifestyle ectomycorrhizal, certainty clear)"
+ },
+ "outcomes": {
+  "coordinate uncertainty over 1,000 m": 86196,
+  "not in the mycorrhizal main run": 25378,
+  "no stated coordinate uncertainty": 63256,
+  "kept": 6026,
+  "dataset licence not CC0 or CC BY": 75922
+ },
+ "kept": 6026,
+ "kept_file": {
+  "path": "/mnt/work/Zynergy/forecast-data/t7/specimens/specimens_kept.csv",
+  "sha256": "c9e8c66f1d5719db037a8b926f36c02e9171fe3ec32667e0cbfdf74fcd8cadb6",
+  "bytes": 1058776
+ },
+ "datasets_by_licence": {
+  "CC BY": 94,
+  "CC0": 67,
+  "http://creativecommons.org/licenses/by-nc/4.0/legalcode": 51
+ },
+ "tallies_of_kept": {
+  "by block": {
+   "7.1.7 Strait of Georgia/Puget Lowland": 1631,
+   "7.1.8 Coastal Range": 1244,
+   "6.2.7 Cascades": 950,
+   "6.2.5 North Cascades": 841,
+   "6.2.3 Columbia Mountains/Northern Rockies": 258,
+   "6.2.11 Klamath Mountains": 188,
+   "6.2.15 Idaho Batholith": 140,
+   "outside every block": 118,
+   "6.2.9 Blue Mountains": 116,
+   "7.1.9 Willamette Valley": 115,
+   "6.2.8 Eastern Cascades Slopes and Foothills": 101,
+   "10.1.2 Columbia Plateau": 99,
+   "6.2.10 Middle Rockies": 89,
+   "6.2.4 Canadian Rockies": 58,
+   "6.2.13 Wasatch and Uinta Mountains": 28,
+   "7.1.5 Coastal Western Hemlock-Sitka Spruce Forests": 27,
+   "10.1.3 Northern Basin and Range": 10,
+   "6.2.12 Sierra Nevada": 8,
+   "10.1.5 Central Basin and Range": 4,
+   "11.1.1 Central California Foothills and Coastal Mountains": 1
+  },
+  "by decade": {
+   "1990s": 1208,
+   "1970s": 1053,
+   "1960s": 859,
+   "1980s": 708,
+   "1940s": 673,
+   "1950s": 511,
+   "2000s": 433,
+   "2010s": 211,
+   "1930s": 164,
+   "no year": 100,
+   "2020s": 68,
+   "1920s": 19,
+   "1910s": 17,
+   "1900s": 1,
+   "1890s": 1
+  },
+  "by uncertainty band": {
+   "500 to 1000 m": 3141,
+   "250 to 500 m": 2216,
+   "100 to 250 m": 443,
+   "up to 100 m": 226
+  },
+  "by cell code (P4)": {
+   "1": 4031,
+   "4": 1053,
+   "5": 749,
+   "0": 126,
+   "6": 35,
+   "3": 32
+  },
+  "by dataset licence": {
+   "CC BY": 4376,
+   "CC0": 1650
+  },
+  "record's weather cell in T6's effort frame": {
+   "True": 5744,
+   "False": 282
+  },
+  "by genus": {
+   "Inocybe": 1328,
+   "Cortinarius": 872,
+   "Russula": 641,
+   "Lactarius": 362,
+   "Suillus": 287,
+   "Amanita": 224,
+   "Hebeloma": 218,
+   "Tricholoma": 202,
+   "Phaeocollybia": 177,
+   "Rhizopogon": 114,
+   "Hygrophorus": 104,
+   "Laccaria": 104,
+   "Helvella": 94,
+   "Thaxterogaster": 86,
+   "Thelephora": 77,
+   "Xerocomellus": 76,
+   "Boletus": 67,
+   "Hydnellum": 48,
+   "Tomentella": 47,
+   "Cantharellus": 38,
+   "Amphinema": 36,
+   "Turbinellus": 35,
+   "Leccinum": 33,
+   "Clavulina": 31,
+   "Otidea": 31,
+   "Piloderma": 31,
+   "Hydnum": 28,
+   "Scleroderma": 27,
+   "Caloboletus": 27,
+   "Gautieria": 26,
+   "Gastroboletus": 25,
+   "Craterellus": 25,
+   "Naucoria": 24,
+   "Phylloporus": 23,
+   "Aureoboletus": 23,
+   "Hysterangium": 21,
+   "Xerocomus": 21,
+   "Sarcodon": 20,
+   "Paxillus": 19,
+   "Truncocolumella": 19,
+   "Phellodon": 19,
+   "Coltricia": 18,
+   "Tylopilus": 18,
+   "Elaphomyces": 14,
+   "Butyriboletus": 14,
+   "Catathelasma": 12,
+   "Leucogaster": 11,
+   "Albatrellopsis": 11,
+   "Alnicola": 11,
+   "Cyanoboletus": 10,
+   "Scutiger": 9,
+   "Hortiboletus": 9,
+   "Balsamia": 9,
+   "Gomphus": 8,
+   "Geopora": 8,
+   "Hymenogaster": 8,
+   "Albatrellus": 8,
+   "Polyozellus": 8,
+   "Melanogaster": 8,
+   "Gyroporus": 7,
+   "Tarzetta": 7,
+   "Tuber": 7,
+   "Alpova": 7,
+   "Tomentellopsis": 6,
+   "Sebacina": 6,
+   "Dermocybe": 6,
+   "Boletopsis": 6,
+   "Zelleromyces": 6,
+   "Byssocorticium": 5,
+   "Sarcosphaera": 4,
+   "Hydnotrya": 4,
+   "Polyporoletus": 4,
+   "Mallocybe": 3,
+   "Fuscoboletinus": 3,
+   "Macowanites": 3,
+   "Xeroceps": 3,
+   "Hydnangium": 3,
+   "Pisolithus": 3,
+   "Lanmaoa": 3,
+   "Rubroboletus": 2,
+   "Polypus": 2,
+   "Porphyrellus": 2,
+   "Martellia": 2,
+   "Descolea": 2,
+   "Tylospora": 2,
+   "Pseudotomentella": 1,
+   "Byssoporia": 1,
+   "Chamonixia": 1,
+   "Humaria": 1,
+   "Astraeus": 1,
+   "Gymnomyces": 1,
+   "Pseudocraterellus": 1,
+   "Myrmecocystis": 1,
+   "Leucophleps": 1,
+   "Leucangium": 1,
+   "Laeticutis": 1,
+   "Fevansia": 1,
+   "Leotia": 1,
+   "Neoalbatrellus": 1
+  },
+  "interior sub-box (42 to 49 N, 120 to 111 W)": {
+   "kept": 751
+  },
+  "interior, by uncertainty band": {
+   "500 to 1000 m": 555,
+   "250 to 500 m": 126,
+   "100 to 250 m": 52,
+   "up to 100 m": 18
+  },
+  "interior, by cell code (P4)": {
+   "1": 390,
+   "4": 340,
+   "6": 20,
+   "5": 1
+  }
+ },
+ "datasets": [
+  {
+   "dataset_key": "96ccdb74-f762-11e1-a439-00145eb45e9a",
+   "title": "University of Washington Herbarium (WTU) - Macrofungi Collection",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 33306,
+   "no stated coordinate uncertainty": 1828,
+   "not in the mycorrhizal main run": 5059,
+   "coordinate uncertainty over 1,000 m": 22081,
+   "kept": 4338
+  },
+  {
+   "dataset_key": "d1a3b128-b406-46bb-a6d1-f3591dcc8a7b",
+   "title": "USDA United States National Fungus Collections",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 29147,
+   "coordinate uncertainty over 1,000 m": 25463,
+   "not in the mycorrhizal main run": 1912,
+   "no stated coordinate uncertainty": 1664,
+   "kept": 108
+  },
+  {
+   "dataset_key": "0ec61c42-6eda-441e-b327-7ec241c8ec95",
+   "title": "Charles Gardner Shaw Mycological Herbarium, Washington State University",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 24831,
+   "dataset licence not CC0 or CC BY": 24831
+  },
+  {
+   "dataset_key": "96ce10e8-f762-11e1-a439-00145eb45e9a",
+   "title": "University of Washington Herbarium (WTU) - Lichen Collection",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 23917,
+   "not in the mycorrhizal main run": 7829,
+   "no stated coordinate uncertainty": 10346,
+   "coordinate uncertainty over 1,000 m": 5742
+  },
+  {
+   "dataset_key": "c8d12f8a-7e39-4e2c-92d7-825d590ad15b",
+   "title": "University of Michigan Herbarium",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 20630,
+   "dataset licence not CC0 or CC BY": 20630
+  },
+  {
+   "dataset_key": "d415c253-4d61-4459-9d25-4015b9084fb0",
+   "title": "The New York Botanical Garden Herbarium (NY)",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 9520,
+   "no stated coordinate uncertainty": 3849,
+   "coordinate uncertainty over 1,000 m": 4654,
+   "not in the mycorrhizal main run": 826,
+   "kept": 191
+  },
+  {
+   "dataset_key": "98bceab6-3c3e-4163-945d-6ca10576ebf1",
+   "title": "Arizona State University Lichen Herbarium",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 8053,
+   "dataset licence not CC0 or CC BY": 8053
+  },
+  {
+   "dataset_key": "ca1bcd7e-7387-42f9-81ba-1470db55e3e8",
+   "title": "University of British Columbia Herbarium (UBC) - Fungi Collection",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 8017,
+   "no stated coordinate uncertainty": 8017
+  },
+  {
+   "dataset_key": "dfe29309-9f9f-493b-95e7-68f4563a3cdb",
+   "title": "Snake River Plain Herbarium (Boise State University, Idaho, USA)",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 7322,
+   "no stated coordinate uncertainty": 7319,
+   "not in the mycorrhizal main run": 2,
+   "coordinate uncertainty over 1,000 m": 1
+  },
+  {
+   "dataset_key": "10eeee73-a6f5-4793-bad4-b935db096efa",
+   "title": "Wisconsin State Herbarium, Lichens",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 6718,
+   "dataset licence not CC0 or CC BY": 6718
+  },
+  {
+   "dataset_key": "032f1fbe-d21f-407d-be46-5cd1bb1ea397",
+   "title": "University of Tennessee Fungal Herbarium",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 5234,
+   "no stated coordinate uncertainty": 5080,
+   "kept": 66,
+   "coordinate uncertainty over 1,000 m": 17,
+   "not in the mycorrhizal main run": 71
+  },
+  {
+   "dataset_key": "81e6cff2-b409-417e-8c72-e1bbafb7c61f",
+   "title": "Field Museum of Natural History (Botany) Fungi Collection",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 5136,
+   "coordinate uncertainty over 1,000 m": 3336,
+   "no stated coordinate uncertainty": 1460,
+   "kept": 65,
+   "not in the mycorrhizal main run": 275
+  },
+  {
+   "dataset_key": "4aba74ef-8fe5-4f03-af31-9b57d0a80d08",
+   "title": "Wisconsin State Herbarium, Fungi",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 4894,
+   "coordinate uncertainty over 1,000 m": 4437,
+   "not in the mycorrhizal main run": 441,
+   "no stated coordinate uncertainty": 7,
+   "kept": 9
+  },
+  {
+   "dataset_key": "d8cd16ba-bb74-4420-821e-083f2bac17c2",
+   "title": "INSDC Sequences",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 4438,
+   "no stated coordinate uncertainty": 4438
+  },
+  {
+   "dataset_key": "628abbe5-dc8d-41e9-a0c7-f05efe282649",
+   "title": "University of British Columbia Herbarium (UBC) - Lichen Collection",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 3791,
+   "not in the mycorrhizal main run": 3296,
+   "coordinate uncertainty over 1,000 m": 493,
+   "no stated coordinate uncertainty": 2
+  },
+  {
+   "dataset_key": "fb1ecd28-f09e-4747-8bde-0b3d7a6f78d1",
+   "title": "Lichen herbarium, UiB",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 3437,
+   "coordinate uncertainty over 1,000 m": 2942,
+   "not in the mycorrhizal main run": 467,
+   "no stated coordinate uncertainty": 28
+  },
+  {
+   "dataset_key": "4d69b363-9742-4124-946e-089072e4df00",
+   "title": "San Francisco State University, Harry D. Thiers Herbarium",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 3243,
+   "not in the mycorrhizal main run": 707,
+   "coordinate uncertainty over 1,000 m": 1686,
+   "kept": 621,
+   "no stated coordinate uncertainty": 229
+  },
+  {
+   "dataset_key": "5a6538b8-e35c-46c4-8978-6858a657a75f",
+   "title": "Cornell University Plant Pathology Herbarium",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 3062,
+   "coordinate uncertainty over 1,000 m": 2072,
+   "no stated coordinate uncertainty": 603,
+   "not in the mycorrhizal main run": 359,
+   "kept": 28
+  },
+  {
+   "dataset_key": "ae9c6967-ba93-4be4-9890-4952fe0941e0",
+   "title": "Montana State University Herbarium - Lichen",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 2804,
+   "dataset licence not CC0 or CC BY": 2804
+  },
+  {
+   "dataset_key": "aec6d756-3aa8-465e-83fd-4f6ee83e693e",
+   "title": "Field Museum of Natural History (Botany) Lichen Collection",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 2742,
+   "no stated coordinate uncertainty": 966,
+   "coordinate uncertainty over 1,000 m": 1530,
+   "not in the mycorrhizal main run": 246
+  },
+  {
+   "dataset_key": "0f702193-7ac9-4f05-bc51-c43e7a01c612",
+   "title": "University of Illinois Fungarium - Fungi",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 2607,
+   "coordinate uncertainty over 1,000 m": 1538,
+   "not in the mycorrhizal main run": 693,
+   "no stated coordinate uncertainty": 223,
+   "kept": 153
+  },
+  {
+   "dataset_key": "219cedbf-462b-42e6-957b-c4b6087c452b",
+   "title": "Bell Museum lichens",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 2002,
+   "coordinate uncertainty over 1,000 m": 242,
+   "no stated coordinate uncertainty": 1673,
+   "not in the mycorrhizal main run": 87
+  },
+  {
+   "dataset_key": "4cd7ef6c-1ddd-4c6a-b578-1d9e553a2815",
+   "title": "University of Illinois, Illinois Natural History Survey Fungarium - Fungi",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 1966,
+   "coordinate uncertainty over 1,000 m": 1519,
+   "not in the mycorrhizal main run": 277,
+   "kept": 85,
+   "no stated coordinate uncertainty": 85
+  },
+  {
+   "dataset_key": "821cc27a-e3bb-4bc5-ac34-89ada245069d",
+   "title": "NMNH Extant Specimen Records (USNM, US)",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 1784,
+   "no stated coordinate uncertainty": 1659,
+   "not in the mycorrhizal main run": 111,
+   "coordinate uncertainty over 1,000 m": 14
+  },
+  {
+   "dataset_key": "1e61b812-b2ec-43d0-bdbb-8534a761f74c",
+   "title": "Canadian Museum of Nature Herbarium",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 1711,
+   "no stated coordinate uncertainty": 1711
+  },
+  {
+   "dataset_key": "790ddaee-885f-4915-ab0c-e54e9e17521a",
+   "title": "The University and Jepson Herbaria -- Lichen",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 1711,
+   "dataset licence not CC0 or CC BY": 1711
+  },
+  {
+   "dataset_key": "d68dd1e3-60be-4ef0-89a0-7fc85241f6cc",
+   "title": "Intermountain Herbarium (fungi, not lichens), Utah State University",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 1609,
+   "coordinate uncertainty over 1,000 m": 572,
+   "not in the mycorrhizal main run": 237,
+   "no stated coordinate uncertainty": 760,
+   "kept": 40
+  },
+  {
+   "dataset_key": "d7fed01a-ef29-4c53-ab83-b231c73b0daa",
+   "title": "University of Florida Herbarium - Fungi",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 1517,
+   "no stated coordinate uncertainty": 148,
+   "coordinate uncertainty over 1,000 m": 1210,
+   "not in the mycorrhizal main run": 147,
+   "kept": 12
+  },
+  {
+   "dataset_key": "de4500ba-fe61-4a51-a0c6-e01c3016c6eb",
+   "title": "Louisiana State University, Shirley C. Tucker Herbarium - Lichens",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 1469,
+   "coordinate uncertainty over 1,000 m": 787,
+   "not in the mycorrhizal main run": 550,
+   "no stated coordinate uncertainty": 132
+  },
+  {
+   "dataset_key": "ee4d0706-38af-4bc4-8539-e17c0ca8512e",
+   "title": "Duke University Herbarium Lichen Collection",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 1448,
+   "dataset licence not CC0 or CC BY": 1448
+  },
+  {
+   "dataset_key": "c45bba0f-28ea-4166-b519-ae04673541f4",
+   "title": "University of Cincinnati, Margaret H. Fulford Herbarium - Fungi",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 1447,
+   "coordinate uncertainty over 1,000 m": 1128,
+   "not in the mycorrhizal main run": 220,
+   "kept": 11,
+   "no stated coordinate uncertainty": 88
+  },
+  {
+   "dataset_key": "aab0cf80-0c64-11dd-84d1-b8a03c50a862",
+   "title": "Lund University Biological Museum - Botanical collection (LD)",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 1188,
+   "dataset licence not CC0 or CC BY": 1188
+  },
+  {
+   "dataset_key": "eeaf050f-23d0-4557-9084-ec545cd3d9a7",
+   "title": "NSW DPI Biosecurity Collections",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 1167,
+   "no stated coordinate uncertainty": 1167
+  },
+  {
+   "dataset_key": "0f83123f-0c04-4556-8f4d-5a4e2a9bac66",
+   "title": "Aphyllophorales externi",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 1020,
+   "no stated coordinate uncertainty": 1015,
+   "not in the mycorrhizal main run": 5
+  },
+  {
+   "dataset_key": "6965591c-588f-4958-be7d-7e669239e88b",
+   "title": "Miami University Turrell Herbarium - Lichens",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 941,
+   "dataset licence not CC0 or CC BY": 941
+  },
+  {
+   "dataset_key": "ff4a4202-29f9-4bbb-a3bf-fdb0386e0938",
+   "title": "Cal Poly Humboldt Lichenarium",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 879,
+   "dataset licence not CC0 or CC BY": 879
+  },
+  {
+   "dataset_key": "eaabc211-f8a2-4d0f-8983-51fe16b71a36",
+   "title": "University of North Carolina at Chapel Hill Herbarium: Fungi",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 868,
+   "coordinate uncertainty over 1,000 m": 729,
+   "not in the mycorrhizal main run": 121,
+   "no stated coordinate uncertainty": 11,
+   "kept": 7
+  },
+  {
+   "dataset_key": "7ed55b51-4336-4f74-a05a-274afffe771f",
+   "title": "University of Colorado, Museum of Natural History Herbarium Lichen Collection",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 860,
+   "dataset licence not CC0 or CC BY": 860
+  },
+  {
+   "dataset_key": "48fa6173-8db2-40a3-9ef3-90a1651a506d",
+   "title": "Brown University Herbarium - Fungi",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 790,
+   "dataset licence not CC0 or CC BY": 790
+  },
+  {
+   "dataset_key": "2d18c666-ee2b-40a3-a708-280ea19c0fbc",
+   "title": "Royal BC Museum - Herbarium (V)",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 739,
+   "no stated coordinate uncertainty": 739
+  },
+  {
+   "dataset_key": "df0919e5-3028-4ff3-ae3c-a20a79f8c3a0",
+   "title": "University of Wyoming, Wilhelm G. Solheim Mycological Herbarium",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 720,
+   "no stated coordinate uncertainty": 312,
+   "coordinate uncertainty over 1,000 m": 352,
+   "not in the mycorrhizal main run": 55,
+   "kept": 1
+  },
+  {
+   "dataset_key": "10e12196-6983-4f33-a440-3b48b123fe61",
+   "title": "Weber State University Herbarium - Lichen",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 710,
+   "dataset licence not CC0 or CC BY": 710
+  },
+  {
+   "dataset_key": "695cef75-b65f-4776-b2ed-74565eebb16e",
+   "title": "Canadian National Mycological Herbarium",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 706,
+   "no stated coordinate uncertainty": 699,
+   "coordinate uncertainty over 1,000 m": 5,
+   "not in the mycorrhizal main run": 2
+  },
+  {
+   "dataset_key": "d77b100c-ba21-452f-9bf6-fae9133ecb2e",
+   "title": "University of Florida Herbarium - Lichens",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 690,
+   "dataset licence not CC0 or CC BY": 690
+  },
+  {
+   "dataset_key": "c1a13bf0-0c71-11dd-84d4-b8a03c50a862",
+   "title": "Botany (UPS)",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 643,
+   "no stated coordinate uncertainty": 642,
+   "not in the mycorrhizal main run": 1
+  },
+  {
+   "dataset_key": "afa2cc98-be44-4aa1-8e03-30db333a38e6",
+   "title": "University of Illinois, Illinois Natural History Survey Fungarium - Lichens",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 632,
+   "dataset licence not CC0 or CC BY": 632
+  },
+  {
+   "dataset_key": "fa8041ba-449c-4dde-8a51-b18892a8c806",
+   "title": "Natural History Museum of Utah Fungarium",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 627,
+   "coordinate uncertainty over 1,000 m": 277,
+   "not in the mycorrhizal main run": 86,
+   "kept": 63,
+   "no stated coordinate uncertainty": 201
+  },
+  {
+   "dataset_key": "f662a646-1c95-47c4-bd92-ef1fa8834725",
+   "title": "University of Nebraska State Museum, C.E. Bessey Herbarium - Fungi",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 621,
+   "dataset licence not CC0 or CC BY": 621
+  },
+  {
+   "dataset_key": "4ce8e3f9-2546-4af1-b28d-e2eadf05dfd4",
+   "title": "National Herbarium of Victoria (MEL) AVH data",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 609,
+   "coordinate uncertainty over 1,000 m": 573,
+   "not in the mycorrhizal main run": 27,
+   "kept": 5,
+   "no stated coordinate uncertainty": 4
+  },
+  {
+   "dataset_key": "6cd25714-849f-4240-a762-ef33aa2e5db5",
+   "title": "Duke University Herbarium Fungal Collection",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 555,
+   "no stated coordinate uncertainty": 359,
+   "not in the mycorrhizal main run": 44,
+   "coordinate uncertainty over 1,000 m": 88,
+   "kept": 64
+  },
+  {
+   "dataset_key": "a4f29a62-d170-4775-b29a-09deaf138ee4",
+   "title": "Denver Botanic Gardens, Sam Mitchel Herbarium of Fungi",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 544,
+   "coordinate uncertainty over 1,000 m": 311,
+   "kept": 69,
+   "not in the mycorrhizal main run": 83,
+   "no stated coordinate uncertainty": 81
+  },
+  {
+   "dataset_key": "84797ee6-f762-11e1-a439-00145eb45e9a",
+   "title": "Michigan State University Herbarium Lichens",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 525,
+   "no stated coordinate uncertainty": 525
+  },
+  {
+   "dataset_key": "0bb9c1b2-ba4e-4c7e-a77e-1ac966331ebe",
+   "title": "Portland State University Herbarium Lichens",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 474,
+   "not in the mycorrhizal main run": 367,
+   "no stated coordinate uncertainty": 12,
+   "coordinate uncertainty over 1,000 m": 95
+  },
+  {
+   "dataset_key": "1a626f68-66ab-4994-91c7-05c359ad899b",
+   "title": "Bureau of Land Management Medford District (Oregon) Lichens",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 463,
+   "no stated coordinate uncertainty": 463
+  },
+  {
+   "dataset_key": "2cececc1-25c2-4379-82cd-ea5337e5cf98",
+   "title": "Idaho Museum of Natural History Herbarium Lichen Collection",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 460,
+   "dataset licence not CC0 or CC BY": 460
+  },
+  {
+   "dataset_key": "840efdb8-eb68-4f72-955b-09f7918918e1",
+   "title": "Santa Barbara Botanic Garden Lichen Collection",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 444,
+   "dataset licence not CC0 or CC BY": 444
+  },
+  {
+   "dataset_key": "8fe64528-38fe-47c8-938a-b2ab603a653a",
+   "title": "Michigan State University Herbarium non-lichenized fungi",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 411,
+   "dataset licence not CC0 or CC BY": 411
+  },
+  {
+   "dataset_key": "a7ef675a-9851-4919-ac77-a0f956e70d2b",
+   "title": "University of Tartu Natural History Museum and Botanical Garden Mycological Collections",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 405,
+   "no stated coordinate uncertainty": 362,
+   "not in the mycorrhizal main run": 33,
+   "coordinate uncertainty over 1,000 m": 6,
+   "kept": 4
+  },
+  {
+   "dataset_key": "1e43bb2c-0985-4a14-bc0c-e77a2ab55a76",
+   "title": "Ahart Herbarium, CSU Chico - Lichens",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 325,
+   "dataset licence not CC0 or CC BY": 325
+  },
+  {
+   "dataset_key": "95c80a78-f762-11e1-a439-00145eb45e9a",
+   "title": "R. L. McGregor Herbarium Lichen Collection",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 319,
+   "no stated coordinate uncertainty": 319
+  },
+  {
+   "dataset_key": "e4deab67-0998-4140-b573-0ba1f624eb3e",
+   "title": "Fungarium, Oslo (O) UiO",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 315,
+   "no stated coordinate uncertainty": 291,
+   "coordinate uncertainty over 1,000 m": 10,
+   "not in the mycorrhizal main run": 14
+  },
+  {
+   "dataset_key": "0d4af118-b79e-40c7-9cc6-142c5027cb16",
+   "title": "Louisiana State University, Bernard Lowy Mycological Herbarium",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 315,
+   "not in the mycorrhizal main run": 70,
+   "coordinate uncertainty over 1,000 m": 244,
+   "kept": 1
+  },
+  {
+   "dataset_key": "b740eaa0-0679-41dc-acb7-990d562dfa37",
+   "title": "Meise Botanic Garden Herbarium (BR)",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 303,
+   "no stated coordinate uncertainty": 302,
+   "not in the mycorrhizal main run": 1
+  },
+  {
+   "dataset_key": "09045f56-4565-4a15-99db-4641154e6f9b",
+   "title": "University of Cincinnati, Margaret H. Fulford Herbarium - Lichens",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 301,
+   "coordinate uncertainty over 1,000 m": 249,
+   "not in the mycorrhizal main run": 52
+  },
+  {
+   "dataset_key": "e7c31c32-27e2-43d8-9d64-5d76a264664b",
+   "title": "University of California Santa Cruz Fungal Herbarium",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 286,
+   "not in the mycorrhizal main run": 52,
+   "coordinate uncertainty over 1,000 m": 179,
+   "kept": 50,
+   "no stated coordinate uncertainty": 5
+  },
+  {
+   "dataset_key": "d01d75ac-09d3-464f-8b0f-0a4ddecd6c10",
+   "title": "Academy of Natural Sciences of Drexel University",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 280,
+   "no stated coordinate uncertainty": 8,
+   "coordinate uncertainty over 1,000 m": 232,
+   "not in the mycorrhizal main run": 40
+  },
+  {
+   "dataset_key": "38bdc3d6-9748-4f72-9d5f-55ffd573b5d1",
+   "title": "Academy of Natural Sciences of Drexel University - Lichens",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 279,
+   "coordinate uncertainty over 1,000 m": 162,
+   "no stated coordinate uncertainty": 100,
+   "not in the mycorrhizal main run": 17
+  },
+  {
+   "dataset_key": "7948250c-6958-4a29-a670-ed1015b26252",
+   "title": "Lichen herbarium, Oslo (O) UiO",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 274,
+   "not in the mycorrhizal main run": 102,
+   "coordinate uncertainty over 1,000 m": 113,
+   "no stated coordinate uncertainty": 59
+  },
+  {
+   "dataset_key": "43a02b9b-e339-48ef-b811-882e1878079a",
+   "title": "Bureau of Land Management, Vale District (Oregon, USA) Vascular Plants",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 253,
+   "no stated coordinate uncertainty": 253
+  },
+  {
+   "dataset_key": "76fda5bd-86a1-404d-89df-b5af9dd3a961",
+   "title": "Intermountain Herbarium Lichen Collection (Utah State University)",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 251,
+   "not in the mycorrhizal main run": 101,
+   "no stated coordinate uncertainty": 149,
+   "coordinate uncertainty over 1,000 m": 1
+  },
+  {
+   "dataset_key": "df51b5c8-ed35-4a9c-8cda-cb5005ea3192",
+   "title": "Rutgers University, Chrysler Herbarium - Lichen Collection",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 238,
+   "no stated coordinate uncertainty": 236,
+   "not in the mycorrhizal main run": 2
+  },
+  {
+   "dataset_key": "393b8c26-e4e0-4dd0-a218-93fc074ebf4e",
+   "title": "INSDC Host Organism Sequences",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 219,
+   "no stated coordinate uncertainty": 219
+  },
+  {
+   "dataset_key": "fe35d6a0-0c6e-11dd-84d2-b8a03c50a862",
+   "title": "Fungi (S)",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 187,
+   "no stated coordinate uncertainty": 187
+  },
+  {
+   "dataset_key": "3e709dfe-ce4c-469c-b6ed-6e50750e3384",
+   "title": "Clemson University Herbarium -- Mycology",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 178,
+   "dataset licence not CC0 or CC BY": 178
+  },
+  {
+   "dataset_key": "e76e24d3-c7a6-4189-8be3-442a2da44967",
+   "title": "University of New Mexico Herbarium",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 153,
+   "coordinate uncertainty over 1,000 m": 144,
+   "not in the mycorrhizal main run": 8,
+   "no stated coordinate uncertainty": 1
+  },
+  {
+   "dataset_key": "60447648-5bd7-4e29-a1c5-d2d981384ee5",
+   "title": "University of Vermont, Pringle Herbarium, North American lichens",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 149,
+   "coordinate uncertainty over 1,000 m": 141,
+   "not in the mycorrhizal main run": 7,
+   "no stated coordinate uncertainty": 1
+  },
+  {
+   "dataset_key": "b0a8bd29-e038-43c7-82cc-383141123890",
+   "title": "University of Georgia, Julian H. Miller Mycological Herbarium",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 148,
+   "coordinate uncertainty over 1,000 m": 142,
+   "not in the mycorrhizal main run": 5,
+   "no stated coordinate uncertainty": 1
+  },
+  {
+   "dataset_key": "f1ee5d89-af61-423f-8029-2a5d490fb890",
+   "title": "University of North Carolina at Chapel Hill Herbarium: Lichens",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 144,
+   "no stated coordinate uncertainty": 128,
+   "coordinate uncertainty over 1,000 m": 15,
+   "not in the mycorrhizal main run": 1
+  },
+  {
+   "dataset_key": "15738fee-78b1-4751-bcc1-cbf7139c68de",
+   "title": "Centre for Australian National Biodiversity Research (CANB) AVH data",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 141,
+   "not in the mycorrhizal main run": 92,
+   "kept": 28,
+   "coordinate uncertainty over 1,000 m": 19,
+   "no stated coordinate uncertainty": 2
+  },
+  {
+   "dataset_key": "60ff4907-8727-4302-b6e2-80ac3a62ef47",
+   "title": "University of Illinois Fungarium - Lichens",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 139,
+   "coordinate uncertainty over 1,000 m": 119,
+   "not in the mycorrhizal main run": 20
+  },
+  {
+   "dataset_key": "905daf20-04fd-11df-8c28-b8a03c50a862",
+   "title": "Herbarium of Umeå University (UME)",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 136,
+   "no stated coordinate uncertainty": 92,
+   "coordinate uncertainty over 1,000 m": 44
+  },
+  {
+   "dataset_key": "f934f8e2-32ca-46a7-b2f8-b032a4740454",
+   "title": "CAS Botany (BOT)",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 128,
+   "no stated coordinate uncertainty": 128
+  },
+  {
+   "dataset_key": "ee27b1b0-3b55-11dc-8c18-b8a03c50a862",
+   "title": "New Zealand Fungal and Plant Disease Collection (PDD)",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 128,
+   "no stated coordinate uncertainty": 128
+  },
+  {
+   "dataset_key": "cf6a5ca0-c9ca-4d99-85df-598bc118226d",
+   "title": "University of California, Davis, Center for Plant Diversity - Lichens",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 126,
+   "not in the mycorrhizal main run": 52,
+   "coordinate uncertainty over 1,000 m": 12,
+   "no stated coordinate uncertainty": 62
+  },
+  {
+   "dataset_key": "963f12d0-f762-11e1-a439-00145eb45e9a",
+   "title": "Botany Division, Yale Peabody Museum",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 125,
+   "coordinate uncertainty over 1,000 m": 119,
+   "not in the mycorrhizal main run": 6
+  },
+  {
+   "dataset_key": "828a3d8c-f762-11e1-a439-00145eb45e9a",
+   "title": "Herbarium Senckenbergianum (FR) - Fungi",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 109,
+   "no stated coordinate uncertainty": 109
+  },
+  {
+   "dataset_key": "cfc8ccf2-2b63-4edd-9d92-8761c50f8f03",
+   "title": "Ohio State University Herbarium - Lichens",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 105,
+   "dataset licence not CC0 or CC BY": 105
+  },
+  {
+   "dataset_key": "61a9ca38-b62f-11e2-afcb-00145eb45e9a",
+   "title": "Fungus Collections at Staatliches Museum für Naturkunde Karlsruhe (Herbarium KR)",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 102,
+   "no stated coordinate uncertainty": 102
+  },
+  {
+   "dataset_key": "c5843752-6eae-4869-ba5c-b5fe0996cfca",
+   "title": "ARC-PPRI: National Collection Of Fungi(1817-2009)",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 100,
+   "no stated coordinate uncertainty": 100
+  },
+  {
+   "dataset_key": "78c1a71e-abb2-49cf-abc8-efafb981b0e4",
+   "title": "Lichen herbarium TRH, NTNU University Museum",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 100,
+   "no stated coordinate uncertainty": 99,
+   "not in the mycorrhizal main run": 1
+  },
+  {
+   "dataset_key": "d7cfd2ed-8af4-427f-a16e-eb66b7e2c419",
+   "title": "Royal Ontario Museum - Mycology",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 96,
+   "no stated coordinate uncertainty": 93,
+   "coordinate uncertainty over 1,000 m": 3
+  },
+  {
+   "dataset_key": "80570f04-9925-461c-b729-c4844e20e923",
+   "title": "University of Tennessee Lichen Herbarium",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 96,
+   "coordinate uncertainty over 1,000 m": 77,
+   "not in the mycorrhizal main run": 14,
+   "no stated coordinate uncertainty": 5
+  },
+  {
+   "dataset_key": "1a9d08bb-9e2c-4540-8f7f-3205846b6ddc",
+   "title": "UTEP Plants (Arctos)",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 91,
+   "no stated coordinate uncertainty": 89,
+   "coordinate uncertainty over 1,000 m": 1,
+   "not in the mycorrhizal main run": 1
+  },
+  {
+   "dataset_key": "9e1de5e7-62e3-4018-a3cb-7a302e5f2fbe",
+   "title": "Fort Lewis College Herbarium",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 82,
+   "coordinate uncertainty over 1,000 m": 61,
+   "kept": 2,
+   "not in the mycorrhizal main run": 19
+  },
+  {
+   "dataset_key": "21705170-d2b6-42de-8904-c3bca4b83591",
+   "title": "Cercle des mycologues de Montréal Fungarium (CMMF)",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 77,
+   "dataset licence not CC0 or CC BY": 77
+  },
+  {
+   "dataset_key": "85739778-f762-11e1-a439-00145eb45e9a",
+   "title": "Lichens at Herbarium Berolinense, Berlin (B)",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 75,
+   "no stated coordinate uncertainty": 75
+  },
+  {
+   "dataset_key": "7dcaa915-d51a-4376-b2b3-08fd7aca3f23",
+   "title": "Digitalización y Sistematización de las Colecciones Biológicas Nacionales del Instituto de Biología, UNAM (algas, frutos y semillas, hongos, líquenes, xiloteca)",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 73,
+   "no stated coordinate uncertainty": 73
+  },
+  {
+   "dataset_key": "1b9eaa10-8441-481c-b50a-391ba168a86f",
+   "title": "CHAS Botany Collection (Arctos)",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 72,
+   "coordinate uncertainty over 1,000 m": 67,
+   "not in the mycorrhizal main run": 5
+  },
+  {
+   "dataset_key": "b02acf5c-ce98-4337-98c7-367c05d217f4",
+   "title": "Lichen Collections (H): Lichenes externi",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 70,
+   "no stated coordinate uncertainty": 65,
+   "not in the mycorrhizal main run": 2,
+   "coordinate uncertainty over 1,000 m": 3
+  },
+  {
+   "dataset_key": "1f917113-dd55-4000-9f80-6266fab1af03",
+   "title": "Estonian University of Life Sciences Institute of Agricultural and Environmental Sciences Mycological Herbarium",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 67,
+   "dataset licence not CC0 or CC BY": 67
+  },
+  {
+   "dataset_key": "84d13eba-f762-11e1-a439-00145eb45e9a",
+   "title": "NHMD Mycology Collection",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 64,
+   "no stated coordinate uncertainty": 64
+  },
+  {
+   "dataset_key": "e96599ca-d9aa-464d-8d3a-4492e175ee8f",
+   "title": "University of California Santa Barbara Lichen Collection",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 59,
+   "coordinate uncertainty over 1,000 m": 7,
+   "no stated coordinate uncertainty": 48,
+   "not in the mycorrhizal main run": 4
+  },
+  {
+   "dataset_key": "fb758ab2-ffe1-42ad-a3cf-c6f4f9a0277d",
+   "title": "Type specimens of fungi (H)",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 59,
+   "coordinate uncertainty over 1,000 m": 42,
+   "not in the mycorrhizal main run": 8,
+   "no stated coordinate uncertainty": 9
+  },
+  {
+   "dataset_key": "3247fd8c-00ad-44f9-8a90-c388d3aef7fe",
+   "title": "Lichen Collection of the Wesley E. Niles Herbarium, College of Southern Nevada, Henderson Campus, Henderson",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 58,
+   "dataset licence not CC0 or CC BY": 58
+  },
+  {
+   "dataset_key": "b0515413-6d32-490a-83a0-f8c08f002c70",
+   "title": "CDA - California Department of Food and Agriculture",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 57,
+   "dataset licence not CC0 or CC BY": 57
+  },
+  {
+   "dataset_key": "835f8992-f762-11e1-a439-00145eb45e9a",
+   "title": "Herbario de la Facultad de Farmacia, Universidad Complutense, Madrid (MAF-Lich)",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 53,
+   "dataset licence not CC0 or CC BY": 53
+  },
+  {
+   "dataset_key": "858d51e0-f762-11e1-a439-00145eb45e9a",
+   "title": "The Erysiphales Collection at the Botanische Staatssammlung München",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 52,
+   "no stated coordinate uncertainty": 52
+  },
+  {
+   "dataset_key": "42301ebf-d36a-4e4f-a061-d37d778c2365",
+   "title": "Tasmanian Herbarium (HO) AVH data",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 50,
+   "no stated coordinate uncertainty": 45,
+   "not in the mycorrhizal main run": 5
+  },
+  {
+   "dataset_key": "79fb1e59-15e7-440b-ae93-6644efb429ce",
+   "title": "The Smut Fungi Collection at the Botanische Staatssammlung München",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 48,
+   "no stated coordinate uncertainty": 48
+  },
+  {
+   "dataset_key": "7b91859e-f762-11e1-a439-00145eb45e9a",
+   "title": "The Fungal Collection at the Botanische Staatssammlung München",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 44,
+   "no stated coordinate uncertainty": 44
+  },
+  {
+   "dataset_key": "e87a12af-fc4c-4315-bff7-c7b827379aca",
+   "title": "Lichen herbarium, The Arctic University Museum of Norway (TROM)",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 43,
+   "no stated coordinate uncertainty": 43
+  },
+  {
+   "dataset_key": "861e6afe-f762-11e1-a439-00145eb45e9a",
+   "title": "Harvard University Herbaria: All Records",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 36,
+   "no stated coordinate uncertainty": 36
+  },
+  {
+   "dataset_key": "d0b47209-d6ff-40cf-b5b9-2db76580cba7",
+   "title": "University of Central Oklahoma Herbarium - Fungi",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 35,
+   "no stated coordinate uncertainty": 32,
+   "kept": 1,
+   "coordinate uncertainty over 1,000 m": 2
+  },
+  {
+   "dataset_key": "fb9d7c38-5759-4c30-9e09-5b6bd43f78a6",
+   "title": "Agaricales externi",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 33,
+   "no stated coordinate uncertainty": 30,
+   "coordinate uncertainty over 1,000 m": 2,
+   "not in the mycorrhizal main run": 1
+  },
+  {
+   "dataset_key": "b70fb651-6d0c-4856-90a7-89a08fa458f8",
+   "title": "Lichen Collections (H): Type specimens of lichen-forming fungi",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 32,
+   "no stated coordinate uncertainty": 29,
+   "coordinate uncertainty over 1,000 m": 3
+  },
+  {
+   "dataset_key": "8e7562e2-a8ce-4b80-bad9-d7f115534865",
+   "title": "Cornell University Plant Pathology Herbarium",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 32,
+   "dataset licence not CC0 or CC BY": 32
+  },
+  {
+   "dataset_key": "f8f35535-8c10-43fc-89dc-eb0843f25394",
+   "title": "Herbarium GB, University of Gothenburg",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 29,
+   "no stated coordinate uncertainty": 29
+  },
+  {
+   "dataset_key": "164d7e2a-3cf9-49a4-bc2a-63e3a16d7c8b",
+   "title": "Shasta-Trinity National Forest Herbarium - Lichens",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 27,
+   "dataset licence not CC0 or CC BY": 27
+  },
+  {
+   "dataset_key": "9168f50d-350e-4af1-ba97-17274f1faeaf",
+   "title": "MIL: Milwaukee Public Museum (MPM) Herbarium",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 26,
+   "no stated coordinate uncertainty": 26
+  },
+  {
+   "dataset_key": "bec77265-2883-4d41-a405-6683b8ec56e3",
+   "title": "Ascomycetes externi",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 26,
+   "no stated coordinate uncertainty": 26
+  },
+  {
+   "dataset_key": "39f7ffd7-9416-4efb-934a-c81f116893fc",
+   "title": "UAM Herbarium (ALA), Cryptogam Collection (Arctos)",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 25,
+   "not in the mycorrhizal main run": 12,
+   "coordinate uncertainty over 1,000 m": 11,
+   "no stated coordinate uncertainty": 2
+  },
+  {
+   "dataset_key": "40660363-6d19-4989-99e8-395f5b12ded8",
+   "title": "University of Vermont, Pringle Herbarium, Macrofungi",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 25,
+   "not in the mycorrhizal main run": 4,
+   "coordinate uncertainty over 1,000 m": 21
+  },
+  {
+   "dataset_key": "07822178-87a5-404f-bf35-ff356df06749",
+   "title": "Herbarium UGDA - Lichens Collection UGDA-L",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 23,
+   "no stated coordinate uncertainty": 23
+  },
+  {
+   "dataset_key": "858c1c6c-f762-11e1-a439-00145eb45e9a",
+   "title": "The Collection of Lichenicolous Fungi at the Botanische Staatssammlung München",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 21,
+   "no stated coordinate uncertainty": 21
+  },
+  {
+   "dataset_key": "b086a3a0-7499-4f8f-bc10-fbaca6f29c0d",
+   "title": "Oregon State University Algae Collection",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 20,
+   "dataset licence not CC0 or CC BY": 20
+  },
+  {
+   "dataset_key": "7e380070-f762-11e1-a439-00145eb45e9a",
+   "title": "Natural History Museum (London) Collection Specimens",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 20,
+   "no stated coordinate uncertainty": 20
+  },
+  {
+   "dataset_key": "fe4d614a-8796-4c12-93c7-ae6ad4f2741d",
+   "title": "The Morton Arboretum Herbarium - Lichens",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 19,
+   "dataset licence not CC0 or CC BY": 19
+  },
+  {
+   "dataset_key": "808ea7d6-b868-4e90-8c82-f8bed26929e9",
+   "title": "Southern Oregon University Herbarium",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 18,
+   "no stated coordinate uncertainty": 17,
+   "kept": 1
+  },
+  {
+   "dataset_key": "8d201836-79fe-46f2-998d-cb445c8c3ae7",
+   "title": "SD Herbarium, San Diego Natural History Museum - Lichens",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 17,
+   "dataset licence not CC0 or CC BY": 17
+  },
+  {
+   "dataset_key": "2e8ab72b-5931-4e04-b8ff-e1fb61305d17",
+   "title": "Royal Botanic Gardens, Kew - Fungarium Specimens",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 17,
+   "no stated coordinate uncertainty": 17
+  },
+  {
+   "dataset_key": "83ae84cf-88e4-4b5c-80b2-271a15a3e0fc",
+   "title": "Auckland Museum Botany Collection",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 16,
+   "no stated coordinate uncertainty": 16
+  },
+  {
+   "dataset_key": "ecf7befc-2cea-400b-8c06-08e2d18ef66f",
+   "title": "Uredinales externi",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 15,
+   "no stated coordinate uncertainty": 15
+  },
+  {
+   "dataset_key": "e8a25a42-f125-476c-8554-3ec21cd51a84",
+   "title": "E. C. Smith Herbarium (ACAD)",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 14,
+   "no stated coordinate uncertainty": 14
+  },
+  {
+   "dataset_key": "7ba21c92-f762-11e1-a439-00145eb45e9a",
+   "title": "The Lichens Collection at the Botanische Staatssammlung München",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 14,
+   "no stated coordinate uncertainty": 14
+  },
+  {
+   "dataset_key": "fda98c16-b94a-46b5-872e-b011d2c08384",
+   "title": "Chrysler Herbarium - Mycological Collection",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 14,
+   "coordinate uncertainty over 1,000 m": 13,
+   "not in the mycorrhizal main run": 1
+  },
+  {
+   "dataset_key": "fb8ae15d-e30c-44b4-8f61-0bb0c1d90ff9",
+   "title": "Herbarium GZU",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 13,
+   "coordinate uncertainty over 1,000 m": 2,
+   "no stated coordinate uncertainty": 10,
+   "not in the mycorrhizal main run": 1
+  },
+  {
+   "dataset_key": "989d0279-05c2-4488-9c57-48fa1b6af3cf",
+   "title": "Bell Museum fungi",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 11,
+   "no stated coordinate uncertainty": 11
+  },
+  {
+   "dataset_key": "96cb90b6-f762-11e1-a439-00145eb45e9a",
+   "title": "University of Washington Herbarium (WTU) - Bryophyte Collection",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 11,
+   "no stated coordinate uncertainty": 8,
+   "not in the mycorrhizal main run": 3
+  },
+  {
+   "dataset_key": "84b18cce-083a-4464-bee8-25b2083a17cd",
+   "title": "Natural History Collections of the Faculty of Biology AMU",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 11,
+   "no stated coordinate uncertainty": 11
+  },
+  {
+   "dataset_key": "bf2a4bf0-5f31-11de-b67e-b8a03c50a862",
+   "title": "Edinburgh (E) Herbarium Specimens",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 10,
+   "no stated coordinate uncertainty": 10
+  },
+  {
+   "dataset_key": "089c3bea-e41b-4d3b-9f00-a853a49cad96",
+   "title": "Twin Falls, Idaho Bureau of Land Management Vascular Plant Herbarium",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 9,
+   "no stated coordinate uncertainty": 9
+  },
+  {
+   "dataset_key": "b258e0d8-d282-4d84-898a-655c5375f645",
+   "title": "Herbarium William Nylander (H-NYL)",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 9,
+   "coordinate uncertainty over 1,000 m": 7,
+   "no stated coordinate uncertainty": 2
+  },
+  {
+   "dataset_key": "8642acf1-68f2-42b2-8ce3-97798e383cb2",
+   "title": "The University of Melbourne Herbarium (MELU) AVH data",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 8,
+   "no stated coordinate uncertainty": 8
+  },
+  {
+   "dataset_key": "2f8a2617-ebda-4a7f-b8ad-45268357e44c",
+   "title": "Davis &amp; Elkins College Herbarium - Fungi",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 8,
+   "coordinate uncertainty over 1,000 m": 8
+  },
+  {
+   "dataset_key": "15ea1b80-78a3-4bed-8e37-04f5ed8f743a",
+   "title": "West Virginia University Herbarium - Lichens",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 7,
+   "dataset licence not CC0 or CC BY": 7
+  },
+  {
+   "dataset_key": "eb3e7ee6-be20-4fcb-9779-b1b7a25957db",
+   "title": "UMCS Mycological collection",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 7,
+   "dataset licence not CC0 or CC BY": 7
+  },
+  {
+   "dataset_key": "7bd65a7a-f762-11e1-a439-00145eb45e9a",
+   "title": "Tropicos MO Specimen Data",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 7,
+   "no stated coordinate uncertainty": 7
+  },
+  {
+   "dataset_key": "892b4a50-f762-11e1-a439-00145eb45e9a",
+   "title": "Christopher Walker collection of Glomeromycotan fungi",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 7,
+   "dataset licence not CC0 or CC BY": 7
+  },
+  {
+   "dataset_key": "7827f68d-c981-4023-bace-288a03434044",
+   "title": "Intermountain Herbarium (Vasc. &amp; Algae)",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 6,
+   "kept": 2,
+   "not in the mycorrhizal main run": 3,
+   "no stated coordinate uncertainty": 1
+  },
+  {
+   "dataset_key": "54cd9f35-2864-4c7b-93f5-dc7a62f84373",
+   "title": "New York State Museum Lichen Collection",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 6,
+   "dataset licence not CC0 or CC BY": 6
+  },
+  {
+   "dataset_key": "b7a76dbc-3407-467b-96f4-01daae0a6e38",
+   "title": "Herbier Louis-Marie (QFA) - Collection de lichens",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 6,
+   "no stated coordinate uncertainty": 6
+  },
+  {
+   "dataset_key": "5288946d-5fcf-4b53-8fd3-74f4cc6b53fc",
+   "title": "G. S. Torrey Herbarium at the University of Connecticut (CONN)",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 6,
+   "dataset licence not CC0 or CC BY": 6
+  },
+  {
+   "dataset_key": "239278c1-72c9-43f0-ae9c-bf87908a2614",
+   "title": "University of Washington Herbarium (WTU) - Algae Collection",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 6,
+   "not in the mycorrhizal main run": 2,
+   "no stated coordinate uncertainty": 1,
+   "coordinate uncertainty over 1,000 m": 3
+  },
+  {
+   "dataset_key": "82abc8b5-ca8e-4cc9-a7b9-6d6337223270",
+   "title": "Laurie L. Consaul Herbarium, Lichen Collection",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 6,
+   "dataset licence not CC0 or CC BY": 6
+  },
+  {
+   "dataset_key": "7a2660bc-f762-11e1-a439-00145eb45e9a",
+   "title": "The Fungal Collection at the Senckenberg Museum für Naturkunde Görlitz",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 5,
+   "no stated coordinate uncertainty": 5
+  },
+  {
+   "dataset_key": "0c56af33-2b10-48af-a87b-f67b6881f036",
+   "title": "John T. Waterhouse Herbarium (UNSW) AVH data",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 5,
+   "coordinate uncertainty over 1,000 m": 1,
+   "not in the mycorrhizal main run": 4
+  },
+  {
+   "dataset_key": "e053ff53-c156-4e2e-b9b5-4462e9625424",
+   "title": "Tropicos Specimens Non-MO",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 5,
+   "no stated coordinate uncertainty": 5
+  },
+  {
+   "dataset_key": "c8e89d65-f2a0-45d0-99c6-d2b2f8605e1a",
+   "title": "Indiana University Herbarium",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 4,
+   "dataset licence not CC0 or CC BY": 4
+  },
+  {
+   "dataset_key": "858e7462-f762-11e1-a439-00145eb45e9a",
+   "title": "The Erysiphales Collection at the University Halle-Wittenberg",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 4,
+   "no stated coordinate uncertainty": 4
+  },
+  {
+   "dataset_key": "2b9b8fd7-3f1e-477b-8cd4-907ce865cdb7",
+   "title": "NEON Biorepository Aquatic Plant, Bryophyte, Lichen, and Macroalgae Collection (Herbarium Vouchers [Point Counts])",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 4,
+   "not in the mycorrhizal main run": 4
+  },
+  {
+   "dataset_key": "15f819bd-6612-4447-854b-14d12ee1022d",
+   "title": "Naturalis Biodiversity Center (NL) - Botany",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 4,
+   "no stated coordinate uncertainty": 4
+  },
+  {
+   "dataset_key": "85714c48-f762-11e1-a439-00145eb45e9a",
+   "title": "Herbarium Berolinense, Berlin (B)",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 4,
+   "no stated coordinate uncertainty": 4
+  },
+  {
+   "dataset_key": "f289d30b-9881-4e1b-a0cf-99fb1df4871a",
+   "title": "University of South Carolina, A. C. Moore Herbarium Lichen Collection",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 3,
+   "not in the mycorrhizal main run": 3
+  },
+  {
+   "dataset_key": "bc9ac74a-8136-4c0b-b6b9-663274bf1656",
+   "title": "VIT-Lichenotheca (The Natural History Museum of Álava)",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 3,
+   "dataset licence not CC0 or CC BY": 3
+  },
+  {
+   "dataset_key": "b96c8714-00c0-4076-a947-d6bffbc67b55",
+   "title": "Deuteromycetes externi",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 3,
+   "no stated coordinate uncertainty": 3
+  },
+  {
+   "dataset_key": "668d3577-f727-4526-aebe-9f6c7ef449ae",
+   "title": "Botanical Research Institute of Texas - Lichens",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 3,
+   "no stated coordinate uncertainty": 3
+  },
+  {
+   "dataset_key": "ceff8c75-950b-4405-a116-60247d1adacb",
+   "title": "Herbario de la Facultad de Ciencias Biológicas de la Universidad Complutense de Madrid (MACB, Profesora Maruja Carrasco)",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 3,
+   "dataset licence not CC0 or CC BY": 3
+  },
+  {
+   "dataset_key": "9f6be6a5-fa23-4471-97c6-67cd21bcf53a",
+   "title": "Botanical Collections of the Åbo Akademi",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 3,
+   "no stated coordinate uncertainty": 3
+  },
+  {
+   "dataset_key": "85c8e444-f762-11e1-a439-00145eb45e9a",
+   "title": "Herbarium Hamburgense",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 3,
+   "no stated coordinate uncertainty": 3
+  },
+  {
+   "dataset_key": "678fd32b-c331-4f5a-83c6-48f26912dceb",
+   "title": "College of Idaho Herbarium",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 3,
+   "no stated coordinate uncertainty": 2,
+   "coordinate uncertainty over 1,000 m": 1
+  },
+  {
+   "dataset_key": "d1f09ff9-d38d-4bd9-b8b2-bde0768c495c",
+   "title": "Virginia Tech University, Massey Herbarium - Fungi",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 3,
+   "coordinate uncertainty over 1,000 m": 2,
+   "kept": 1
+  },
+  {
+   "dataset_key": "6347031b-2348-47c6-a5ac-41216b49d17c",
+   "title": "Craters of the Moon National Monument Herbarium",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 3,
+   "no stated coordinate uncertainty": 3
+  },
+  {
+   "dataset_key": "a95e913a-dfd7-4526-a159-22ccad4df4b6",
+   "title": "University of Washington, Friday Harbor Labs, Algae",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 3,
+   "coordinate uncertainty over 1,000 m": 3
+  },
+  {
+   "dataset_key": "0786c87e-0e18-4620-9633-d3a358e1ed2c",
+   "title": "Aphyllophorales Fennoscandiae orientalis",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 3,
+   "no stated coordinate uncertainty": 2,
+   "not in the mycorrhizal main run": 1
+  },
+  {
+   "dataset_key": "23b714b1-fae6-4074-bdd0-5e17ae3b5f11",
+   "title": "URM - Herbário Pe. Camille Torrand",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 3,
+   "dataset licence not CC0 or CC BY": 3
+  },
+  {
+   "dataset_key": "85b2fcd8-f762-11e1-a439-00145eb45e9a",
+   "title": "CSIC-Real Jardín Botánico-Colección de Hongos (MA-Fungi)",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 3,
+   "dataset licence not CC0 or CC BY": 3
+  },
+  {
+   "dataset_key": "8bd8c361-c96b-40c9-91a0-eb3c0e7e0135",
+   "title": "Eastern Illinois University, Stover-Ebinger Herbarium",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 2,
+   "dataset licence not CC0 or CC BY": 2
+  },
+  {
+   "dataset_key": "4edd9396-59df-4b01-9e29-dc21a59f9963",
+   "title": "University of British Columbia Herbarium (UBC) - Bryophytes Collection",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 2,
+   "coordinate uncertainty over 1,000 m": 2
+  },
+  {
+   "dataset_key": "689d12fc-aac8-4203-bace-4e64d3d61b89",
+   "title": "Idaho State University, Ray J. Davis Herbarium Vascular Plants",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 2,
+   "coordinate uncertainty over 1,000 m": 1,
+   "not in the mycorrhizal main run": 1
+  },
+  {
+   "dataset_key": "ee0e7875-8fbc-4cd8-a6a8-65f4a871e2ea",
+   "title": "University of Jena, Herbarium Haussknecht - Herbarium JE",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 2,
+   "no stated coordinate uncertainty": 2
+  },
+  {
+   "dataset_key": "f534f8bf-b84c-4412-bfee-536c000528c6",
+   "title": "Institut Botanic de Barcelona (IBB, CSIC-Ajuntament de Barcelona), BC-Lichen-Werner",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 2,
+   "dataset licence not CC0 or CC BY": 2
+  },
+  {
+   "dataset_key": "d7c12830-c244-4cf7-b863-7dc909c83fc8",
+   "title": "Oregon State University Bryophyte Collection",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 2,
+   "dataset licence not CC0 or CC BY": 2
+  },
+  {
+   "dataset_key": "f0388619-8650-43ea-b8e2-473ad43b4322",
+   "title": "Exsiccatae, fungi",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 2,
+   "coordinate uncertainty over 1,000 m": 2
+  },
+  {
+   "dataset_key": "3e7c0c00-f9dd-4632-8ccf-c9d0e8124ea7",
+   "title": "Gasteromycetes externi",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 2,
+   "no stated coordinate uncertainty": 2
+  },
+  {
+   "dataset_key": "bcacc0f2-c7ab-4278-85c2-720e57da676c",
+   "title": "Ustilaginales externi",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 2,
+   "no stated coordinate uncertainty": 2
+  },
+  {
+   "dataset_key": "96beb7d8-f762-11e1-a439-00145eb45e9a",
+   "title": "Joseph F. Rock Herbarium (Univ. of Hawaiʻi at Mānoa)",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 2,
+   "no stated coordinate uncertainty": 2
+  },
+  {
+   "dataset_key": "cd4cd181-ae56-4595-8c80-d4311654ad03",
+   "title": "Agnes Marion Ayre Herbarium (NFLD)",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 2,
+   "no stated coordinate uncertainty": 2
+  },
+  {
+   "dataset_key": "10703862-f1d8-48a7-9853-dc65d8df1d86",
+   "title": "Bell Museum bryophytes",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 1,
+   "coordinate uncertainty over 1,000 m": 1
+  },
+  {
+   "dataset_key": "c9278e74-436b-41d3-9fe6-8630193b5683",
+   "title": "Auburn University, Freeman Herbarium - Lichens",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 1,
+   "dataset licence not CC0 or CC BY": 1
+  },
+  {
+   "dataset_key": "c3911107-2641-4ecb-960d-563ccc6d36ed",
+   "title": "Robert F. Hoover Herbarium, Cal Poly State University - Lichens",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 1,
+   "coordinate uncertainty over 1,000 m": 1
+  },
+  {
+   "dataset_key": "5a3b50fa-c882-4129-9405-38e54c0a73f3",
+   "title": "Western Australian Herbarium (PERTH) AVH data",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 1,
+   "coordinate uncertainty over 1,000 m": 1
+  },
+  {
+   "dataset_key": "39905320-6c8a-11de-8226-b8a03c50a862",
+   "title": "Museums Victoria provider for OZCAM",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 1,
+   "no stated coordinate uncertainty": 1
+  },
+  {
+   "dataset_key": "5830fa3c-497c-4d37-b771-bd6c84997f2c",
+   "title": "Steiermärkisches Landesmuseum Joanneum - Herbarium GJO",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 1,
+   "no stated coordinate uncertainty": 1
+  },
+  {
+   "dataset_key": "cd309a69-421b-4317-a61e-483333be3cb9",
+   "title": "University of Manitoba (WIN) - Lichen Collection",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 1,
+   "no stated coordinate uncertainty": 1
+  },
+  {
+   "dataset_key": "f1537df5-8930-4ba4-afa4-bdd553a8b809",
+   "title": "Hoyt Arboretum Vascular Plant Herbarium",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 1,
+   "no stated coordinate uncertainty": 1
+  },
+  {
+   "dataset_key": "038b6cf8-4c53-4bf3-961e-9fe6c57b813e",
+   "title": "CHAS Malacology Collection (Arctos)",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 1,
+   "coordinate uncertainty over 1,000 m": 1
+  },
+  {
+   "dataset_key": "b3f19159-21c3-4535-86bd-1fee5d561bed",
+   "title": "Portland State Universtiy Herbarium Vascular Plants",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 1,
+   "no stated coordinate uncertainty": 1
+  },
+  {
+   "dataset_key": "042b1820-ae36-4663-9930-307a10afa042",
+   "title": "PRA herbarium dataset",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 1,
+   "no stated coordinate uncertainty": 1
+  },
+  {
+   "dataset_key": "0b0735e0-624d-4abb-abba-91a2733adea4",
+   "title": "Charles University Prague - Herbarium PRC",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 1,
+   "no stated coordinate uncertainty": 1
+  },
+  {
+   "dataset_key": "033065fc-8d4d-4244-beaa-3aa6f19d5597",
+   "title": "Mount Rainier National Park (USA) Vascular Plants",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 1,
+   "dataset licence not CC0 or CC BY": 1
+  },
+  {
+   "dataset_key": "83492a58-f762-11e1-a439-00145eb45e9a",
+   "title": "CSIC-Real Jardín Botánico-Colección de Líquenes (MA-Lichen)",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 1,
+   "dataset licence not CC0 or CC BY": 1
+  },
+  {
+   "dataset_key": "55b9ac33-0532-46d3-9796-c4c157f2b097",
+   "title": "Österreichische Mykologische Gesellschaft - Austrian Mycological Society Herbarium",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 1,
+   "no stated coordinate uncertainty": 1
+  },
+  {
+   "dataset_key": "166fab75-907b-4768-8d58-05c5badab9f6",
+   "title": "TUR Fungus collections of the University of Turku",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 1,
+   "coordinate uncertainty over 1,000 m": 1
+  },
+  {
+   "dataset_key": "1e738a03-dce9-4bbb-879f-d58c79a24c3c",
+   "title": "L. IS dataset. Cyanoprocaryota, Lichens, Bryophyte",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 1,
+   "not in the mycorrhizal main run": 1
+  },
+  {
+   "dataset_key": "e0ff3ef6-ccdd-43e4-a307-05e9c299815b",
+   "title": "University of South Florida Herbarium - Fungi including lichens",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 1,
+   "coordinate uncertainty over 1,000 m": 1
+  },
+  {
+   "dataset_key": "cafff6a5-1fa4-4a90-a2b3-f3db78b93d02",
+   "title": "WELT Herbarium at Museum of New Zealand Te Papa Tongarewa",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 1,
+   "no stated coordinate uncertainty": 1
+  },
+  {
+   "dataset_key": "e3dca178-5cef-456e-b3b0-6dc4b02bbd16",
+   "title": "The University and Jepson Herbaria -- Algae",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 1,
+   "dataset licence not CC0 or CC BY": 1
+  },
+  {
+   "dataset_key": "ed6ee121-1b4c-4382-bd4d-2128aa47c202",
+   "title": "Herbier Boreal Confluence (BOUM)",
+   "licence": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+   "licence_class": null,
+   "records": 1,
+   "dataset licence not CC0 or CC BY": 1
+  },
+  {
+   "dataset_key": "737dd7df-7ce6-4185-bbf2-3c0e3ed37f3b",
+   "title": "Martin Luther Universität Halle Wittenberg",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 1,
+   "no stated coordinate uncertainty": 1
+  },
+  {
+   "dataset_key": "23acc755-a8a6-4cf8-bed0-83d30863acea",
+   "title": "Fungal collection of the Botanical Museum, University of Oulu (OULU)",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 1,
+   "no stated coordinate uncertainty": 1
+  },
+  {
+   "dataset_key": "152b320f-7845-44c5-b669-df5f190c07ad",
+   "title": "Ascomycetes Fennoscandiae orientalis",
+   "licence": "http://creativecommons.org/licenses/by/4.0/legalcode",
+   "licence_class": "CC BY",
+   "records": 1,
+   "no stated coordinate uncertainty": 1
+  },
+  {
+   "dataset_key": "962f59bc-f762-11e1-a439-00145eb45e9a",
+   "title": "Collections and observation data National Museum of Natural History Luxembourg",
+   "licence": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+   "licence_class": "CC0",
+   "records": 1,
+   "no stated coordinate uncertainty": 1
+  }
+ ]
+}

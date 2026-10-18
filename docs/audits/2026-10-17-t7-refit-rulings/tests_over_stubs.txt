@@ -1,0 +1,15 @@
+E       NotImplementedError
+E       NotImplementedError
+E       NotImplementedError
+E       NotImplementedError
+E       NotImplementedError
+E       NotImplementedError
+E       KeyError: 'low'
+FAILED tests/test_t7_condition4.py::test_road_bands_are_the_fixed_edges - Not...
+FAILED tests/test_t7_condition4.py::test_circle_mean_averages_the_cells_whose_centres_lie_within_the_radius
+FAILED tests/test_t7_condition4.py::test_circle_mean_always_includes_the_points_own_cell
+FAILED tests/test_t7_condition4.py::test_background_matches_the_specimens_road_mix_and_carries_their_radii
+FAILED tests/test_t7_condition4.py::test_auc_above_half_is_the_auc_minus_one_half_with_a_block_interval
+FAILED tests/test_t7_condition4.py::test_condition_4_scores_specimens_against_matched_background_whole_box_and_interior
+FAILED tests/test_t7_condition4.py::test_p10b_takes_condition_4_when_computed
+7 failed in 0.73s
