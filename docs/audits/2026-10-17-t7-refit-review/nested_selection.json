@@ -1,0 +1,1415 @@
+{
+ "selection_on_all_blocks": {
+  "kept": [
+   "share_Lithocarpus",
+   "share_Chrysolepis",
+   "share_Arbutus"
+  ],
+  "matches_coder": true,
+  "add_one": {
+   "share_Larix": {
+    "point": 0.000408767566653534,
+    "low": -3.607463572341511e-06,
+    "high": 0.000736740215026177,
+    "resamples": 1000,
+    "above_zero": false
+   },
+   "share_Betula": {
+    "point": -9.12905976371281e-05,
+    "low": -0.00035693591485774214,
+    "high": 0.00016713974126542067,
+    "resamples": 1000,
+    "above_zero": false
+   },
+   "share_Populus": {
+    "point": 6.748857334104574e-05,
+    "low": -0.0003460558485748164,
+    "high": 0.0004996248350801729,
+    "resamples": 1000,
+    "above_zero": false
+   },
+   "share_Alnus": {
+    "point": -0.0005291906729060214,
+    "low": -0.0009445689503755877,
+    "high": -8.477877744400844e-05,
+    "resamples": 1000,
+    "above_zero": false
+   },
+   "share_Lithocarpus": {
+    "point": 0.0005488093621383028,
+    "low": 8.356534852086994e-05,
+    "high": 0.001014187740986308,
+    "resamples": 1000,
+    "above_zero": true
+   },
+   "share_Chrysolepis": {
+    "point": 0.0006946116896587862,
+    "low": 0.0003793771682641584,
+    "high": 0.000986515696677534,
+    "resamples": 1000,
+    "above_zero": true
+   },
+   "share_Arbutus": {
+    "point": 0.0009846744737326274,
+    "low": 0.0005892443419821344,
+    "high": 0.0013765663379156966,
+    "resamples": 1000,
+    "above_zero": true
+   },
+   "share_ecm_hosts": {
+    "point": -7.126130958767796e-06,
+    "low": -0.0006155258247102001,
+    "high": 0.0006271496456490218,
+    "resamples": 1000,
+    "above_zero": false
+   }
+  }
+ },
+ "nested_by_held_out_block": {
+  "4": {
+   "presences_held_out": 6,
+   "chosen": [
+    "share_Larix",
+    "share_Lithocarpus",
+    "share_Chrysolepis",
+    "share_Arbutus"
+   ],
+   "same_as_all_blocks": false,
+   "scored_by": "base (no cached model for this set)",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.00040570277367524277,
+     "low": 3.2505754892250856e-05,
+     "high": 0.000725184563390574
+    },
+    "share_Betula": {
+     "point": -9.41350696610499e-05,
+     "low": -0.00035338060003967103,
+     "high": 0.00016907844644667712
+    },
+    "share_Populus": {
+     "point": 5.7520091909402105e-05,
+     "low": -0.00032339179461069725,
+     "high": 0.0005109897839227384
+    },
+    "share_Alnus": {
+     "point": -0.0005372515124001387,
+     "low": -0.0010054607178658441,
+     "high": -0.00012252454102344712
+    },
+    "share_Lithocarpus": {
+     "point": 0.0005459176534435839,
+     "low": 0.00010062374309414172,
+     "high": 0.0010101975135333229
+    },
+    "share_Chrysolepis": {
+     "point": 0.0006913033545420388,
+     "low": 0.00040657729715970795,
+     "high": 0.0009854506499131276
+    },
+    "share_Arbutus": {
+     "point": 0.0009749603709926502,
+     "low": 0.0005967855491530728,
+     "high": 0.0014048174219907948
+    },
+    "share_ecm_hosts": {
+     "point": -1.0501004505836242e-05,
+     "low": -0.0007041565008602285,
+     "high": 0.0006001414550014877
+    }
+   }
+  },
+  "5": {
+   "presences_held_out": 15,
+   "chosen": [
+    "share_Larix",
+    "share_Lithocarpus",
+    "share_Chrysolepis",
+    "share_Arbutus"
+   ],
+   "same_as_all_blocks": false,
+   "scored_by": "base (no cached model for this set)",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.00041334954698601933,
+     "low": 4.890942859373257e-05,
+     "high": 0.0007554096018559275
+    },
+    "share_Betula": {
+     "point": -9.232551909332809e-05,
+     "low": -0.000338032005246347,
+     "high": 0.00018734881741615248
+    },
+    "share_Populus": {
+     "point": 9.696857872176778e-05,
+     "low": -0.0003108229734139461,
+     "high": 0.0005165590993151752
+    },
+    "share_Alnus": {
+     "point": -0.0005293395225971498,
+     "low": -0.0009316515778124311,
+     "high": -0.000113103113793392
+    },
+    "share_Lithocarpus": {
+     "point": 0.0005561631513406606,
+     "low": 7.951457368440281e-05,
+     "high": 0.0010192105235507368
+    },
+    "share_Chrysolepis": {
+     "point": 0.0007021853168108771,
+     "low": 0.000403908798842348,
+     "high": 0.0009918583129138292
+    },
+    "share_Arbutus": {
+     "point": 0.000989756405620601,
+     "low": 0.000571927021576374,
+     "high": 0.0014069436406642431
+    },
+    "share_ecm_hosts": {
+     "point": -2.437505098873416e-07,
+     "low": -0.0006575348983862609,
+     "high": 0.0006102957263743547
+    }
+   }
+  },
+  "6": {
+   "presences_held_out": 0,
+   "chosen": [
+    "share_Larix",
+    "share_Lithocarpus",
+    "share_Chrysolepis",
+    "share_Arbutus"
+   ],
+   "same_as_all_blocks": false,
+   "scored_by": "base (no cached model for this set)",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.00040878302357882923,
+     "low": 2.6929387988025662e-05,
+     "high": 0.0007633773126580812
+    },
+    "share_Betula": {
+     "point": -9.128345370379432e-05,
+     "low": -0.00034508736537368074,
+     "high": 0.00015058073275371058
+    },
+    "share_Populus": {
+     "point": 6.778908193838529e-05,
+     "low": -0.000355824488506018,
+     "high": 0.0005079965507993278
+    },
+    "share_Alnus": {
+     "point": -0.0005292101600219423,
+     "low": -0.0009483190063193731,
+     "high": -7.511327633206737e-05
+    },
+    "share_Lithocarpus": {
+     "point": 0.0005488619358372526,
+     "low": 7.633631945346831e-05,
+     "high": 0.000996272501506834
+    },
+    "share_Chrysolepis": {
+     "point": 0.0006946476942878421,
+     "low": 0.00037382840066573224,
+     "high": 0.0009858184773133215
+    },
+    "share_Arbutus": {
+     "point": 0.000984712602290716,
+     "low": 0.0006067601700790626,
+     "high": 0.0014107709823012542
+    },
+    "share_ecm_hosts": {
+     "point": -7.1007115682864e-06,
+     "low": -0.000665918795162204,
+     "high": 0.0006651132446362811
+    }
+   }
+  },
+  "7": {
+   "presences_held_out": 6,
+   "chosen": [
+    "share_Larix",
+    "share_Lithocarpus",
+    "share_Chrysolepis",
+    "share_Arbutus"
+   ],
+   "same_as_all_blocks": false,
+   "scored_by": "base (no cached model for this set)",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.0004062424488547878,
+     "low": 7.620551452849935e-06,
+     "high": 0.0007347659618901185
+    },
+    "share_Betula": {
+     "point": -8.682657703795726e-05,
+     "low": -0.000356153290768127,
+     "high": 0.0001716541440616281
+    },
+    "share_Populus": {
+     "point": 4.910135907176816e-05,
+     "low": -0.00034849611712364504,
+     "high": 0.0004959094146855052
+    },
+    "share_Alnus": {
+     "point": -0.000537746300047881,
+     "low": -0.0010267158958676304,
+     "high": -0.00012515106464020266
+    },
+    "share_Lithocarpus": {
+     "point": 0.0005601756424132853,
+     "low": 0.00011461626971885916,
+     "high": 0.0009957284015483263
+    },
+    "share_Chrysolepis": {
+     "point": 0.0006963437238324266,
+     "low": 0.0004005341753688303,
+     "high": 0.0009545737418210768
+    },
+    "share_Arbutus": {
+     "point": 0.0009898550431207687,
+     "low": 0.0005870956852607024,
+     "high": 0.0014102882027139468
+    },
+    "share_ecm_hosts": {
+     "point": -1.868847981045807e-05,
+     "low": -0.0007072985382162301,
+     "high": 0.0005828233976952755
+    }
+   }
+  },
+  "8": {
+   "presences_held_out": 0,
+   "chosen": [
+    "share_Lithocarpus",
+    "share_Chrysolepis",
+    "share_Arbutus"
+   ],
+   "same_as_all_blocks": true,
+   "scored_by": "full",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.00040876956053259583,
+     "low": -3.6073920828355292e-06,
+     "high": 0.0007367490481777067
+    },
+    "share_Betula": {
+     "point": -9.129081871406264e-05,
+     "low": -0.0003569360813070243,
+     "high": 0.00016713974126585364
+    },
+    "share_Populus": {
+     "point": 6.748831847636083e-05,
+     "low": -0.0003460558485751467,
+     "high": 0.0004996255144798539
+    },
+    "share_Alnus": {
+     "point": -0.0005291926184476381,
+     "low": -0.0009445726762419615,
+     "high": -8.477877744368371e-05
+    },
+    "share_Lithocarpus": {
+     "point": 0.0005488116844685198,
+     "low": 8.356537229628213e-05,
+     "high": 0.0010141915566056954
+    },
+    "share_Chrysolepis": {
+     "point": 0.0006946148110477113,
+     "low": 0.0003793772107793747,
+     "high": 0.0009865200433494979
+    },
+    "share_Arbutus": {
+     "point": 0.0009846785533080826,
+     "low": 0.0005892470047966366,
+     "high": 0.0013765663379156966
+    },
+    "share_ecm_hosts": {
+     "point": -7.125544520647509e-06,
+     "low": -0.0006155258592894674,
+     "high": 0.0006271553542639886
+    }
+   }
+  },
+  "10": {
+   "presences_held_out": 7,
+   "chosen": [
+    "share_Larix",
+    "share_Lithocarpus",
+    "share_Chrysolepis",
+    "share_Arbutus"
+   ],
+   "same_as_all_blocks": false,
+   "scored_by": "base (no cached model for this set)",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.0004106305836624191,
+     "low": 5.667527558813928e-05,
+     "high": 0.0007468627040603914
+    },
+    "share_Betula": {
+     "point": -9.302832335156275e-05,
+     "low": -0.00034955337660947105,
+     "high": 0.00014720648087281627
+    },
+    "share_Populus": {
+     "point": 7.317607786438973e-05,
+     "low": -0.0003225108310079965,
+     "high": 0.0005207158287411943
+    },
+    "share_Alnus": {
+     "point": -0.0005311069740734364,
+     "low": -0.0009776588670188547,
+     "high": -0.00011603202269247792
+    },
+    "share_Lithocarpus": {
+     "point": 0.000544646226025125,
+     "low": 7.403403822858203e-05,
+     "high": 0.000985288639746601
+    },
+    "share_Chrysolepis": {
+     "point": 0.0006978198663503132,
+     "low": 0.00041295490554859595,
+     "high": 0.0009813893765259984
+    },
+    "share_Arbutus": {
+     "point": 0.0009855205399789124,
+     "low": 0.0005755193731473707,
+     "high": 0.0014000330479313565
+    },
+    "share_ecm_hosts": {
+     "point": -4.901666961765194e-06,
+     "low": -0.000597651561319848,
+     "high": 0.0006081874961857525
+    }
+   }
+  },
+  "15": {
+   "presences_held_out": 37,
+   "chosen": [
+    "share_Larix",
+    "share_Lithocarpus",
+    "share_Chrysolepis",
+    "share_Arbutus"
+   ],
+   "same_as_all_blocks": false,
+   "scored_by": "base (no cached model for this set)",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.00041472603535375185,
+     "low": 3.890567604253334e-05,
+     "high": 0.0007474277633199022
+    },
+    "share_Betula": {
+     "point": -9.018392429094302e-05,
+     "low": -0.00033385152440165423,
+     "high": 0.0001747511401951257
+    },
+    "share_Populus": {
+     "point": 7.340672268996151e-05,
+     "low": -0.00031988439918734495,
+     "high": 0.00048461043716092043
+    },
+    "share_Alnus": {
+     "point": -0.0005282911992845474,
+     "low": -0.00099048052552301,
+     "high": -6.711721987500697e-05
+    },
+    "share_Lithocarpus": {
+     "point": 0.000548681117208516,
+     "low": 9.994917405464503e-05,
+     "high": 0.001011833908115617
+    },
+    "share_Chrysolepis": {
+     "point": 0.0007034420918454742,
+     "low": 0.00043009618431462957,
+     "high": 0.0009784842551188555
+    },
+    "share_Arbutus": {
+     "point": 0.0009933546870014576,
+     "low": 0.0005937131242269855,
+     "high": 0.0014010323717787265
+    },
+    "share_ecm_hosts": {
+     "point": 8.481802554527462e-06,
+     "low": -0.0007246318316020906,
+     "high": 0.0006264573972521696
+    }
+   }
+  },
+  "16": {
+   "presences_held_out": 1,
+   "chosen": [
+    "share_Larix",
+    "share_Lithocarpus",
+    "share_Chrysolepis",
+    "share_Arbutus"
+   ],
+   "same_as_all_blocks": false,
+   "scored_by": "base (no cached model for this set)",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.00040847338416472034,
+     "low": 3.329076484057115e-05,
+     "high": 0.0007338293996082878
+    },
+    "share_Betula": {
+     "point": -9.131619506097532e-05,
+     "low": -0.00033464426066263654,
+     "high": 0.00015297255796299918
+    },
+    "share_Populus": {
+     "point": 6.733974638439832e-05,
+     "low": -0.000338985205458811,
+     "high": 0.0005358178314963019
+    },
+    "share_Alnus": {
+     "point": -0.000529119240489706,
+     "low": -0.0010004439698595518,
+     "high": -9.065298186384537e-05
+    },
+    "share_Lithocarpus": {
+     "point": 0.0005493154204492257,
+     "low": 0.00013217678874438143,
+     "high": 0.001001652358539562
+    },
+    "share_Chrysolepis": {
+     "point": 0.000694838641409401,
+     "low": 0.0004135423145531143,
+     "high": 0.0009630717488263663
+    },
+    "share_Arbutus": {
+     "point": 0.0009843851194966113,
+     "low": 0.0006164584851397287,
+     "high": 0.001384040251397159
+    },
+    "share_ecm_hosts": {
+     "point": -7.92511641345417e-06,
+     "low": -0.0006542634979353254,
+     "high": 0.0006384287000159553
+    }
+   }
+  },
+  "109": {
+   "presences_held_out": 91,
+   "chosen": [
+    "share_Lithocarpus",
+    "share_Chrysolepis",
+    "share_Arbutus"
+   ],
+   "same_as_all_blocks": true,
+   "scored_by": "full",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.00036449333531385353,
+     "low": -9.750735609712034e-06,
+     "high": 0.0006772069358415703
+    },
+    "share_Betula": {
+     "point": -0.00010259953519486942,
+     "low": -0.0003739649605084826,
+     "high": 0.00016633241303044274
+    },
+    "share_Populus": {
+     "point": -2.8977239538985344e-05,
+     "low": -0.00043453527740797956,
+     "high": 0.00036047892943812934
+    },
+    "share_Alnus": {
+     "point": -0.0005413984941767813,
+     "low": -0.0010028598727586935,
+     "high": -9.566975169429394e-05
+    },
+    "share_Lithocarpus": {
+     "point": 0.0005752323955556804,
+     "low": 0.0001136289134529513,
+     "high": 0.001017453116276648
+    },
+    "share_Chrysolepis": {
+     "point": 0.0007243202223552458,
+     "low": 0.0004274088165454437,
+     "high": 0.001020180803404297
+    },
+    "share_Arbutus": {
+     "point": 0.000953778736630384,
+     "low": 0.0005583590001039502,
+     "high": 0.0013871980579546223
+    },
+    "share_ecm_hosts": {
+     "point": -1.8807348286964398e-05,
+     "low": -0.0006851735502177575,
+     "high": 0.0006314179420416398
+    }
+   }
+  },
+  "110": {
+   "presences_held_out": 462,
+   "chosen": [
+    "share_Larix",
+    "share_Lithocarpus",
+    "share_Chrysolepis"
+   ],
+   "same_as_all_blocks": false,
+   "scored_by": "base (no cached model for this set)",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.00037276539179231793,
+     "low": 3.539090303301416e-05,
+     "high": 0.0006814541354700442
+    },
+    "share_Betula": {
+     "point": -0.00013790604156294073,
+     "low": -0.0003947955269188063,
+     "high": 0.00011839049048532058
+    },
+    "share_Populus": {
+     "point": 6.408737409446807e-05,
+     "low": -0.00034776230314570997,
+     "high": 0.0004950206450407751
+    },
+    "share_Alnus": {
+     "point": -0.0004386642085938419,
+     "low": -0.0009144459272765859,
+     "high": 6.417961242355242e-06
+    },
+    "share_Lithocarpus": {
+     "point": 0.0009640565302250215,
+     "low": 0.0005609731801571455,
+     "high": 0.0013430824633034826
+    },
+    "share_Chrysolepis": {
+     "point": 0.0004699508483757553,
+     "low": 0.00020040346105222319,
+     "high": 0.0007538935817676755
+    },
+    "share_Arbutus": {
+     "point": 0.00024595873132560175,
+     "low": -8.482995065060816e-05,
+     "high": 0.0005929719961256988
+    },
+    "share_ecm_hosts": {
+     "point": -3.694262853759511e-05,
+     "low": -0.0006948818296544423,
+     "high": 0.0006072635991034078
+    }
+   }
+  },
+  "111": {
+   "presences_held_out": 7,
+   "chosen": [
+    "share_Larix",
+    "share_Lithocarpus",
+    "share_Chrysolepis",
+    "share_Arbutus"
+   ],
+   "same_as_all_blocks": false,
+   "scored_by": "base (no cached model for this set)",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.0004090937015481799,
+     "low": 5.147178738571512e-05,
+     "high": 0.0007668121292850743
+    },
+    "share_Betula": {
+     "point": -8.969645225398448e-05,
+     "low": -0.00034258564727359655,
+     "high": 0.00016730392416677273
+    },
+    "share_Populus": {
+     "point": 6.088006068893925e-05,
+     "low": -0.0003448829646197998,
+     "high": 0.0005152265082767671
+    },
+    "share_Alnus": {
+     "point": -0.0005317837860930874,
+     "low": -0.0009935084545815403,
+     "high": -0.00010496882264392216
+    },
+    "share_Lithocarpus": {
+     "point": 0.000553915065635846,
+     "low": 0.00010087336566704257,
+     "high": 0.0010257012634106027
+    },
+    "share_Chrysolepis": {
+     "point": 0.0006943287722012137,
+     "low": 0.00042779474410466764,
+     "high": 0.0009618049321301141
+    },
+    "share_Arbutus": {
+     "point": 0.0010022469680184276,
+     "low": 0.0005967899669046318,
+     "high": 0.0014423308021577152
+    },
+    "share_ecm_hosts": {
+     "point": -8.618183333419793e-06,
+     "low": -0.0007057792566385806,
+     "high": 0.0006178658368487521
+    }
+   }
+  },
+  "112": {
+   "presences_held_out": 179,
+   "chosen": [
+    "share_Larix",
+    "share_Lithocarpus",
+    "share_Chrysolepis",
+    "share_Arbutus"
+   ],
+   "same_as_all_blocks": false,
+   "scored_by": "base (no cached model for this set)",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.00042124891419825783,
+     "low": 3.85552610642244e-05,
+     "high": 0.0007364480878632478
+    },
+    "share_Betula": {
+     "point": -9.984281751951318e-05,
+     "low": -0.00034494050166757875,
+     "high": 0.00015634592220704617
+    },
+    "share_Populus": {
+     "point": 2.9543996054814947e-05,
+     "low": -0.00040377522424585863,
+     "high": 0.00045645408877882925
+    },
+    "share_Alnus": {
+     "point": -0.0005182777649623826,
+     "low": -0.0009881897366055214,
+     "high": -8.97708184882107e-05
+    },
+    "share_Lithocarpus": {
+     "point": 0.000584478303182645,
+     "low": 0.0001090570037397487,
+     "high": 0.001020238097570153
+    },
+    "share_Chrysolepis": {
+     "point": 0.0006994224496232881,
+     "low": 0.00038384043788351757,
+     "high": 0.0009776966938508686
+    },
+    "share_Arbutus": {
+     "point": 0.000978537212760644,
+     "low": 0.0005528769574030257,
+     "high": 0.0013918488112684257
+    },
+    "share_ecm_hosts": {
+     "point": -8.33012956840129e-05,
+     "low": -0.0007341354193255127,
+     "high": 0.0005395600365102392
+    }
+   }
+  },
+  "114": {
+   "presences_held_out": 410,
+   "chosen": [
+    "share_Lithocarpus",
+    "share_Chrysolepis",
+    "share_Arbutus"
+   ],
+   "same_as_all_blocks": true,
+   "scored_by": "full",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.00026976068167772205,
+     "low": -0.00010226637991962418,
+     "high": 0.0006030320119185667
+    },
+    "share_Betula": {
+     "point": -0.00019051985489404455,
+     "low": -0.0004614969850007726,
+     "high": 5.89205465421988e-05
+    },
+    "share_Populus": {
+     "point": -1.8696900988102172e-05,
+     "low": -0.0004597877966554142,
+     "high": 0.00044385257978987725
+    },
+    "share_Alnus": {
+     "point": -0.0007305763280400779,
+     "low": -0.0011971362081926891,
+     "high": -0.0003007729337539955
+    },
+    "share_Lithocarpus": {
+     "point": 0.0005532967435423197,
+     "low": 3.681155547756168e-05,
+     "high": 0.00097847167404215
+    },
+    "share_Chrysolepis": {
+     "point": 0.0006034775239398549,
+     "low": 0.00030638355953625,
+     "high": 0.0008915685617517461
+    },
+    "share_Arbutus": {
+     "point": 0.0009017025197733952,
+     "low": 0.00047720462579965716,
+     "high": 0.0013292316141264582
+    },
+    "share_ecm_hosts": {
+     "point": -0.0001752322878841861,
+     "low": -0.0008217030959517615,
+     "high": 0.0005243177462138478
+    }
+   }
+  },
+  "116": {
+   "presences_held_out": 463,
+   "chosen": [
+    "share_Larix",
+    "share_Lithocarpus",
+    "share_Chrysolepis",
+    "share_Arbutus"
+   ],
+   "same_as_all_blocks": false,
+   "scored_by": "base (no cached model for this set)",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.0003442217580924556,
+     "low": 9.600142727452803e-05,
+     "high": 0.0006119315706826777
+    },
+    "share_Betula": {
+     "point": -0.00010789165595093131,
+     "low": -0.00036655261984694354,
+     "high": 0.00016907369715809804
+    },
+    "share_Populus": {
+     "point": -0.00011986551267995083,
+     "low": -0.0005323723677170822,
+     "high": 0.00027280961157974946
+    },
+    "share_Alnus": {
+     "point": -0.000578671964577393,
+     "low": -0.0010888313837106225,
+     "high": -0.00014505342102962847
+    },
+    "share_Lithocarpus": {
+     "point": 0.0006486566467102106,
+     "low": 0.00016210888013476203,
+     "high": 0.0011582847270552336
+    },
+    "share_Chrysolepis": {
+     "point": 0.0007025298538259062,
+     "low": 0.00040791500653284687,
+     "high": 0.0009846171019694955
+    },
+    "share_Arbutus": {
+     "point": 0.0009171936979601725,
+     "low": 0.0005148514912211551,
+     "high": 0.001343494744271159
+    },
+    "share_ecm_hosts": {
+     "point": -0.0001484745994495551,
+     "low": -0.0008275049241408982,
+     "high": 0.0005807815897026861
+    }
+   }
+  },
+  "117": {
+   "presences_held_out": 53,
+   "chosen": [
+    "share_Larix",
+    "share_Lithocarpus",
+    "share_Chrysolepis",
+    "share_Arbutus"
+   ],
+   "same_as_all_blocks": false,
+   "scored_by": "base (no cached model for this set)",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.00038740468488851487,
+     "low": 3.445045690315952e-05,
+     "high": 0.0007303617904725696
+    },
+    "share_Betula": {
+     "point": -7.608954493065756e-05,
+     "low": -0.0003350854378188994,
+     "high": 0.00019239816125741206
+    },
+    "share_Populus": {
+     "point": 8.077270436390727e-05,
+     "low": -0.00033849508216161883,
+     "high": 0.0005283282082880812
+    },
+    "share_Alnus": {
+     "point": -0.0005566218830064251,
+     "low": -0.0009991548057044412,
+     "high": -0.000121671749585989
+    },
+    "share_Lithocarpus": {
+     "point": 0.0005517359631995733,
+     "low": 0.00010352546283708136,
+     "high": 0.0010074018211139678
+    },
+    "share_Chrysolepis": {
+     "point": 0.0006964777984040937,
+     "low": 0.00043108765854481257,
+     "high": 0.0009987659646704394
+    },
+    "share_Arbutus": {
+     "point": 0.000989991531265555,
+     "low": 0.0005714350551939752,
+     "high": 0.0013908807184498302
+    },
+    "share_ecm_hosts": {
+     "point": -1.5382350823323065e-05,
+     "low": -0.0006765108895982779,
+     "high": 0.000648776511623686
+    }
+   }
+  },
+  "118": {
+   "presences_held_out": 1422,
+   "chosen": [
+    "share_Larix",
+    "share_Lithocarpus",
+    "share_Chrysolepis",
+    "share_Arbutus"
+   ],
+   "same_as_all_blocks": false,
+   "scored_by": "base (no cached model for this set)",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.0004227487218603221,
+     "low": 4.7389226299699015e-05,
+     "high": 0.0007547891897349557
+    },
+    "share_Betula": {
+     "point": -0.00011581986281228307,
+     "low": -0.0004002134426592223,
+     "high": 0.00016103370653275934
+    },
+    "share_Populus": {
+     "point": 8.048379911596015e-05,
+     "low": -0.00033748943117251903,
+     "high": 0.0005464780029451443
+    },
+    "share_Alnus": {
+     "point": -0.0004755731898437032,
+     "low": -0.0009477072296715543,
+     "high": -4.0784545018493594e-05
+    },
+    "share_Lithocarpus": {
+     "point": 0.000597519579207062,
+     "low": 0.00011745848818183194,
+     "high": 0.0010643395714324015
+    },
+    "share_Chrysolepis": {
+     "point": 0.0007475549601261289,
+     "low": 0.0004411633836734542,
+     "high": 0.001042152761421905
+    },
+    "share_Arbutus": {
+     "point": 0.001052146885648031,
+     "low": 0.0005904227691799491,
+     "high": 0.0015102033035775731
+    },
+    "share_ecm_hosts": {
+     "point": 4.4755930581619197e-05,
+     "low": -0.0006606073126328965,
+     "high": 0.0007203736732082854
+    }
+   }
+  },
+  "120": {
+   "presences_held_out": 3137,
+   "chosen": [
+    "share_Larix",
+    "share_Lithocarpus",
+    "share_Chrysolepis",
+    "share_Arbutus"
+   ],
+   "same_as_all_blocks": false,
+   "scored_by": "base (no cached model for this set)",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.0004725382653204546,
+     "low": 7.223935849173532e-05,
+     "high": 0.0008373542415228501
+    },
+    "share_Betula": {
+     "point": -5.4198923991499726e-05,
+     "low": -0.0003247088158439019,
+     "high": 0.0002053994338806042
+    },
+    "share_Populus": {
+     "point": 3.83781622853574e-05,
+     "low": -0.0004275857077880612,
+     "high": 0.0005335109961744243
+    },
+    "share_Alnus": {
+     "point": -0.0002779315150253092,
+     "low": -0.0007042312850805198,
+     "high": 0.0001376262635811697
+    },
+    "share_Lithocarpus": {
+     "point": 0.0006815796678205643,
+     "low": 0.0002793998636944406,
+     "high": 0.0010862899596529169
+    },
+    "share_Chrysolepis": {
+     "point": 0.0007070308836508721,
+     "low": 0.000411696264074421,
+     "high": 0.000996101798540505
+    },
+    "share_Arbutus": {
+     "point": 0.0010131366414916076,
+     "low": 0.0005547182268109103,
+     "high": 0.0014791329075505566
+    },
+    "share_ecm_hosts": {
+     "point": 0.00011216534022240321,
+     "low": -0.000586416144013274,
+     "high": 0.0007979467014154418
+    }
+   }
+  },
+  "121": {
+   "presences_held_out": 229,
+   "chosen": [
+    "share_Larix",
+    "share_Lithocarpus",
+    "share_Chrysolepis",
+    "share_Arbutus"
+   ],
+   "same_as_all_blocks": false,
+   "scored_by": "base (no cached model for this set)",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.00044054477046384655,
+     "low": 6.614854885108335e-05,
+     "high": 0.0007667631651606139
+    },
+    "share_Betula": {
+     "point": -8.218182884345282e-05,
+     "low": -0.00035970216523387166,
+     "high": 0.00018939022866067964
+    },
+    "share_Populus": {
+     "point": 5.22482676174052e-05,
+     "low": -0.0003618236568407345,
+     "high": 0.0005607987158400466
+    },
+    "share_Alnus": {
+     "point": -0.0005210005331253154,
+     "low": -0.0009699459597041576,
+     "high": -6.257424608888683e-05
+    },
+    "share_Lithocarpus": {
+     "point": 0.0005934194026819828,
+     "low": 0.00015111356395466365,
+     "high": 0.001079374276943911
+    },
+    "share_Chrysolepis": {
+     "point": 0.0007467162421648244,
+     "low": 0.00044734621237901574,
+     "high": 0.0010184978206946999
+    },
+    "share_Arbutus": {
+     "point": 0.0010854963287344477,
+     "low": 0.0006861168373919285,
+     "high": 0.0015003393155884337
+    },
+    "share_ecm_hosts": {
+     "point": 1.921380774927428e-06,
+     "low": -0.0006163731519046255,
+     "high": 0.0006834594591673235
+    }
+   }
+  },
+  "122": {
+   "presences_held_out": 141,
+   "chosen": [
+    "share_Larix",
+    "share_Lithocarpus",
+    "share_Chrysolepis",
+    "share_Arbutus"
+   ],
+   "same_as_all_blocks": false,
+   "scored_by": "base (no cached model for this set)",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.00043633709593116077,
+     "low": 8.537603692490887e-05,
+     "high": 0.0007501970533741214
+    },
+    "share_Betula": {
+     "point": -8.570274928410004e-05,
+     "low": -0.0003605997665014848,
+     "high": 0.0001977359283145574
+    },
+    "share_Populus": {
+     "point": -6.051388881045394e-05,
+     "low": -0.0004539060385598342,
+     "high": 0.0003825409541883428
+    },
+    "share_Alnus": {
+     "point": -0.0005490134289728443,
+     "low": -0.0010030072268898433,
+     "high": -8.32193551528889e-05
+    },
+    "share_Lithocarpus": {
+     "point": 0.0005672570928785259,
+     "low": 0.000111628306194489,
+     "high": 0.0010056512251330556
+    },
+    "share_Chrysolepis": {
+     "point": 0.0007206677126572192,
+     "low": 0.0004187117085646092,
+     "high": 0.0010326774133052829
+    },
+    "share_Arbutus": {
+     "point": 0.0009787763797106663,
+     "low": 0.0005586957252593144,
+     "high": 0.0013674189976888628
+    },
+    "share_ecm_hosts": {
+     "point": 3.086836792720593e-05,
+     "low": -0.0006350491242036016,
+     "high": 0.0007028221921568017
+    }
+   }
+  },
+  "129": {
+   "presences_held_out": 2330,
+   "chosen": [
+    "share_Larix",
+    "share_Populus",
+    "share_Chrysolepis",
+    "share_Arbutus"
+   ],
+   "same_as_all_blocks": false,
+   "scored_by": "base (no cached model for this set)",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.0004134891686252695,
+     "low": 2.728234761195673e-06,
+     "high": 0.0007859473031439218
+    },
+    "share_Betula": {
+     "point": -0.00011123449424332854,
+     "low": -0.0003934913829634512,
+     "high": 0.00014272157786429096
+    },
+    "share_Populus": {
+     "point": 0.0004642862886966581,
+     "low": 2.4469610358486294e-06,
+     "high": 0.0009192119881183651
+    },
+    "share_Alnus": {
+     "point": -0.0005713805026826835,
+     "low": -0.0010331685043112298,
+     "high": -0.00012178660501165063
+    },
+    "share_Lithocarpus": {
+     "point": 0.00016510767361765932,
+     "low": -0.00034946001723053504,
+     "high": 0.0006162551355131552
+    },
+    "share_Chrysolepis": {
+     "point": 0.0007818015455488547,
+     "low": 0.00043536833183410186,
+     "high": 0.001079269902498467
+    },
+    "share_Arbutus": {
+     "point": 0.0011612689389683961,
+     "low": 0.000732471320789524,
+     "high": 0.0015925533979233518
+    },
+    "share_ecm_hosts": {
+     "point": -3.3464667900440226e-05,
+     "low": -0.0007372779589652961,
+     "high": 0.0006739719297887245
+    }
+   }
+  },
+  "130": {
+   "presences_held_out": 5992,
+   "chosen": [
+    "share_Larix",
+    "share_Chrysolepis",
+    "share_Arbutus",
+    "share_ecm_hosts"
+   ],
+   "same_as_all_blocks": false,
+   "scored_by": "base (no cached model for this set)",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.0005998965618576602,
+     "low": 6.377922070146234e-07,
+     "high": 0.001106499006379552
+    },
+    "share_Betula": {
+     "point": 0.00018689020004858392,
+     "low": -0.00014055246418358253,
+     "high": 0.0005090678537200882
+    },
+    "share_Populus": {
+     "point": 0.00037509128531953984,
+     "low": -0.00026283263951109014,
+     "high": 0.0010263465715814877
+    },
+    "share_Alnus": {
+     "point": -0.0004181438400544524,
+     "low": -0.000908658791154329,
+     "high": 2.7263135494134927e-05
+    },
+    "share_Lithocarpus": {
+     "point": 0.0001513396682263357,
+     "low": -0.0005621634171612128,
+     "high": 0.0008243091608963464
+    },
+    "share_Chrysolepis": {
+     "point": 0.0007208106703180395,
+     "low": 0.00031292413504103463,
+     "high": 0.001136330277924011
+    },
+    "share_Arbutus": {
+     "point": 0.001605276138731182,
+     "low": 0.0010576744495763846,
+     "high": 0.0021381582417383913
+    },
+    "share_ecm_hosts": {
+     "point": 0.000512065798794703,
+     "low": 1.5347429623863835e-06,
+     "high": 0.0010146538579461544
+    }
+   }
+  },
+  "131": {
+   "presences_held_out": 636,
+   "chosen": [
+    "share_Larix",
+    "share_Chrysolepis",
+    "share_Arbutus"
+   ],
+   "same_as_all_blocks": false,
+   "scored_by": "base (no cached model for this set)",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.0004344504961488749,
+     "low": 7.489674996842834e-05,
+     "high": 0.000766457368890555
+    },
+    "share_Betula": {
+     "point": -6.62369043754607e-05,
+     "low": -0.0003172856456319317,
+     "high": 0.00017909827745416206
+    },
+    "share_Populus": {
+     "point": 7.086407589651511e-05,
+     "low": -0.0003512936754048204,
+     "high": 0.0005377295125316094
+    },
+    "share_Alnus": {
+     "point": -0.0005758448835145868,
+     "low": -0.0009929373022787957,
+     "high": -0.0001717437161484509
+    },
+    "share_Lithocarpus": {
+     "point": 0.0003104140658271026,
+     "low": -0.00020444381749065151,
+     "high": 0.0007499909419027312
+    },
+    "share_Chrysolepis": {
+     "point": 0.0007238808513575501,
+     "low": 0.0004461964197151725,
+     "high": 0.0010277911719552835
+    },
+    "share_Arbutus": {
+     "point": 0.0011095849076634412,
+     "low": 0.0007008888315067186,
+     "high": 0.0015702939415841194
+    },
+    "share_ecm_hosts": {
+     "point": -7.190966902337337e-05,
+     "low": -0.0007343735211351537,
+     "high": 0.0005415251401397368
+    }
+   }
+  },
+  "171": {
+   "presences_held_out": 0,
+   "chosen": [
+    "share_Larix",
+    "share_Lithocarpus",
+    "share_Chrysolepis",
+    "share_Arbutus"
+   ],
+   "same_as_all_blocks": false,
+   "scored_by": "base (no cached model for this set)",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.00040882204535308553,
+     "low": 1.4342345304024836e-05,
+     "high": 0.000745891577682789
+    },
+    "share_Betula": {
+     "point": -9.125831974188259e-05,
+     "low": -0.00034238716563340373,
+     "high": 0.0001525434737685321
+    },
+    "share_Populus": {
+     "point": 6.768946726276592e-05,
+     "low": -0.0003576089180885976,
+     "high": 0.0005116483010530053
+    },
+    "share_Alnus": {
+     "point": -0.0005292184125147426,
+     "low": -0.0009655168059374995,
+     "high": -0.00010066692296742127
+    },
+    "share_Lithocarpus": {
+     "point": 0.0005489246414508431,
+     "low": 0.00010763001723107792,
+     "high": 0.0009723870308617599
+    },
+    "share_Chrysolepis": {
+     "point": 0.0006946794083867447,
+     "low": 0.0004076852992029007,
+     "high": 0.0009924200434288182
+    },
+    "share_Arbutus": {
+     "point": 0.0009847724474547626,
+     "low": 0.000599167070083831,
+     "high": 0.0013888071732408747
+    },
+    "share_ecm_hosts": {
+     "point": -7.103103542571709e-06,
+     "low": -0.0006790983824548347,
+     "high": 0.0006334700159386446
+    }
+   }
+  },
+  "172": {
+   "presences_held_out": 0,
+   "chosen": [
+    "share_Lithocarpus",
+    "share_Chrysolepis",
+    "share_Arbutus"
+   ],
+   "same_as_all_blocks": true,
+   "scored_by": "full",
+   "add_one": {
+    "share_Larix": {
+     "point": 0.0004088374303499176,
+     "low": -3.612049543938427e-06,
+     "high": 0.0007368706411666204
+    },
+    "share_Betula": {
+     "point": -9.1338492148485e-05,
+     "low": -0.00035694292432665576,
+     "high": 0.00016718270460059072
+    },
+    "share_Populus": {
+     "point": 6.760639770431176e-05,
+     "low": -0.00034608494164759505,
+     "high": 0.0004996579155126524
+    },
+    "share_Alnus": {
+     "point": -0.0005292906358239646,
+     "low": -0.0009447164898476995,
+     "high": -8.478154887405501e-05
+    },
+    "share_Lithocarpus": {
+     "point": 0.0005490064941550132,
+     "low": 8.363225023363685e-05,
+     "high": 0.0010147342514551599
+    },
+    "share_Chrysolepis": {
+     "point": 0.0006947081864882021,
+     "low": 0.00037940559839350356,
+     "high": 0.0009865223336664424
+    },
+    "share_Arbutus": {
+     "point": 0.0009849653732232344,
+     "low": 0.0005893766106735423,
+     "high": 0.0013766202638550355
+    },
+    "share_ecm_hosts": {
+     "point": -7.073620642894518e-06,
+     "low": -0.0006155716010163597,
+     "high": 0.0006275361944970715
+    }
+   }
+  }
+ },
+ "blocks_where_choice_differs": [
+  4,
+  5,
+  6,
+  7,
+  10,
+  15,
+  16,
+  110,
+  111,
+  112,
+  116,
+  117,
+  118,
+  120,
+  121,
+  122,
+  129,
+  130,
+  131,
+  171
+ ],
+ "blocks_scored_by_base_for_want_of_a_cached_model": [
+  4,
+  5,
+  6,
+  7,
+  10,
+  15,
+  16,
+  110,
+  111,
+  112,
+  116,
+  117,
+  118,
+  120,
+  121,
+  122,
+  129,
+  130,
+  131,
+  171
+ ],
+ "condition_1_as_reported_full_minus_B_block": {
+  "point": 0.003789070496534097,
+  "low": 0.001049731194389167,
+  "high": 0.009243820368773857,
+  "resamples": 1000,
+  "above_zero": true
+ },
+ "condition_1_nested_full_minus_B_block": {
+  "point": 0.001818673237514612,
+  "low": -0.0012934206036439798,
+  "high": 0.007325024761769987,
+  "resamples": 1000,
+  "above_zero": false
+ },
+ "condition_1_no_selection_base_minus_B_block": {
+  "point": 0.0016321481176890806,
+  "low": -0.0013072617098813877,
+  "high": 0.006700337533083017,
+  "resamples": 1000,
+  "above_zero": false
+ },
+ "nested_full_minus_A_block": {
+  "point": 0.0029100192925667345,
+  "low": -0.0020989204855535065,
+  "high": 0.011288711078948953,
+  "resamples": 1000,
+  "above_zero": false
+ },
+ "pooled_auc": {
+  "full": 0.8927011579869333,
+  "nested_full": 0.8907307607279138,
+  "base": 0.8905442356080883,
+  "B": 0.8889120874903992
+ },
+ "seconds": 3465
+}
