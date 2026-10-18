@@ -1,0 +1,22 @@
+rows and pooled AUCs checked 5 s
+conditions 1 and 2 79 s
+beside figures 536 s
+question 3 figures 633 s
+{
+ "1_full_minus_B_block": {
+  "mine": "+0.00379 [+0.00105, +0.00924]",
+  "theirs": "+0.00379 [+0.00105, +0.00924]",
+  "match": true
+ },
+ "2_within_cell_full_minus_A_block_resampled": {
+  "mine": "-0.00722 [-0.02570, +0.01614]",
+  "theirs": "-0.00722 [-0.02570, +0.01614]",
+  "match": true
+ },
+ "3_contrast": {
+  "mine": "+0.00279 [-0.00196, +0.01054]",
+  "theirs": "+0.00279 [-0.00196, +0.01054]",
+  "match": true
+ }
+}
+done 920 s

@@ -134,7 +134,7 @@ def main() -> None:
     rgb_o, _ = quintile_render(s_old_d, c_old_d)
     png(HERE / "map_judged.png", rgb_o)
     # rank shift: blue = fell, red = rose, white = unchanged; grey where not valued in both
-    sd = shift[::STEP, ::STEP]
+    sd = shift[::STEP * 2, ::STEP * 2]  # 2 km pixels: the 1 km file is over the repo's 1 MB limit
     rgb_s = np.full(sd.shape + (3,), 200, dtype=np.uint8)
     okd = np.isfinite(sd)
     v = np.clip(sd[okd] / 0.3, -1, 1)

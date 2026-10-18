@@ -1,5 +1,5 @@
-ranks 12 s
-blocks 15 s
+ranks 10 s
+blocks 13 s
 /home/zynergy-labs/Zynergy/forager-forecast-t7-refit-review/.venv/lib/python3.14/site-packages/rasterio/io.py:143: NotGeoreferencedWarning: Dataset has no geotransform, gcps, or rpcs. The identity matrix will be returned.
   rd = writer(
 {
@@ -67,5 +67,5 @@ blocks 15 s
   -1.8464620351791383,
   -1.451016616821289
  ],
- "seconds": 16
+ "seconds": 14
 }

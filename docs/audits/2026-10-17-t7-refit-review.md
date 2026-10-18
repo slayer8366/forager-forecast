@@ -19,7 +19,6 @@ Written 2026-10-18T03:22Z, after reading the dispatch, the coder's report and `f
 5. **Condition 4.** The filters are as D158 states. The pass is mostly geography, not habitat: 4,666 of 6,026 kept specimens are in four western blocks (Puget Lowland, Coastal Range, Cascades, North Cascades), and the background is matched on road band but drawn from the whole box. Scoring by the point value instead of the circle mean will give a similar figure (within 0.03). Drawing the matched background from the specimen's own level III block will drop AUC minus 0.5 well below the reported +0.196, to under +0.10, with an interval including zero. Specimens from 2000 on will score about the same as older ones. The interior figure (390 specimens, −0.157 to +0.240) is not usable as a verdict either way.
 6. **The map.** Interior mountain conifer forest ranks highest; the Canadian side is a flat masked band with a hard edge at the border; cells outside the area of applicability are few and scattered. Against 2026-10-16 the picture is close (rank 0.91), with the top tenth shifted toward the Cascades and away from the Columbia Plateau's edges.
 
-(The sections below are filled in as the review runs.)
 
 ## Baseline (every premise re-checked before use)
 
