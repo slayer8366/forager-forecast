@@ -52,6 +52,7 @@ exclude = [
     "docs/audits/2026-10-10-pnw-pilot-scoring/window-2026-W41/t00.py",
     "docs/audits/2026-10-15-t6b-host-genera-build/plot_table_real.py",
     "docs/audits/2026-10-17-t7-refit/map_comparison.py",
+    "docs/audits/2026-10-17-t7-refit-review/*.py",
 ]
 
 [tool.ruff.lint]
