@@ -1,0 +1,60 @@
+{
+ "cells_with_presences": 1864,
+ "cells_with_both": 1862,
+ "pres_share_in_both": 0.9992959549411162,
+ "-access_dist (nearer road ranks higher)": [
+  0.6537174931642074,
+  0.5706406815533959,
+  0.698184422181463
+ ],
+ "total_cover_pct": [
+  0.48779366547521835,
+  0.44723649632445545,
+  0.5692045913070246
+ ],
+ "conifer_cover_pct": [
+  0.4941372144296332,
+  0.45565030804310847,
+  0.5551020285924655
+ ],
+ "share_Abies": [
+  0.4667480677867917,
+  0.42596801439833676,
+  0.5006893951244608
+ ],
+ "ph_mean_0_30cm": [
+  0.5581501766994839,
+  0.4991177462021226,
+  0.5924426402264761
+ ],
+ "model A": [
+  0.6481247240202415,
+  0.5708811835034572,
+  0.6959201022313108
+ ],
+ "model B": [
+  0.611512656574126,
+  0.5826225894590072,
+  0.6696229726408641
+ ],
+ "model base": [
+  0.6365749316182194,
+  0.5747780698331769,
+  0.673658755929484
+ ],
+ "model full": [
+  0.640900108446826,
+  0.5874497253632296,
+  0.6804954426914012
+ ],
+ "spearman_access_vs_total_cover_pct": 0.07383013921338547,
+ "spearman_access_vs_conifer_cover_pct": 0.11849918667619304,
+ "spearman_access_vs_broadleaf_cover_pct": -0.16173801709201843,
+ "spearman_access_vs_share_Abies": 0.23852811926448625,
+ "spearman_access_vs_share_Tsuga": 0.07181316771607997,
+ "spearman_access_vs_share_Pseudotsuga": -0.15082005976124932,
+ "spearman_access_vs_share_Pinus": -0.0025136106231816568,
+ "spearman_access_vs_ph_mean_0_30cm": -0.06780357936206582,
+ "spearman_access_vs_share_Lithocarpus": -0.016932019580905688,
+ "spearman_access_vs_log_effort": -0.058261466819893665
+}

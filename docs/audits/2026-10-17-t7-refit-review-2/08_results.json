@@ -1,0 +1,33 @@
+{
+ "full raw": {
+  "pooled_auc": 0.9251577602723289,
+  "within_cell_auc": 0.7494154469312522
+ },
+ "habitat part only (effort, road held)": {
+  "pooled_auc": 0.731240120735553,
+  "within_cell_auc": 0.6814099964111907
+ },
+ "effort+road part only (habitat held)": {
+  "pooled_auc": 0.8947297346050227,
+  "within_cell_auc": 0.6571923940831051
+ },
+ "spearman_habitat_part_vs_road_distance_background": 0.1994929648678264,
+ "spearman_effort_road_part_vs_road_distance_background": -0.4080906975935366,
+ "gain_share": {
+  "log_effort": 0.685688898156276,
+  "access_dist_m": 0.07096163083875498,
+  "share_Pinus": 0.05567580374936495,
+  "ph_mean_0_30cm": 0.0365997628262858,
+  "share_Abies": 0.025787320846964838,
+  "share_Picea": 0.01921103791341788,
+  "total_cover_pct": 0.018737287790662232,
+  "share_Pseudotsuga": 0.01790187381150989,
+  "share_Lithocarpus": 0.014580536975466392,
+  "share_Tsuga": 0.013713964598460839,
+  "share_Arbutus": 0.013141723097963309,
+  "share_conifer": 0.010616819390546598,
+  "share_Quercus": 0.007495794562285947,
+  "share_broadleaf": 0.005982312012968548,
+  "share_Chrysolepis": 0.0039052334290718533
+ }
+}

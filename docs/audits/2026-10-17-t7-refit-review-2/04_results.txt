@@ -1,0 +1,16 @@
+kept 6026
+no year 100
+decades [(1890, 1), (1900, 1), (1910, 17), (1920, 19), (1930, 164), (1940, 673), (1950, 511), (1960, 859), (1970, 1053), (1980, 708), (1990, 1208), (2000, 433), (2010, 211), (2020, 68), (None, 100)]
+datasets 28 [('96ccdb74', 4338, 0.72), ('4d69b363', 621, 0.103), ('d415c253', 191, 0.032), ('0f702193', 153, 0.025), ('d1a3b128', 108, 0.018), ('4cd7ef6c', 85, 0.014)]
+unique coords 1691 max at one coordinate [(('48.546864', '-123.011438'), 625), (('48.02667', '-121.44278'), 233), (('47.822124', '-122.119613'), 142)]
+unique 250m cells 1238 max per cell [('2481939191', 625), ('2458608731', 233), ('2455856009', 142)]
+cell_code Counter({'1': 4031, '4': 1053, '5': 749, '0': 126, '6': 35, '3': 32})
+interior Counter({'False': 5275, 'True': 751})
+uncert max 1000.0 min 1.0 <=250 669 >500 3141
+licences Counter({'CC0_1_0': 5989, 'CC_BY_4_0': 37}) Counter({'http://creativecommons.org/licenses/by/4.0/legalcode': 4376, 'http://creativecommons.org/publicdomain/zero/1.0/legalcode': 1650})
+genera 99 [('Inocybe', 1328), ('Cortinarius', 872), ('Russula', 641), ('Lactarius', 362), ('Suillus', 287), ('Amanita', 224), ('Hebeloma', 218), ('Tricholoma', 202)]
+level3 [('129', 1631), ('130', 1244), ('120', 950), ('118', 841), ('116', 258), ('110', 188), ('114', 140), ('0', 118)]
+96ccdb74 4338 years 1907 2021 median 1976
+4d69b363 621 years 1941 2017 median 1976
+d415c253 191 years 1911 2003 median 1962
+0f702193 153 years 1919 1985 median 1958

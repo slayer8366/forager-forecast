@@ -1,0 +1,18 @@
+{
+ "new": {
+  "shaded": 6950510,
+  "spearman_score_vs_road_distance": 0.17080426983832864,
+  "top_decile_median_road_m": 793.0057373046875,
+  "all_shaded_median_road_m": 304.9798889160156,
+  "top_decile_share_over_1km": 0.4547774842745579,
+  "bottom_decile_median_road_m": 286.0352478027344
+ },
+ "old": {
+  "shaded": 6950770,
+  "spearman_score_vs_road_distance": 0.11253942769246375,
+  "top_decile_median_road_m": 593.1511840820312,
+  "all_shaded_median_road_m": 304.92527770996094,
+  "top_decile_share_over_1km": 0.40699663490519755,
+  "bottom_decile_median_road_m": 315.93927001953125
+ }
+}

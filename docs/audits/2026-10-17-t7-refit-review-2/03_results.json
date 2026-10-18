@@ -1,0 +1,175 @@
+{
+ "kept_sets_from_log": {
+  "4": [
+   "Larix",
+   "Lithocarpus",
+   "Chrysolepis",
+   "Arbutus"
+  ],
+  "5": [
+   "Larix",
+   "Lithocarpus",
+   "Chrysolepis",
+   "Arbutus"
+  ],
+  "6": [
+   "Larix",
+   "Lithocarpus",
+   "Chrysolepis",
+   "Arbutus"
+  ],
+  "7": [
+   "Larix",
+   "Lithocarpus",
+   "Chrysolepis",
+   "Arbutus"
+  ],
+  "8": [
+   "Lithocarpus",
+   "Chrysolepis",
+   "Arbutus"
+  ],
+  "10": [
+   "Larix",
+   "Lithocarpus",
+   "Chrysolepis",
+   "Arbutus"
+  ],
+  "15": [
+   "Larix",
+   "Lithocarpus",
+   "Chrysolepis",
+   "Arbutus"
+  ],
+  "16": [
+   "Larix",
+   "Lithocarpus",
+   "Chrysolepis",
+   "Arbutus"
+  ],
+  "109": [
+   "Lithocarpus",
+   "Chrysolepis",
+   "Arbutus"
+  ],
+  "110": [
+   "Larix",
+   "Lithocarpus",
+   "Chrysolepis"
+  ],
+  "111": [
+   "Larix",
+   "Lithocarpus",
+   "Chrysolepis",
+   "Arbutus"
+  ],
+  "112": [
+   "Larix",
+   "Lithocarpus",
+   "Chrysolepis",
+   "Arbutus"
+  ],
+  "114": [
+   "Lithocarpus",
+   "Chrysolepis",
+   "Arbutus"
+  ],
+  "116": [
+   "Larix",
+   "Lithocarpus",
+   "Chrysolepis",
+   "Arbutus"
+  ],
+  "117": [
+   "Larix",
+   "Lithocarpus",
+   "Chrysolepis",
+   "Arbutus"
+  ],
+  "118": [
+   "Larix",
+   "Lithocarpus",
+   "Chrysolepis",
+   "Arbutus"
+  ],
+  "120": [
+   "Larix",
+   "Lithocarpus",
+   "Chrysolepis",
+   "Arbutus"
+  ],
+  "121": [
+   "Larix",
+   "Lithocarpus",
+   "Chrysolepis",
+   "Arbutus"
+  ],
+  "122": [
+   "Larix",
+   "Lithocarpus",
+   "Chrysolepis",
+   "Arbutus"
+  ],
+  "129": [
+   "Larix",
+   "Chrysolepis",
+   "Arbutus"
+  ],
+  "130": [
+   "Chrysolepis",
+   "Arbutus"
+  ],
+  "131": [
+   "Larix",
+   "Chrysolepis",
+   "Arbutus"
+  ],
+  "171": [
+   "Larix",
+   "Lithocarpus",
+   "Chrysolepis",
+   "Arbutus"
+  ],
+  "172": [
+   "Lithocarpus",
+   "Chrysolepis",
+   "Arbutus"
+  ]
+ },
+ "real_full_minus_B": [
+  0.0037890704961017984,
+  0.0010497311939530727,
+  0.009243820368368336
+ ],
+ "proxy_actual_set_(Lith+Chrys+Arb additive)_minus_B": [
+  0.0035102540208195115,
+  0.0007028499622948917,
+  0.009339424749185777
+ ],
+ "nested_minus_B": [
+  0.0022095644464071086,
+  -0.0007458227834045655,
+  0.007471185495409752
+ ],
+ "nested_minus_base": [
+  0.0005774163291556029,
+  -0.0001463260753585995,
+  0.001569129547529019
+ ],
+ "base_minus_B": [
+  0.0016321481172515057,
+  -0.0013072617103567854,
+  0.006700337532530216
+ ],
+ "real_full_minus_base": [
+  0.0021569223788502926,
+  0.0007847392075462068,
+  0.0035297653053840907
+ ],
+ "band_kept_in_n_of_24_folds": {
+  "Larix": 19,
+  "Lithocarpus": 21,
+  "Chrysolepis": 24,
+  "Arbutus": 23
+ }
+}
