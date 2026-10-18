@@ -1,0 +1,18 @@
+specimens scored 3 s
+reproduction 9 s
+subsets 18 s
+block-matched 24 s
+{
+ "point_value_instead_of_circle_mean": "+0.19221 [+0.09827, +0.26221]",
+ "era_2000_on": "+0.21095 [+0.13830, +0.27114]",
+ "era_before_2000": "+0.19304 [+0.05120, +0.28718]",
+ "era_before_1970": "+0.16872 [+0.04301, +0.30111]",
+ "herbarium_UW_macrofungi": "+0.21616 [+0.07816, +0.31984]",
+ "herbarium_other": "+0.15293 [+0.00186, +0.28636]",
+ "specimens_in_western_four_blocks": "+0.22669 [+0.04182, +0.33535]",
+ "specimens_outside_western_four_blocks": "+0.06250 [-0.04572, +0.17680]",
+ "background_matched_on_road_band_and_level3_block": "+0.17788 [+0.10350, +0.23862]",
+ "background_matched_on_road_band_and_weather_cell_(block_fallback)": "+0.12867 [+0.03045, +0.20151]"
+}
+reproduction match: True True
+done 68 s

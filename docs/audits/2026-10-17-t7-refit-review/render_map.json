@@ -1,0 +1,223 @@
+{
+ "shape": [
+  5089,
+  5048
+ ],
+ "codes_refit": {
+  "0": 9015139,
+  "1": 6950510,
+  "2": 16738,
+  "3": 102543,
+  "4": 9447216,
+  "5": 23834,
+  "6": 133292
+ },
+ "codes_judged": {
+  "0": 9015139,
+  "1": 6950770,
+  "2": 16478,
+  "3": 102543,
+  "4": 9447216,
+  "5": 23834,
+  "6": 133292
+ },
+ "valued_equals_code_1": true,
+ "cells_valued_in_both": 6941779,
+ "valued_only_refit": 8731,
+ "valued_only_judged": 8991,
+ "spearman_over_both": 0.9116770475318309,
+ "top_tenth_overlap_share": 0.580395806262947,
+ "rank_shift_quantiles": [
+  -0.32015316822964257,
+  -0.19495017055426278,
+  -0.0665048541591428,
+  -0.001947411463257477,
+  0.06269502385483611,
+  0.20671235716377603,
+  0.3337881946400193
+ ],
+ "share_moved_more_than_0.2_in_rank": 0.10081219814113933,
+ "by_block": {
+  "6.2.3 Columbia Mountains/Northern Rockies": {
+   "cells": 1064467,
+   "mean_rank_refit": 0.5881249308586121,
+   "mean_rank_shift": -0.020207373425364494,
+   "share_of_refit_top_tenth": 0.2023195746342082,
+   "share_of_block_in_top_tenth": 0.131940210452743
+  },
+  "6.2.15 Idaho Batholith": {
+   "cells": 621569,
+   "mean_rank_refit": 0.6597365736961365,
+   "mean_rank_shift": -0.017680911347270012,
+   "share_of_refit_top_tenth": 0.18045921873176804,
+   "share_of_block_in_top_tenth": 0.20153997384039424
+  },
+  "6.2.5 North Cascades": {
+   "cells": 390498,
+   "mean_rank_refit": 0.6605019569396973,
+   "mean_rank_shift": 0.07407881319522858,
+   "share_of_refit_top_tenth": 0.11923581669857486,
+   "share_of_block_in_top_tenth": 0.2119626733043447
+  },
+  "6.2.7 Cascades": {
+   "cells": 830225,
+   "mean_rank_refit": 0.5633348822593689,
+   "mean_rank_shift": 0.004932179115712643,
+   "share_of_refit_top_tenth": 0.10774310372396745,
+   "share_of_block_in_top_tenth": 0.09008762684814357
+  },
+  "6.2.4 Canadian Rockies": {
+   "cells": 228260,
+   "mean_rank_refit": 0.7310651540756226,
+   "mean_rank_shift": -0.0010212853085249662,
+   "share_of_refit_top_tenth": 0.10181667840715435,
+   "share_of_block_in_top_tenth": 0.30964251292385875
+  },
+  "6.2.9 Blue Mountains": {
+   "cells": 614334,
+   "mean_rank_refit": 0.4885236620903015,
+   "mean_rank_shift": -0.01590132713317871,
+   "share_of_refit_top_tenth": 0.08251329988374756,
+   "share_of_block_in_top_tenth": 0.09323755481545869
+  },
+  "6.2.10 Middle Rockies": {
+   "cells": 639552,
+   "mean_rank_refit": 0.41705501079559326,
+   "mean_rank_shift": -0.006357976235449314,
+   "share_of_refit_top_tenth": 0.07807352282336401,
+   "share_of_block_in_top_tenth": 0.08474213199239468
+  },
+  "7.1.8 Coastal Range": {
+   "cells": 688507,
+   "mean_rank_refit": 0.5278058052062988,
+   "mean_rank_shift": -0.005762326996773481,
+   "share_of_refit_top_tenth": 0.0698652652990079,
+   "share_of_block_in_top_tenth": 0.07044082340484556
+  },
+  "6.2.13 Wasatch and Uinta Mountains": {
+   "cells": 149844,
+   "mean_rank_refit": 0.5008512139320374,
+   "mean_rank_shift": 0.09609108418226242,
+   "share_of_refit_top_tenth": 0.023142445968547018,
+   "share_of_block_in_top_tenth": 0.10721149995995835
+  },
+  "6.2.8 Eastern Cascades Slopes and Foothills": {
+   "cells": 490771,
+   "mean_rank_refit": 0.3335103690624237,
+   "mean_rank_shift": -0.012243347242474556,
+   "share_of_refit_top_tenth": 0.017531501241034374,
+   "share_of_block_in_top_tenth": 0.02479771624647748
+  },
+  "7.1.7 Strait of Georgia/Puget Lowland": {
+   "cells": 165889,
+   "mean_rank_refit": 0.43488502502441406,
+   "mean_rank_shift": 0.002269138814881444,
+   "share_of_refit_top_tenth": 0.006455107400252673,
+   "share_of_block_in_top_tenth": 0.027012038170101695
+  },
+  "6.2.11 Klamath Mountains": {
+   "cells": 548005,
+   "mean_rank_refit": 0.3187437355518341,
+   "mean_rank_shift": 0.008623918518424034,
+   "share_of_refit_top_tenth": 0.005429435347367177,
+   "share_of_block_in_top_tenth": 0.00687767447377305
+  },
+  "10.1.3 Northern Basin and Range": {
+   "cells": 165187,
+   "mean_rank_refit": 0.25618115067481995,
+   "mean_rank_shift": 0.04364105686545372,
+   "share_of_refit_top_tenth": 0.00313175708282734,
+   "share_of_block_in_top_tenth": 0.013160841954875383
+  },
+  "7.1.9 Willamette Valley": {
+   "cells": 94157,
+   "mean_rank_refit": 0.36792662739753723,
+   "mean_rank_shift": -0.09167645126581192,
+   "share_of_refit_top_tenth": 0.0007231564193097169,
+   "share_of_block_in_top_tenth": 0.00533152075788311
+  },
+  "10.1.5 Central Basin and Range": {
+   "cells": 97515,
+   "mean_rank_refit": 0.13244490325450897,
+   "mean_rank_shift": 0.05263883247971535,
+   "share_of_refit_top_tenth": 0.0004825844630851697,
+   "share_of_block_in_top_tenth": 0.00343536891760242
+  },
+  "9.3.1 Northwestern Glaciated Plains": {
+   "cells": 7911,
+   "mean_rank_refit": 0.29374730587005615,
+   "mean_rank_shift": 0.040485929697752,
+   "share_of_refit_top_tenth": 0.00039903252619281194,
+   "share_of_block_in_top_tenth": 0.03501453672102136
+  },
+  "6.2.12 Sierra Nevada": {
+   "cells": 24832,
+   "mean_rank_refit": 0.44542396068573,
+   "mean_rank_shift": -0.021031808108091354,
+   "share_of_refit_top_tenth": 0.00026938296894604994,
+   "share_of_block_in_top_tenth": 0.007530605670103093
+  },
+  "10.1.2 Columbia Plateau": {
+   "cells": 51127,
+   "mean_rank_refit": 0.23054051399230957,
+   "mean_rank_shift": 0.013583936728537083,
+   "share_of_refit_top_tenth": 0.00020311763968659382,
+   "share_of_block_in_top_tenth": 0.0027578383241731374
+  },
+  "10.1.8 Snake River Plain": {
+   "cells": 11940,
+   "mean_rank_refit": 0.272878497838974,
+   "mean_rank_shift": 0.032695453613996506,
+   "share_of_refit_top_tenth": 0.0001642227725125652,
+   "share_of_block_in_top_tenth": 0.009547738693467337
+  },
+  "9.3.3 Northwestern Great Plains": {
+   "cells": 11138,
+   "mean_rank_refit": 0.16467560827732086,
+   "mean_rank_shift": -0.01713131181895733,
+   "share_of_refit_top_tenth": 2.59299114493524e-05,
+   "share_of_block_in_top_tenth": 0.001616089064463997
+  },
+  "10.1.4 Wyoming Basin": {
+   "cells": 3606,
+   "mean_rank_refit": 0.182036891579628,
+   "mean_rank_shift": 0.07206038385629654,
+   "share_of_refit_top_tenth": 1.0083854452525933e-05,
+   "share_of_block_in_top_tenth": 0.0019412090959511925
+  },
+  "11.1.1 Central California Foothills and Coastal Mountains": {
+   "cells": 41626,
+   "mean_rank_refit": 0.13195613026618958,
+   "mean_rank_shift": -0.01669285260140896,
+   "share_of_refit_top_tenth": 5.762202544300534e-06,
+   "share_of_block_in_top_tenth": 9.609378753663576e-05
+  }
+ },
+ "top_tenth_median_road_m": {
+  "refit": 793.1400146484375,
+  "all_valued": 304.9173583984375
+ },
+ "spearman_rank_vs_road_distance": 0.17181785426451632,
+ "canada_cells": 102543,
+ "canada_rows_span": [
+  2,
+  427
+ ],
+ "canada_edge_window": {
+  "rows": [
+   127,
+   727
+  ],
+  "cols": [
+   1800,
+   3000
+  ]
+ },
+ "quintile_edges_refit_raw_score": [
+  -2.705815553665161,
+  -2.266561508178711,
+  -1.8464620351791383,
+  -1.451016616821289
+ ],
+ "seconds": 16
+}

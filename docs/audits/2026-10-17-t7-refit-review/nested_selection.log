@@ -1,0 +1,29 @@
+selection on all blocks: ('share_Lithocarpus', 'share_Chrysolepis', 'share_Arbutus') 279 s
+block 4: chosen ('share_Larix', 'share_Lithocarpus', 'share_Chrysolepis', 'share_Arbutus') -> base (no cached model for this set); 416 s
+block 5: chosen ('share_Larix', 'share_Lithocarpus', 'share_Chrysolepis', 'share_Arbutus') -> base (no cached model for this set); 552 s
+block 6: chosen ('share_Larix', 'share_Lithocarpus', 'share_Chrysolepis', 'share_Arbutus') -> base (no cached model for this set); 687 s
+block 7: chosen ('share_Larix', 'share_Lithocarpus', 'share_Chrysolepis', 'share_Arbutus') -> base (no cached model for this set); 823 s
+block 8: chosen ('share_Lithocarpus', 'share_Chrysolepis', 'share_Arbutus') -> full; 959 s
+block 10: chosen ('share_Larix', 'share_Lithocarpus', 'share_Chrysolepis', 'share_Arbutus') -> base (no cached model for this set); 1097 s
+block 15: chosen ('share_Larix', 'share_Lithocarpus', 'share_Chrysolepis', 'share_Arbutus') -> base (no cached model for this set); 1233 s
+block 16: chosen ('share_Larix', 'share_Lithocarpus', 'share_Chrysolepis', 'share_Arbutus') -> base (no cached model for this set); 1368 s
+block 109: chosen ('share_Lithocarpus', 'share_Chrysolepis', 'share_Arbutus') -> full; 1500 s
+block 110: chosen ('share_Larix', 'share_Lithocarpus', 'share_Chrysolepis') -> base (no cached model for this set); 1614 s
+block 111: chosen ('share_Larix', 'share_Lithocarpus', 'share_Chrysolepis', 'share_Arbutus') -> base (no cached model for this set); 1742 s
+block 112: chosen ('share_Larix', 'share_Lithocarpus', 'share_Chrysolepis', 'share_Arbutus') -> base (no cached model for this set); 1870 s
+block 114: chosen ('share_Lithocarpus', 'share_Chrysolepis', 'share_Arbutus') -> full; 1990 s
+block 116: chosen ('share_Larix', 'share_Lithocarpus', 'share_Chrysolepis', 'share_Arbutus') -> base (no cached model for this set); 2101 s
+block 117: chosen ('share_Larix', 'share_Lithocarpus', 'share_Chrysolepis', 'share_Arbutus') -> base (no cached model for this set); 2231 s
+block 118: chosen ('share_Larix', 'share_Lithocarpus', 'share_Chrysolepis', 'share_Arbutus') -> base (no cached model for this set); 2346 s
+block 120: chosen ('share_Larix', 'share_Lithocarpus', 'share_Chrysolepis', 'share_Arbutus') -> base (no cached model for this set); 2449 s
+block 121: chosen ('share_Larix', 'share_Lithocarpus', 'share_Chrysolepis', 'share_Arbutus') -> base (no cached model for this set); 2571 s
+block 122: chosen ('share_Larix', 'share_Lithocarpus', 'share_Chrysolepis', 'share_Arbutus') -> base (no cached model for this set); 2700 s
+block 129: chosen ('share_Larix', 'share_Populus', 'share_Chrysolepis', 'share_Arbutus') -> base (no cached model for this set); 2826 s
+block 130: chosen ('share_Larix', 'share_Chrysolepis', 'share_Arbutus', 'share_ecm_hosts') -> base (no cached model for this set); 2936 s
+block 131: chosen ('share_Larix', 'share_Chrysolepis', 'share_Arbutus') -> base (no cached model for this set); 3063 s
+block 171: chosen ('share_Larix', 'share_Lithocarpus', 'share_Chrysolepis', 'share_Arbutus') -> base (no cached model for this set); 3199 s
+block 172: chosen ('share_Lithocarpus', 'share_Chrysolepis', 'share_Arbutus') -> full; 3340 s
+condition_1_as_reported_full_minus_B_block +0.00379 [+0.00105, +0.00924]
+condition_1_nested_full_minus_B_block +0.00182 [-0.00129, +0.00733]
+condition_1_no_selection_base_minus_B_block +0.00163 [-0.00131, +0.00670]
+differs: [4, 5, 6, 7, 10, 15, 16, 110, 111, 112, 116, 117, 118, 120, 121, 122, 129, 130, 131, 171] unavailable: [4, 5, 6, 7, 10, 15, 16, 110, 111, 112, 116, 117, 118, 120, 121, 122, 129, 130, 131, 171]

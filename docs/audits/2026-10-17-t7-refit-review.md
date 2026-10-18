@@ -121,3 +121,110 @@ Inside the mycorrhizal group, the gain over A by genus (presences against the sh
 - **The strongest bound I can give.** Scoring those 20 blocks by the base (the choice that adds no band; a lower bound on the gain for any set that helps, and the honest fallback where the chosen set is unknown) gives nested full minus B = **+0.00182 [−0.00129, +0.00733]**, pooled nested AUC 0.8907 against the base's 0.8905 and full's 0.8927. That is a lower bound dominated by the base, not an estimate. The upper bound is the reported +0.00379, which assumes the selection carries no optimism at all. The truth is between, and the one thing the folds show for certain is that the rule's output is not stable to a single block.
 
 **Would condition 1 pass without the selection?** **No.** The unselected habitat model is base minus B, +0.00163 [−0.00131, +0.00670], and it fails. The only way condition 1 passes is through three bands chosen on the same held-out blocks that score it, by a rule whose choice changes in 20 of 24 leave-one-out folds, and whose decisive member in the biggest blocks (*Lithocarpus*) has a lower bound of +0.00008 on all blocks and a negative one when any of those blocks is withheld. COMPUTED for the figures; INFERRED for the reading. A refit with a nested selection (choose on the 23 training blocks inside each outer fold, D138's rule unchanged) would settle it, and is the one strengthening step I can see that bears on condition 1 (section 7).
+
+## 5. Condition 4, the specimens (`condition4_check.py`, `.json`, `.log`)
+
+**The filters, as D158 states them.** READ, `src/forager_forecast/t7/specimens.py`: `classify` drops a record whose dataset licence is not CC0 or CC BY (both URL and code spellings; BY-NC and BY-SA are None), then whose own licence is not, then with no stated uncertainty, then over 1,000 m, then whose names do not join the mycorrhizal main run through the same `Join` V9 used; `assert_open_licences` re-checks every kept row. COMPUTED on `specimens_kept.csv` (6,026 rows, sha256 as registered): the licence columns hold only CC0 and CC BY 4.0 in either spelling; uncertainty runs 1 m to 1,000 m; every record's point falls in the cell the file names. **One thing the filter admits that the dispatch's wording ("genera") may not have meant:** 99 genera are in the kept set, and **23 of them have no presence at all in the platform main run** the map was fitted on (*Tomentella*, *Piloderma*, *Sebacina*, *Hysterangium*, *Amphinema*, *Dermocybe*, *Gymnomyces*, *Macowanites* and the rest: resupinate, corticioid and false-truffle ectomycorrhizal fungi that herbaria hold and the platforms do not report). They join the main run by the membership list, so the rule was followed; they are a slightly different group from the one the map was trained on. Their count among the scorable 4,014 is not separated out (not checked).
+
+**Scoring and matching, reproduced.** COMPUTED with my own circle mean, band edges and draw: the raster's valued cells are exactly the table's cells inside the area of applicability (6,950,510 both ways); 4,014 of 6,026 specimens are scorable; the background's road-band counts equal ten times the specimens' in every band; the whole-box figure is **+0.19615 [+0.06645, +0.28547]** and the interior's **+0.10333 [−0.15708, +0.23985]**, both equal to the report's to 1e-9. The specimen median score is −1.654 against the background's −2.102.
+
+**What the pass can bear.** I had predicted (prediction 5) that the margin was mostly geography between blocks and would fall below +0.10 with a block-matched background. **That prediction was wrong**, and the figures are the correction:
+
+| variant (the review's; not rulings) | specimens / background | AUC − 0.5 [block interval] |
+|---|---:|---|
+| as ruled (circle mean, road-band match, whole box) | 4,014 / 40,140 | +0.196 [+0.066, +0.285] |
+| the map's value at the own cell instead of the circle mean | 4,014 / 40,140 | +0.192 [+0.098, +0.262] |
+| background matched on road band **and the specimen's level III block** | 4,014 / 40,140 | **+0.178 [+0.104, +0.239]** |
+| background matched on road band **and the specimen's weather cell** (2,262 specimens fell back to their block where the cell's band held fewer than ten cells) | 4,014 / 40,140 | +0.129 [+0.030, +0.202] |
+| within one weather cell only: specimens against their own cell's matched background, pair AUC | — | **0.513** |
+| specimens from 2000 on | 460 / 4,600 | +0.211 [+0.138, +0.271] |
+| before 2000 | 3,504 / 35,040 | +0.193 [+0.051, +0.287] |
+| before 1970 | 1,267 / 12,670 | +0.169 [+0.043, +0.301] |
+| the one herbarium (UW macrofungi) | 2,770 / 27,700 | +0.216 [+0.078, +0.320] |
+| the other herbaria | 1,244 / 12,440 | +0.153 [+0.002, +0.286] |
+| specimens in the four western blocks | 3,281 / 32,810 | +0.227 [+0.042, +0.335] (9 of 1,000 draws held no specimen, left out and counted) |
+| specimens outside those four | 733 / 7,330 | **+0.063 [−0.046, +0.177]** |
+| no matching at all: every seventh valued cell as background, point scores | 4,014 / ~993,000 | +0.162 (no interval) |
+
+Reading, INFERRED from the table:
+- **The pass is not an artefact of the circle mean, of the decade, or of one herbarium.** Point scoring gives the same answer; the 460 post-2000 specimens score as high as the old ones; the other herbaria pass on their own, barely.
+- **It is not mostly between-block geography either**, which is where my prediction failed: matching the background inside the specimen's own block keeps +0.178 with a tighter interval. Inside blocks, specimens sit on cells the map rates higher than road-matched cells of the same block.
+- **It is largely within-block, between-weather-cell structure, and it fades inside a weather cell.** Matching inside the weather cell drops the figure to +0.129 (and more than half the specimens could not be matched inside their cell at all); over the pairs that do share a cell the map ranks specimens at 0.513, close to chance. That is the same shape condition 2 found with the platform data: the map's information about where a find is lies at the scale of tens of kilometres, not of 250 m cells.
+- **Outside the four western blocks it does not pass** (+0.063, interval including zero, on 733 specimens), and the interior sub-box does not pass (+0.103, −0.157 to +0.240, on 390). The pass is a western-Washington-and-Oregon result.
+- **Clustering.** The 4,014 scorable specimens occupy 860 distinct cells and 481 weather cells; the ten most-collected cells hold 233, 142, 127, 101, 86, 73, 57, 55, 53 and 52 specimens each. The block bootstrap treats each block as a unit, which covers this, but the effective sample is a few hundred stations, not four thousand records, and the matched background is drawn fresh per record (ten cells each), so the background is far less clustered than the specimens. A background drawn per station would be the honest comparison and was not built (a design choice beyond a review).
+- **Is the interior result usable?** As a verdict, no: 390 specimens from a handful of stations, an interval from −0.157 to +0.240, and 340 of the 751 interior records dropped because their cells have no host shares. As a description it says one thing: nothing in the interior contradicts the map, and nothing confirms it.
+
+What condition 4 shows, read as far as it goes: herbarium collectors in western Washington and Oregon, from the 1930s to the 2020s, collected these fungi in places the map rates higher than road-matched places nearby, inside the same ecoregion, by a margin that survives every slice I tried except the within-weather-cell one and the interior. It does not show that the map ranks *mycorrhizal* habitat (section 4), and the 0.513 within a cell says it does not show the map's 250 m detail is right.
+
+## 6. The map (`render_map.py`, `.json`; the PNGs in the evidence folder)
+
+Rendered, not shown: `map_refit.png` (1 km pixels, five equal-count greens over the shaded cells, greys for the codes), `map_judged.png` (the 2026-10-16 map, same classes), `map_rank_shift.png` (rank percentile in the re-fit minus rank in the judged map, blue fell, red rose, saturated at ±0.3), `mask_refit.png` (the codes alone; orange is code 2, outside the area of applicability), `canada_edge_refit.png` (full resolution, 600 by 1,200 cells across the northern edge).
+
+**Counts, COMPUTED from the rasters.** 25,689,272 cells in the window; code 1 (shaded) 6,950,510, equal to the cells with a value; code 2 (outside the area of applicability) 16,738 (16,478 on 2026-10-16); code 3 (Canada) 102,543; code 4 (no host shares) 9,447,216; code 5 (no pH) 23,834; code 6 (water or unmapped) 133,292. 6,941,779 cells are valued in both maps; 8,731 only now, 8,991 only before. Spearman between the two maps over those cells 0.9117 (the coder's 0.912 matches); 58.0% of the re-fit's top tenth was in the judged top tenth (matches). 10.1% of cells moved more than 0.2 in rank; the 1st and 99th percentiles of the shift are −0.32 and +0.33.
+
+**What the map shows, in words.** The darkest fifth is the high conifer forest: the North Cascades from the Skagit to the border, the Cascade crest south through Washington into Oregon, the Idaho Batholith and the Columbia Mountains/Northern Rockies up to the border, the Canadian Rockies' edge, and the Blue and Wallowa mountains. Middle shades cover the Coast Range and the Olympics' lower slopes, the eastern Cascades and the Middle Rockies. The pale fifths are the Klamath Mountains and the southern Oregon coast, the Willamette Valley's margins, the Puget Lowland's remaining forest, and the foothill forest of the Great Basin ranges. Half of the shaded area in the box (every non-forest cell, code 4) is blank. By block the top tenth is 20% Columbia Mountains/Northern Rockies, 18% Idaho Batholith, 12% North Cascades, 11% Cascades, 10% Canadian Rockies, 8% Blue Mountains, 8% Middle Rockies, 7% Coast Range, and under 1% each in the Puget Lowland, Klamath and Willamette. The top tenth's median road distance is 793 m against 305 m over all shaded cells (COMPUTED; matches the coder's figure), and Spearman of the map's rank against road distance over shaded cells is +0.17: the map leans gently toward remote forest, not toward roads.
+
+**Where it moved.** The shift map has two layers: a fine speckle of ±0.1 everywhere (the three new bands and the access term re-weighting cells individually), and coherent regions. **Rose:** the North Cascades (mean rank shift +0.074), the Wasatch and Uinta (+0.096), the southern Oregon coast and the Klamath coast strip (where tanoak, chinquapin and madrone grow), the Olympic Peninsula's northeast, the Northern Basin and Range foothills. **Fell:** the Willamette Valley (−0.092), the outer Olympic coast and the central Oregon Coast Range (a blue band along the coast), the Columbia Mountains (−0.020) and the Idaho Batholith (−0.018) slightly, the Eastern Cascades slopes. The western valleys and the wettest coast fell, the dry-side mountains and the broadleaf south coast rose. INFERRED: the first is the access term taking the near-road, near-town signal those lowlands carried; the second is the three southwestern broadleaf bands.
+
+**Artefacts.** None of the kind I looked for. No tile seams, no striping and no blocky edges are visible at 1 km, and none at full resolution across the 600 by 1,200 cells of the northern edge. The code-2 cells are speckles, concentrated in the southern Oregon Coast Range and Klamath coast (the extreme of the new broadleaf bands) and along the Olympic coast, consistent with what an area-of-applicability test should flag; they are 0.24% of shaded cells. The Canadian side is a single flat lavender region in the top-left corner (the box's northern edge sits at 49 N, so Canada enters only where the border bends south along the Strait of Georgia); its edge against the US cells is the straight box boundary and the shoreline, with no halo or gradient on the US side. Water bodies (Puget Sound, the Columbia, the large reservoirs and lakes) read as code 6 and look right.
+
+One thing worth stating for the owner: half the shaded cells (3,212,602 of 6,950,510, READ from `fit_report.json` `aoa.counts.inside_outside_frame`) lie in weather cells outside T6's effort frame, where no background was drawn and no presence could enter. The area of applicability covers habitat space, not geography, so the map is extrapolating there in effort, not in habitat. P6 makes that harmless for the ranking, but anyone reading the map should know that the eastern and southern thirds were never scored against a single record.
+
+## 7. Verdict and the one-line answers
+
+### Mechanism prediction, scored
+
+| predicted | found | |
+|---|---|---|
+| 1. everything reproduces exactly from the cache | every figure matched to 1e-9, including condition 4 and the side runs | right |
+| 2. base minus B fails; the leave-one-out selection does not pick the same bands every time; the nested estimate sits between base minus B and the reported figure with an interval including zero | base minus B fails; the chosen set differs in 20 of 24 folds; the nested figure cannot be computed from the cache, and its lower bound (+0.00182 [−0.00129, +0.00733]) includes zero | right on the first two; the third is a bound, not an estimate, which the prediction did not foresee |
+| 3. the road band alone ranks within-cell pairs at about A's 0.648; the collapse is the road band; holding access does not pull the map toward roads | −road alone 0.654, above A and above full; top tenth median road distance 793 m against 305 m overall; Spearman of rank against road distance +0.17 | right |
+| 4. the saprotroph and *Laetiporus* gains reproduce; "mycorrhizal" is not supported | reproduced; and inside the group the common ectomycorrhizal genera gain nothing | right |
+| 5. condition 4's pass is mostly between-block geography; block-matched background drops it under +0.10 with an interval including zero; point scoring and era make little difference | **wrong on the main claim**: block-matched is +0.178 [+0.104, +0.239]; right that point scoring (+0.192) and era (post-2000 +0.211) change little; what does bring it down is matching inside the weather cell (+0.129; 0.513 on the pairs that share a cell) and leaving the four western blocks (+0.063, includes zero) | half wrong |
+| 6. interior conifer forest highest; a flat Canadian band with a hard border edge; few scattered code-2 cells; close to 2026-10-16 with the top tenth shifted toward the Cascades | as predicted, except that Canada is a corner, not a band (the box ends at 49 N), and the clearest regional moves were the Willamette Valley and outer coast falling and the southern Oregon coast rising, which I had not named | mostly right |
+
+Where I was wrong (5), I was wrong in the direction of under-rating the specimen result. It is more robust than I expected, and section 5 says so.
+
+### Verdict
+
+**Blocking** (for showing this map to anyone as what its label says):
+1. **P10b fails, confirmed by independent recomputation** (conditions 2 and 3). Under D145 that is the bar, and nothing in this review moves either failing condition: within a weather cell the habitat bands add nothing to the road band (section 3), and the mycorrhizal gain is not shown above the saprotroph group's (section 4).
+2. **Condition 1's pass rests on a selection step that is not stable** (section 2): the full model's margin over B is 57% selected bands, the unselected model fails the condition, and the selection rule's output changes in 20 of 24 leave-one-block-out folds. The nested figure is not computable from the cache; its lower bound includes zero. Condition 1 should be read as "not established" rather than "pass" until a nested selection is run.
+3. **The label "mycorrhizal" is not supported by any test in the run** (section 4). This holds whatever happens to conditions 1 and 2.
+
+**Should-fix** (in the report and the next step, not blocking a decision):
+4. The report's condition 1 row should carry the selection caveat in the verdict table, not three sections below it; a reader of the table alone takes a pass.
+5. `fit.log` should print the block-resampled condition 2 interval, as the coder notes.
+6. The specimen set's 23 herbarium-only genera (no platform presence) should be counted and reported in condition 4, with the figure beside for the 76 genera the map was trained on.
+7. Condition 4's background should be drawn per collecting station (distinct cell), or the specimens thinned to one per cell, so both sides carry the same clustering; the block bootstrap covers blocks, not stations.
+8. The map's reader should be told that half the shaded cells lie outside the effort frame (section 6).
+9. The report's "within one weather cell: A 0.6481" deserves one more sentence: the raw road distance does better (0.654), so A's within-cell figure is the road band and nothing fitted.
+
+**Notes:**
+10. The coder's report is accurate everywhere I checked it: every number, the reading of the condition 2 log line, the per-block table and the map comparison. Its caveats (items 3 and 4 of its "what changed" section) are the right ones, and this review mostly sharpens them.
+11. The access ruling (D156) is implemented as stated, and it did what it was meant to: the map moved away from roads, and the within-cell test became honest.
+12. The Puget Lowland is the one block where presences sit farther from roads than background inside a cell (within-cell A 0.470); the monotone −1 constraint is wrong there. It is 2,330 presences, 15% of the run. Not a bug, a limit of a one-direction access term in urban forest.
+13. Condition 4 is the strongest evidence in the run, and it is evidence for a modest claim: the map's between-weather-cell ranking agrees with where western-Washington-and-Oregon herbarium collectors found these fungi, after road matching. It is not evidence for the 250 m detail (0.513 within a cell), the interior, or the word "mycorrhizal".
+14. Tuning at the grid's edge (every B, base and full fold at `c16`) stands as the coder reported; not re-examined here.
+
+### The one-line answers
+
+- **Does the evidence support showing this map to anyone, and under what wording?** Not under any wording that includes "mycorrhizal", "habitat" for a group, or a 250 m claim; the bar the owner set (P10b) fails on the two conditions built to test exactly those words. If the owner chooses to show it anyway as a research view, the wording the evidence supports is: "where reported finds of this fungus group cluster in the Pacific Northwest, after allowing for where people search and how near roads they are; a relative ranking at the scale of tens of kilometres; not a habitat model; not reviewed as one". Publishing is the owner's decision, not this review's.
+- **Is a further strengthening step likely to change the P10b verdict, and which one?** Not the verdict. One step is worth running for the record: a nested band selection (choose the candidate bands on the 23 training blocks inside each outer fold), which settles condition 1 either way at about the cost of one full model per fold; and condition 4 per station. Neither can rescue condition 2, whose failure is structural (the road band ranks within cells better than the fitted habitat does), nor condition 3, where the comparison group gains as much. A different design could: a host-specific target (the bolete and tooth genera that do gain, section 4) against a matched saprotroph set, tested within cells. That is a new question, not a strengthening of this one.
+- **Or does the evidence point to stopping T7 for the PNW?** For the question T7 asked, "does a mycorrhizal-host habitat map add to effort and access, and can it be shown", the answer is in: no, on this data, and the two re-fits have measured why. I would stop T7 as posed, keep the two maps and the rasters as the record of it, and treat the within-block-between-cell signal that condition 4 found, and the per-genus gains, as leads for a narrower question rather than a reason to run a third fit of the same design.
+
+## Not checked
+
+- No model was refitted; the nested-selection estimate (section 2) is therefore a bound, not a figure.
+- The 23 herbarium-only genera's share of the 4,014 scorable specimens.
+- LightGBM's determinism across thread counts; the tuning grid's edge; the `NotGeoreferencedWarning` the coder noted.
+- Whether the specimen records duplicate any platform record.
+- Review 2 was not read, by the dispatch's rule.
+- The recompute script was run twice: once as first committed and once after `review_common.py` gained the degenerate-draw count (section 5); the figures are identical both times (the second run's `recompute_p10b.log` and `.json` are the committed ones), and that is stated here rather than left to the commit history.
+
+## Decided beyond scope
+
+- `pyproject.toml`: the review's evidence scripts are added to ruff's exclude list, as D124 and D132 do for committed evidence scripts, so the branch's lint stays green without reformatting what ran. One line.
+- The run logs are force-added past the repository's `*.log` ignore rule, as the evidence of what ran; they are small.
+- The rank-shift image is rendered at 2 km pixels because the 1 km file exceeded the repository's 1 MB hook.
+- Degenerate bootstrap draws (a resample holding no specimen) are counted in the output rather than raising; one variant (the four western blocks) had 9 of 1,000.

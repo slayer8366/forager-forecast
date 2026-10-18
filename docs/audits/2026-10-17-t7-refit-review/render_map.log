@@ -1,0 +1,71 @@
+ranks 12 s
+blocks 15 s
+/home/zynergy-labs/Zynergy/forager-forecast-t7-refit-review/.venv/lib/python3.14/site-packages/rasterio/io.py:143: NotGeoreferencedWarning: Dataset has no geotransform, gcps, or rpcs. The identity matrix will be returned.
+  rd = writer(
+{
+ "shape": [
+  5089,
+  5048
+ ],
+ "codes_refit": {
+  "0": 9015139,
+  "1": 6950510,
+  "2": 16738,
+  "3": 102543,
+  "4": 9447216,
+  "5": 23834,
+  "6": 133292
+ },
+ "codes_judged": {
+  "0": 9015139,
+  "1": 6950770,
+  "2": 16478,
+  "3": 102543,
+  "4": 9447216,
+  "5": 23834,
+  "6": 133292
+ },
+ "valued_equals_code_1": true,
+ "cells_valued_in_both": 6941779,
+ "valued_only_refit": 8731,
+ "valued_only_judged": 8991,
+ "spearman_over_both": 0.9116770475318309,
+ "top_tenth_overlap_share": 0.580395806262947,
+ "rank_shift_quantiles": [
+  -0.32015316822964257,
+  -0.19495017055426278,
+  -0.0665048541591428,
+  -0.001947411463257477,
+  0.06269502385483611,
+  0.20671235716377603,
+  0.3337881946400193
+ ],
+ "share_moved_more_than_0.2_in_rank": 0.10081219814113933,
+ "top_tenth_median_road_m": {
+  "refit": 793.1400146484375,
+  "all_valued": 304.9173583984375
+ },
+ "spearman_rank_vs_road_distance": 0.17181785426451632,
+ "canada_cells": 102543,
+ "canada_rows_span": [
+  2,
+  427
+ ],
+ "canada_edge_window": {
+  "rows": [
+   127,
+   727
+  ],
+  "cols": [
+   1800,
+   3000
+  ]
+ },
+ "quintile_edges_refit_raw_score": [
+  -2.705815553665161,
+  -2.266561508178711,
+  -1.8464620351791383,
+  -1.451016616821289
+ ],
+ "seconds": 16
+}
