@@ -185,9 +185,16 @@ def auc_difference(a, b, y, w, units, resamples=RESAMPLES, seed=SEED) -> dict:
     ra, rb = Ranked(a, y), Ranked(b, y)
     w = np.asarray(w, dtype=np.float64)
     point = ra.auc(w) - rb.auc(w)
-    diffs = np.array([ra.auc(w * t) - rb.auc(w * t) for t in _draws(units, resamples, seed)])
-    lo, hi = interval(diffs)
-    return {"point": point, "low": lo, "high": hi, "resamples": resamples, "above_zero": lo > 0}
+    with np.errstate(invalid="ignore"):
+        diffs = np.array([ra.auc(w * t) - rb.auc(w * t) for t in _draws(units, resamples, seed)])
+    # a draw that holds no presence or no background has no AUC; such draws are left out of the
+    # percentiles and COUNTED, never silently (the coder's code raises instead)
+    bad = int((~np.isfinite(diffs)).sum())
+    lo, hi = interval(diffs[np.isfinite(diffs)])
+    out = {"point": point, "low": lo, "high": hi, "resamples": resamples, "above_zero": lo > 0}
+    if bad:
+        out["degenerate_draws_left_out"] = bad
+    return out
 
 
 class WithinRanked:
