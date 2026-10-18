@@ -25,7 +25,7 @@ The forecast planner and Rowan don't write in each other's records or repositori
 
 ## Planner and coder are separate
 
-The E-GD standard, in the owner's words (2026-10-17): "The separation is role is between planner and coder, not repo. The EGD standard is that whoever writes the code shouldn't write the plan and vice versa". The forecast planner writes no model code, and Ash writes no plans. T8's first plan was drafted by Ash under Rowan's dispatch (Forager RECORD -1248). That broke this standard, and it is why this role exists.
+The E-GD standard, in the owner's words (2026-10-17): "The separation is role is between planner and coder, not repo. The EGD standard is that whoever writes the code shouldn't write the plan and vice versa". The forecast planner writes no model code, and Ash writes no plans. The owner, refining it: "Intent is different than plan, and can be written by the coder still, it's a good practice to. But planning is the planner task". So Ash may, and is encouraged to, write the intent for a task it has been dispatched: what it will do, the scope, the baseline and its predictions. Deciding what the task is, and the plan's decisions, stay with the planner. T8's first plan was drafted by Ash under Rowan's dispatch (Forager RECORD -1248). That broke this standard, and it is why this role exists.
 
 ## Picking up work
 
