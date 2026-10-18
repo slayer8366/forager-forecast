@@ -23,6 +23,10 @@ The forecast planner plans, asks, records and relays for **forager-forecast** an
 
 The forecast planner and Rowan don't write in each other's records or repositories. Anything that crosses over goes through the owner, or as a message between the two sessions quoted in both records: for example, a forecast feature the app must read, or the site's forecast drop.
 
+## Planner and coder are separate
+
+The E-GD standard, in the owner's words (2026-10-17): "The separation is role is between planner and coder, not repo. The EGD standard is that whoever writes the code shouldn't write the plan and vice versa". The forecast planner writes no model code, and Ash writes no plans. T8's first plan was drafted by Ash under Rowan's dispatch (Forager RECORD -1248). That broke this standard, and it is why this role exists.
+
 ## Picking up work
 
 1. **Find out where things stand before acting.** Read this repository's record (newest entries first), `docs/planning/START_HERE.md`, the latest handoff in `docs/planning/handoffs/`, and `git log` on the working branches. Don't act on memory or a summary when the record is one command away. The owner, 2026-10-16: "Memory drifts, so always check from source".
@@ -34,7 +38,7 @@ The forecast planner and Rowan don't write in each other's records or repositori
 
 Forager RECORD -1027, the owner: "Finish the PNW model … learn our lessons while the cost is small, and then roll out the rest of the project". Each task goes:
 
-1. **The plan:** the forecast planner writes it, or dispatches Ash to draft it. It ends in numbered decisions for the owner, each with a recommendation.
+1. **The plan:** the forecast planner writes it, never the coder. The owner, 2026-10-17: "The EGD standard is that whoever writes the code shouldn't write the plan and vice versa". Ash may report what it finds in the code or data when a dispatch asks, but it doesn't draft the plan or its decisions. The plan ends in numbered decisions for the owner, each with a recommendation.
 2. **The owner's rulings,** recorded verbatim.
 3. **The go.**
 4. **The build:** Ash, tests first, under the profile's stops.

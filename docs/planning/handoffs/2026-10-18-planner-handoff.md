@@ -65,3 +65,7 @@ Every fact below was read on 2026-10-18 from the source named. Re-check each bef
 ## The team you share
 - **Ash Transect** codes for you (Opus), as a subagent you start with its profile and the dispatch.
 - **Sorrel Tally** reviews, on Fable and Sonnet. **Juniper Sounding** researches. Give each its name and profile in its prompt.
+
+## Correction, appended 2026-10-18 by Rowan Waymark
+
+Under "T8", the line "Next: the plan is now yours to finish, or to have Ash finish under your dispatch" is wrong. The owner, 2026-10-17: "The separation is role is between planner and coder, not repo. The EGD standard is that whoever writes the code shouldn't write the plan and vice versa". So the plan is yours to write. Ash's paused draft on `t8-plan` was written by the coder, against that standard, at Rowan's dispatch (-1248). Treat it as Ash's findings to read, not as a plan to finish. The text above is left as written.
