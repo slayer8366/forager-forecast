@@ -1,0 +1,14 @@
+forward run: exit 0; {'test_weighted_auc_matches_brute_force_with_ties': 'pass', 'test_within_cluster_auc_matches_brute_force': 'pass', 'test_within_cluster_block_resampled_interval_matches_brute_force': 'pass', 'test_auc_difference_interval_matches_brute_force': 'pass'}
+r1: exit 1; failed ['test_within_cluster_block_resampled_interval_matches_brute_force']; expected ['test_within_cluster_block_resampled_interval_matches_brute_force'] with 'rows must be weighted by their block's draw count': CONFIRMED
+    test_within_cluster_block_resampled_interval_matches_brute_force: fail: AssertionError: block-resampled within-cell interval [0.363440, 0.363440] is not the brute-force [0.275060, 0.445522]: rows must be weighted by their block's draw count
+assert (0.08837994893654055 < 1e-12)
+ +  where 0.08837994893654055 = abs((0.36344040597440047 - 0.2750604570378599))
+r1: restored from the saved copy; forward line present: True
+r2: exit 1; failed ['test_auc_difference_interval_matches_brute_force', 'test_weighted_auc_matches_brute_force_with_ties']; expected ['test_auc_difference_interval_matches_brute_force', 'test_weighted_auc_matches_brute_force_with_ties'] with 'ties must count half': CONFIRMED
+    test_weighted_auc_matches_brute_force_with_ties: fail: AssertionError: weighted AUC 0.9238910152729677 differs from the pair count 0.9185728815933882 (ties must count half)
+assert 0.005318133679579451 < 1e-12
+ +  where 0.005318133679579451 = abs((0.9238910152729677 - 0.9185728815933882))
+    test_auc_difference_interval_matches_brute_force: fail: AssertionError: block-clustered difference interval [0.297806, 0.435323] is not the brute-force [0.355789, 0.472065]
+assert (0.057982304123884554 < 1e-12)
+ +  where 0.057982304123884554 = abs((0.2978062976149786 - 0.3557886017388632))
+r2: restored from the saved copy; forward line present: True
