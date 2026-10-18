@@ -20,3 +20,22 @@ Written 2026-10-18T03:22Z, after reading the dispatch, the coder's report and `f
 6. **The map.** Interior mountain conifer forest ranks highest; the Canadian side is a flat masked band with a hard edge at the border; cells outside the area of applicability are few and scattered. Against 2026-10-16 the picture is close (rank 0.91), with the top tenth shifted toward the Cascades and away from the Columbia Plateau's edges.
 
 (The sections below are filled in as the review runs.)
+
+## Baseline (every premise re-checked before use)
+
+| premise (dispatch) | checked | result |
+|---|---|---|
+| `t7-refit` at `da1f207`, holding the report and `docs/audits/2026-10-17-t7-refit/` | `git ls-remote`, `git log` | READ: matches; the review branch was cut from it |
+| the fit ran code `0560dae` | `manifest.json` `code_commit`, `fit_report.json` `code_commit` | READ: `0560daeed37d…`, both |
+| draft PR #5 open | `gh pr list` | READ: #5 DRAFT, into t7-build |
+| manifest sha256 `af0fc2dd…48ec` | `sha256sum` of `refit/outputs/manifest.json`; `fit.log` last line | COMPUTED: equal, both |
+| outputs in `/mnt/work/Zynergy/forecast-data/t7/refit/outputs/` | listing | READ: the six files the report lists |
+| the four conditions as reported | `fit_report.json` `p10b` | READ: as the dispatch states them; recomputed below |
+| specimen download key `0032050-260928105237408`, DOI `10.15468/dl.5mvzg2`, zip sha256 `28efb80e…34ad` | `t7/specimens/fetch.log`, the zip's name | READ: matches |
+| `t6b-night` running and untouched | `systemctl --user list-units` | READ: active, running; nothing under `t6b/` was opened for writing |
+
+No mismatch; no stop. Review 2's branch and worktree exist on this machine and were not opened.
+
+**The environment.** The review worktree's venv was built with `uv sync --frozen` (numpy 2.5.3, lightgbm 4.7.0, rasterio 1.5.1). Every heavy step ran as `systemd-run --user --scope -q -p MemoryMax=4G -p MemorySwapMax=0 nice -n 10 …`, one at a time, beside t6b-night. Nothing was fitted: every figure below comes from the cached held-out predictions (`refit/cache/lobo_*.npy`), the saved table (`refit/table.npz`), `inside_all.npy`, the written rasters and the kept specimen file.
+
+**The review's own code** (`review_common.py`) rebuilds the training rows from the data files without the coder's `t7` package: the presences from `presences_main.csv` kept when their cell is in the table and their cell's weather cell is in T6's `cell_level.csv`; weights one per genus with 30 or more presences and one for the pooled rest; the background as 500,000 cells drawn from the eligible in-frame cells with seed 20260918 and sorted; blocks and weather cells from the table. The AUC is a rank-sum count of weighted pairs with ties half; the intervals redraw whole units with seed 20260918 and multiply each row's weight by its unit's draw count. Four tests check this code against pair-by-pair brute force on small synthetic data with ties (`test_review_common.py`), and two revert checks (`revert_check.py`, `revert_check.txt`) show the tests bite: with the block draw counts no longer multiplying the row weights, the within-cell test fails on its own message ("rows must be weighted by their block's draw count"); with ties counted as concordant, exactly the two tests that compare a pooled AUC with the pair count fail, the first on "ties must count half". Each revert was restored from a saved copy, the compile step was checked first, and the forward line was confirmed present afterwards.
