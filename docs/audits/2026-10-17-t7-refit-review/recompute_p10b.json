@@ -1,0 +1,522 @@
+{
+ "checks": {
+  "rows": {
+   "mine": 515624,
+   "theirs": 515624,
+   "presences": [
+    15624,
+    15624
+   ],
+   "background": [
+    500000,
+    500000
+   ],
+   "background_pool": [
+    3745167,
+    3745167
+   ],
+   "background_sha256_match": true
+  },
+  "pooled_auc": {
+   "A: e": {
+    "mine": 0.8878207414353471,
+    "theirs": 0.8878207414353471,
+    "match": true
+   },
+   "B: f": {
+    "mine": 0.8889120874903992,
+    "theirs": 0.8889120874903992,
+    "match": true
+   },
+   "base": {
+    "mine": 0.8905442356080883,
+    "theirs": 0.8905442356080883,
+    "match": true
+   },
+   "full": {
+    "mine": 0.8927011579869333,
+    "theirs": 0.8927011579869333,
+    "match": true
+   },
+   "share_Larix": {
+    "mine": 0.8909530031747418,
+    "theirs": 0.8909530031747418,
+    "match": true
+   },
+   "share_Betula": {
+    "mine": 0.8904529450104511,
+    "theirs": 0.8904529450104511,
+    "match": true
+   },
+   "share_Populus": {
+    "mine": 0.8906117241814293,
+    "theirs": 0.8906117241814293,
+    "match": true
+   },
+   "share_Alnus": {
+    "mine": 0.8900150449351822,
+    "theirs": 0.8900150449351822,
+    "match": true
+   },
+   "share_Lithocarpus": {
+    "mine": 0.8910930449702266,
+    "theirs": 0.8910930449702266,
+    "match": true
+   },
+   "share_Chrysolepis": {
+    "mine": 0.891238847297747,
+    "theirs": 0.891238847297747,
+    "match": true
+   },
+   "share_Arbutus": {
+    "mine": 0.8915289100818209,
+    "theirs": 0.8915289100818209,
+    "match": true
+   },
+   "share_ecm_hosts": {
+    "mine": 0.8905371094771295,
+    "theirs": 0.8905371094771295,
+    "match": true
+   }
+  },
+  "auc_bruteforce_sample": {
+   "fast": 0.9222289523105919,
+   "brute": 0.9222289523105476
+  }
+ },
+ "p10b": {
+  "1_full_minus_B_block": {
+   "mine": "+0.00379 [+0.00105, +0.00924]",
+   "theirs": "+0.00379 [+0.00105, +0.00924]",
+   "match": true
+  },
+  "2_within_cell_full_minus_A_block_resampled": {
+   "mine": "-0.00722 [-0.02570, +0.01614]",
+   "theirs": "-0.00722 [-0.02570, +0.01614]",
+   "match": true
+  },
+  "3_contrast": {
+   "mine": "+0.00279 [-0.00196, +0.01054]",
+   "theirs": "+0.00279 [-0.00196, +0.01054]",
+   "match": true
+  }
+ },
+ "beside": {
+  "within_cell_full_minus_A_weather_cell_resampled_(log_line)": {
+   "mine": "-0.00722 [-0.02327, +0.00794]",
+   "theirs": "-0.00722 [-0.02327, +0.00794]",
+   "match": true
+  },
+  "p10_full_minus_A_weather_cell": {
+   "mine": "+0.00488 [+0.00276, +0.00724]",
+   "theirs": "+0.00488 [+0.00276, +0.00724]",
+   "match": true
+  },
+  "p10_full_minus_B_weather_cell": {
+   "mine": "+0.00379 [+0.00210, +0.00545]",
+   "theirs": "+0.00379 [+0.00210, +0.00545]",
+   "match": true
+  },
+  "full_minus_A_block": {
+   "mine": "+0.00488 [-0.00008, +0.01281]",
+   "theirs": "+0.00488 [-0.00008, +0.01281]",
+   "match": true
+  },
+  "base_minus_B_block": {
+   "mine": "+0.00163 [-0.00131, +0.00670]",
+   "theirs": "+0.00163 [-0.00131, +0.00670]",
+   "match": true
+  },
+  "base_minus_B_weather_cell": {
+   "mine": "+0.00163 [-0.00008, +0.00329]",
+   "theirs": "+0.00163 [-0.00008, +0.00329]",
+   "match": true
+  },
+  "full_minus_base_block": {
+   "point": 0.0021569223788450165,
+   "low": 0.0007847392075354815,
+   "high": 0.0035297653053823507,
+   "resamples": 1000,
+   "above_zero": true
+  },
+  "within_cell_auc": {
+   "A: e": {
+    "mine": 0.6481247240205694,
+    "theirs": 0.6481247240205694
+   },
+   "B: f": {
+    "mine": 0.6115126565748503,
+    "theirs": 0.6115126565748503
+   },
+   "base": {
+    "mine": 0.6365749316191036,
+    "theirs": 0.6365749316191036
+   },
+   "full": {
+    "mine": 0.6409001084477087,
+    "theirs": 0.6409001084477087
+   }
+  },
+  "add_one_weather_cell": {
+   "share_Larix": {
+    "mine": "+0.00041 [-0.00000, +0.00074]",
+    "theirs": "+0.00041 [-0.00000, +0.00074]",
+    "match": true
+   },
+   "share_Betula": {
+    "mine": "-0.00009 [-0.00036, +0.00017]",
+    "theirs": "-0.00009 [-0.00036, +0.00017]",
+    "match": true
+   },
+   "share_Populus": {
+    "mine": "+0.00007 [-0.00035, +0.00050]",
+    "theirs": "+0.00007 [-0.00035, +0.00050]",
+    "match": true
+   },
+   "share_Alnus": {
+    "mine": "-0.00053 [-0.00094, -0.00008]",
+    "theirs": "-0.00053 [-0.00094, -0.00008]",
+    "match": true
+   },
+   "share_Lithocarpus": {
+    "mine": "+0.00055 [+0.00008, +0.00101]",
+    "theirs": "+0.00055 [+0.00008, +0.00101]",
+    "match": true
+   },
+   "share_Chrysolepis": {
+    "mine": "+0.00069 [+0.00038, +0.00099]",
+    "theirs": "+0.00069 [+0.00038, +0.00099]",
+    "match": true
+   },
+   "share_Arbutus": {
+    "mine": "+0.00098 [+0.00059, +0.00138]",
+    "theirs": "+0.00098 [+0.00059, +0.00138]",
+    "match": true
+   },
+   "share_ecm_hosts": {
+    "mine": "-0.00001 [-0.00062, +0.00063]",
+    "theirs": "-0.00001 [-0.00062, +0.00063]",
+    "match": true
+   }
+  },
+  "within_cell_auc_of_minus_road_distance_alone": 0.6537174931651838,
+  "within_cell_auc_of_minus_log1p_road_distance": 0.6537174931651838,
+  "pooled_auc_of_minus_road_distance_alone": 0.6508342996715597,
+  "within_cell_full_minus_minus_road": {
+   "point": -0.012817384717474978,
+   "low": -0.027463061507819977,
+   "high": 0.015198874014459133,
+   "resamples": 1000,
+   "above_zero": false
+  },
+  "within_cell_A_minus_minus_road": {
+   "point": -0.005592769144614298,
+   "low": -0.012051645446093476,
+   "high": 0.003752838293810084,
+   "resamples": 1000,
+   "above_zero": false
+  },
+  "within_cell_by_informative_block": {
+   "15": {
+    "presences": 37,
+    "A": 0.5796191382706868,
+    "B": 0.5326580838593571,
+    "base": 0.589987104931055,
+    "full": 0.5839290479167336,
+    "minus_road": 0.5671650944011521,
+    "full_minus_A_pooled": 0.0030657492451225954,
+    "full_minus_B_pooled": 0.004149478612964996
+   },
+   "109": {
+    "presences": 91,
+    "A": 0.7163692692686019,
+    "B": 0.7063314333385168,
+    "base": 0.6483895315800716,
+    "full": 0.645564821855019,
+    "minus_road": 0.7026534426197353,
+    "full_minus_A_pooled": 0.01648204068722936,
+    "full_minus_B_pooled": 0.011551664691099806
+   },
+   "110": {
+    "presences": 462,
+    "A": 0.7046820045228009,
+    "B": 0.6334981139667513,
+    "base": 0.6459985841011274,
+    "full": 0.6446333391240264,
+    "minus_road": 0.704460954588143,
+    "full_minus_A_pooled": -0.006419217736470251,
+    "full_minus_B_pooled": 0.008616720672541822
+   },
+   "112": {
+    "presences": 179,
+    "A": 0.6586906125585004,
+    "B": 0.6732235161385186,
+    "base": 0.6740173638928935,
+    "full": 0.6741592054215322,
+    "minus_road": 0.6405213323090821,
+    "full_minus_A_pooled": -0.0017850589839506492,
+    "full_minus_B_pooled": 0.003222518932648133
+   },
+   "114": {
+    "presences": 410,
+    "A": 0.7768215887299884,
+    "B": 0.7462431903952081,
+    "base": 0.7302389326404863,
+    "full": 0.747483536221156,
+    "minus_road": 0.7828407313781363,
+    "full_minus_A_pooled": 0.0002246202407046871,
+    "full_minus_B_pooled": 0.008595861875844713
+   },
+   "116": {
+    "presences": 463,
+    "A": 0.6572745765160253,
+    "B": 0.617043616239241,
+    "base": 0.6231427378445417,
+    "full": 0.6224916865724492,
+    "minus_road": 0.6543117493945139,
+    "full_minus_A_pooled": -0.009077376725296182,
+    "full_minus_B_pooled": -0.0028114551480077354
+   },
+   "117": {
+    "presences": 53,
+    "A": 0.6646006255985527,
+    "B": 0.7235968206442277,
+    "base": 0.6893593145014772,
+    "full": 0.7025811080072386,
+    "minus_road": 0.6307396802618105,
+    "full_minus_A_pooled": -0.005890038619410509,
+    "full_minus_B_pooled": 0.006971401436354108
+   },
+   "118": {
+    "presences": 1422,
+    "A": 0.6262945346581447,
+    "B": 0.6036687858850734,
+    "base": 0.6307614159122804,
+    "full": 0.6257726199378473,
+    "minus_road": 0.634243803813996,
+    "full_minus_A_pooled": 0.014740822131045772,
+    "full_minus_B_pooled": 0.008179271433907842
+   },
+   "120": {
+    "presences": 3137,
+    "A": 0.6680906977189026,
+    "B": 0.6332294575401666,
+    "base": 0.647254748040385,
+    "full": 0.6482690515028717,
+    "minus_road": 0.6677954285068596,
+    "full_minus_A_pooled": 0.010068699507435941,
+    "full_minus_B_pooled": 0.00824756377314717
+   },
+   "121": {
+    "presences": 229,
+    "A": 0.6898559680635107,
+    "B": 0.6649863250817688,
+    "base": 0.6931405370480076,
+    "full": 0.6951561982577183,
+    "minus_road": 0.6902148030281012,
+    "full_minus_A_pooled": 0.010039372034438943,
+    "full_minus_B_pooled": 0.010746814980168273
+   },
+   "122": {
+    "presences": 141,
+    "A": 0.7850168459215715,
+    "B": 0.756852482470539,
+    "base": 0.7609644075701272,
+    "full": 0.7568940808792001,
+    "minus_road": 0.7852793606314781,
+    "full_minus_A_pooled": 0.02633028578597718,
+    "full_minus_B_pooled": 0.019085937729467428
+   },
+   "129": {
+    "presences": 2330,
+    "A": 0.4701128975826077,
+    "B": 0.5338407565360882,
+    "base": 0.4899790343440732,
+    "full": 0.5168644654183253,
+    "minus_road": 0.4709961031505419,
+    "full_minus_A_pooled": 0.012452037559634532,
+    "full_minus_B_pooled": -0.0009537963685063433
+   },
+   "130": {
+    "presences": 5992,
+    "A": 0.6555275033458827,
+    "B": 0.5853412969570486,
+    "base": 0.6513201438851707,
+    "full": 0.6567022855309522,
+    "minus_road": 0.6684283430959291,
+    "full_minus_A_pooled": -0.004002111377181983,
+    "full_minus_B_pooled": 0.0027213372687002746
+   },
+   "131": {
+    "presences": 636,
+    "A": 0.5707628490611396,
+    "B": 0.5821339498268927,
+    "base": 0.5956867973900292,
+    "full": 0.5705783524114346,
+    "minus_road": 0.5699421789376466,
+    "full_minus_A_pooled": -0.0025108510108792226,
+    "full_minus_B_pooled": -0.004190693100338039
+   }
+  }
+ },
+ "condition_3": {
+  "rows_saprotroph": {
+   "mine": 509591,
+   "theirs": 509591
+  },
+  "gain_mycorrhizal": {
+   "mine": 0.00488041655158622,
+   "theirs": 0.00488041655158622
+  },
+  "gain_saprotroph": {
+   "mine": 0.002091311707776544,
+   "theirs": 0.002091311707776544
+  },
+  "contrast_shared_forested": {
+   "mine": "+0.00301 [-0.00156, +0.01022]",
+   "theirs": "+0.00301 [-0.00156, +0.01022]",
+   "match": true
+  },
+  "saprotroph_full_minus_A_weather_cell": {
+   "mine": "+0.00209 [+0.00084, +0.00337]",
+   "theirs": "+0.00209 [+0.00084, +0.00337]",
+   "match": true
+  },
+  "saprotroph_within_cell_full_minus_A_block": {
+   "mine": "-0.00694 [-0.01643, +0.01317]",
+   "theirs": "-0.00694 [-0.01643, +0.01317]",
+   "match": true
+  },
+  "gain_laetiporus": {
+   "mine": 0.014068150157711234,
+   "theirs": 0.014068150157711234
+  },
+  "laetiporus_full_minus_A_weather_cell": {
+   "mine": "+0.01407 [+0.00047, +0.02900]",
+   "theirs": "+0.01407 [+0.00047, +0.02900]",
+   "match": true
+  },
+  "laetiporus_full_minus_A_block": {
+   "point": 0.014068150157711234,
+   "low": -0.008248090552777915,
+   "high": 0.04366976922994182,
+   "resamples": 1000,
+   "above_zero": false
+  },
+  "contrast_mycorrhizal_minus_laetiporus_(not_ruled)": {
+   "point": -0.009187733606125015,
+   "low": -0.03479151225140091,
+   "high": 0.01844267119442009,
+   "resamples": 1000,
+   "above_zero": false
+  },
+  "per_genus_gain_full_minus_A_(100+_presences)": {
+   "Sarcodon": {
+    "presences": 102,
+    "full_minus_A": 0.03873068627559806
+   },
+   "Albatrellopsis": {
+    "presences": 122,
+    "full_minus_A": 0.03550531967329318
+   },
+   "Caloboletus": {
+    "presences": 187,
+    "full_minus_A": 0.03193070053594316
+   },
+   "Boletus": {
+    "presences": 916,
+    "full_minus_A": 0.018975383188940764
+   },
+   "Turbinellus": {
+    "presences": 583,
+    "full_minus_A": 0.018373301887973925
+   },
+   "Aureoboletus": {
+    "presences": 392,
+    "full_minus_A": 0.01803559438896951
+   },
+   "Hydnellum": {
+    "presences": 402,
+    "full_minus_A": 0.016577544777310438
+   },
+   "Coltricia": {
+    "presences": 125,
+    "full_minus_A": 0.01610887200114175
+   },
+   "Cortinarius": {
+    "presences": 954,
+    "full_minus_A": 0.01216884800956608
+   },
+   "Gomphus": {
+    "presences": 150,
+    "full_minus_A": 0.006356500001197807
+   },
+   "Sarcosphaera": {
+    "presences": 117,
+    "full_minus_A": 0.006267299146365479
+   },
+   "Hygrophorus": {
+    "presences": 414,
+    "full_minus_A": 0.004726574880332457
+   },
+   "Craterellus": {
+    "presences": 427,
+    "full_minus_A": 0.0034314285726511073
+   },
+   "Tricholoma": {
+    "presences": 483,
+    "full_minus_A": 0.0031290993800988653
+   },
+   "Cantharellus": {
+    "presences": 851,
+    "full_minus_A": -0.00034047003405734966
+   },
+   "Suillus": {
+    "presences": 850,
+    "full_minus_A": -0.0007051094106164113
+   },
+   "Amanita": {
+    "presences": 2614,
+    "full_minus_A": -0.0010480952551177314
+   },
+   "Porphyrellus": {
+    "presences": 121,
+    "full_minus_A": -0.002099016527648989
+   },
+   "Lactarius": {
+    "presences": 807,
+    "full_minus_A": -0.0031722304820637204
+   },
+   "Xerocomellus": {
+    "presences": 570,
+    "full_minus_A": -0.0032681175426160225
+   },
+   "Leccinum": {
+    "presences": 145,
+    "full_minus_A": -0.003437399998920787
+   },
+   "Inocybe": {
+    "presences": 298,
+    "full_minus_A": -0.0034790973142161397
+   },
+   "Clavulina": {
+    "presences": 309,
+    "full_minus_A": -0.004334446600681496
+   },
+   "Russula": {
+    "presences": 1008,
+    "full_minus_A": -0.004402670633703365
+   },
+   "Laccaria": {
+    "presences": 583,
+    "full_minus_A": -0.00723474099363508
+   },
+   "Helvella": {
+    "presences": 832,
+    "full_minus_A": -0.0075141141814834
+   }
+  }
+ },
+ "notes": [],
+ "seconds": 932
+}
