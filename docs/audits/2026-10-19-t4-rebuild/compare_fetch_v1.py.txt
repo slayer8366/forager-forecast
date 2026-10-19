@@ -1,0 +1,80 @@
+"""T4 rebuild step 2: compare the re-fetch with the filed record (dispatch amendment 1).
+
+1. request.json against the filed copy, every field except requested_at; each difference listed.
+2. Each VRT's sha256 against ISRIC's checksum file fetched today and against the filed value.
+3. Each subset re-written in scratch with its filed source and requested_at, the way
+   fetch_layer writes (soilgrids.py:150-170), hashed against the filed sha256.
+Usage: compare_fetch.py FILED_REQUEST DATA_DIR SCRATCH_DIR
+"""
+import hashlib, json, sys
+from pathlib import Path
+import rasterio
+
+filed_path, data, scratch = map(Path, sys.argv[1:4])
+filed = json.loads(filed_path.read_text())
+new = json.loads((data / "native" / "request.json").read_text())
+
+def sha(p):
+    return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+
+def diff(a, b, path=""):
+    out = []
+    if isinstance(a, dict) and isinstance(b, dict):
+        for k in sorted(set(a) | set(b)):
+            if k == "requested_at":
+                continue
+            if k not in a or k not in b:
+                out.append((f"{path}/{k}", a.get(k, "<absent>"), b.get(k, "<absent>")))
+            else:
+                out += diff(a[k], b[k], f"{path}/{k}")
+    elif isinstance(a, list) and isinstance(b, list):
+        if len(a) != len(b):
+            out.append((f"{path}[len]", len(a), len(b)))
+        for i, (x, y) in enumerate(zip(a, b)):
+            out += diff(x, y, f"{path}[{i}]")
+    elif a != b:
+        out.append((path, a, b))
+    return out
+
+print("== 1. request.json, every field except requested_at")
+d = diff(filed, new)
+for p, a, b in d:
+    print(f"DIFF {p}: filed={a!r} new={b!r}")
+print(f"differences: {len(d)}")
+
+print("== 2. VRTs")
+checks = {}
+for line in (data / "vrt" / "checksum.sha256.txt").read_text().splitlines():
+    if line.strip():
+        h, name = line.split(None, 1)
+        checks[name.strip().lstrip("*")] = h
+filed_vrt = {v["file"]: v["sha256"] for v in filed["isric_checksums"]["vrt_files"]}
+vrt_ok = 0
+for name, fh in filed_vrt.items():
+    h = sha(data / "vrt" / name)
+    ok = h == checks.get(name) == fh
+    vrt_ok += ok
+    print(f"{name}: today={h[:16]} isric_today={checks.get(name, 'absent')[:16]} filed={fh[:16]} {'OK' if ok else 'MISMATCH'}")
+print(f"VRTs matching both: {vrt_ok} of {len(filed_vrt)}")
+
+print("== 3. subsets re-written with the filed tags")
+scratch.mkdir(parents=True, exist_ok=True)
+sub_ok = 0
+for layer in filed["layers"]:
+    stored = data / "native" / layer["file"]
+    with rasterio.open(stored) as s:
+        arr = s.read(1)
+        profile = {"driver": "GTiff", "width": s.width, "height": s.height, "count": 1,
+                   "dtype": arr.dtype.name, "crs": s.crs, "transform": s.transform,
+                   "nodata": s.nodata, "compress": "deflate"}
+        tags = s.tags()
+    dest = scratch / layer["file"]
+    with rasterio.open(dest, "w", **profile) as o:
+        o.write(arr, 1)
+        o.update_tags(source=layer["source"], requested_at=layer["requested_at"])
+    h = sha(dest)
+    ok = h == layer["sha256"]
+    sub_ok += ok
+    print(f"{layer['file']}: stored={sha(stored)[:16]} (tag requested_at={tags.get('requested_at')}) "
+          f"rewritten={h[:16]} filed={layer['sha256'][:16]} {'OK' if ok else 'MISMATCH'}")
+print(f"subset copies matching filed sha256: {sub_ok} of {len(filed['layers'])}")

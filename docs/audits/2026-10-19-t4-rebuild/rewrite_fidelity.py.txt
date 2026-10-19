@@ -1,0 +1,30 @@
+"""Diagnostic: is the re-write faithful to fetch_layer on real files?
+
+(a) Re-write each stored subset with its OWN tags (today's source and requested_at), CRS read
+    back from the stored file: does it reproduce the stored file's sha256?
+(b) Same, but CRS taken from the downloaded VRT (as fetch_layer takes src.crs from the VRT).
+Prints the CRS WKT of the stored file and the VRT if they differ.
+Usage: rewrite_fidelity.py DATA_DIR SCRATCH_DIR
+"""
+import hashlib, sys
+from pathlib import Path
+import rasterio
+
+data, scratch = Path(sys.argv[1]), Path(sys.argv[2]); scratch.mkdir(parents=True, exist_ok=True)
+sha = lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
+for tif in sorted((data / "native").glob("*.tif")):
+    vrt = data / "vrt" / (tif.stem + ".vrt")
+    with rasterio.open(tif) as s:
+        arr, tags, crs_s, tr, nd = s.read(1), s.tags(), s.crs, s.transform, s.nodata
+    with rasterio.open(vrt) as v:
+        crs_v = v.crs
+    res = []
+    for label, crs in (("crs_from_tif", crs_s), ("crs_from_vrt", crs_v)):
+        dest = scratch / f"{tif.stem}.{label}.tif"
+        with rasterio.open(dest, "w", driver="GTiff", width=arr.shape[1], height=arr.shape[0],
+                           count=1, dtype=arr.dtype.name, crs=crs, transform=tr, nodata=nd,
+                           compress="deflate") as o:
+            o.write(arr, 1)
+            o.update_tags(source=tags["source"], requested_at=tags["requested_at"])
+        res.append(f"{label}={'REPRODUCES' if sha(dest) == sha(tif) else 'differs'}")
+    print(tif.name, *res, "crs_equal_wkt=" + str(crs_s.to_wkt() == crs_v.to_wkt()))

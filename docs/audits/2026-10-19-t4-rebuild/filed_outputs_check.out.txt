@@ -1,0 +1,2 @@
+master.tif: OK
+archive/soil-ph-0-30cm.pmtiles: OK

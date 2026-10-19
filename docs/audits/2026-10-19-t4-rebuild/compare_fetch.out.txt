@@ -1,0 +1,33 @@
+== 1. request.json, every field except requested_at
+DIFF /layers[0]/sha256: filed='cfbb28d3c6461166139d512bbdb6a08187ec9fded5f1840943962344fabef8b6' new='f819d4e26238f3f0b37e173ff1e9a761a487fbd5491adc3b017102a9e9314ac9'
+DIFF /layers[1]/sha256: filed='08edf854f92baa7734beafef394aad0a84e1c938603f208bb5a2e771f252913c' new='49a43861d1c057dc07be73bc2833cdcd0b5b53a5925dd6f7d4d3f06a4210fe98'
+DIFF /layers[2]/sha256: filed='2354878bd65335e237939c9b166a022685b83fc8d96bdee127aad9d7895b8ed6' new='34f10949e9f961220da1e57d1519bfa06b36f127f1bb9d89bbf0315ead40b5d4'
+DIFF /layers[3]/sha256: filed='953bdf4846efe2bc18841937ed02b953ac8f180b9a1870144ea5527dd565cab4' new='5ac9c7e0aa4b1c7b441f21028cfaa08f7d23c70a47a9b6b573f60f19a95e766d'
+DIFF /layers[4]/sha256: filed='5d13c25f38e3bf40d2bf72df22d47b07fc0178d862192f6974c9790647002331' new='20df2804802085aaafa05076871d9d17e16c9318b976fdc0ca1949b80ade6e58'
+DIFF /layers[5]/sha256: filed='c5a8626654f5ee189e985716c52843cd16af3ce66fa9665dc04a4ca8b995f581' new='b75c0e3930c6a0d0c036031b67ecd41c12fa3a92dcaa6779d6f9d4e673524aff'
+DIFF /layers[6]/sha256: filed='90c4b3071fb461d88bbd19e464b051f23452852bc85463e266f24e24a52fceba' new='36e4b445bf5f9ff0d3e8e5bfb1da532690a9a3b26cbc1a6b4b837b05a409e6a3'
+DIFF /layers[7]/sha256: filed='db15b638a89f794d242145c54b8dcc22d9274799373a9b1819186cb30cbd2a3e' new='6cd5825ce2d32adc23e8d4f0a7b32eb6a297f06a42ba674ef1fd1b7f2bf8bcb1'
+DIFF /layers[8]/sha256: filed='6d8b5271512d60436f2cb6e375c07a0c833052d901ab21d969b910316c547be4' new='ff59db886e1f0b6a905203b87404cef866bf8c3db363ca42d17c16456ed3ef5b'
+differences: 9
+== 2. VRTs
+phh2o_0-5cm_mean.vrt: today=28bf9ceef0ee29a2 isric_today=28bf9ceef0ee29a2 filed=28bf9ceef0ee29a2 OK
+phh2o_0-5cm_Q0.05.vrt: today=b03b89315190d90b isric_today=b03b89315190d90b filed=b03b89315190d90b OK
+phh2o_0-5cm_Q0.95.vrt: today=cf53b9cc06b7a0c6 isric_today=cf53b9cc06b7a0c6 filed=cf53b9cc06b7a0c6 OK
+phh2o_5-15cm_mean.vrt: today=13d606847b751b97 isric_today=13d606847b751b97 filed=13d606847b751b97 OK
+phh2o_5-15cm_Q0.05.vrt: today=f1a6923d19592301 isric_today=f1a6923d19592301 filed=f1a6923d19592301 OK
+phh2o_5-15cm_Q0.95.vrt: today=cc26691abfd6acef isric_today=cc26691abfd6acef filed=cc26691abfd6acef OK
+phh2o_15-30cm_mean.vrt: today=6eb753c6548fe9ab isric_today=6eb753c6548fe9ab filed=6eb753c6548fe9ab OK
+phh2o_15-30cm_Q0.05.vrt: today=65c7db180f1747de isric_today=65c7db180f1747de filed=65c7db180f1747de OK
+phh2o_15-30cm_Q0.95.vrt: today=785b7a121f484be5 isric_today=785b7a121f484be5 filed=785b7a121f484be5 OK
+VRTs matching both: 9 of 9
+== 3. subsets re-written with the filed tags
+phh2o_0-5cm_mean.tif: stored=f819d4e26238f3f0 (tag requested_at=2026-10-19T21:54:06+00:00) rewritten=cfbb28d3c6461166 filed=cfbb28d3c6461166 OK
+phh2o_0-5cm_Q0.05.tif: stored=49a43861d1c057dc (tag requested_at=2026-10-19T21:54:29+00:00) rewritten=08edf854f92baa77 filed=08edf854f92baa77 OK
+phh2o_0-5cm_Q0.95.tif: stored=34f10949e9f96122 (tag requested_at=2026-10-19T21:54:51+00:00) rewritten=2354878bd65335e2 filed=2354878bd65335e2 OK
+phh2o_5-15cm_mean.tif: stored=5ac9c7e0aa4b1c7b (tag requested_at=2026-10-19T21:55:12+00:00) rewritten=953bdf4846efe2bc filed=953bdf4846efe2bc OK
+phh2o_5-15cm_Q0.05.tif: stored=20df2804802085aa (tag requested_at=2026-10-19T21:55:33+00:00) rewritten=5d13c25f38e3bf40 filed=5d13c25f38e3bf40 OK
+phh2o_5-15cm_Q0.95.tif: stored=b75c0e3930c6a0d0 (tag requested_at=2026-10-19T21:55:55+00:00) rewritten=c5a8626654f5ee18 filed=c5a8626654f5ee18 OK
+phh2o_15-30cm_mean.tif: stored=36e4b445bf5f9ff0 (tag requested_at=2026-10-19T21:56:16+00:00) rewritten=90c4b3071fb461d8 filed=90c4b3071fb461d8 OK
+phh2o_15-30cm_Q0.05.tif: stored=6cd5825ce2d32adc (tag requested_at=2026-10-19T21:56:38+00:00) rewritten=db15b638a89f794d filed=db15b638a89f794d OK
+phh2o_15-30cm_Q0.95.tif: stored=ff59db886e1f0b6a (tag requested_at=2026-10-19T21:56:59+00:00) rewritten=6d8b5271512d6043 filed=6d8b5271512d6043 OK
+subset copies matching filed sha256: 9 of 9
