@@ -1,0 +1,60 @@
+{
+ "sha256": "987ee2b58d7ec411cdc127eb302f79b3a595c910f7a388af80d6621a81157b6b",
+ "bytes": 6485571,
+ "lines": 16477,
+ "lines_by_kind": {
+  "before_unit": 296,
+  "cleanup": 6,
+  "prepare": 29,
+  "section": 37,
+  "stage": 3,
+  "unit": 16106
+ },
+ "units": 15810,
+ "units_by_layer_and_status": {
+  "att_closure": {
+   "ok": 10
+  },
+  "balsamFir": {
+   "ok": 2043
+  },
+  "blackSpruce": {
+   "ok": 2043
+  },
+  "broadleaf": {
+   "ok": 2043
+  },
+  "douglasFir": {
+   "ok": 2043
+  },
+  "jackPine": {
+   "ok": 2043
+  },
+  "lodgepolePine": {
+   "ok": 2043
+  },
+  "otherConiferous": {
+   "ok": 1306
+  },
+  "ponderosaPine": {
+   "ok": 10
+  },
+  "soil": {
+   "ok": 89
+  },
+  "tamarack": {
+   "ok": 10
+  },
+  "trees": {
+   "ok": 2025
+  },
+  "trees-us-half": {
+   "ok": 92
+  },
+  "whiteRedPine": {
+   "ok": 10
+  }
+ },
+ "manifest": "/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/manifest.jsonl",
+ "copy_outside_git": "/mnt/work/Zynergy/forecast-data/t6b/manifest.jsonl.gz"
+}
