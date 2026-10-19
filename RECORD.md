@@ -315,3 +315,20 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 - **The planner's own check:** sha256sum -c of the filed list against ~/Zynergy/forecast-data/t6/, 10 of 10 OK.
 **Deviations:** Ash's harness refused to write the report file, so the report is this entry and Ash's message. T7's scripts still name the old path (scripts/t7_fit.py:76 on t7-build); T7 is stopped, and they are left as they are.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. T4's rebuild is next, with t6b-night still paused. Next free ID 2026-09-28-2022.
+
+---
+
+**Kind:** terminal
+**ID:** 2026-09-28-2022
+**Timestamp:** 2026-10-19T22:05:08Z
+**Closes:** 2026-09-28-2020
+**Outcome:** done
+**Observed:**
+- **T6:** rebuilt byte for byte, all 10 files, and stored read-only in ~/Zynergy/forecast-data/t6/ (2026-09-28-2021).
+- **T4:** Ash Transect's report, branch t4-rebuild (2d51bfd, c0296e2), with no code changed. The ISRIC fetch ran 21:52 to 21:57 UTC and the build to about 22:01. The nine VRTs match both ISRIC's checksum file and the 2026-10-06 values. request.json is equal on every field except requested_at. The nine subsets, re-written in scratch with their filed tags, match their filed sha256, so ISRIC's pixels in T4's window are unchanged. The ten-cell output is byte-identical to ten_cells_real.json. The store is ~/Zynergy/forecast-data/t4/, 58 MB, read-only. A data-register row was added, with ISRIC's licence quoted as read at fetch time.
+- **The planner's own read:** master.tif 9fe55bc2…, 14,685,784 bytes; the archive 84905e33…, 891,388 bytes; both equal the filed values.
+- **t6b-night** restarted at 15:04 PDT, after both rebuilds.
+**Deviations:**
+- **-2020's prediction was wrong for T4's subsets.** fetch_layer stamps the fetch time into each subset's tags (src/forager_forecast/soilgrids.py:137, :170), so a re-fetch can't match the raw hashes. Ash found this before fetching, and the dispatch's Amendment 1 changed the check to re-tagged copies plus master.tif, the archive and the ten cells.
+- **Ash's first comparison script** took the CRS from the GeoTIFF, not the VRT, and matched 0 of 9. A positive control on the real files located the cause, and the corrected script matched 9 of 9. Both versions are filed. The planner accepted the correction: it fixed a check, not the data.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2023.
