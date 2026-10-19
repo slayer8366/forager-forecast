@@ -1,0 +1,22 @@
+"""One-edit revert checks: edit, run, read the log for import/collection errors, restore from a saved copy, confirm the forward file."""
+import hashlib, shutil, subprocess, sys
+from pathlib import Path
+CASES = [
+  ("scripts/pnw_cds_precip_hourly.py", '        if path.is_symlink():  # writing would truncate the file it points at, possibly W41\'s\n', '        if False:\n', "test_rain_aggregate_refuses_a_linked_target"),
+  ("scripts/pnw_cds_precip_hourly.py", '    if out.resolve() == W41_STORE.resolve():\n        raise SystemExit(f"refused: {out} is W41\'s store; give the week its own directory")\n\n\ndef scoring_chunks_for', '    return None\n\n\ndef scoring_chunks_for', "test_refuses_w41s_store[pnw_cds_precip_hourly]"),
+  ("scripts/pnw_cds_hourly_pull.py", 'return months, {(end.year, end.month): end.day}', 'return months, {(end.year, end.month): end.day - 1}', "test_land_plan_for_w42_runs_to_october_11"),
+  ("scripts/pnw_cds_hourly_pull.py", '    linked = [str(p) for p in paths if Path(p).is_symlink()]', '    linked = []', "test_land_refuses_linked_targets"),
+  ("scripts/pnw_cds_precip_hourly.py", 'range(first.day, end.day + 1)', 'range(first.day, end.day)', "test_rain_chunks_for_w42_after_w41s_rain"),
+]
+for f, old, new, expect in CASES:
+    p = Path(f); fwd = p.read_bytes(); h = hashlib.sha256(fwd).hexdigest()
+    saved = Path("/tmp/w42-ff") / (p.name + ".saved"); saved.write_bytes(fwd)
+    s = fwd.decode(); assert s.count(old) == 1, (f, old); p.write_text(s.replace(old, new))
+    r = subprocess.run(["uv","run","--offline","pytest","-q","-p","no:cacheprovider","tests/test_pnw_w42_pull.py"], capture_output=True, text=True)
+    p.write_bytes(saved.read_bytes())
+    assert hashlib.sha256(p.read_bytes()).hexdigest() == h, "forward change lost"
+    log = r.stdout + r.stderr
+    if "ERROR" in log or "SyntaxError" in log or "ImportError" in log:
+        print(f"{f}: BUILD/COLLECTION ERROR, not cited\n{log[-800:]}"); continue
+    failed = sorted(l.split("::",1)[1].split(" ")[0] for l in log.splitlines() if l.startswith("FAILED"))
+    print(f"edit {new.strip()[:50]!r} in {f}: failed {failed}; expected {expect}: {'BITES' if failed==[expect] else 'UNEXPECTED'}")

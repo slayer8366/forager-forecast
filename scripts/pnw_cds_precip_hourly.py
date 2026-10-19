@@ -31,7 +31,7 @@ import json
 import shutil
 import sys
 import time
-from datetime import UTC, date, datetime
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 
 import cds_jobs
@@ -58,12 +58,35 @@ ALL_HOURS = [f"{h:02d}:00" for h in range(24)]
 W41_STORE = Path.home() / "Zynergy" / "forecast-data-pnw-pilot" / "cds"
 
 
-def refuse_w41_store(out: Path) -> None:  # STUB (tests first)
-    return None
+def refuse_w41_store(out: Path) -> None:
+    """A week-keyed pull or its aggregate never writes into W41's store: its request records set
+    W41's citation access dates, and aggregate rewrites every year's daily file there."""
+    if out.resolve() == W41_STORE.resolve():
+        raise SystemExit(f"refused: {out} is W41's store; give the week its own directory")
 
 
-def scoring_chunks_for(week, held_through):  # STUB (tests first)
-    yield from scoring_chunks()
+def scoring_chunks_for(week, held_through: date):
+    """A scoring week's rain after the days its directory already holds (held_through, whose
+    closing stamp is not held): the days to the window's end with all 24 hours, then the stamp
+    that closes the last day. Within one month only; anything else is refused as unsupported
+    (dispatch 2026-10-18-pnw-pilot-w42-publish.md, Amendment 1, ruling 6)."""
+    from forager_forecast.live_weather import window_span  # noqa: PLC0415
+
+    _, end = window_span(week)
+    first = held_through + timedelta(days=1)
+    closing = end + timedelta(days=1)
+    if not (first.year, first.month) == (end.year, end.month) == (closing.year, closing.month):
+        raise SystemExit(f"unsupported: rain chunks across a month boundary ({first} to {closing})")
+    base = {"product_type": ["reanalysis"], "variable": ["total_precipitation"], "area": AREA}
+    tail = {"data_format": "netcdf", "download_format": "unarchived"}
+    ym = {"year": [str(end.year)], "month": [f"{end.month:02d}"]}
+    yield f"hourly-era5-precip-{end:%Y-%m}-{first:%d}-{end:%d}", {
+        **base, **ym, "day": [f"{d:02d}" for d in range(first.day, end.day + 1)],
+        "time": ALL_HOURS, **tail,
+    }  # fmt: skip
+    yield f"hourly-era5-precip-{closing:%Y-%m-%d}T00", {
+        **base, **ym, "day": [f"{closing.day:02d}"], "time": ["00:00"], **tail,
+    }  # fmt: skip
 
 
 def chunks():
@@ -155,12 +178,16 @@ def log(msg: str) -> None:
     print(f"{datetime.now(UTC).isoformat(timespec='seconds')} {msg}", flush=True)
 
 
-def pull(out: Path, scoring: bool = False) -> int:
+def pull(out: Path, scoring: bool = False, todo=None) -> int:
     import cdsapi  # noqa: PLC0415
 
     client = cdsapi.Client(quiet=True, progress=False)
-    for name, request in scoring_chunks() if scoring else chunks():
+    if todo is None:
+        todo = scoring_chunks() if scoring else chunks()
+    for name, request in todo:
         nc, rec = out / f"{name}.nc", out / f"{name}.request.json"
+        if any(p.is_symlink() for p in (nc, rec, nc.with_suffix(".nc.part"))):
+            raise SystemExit(f"refused: output path is a link: {name}")
         if nc.exists() and rec.exists():
             log(f"{name} skip (done)")
             continue
@@ -239,6 +266,8 @@ def aggregate(out: Path) -> dict:
         if not idx:
             continue
         path = out / f"hourly-era5-precip-{y}.daily.h5"
+        if path.is_symlink():  # writing would truncate the file it points at, possibly W41's
+            raise SystemExit(f"refused: output path is a link: {path}")
         with h5py.File(path, "w") as o:
             o["latitude"], o["longitude"] = grid
             vt = o.create_dataset("valid_time", data=np.array([(days[k] - DAY0).days for k in idx]))
@@ -304,7 +333,19 @@ if __name__ == "__main__":
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("step", choices=["pull", "aggregate", "check"])
     ap.add_argument("--scoring", action="store_true")
+    ap.add_argument("--scoring-week", default="", help="YYYY-Www, into its own --out")
+    ap.add_argument("--held-through", default="", help="YYYY-MM-DD: last rain day --out holds")
     a = ap.parse_args()
+    if a.scoring_week:
+        from forager_forecast.cells import IsoWeek  # noqa: PLC0415
+
+        refuse_w41_store(a.out)
+        if a.step == "pull":
+            year, wk = a.scoring_week.split("-W")
+            todo = scoring_chunks_for(
+                IsoWeek(int(year), int(wk)), date.fromisoformat(a.held_through)
+            )
+            sys.exit(pull(a.out, todo=list(todo)))
     if a.step == "pull":
         sys.exit(pull(a.out, a.scoring))
     if a.step == "aggregate":

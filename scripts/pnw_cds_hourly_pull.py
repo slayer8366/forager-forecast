@@ -60,16 +60,33 @@ REFETCH: set[tuple[int, int]] = set()
 W41_STORE = Path.home() / "Zynergy" / "forecast-data-pnw-pilot" / "cds"
 
 
-def scoring_plan(week):  # STUB (tests first)
-    return SCORING_MONTHS, LAST_DAY
+def scoring_plan(week) -> tuple[list[tuple[int, int]], dict[tuple[int, int], int]]:
+    """The months a scoring week's window reads (live_weather.window_span), each requested from
+    its 1st, and the last day of the final month. W41 gives W41's constants above; a later week
+    goes into its own store directory (dispatch 2026-10-18-pnw-pilot-w42-publish.md, Amendment 1),
+    since the reader takes only the fixed name hourly-era5land-YYYY-MM (pnw_weather.py)."""
+    from forager_forecast.live_weather import window_span  # noqa: PLC0415
+
+    start, end = window_span(week)
+    months, (y, m) = [], (start.year, start.month)
+    while (y, m) <= (end.year, end.month):
+        months.append((y, m))
+        y, m = (y + 1, 1) if m == 12 else (y, m + 1)
+    return months, {(end.year, end.month): end.day}
 
 
-def refuse_w41_store(out: Path) -> None:  # STUB (tests first)
-    return None
+def refuse_w41_store(out: Path) -> None:
+    """A week-keyed pull never writes into W41's store: its request records set W41's citation
+    access dates, so one more record there would stop W41 reproducing."""
+    if out.resolve() == W41_STORE.resolve():
+        raise SystemExit(f"refused: {out} is W41's store; give the week its own directory")
 
 
-def refuse_links(paths) -> None:  # STUB (tests first)
-    return None
+def refuse_links(paths) -> None:
+    """Writing to a link would write into the file it points at, which may be W41's."""
+    linked = [str(p) for p in paths if Path(p).is_symlink()]
+    if linked:
+        raise SystemExit(f"refused: output path is a link: {linked}")
 
 
 def months():
@@ -128,6 +145,11 @@ def main() -> int:
         action="store_true",
         help="the map's months 2026-07 to 2026-10-04 instead of T1's (planner, 2026-10-10)",
     )
+    ap.add_argument(
+        "--scoring-week",
+        default="",
+        help="YYYY-Www: that week's window months into its own --out (never W41's store)",
+    )
     args = ap.parse_args()
     import threading  # noqa: PLC0415
     from concurrent.futures import ThreadPoolExecutor  # noqa: PLC0415
@@ -136,6 +158,13 @@ def main() -> int:
 
     local = threading.local()
     todo = SCORING_MONTHS if args.scoring else list(months())
+    last_day = LAST_DAY
+    if args.scoring_week:
+        from forager_forecast.cells import IsoWeek  # noqa: PLC0415
+
+        refuse_w41_store(args.out)
+        year, wk = args.scoring_week.split("-W")
+        todo, last_day = scoring_plan(IsoWeek(int(year), int(wk)))
     if args.refetch_hourly:
         todo = [tuple(int(x) for x in m.split("-")) for m in args.refetch_hourly.split(",")]
         REFETCH.update(todo)
@@ -163,6 +192,7 @@ def main() -> int:
         if (y, m) != OVERLAP and (args.out / f"era5land-{y}-{m:02d}.nc").exists():
             log(f"[{i}/{len(todo)}] {name} skip (daily route has it)")
             return 0
+        refuse_links([daily, rec, args.out / f"{name}.hourly.nc"])
         free = shutil.disk_usage(args.out).free
         if free < MIN_FREE_BYTES:
             log(f"STOP: {free / 1024**3:.2f} GB free, under 3 GB")
@@ -171,7 +201,7 @@ def main() -> int:
             "variable": list(VARIABLES),
             "year": str(y),
             "month": f"{m:02d}",
-            "day": [f"{d:02d}" for d in range(1, LAST_DAY.get((y, m), 31) + 1)],
+            "day": [f"{d:02d}" for d in range(1, last_day.get((y, m), 31) + 1)],
             "time": [f"{h:02d}:00" for h in range(24)],
             "area": AREA,
             "data_format": "netcdf",

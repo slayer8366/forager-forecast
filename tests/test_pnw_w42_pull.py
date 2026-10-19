@@ -59,7 +59,7 @@ def test_rain_chunks_for_w42_after_w41s_rain():
 
 def test_rain_chunks_refuse_a_month_boundary():
     with pytest.raises(SystemExit, match="unsupported"):
-        list(rain.scoring_chunks_for(W42, held_through=date(2026, 9, 30)))
+        list(rain.scoring_chunks_for(W42, held_through=date(2026, 9, 29)))
 
 
 @pytest.mark.parametrize("mod", [land, rain])

@@ -1,0 +1,7 @@
+# uv run --offline python revert_checks.py (run from /tmp/w42-ff/revert.py, copied here as .txt, unlinted, as it ran)
+# case 3 also fails test_land_plan_for_w41_is_w41s_constants: the same edit makes W41's last day 3, so both failures are this edit's
+edit 'if False:' in scripts/pnw_cds_precip_hourly.py: failed ['test_rain_aggregate_refuses_a_linked_target']; expected test_rain_aggregate_refuses_a_linked_target: BITES
+edit 'return None\n\n\ndef scoring_chunks_for' in scripts/pnw_cds_precip_hourly.py: failed ['test_refuses_w41s_store[pnw_cds_precip_hourly]']; expected test_refuses_w41s_store[pnw_cds_precip_hourly]: BITES
+edit 'return months, {(end.year, end.month): end.day - 1' in scripts/pnw_cds_hourly_pull.py: failed ['test_land_plan_for_w41_is_w41s_constants', 'test_land_plan_for_w42_runs_to_october_11']; expected test_land_plan_for_w42_runs_to_october_11: UNEXPECTED
+edit 'linked = []' in scripts/pnw_cds_hourly_pull.py: failed ['test_land_refuses_linked_targets']; expected test_land_refuses_linked_targets: BITES
+edit 'range(first.day, end.day)' in scripts/pnw_cds_precip_hourly.py: failed ['test_rain_chunks_for_w42_after_w41s_rain']; expected test_rain_chunks_for_w42_after_w41s_rain: BITES
