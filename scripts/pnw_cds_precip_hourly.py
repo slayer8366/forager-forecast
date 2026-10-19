@@ -55,6 +55,15 @@ ACCOUNT = (
 ALL_DAYS = [f"{d:02d}" for d in range(1, 32)]
 ALL_MONTHS = [f"{m:02d}" for m in range(1, 13)]
 ALL_HOURS = [f"{h:02d}:00" for h in range(24)]
+W41_STORE = Path.home() / "Zynergy" / "forecast-data-pnw-pilot" / "cds"
+
+
+def refuse_w41_store(out: Path) -> None:  # STUB (tests first)
+    return None
+
+
+def scoring_chunks_for(week, held_through):  # STUB (tests first)
+    yield from scoring_chunks()
 
 
 def chunks():

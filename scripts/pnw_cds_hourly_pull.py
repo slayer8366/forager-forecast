@@ -57,6 +57,19 @@ OVERLAP = (2019, 1)
 SCORING_MONTHS = [(2026, 7), (2026, 8), (2026, 9), (2026, 10)]
 LAST_DAY = {(2026, 10): 4}
 REFETCH: set[tuple[int, int]] = set()
+W41_STORE = Path.home() / "Zynergy" / "forecast-data-pnw-pilot" / "cds"
+
+
+def scoring_plan(week):  # STUB (tests first)
+    return SCORING_MONTHS, LAST_DAY
+
+
+def refuse_w41_store(out: Path) -> None:  # STUB (tests first)
+    return None
+
+
+def refuse_links(paths) -> None:  # STUB (tests first)
+    return None
 
 
 def months():

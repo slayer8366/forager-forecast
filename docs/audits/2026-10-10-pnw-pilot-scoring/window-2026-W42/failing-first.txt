@@ -1,0 +1,25 @@
+# uv run --offline pytest -q tests/test_pnw_w42_pull.py, over stubs at the tests-first commit; then aggregate shown writing through a link
+E       assert {(2026, 10): 4} == {(2026, 10): 11}
+E         
+E         Differing items:
+E         {(2026, 10): 4} != {(2026, 10): 11}
+E         Use -v to get more diff
+E       AssertionError: assert ['hourly-era5...026-10-05T00'] == ['hourly-era5...026-10-12T00']
+E         
+E         At index 0 diff: 'hourly-era5-precip-2026-07-09' != 'hourly-era5-precip-2026-10-05-11'
+E         Left contains one more item: 'hourly-era5-precip-2026-10-05T00'
+E         Use -v to get more diff
+E       Failed: DID NOT RAISE SystemExit
+E       Failed: DID NOT RAISE SystemExit
+E       Failed: DID NOT RAISE SystemExit
+E       Failed: DID NOT RAISE SystemExit
+E       Failed: DID NOT RAISE SystemExit
+FAILED tests/test_pnw_w42_pull.py::test_land_plan_for_w42_runs_to_october_11
+FAILED tests/test_pnw_w42_pull.py::test_rain_chunks_for_w42_after_w41s_rain
+FAILED tests/test_pnw_w42_pull.py::test_rain_chunks_refuse_a_month_boundary
+FAILED tests/test_pnw_w42_pull.py::test_refuses_w41s_store[pnw_cds_hourly_pull]
+FAILED tests/test_pnw_w42_pull.py::test_refuses_w41s_store[pnw_cds_precip_hourly]
+FAILED tests/test_pnw_w42_pull.py::test_rain_aggregate_refuses_a_linked_target
+FAILED tests/test_pnw_w42_pull.py::test_land_refuses_linked_targets - Failed:...
+7 failed, 2 passed in 0.31s
+before the guard: aggregate wrote through the link; W41-side target now 4520 bytes, starts b'\x89HDF\r\n\x1a\n'
