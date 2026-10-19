@@ -1,0 +1,20 @@
+E               subprocess.CalledProcessError: Command '['git', 'commit', '-q', '-m', 'T6b run section: 0 tiles; \n\nCo-Authored-By: Claude <noreply@anthropic.com>']' returned non-zero exit status 1.
+LARGE FILE: docs/audits/t6b-run/manifest.jsonl.gz is 1227533 bytes, limit is 1048576 bytes
+            {"kind": "unit", "layer": "trees", "unit": "256_1_3", "status": "failed"},
+E       AssertionError: no summary committed: fatal: path 'docs/audits/t6b-run/manifest_summary.json' does not exist in 'HEAD'
+E         
+E       assert 128 == 0
+E        +  where 128 = CompletedProcess(args=['git', 'show', 'HEAD:docs/audits/t6b-run/manifest_summary.json'], returncode=128, stdout='', stderr="fatal: path 'docs/audits/t6b-run/manifest_summary.json' does not exist in 'HEAD'\n").returncode
+E       assert None is True
+E               subprocess.CalledProcessError: Command '['git', 'commit', '-q', '-m', 'T6b run section: 0 tiles; \n\nCo-Authored-By: Claude <noreply@anthropic.com>']' returned non-zero exit status 1.
+_________ test_a_failed_push_is_logged_and_the_section_exits_non_zero __________
+    def test_a_failed_push_is_logged_and_the_section_exits_non_zero(save, monkeypatch):
+E       Failed: DID NOT RAISE SystemExit
+2026-10-19T04:02:26-07:00 section start, until 2026-10-19T23:59, stages scanfi-layers, workers 1, pause file /tmp/pytest-of-zynergy-labs/pytest-178/test_a_failed_push_is_logged_a0/drive/t6b/PAUSE
+fatal: '/tmp/pytest-of-zynergy-labs/pytest-178/test_a_failed_push_is_logged_a0/no-such-remote.git' does not appear to be a git repository
+FAILED tests/test_t6b_progress_save.py::test_a_manifest_whose_gzip_is_over_the_limit_commits_a_summary_and_not_the_gzip
+FAILED tests/test_t6b_progress_save.py::test_the_summary_matches_the_manifest_it_came_from
+FAILED tests/test_t6b_progress_save.py::test_a_leftover_staged_oversize_gzip_does_not_block_the_next_section
+FAILED tests/test_t6b_progress_save.py::test_a_refused_commit_is_logged_and_the_section_exits_non_zero_after_the_copy
+FAILED tests/test_t6b_progress_save.py::test_a_failed_push_is_logged_and_the_section_exits_non_zero
+5 failed in 1.10s
