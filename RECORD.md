@@ -253,3 +253,18 @@ correction is a new entry that points at the one it corrects.
 **Observed:** the first nightly section under the fix ended at 07:00:38 PDT on 2026-10-19: 503 units, 0 failed, 8,336 left. It logged "progress save: committed and pushed 3061a8f", which is on origin/t6b-progress-save with the runner's tree clean. The planner read the summary's sha256, c00063fa…1b1a, and it equals the flash-drive manifest's. The prediction is met: the commit passed the guard, and the sha256 matches. t6b-night restarted at about 07:12 PDT for the next section. Memory peak 2.8 GB under the 5 GB cap.
 **Deviations:** the check-run citation recorded in -2013.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. t6b-progress-save is unmerged; the runner runs from it until the owner's word (D40). Next free ID 2026-09-28-2018.
+
+---
+
+**Kind:** correction
+**ID:** 2026-09-28-2018
+**Timestamp:** 2026-10-19T20:20:57Z
+**Corrects:** 2026-09-28-2008
+**Title:** The worktree clean-up deleted T6's stored effort surface and T4's master grid, which were not in git
+**Notes:** -2008, and the planner's proposal to the owner before it, said removing the folders lost nothing. That was wrong. The planner checked each worktree for uncommitted and unpushed work, and checked git-ignored files only in the large worktrees. In t4, t5 and t6 it did not check them. data/ is git-ignored (.gitignore, "Data never enters this repository"), and git worktree remove deletes ignored files without asking.
+- **Lost:** T6's stored effort surface, data/t6/all/ and data/t6/cc/ in ~/Zynergy/forager-forecast-t6 (D107; T6 completion report :37-38, which files its sha256 values in 2026-10-06-t6-fit/stored_surface_sha256.txt). Also T4's master grid and archive, data/t4/ in ~/Zynergy/forager-forecast-t4 (58 MB; T4 completion report :94-118). No other copy was found: a search of ~/Zynergy and the T6b drive for effort_manifest.json found none.
+- **Not lost:** T5's data/t5 was a symlink to the flash drive (T5 verify report :16-17), and its 9.9 GB there is intact. D26's zip is in forager-forecast-d26, which was kept.
+- **What depends on them:** T7's scripts read T6's surface from the removed path (forager-forecast-t7-build scripts/t7_fit.py:76, scripts/t7_v9_counts.py:90). T8's plan needs it as effort. No reader of T4's grid was found outside its own build script. t6b-night does not read either.
+- **The way back:** T6's surface can be rebuilt by re-running T6's fit at its code commit ef3269f from D26's zip, and checked against the filed sha256 values. That re-runs a count and a fit, so it needs the owner's word. T4's grid needs a re-download from ISRIC, which also needs the owner's word.
+- **The lesson,** for this planner: a worktree's git state does not cover its git-ignored data. Before removing one, list its ignored files, and treat any data/ found there as data, not scratch.
+Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2019.
