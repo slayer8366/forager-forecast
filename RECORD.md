@@ -268,3 +268,18 @@ correction is a new entry that points at the one it corrects.
 - **The way back:** T6's surface can be rebuilt by re-running T6's fit at its code commit ef3269f from D26's zip, and checked against the filed sha256 values. That re-runs a count and a fit, so it needs the owner's word. T4's grid needs a re-download from ISRIC, which also needs the owner's word.
 - **The lesson,** for this planner: a worktree's git state does not cover its git-ignored data. Before removing one, list its ignored files, and treat any data/ found there as data, not scratch.
 Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2019.
+
+---
+
+**Kind:** merge
+**ID:** 2026-09-28-2019
+**Timestamp:** 2026-10-19T21:32:05Z
+**PR:** 10
+**Head:** coder-profile-scratch (ef286fc)
+**Base:** main
+**Merge-commit:** 80f61a8caca366685c4b3e4482a72e2d28e45edf
+**Pre-merge:** eb59931d18d0d2948f2c27c9e1afd71802a88988
+**Backup:** ~/Zynergy/forager-repo-backups/forecast-main-20261019T213147Z-eb59931d.bundle, `git bundle verify` okay, sha256 beside it, a line in INDEX.md.
+**Merged-by:** the forecast planner (Alder Bearing), on the owner's word in this window, 2026-10-19: "Merge 10". GitHub merged it at 2026-10-19T21:31:50Z, with its check SUCCESS. The owner had first answered "Merge it (Recommended)" in Rowan Waymark's window.
+**Carries:** docs/process/coder-profile.md. The role table names Alder Bearing as planner and this repository's RECORD.md as the record. A new line says scratch goes in /mnt/work/scratch/<branch>/, never /tmp (Forager RECORD -1374). Ash writes in neither record.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2020.
