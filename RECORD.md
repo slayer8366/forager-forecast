@@ -128,3 +128,17 @@ correction is a new entry that points at the one it corrects.
 **Timestamp:** 2026-10-19T04:47:17Z
 **Title:** Fifteen finished forecast worktrees removed; the work drive from 3.7 GB to 12 GB free
 **Notes:** On the owner's "go ahead" (2026-09-28-2005). Each was re-checked just before removal (no uncommitted change, 0 commits not on origin), then removed with `git worktree remove`, with no force: t7-part-a, t7-part-b, t7-part-c, t7-refit, t7-refit-review, t7-refit-review-2, t7-fit-review, t7-fit-review-2, t7-verify (t7-pnw-verify), merge-b (merge-2026-10-15b), t6b-run (t6b-run-2026-10-15), t4 (t4-master-grid), t5 (t5-host-trees), t6 (t6-observation-layer), host-genera-review (t6b-host-genera-review). Their branches remain, locally and on GitHub. t7-build's .pytest-tmp (796 MB of test scratch) was also cleared. /mnt/work went from 3.7 GB to 12 GB free (df). **A miscount:** the planner told the owner "17 folders"; the categories it named come to 19, with four T7 planning folders (t7-mycorrhizal-plan, t7-proposals, t7-searches, t7-strengthen-plan, about 13 MB each). Those four were not removed. Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2009.
+
+---
+
+**Kind:** outcome
+**ID:** 2026-09-28-2009
+**Timestamp:** 2026-10-19T05:21:40Z
+**Continues:** 2026-09-28-2006
+**Title:** W42 scored and on the site PR's preview; waiting on the owner's merge word
+**Observed:**
+- **The pull and scoring,** Ash Transect's report (pnw-pilot-w42, head d94e3ea): W42's weather is in its own read-only store, cds-2026-W42. Each of the three downloads matches the size and checksum the publisher states. W41's cds/ has all 143 files unchanged, and W41 reproduces with its manifest at 074879ff…4043. W42 scored, with the model unchanged and the prediction met: 2,618 cells scored, 231 from a land neighbour, 498 sea, 0 incomplete. Its manifest differs from W41's only in the fields Amendment 1 lists; chance_min, median and max are 0.0072, 0.04255 and 0.1598. Suite: 601 passed. The five revert checks bite.
+- **The site:** zynergy-site PR #18 (pnw-pilot-w42-drop, 4da0360), two files only. Ash's preview check passed 71 of 71, with 8 skipped. The planner read the preview's two files and their hashes equal Ash's output (manifest 667372cc…, geojson 0a5c734e…); PR check SUCCESS, mergeable; manifest pilot true, validated false, reviewed true, beats_calendar false, weather_through 2026-10-11.
+- **Deviations:** the dispatch's premise and line errors were corrected in Amendment 1. The W41 reproduction ran for about 8 seconds alongside t6b-night, under the 5G cap. Ash added a guard against writing through links in the shared rain aggregate.
+- **Found:** t6b-night, paused for the scoring at 2026-10-19T05:12:40Z, failed its section commit, because its gzipped manifest copy (1,105,301 bytes) is over the 1 MiB guard. The tiles are safe in the manifest on the flash drive: 2,814 this section, 8,869 left. The fix is with the owner.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2010.
