@@ -142,3 +142,29 @@ correction is a new entry that points at the one it corrects.
 - **Deviations:** the dispatch's premise and line errors were corrected in Amendment 1. The W41 reproduction ran for about 8 seconds alongside t6b-night, under the 5G cap. Ash added a guard against writing through links in the shared rain aggregate.
 - **Found:** t6b-night, paused for the scoring at 2026-10-19T05:12:40Z, failed its section commit, because its gzipped manifest copy (1,105,301 bytes) is over the 1 MiB guard. The tiles are safe in the manifest on the flash drive: 2,814 this section, 8,869 left. The fix is with the owner.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2010.
+
+---
+
+**Kind:** merge
+**ID:** 2026-09-28-2010
+**Timestamp:** 2026-10-19T10:40:21Z
+**PR:** zynergy-site 18
+**Head:** pnw-pilot-w42-drop (4da0360)
+**Base:** zynergy-site main
+**Merge-commit:** 585edaa8e3f954e042bc7f2566eb71a9890a131f
+**Pre-merge:** 319871ca6c2eb3b748b1563937986c9840df33b6
+**Backup:** ~/Zynergy/forager-repo-backups/zynergy-site-main-20261019T103912Z-319871ca.bundle, `git bundle verify` okay, sha256 beside it, a line appended to INDEX.md.
+**Merged-by:** the forecast planner (Alder Bearing), on the owner's word in this window, 2026-10-19: "I'll take your recommendations", answering "Merge PR #18, putting W42 live? (Recommended)", which was put as the point of no return.
+**Carries:** Forager/forecast/data/pnw-pilot/current/manifest.json and cantharellus.geojson for 2026-W42. GitHub merged it at 2026-10-19T10:39:28Z. Production (zynergy-labs.com) was serving both files about 30 seconds later, with hashes equal to Ash's output: manifest 667372cc…, geojson 0a5c734e…. Read by the planner.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2011.
+
+---
+
+**Kind:** terminal
+**ID:** 2026-09-28-2011
+**Timestamp:** 2026-10-19T10:40:21Z
+**Closes:** 2026-09-28-2006
+**Outcome:** done
+**Observed:** W42 is live on the site with the model unchanged (2026-09-28-2009, -2010). Both predictions were checked: the cell counts equal W41's; the manifest differs only in the listed fields; W41 still reproduces.
+**Deviations:** the dispatch premises corrected in Amendment 1; the 8-second W41 reproduction alongside t6b-night; the link guard Ash added to the shared rain aggregate. pnw-pilot-w42 stays unmerged to main, as W41's branch did (D40).
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2012.
