@@ -283,3 +283,20 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **Merged-by:** the forecast planner (Alder Bearing), on the owner's word in this window, 2026-10-19: "Merge 10". GitHub merged it at 2026-10-19T21:31:50Z, with its check SUCCESS. The owner had first answered "Merge it (Recommended)" in Rowan Waymark's window.
 **Carries:** docs/process/coder-profile.md. The role table names Alder Bearing as planner and this repository's RECORD.md as the record. A new line says scratch goes in /mnt/work/scratch/<branch>/, never /tmp (Forager RECORD -1374). Ash writes in neither record.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2020.
+
+---
+
+**Kind:** intent
+**ID:** 2026-09-28-2020
+**Timestamp:** 2026-10-19T21:33:14Z
+**Title:** Rebuild T6's stored effort surface at ef3269f, and re-download and rebuild T4's master grid and pH archive, each checked against its filed record (owner)
+**Dispatch-file:** docs/dispatch/2026-10-19-t6-rebuild.md (branch t6-rebuild, 177fdb0); docs/dispatch/2026-10-19-t4-rebuild.md (branch t4-rebuild, 4c6edab), run after T6
+**The owner, 2026-10-19, in the planner's window:** a go to rebuild T6's effort surface, provided that Ash stops and reports if the rebuilt files do not match the checksums exactly. Then, on T4, verbatim: "Re-download T4 actually".
+**Change:** T6's count and fit re-run from D26's zip with the code at ef3269f, the surface going to ~/Zynergy/forecast-data/t6/. Then T4's ISRIC fetch and build re-run into ~/Zynergy/forecast-data/t4/. Both are outside every repository, and made read-only.
+**Scope boundary:** no code change; nothing re-run with changes; a changed T4 source not adopted without the owner; T7's scripts and T8 untouched; t6b-night paused and resumed by the planner only.
+**Baseline:** the deletion, per correction 2026-09-28-2018. For T6, the filed hashes in docs/audits/2026-10-06-t6-fit/stored_surface_sha256.txt (10 files). For T4, the request record docs/pulls/soilgrids-phh2o-western-washington-0-30cm.request.json (ETags and subset sha256) and the completion report's master.tif and archive hashes.
+**Prediction if it works:** all eight T6 CSVs match their filed sha256 exactly, with each manifest matching too or differing only in a time of writing. T4's nine VRTs match ISRIC's checksums, and every subset, master.tif and the archive match theirs.
+**Prediction if it fails:** a T6 CSV hash differs, meaning the fit is not reproducible from these inputs. Or a T4 subset differs, meaning the publisher's data changed since 2026-10-06. Either goes to the owner.
+**Finish line:** both sets of hashes matched and the evidence filed, or a reported difference for the owner.
+**Abort conditions:** the dispatches' stops.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2021.
