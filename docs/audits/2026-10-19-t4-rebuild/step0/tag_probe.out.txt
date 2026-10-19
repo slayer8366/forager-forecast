@@ -1,0 +1,4 @@
+0 2026-10-06T08:16:27+00:00 e07d5fa1c8e764c6285858c9a9183f5f4ff70ad635b217468edcf417ef2b0472 {'requested_at': '2026-10-06T08:16:27+00:00', 'source': '/mnt/work/scratch/t4-rebuild/out/tag_probe/source.tif', 'AREA_OR_POINT': 'Area'} 9c7b81a6cd6625b0
+1 2026-10-19T22:00:00+00:00 a1ee8bf30b260d1fe3e90b8f82d8a30fd14110d2c57cbf3f9b4b734ad64c72d7 {'requested_at': '2026-10-19T22:00:00+00:00', 'source': '/mnt/work/scratch/t4-rebuild/out/tag_probe/source.tif', 'AREA_OR_POINT': 'Area'} 9c7b81a6cd6625b0
+same-time repeat equal: True
+different-time equal: False

@@ -1,0 +1,40 @@
+"""Step-0 probe: does fetch_layer's output sha256 depend on the time of the fetch alone?
+
+Runs fetch_layer twice on the same local synthetic int16 raster with the same bounds, at two
+frozen times, and prints both sha256 values, then reads the pixels and tags back."""
+import hashlib, sys
+from pathlib import Path
+from unittest import mock
+from datetime import datetime, UTC
+import numpy as np, rasterio
+from rasterio.transform import from_origin
+import forager_forecast.soilgrids as sg
+
+out = Path(sys.argv[1]); out.mkdir(parents=True, exist_ok=True)
+src = out / "source.tif"
+rng = np.random.default_rng(0)
+with rasterio.open(src, "w", driver="GTiff", width=200, height=200, count=1, dtype="int16",
+                   crs=sg.HOMOLOSINE, transform=from_origin(0, 50_000, 250, 250), nodata=-32768) as d:
+    d.write(rng.integers(30, 90, (200, 200), dtype="int16"), 1)
+bounds = (1000.0, 1000.0, 40000.0, 40000.0)
+
+class Frozen(datetime):
+    t = None
+    @classmethod
+    def now(cls, tz=None):
+        return cls.t
+
+recs = []
+for i, t in enumerate([datetime(2026, 10, 6, 8, 16, 27, tzinfo=UTC), datetime(2026, 10, 19, 22, 0, 0, tzinfo=UTC)]):
+    Frozen.t = t
+    with mock.patch.object(sg, "datetime", Frozen):
+        r = sg.fetch_layer(str(src), bounds, out / f"subset_{i}.tif")
+    recs.append(r)
+    with rasterio.open(out / f"subset_{i}.tif") as d:
+        print(i, r["requested_at"], r["sha256"], d.tags(), hashlib.sha256(d.read(1).tobytes()).hexdigest()[:16])
+# control: same time twice gives the same hash (the write is otherwise deterministic)
+Frozen.t = datetime(2026, 10, 6, 8, 16, 27, tzinfo=UTC)
+with mock.patch.object(sg, "datetime", Frozen):
+    r2 = sg.fetch_layer(str(src), bounds, out / "subset_2.tif")
+print("same-time repeat equal:", r2["sha256"] == recs[0]["sha256"])
+print("different-time equal:", recs[0]["sha256"] == recs[1]["sha256"])

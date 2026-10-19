@@ -1,0 +1,1 @@
+rasterio 1.5.1 GDAL 3.12.4 PROJ 9.8.1 numpy 2.5.3

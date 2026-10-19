@@ -1,0 +1,31 @@
+"""Step-0 probe for option A: re-encode a later subset with the earlier fetch's tags, exactly as
+fetch_layer writes (same profile keys, same update_tags call), and compare with the earlier file."""
+import hashlib, sys
+from pathlib import Path
+import rasterio
+
+d = Path(sys.argv[1])
+def retag(src_path, dest, source, requested_at):
+    with rasterio.open(src_path) as s:
+        data = s.read(1)
+        profile = {"driver": "GTiff", "width": s.width, "height": s.height, "count": 1,
+                   "dtype": data.dtype.name, "crs": s.crs, "transform": s.transform,
+                   "nodata": s.nodata, "compress": "deflate"}
+    with rasterio.open(dest, "w", **profile) as o:
+        o.write(data, 1)
+        o.update_tags(source=source, requested_at=requested_at)
+    return hashlib.sha256(Path(dest).read_bytes()).hexdigest()
+
+h0 = hashlib.sha256((d / "subset_0.tif").read_bytes()).hexdigest()
+h = retag(d / "subset_1.tif", d / "retag_1_as_0.tif", str(d / "source.tif"), "2026-10-06T08:16:27+00:00")
+print("retagged later file equals earlier file:", h == h0, h[:16], h0[:16])
+# negative control: one pixel changed must not match
+import numpy as np
+with rasterio.open(d / "subset_1.tif") as s:
+    a = s.read(1); prof = s.profile
+a[5, 5] += 1
+prof.pop("blockxsize", None); prof.pop("blockysize", None); prof.pop("tiled", None); prof.pop("interleave", None)
+with rasterio.open(d / "changed.tif", "w", **prof) as o:
+    o.write(a, 1)
+h2 = retag(d / "changed.tif", d / "retag_changed.tif", str(d / "source.tif"), "2026-10-06T08:16:27+00:00")
+print("one-pixel change detected:", h2 != h0)
