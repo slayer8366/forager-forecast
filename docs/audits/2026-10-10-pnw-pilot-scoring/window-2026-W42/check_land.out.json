@@ -1,0 +1,40 @@
+[
+ {
+  "file": "hourly-era5land-2026-10.hourly.nc",
+  "job": "7b22cb03-965e-4d11-b715-1204c5f495f3",
+  "store_file_size": 3568747,
+  "store_type": "application/netcdf",
+  "disk_bytes": 3568747,
+  "size_match": true,
+  "sha256": "6311a3515d85db4ab3aabb31cb7c408feb58e8f41b0318fdb85ee41406416248",
+  "stamps": 264,
+  "first_stamp": "2026-10-01T00:00:00",
+  "last_stamp": "2026-10-11T23:00:00",
+  "expver": [
+   "0005"
+  ],
+  "shapes": {
+   "t2m": [
+    264,
+    76,
+    41
+   ],
+   "stl1": [
+    264,
+    76,
+    41
+   ],
+   "swvl1": [
+    264,
+    76,
+    41
+   ]
+  },
+  "grid_lat_lon_edges": [
+   49.5,
+   42.0,
+   -125.0,
+   -121.0
+  ]
+ }
+]

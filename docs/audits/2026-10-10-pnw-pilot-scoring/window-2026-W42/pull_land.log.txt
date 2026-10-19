@@ -1,0 +1,6 @@
+2026-10-19T05:02:20+00:00 hourly route: 4 months, box [49.5, -125.0, 42.0, -121.0], 1 in flight
+2026-10-19T05:02:21+00:00 [1/4] hourly-era5land-2026-07 skip (done)
+2026-10-19T05:02:21+00:00 [2/4] hourly-era5land-2026-08 skip (done)
+2026-10-19T05:02:21+00:00 [3/4] hourly-era5land-2026-09 skip (done)
+2026-10-19T05:04:42+00:00 [4/4] hourly-era5land-2026-10 ok 140.2 s 3568747 B, {'days': 11, 'incomplete_days': {'t2m': 0, 'stl1': 0, 'swvl1': 0}}
+2026-10-19T05:04:42+00:00 hourly route finished pass: 4 ok or skipped, 0 gave up

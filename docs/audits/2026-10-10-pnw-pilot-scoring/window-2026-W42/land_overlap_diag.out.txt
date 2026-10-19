@@ -1,0 +1,4 @@
+W41 Oct (4, 76, 41) W42 Oct (11, 76, 41) grid equal True
+t2m days 01-04 equal (nan-aware): True max abs diff 0.0
+stl1 days 01-04 equal (nan-aware): True max abs diff 0.0
+swvl1 days 01-04 equal (nan-aware): True max abs diff 0.0
