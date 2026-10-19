@@ -332,3 +332,19 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 - **-2020's prediction was wrong for T4's subsets.** fetch_layer stamps the fetch time into each subset's tags (src/forager_forecast/soilgrids.py:137, :170), so a re-fetch can't match the raw hashes. Ash found this before fetching, and the dispatch's Amendment 1 changed the check to re-tagged copies plus master.tif, the archive and the ten cells.
 - **Ash's first comparison script** took the CRS from the GeoTIFF, not the VRT, and matched 0 of 9. A positive control on the real files located the cause, and the corrected script matched 9 of 9. Both versions are filed. The planner accepted the correction: it fixed a check, not the data.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2023.
+
+---
+
+**Kind:** intent
+**ID:** 2026-09-28-2023
+**Timestamp:** 2026-10-19T22:32:51Z
+**Title:** Write T8's plan: a second, stricter PNW test of whether weather beats the calendar (the forecast planner)
+**The owner, verbatim:** "A: Second, stricter PNW weather test (Recommended)" (Forager RECORD -1250); 2026-10-19, in this window: "Go on T8 plan". On who writes it: "The EGD standard is that whoever writes the code shouldn't write the plan and vice versa" (2026-10-17, relayed by Rowan Waymark).
+**Change:** one plan document, written by the planner, ending in numbered decisions for the owner, each with a recommendation. Ash's paused draft (t8-plan d6f916a) is read as findings. Every figure is re-read from its source, or checked by a read-only helper on a model other than Ash's.
+**Scope boundary:** the plan only. No download, count, fit or publish. No code. Nothing on main.
+**Baseline:** T1's PNW result, Brier skill −0.0035 [−0.0066, −0.0001], verdict "worse" (docs/audits/2026-10-10-pnw-pilot-t1-report.md:288-298). Forager RECORD -1249 and -1250. Forager RECORD -1248, closed there as partial by -1252, with the plan passed to this role.
+**Prediction if it works:** a plan of about 8 owner decisions, with T1's units, effort from T6, a few weather measures fixed in advance, and a bar fixed before any result. The biggest choice is how strict the turnout guard is.
+**Prediction if it fails:** a premise found wrong that changes T8's shape, brought to the owner as a stop.
+**Finish line:** the plan pushed, and its decisions put to the owner.
+**Abort conditions:** the owner withdrawing T8; a premise that needs a count or fit to settle, which becomes a decision instead.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2024.
