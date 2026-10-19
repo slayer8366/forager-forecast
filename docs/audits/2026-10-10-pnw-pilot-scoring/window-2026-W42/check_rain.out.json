@@ -1,0 +1,58 @@
+[
+ {
+  "file": "hourly-era5-precip-2026-10-05-11.nc",
+  "job": "971106d5-4b57-485b-b2e3-651507d50c34",
+  "store_file_size": 83304,
+  "store_type": "application/netcdf",
+  "disk_bytes": 83304,
+  "size_match": true,
+  "sha256": "832e35466f993f1dec9f830b4ad5554f2d1481a066f76453435192f889274a0d",
+  "stamps": 168,
+  "first_stamp": "2026-10-05T00:00:00",
+  "last_stamp": "2026-10-11T23:00:00",
+  "expver": [
+   "0005"
+  ],
+  "shapes": {
+   "tp": [
+    168,
+    31,
+    17
+   ]
+  },
+  "grid_lat_lon_edges": [
+   49.5,
+   42.0,
+   -125.0,
+   -121.0
+  ]
+ },
+ {
+  "file": "hourly-era5-precip-2026-10-12T00.nc",
+  "job": "d347c256-0818-470c-be5d-bc12039b0e32",
+  "store_file_size": 25581,
+  "store_type": "application/netcdf",
+  "disk_bytes": 25581,
+  "size_match": true,
+  "sha256": "76d870d88bb739fd6d353fe328bec8659cf187785c0a9d350e02f7215aa6b317",
+  "stamps": 1,
+  "first_stamp": "2026-10-12T00:00:00",
+  "last_stamp": "2026-10-12T00:00:00",
+  "expver": [
+   "0005"
+  ],
+  "shapes": {
+   "tp": [
+    1,
+    31,
+    17
+   ]
+  },
+  "grid_lat_lon_edges": [
+   49.5,
+   42.0,
+   -125.0,
+   -121.0
+  ]
+ }
+]

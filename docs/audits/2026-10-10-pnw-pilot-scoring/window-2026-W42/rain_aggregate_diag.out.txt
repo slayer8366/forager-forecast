@@ -1,0 +1,3 @@
+W41 days 96 W42 days 103 W42 first/last day index 4321 4423
+common days 96 equal 96 differing day indexes [] max abs diff m 0.0
+2014 True; 2015 True; 2016 True; 2017 True; 2018 True; 2019 True; 2020 True; 2021 True; 2022 True; 2023 True; 2024 True; 2025 True; 
