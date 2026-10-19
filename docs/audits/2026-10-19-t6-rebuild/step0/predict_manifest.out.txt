@@ -1,0 +1,34 @@
+all cb84163da0dd785dbc9142a8e5507f240c971881ebe20f442139ac3bcb22db26 MATCH
+{
+  "task": "T6 effort surface (D101 to D108)",
+  "licence_track": "all licences (D61)",
+  "input_doi": "10.15468/dl.8jxmeb",
+  "input_zip_sha256": "c0d5f6a1a775ddb902f73ca2c1978946c056a4f326beb7e13349677c0f72b26c",
+  "code_commit": "ef3269f6a04ba49864d8672417f39e51fa1ff128",
+  "configuration": {
+    "pull_pseudo_weeks": 10.0,
+    "season_smoothing_weeks": 3
+  },
+  "seed": 20260918,
+  "frame_cells": 43035,
+  "frame_weeks": "2015-W02 to 2025-W52",
+  "reads": "effort = cell_level.all_fungi x year_level.effort x season.effort (band, slot) x sum over day_type of all_fungi_per_day x days; forager_forecast.effort.EffortSurface"
+}
+
+cc c7e2276338cbe98b41776522c3b12d048b4f056f887772bf2c5ed2f474a61990 MATCH
+{
+  "task": "T6 effort surface (D101 to D108)",
+  "licence_track": "CC0_1_0 and CC_BY_4_0 only (D108)",
+  "input_doi": "10.15468/dl.8jxmeb",
+  "input_zip_sha256": "c0d5f6a1a775ddb902f73ca2c1978946c056a4f326beb7e13349677c0f72b26c",
+  "code_commit": "ef3269f6a04ba49864d8672417f39e51fa1ff128",
+  "configuration": {
+    "pull_pseudo_weeks": 10.0,
+    "season_smoothing_weeks": 9
+  },
+  "seed": 20260918,
+  "frame_cells": 16335,
+  "frame_weeks": "2015-W02 to 2025-W52",
+  "reads": "effort = cell_level.all_fungi x year_level.effort x season.effort (band, slot) x sum over day_type of all_fungi_per_day x days; forager_forecast.effort.EffortSurface"
+}
+

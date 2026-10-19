@@ -1,0 +1,20 @@
+T6 rebuild, step 0: mechanism prediction, written 2026-10-19T21:36Z by Ash Transect before any count or fit.
+
+Run: count and fit from a detached worktree of ef3269f (~/.cache/forager-wt/t6-rebuild-ef3269f),
+environment from its uv.lock (uv sync --frozen: Python 3.14.4, numpy 2.5.3, scipy 1.18.1).
+
+Prediction:
+1. All eight CSVs match stored_surface_sha256.txt byte for byte. Reason: same code (ef3269f; the
+   count stage originally ran at 5f7b3ca, which differs from ef3269f only in docs/), same zip
+   (sha256 c0d5f6a1...b26c, computed in full at step 0), fixed seed 20260918, same locked wheels
+   on the same machine. Values are written with repr(float), so this is a bit-for-bit claim.
+2. Both effort_manifest.json files match too. The manifest has no time of writing
+   (scripts/t6_fit.py:234-251 at ef3269f); rebuilt from code and the committed results without
+   reading any records, both already hash to the filed values (predict_manifest.out.txt).
+3. steps.json and the two results files differ from the committed copies only in "seconds" and
+   "peak_rss_kb"; every count and every float elsewhere is identical.
+
+What would make 1 fail, if it does: OpenBLAS (numpy's bundled build, DYNAMIC_ARCH) choosing a
+different kernel or thread split for the matrix products in effort.py (lines 369-529) and
+effort_evaluation.py:131, giving last-bit differences. Inferred, not checked. A failure there
+would show as tiny differences in floats, not in counts.
