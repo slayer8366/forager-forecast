@@ -76,3 +76,55 @@ correction is a new entry that points at the one it corrects.
 **Merged-by:** Rowan Waymark, on the owner's word in Rowan's window, "Merge into main", at 2026-10-18T12:41:35Z (GitHub). The forecast planner did not hear that word itself and relays Rowan's message.
 **Carries:** docs/process/planner-profile.md and docs/planning/handoffs/2026-10-18-planner-handoff.md, documents only; `git diff --stat f99dbcbf b0bc10a4` shows those two files and nothing else.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2005.
+
+---
+
+**Kind:** decision
+**ID:** 2026-09-28-2005
+**Timestamp:** 2026-10-19T04:47:17Z
+**Title:** W42 published late; the finished forecast worktrees removed; the borderline records copied into the both-projects folder (owner)
+**What the owner was told before answering:** (1) W42's weather arrived but its week ended 2026-10-18, so publishing now is late; options: publish late (recommended), skip to W43, or pause weekly publishing until T8 to T10. (2) Remove the finished forecast worktrees, each clean and pushed, about 8 GB. (3) Where the 27 borderline items in the Forager copy go.
+**The owner, verbatim, 2026-10-18,** typed in Rowan Waymark's window and relayed by Rowan: "1 Published W42 late / 2 go ahead / 3 they belong to both repos". Restated in the forecast planner's window as: (1) the dispatch, Ash's download change, download and scoring with the model unchanged, the site PR and the planner's preview check, then the owner's word to merge, with this yes as the go for the download; (2) remove the folders, re-checking each just before; (3) all 27 borderline items copied into the both-projects folder in forager-forecast, staying in Forager as they are. The owner, in this window: "Yes to all".
+**What it sets:** the W42 publish under intent 2026-09-28-2006; the clean-up (observation 2026-09-28-2008); the borderline items' place in the copy under intent 2026-09-28-2007.
+**Not authorised by this:** the merge of either W42 branch, which comes back to the owner.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2006.
+
+---
+
+**Kind:** intent
+**ID:** 2026-09-28-2006
+**Timestamp:** 2026-10-19T04:47:17Z
+**Title:** Publish the PNW pilot for 2026-W42, late, by the W41 route
+**Dispatch-file:** docs/dispatch/2026-10-18-pnw-pilot-w42-publish.md (branch pnw-pilot-w42, 0f4bda9)
+**Change:** a download-only change to the two pull scripts, the W42 weather pull, a W42 scoring run with the model unchanged, and a site PR on zynergy-site branch pnw-pilot-w42-drop. Continues Forager RECORD -1034 and -1035.
+**Scope boundary:** no change to the model, its copy or its labels; W41's inputs never overwritten; no merge of either branch; t6b-night paused and resumed by the planner only.
+**Baseline:** W41 is live (manifest sha256 074879ff…4043) and reproduced byte for byte on 2026-10-15 (docs/audits/2026-10-10-pnw-pilot-scoring-report.md:491-501). The archive covers W42's window since 2026-10-18T17:00:57Z.
+**Prediction if it works:** W42 scores with the same cell counts as W41 (2,618 scored, 231 from a land neighbour, 498 sea, 0 incomplete), and the manifest differs from W41's only in the week, dates, weather window and source, access dates, published_at and cell values. W41 still reproduces after the pull.
+**Prediction if it fails:** a manifest field beyond those differs, the cell counts change unexplained, the pull fails its check, or W41 stops reproducing.
+**Finish line:** the site PR open with its preview passing the W41 drop's check, and the banner read, reported to the owner for the merge word.
+**Abort conditions:** any stop in the dispatch; the model needing a change; the owner withdrawing the publish.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Ash Transect (Opus) codes it. Next free ID 2026-09-28-2007.
+
+---
+
+**Kind:** intent
+**ID:** 2026-09-28-2007
+**Timestamp:** 2026-10-19T04:47:17Z
+**Title:** Copy the forecast records from Forager into forager-forecast, Forager unchanged (owner)
+**The owner, verbatim, 2026-10-18:** "So hust copy the records"; to the four questions on how, "All recommended. For 2: have a Forager app and forecast project folder for all mixed app details. I want to keep this open for people to use and that just tidies it up for them"; and on the borderline items, "they belong to both repos" (2026-09-28-2005).
+**Change:** verbatim copies, keeping their IDs, from Forager at 35c14780 (records-after-173): forecast-only RECORD entries into records/from-forager.md; forecast-only preserved files into docs/preserved/; entries, preserved files and docs covering both projects, and every borderline item, into forager-app-and-forecast/ with a README for outside readers.
+**Scope boundary:** nothing in Forager changes; no entry is edited, split or renumbered; this RECORD.md is not touched beyond its own entries.
+**Baseline:** the sort, by four read-only helpers, each count checked by the planner against the source: 1,431 entries (213 forecast, 22 both, 18 borderline, 1,178 app); 401 preserved files (20 forecast, 6 both, 7 borderline); Forager's other docs (1 both, 2 borderline).
+**Prediction if it works:** 213 entries in records/from-forager.md and 40 in forager-app-and-forecast/entries.md; 20 files in docs/preserved/ and 13 in forager-app-and-forecast/preserved/, plus 3 docs; each copy byte-identical to its source.
+**Prediction if it fails:** a count differs from the sort, or a copy is not byte-identical.
+**Finish line:** the copies on a branch, the counts and byte checks reported to the owner, the merge on the owner's word.
+**Abort conditions:** the owner withdrawing the copy; an entry that cannot be copied whole.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2008.
+
+---
+
+**Kind:** observation
+**ID:** 2026-09-28-2008
+**Timestamp:** 2026-10-19T04:47:17Z
+**Title:** Fifteen finished forecast worktrees removed; the work drive from 3.7 GB to 12 GB free
+**Notes:** On the owner's "go ahead" (2026-09-28-2005). Each was re-checked just before removal (no uncommitted change, 0 commits not on origin), then removed with `git worktree remove`, with no force: t7-part-a, t7-part-b, t7-part-c, t7-refit, t7-refit-review, t7-refit-review-2, t7-fit-review, t7-fit-review-2, t7-verify (t7-pnw-verify), merge-b (merge-2026-10-15b), t6b-run (t6b-run-2026-10-15), t4 (t4-master-grid), t5 (t5-host-trees), t6 (t6-observation-layer), host-genera-review (t6b-host-genera-review). Their branches remain, locally and on GitHub. t7-build's .pytest-tmp (796 MB of test scratch) was also cleared. /mnt/work went from 3.7 GB to 12 GB free (df). **A miscount:** the planner told the owner "17 folders"; the categories it named come to 19, with four T7 planning folders (t7-mycorrhizal-plan, t7-proposals, t7-searches, t7-strengthen-plan, about 13 MB each). Those four were not removed. Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2009.
