@@ -1,0 +1,26 @@
+[
+ {
+  "file": "hourly-era5land-2026-10.hourly.nc",
+  "job": "7b22cb03-965e-4d11-b715-1204c5f495f3",
+  "store_file_checksum": "492fb46b945acd75bdadc62682f8d3b8",
+  "disk_md5": "492fb46b945acd75bdadc62682f8d3b8",
+  "checksum_match": true,
+  "store_file_size": 3568747
+ },
+ {
+  "file": "hourly-era5-precip-2026-10-05-11.nc",
+  "job": "971106d5-4b57-485b-b2e3-651507d50c34",
+  "store_file_checksum": "f3e9d3335cd3231803c718fc98f8d059",
+  "disk_md5": "f3e9d3335cd3231803c718fc98f8d059",
+  "checksum_match": true,
+  "store_file_size": 83304
+ },
+ {
+  "file": "hourly-era5-precip-2026-10-12T00.nc",
+  "job": "d347c256-0818-470c-be5d-bc12039b0e32",
+  "store_file_checksum": "7a943e9150b0af288240e8b6dce6debd",
+  "disk_md5": "7a943e9150b0af288240e8b6dce6debd",
+  "checksum_match": true,
+  "store_file_size": 25581
+ }
+]
