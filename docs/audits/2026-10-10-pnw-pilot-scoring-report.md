@@ -625,3 +625,52 @@ Under Amendment 1 (a51adfe). Evidence in `docs/audits/2026-10-10-pnw-pilot-scori
   - t6b-night (`t6b_run.py`) was running during this 8-second run and was not touched. My pre-run
     "no fit running" check matched its own shell line, so it was not evidence; a later `ps` showed
     no pilot fit or score running.
+
+## 2026-W42, steps 3 and 4 (2026-10-19 UTC): scored, site PR open, not merged
+
+**Scored** at 2026-10-19T05:13:35Z, after the planner had stopped t6b-night (inactive since
+05:12:54Z). Command: W41's flags with `--week 2026-W42 --store
+~/Zynergy/forecast-data-pnw-pilot/cds-2026-W42`, run in the detached unit `w42-score` (MemoryMax 5G,
+no swap, Nice 10). The unit ended with result success, exit 0 (`w42_publish.log.txt`).
+
+- 2,618 of 3,116 cells scored, 231 from a land neighbour, 498 sea, 0 incomplete, as W41; the same 40
+  blocks. Output in `~/Zynergy/forecast-data-pnw-pilot/scoring/out/pnw-pilot/2026-10-12/`.
+- `manifest.json`: 14,355 B, sha256 667372cc1f980449d66d9631183b19ee984aa47657fd7a1dda214ba6be855db2.
+  `cantharellus.geojson`: 1,591,000 B, sha256
+  0a5c734eec93197c245184eaccaf9fcbf283009422fff176cbd4e310a27225f7. A copy of the manifest is at
+  `window-2026-W42/published-manifest-w42.json`; every output file's hash is in `w42-output.sha256`.
+- **Field-by-field against W41** (`w42_manifest_vs_w41.out.txt`): only `week`, `iso_week`,
+  `published_at`, `weather_through` (2026-10-11), `weather.days` (2026-07-14 to 2026-10-11),
+  `weather.source`, `weather.npz_sha256`, `layers[0].path`, `layers[1].prefix`,
+  `cells.chance_min/median/max` (0.0072 / 0.04255 / 0.1598) and `attribution_details[1]` and `[2]`
+  differ. In `weather.source` only the version sentence changed: 07-14 to 07-31 final, 08-01 to
+  10-11 preliminary. Both hourly products' access dates now read "10-Oct-2026 to 19-Oct-2026". All
+  of these fall within step 3's list and Amendment 1's ruling 2. `pilot`, `validated`, `reviewed`,
+  `beats_calendar`, `t1_result`, `attribution`, `base_rate` and the model block are unchanged.
+  `chance_median` prints as 0.042550000000000004, a float artefact in a cell value, left as written.
+
+**Site drop.**
+- zynergy-site PR #18 (https://github.com/slayer8366/zynergy-site/pull/18), branch
+  `pnw-pilot-w42-drop`, commit 4da0360, with the two files only.
+- The branch already existed locally: created 2026-10-14 from origin/main 2185246 with no commits of
+  its own, its worktree clean. It was fast-forwarded to origin/main 319871c before the copy.
+- The preview deployed successfully: https://bea43dde.zynergy-site.pages.dev (branch alias
+  https://pnw-pilot-w42-drop.zynergy-site.pages.dev).
+- The W41 drop's `check.py` ran against `/Forager/forecast/` at 1366x860 and 390x844: **71 of 71
+  checks passed, 8 skipped** (`preview_check.out.txt`). The skips are cell kinds this file does not
+  contain: not-applicable, chance-null, and cells with uncertainty. The page and the file both have
+  2,618 cells; there were no console errors.
+- **The banner, read by eye from screenshots** kept in
+  `~/Zynergy/device-evidence/2026-10-10-pilot-map/preview-w42/`, outside both repositories:
+  - "Pilot model. Not validated. Reviewed. Not the forecast."
+  - "Pilot, not yet validated. Its figures were checked by an independent review. Shown whether or
+    not it beats the seasonal calendar."
+  - "It did not beat the seasonal calendar on held-out years: the calendar alone did as well or
+    better. It is shown anyway, as a pilot."
+  - "Weather model: day of year, place and T1's 32 weather windows."
+  - "Week of 12 October 2026 (2026-W42). 2,618 of 3,116 cells scored".
+  - The phone's collapsed line reads "Pilot model. Not validated. Reviewed. Week of 12 October."
+  - Attribution: the GBIF citation and the Copernicus texts are shown on the map's (i); `check.py`
+    confirmed that the 5 manifest entries are listed under Details. I did not read the access dates
+    by eye.
+- Not merged. The merge waits for the owner's word.

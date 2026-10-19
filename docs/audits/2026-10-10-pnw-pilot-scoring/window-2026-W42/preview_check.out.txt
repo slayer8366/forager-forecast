@@ -1,0 +1,86 @@
+file: 2618 features, 2618 drawable, 0 not
+base_rate: 0.021586554876892143 (ratings)
+PASS desktop: banner hidden on the default layer
+PASS desktop: pilot loaded  [{"loaded": true, "error": null, "n": 2618, "d": 2618}]
+PASS desktop: page's feature and drawable counts match the file  [page 2618/2618 file 2618/2618]
+PASS desktop: banner visible
+PASS desktop: banner is a strip, under 25% of the viewport height  [height 165px]
+PASS desktop: banner carries pilot/validated/reviewed/calendar from the manifest, and every attribution notice under Details  [5 notices under Details | Pilot model. Not validated. Reviewed. Not the forecast. |  | Pilot, not yet validated. Its figures were checked by an independent review. Shown whether or not it beats the seasonal calendar. |  | It did not beat the seasonal calendar on held-out years: the calendar alone did as well or better. It is]
+PASS desktop: status line from the manifest directly under the heading  [['Pilot model. Not validated. Reviewed. Not the forecast.', 'Pilot, not yet validated. Its figures were checked by an independent review. Shown whether or not it beats the seasonal calendar.']]
+PASS desktop: attribution details open and list every manifest entry  [5 entries]
+PASS desktop: no credit on the page that the manifest does not name  [[]]
+PASS desktop: banner and legend never say 'this week'
+PASS desktop: inputs label hidden while pilot on
+PASS desktop: legend lists the five ratings in order, the average line and 'No forecast here'  [labels ['Below average', 'About average', 'Above average', 'High', 'Very high'], average 'Average week across the year: about 2%.', want 'Average week across the year: about 2%.']
+PASS desktop: raster scale hidden while pilot on
+PASS desktop: guide lists the pilot entry first  [pilot]
+PASS desktop: rendered cells are all drawable (none unscored/not applicable)  [{"n": 2264, "ids": 2199, "bad": 0}]
+SKIP desktop: tap cell with uncertainty and drivers  [no such cell in this file]
+PASS desktop: tap cell with drivers, no uncertainty shows its numbers  [Above average: about 1.9 times the average week across the year. |  | Sighting chance 4% |  | The chance chanterelles are reported in this cell in the week of 12 October 2026, given someone reported any fungus here that ]
+PASS desktop: tap cell with drivers, no uncertainty leads with its rating by the cut-offs  ['Above average: about 1.9 times the average week across the year.' want 'Above average: about 1.9 times the average week across the year.']
+SKIP desktop: tap cell without uncertainty or drivers  [no such cell in this file]
+PASS desktop: tap highest-chance cell leads with its rating by the cut-offs  [['Very high: about 7.4 times the average week across the year.', 'Sighting chance 16%'] want ['Very high: about 7.4 times the average week across the year.', 'Sighting chance 16%']]
+READOUT highest-chance cell (chance 0.1598): Very high: about 7.4 times the average week across the year. | Sighting chance 16% | The chance chanterelles are reported in this cell in the week of 12 October 2026, given someone reported any fungus here that week. | Uncertainty: not given for this cell. | Weather through 11 October 2026. | What moved it most, largest first: | Soil temperature, mean of the last 90 days (°C): 14.705 | Rain, total of the last 42 days (mm): 80.466 | Air temperature, mean of the last 90 days (°C): 13.971 | (44.401 N, 124.200 W)
+PASS desktop: tap lowest-chance cell leads with its rating by the cut-offs  [['Below average: below the average week across the year.', 'Sighting chance under 1%'] want ['Below average: below the average week across the year.', 'Sighting chance under 1%']]
+READOUT lowest-chance cell (chance 0.0072): Below average: below the average week across the year. | Sighting chance under 1% | The chance chanterelles are reported in this cell in the week of 12 October 2026, given someone reported any fungus here that week. | Uncertainty: not given for this cell. | Weather through 11 October 2026. | What moved it most, largest first: | Soil temperature, mean of the last 90 days (°C): 21.135 | Soil moisture, mean of the last 42 days (m³/m³): 0.121 | Air temperature, mean of the last 90 days (°C): 16.16 | (48.601 N, 123.400 W)
+PASS desktop: tap cell closest below 1.5 (ratio 1.4963) leads with its rating by the cut-offs  [['About average: about the same as the average week across the year.', 'Sighting chance 3%'] want ['About average: about the same as the average week across the year.', 'Sighting chance 3%']]
+PASS desktop: tap cell closest below 3 (ratio 2.9972) leads with its rating by the cut-offs  [['Above average: about 2.9 times the average week across the year.', 'Sighting chance 6%'] want ['Above average: about 2.9 times the average week across the year.', 'Sighting chance 6%']]
+PASS desktop: tap cell closest below 5 (ratio 4.9985) leads with its rating by the cut-offs  [['High: about 4.9 times the average week across the year.', 'Sighting chance 11%'] want ['High: about 4.9 times the average week across the year.', 'Sighting chance 11%']]
+READOUT cell closest below 5 (ratio 4.9985) (chance 0.1079): High: about 4.9 times the average week across the year. | Sighting chance 11% | The chance chanterelles are reported in this cell in the week of 12 October 2026, given someone reported any fungus here that week. | Uncertainty: not given for this cell. | Weather through 11 October 2026. | What moved it most, largest first: | Soil temperature, mean of the last 90 days (°C): 16.764 | Rain, total of the last 42 days (mm): 82.709 | Air temperature, mean of the last 90 days (°C): 16.399 | (47.101 N, 123.500 W)
+PASS desktop: tap 'Below average' cell leads with its rating by the cut-offs  [['Below average: below the average week across the year.', 'Sighting chance 1%'] want ['Below average: below the average week across the year.', 'Sighting chance 1%']]
+PASS desktop: tap 'About average' cell leads with its rating by the cut-offs  [['About average: about the same as the average week across the year.', 'Sighting chance 2%'] want ['About average: about the same as the average week across the year.', 'Sighting chance 2%']]
+PASS desktop: tap 'Above average' cell leads with its rating by the cut-offs  [['Above average: about 1.9 times the average week across the year.', 'Sighting chance 4%'] want ['Above average: about 1.9 times the average week across the year.', 'Sighting chance 4%']]
+PASS desktop: tap 'High' cell leads with its rating by the cut-offs  [['High: about 3.0 times the average week across the year.', 'Sighting chance 7%'] want ['High: about 3.0 times the average week across the year.', 'Sighting chance 7%']]
+PASS desktop: tap 'Very high' cell leads with its rating by the cut-offs  [['Very high: about 5.3 times the average week across the year.', 'Sighting chance 12%'] want ['Very high: about 5.3 times the average week across the year.', 'Sighting chance 12%']]
+SKIP desktop: tap not-applicable cell  [no such cell in this file]
+SKIP desktop: tap chance-null cell  [no such cell in this file]
+PASS desktop: tap outside every cell says no forecast here  [No forecast here: this cell is not scored, or the model does not apply to it (45.001 N, 125.350 W).]
+PASS desktop: toggling back hides banner, legend and cells, restores inputs label and scale  [visibility=none]
+PASS desktop: toggling on again shows it again
+PASS desktop: page text has none of the forbidden phrases  [[]]
+PASS desktop: window.pnwErrors empty  [[]]
+PASS mobile: banner hidden on the default layer
+PASS mobile: pilot loaded  [{"loaded": true, "error": null, "n": 2618, "d": 2618}]
+PASS mobile: page's feature and drawable counts match the file  [page 2618/2618 file 2618/2618]
+PASS mobile: banner visible
+PASS mobile: banner collapsed under 60 px, with pilot / not validated / not reviewed / week  [height 58px, text 'Pilot model. Not validated. Reviewed. Week of 12 October.\nMore']
+PASS mobile: first expansion shows the calendar line  [['Pilot model. Not validated. Reviewed. Not the forecast.', '', 'Pilot, not yet validated. Its figures were checked by an independent review. Shown whether or not it beats the seasonal calendar.']]
+PASS mobile: map attribution starts collapsed
+PASS mobile: banner carries pilot/validated/reviewed/calendar from the manifest, and every attribution notice under Details  [5 notices under Details | Pilot model. Not validated. Reviewed. Week of 12 October. | Less |  | Pilot model. Not validated. Reviewed. Not the forecast. |  | Pilot, not yet validated. Its figures were checked by an independent review. Shown whether or not it beats the seasonal calendar. |  | It did not beat the seasonal calen]
+PASS mobile: status line from the manifest directly under the heading  [['Pilot model. Not validated. Reviewed. Not the forecast.', 'Pilot, not yet validated. Its figures were checked by an independent review. Shown whether or not it beats the seasonal calendar.']]
+PASS mobile: attribution details open and list every manifest entry  [5 entries]
+PASS mobile: one tap on (i) shows the manifest's attribution on the map  [Lines: CEC Political Boundaries 2021, CC BY 4.0 | SoilGrids 2.0 (ISRIC), TreeMap 2023 (USFS), SCANFI v2 (NRCan, OGL-Cana]
+PASS mobile: no credit on the page that the manifest does not name  [[]]
+PASS mobile: banner and legend never say 'this week'
+PASS mobile: inputs label hidden while pilot on
+PASS mobile: legend lists the five ratings in order, the average line and 'No forecast here'  [labels ['Below average', 'About average', 'Above average', 'High', 'Very high'], average 'Average week across the year: about 2%.', want 'Average week across the year: about 2%.']
+PASS mobile: raster scale hidden while pilot on
+PASS mobile: guide lists the pilot entry first  [pilot]
+PASS mobile: rendered cells are all drawable (none unscored/not applicable)  [{"n": 1442, "ids": 1442, "bad": 0}]
+SKIP mobile: tap cell with uncertainty and drivers  [no such cell in this file]
+PASS mobile: tap cell with drivers, no uncertainty shows its numbers  [Above average: about 1.9 times the average week across the year. |  | Sighting chance 4% |  | The chance chanterelles are reported in this cell in the week of 12 October 2026, given someone reported any fungus here that ]
+PASS mobile: tap cell with drivers, no uncertainty leads with its rating by the cut-offs  ['Above average: about 1.9 times the average week across the year.' want 'Above average: about 1.9 times the average week across the year.']
+SKIP mobile: tap cell without uncertainty or drivers  [no such cell in this file]
+PASS mobile: tap highest-chance cell leads with its rating by the cut-offs  [['Very high: about 7.4 times the average week across the year.', 'Sighting chance 16%'] want ['Very high: about 7.4 times the average week across the year.', 'Sighting chance 16%']]
+PASS mobile: tap lowest-chance cell leads with its rating by the cut-offs  [['Below average: below the average week across the year.', 'Sighting chance under 1%'] want ['Below average: below the average week across the year.', 'Sighting chance under 1%']]
+PASS mobile: tap cell closest below 1.5 (ratio 1.4963) leads with its rating by the cut-offs  [['About average: about the same as the average week across the year.', 'Sighting chance 3%'] want ['About average: about the same as the average week across the year.', 'Sighting chance 3%']]
+PASS mobile: tap cell closest below 3 (ratio 2.9972) leads with its rating by the cut-offs  [['Above average: about 2.9 times the average week across the year.', 'Sighting chance 6%'] want ['Above average: about 2.9 times the average week across the year.', 'Sighting chance 6%']]
+PASS mobile: tap cell closest below 5 (ratio 4.9985) leads with its rating by the cut-offs  [['High: about 4.9 times the average week across the year.', 'Sighting chance 11%'] want ['High: about 4.9 times the average week across the year.', 'Sighting chance 11%']]
+PASS mobile: tap 'Below average' cell leads with its rating by the cut-offs  [['Below average: below the average week across the year.', 'Sighting chance 1%'] want ['Below average: below the average week across the year.', 'Sighting chance 1%']]
+PASS mobile: tap 'About average' cell leads with its rating by the cut-offs  [['About average: about the same as the average week across the year.', 'Sighting chance 2%'] want ['About average: about the same as the average week across the year.', 'Sighting chance 2%']]
+PASS mobile: tap 'Above average' cell leads with its rating by the cut-offs  [['Above average: about 1.9 times the average week across the year.', 'Sighting chance 4%'] want ['Above average: about 1.9 times the average week across the year.', 'Sighting chance 4%']]
+PASS mobile: tap 'High' cell leads with its rating by the cut-offs  [['High: about 3.0 times the average week across the year.', 'Sighting chance 7%'] want ['High: about 3.0 times the average week across the year.', 'Sighting chance 7%']]
+PASS mobile: tap 'Very high' cell leads with its rating by the cut-offs  [['Very high: about 5.3 times the average week across the year.', 'Sighting chance 12%'] want ['Very high: about 5.3 times the average week across the year.', 'Sighting chance 12%']]
+SKIP mobile: tap not-applicable cell  [no such cell in this file]
+SKIP mobile: tap chance-null cell  [no such cell in this file]
+PASS mobile: tap outside every cell says no forecast here  [No forecast here: this cell is not scored, or the model does not apply to it (45.000 N, 125.350 W).]
+PASS mobile: toggling back hides banner, legend and cells, restores inputs label and scale  [visibility=none]
+PASS mobile: toggling on again shows it again
+PASS mobile: page text has none of the forbidden phrases  [[]]
+PASS mobile: window.pnwErrors empty  [[]]
+PASS fallback (base_rate removed): legend is the six percent classes, no average line  [labels ['under 5%', '5 to 10%', '10 to 20%', '20 to 30%', '30 to 50%', '50% or more'], average shown False]
+PASS fallback (base_rate removed): map colours by chance, not by ratio  [["step", ["get", "chance"], "rgb(68,1,84)", 0.05, "rgb(65,68,135)", 0.1, "rgb(42,120,142)", 0.2, "rgb(34,168,132)", 0.3, "rgb(122,209,81)", 0.5, "rgb(253,231,37]
+PASS fallback (base_rate removed): readout leads with 'Sighting chance: N%', no rating  [['Sighting chance: 16%', 'The chance chanterelles are reported in this cell in the week of 12 October 2026, given someone reported any fungus here that week.']]
+PASS no console errors (both viewports)
+
+71 of 71 checks passed, 8 skipped
