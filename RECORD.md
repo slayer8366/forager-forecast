@@ -185,3 +185,19 @@ correction is a new entry that points at the one it corrects.
 **Finish line:** Ash's report with the tests, the revert check and the summary checked against the manifest; then the planner restarts t6b-night.
 **Abort conditions:** the dispatch's stops; the owner withdrawing it.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Held, not started, while the owner builds the Forager release on the laptop. Next free ID 2026-09-28-2013.
+
+---
+
+**Kind:** outcome
+**ID:** 2026-09-28-2013
+**Timestamp:** 2026-10-19T11:23:52Z
+**Continues:** 2026-09-28-2012
+**Title:** t6b's progress save fixed: a 991-byte summary in git, checked against the manifest; the lost section committed
+**Observed:**
+- **Ash Transect's report,** branch t6b-progress-save, head f7ccc87, which is also the runner worktree's HEAD and origin's. git now gets manifest_summary.json, and the full gzip goes to /mnt/work/Zynergy/forecast-data/t6b/manifest.jsonl.gz. Only named paths are committed. A failed commit or push is logged and exits non-zero; before this, the push failure was swallowed (scripts/t6b_run.py:561). The committed manifest.jsonl.gz is frozen at bf9c315, as its new README says. The guard is unchanged.
+- **Tests:** 5 new tests, each failing on the old save. One failed for a reason other than its own, and the revert check (a whole-index commit) shows it bites. Suite: 609 passed. Ruff is red in one existing file, docs/audits/2026-10-15-t6b-host-genera-build/plot_table_real.py, which was already red at bf9c315 and is not this change.
+- **The lost 2026-10-18 section** was committed as 99f6d93, after copies went to recovery-2026-10-19/ with SHA256SUMS.
+- **A 10-minute check section,** t6b-check, 04:12 to 04:22 PDT: 30 units, exit 0, commit f7ccc87 a few kilobytes and pushed. The planner read the summary's sha256, ca33bbac…cece, and it equals both the flash-drive manifest's and the decompressed copy's.
+- **Counts:** 8,839 units left of 22,473 (units are tile layers; the planner told the owner "tiles" earlier, corrected in chat).
+**Deviations:** the planner cited 2026-09-28-2003 as covering Ash's check run. Ash noted that -2003 covers only the planner's own morning restarts. The check run rests on the owner's "Build is done. Continue" relayed with the dispatch, and that is how it is recorded.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. t6b-night's nightly restart is held while the planner asks Rowan whether two resident Gradle JVMs (about 3.7 GB) are idle. Next free ID 2026-09-28-2014.
