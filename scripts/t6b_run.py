@@ -15,14 +15,16 @@ Usage (repository root):
   the current layout; a file of an older layout is moved aside, kept, just before its unit is
   rebuilt, into ``superseded/<UTC stamp>-trees/`` (trees only: never soil, SCANFI layer tiles or
   the manifest). No tree unit starts without free space for it (as the SCANFI stage checks).
-- At the end the manifest (gzipped, Forager RECORD -803) and this section's summary are copied to
-  docs/audits/2026-10-07-t6b-run/, committed and pushed.
+- At the end the manifest is gzipped to /mnt/work/Zynergy/forecast-data/t6b/, outside every
+  repository, and a summary of it (sha256, size, lines, units by layer and status) and this
+  section's summary go to docs/audits/2026-10-07-t6b-run/, committed and pushed. The committed
+  manifest.jsonl.gz is frozen at bf9c315 (dispatch 2026-10-19-t6b-progress-save). A failed commit
+  or push is logged and the run exits non-zero; nothing it left staged blocks the next section.
 """
 
 import argparse
 import json
 import shutil
-import subprocess
 import sys
 import time
 from datetime import UTC, datetime
@@ -61,12 +63,14 @@ from forager_forecast.t6b_mask import (
     read_mask,
 )
 from forager_forecast.t6b_run import (
+    EVIDENCE_SUMMARY,
     append_line,
-    copy_manifest_evidence,
+    commit_paths,
     done_units,
     next_stop,
     read_lines,
     run_section,
+    save_manifest_outside,
     sha256_file,
 )
 
@@ -94,6 +98,9 @@ NATIVE_SCANFI = T6B / "native" / "scanfi"
 MANIFEST = T6B / "manifest.jsonl"
 PAUSE = T6B / "PAUSE"
 EVIDENCE = REPO / "docs" / "audits" / "2026-10-07-t6b-run"
+# The gzipped manifest, outside every repository, replaced each section (dispatch
+# 2026-10-19-t6b-progress-save). Git keeps its summary, whose sha256 verifies this copy.
+MANIFEST_COPY_DIR = Path("/mnt/work/Zynergy/forecast-data/t6b")
 TREE_N, SOIL_N, SUPER = 256, 2048, 4
 SCANFI_WHOLE = T6B / "scanfi_whole"
 SCANFI_LAYER_TILES = T6B / "scanfi_layers"
@@ -532,33 +539,36 @@ def parse_box(text: str) -> LonLatBox:
     return LonLatBox(south=south, north=north, west=west, east=east)
 
 
-def commit_progress(summaries: list[dict], evidence: Path = EVIDENCE) -> None:
+def commit_progress(summaries: list[dict], evidence: Path = EVIDENCE) -> bool:
+    """Save the section's progress; True if it was committed and pushed.
+
+    Everything outside git is written first: the gzipped manifest under MANIFEST_COPY_DIR, then
+    the summary, the section line and the log in the evidence folder. Then only those files are
+    committed (dispatch 2026-10-19-t6b-progress-save). A failed commit or push is logged and
+    returns False; main exits non-zero for it, after the section has ended."""
     EVIDENCE = evidence  # noqa: N806
     EVIDENCE.mkdir(parents=True, exist_ok=True)
-    copy_manifest_evidence(MANIFEST, EVIDENCE)  # gzipped (Forager RECORD -803)
+    summary = save_manifest_outside(MANIFEST, MANIFEST_COPY_DIR)
+    (EVIDENCE / EVIDENCE_SUMMARY).write_text(json.dumps(summary, indent=1) + "\n")
+    log(f"progress save: manifest {summary['bytes']} bytes, {summary['lines']} lines, "
+        f"sha256 {summary['sha256']}, copy {summary['copy_outside_git']}")  # fmt: skip
+    paths = [EVIDENCE / EVIDENCE_SUMMARY]
     for name in ("mask.json", "tiles_trees.json", "tiles_soil.json"):
         if (T6B / name).exists():
             shutil.copy(T6B / name, EVIDENCE / name)
+            paths.append(EVIDENCE / name)
     with open(EVIDENCE / "sections.jsonl", "a") as f:
         f.write(json.dumps({"summaries": summaries}) + "\n")
+    paths.append(EVIDENCE / "sections.jsonl")
     shutil.copy(T6B / "run.log", EVIDENCE / "run.log.txt")
-    subprocess.run(["git", "add", str(EVIDENCE)], cwd=REPO, check=True)
+    paths.append(EVIDENCE / "run.log.txt")
     done = sum(s.get("units_done_now", 0) for s in summaries)
     msg = (f"T6b run section: {done} tiles; " + "; ".join(
         f"{s.get('layer')}: {s.get('units_ok')} ok, {s.get('units_deferred')} deferred, "
         f"{s.get('units_failed', 0)} failed, "
         f"{s.get('units_remaining')} left, {s.get('stopped')}" for s in summaries)
         + "\n\nCo-Authored-By: Claude <noreply@anthropic.com>")  # fmt: skip
-    if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=REPO).returncode != 0:
-        subprocess.run(["git", "commit", "-q", "-m", msg], cwd=REPO, check=True)
-        branch = subprocess.run(
-            ["git", "rev-parse", "--abbrev-ref", "HEAD"],
-            cwd=REPO,
-            capture_output=True,
-            text=True,
-            check=True,
-        ).stdout.strip()
-        subprocess.run(["git", "push", "-q", "origin", branch], cwd=REPO, check=False)
+    return commit_paths(REPO, paths, msg, log)
 
 
 def main() -> None:
@@ -653,7 +663,9 @@ def main() -> None:
     finally:
         units = [e for e in read_lines(MANIFEST) if e.get("kind") == "unit"]
         log(f"section end: {len(units)} unit lines in the manifest")
-        commit_progress(summaries, Path(args.evidence))
+        saved = commit_progress(summaries, Path(args.evidence))
+    if not saved:
+        sys.exit("progress save failed: the section's work is on the drive, see run.log")
 
 
 if __name__ == "__main__":

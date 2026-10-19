@@ -77,8 +77,9 @@ def _big_manifest(path: Path) -> bytes:
     rng = random.Random(20261019)
     with open(path, "w") as f:
         for k in range(26000):
+            sha = f"{rng.getrandbits(256):064x}"
             line = {"kind": "unit", "layer": "balsamFir", "unit": f"balsamFir:256_{k}_{k % 40}",
-                    "status": "ok", "files": {f"b_{k}.npz": f"{rng.getrandbits(256):064x}"}}  # fmt: skip
+                    "status": "ok", "files": {f"b_{k}.npz": sha}}  # fmt: skip
             f.write(json.dumps(line, sort_keys=True) + "\n")
     raw = path.read_bytes()
     assert len(gzip.compress(raw, compresslevel=9, mtime=0)) > ONE_MB  # the case that failed
@@ -101,7 +102,8 @@ def test_a_manifest_whose_gzip_is_over_the_limit_commits_a_summary_and_not_the_g
     assert f"{EVIDENCE_REL}/manifest_summary.json" in tree
     # The committed gzip is frozen: the same blob as before the section.
     assert git(p["repo"], "rev-parse", f"HEAD:{EVIDENCE_REL}/manifest.jsonl.gz").stdout == head_gz
-    summary = json.loads(git(p["repo"], "show", f"HEAD:{EVIDENCE_REL}/manifest_summary.json").stdout)
+    shown = git(p["repo"], "show", f"HEAD:{EVIDENCE_REL}/manifest_summary.json")
+    summary = json.loads(shown.stdout)
     assert summary["sha256"] == hashlib.sha256(raw).hexdigest()
     copy = p["outside"] / "manifest.jsonl.gz"
     assert gzip.decompress(copy.read_bytes()) == raw
@@ -174,7 +176,7 @@ def _run_paused_section(save, monkeypatch):
     return exited.value.code
 
 
-def test_a_refused_commit_is_logged_and_the_section_exits_non_zero_after_the_copy(save, monkeypatch):
+def test_a_refused_commit_is_logged_and_exits_non_zero_after_the_copy(save, monkeypatch):
     p = save.test_paths
     save.MANIFEST.write_text(json.dumps({"kind": "unit", "layer": "soil", "unit": "a"}) + "\n")
     raw = save.MANIFEST.read_bytes()

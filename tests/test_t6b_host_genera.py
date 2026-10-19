@@ -385,7 +385,7 @@ def test_the_box_option_runs_only_the_tiles_with_a_study_cell_in_the_box(
     lon, lat = _centre_lonlat(chosen)  # one cell centre of the chosen tile, nothing else
     box = f"{lat - 0.0003},{lat + 0.0003},{lon - 0.0003},{lon + 0.0003}"
     monkeypatch.setattr(runner, "DRIVE", runner.T6B)
-    monkeypatch.setattr(runner, "commit_progress", lambda summaries, evidence: None)
+    monkeypatch.setattr(runner, "commit_progress", lambda summaries, evidence: True)
     monkeypatch.setattr(sys, "argv", ["t6b_run.py", "--until", "23:59", "--stages", "trees",
                                       "--workers", "1", "--box", box])  # fmt: skip
     runner.main()

@@ -17,6 +17,7 @@ import functools
 import hashlib
 import json
 import os
+import subprocess
 import time
 from collections.abc import Callable
 from concurrent.futures import FIRST_COMPLETED, ProcessPoolExecutor, wait
@@ -100,6 +101,100 @@ def copy_manifest_evidence(manifest: Path, evidence_dir: Path) -> Path:
     if plain.exists():
         plain.unlink()
     return out
+
+
+# Dispatch 2026-10-19-t6b-progress-save (forecast RECORD 2026-09-28-2012), the owner: "I'll take
+# your recommendations". The gzipped manifest crossed the 1 MB limit at 1,105,301 bytes on
+# 2026-10-18, so the repository now gets a summary of the manifest in place of it, and the gzipped
+# copy is written outside every repository. The committed manifest.jsonl.gz stays frozen at bf9c315.
+EVIDENCE_SUMMARY = "manifest_summary.json"
+
+
+def manifest_summary(data: bytes) -> dict:
+    """What git keeps of the manifest: its sha256, size and line count, and its units.
+
+    Units are counted on the latest line per unit, as ``done_units`` reads them, by layer and
+    status (a line with no status is ok). The planner's ruling: label them units, not tiles."""
+    lines_by_kind: dict[str, int] = {}
+    latest: dict[str, dict] = {}
+    for line in data.decode().splitlines():
+        if not line.strip():
+            continue
+        entry = json.loads(line)
+        kind = str(entry.get("kind"))
+        lines_by_kind[kind] = lines_by_kind.get(kind, 0) + 1
+        if kind == "unit":
+            latest[entry["unit"]] = entry
+    units: dict[str, dict[str, int]] = {}
+    for entry in latest.values():
+        by_status = units.setdefault(str(entry.get("layer")), {})
+        status = entry.get("status", "ok")
+        by_status[status] = by_status.get(status, 0) + 1
+    return {
+        "sha256": hashlib.sha256(data).hexdigest(),
+        "bytes": len(data),
+        "lines": data.count(b"\n"),
+        "lines_by_kind": dict(sorted(lines_by_kind.items())),
+        "units": len(latest),
+        "units_by_layer_and_status": {
+            layer: dict(sorted(s.items())) for layer, s in sorted(units.items())
+        },
+    }
+
+
+def save_manifest_outside(manifest: Path, copy_dir: Path) -> dict:
+    """Gzip ``manifest`` into ``copy_dir`` (replacing the last copy) and return its summary.
+
+    The bytes are read once, so the summary's sha256 is of exactly the bytes the copy holds."""
+    import gzip
+
+    data = Path(manifest).read_bytes()
+    copy_dir = Path(copy_dir)
+    copy_dir.mkdir(parents=True, exist_ok=True)
+    out = copy_dir / EVIDENCE_MANIFEST
+    partial = out.with_name(out.name + ".partial")
+    with open(partial, "wb") as raw, gzip.GzipFile(filename="", mode="wb", fileobj=raw,
+                                                   compresslevel=9, mtime=0) as gz:  # fmt: skip
+        gz.write(data)
+    partial.rename(out)
+    summary = manifest_summary(data)
+    summary["manifest"] = str(manifest)
+    summary["copy_outside_git"] = str(out)
+    return summary
+
+
+def commit_paths(repo: Path, paths: list[Path], message: str, log: Callable[[str], None]) -> bool:
+    """Commit and push only ``paths``; log any failure and return False, never raise.
+
+    ``git commit -- <paths>`` commits those paths alone, so a file left staged by an earlier
+    failure can neither enter this commit nor block it; the large-file hook still checks every
+    path committed (seen in a scratch repository, step-0 report)."""
+
+    def git(*args: str) -> subprocess.CompletedProcess[str]:
+        return subprocess.run(["git", *args], cwd=repo, capture_output=True, text=True)
+
+    def said(r: subprocess.CompletedProcess[str]) -> str:
+        return " ".join((r.stdout + r.stderr).split())
+
+    names = [str(p) for p in paths]
+    added = git("add", "--", *names)
+    if added.returncode != 0:
+        log(f"progress save: git add failed (exit {added.returncode}): {said(added)}")
+        return False
+    if git("diff", "--cached", "--quiet", "--", *names).returncode == 0:
+        log("progress save: nothing changed to commit")
+        return True
+    committed = git("commit", "-q", "-m", message, "--", *names)
+    if committed.returncode != 0:
+        log(f"progress save: commit refused (exit {committed.returncode}): {said(committed)}")
+        return False
+    branch = git("rev-parse", "--abbrev-ref", "HEAD")
+    pushed = git("push", "-q", "origin", branch.stdout.strip())
+    if branch.returncode != 0 or pushed.returncode != 0:
+        log(f"progress save: push failed (exit {pushed.returncode}): {said(pushed)}")
+        return False
+    log(f"progress save: committed and pushed {git('rev-parse', '--short', 'HEAD').stdout.strip()}")
+    return True
 
 
 def next_stop(until_hhmm: str, now: datetime) -> datetime:
