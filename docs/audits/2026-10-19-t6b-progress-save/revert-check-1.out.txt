@@ -1,0 +1,29 @@
+Revert check 1, scratch worktree /home/zynergy-labs/.cache/forager-wt/t6b-progress-save-revert-1 at b4041e9, PYTHONPATH=/home/zynergy-labs/.cache/forager-wt/t6b-progress-save-revert-1/src
+edit: src/forager_forecast/t6b_run.py commit_paths: git commit -q -m message -- *names  ->  git commit -q -m message
+module imported from: /home/zynergy-labs/.cache/forager-wt/t6b-progress-save-revert-1/src/forager_forecast/t6b_run.py
+..F..                                                                    [100%]
+=================================== FAILURES ===================================
+_____ test_a_leftover_staged_oversize_gzip_does_not_block_the_next_section _____
+
+save = <module 't6b_run_script' from '/home/zynergy-labs/.cache/forager-wt/t6b-progress-save-revert-1/scripts/t6b_run.py'>
+
+    def test_a_leftover_staged_oversize_gzip_does_not_block_the_next_section(save):
+        p = save.test_paths
+        head_gz = git(p["repo"], "rev-parse", f"HEAD:{EVIDENCE_REL}/manifest.jsonl.gz").stdout
+        # What the 2026-10-18 section left behind: an over-size gzip, staged, never committed.
+        (p["evidence"] / "manifest.jsonl.gz").write_bytes(random.Random(7).randbytes(ONE_MB + 56725))
+        assert git(p["repo"], "add", str(p["evidence"] / "manifest.jsonl.gz")).returncode == 0
+        save.MANIFEST.write_text(json.dumps({"kind": "unit", "layer": "soil", "unit": "a"}) + "\n")
+    
+        ok = save.commit_progress([], p["evidence"])
+    
+>       assert ok is True
+E       assert False is True
+
+tests/test_t6b_progress_save.py:164: AssertionError
+----------------------------- Captured stdout call -----------------------------
+2026-10-19T04:07:53-07:00 progress save: manifest 47 bytes, 1 lines, sha256 c2a27f82327e402f7cd20297b8026789bd523a25db8a934ba71bc095265242c1, copy /tmp/pytest-of-zynergy-labs/pytest-182/test_a_leftover_staged_oversiz0/outside/t6b/manifest.jsonl.gz
+2026-10-19T04:07:53-07:00 progress save: commit refused (exit 1): LARGE FILE: docs/audits/t6b-run/manifest.jsonl.gz is 1105301 bytes, limit is 1048576 bytes Refused: a file over the limit is in the staged set. Keep data out of git (see .gitignore).
+=========================== short test summary info ============================
+FAILED tests/test_t6b_progress_save.py::test_a_leftover_staged_oversize_gzip_does_not_block_the_next_section
+1 failed, 4 passed in 1.19s
