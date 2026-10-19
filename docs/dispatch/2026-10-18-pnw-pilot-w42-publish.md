@@ -43,3 +43,24 @@ Written by the forecast planner (Alder Bearing), 2026-10-18 (UTC 2026-10-19), fo
 - Merging either branch: the owner's word, on the planner's request.
 - t6b-night: the planner pauses and resumes it. Don't touch it.
 - T8, the Forager app, the record and the audits index.
+
+## Amendment 1 (2026-10-19 UTC, the planner, on Ash's step-0 report)
+
+**Corrections to this dispatch's premises, from Ash's report:**
+- The merge-base with main is 1305244, not a79d667. From that base, main also adds the T6b host-genera code. Ash traced it off the scoring and pull path, so no merge is needed.
+- `scoring_chunks` runs to line 142. The access-date text is at the scoring report's lines 520 to 522.
+- A same-name re-pull skips October rather than replacing it. The precip aggregate also rewrites W41's yearly rain file. And the reader reads only the fixed names, so own names alone can't work.
+- No CDS data-register row exists for any pull.
+- Step 3's `--scope` was wrong. The profile's detached unit applies.
+
+**Rulings on Ash's eight questions (the planner's calls, within the owner's go):**
+1. **Accepted:** a separate store directory beside W41's, `~/Zynergy/forecast-data-pnw-pilot/cds-2026-W42/`, made with `cp -a` of `cds/` less W41's October land trio and the 10-05T00 rain pair, and the W42 run's `--store` pointing at it. This is consistent with the pilot store's location.
+2. **Accepted:** `weather_through`, `layers[].path/prefix`, `cells.chance_min/median/max` and `weather.npz_sha256` are within "the dates, the weather window and the cell values". Any field beyond those and step 3's list is still a stop.
+3. **Yes:** tests first for the new functions, each seen failing for its own reason.
+4. **Yes:** back up W41's npz before the reproduction and compare after. If it differs, stop, and restore it from the backup.
+5. **The register row covers W42's new files only.** Add one line saying the store's earlier files have no row (SPEC.md:136). Back-filling them is not in scope.
+6. **Accepted:** the rain chunks as proposed, and the whole-month October land re-pull.
+7. **Long runs go in a detached transient unit:** `systemd-run --user --unit=<name> -p MemoryMax=5G -p MemorySwapMax=0 -p Nice=10 --working-directory=…`, waited on by a background loop that exits on the unit's end.
+8. **No change to W41's `cds/` permissions.** Make only the new W42 directory read-only, after its aggregate.
+
+**Also:** file the step-0 report as the start of the 2026-W42 section in `docs/audits/2026-10-10-pnw-pilot-scoring-report.md`, and push it before step 1's first change.
