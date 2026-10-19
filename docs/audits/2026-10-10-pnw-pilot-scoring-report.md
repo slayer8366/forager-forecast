@@ -520,3 +520,63 @@ When they appear is inferred, not checked: about one day per daily update, so th
 - The citation access dates in `attribution_details` come from the store's request records, so a
   new pull moves them (W41: "Accessed on 10-Oct-2026 to 11-Oct-2026" for the two hourly products).
   That field cannot stay identical to W41's.
+
+## 2026-W42, step 0 again (2026-10-19 UTC): the window is published; W41's store cannot take W42's files
+
+Dispatch: `docs/dispatch/2026-10-18-pnw-pilot-w42-publish.md` (0f4bda9), by the forecast planner
+(Alder Bearing); approval forecast RECORD 2026-09-28-2005, intent 2026-09-28-2006. Coder: Ash
+Transect (Opus). Report accepted with rulings in the dispatch's Amendment 1 (a51adfe). Nothing was
+changed, downloaded or scored in step 0. Tags: [read file:line], [computed: command], [inferred].
+
+**Base.** Branch head 0f4bda9 = origin. The merge-base with main b0bc10a4 is 1305244 (main merged
+this branch at c610926), not a79d667 [computed: `git merge-base`]. From there main also adds the
+T6b host-genera code (`scripts/t6b_run.py`, `src/forager_forecast/{crown_cover,t6b_hosts,
+t6b_layers,t6b_run}.py`) and one ruff exclusion; none is imported by `pnw_pilot_publish.py:31-35`,
+`pnw_pilot_score.py:35-44`, `pnw_t1_fit.py:36-44` or `pnw_weather.py:26-28` [read], so no merge is
+needed [inferred, one-level import trace].
+
+**Premises.**
+- Catalogue at 2026-10-19T04:49:57Z: `reanalysis-era5-land` and `reanalysis-era5-single-levels`
+  both end 2026-10-13T00:00:00Z (updated 2026-10-19T00:00Z); licence `CC-BY-4.0`, linked to
+  spdx.org/licenses/CC-BY-4.0 [computed: GET `/api/catalogue/v1/collections/<name>`].
+- `lw.window_span(2026-W42)` = 2026-07-14 to 2026-10-11 (W41: 07-07 to 10-04) [computed;
+  `live_weather.py:46-49`].
+- Pull scripts fixed to W41: `pnw_cds_hourly_pull.py:57-58`, `pnw_cds_precip_hourly.py:127-142`
+  [read]. Neither has tests [computed: grep of tests/].
+- A same-name re-pull of October **skips** it (`pnw_cds_hourly_pull.py:147-149`;
+  `pnw_cds_precip_hourly.py:155-157`), and the build would stop on missing days
+  (`pnw_pilot_publish.py:188-190`) [read]. The rain `aggregate` rewrites every year's
+  `hourly-era5-precip-<year>.daily.h5` in its directory, W41's 2026 file included
+  (`pnw_cds_precip_hourly.py:208,227-237`) [read]. The reader takes only the fixed names
+  `hourly-era5land-YYYY-MM.daily.h5` and `hourly-era5-precip-YYYY.daily.h5`
+  (`pnw_weather.py:71-72`) [read], so own names alone cannot work.
+- Access dates come from every `*.request.json` in the store and `ts/`, first to last per product
+  (`pnw_pilot_publish.py:58-74,193`) [read]. Any W42 request record in `cds/` would therefore move
+  W41's citation and W41 would stop reproducing. Today's tally: ERA5-Land hourly 32 on 10-10, 4 on
+  10-11, 1 undated; single-levels hourly 6 and 6; daily sum 1 on 10-10; time series 1,904 on 10-11
+  [computed: python tally].
+- W41 live: manifest 074879ff...4043, geojson ac6038d3...a395 (zynergy-site 319871c, and the
+  scoring output); npz 0c49371a...7396 [computed: sha256sum]. The 10-15 reproduction's raw manifest
+  was bca36aa8...c0c0 (`/tmp/w41-repro/publish.log`) [read].
+- No CDS row exists in `docs/planning/DATA_REGISTER.md` [computed: grep]; `SPEC.md:136` says so.
+  W41's store files are not read-only (`-rw-rw-r--`) [computed].
+
+**W41 flags reused** (`pnw_pilot_publish.py:150-159`; this report's line 492): `--kind full`
+(manifest `model_kind`), `--beats-calendar false` (`beats_calendar`), `--reviewed true`
+(`reviewed`), `--t1-result` = the JSON text of the manifest's `t1_result` string, passed through
+`json.dumps` (`pnw_pilot_score.py:250,432` parse it with `json.loads`); no `--repo-copy`. W42 adds
+`--store cds-2026-W42` (Amendment 1, ruling 1); the store path does not reach a full-kind manifest
+(`pnw_pilot_publish.py:182-207`) [read].
+
+**Mechanism prediction, written before any change.** A copy `cds-2026-W42/` (`cp -a` of `cds/` less
+W41's October land trio and the 10-05T00 rain pair); new week-keyed functions in both pull scripts,
+W41's constants and `--scoring` path untouched, refusing W41's `cds/` and any symlinked target; land
+October as one month file, days 01-11; rain `2026-10-05-11` (24 h) and `2026-10-12T00`; aggregate in
+the copy, then the copy read-only. Predicted W42 output [inferred]: 2,618 scored / 231 neighbour /
+498 sea / 0 incomplete, same 40 blocks; `weather_through` 2026-10-11; versions 07-14 to 07-31 final,
+08-01 to 10-11 preliminary; both hourly access dates "10-Oct-2026 to <pull date>", daily sum and time
+series unchanged; attribution unchanged. W41 after the pull: unchanged hashes, its npz backed up and
+compared because the reproduction rewrites it in place (`pnw_pilot_publish.py:185-187`).
+
+**Not checked in step 0:** whether the store states a size or checksum for a result; whether
+August has turned final at source; t6b-night's state. No tests or lint were run.
