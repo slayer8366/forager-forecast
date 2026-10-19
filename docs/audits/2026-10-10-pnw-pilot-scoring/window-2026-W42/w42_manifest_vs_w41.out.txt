@@ -1,0 +1,46 @@
+.attribution_details[1]
+  W41: ....24381/cds.adbb2d47 (Accessed on 10-Oct-2026 to 11-Oct-2026)
+  W42: ....24381/cds.adbb2d47 (Accessed on 10-Oct-2026 to 19-Oct-2026)
+.attribution_details[2]
+  W41: ....24381/cds.e2161bac (Accessed on 10-Oct-2026 to 11-Oct-2026)
+  W42: ....24381/cds.e2161bac (Accessed on 10-Oct-2026 to 19-Oct-2026)
+  lengths 5 5
+.cells.chance_max
+  W41: 0.1571
+  W42: 0.1598
+.cells.chance_median
+  W41: 0.0411
+  W42: 0.042550000000000004
+.cells.chance_min
+  W41: 0.0067
+  W42: 0.0072
+.iso_week
+  W41: 2026-W41
+  W42: 2026-W42
+.layers[0].path
+  W41: pnw-pilot/2026-10-05/cantharellus.geojson
+  W42: pnw-pilot/2026-10-12/cantharellus.geojson
+.layers[1].prefix
+  W41: pnw-pilot/2026-10-05/cantharellus/
+  W42: pnw-pilot/2026-10-12/cantharellus/
+.published_at
+  W41: 2026-10-12T00:48:38+00:00
+  W42: 2026-10-19T05:13:35+00:00
+.weather.days[0]
+  W41: 2026-07-07
+  W42: 2026-07-14
+.weather.days[1]
+  W41: 2026-10-04
+  W42: 2026-10-11
+.weather.npz_sha256
+  W41: 0c49371a290d1aaf0d3eeaa8b807d74db0844aecd3b230836fae8f037d597396
+  W42: 14553fd147b7bb6d4825027a717c490d3cc3082c238fdea01999e99fd2c67427
+.weather.source
+  W41: Copernicus Climate Data Store (owner, Forager RECORD -819). Scoring window read: reanalysis-era5-single-levels (hourly total_precipitation, summed per UTC day from the 01:00 stamp to the next day's 00:00 stamp); reanalysis-era5-land (hourly 2m_temperature, soil_temperature_level_1, volumetric_soil_water_layer_1, averaged over the 24 UTC hours of each day). Training read: derived-era5-single-levels-daily-statistics (daily_sum of total_precipitation; time_zone utc+00:00, frequency 1_hourly); reanalysis-era5-single-levels (hourly total_precipitation, summed per UTC day from the 01:00 stamp to the next day's 00:00 stamp); reanalysis-era5-land (hourly 2m_temperature, soil_temperature_level_1, volumetric_soil_water_layer_1, averaged over the 24 UTC hours of each day); reanalysis-era5-land-timeseries (point series of the same three ERA5-Land variables, averaged over the 24 UTC hours of each day). Window days 2026-07-07 to 2026-07-31 are the store's final data (expver 0001); 2026-08-01 to 2026-10-04 are its preliminary data (expver 0005), which can be revised.
+  W42: Copernicus Climate Data Store (owner, Forager RECORD -819). Scoring window read: reanalysis-era5-single-levels (hourly total_precipitation, summed per UTC day from the 01:00 stamp to the next day's 00:00 stamp); reanalysis-era5-land (hourly 2m_temperature, soil_temperature_level_1, volumetric_soil_water_layer_1, averaged over the 24 UTC hours of each day). Training read: derived-era5-single-levels-daily-statistics (daily_sum of total_precipitation; time_zone utc+00:00, frequency 1_hourly); reanalysis-era5-single-levels (hourly total_precipitation, summed per UTC day from the 01:00 stamp to the next day's 00:00 stamp); reanalysis-era5-land (hourly 2m_temperature, soil_temperature_level_1, volumetric_soil_water_layer_1, averaged over the 24 UTC hours of each day); reanalysis-era5-land-timeseries (point series of the same three ERA5-Land variables, averaged over the 24 UTC hours of each day). Window days 2026-07-14 to 2026-07-31 are the store's final data (expver 0001); 2026-08-01 to 2026-10-11 are its preliminary data (expver 0005), which can be revised.
+.weather_through
+  W41: 2026-10-04
+  W42: 2026-10-11
+.week
+  W41: 2026-10-05
+  W42: 2026-10-12
