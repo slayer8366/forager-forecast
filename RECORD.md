@@ -201,3 +201,44 @@ correction is a new entry that points at the one it corrects.
 - **Counts:** 8,839 units left of 22,473 (units are tile layers; the planner told the owner "tiles" earlier, corrected in chat).
 **Deviations:** the planner cited 2026-09-28-2003 as covering Ash's check run. Ash noted that -2003 covers only the planner's own morning restarts. The check run rests on the owner's "Build is done. Continue" relayed with the dispatch, and that is how it is recorded.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. t6b-night's nightly restart is held while the planner asks Rowan whether two resident Gradle JVMs (about 3.7 GB) are idle. Next free ID 2026-09-28-2014.
+
+---
+
+**Kind:** merge
+**ID:** 2026-09-28-2014
+**Timestamp:** 2026-10-19T12:20:42Z
+**PR:** 8
+**Head:** forecast-record (bc19726)
+**Base:** main
+**Merge-commit:** 3650dbe571b0ba2d1a5a90119306d4f4d74e59d2
+**Pre-merge:** b0bc10a4fc5d2ab8e9b3f77dd5b348f0f6803bc6
+**Backup:** ~/Zynergy/forager-repo-backups/forecast-main-20261019T121954Z-b0bc10a4.bundle, `git bundle verify` okay, sha256 beside it, a line in INDEX.md. It covers this merge and -2015.
+**Merged-by:** the forecast planner (Alder Bearing), on the owner's word in this window, 2026-10-19: "Merge 8 and 9 into main". GitHub merged it at 2026-10-19T12:20:09Z, with its check SUCCESS.
+**Carries:** RECORD.md, entries 2026-09-28-2001 to -2013.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record, fast-forwarded to main after the merge. Next free ID 2026-09-28-2015.
+
+---
+
+**Kind:** merge
+**ID:** 2026-09-28-2015
+**Timestamp:** 2026-10-19T12:20:42Z
+**PR:** 9
+**Head:** forager-copy (98808ac)
+**Base:** main
+**Merge-commit:** eb59931d18d0d2948f2c27c9e1afd71802a88988
+**Pre-merge:** 3650dbe571b0ba2d1a5a90119306d4f4d74e59d2
+**Backup:** ~/Zynergy/forager-repo-backups/forecast-main-20261019T121954Z-b0bc10a4.bundle (taken before -2014; no other change landed between the two merges).
+**Merged-by:** the forecast planner (Alder Bearing), on the same word: "Merge 8 and 9 into main". GitHub merged it at 2026-10-19T12:20:18Z, with its check SUCCESS.
+**Carries:** records/from-forager.md, docs/preserved/, forager-app-and-forecast/; 40 files on main under those paths, read by the planner.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2016.
+
+---
+
+**Kind:** terminal
+**ID:** 2026-09-28-2016
+**Timestamp:** 2026-10-19T12:20:42Z
+**Closes:** 2026-09-28-2007
+**Outcome:** done
+**Observed:** the copy is on main (-2015). The prediction was met exactly: 213 entries in records/from-forager.md and 40 in forager-app-and-forecast/entries.md; 20 forecast dispatches in docs/preserved/; 13 preserved files and 3 docs in forager-app-and-forecast/. Each file and each entry was checked byte-identical against Forager at 35c14780 before the commit (98808ac). Forager is unchanged.
+**Deviations:** none.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2017.
