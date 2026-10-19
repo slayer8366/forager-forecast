@@ -300,3 +300,18 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **Finish line:** both sets of hashes matched and the evidence filed, or a reported difference for the owner.
 **Abort conditions:** the dispatches' stops.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2021.
+
+---
+
+**Kind:** outcome
+**ID:** 2026-09-28-2021
+**Timestamp:** 2026-10-19T21:46:41Z
+**Continues:** 2026-09-28-2020
+**Title:** T6's effort surface rebuilt byte for byte and stored outside every repository
+**Observed:**
+- **Ash Transect's report,** branch t6-rebuild (b2bf40e, b9e22b2): the count (3 min 26 s) and the fit (2 min 38 s) ran at ef3269f from D26's zip. The zip's sha256 was checked first (c0d5f6a1…b26c, equal to docs/pulls/gbif-fungi-us-canada-2015-2025.doi.json:11).
+- **The hashes:** all 10 stored files match the filed values, 8 CSVs and 2 manifests, first in scratch and again in ~/Zynergy/forecast-data/t6/. The manifests carry no time of writing; Ash predicted both hashes before the run. In steps.json and the two results files, only seconds and peak_rss_kb differ. A tamper control showed the comparison detects a one-digit change.
+- **Read-only:** files 0444, folders 0555.
+- **The planner's own check:** sha256sum -c of the filed list against ~/Zynergy/forecast-data/t6/, 10 of 10 OK.
+**Deviations:** Ash's harness refused to write the report file, so the report is this entry and Ash's message. T7's scripts still name the old path (scripts/t7_fit.py:76 on t7-build); T7 is stopped, and they are left as they are.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. T4's rebuild is next, with t6b-night still paused. Next free ID 2026-09-28-2022.
