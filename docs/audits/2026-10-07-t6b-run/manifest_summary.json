@@ -1,16 +1,16 @@
 {
- "sha256": "ca33bbac63ce900e01b30ad5129b2537aa4300f32392a4759598edcd5b52cece",
- "bytes": 6496662,
- "lines": 16509,
+ "sha256": "c00063fa4f2b4a75dae793feddd37124c627a07027defab91302df6ba1a25b1a",
+ "bytes": 6675414,
+ "lines": 17014,
  "lines_by_kind": {
   "before_unit": 296,
   "cleanup": 6,
-  "prepare": 30,
-  "section": 38,
+  "prepare": 31,
+  "section": 39,
   "stage": 3,
-  "unit": 16136
+  "unit": 16639
  },
- "units": 15840,
+ "units": 16343,
  "units_by_layer_and_status": {
   "att_closure": {
    "ok": 10
@@ -34,7 +34,7 @@
    "ok": 2043
   },
   "otherConiferous": {
-   "ok": 1336
+   "ok": 1839
   },
   "ponderosaPine": {
    "ok": 10
