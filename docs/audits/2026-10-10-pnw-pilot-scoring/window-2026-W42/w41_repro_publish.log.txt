@@ -1,0 +1,3 @@
+2026-10-19T05:11:16+00:00 full: 2618 cells scored of 3116, omitted {'no_era5_land_value_at_cell_or_neighbour_(sea)': 498, 'incomplete_weather_window': 0}; 42 files, 3205322 bytes under /tmp/w42-w41repro/out/pnw-pilot/2026-10-05
+2026-10-19T05:11:16+00:00   pnw-pilot/2026-10-05/cantharellus.geojson sha256 ac6038d39114e28c618bd5afc6c512f75dbdaf9b60d5aab8837c33a8d121a395
+2026-10-19T05:11:16+00:00   pnw-pilot/2026-10-05/manifest.json sha256 e6ed76ccc71d1014f0c324a193a9efe31418eea764f4e2a6728e40d54e67e2ba

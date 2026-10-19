@@ -580,3 +580,48 @@ compared because the reproduction rewrites it in place (`pnw_pilot_publish.py:18
 
 **Not checked in step 0:** whether the store states a size or checksum for a result; whether
 August has turned final at source; t6b-night's state. No tests or lint were run.
+
+## 2026-W42, step 1 (2026-10-19 UTC): the pull, W42's own store, W41 still reproduces
+
+Under Amendment 1 (a51adfe). Evidence in `docs/audits/2026-10-10-pnw-pilot-scoring/window-2026-W42/`.
+
+- **Tests first** (32d7a0c): 9 tests in `tests/test_pnw_w42_pull.py`. Over stubs, 7 failed for their
+  own reasons and 2 passed: the check that W41's constants are unchanged, and the W41-plan test,
+  whose stub returned W41's constants. Those 2 are not shown to bite by the stubs; revert case 3
+  below makes the W41-plan test fail. Before the guard, `aggregate` was shown writing through a
+  link into the file it pointed at (`failing-first.txt`). One test input was mine and wrong (a
+  September 30 "held through" date does not cross a month); it was corrected to 2026-09-29 before
+  the implementation was relied on.
+- **Change** (a2b12e4): `scoring_plan(week)`, `refuse_w41_store`, `refuse_links` and
+  `--scoring-week` in `pnw_cds_hourly_pull.py`; `scoring_chunks_for(week, held_through)`,
+  `refuse_w41_store`, link refusals in `pull` and `aggregate`, and `--scoring-week` /
+  `--held-through` in `pnw_cds_precip_hourly.py`. W41's constants and `--scoring` path are
+  unchanged. 9 passed. Five one-edit revert checks bite (`revert_checks.out.txt`); case 3 also
+  fails the W41-plan test, which that same edit breaks. Suite 601 passed; ruff check and format
+  clean.
+- **Store** (c68cde2): `~/Zynergy/forecast-data-pnw-pilot/cds-2026-W42/`, `cp -a` of `cds/` (143
+  files hashed first) less W41's October land trio and the 10-05T00 rain pair (138 files).
+- **Fetches**, one at a time, each in a detached unit at Nice 10 under a 5G cap. Each size and MD5
+  equals the `file:size` and `file:checksum` that the store states for the job's result
+  (`check_land.out.json`, `check_rain.out.json`, `checksum_check.out.json`). The two rain chunks
+  ran back to back in one unit, then both were checked.
+  - ERA5-Land hourly October 01-11: 3,568,747 B, 264 stamps (2026-10-01T00 to 10-11T23), expver
+    0005, the same 76 x 41 grid. Its days 01-04 equal W41's exactly (diagnostic).
+  - Rain 2026-10-05 to 11: 83,304 B, 168 stamps. The 2026-10-12T00 stamp: 25,581 B.
+- **Aggregate** in the W42 directory: 2026 has 103 days (07-01 to 10-11). W41's 96 days (10-04
+  included, now closed by the new 10-05T00 stamp) are identical, as are the 2014-2025 files. The
+  directory was then made read-only (145 files). W41's `cds/` re-hashed: 143 files identical.
+- **Register** (05bdb48, corrected in e6c855d): a row for the three new files, with the licence read
+  at source; the store's earlier files are noted as having no row. The first version of the row
+  wrongly said the store publishes no checksum.
+- **W41 reproduction** at 2026-10-19T05:11:16Z, with the W41 flags and `--out /tmp/w42-w41repro/out`,
+  in a detached unit:
+  - 2,618 scored, 498 sea, 0 incomplete.
+  - geojson and all 40 block files equal the live W41 directory (41 of 41 OK).
+  - The manifest differs only in `published_at`; with it reset, the manifest hashes to
+    074879ff...4043.
+  - W41's npz and its summary were backed up first and are byte-identical after (0c49371a...7396,
+    8dab0c42...f88f).
+  - t6b-night (`t6b_run.py`) was running during this 8-second run and was not touched. My pre-run
+    "no fit running" check matched its own shell line, so it was not evidence; a later `ps` showed
+    no pilot fit or score running.
