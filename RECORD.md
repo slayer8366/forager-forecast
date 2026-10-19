@@ -242,3 +242,14 @@ correction is a new entry that points at the one it corrects.
 **Observed:** the copy is on main (-2015). The prediction was met exactly: 213 entries in records/from-forager.md and 40 in forager-app-and-forecast/entries.md; 20 forecast dispatches in docs/preserved/; 13 preserved files and 3 docs in forager-app-and-forecast/. Each file and each entry was checked byte-identical against Forager at 35c14780 before the commit (98808ac). Forager is unchanged.
 **Deviations:** none.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2017.
+
+---
+
+**Kind:** terminal
+**ID:** 2026-09-28-2017
+**Timestamp:** 2026-10-19T14:12:08Z
+**Closes:** 2026-09-28-2012
+**Outcome:** done
+**Observed:** the first nightly section under the fix ended at 07:00:38 PDT on 2026-10-19: 503 units, 0 failed, 8,336 left. It logged "progress save: committed and pushed 3061a8f", which is on origin/t6b-progress-save with the runner's tree clean. The planner read the summary's sha256, c00063fa…1b1a, and it equals the flash-drive manifest's. The prediction is met: the commit passed the guard, and the sha256 matches. t6b-night restarted at about 07:12 PDT for the next section. Memory peak 2.8 GB under the 5 GB cap.
+**Deviations:** the check-run citation recorded in -2013.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. t6b-progress-save is unmerged; the runner runs from it until the owner's word (D40). Next free ID 2026-09-28-2018.
