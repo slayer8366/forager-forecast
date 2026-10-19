@@ -1,0 +1,45 @@
+"""T6 rebuild step 2: hash the rebuilt surface against stored_surface_sha256.txt, and diff the
+rebuilt steps.json and <track>_results.json against the committed copies, key by key.
+Usage: compare.py COMMITTED_AUDIT_DIR SURFACE_ROOT REBUILT_STEPS REBUILT_RESULTS_DIR OUT_JSON"""
+import hashlib, json, sys
+from pathlib import Path
+
+audit, surface, steps, results, out = map(Path, sys.argv[1:6])
+filed = {}
+for line in (audit / "stored_surface_sha256.txt").read_text().splitlines():
+    digest, name = line.split()
+    filed[name] = digest
+report = {"surface_root": str(surface), "files": [], "csv_mismatches": 0}
+for name, want in sorted(filed.items()):
+    rel = Path(name).relative_to("data/t6")
+    got = hashlib.sha256((surface / rel).read_bytes()).hexdigest()
+    report["files"].append({"file": str(rel), "filed": want, "rebuilt": got, "match": got == want})
+    if name.endswith(".csv") and got != want:
+        report["csv_mismatches"] += 1
+report["files_checked"] = len(report["files"])
+
+
+def diff(a, b, path=""):
+    if isinstance(a, dict) and isinstance(b, dict):
+        out = []
+        for k in sorted(set(a) | set(b)):
+            if k not in a or k not in b:
+                out.append({"path": f"{path}/{k}", "committed": a.get(k, "<absent>"), "rebuilt": b.get(k, "<absent>")})
+            else:
+                out += diff(a[k], b[k], f"{path}/{k}")
+        return out
+    if isinstance(a, list) and isinstance(b, list) and len(a) == len(b):
+        return [d for i, (x, y) in enumerate(zip(a, b)) for d in diff(x, y, f"{path}[{i}]")]
+    return [] if a == b and type(a) is type(b) else [{"path": path, "committed": a, "rebuilt": b}]
+
+
+report["steps_json_diffs"] = diff(json.loads((audit / "steps.json").read_text()), json.loads(steps.read_text()))
+for track in ("all", "cc"):
+    report[f"{track}_results_diffs"] = diff(
+        json.loads((audit / f"{track}_results.json").read_text()),
+        json.loads((results / f"{track}_results.json").read_text()),
+    )
+out.write_text(json.dumps(report, indent=2) + "\n")
+print(json.dumps({k: v for k, v in report.items() if k != "files"}, indent=2))
+for f in report["files"]:
+    print(("MATCH " if f["match"] else "DIFFERS ") + f["file"])

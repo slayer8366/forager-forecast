@@ -1,0 +1,72 @@
+14:41:59 all: 43035 cells, 879576 outings, 131301 lichen
+14:41:59 all: one fit took 0.03 s, 5 iterations
+14:42:02 all: inner tuning done for pull=0.1,smoothing=1
+14:42:05 all: inner tuning done for pull=0.1,smoothing=3
+14:42:07 all: inner tuning done for pull=0.1,smoothing=5
+14:42:10 all: inner tuning done for pull=0.1,smoothing=9
+14:42:12 all: inner tuning done for pull=0.3,smoothing=1
+14:42:15 all: inner tuning done for pull=0.3,smoothing=3
+14:42:18 all: inner tuning done for pull=0.3,smoothing=5
+14:42:20 all: inner tuning done for pull=0.3,smoothing=9
+14:42:23 all: inner tuning done for pull=1,smoothing=1
+14:42:26 all: inner tuning done for pull=1,smoothing=3
+14:42:28 all: inner tuning done for pull=1,smoothing=5
+14:42:31 all: inner tuning done for pull=1,smoothing=9
+14:42:33 all: inner tuning done for pull=3,smoothing=1
+14:42:36 all: inner tuning done for pull=3,smoothing=3
+14:42:39 all: inner tuning done for pull=3,smoothing=5
+14:42:41 all: inner tuning done for pull=3,smoothing=9
+14:42:44 all: inner tuning done for pull=10,smoothing=1
+14:42:46 all: inner tuning done for pull=10,smoothing=3
+14:42:49 all: inner tuning done for pull=10,smoothing=5
+14:42:51 all: inner tuning done for pull=10,smoothing=9
+14:42:52 all: outer fold 2015 done with pull=10,smoothing=3
+14:42:52 all: outer fold 2016 done with pull=10,smoothing=3
+14:42:52 all: outer fold 2017 done with pull=10,smoothing=3
+14:42:52 all: outer fold 2018 done with pull=10,smoothing=3
+14:42:52 all: outer fold 2019 done with pull=10,smoothing=3
+14:42:52 all: outer fold 2020 done with pull=10,smoothing=5
+14:42:53 all: outer fold 2021 done with pull=10,smoothing=9
+14:42:53 all: outer fold 2022 done with pull=10,smoothing=3
+14:42:53 all: outer fold 2023 done with pull=10,smoothing=3
+14:42:53 all: outer fold 2024 done with pull=10,smoothing=3
+14:42:53 all: outer fold 2025 done with pull=10,smoothing=3
+14:43:03 all: final configuration pull=10,smoothing=3
+14:43:32 all: weekend bootstrap
+14:44:02 all: done; verdicts {"beats_constant": {"effort_minus_constant": -2608992.0416759113, "interval_95": [-2816366.300076521, -2411888.1316447826], "pass": true}, "weekend": {"ratio": 1.4964378208914535, "interval_95": [1.477648523969387, 1.5163259081683373], "condition_1": true, "day_type_minus_season_deviance": -32147.253906223727, "interval_95_condition_2": [-34201.65245311382, -30190.53407967382], "condition_2": true, "pass": true}}
+14:44:03 cc: 16335 cells, 106765 outings, 25106 lichen
+14:44:03 cc: one fit took 0.01 s, 5 iterations
+14:44:03 cc: inner tuning done for pull=0.1,smoothing=1
+14:44:04 cc: inner tuning done for pull=0.1,smoothing=3
+14:44:05 cc: inner tuning done for pull=0.1,smoothing=5
+14:44:05 cc: inner tuning done for pull=0.1,smoothing=9
+14:44:06 cc: inner tuning done for pull=0.3,smoothing=1
+14:44:07 cc: inner tuning done for pull=0.3,smoothing=3
+14:44:07 cc: inner tuning done for pull=0.3,smoothing=5
+14:44:08 cc: inner tuning done for pull=0.3,smoothing=9
+14:44:09 cc: inner tuning done for pull=1,smoothing=1
+14:44:09 cc: inner tuning done for pull=1,smoothing=3
+14:44:10 cc: inner tuning done for pull=1,smoothing=5
+14:44:10 cc: inner tuning done for pull=1,smoothing=9
+14:44:11 cc: inner tuning done for pull=3,smoothing=1
+14:44:12 cc: inner tuning done for pull=3,smoothing=3
+14:44:12 cc: inner tuning done for pull=3,smoothing=5
+14:44:13 cc: inner tuning done for pull=3,smoothing=9
+14:44:14 cc: inner tuning done for pull=10,smoothing=1
+14:44:14 cc: inner tuning done for pull=10,smoothing=3
+14:44:15 cc: inner tuning done for pull=10,smoothing=5
+14:44:16 cc: inner tuning done for pull=10,smoothing=9
+14:44:16 cc: outer fold 2015 done with pull=10,smoothing=9
+14:44:16 cc: outer fold 2016 done with pull=10,smoothing=9
+14:44:16 cc: outer fold 2017 done with pull=10,smoothing=9
+14:44:16 cc: outer fold 2018 done with pull=10,smoothing=9
+14:44:16 cc: outer fold 2019 done with pull=10,smoothing=9
+14:44:16 cc: outer fold 2020 done with pull=10,smoothing=9
+14:44:16 cc: outer fold 2021 done with pull=10,smoothing=9
+14:44:16 cc: outer fold 2022 done with pull=10,smoothing=9
+14:44:16 cc: outer fold 2023 done with pull=10,smoothing=9
+14:44:16 cc: outer fold 2024 done with pull=10,smoothing=9
+14:44:16 cc: outer fold 2025 done with pull=10,smoothing=9
+14:44:19 cc: final configuration pull=10,smoothing=9
+14:44:30 cc: weekend bootstrap
+14:44:37 cc: done; verdicts {"beats_constant": {"effort_minus_constant": -173267.63211316158, "interval_95": [-201182.87620745064, -146379.81943767276], "pass": true}, "weekend": {"ratio": 1.5632135789313442, "interval_95": [1.5285056835595825, 1.6003938936839126], "condition_1": true, "day_type_minus_season_deviance": -4831.931282958095, "interval_95_condition_2": [-5360.139875536102, -4342.729101693671], "condition_2": true, "pass": true}}
