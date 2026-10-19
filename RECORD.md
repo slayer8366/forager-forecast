@@ -168,3 +168,20 @@ correction is a new entry that points at the one it corrects.
 **Observed:** W42 is live on the site with the model unchanged (2026-09-28-2009, -2010). Both predictions were checked: the cell counts equal W41's; the manifest differs only in the listed fields; W41 still reproduces.
 **Deviations:** the dispatch premises corrected in Amendment 1; the 8-second W41 reproduction alongside t6b-night; the link guard Ash added to the shared rain aggregate. pnw-pilot-w42 stays unmerged to main, as W41's branch did (D40).
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2012.
+
+---
+
+**Kind:** intent
+**ID:** 2026-09-28-2012
+**Timestamp:** 2026-10-19T10:41:43Z
+**Title:** t6b-night's nightly save: a small summary in git, the full manifest outside it
+**Dispatch-file:** docs/dispatch/2026-10-19-t6b-progress-save.md (branch t6b-progress-save, c3697be)
+**The owner, verbatim, 2026-10-19:** "I'll take your recommendations", answering "have Ash fix it first (Recommended)"; the hold: "Have the laptop coder pause for a bit" (relayed by Rowan Waymark).
+**Change:** commit_progress commits, in place of the gzipped manifest, the manifest's sha256, size, line count and unit counts by stage and status. A gzipped copy is written outside every repository under /mnt/work/Zynergy/forecast-data/t6b/. A failed commit no longer crashes the section or leaves a block on the next one.
+**Scope boundary:** nothing t6b computes or chooses; no change to the large-file guard; the committed manifest.jsonl.gz frozen, not removed; no nightly run started by the coder.
+**Baseline:** the section commit refused at 2026-10-19T05:12:54Z (manifest.jsonl.gz 1,105,301 bytes over the 1,048,576 guard); 2,814 tiles done that section and 8,869 left, as the flash-drive manifest records; three staged files left in the runner's worktree.
+**Prediction if it works:** the next section's commit is a few kilobytes, passes the guard, and its sha256 matches the flash-drive manifest.
+**Prediction if it fails:** the commit still trips the guard, the sha256 doesn't match, or a failed commit still ends the run before the files outside git are written.
+**Finish line:** Ash's report with the tests, the revert check and the summary checked against the manifest; then the planner restarts t6b-night.
+**Abort conditions:** the dispatch's stops; the owner withdrawing it.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Held, not started, while the owner builds the Forager release on the laptop. Next free ID 2026-09-28-2013.
