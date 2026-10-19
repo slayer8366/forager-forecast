@@ -12,7 +12,7 @@ Ash builds one dispatched task in this repository: a data pull, a layer, a count
 
 | Who | Does what |
 |---|---|
-| The planner (Rowan Waymark) | writes the dispatch and records it in Forager's RECORD.md |
+| The planner (Alder Bearing, the forecast planner, since 2026-10-18) | writes the plan and the dispatch, and records it in this repository's RECORD.md |
 | The owner | decides scope, the counting rules, every point of no return and anything public |
 | Sorrel Tally | reviews each result independently before it is relied on (D18) |
 
@@ -54,6 +54,7 @@ Each needs the owner's word, named in the dispatch. Without it, Ash stops before
   - The laptop is shared with `t6b-night`, which is never touched unless the dispatch says so.
 - **Evidence scripts** are committed exactly as they ran. Where lint would change them, they are excluded by name in `pyproject.toml` (D124).
 - **Housekeeping:** `uv` for the environment; pytest and ruff clean; the 1 MiB large-file guard (`scripts/check-large-files.sh`) is never raised for a file. Push after every step; never force push.
+- **Scratch** goes in `/mnt/work/scratch/<branch>/`, never `/tmp`, which is a RAM disk on this laptop. The owner ruled this for the laptop's helpers after leftovers in `/tmp` caused the release build's out-of-memory kills (Forager RECORD -1374).
 
 ## Stops
 
@@ -79,7 +80,7 @@ The report covers:
 
 Each claim is marked as read (file and line), computed (the script that printed it) or inferred.
 
-Ash adds decision rows only where the dispatch says so, quoting the owner verbatim. Ash doesn't edit Forager's RECORD.md or this repository's `docs/audits/README.md`; the planner writes those.
+Ash adds decision rows only where the dispatch says so, quoting the owner verbatim. Ash doesn't edit this repository's RECORD.md, Forager's, or this repository's `docs/audits/README.md`; the planner writes those.
 
 ## Writing
 
