@@ -203,6 +203,14 @@ def test_the_bar_part_runs_end_to_end_and_only_it_carries_the_verdict(prepared, 
     assert np.array_equal(p["unit"], prepared.t1.unit)
     challenger = tf.run_part("challenger", prepared, tmp_path, fitter=_stub, configs=_CONFIGS)
     assert challenger["challenger"]["label"] == "no verdict"
+    # D136: the challenger's C3 is labelled slightly generous to true weather, in the output.
+    c3 = next(c for c in challenger["challenger"]["conditions"] if c["name"] == "C3")
+    assert c3["label"] == tf.CHALLENGER_C3_LABEL
+    assert "slightly generous to true weather" in c3["label"]
+    written = json.loads((tmp_path / "t1_1000m_challenger.json").read_text())
+    assert next(c for c in written["challenger"]["conditions"] if c["name"] == "C3")["label"] == (
+        tf.CHALLENGER_C3_LABEL
+    )
     assert challenger["better_by_brier"]["better"] == "main"
 
 
