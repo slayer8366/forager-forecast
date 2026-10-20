@@ -150,7 +150,7 @@ def prepare(
         forecast=dataclasses.replace(base, weather=xf),
         table_headline=th,
         table_forecast=tf,
-        effort_configs={h: f"pull={c.pull:g},smoothing={c.smoothing}" for h, c in configs.items()},
+        effort_configs={h: c.id for h, c in configs.items()},
         interpolated_levels={h: f.interpolated_level for h, f in folds.items()},
     )
 
