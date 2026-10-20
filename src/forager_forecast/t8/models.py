@@ -21,6 +21,7 @@ curve; beyond the boundary a natural spline is linear.
 
 from __future__ import annotations
 
+import gc
 import math
 import warnings
 from collections.abc import Callable, Sequence
@@ -170,17 +171,31 @@ def fit_predict_logistic(
 ) -> np.ndarray:
     import statsmodels.api as sm  # noqa: PLC0415
 
-    model = sm.GLM(y_train, x_train, family=sm.families.Binomial(), offset=offset_train)
-    with warnings.catch_warnings():
-        warnings.simplefilter("error", category=sm.tools.sm_exceptions.PerfectSeparationWarning)
-        warnings.simplefilter("error", category=sm.tools.sm_exceptions.ConvergenceWarning)
-        try:
-            result = model.fit(maxiter=100, tol=1e-10)
-        except (Warning, np.linalg.LinAlgError) as e:
-            raise FitFailed(f"logistic fit failed: {e}") from e
-    if not result.converged:
+    # statsmodels' model and results hold each other, and the design arrays, in reference cycles.
+    # The cyclic collector triggers on object counts, not bytes, so across the 199 swaps x 11 folds
+    # these piled up uncollected: test_t8_run reached 7.4 GB on synthetic data (measured
+    # 2026-10-20: about 35 MB more resident per 11-fold pass, flat once collected), and the real
+    # fits, about 30 times larger per fit, would have run out far sooner. So only the fitted
+    # coefficients leave this function, and the cycles are collected before it returns.
+    try:
+        model = sm.GLM(y_train, x_train, family=sm.families.Binomial(), offset=offset_train)
+        with warnings.catch_warnings():
+            warnings.simplefilter(
+                "error", category=sm.tools.sm_exceptions.PerfectSeparationWarning
+            )
+            warnings.simplefilter("error", category=sm.tools.sm_exceptions.ConvergenceWarning)
+            try:
+                result = model.fit(maxiter=100, tol=1e-10)
+            except (Warning, np.linalg.LinAlgError) as e:
+                raise FitFailed(f"logistic fit failed: {e}") from e
+        converged = bool(result.converged)
+        params = np.array(result.params, dtype=np.float64)
+    finally:
+        model = result = None
+        gc.collect(0)
+    if not converged:
         raise FitFailed("logistic fit did not converge in 100 iterations")
-    eta = x_test @ result.params + (0.0 if offset_test is None else offset_test)
+    eta = x_test @ params + (0.0 if offset_test is None else offset_test)
     return 1.0 / (1.0 + np.exp(-eta))
 
 
