@@ -1,0 +1,12 @@
+"""Scratch: array names, dtypes and shapes in an npz from the .npy headers only (no data read)."""
+import sys, zipfile
+import numpy as np
+for path in sys.argv[1:]:
+    print("==", path)
+    with zipfile.ZipFile(path) as z:
+        for name in z.namelist():
+            with z.open(name) as f:
+                version = np.lib.format.read_magic(f)
+                r = np.lib.format.read_array_header_1_0 if version == (1, 0) else np.lib.format.read_array_header_2_0
+                shape, fortran, dtype = r(f)
+            print(f"   {name[:-4]:28s} {str(dtype):10s} {shape}")

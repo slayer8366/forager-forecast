@@ -1,0 +1,17 @@
+"""Scratch: loyo_additive with and without gc.collect per call, current RSS (synthetic only)."""
+import gc, os, sys
+sys.path.insert(0, sys.argv[1])
+import test_t8_run as t
+from forager_forecast.t8 import models as md
+
+def cur():
+    return round(int(open("/proc/self/statm").read().split()[1]) * os.sysconf("SC_PAGE_SIZE") / 2**20)
+
+inputs, *_ = t.world(weather_effect=1.2)
+collect = sys.argv[2] == "collect"
+print(sys.version.split()[0], "gc thresholds", gc.get_threshold())
+for k in range(8):
+    md.loyo_additive(inputs, md.PROPOSED_SPEC, True)
+    if collect:
+        gc.collect()
+    print(sys.argv[2], k + 1, cur(), "MB", "gc counts", gc.get_count(), flush=True)

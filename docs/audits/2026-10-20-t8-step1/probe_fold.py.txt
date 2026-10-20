@@ -1,0 +1,31 @@
+"""Scratch: loyo_additive over one fold vs all, current RSS (synthetic only)."""
+import gc, os, sys
+import numpy as np
+sys.path.insert(0, sys.argv[1])
+import test_t8_run as t
+from forager_forecast.t8 import models as md
+import statsmodels.api as sm
+
+def cur():
+    return round(int(open("/proc/self/statm").read().split()[1]) * os.sysconf("SC_PAGE_SIZE") / 2**20)
+
+inputs, *_ = t.world(weather_effect=1.2)
+spec = md.PROPOSED_SPEC
+mode = sys.argv[2]
+angle = md.day_of_year_angle(inputs.mondays)
+for k in range(int(sys.argv[3])):
+    if mode == "one":
+        held = inputs.years == 2015
+        x, _ = md.design_matrix(spec, angle, inputs.latitude, inputs.longitude, inputs.log_effort[2015], inputs.weather, ~held)
+        md.fit_predict_logistic(x[~held], inputs.y[~held], x[held])
+    elif mode == "elevenfits":
+        for h in range(2015, 2026):
+            held = inputs.years == h
+            x, _ = md.design_matrix(spec, angle, inputs.latitude, inputs.longitude, inputs.log_effort[h], inputs.weather, ~held)
+            md.fit_predict_logistic(x[~held], inputs.y[~held], x[held])
+    elif mode == "elevenraw":
+        for h in range(2015, 2026):
+            held = inputs.years == h
+            x, _ = md.design_matrix(spec, angle, inputs.latitude, inputs.longitude, inputs.log_effort[h], inputs.weather, ~held)
+            sm.GLM(inputs.y[~held], x[~held], family=sm.families.Binomial()).fit(maxiter=100, tol=1e-10)
+    gc.collect(); print(mode, k + 1, cur(), "MB", flush=True)

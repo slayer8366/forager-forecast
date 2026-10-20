@@ -1,0 +1,24 @@
+"""Scratch: time and memory of one 11-fold pass of the main model at T1's unit count, synthetic."""
+import resource, time
+from datetime import date
+import numpy as np
+from forager_forecast.t8 import models as md
+from forager_forecast.t8.design import YEARS
+
+rng = np.random.default_rng(0)
+n = 52718
+years = np.sort(rng.choice(np.array(YEARS), size=n))
+weeks = rng.integers(2, 53, size=n)
+mondays = [date.fromisocalendar(int(y), int(w), 1) for y, w in zip(years, weeks)]
+cells = rng.integers(0, 2024, size=n)
+lat = 42 + 7.5 * (cells % 75) / 75; lon = -125 + 4 * (cells // 75) / 27
+log_e = rng.normal(0, 0.7, n); w = rng.normal(size=(n, 4))
+angle = md.day_of_year_angle(mondays)
+eta = -4.2 + np.cos(angle - 4.9) + 0.6 * log_e + 0.3 * w[:, 0]
+y = (rng.random(n) < 1 / (1 + np.exp(-eta))).astype(float)
+print("positives", int(y.sum()))
+inp = md.Inputs(y, years, mondays, lat, lon, {h: log_e for h in YEARS}, w)
+for use in (True, False):
+    t = time.monotonic(); md.loyo_additive(inp, md.PROPOSED_SPEC, use)
+    print("weather" if use else "no-weather", round(time.monotonic() - t, 1), "s, peak MB",
+          round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024))

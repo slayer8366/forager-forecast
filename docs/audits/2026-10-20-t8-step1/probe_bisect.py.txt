@@ -1,0 +1,26 @@
+"""Scratch: bisect the per-call growth in loyo_additive (synthetic only)."""
+import gc, os, sys
+import numpy as np
+sys.path.insert(0, sys.argv[1])
+import test_t8_run as t
+from forager_forecast.t8 import models as md
+
+def cur():
+    return round(int(open("/proc/self/statm").read().split()[1]) * os.sysconf("SC_PAGE_SIZE") / 2**20)
+
+inputs, *_ = t.world(weather_effect=1.2)
+spec = md.PROPOSED_SPEC
+angle = md.day_of_year_angle(inputs.mondays)
+train = inputs.years != 2015
+x, off = md.design_matrix(spec, angle, inputs.latitude, inputs.longitude, inputs.log_effort[2015], inputs.weather, train)
+print("x", x.shape, "cond", f"{np.linalg.cond(x[train]):.3g}")
+part = sys.argv[2]
+for k in range(60):
+    if part == "design":
+        md.design_matrix(spec, angle, inputs.latitude, inputs.longitude, inputs.log_effort[2015], inputs.weather, train)
+    elif part == "angle":
+        md.day_of_year_angle(inputs.mondays)
+    elif part == "fit":
+        md.fit_predict_logistic(x[train], inputs.y[train], x[~train])
+    if (k + 1) % 20 == 0:
+        gc.collect(); print(part, k + 1, cur(), "MB", flush=True)
