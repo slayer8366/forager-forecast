@@ -321,7 +321,9 @@ def run_count(
     survivors, t1 = headline
     records = jump_records(survivors, t1, genus_keys, box, species_rule)
     units_by_year = dict(Counter(t1.year.tolist()))
-    tallies = jp.tally(records, units_by_year, CANTHARELLUS_GENUS_KEY, jp.proposed_reading(genus_keys))
+    tallies = jp.tally(
+        records, units_by_year, CANTHARELLUS_GENUS_KEY, jp.proposed_reading(genus_keys)
+    )
     verdict = jp.read_jump(tallies)
     summary["jump"] = {
         "label": verdict.label,
@@ -336,4 +338,3 @@ def run_count(
     summary["peak_rss_mb"] = round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024)
     (out_dir / "count_summary.json").write_text(json.dumps(_jsonable(summary), indent=2) + "\n")
     return summary
-

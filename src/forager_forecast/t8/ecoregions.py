@@ -88,7 +88,10 @@ def assign(
         lo = np.min([r.min(axis=0) for r in rings], axis=0)
         hi = np.max([r.max(axis=0) for r in rings], axis=0)
         near = np.where(
-            (pts[:, 0] >= lo[0]) & (pts[:, 0] <= hi[0]) & (pts[:, 1] >= lo[1]) & (pts[:, 1] <= hi[1])
+            (pts[:, 0] >= lo[0])
+            & (pts[:, 0] <= hi[0])
+            & (pts[:, 1] >= lo[1])
+            & (pts[:, 1] <= hi[1])
         )[0]
         if len(near) == 0:
             continue

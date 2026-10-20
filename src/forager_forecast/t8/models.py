@@ -91,9 +91,9 @@ def ns_basis(x: np.ndarray, knots: np.ndarray) -> np.ndarray:
     big_k = len(k)
 
     def d(j: int) -> np.ndarray:
-        return (
-            np.maximum(t - k[j], 0.0) ** 3 - np.maximum(t - k[big_k - 1], 0.0) ** 3
-        ) / (k[big_k - 1] - k[j])
+        return (np.maximum(t - k[j], 0.0) ** 3 - np.maximum(t - k[big_k - 1], 0.0) ** 3) / (
+            k[big_k - 1] - k[j]
+        )
 
     cols = [t]
     last = d(big_k - 2)
@@ -180,9 +180,7 @@ def fit_predict_logistic(
     try:
         model = sm.GLM(y_train, x_train, family=sm.families.Binomial(), offset=offset_train)
         with warnings.catch_warnings():
-            warnings.simplefilter(
-                "error", category=sm.tools.sm_exceptions.PerfectSeparationWarning
-            )
+            warnings.simplefilter("error", category=sm.tools.sm_exceptions.PerfectSeparationWarning)
             warnings.simplefilter("error", category=sm.tools.sm_exceptions.ConvergenceWarning)
             try:
                 result = model.fit(maxiter=100, tol=1e-10)
@@ -260,7 +258,13 @@ def leave_one_block_out_additive(
 
 def challenger_matrix(inputs: Inputs, fold: int, use_weather: bool, weather=None) -> np.ndarray:
     angle = day_of_year_angle(inputs.mondays)
-    cols = [np.sin(angle), np.cos(angle), inputs.latitude, inputs.longitude, inputs.log_effort[fold]]
+    cols = [
+        np.sin(angle),
+        np.cos(angle),
+        inputs.latitude,
+        inputs.longitude,
+        inputs.log_effort[fold],
+    ]
     x = np.column_stack(cols)
     if use_weather:
         w = inputs.weather if weather is None else weather
