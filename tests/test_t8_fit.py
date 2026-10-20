@@ -18,7 +18,7 @@ from forager_forecast.t8 import weather as tw
 
 START = date(2014, 9, 1)
 DAYS = 4140
-CELLS = [Cell(440 + 3 * (i % 10), -1240 + 5 * (i // 10)) for i in range(40)]
+CELLS = [Cell(440 + i, -1240 + 4 * (i % 8)) for i in range(40)]
 PER_YEAR = 160
 
 
