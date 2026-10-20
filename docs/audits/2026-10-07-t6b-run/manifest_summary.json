@@ -1,16 +1,16 @@
 {
- "sha256": "360e76be0bb774bd8a19a3a75fd92e10f07d3196a9282628eb43ca6a529d87ee",
- "bytes": 7169412,
- "lines": 18427,
+ "sha256": "ca6862db93294af6c2938872e5d938e181b89c0b25dcbe852affa84a456f99b8",
+ "bytes": 8128389,
+ "lines": 21266,
  "lines_by_kind": {
   "before_unit": 296,
-  "cleanup": 7,
-  "prepare": 33,
-  "section": 40,
+  "cleanup": 8,
+  "prepare": 35,
+  "section": 41,
   "stage": 3,
-  "unit": 18048
+  "unit": 20883
  },
- "units": 17752,
+ "units": 20587,
  "units_by_layer_and_status": {
   "att_closure": {
    "ok": 10
@@ -37,13 +37,13 @@
    "ok": 2043
   },
   "ponderosaPine": {
-   "ok": 1215
+   "ok": 2043
   },
   "soil": {
    "ok": 89
   },
   "tamarack": {
-   "ok": 10
+   "ok": 2017
   },
   "trees": {
    "ok": 2025
