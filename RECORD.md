@@ -404,3 +404,43 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **Finish line:** Ash's step-1 report, then a stop for the owner's word to count.
 **Abort conditions:** the dispatch's stops.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2028.
+
+---
+
+**Kind:** terminal
+**ID:** 2026-09-28-2028
+**Timestamp:** 2026-10-20T03:41:04Z
+**Closes:** 2026-09-28-2027
+**Outcome:** done
+**Observed:** step 1 is built on t8-build (d9c12ba; Ash's report filed at docs/audits/2026-10-20-t8-step1/report.md, 09c4408). The full suite passed (686 tests), and C1 to C4 and the two identity checks were each revert-checked. The prediction held, with one finding the prediction didn't foresee. Every statsmodels fit left reference cycles that held its arrays, so memory grew with each fit. The first session's test run reached 7.4 GB at 2026-10-20T02:53Z, and the laptop ran out of memory: that killed the session, the forecast planner session and the app planner's helpers. The planner killed a rerun at 3.7 GB (03:01Z). Fixed in 2a47ccc, which collects the cycles; the test was seen failing first (1974c35). The suite's peak is now 914 MB. It would have hit the real fits harder. Step 1 took three resumed sessions; the first one's unfinished work was committed as found (c98773b) and kept.
+**Deviations:** 19 readings that the plan left open came back as a stop: 8 for the count and 11 for the fit. The plan should have settled them; that's the planner's miss. Genus keys are read from the zip, not the GBIF API, so the count makes no network call.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2029.
+
+---
+
+**Kind:** decision
+**ID:** 2026-09-28-2029
+**Timestamp:** 2026-10-20T03:41:04Z
+**Continues:** 2026-09-28-2027
+**Title:** The count's eight open readings ruled (owner)
+**What the owner was told before answering:** the jump years, with three options. The planner recommended 2024 and 2025 each, over Ash's 2023 to 2024 only. Then the other seven count readings, with Ash's proposals stated in plain words.
+**The owner, verbatim, 2026-10-20:** "2024 and 2025 each (Recommended)"; "Accept all 7 (Recommended)".
+**What it sets:** decision row D134 (t8-build).
+**Not authorised by this:** the fit. Its 11 readings are still open.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2030.
+
+---
+
+**Kind:** intent
+**ID:** 2026-09-28-2030
+**Timestamp:** 2026-10-20T03:41:04Z
+**Title:** Build in D134, then run T8's count: the jump check and the lichen attach (the first point of no return)
+**The owner, verbatim, 2026-10-20:** "Yes, run the count", answering "Once these are ruled and written down, may Ash run the count? It's the first point of no return: about 5 minutes, under 1.5 GB of memory, with a hard memory cap."
+**Change:** Ash enters D134 in RULED, changes the J-rise code to take both years, and then runs scripts/t8_count.py once under a 3 GB cap.
+**Scope boundary:** no fit, and no weather read. The fit readings stay unruled.
+**Baseline:** t8-build after D134. Inputs: D26's zip (sha256 checked by the script), T1's units, T6's counts.
+**Prediction if it works:** the count reproduces T1's three unit lists exactly, and the jump check returns one of the three labels for each year.
+**Prediction if it fails:** an identity refusal, where the units differ from T1's, which comes back as a stop.
+**Finish line:** Ash's count report; the label goes to the owner.
+**Abort conditions:** any refusal; memory over the cap; any network call.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2031.
