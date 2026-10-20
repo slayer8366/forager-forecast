@@ -155,3 +155,17 @@ def test_the_challenger_inputs_are_t1s_calendar_effort_and_the_four_measures():
     angle = 2 * np.pi * (first.timetuple().tm_yday - 1) / (366 if first.year % 4 == 0 else 365)
     assert x[0, 0] == pytest.approx(np.sin(angle))
     assert first - timedelta(days=first.weekday()) == first  # units are Mondays
+
+
+def test_a_fit_leaves_no_cyclic_garbage_holding_its_arrays():
+    """statsmodels' model and results form reference cycles that hold the design arrays; the
+    cyclic collector counts objects, not bytes, so across 199 swaps x 11 folds they piled up to
+    gigabytes (test_t8_run reached 7.4 GB). Each fit must leave nothing for the collector."""
+    import gc
+
+    rng = np.random.default_rng(7)
+    x = np.column_stack([np.ones(800), rng.normal(size=(800, 5))])
+    y = (rng.random(800) < 0.2).astype(float)
+    gc.collect()
+    md.fit_predict_logistic(x, y, x)
+    assert gc.collect() == 0
