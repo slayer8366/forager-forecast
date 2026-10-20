@@ -43,6 +43,12 @@ from forager_forecast.t8 import units as tu
 from forager_forecast.t8 import weather as tw
 
 PARTS = ("bar", "forecast", "alone", "challenger", "ecoregion")
+# D136: the challenger's 199 swaps keep each fold's tuning at the true-weather choice
+# (M-challenger-swaps), which favours true weather a little, and the report must say so.
+CHALLENGER_C3_LABEL = (
+    "slightly generous to true weather: each swap keeps the fold's tuning chosen on true weather "
+    "(D136, M-challenger-swaps)"
+)
 VERDICT = "verdict"
 
 Log = Callable[[str], None]
@@ -230,6 +236,9 @@ def run_part(
         briers = {"main": tm.brier(p_main, y), "challenger": tm.brier(run.p_model, y)}
         result["challenger"] = bar_json(run, tr.NO_VERDICT)
         result["challenger"]["note"] = "passes only if it clears C1 to C4 itself (D133 (6))"
+        for condition in result["challenger"]["conditions"]:
+            if condition["name"] == "C3":
+                condition["label"] = CHALLENGER_C3_LABEL
         result["better_by_brier"] = {"briers": briers, "better": min(briers, key=briers.get)}
         arrays |= {"p_challenger": run.p_model, "p_challenger_no_weather": run.p_no_weather}
     else:  # ecoregion

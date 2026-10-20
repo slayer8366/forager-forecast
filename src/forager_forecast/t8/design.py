@@ -260,7 +260,8 @@ PENDING: dict[str, Pending] = {
     )
 }
 
-# Readings the owner has ruled, as reading id -> decision row. J-rise was ruled as one of its
+# Readings the owner has ruled, as reading id -> decision row (D134 count, D135 two count
+# refinements built into count.py and jump.py, D136 fit). J-rise was ruled as one of its
 # alternatives (both comparisons, each separately), not the proposal; jump.ruled_reading builds it.
 RULED: dict[str, str] = {
     "J-rise": "D134",
@@ -271,6 +272,17 @@ RULED: dict[str, str] = {
     "J-genera": "D134",
     "J-species": "D134",
     "L-outcome": "D134",
+    "M-calendar-place": "D136",
+    "M-effort-form": "D136",
+    "M-effort-training": "D136",
+    "M-effort-config": "D136",
+    "M-swap": "D136",
+    "M-challenger-swaps": "D136",
+    "M-forecast-bar": "D136",
+    "M-measure-alone": "D136",
+    "M-ecoregion": "D136",
+    "M-sensitivity": "D136",
+    "M-sensitivity-effort": "D136",
 }
 
 
