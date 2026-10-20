@@ -219,3 +219,36 @@ def test_a_reading_must_name_six_genera_and_distinct_years():
         reading(rise_years=(2023,))
     with pytest.raises(ValueError, match="Cantharellus"):
         jp.tally([], UNITS, 1, reading())
+
+
+def one_year_cause_world():
+    """2024's rise is carried by new heavy observers (a reporting cause); 2025's is spread over
+    many light observers. Observers at least double and five genera rise 1.5x in both years."""
+    records = baseline()
+    records += [rec(2024, f"heavy{i % 22}", i) for i in range(220)]  # 22 new, 10 records each
+    records += [rec(2024, f"light{i}", 1000 + i) for i in range(100)]
+    records += [rec(2025, f"spread{i % 150}", 2000 + i) for i in range(300)]
+    for g in list(GENERA)[:5]:
+        records += genus_records(2023, g, 10) + genus_records(2024, g, 20)
+        records += genus_records(2025, g, 20)
+    return records
+
+
+D134_UNITS = {2023: 1000, 2024: 1000, 2025: 1000}
+
+
+def test_d134_a_cause_shown_in_one_comparison_only_reads_undetermined():
+    t = jp.tally(one_year_cause_world(), D134_UNITS, CANTH, jp.ruled_reading(GENERA))
+    assert t.reading.rise_years == (2024, 2025)
+    v = jp.read_jump(t)
+    assert v.label == jp.UNDETERMINED
+    assert any("one comparison only" in r for r in v.reasons)
+
+
+def test_d134_each_comparison_is_also_read_alone_and_reported():
+    t = jp.tally(one_year_cause_world(), D134_UNITS, CANTH, jp.ruled_reading(GENERA))
+    each = jp.read_each_comparison(t)
+    assert {y: v.label for y, v in each.items()} == {
+        2024: jp.REPORTING_LED,
+        2025: jp.SURGE_CONSISTENT,
+    }

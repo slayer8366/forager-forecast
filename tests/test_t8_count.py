@@ -158,6 +158,9 @@ def test_the_jump_check_reads_j5_by_unit_year_and_j6_by_the_rule(world):
     # The Boletus record is in T1 unit 455_-1220@2021-01-04, 2021's only unit.
     assert tallies["genus_rate_by_year"]["Boletus"] == {"2018": 0.0, "2020": 0.0, "2021": 1.0}
     assert summary["jump"]["label"] in (jp.REPORTING_LED, jp.SURGE_CONSISTENT, jp.UNDETERMINED)
+    # D134: the rise is taken twice, 2023 to 2024 and 2023 to 2025, and each is also read alone.
+    assert summary["jump"]["reading"]["rise_years"] == [2024, 2025]
+    assert set(summary["jump"]["per_comparison"]) == {"2024", "2025"}
     by_rank = tc.run_count(zip_path, sha, fits, out, species_rule="taxonRank")
     assert by_rank["jump"]["tallies"]["species_share_by_year"]["2021"] == 0.0
 
