@@ -260,8 +260,18 @@ PENDING: dict[str, Pending] = {
     )
 }
 
-# Readings the owner has ruled, as reading id -> decision row. Empty until the owner rules.
-RULED: dict[str, str] = {}
+# Readings the owner has ruled, as reading id -> decision row. J-rise was ruled as one of its
+# alternatives (both comparisons, each separately), not the proposal; jump.ruled_reading builds it.
+RULED: dict[str, str] = {
+    "J-rise": "D134",
+    "J-unit": "D134",
+    "J-new-observer": "D134",
+    "J-main-dataset": "D134",
+    "J-concentration": "D134",
+    "J-genera": "D134",
+    "J-species": "D134",
+    "L-outcome": "D134",
+}
 
 
 class NotRuled(RuntimeError):

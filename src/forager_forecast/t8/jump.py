@@ -18,6 +18,7 @@ not a ruling. With no rise at all, the rule has nothing to read and returns "und
 
 from __future__ import annotations
 
+import dataclasses
 from collections import Counter, defaultdict
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, field
@@ -94,10 +95,13 @@ PROPOSED_GENERA: tuple[str, ...] = (
 )
 
 
-def proposed_reading(genus_keys: Mapping[str, int]) -> JumpReading:
+def ruled_reading(genus_keys: Mapping[str, int]) -> JumpReading:
+    """D134: the rise taken twice, 2023 to 2024 and 2023 to 2025, each separately; the other
+    readings as proposed (owner: "2024 and 2025 each (Recommended)", "Accept all 7
+    (Recommended)")."""
     return JumpReading(
         baseline_year=2023,
-        rise_years=(2024,),
+        rise_years=(2024, 2025),
         new_observer=NEW_SINCE_BASELINE,
         concentration=CONCENTRATION_BOTH,
         genera={name: genus_keys[name] for name in PROPOSED_GENERA},
@@ -313,6 +317,19 @@ def read_jump(tallies: JumpTallies) -> JumpVerdict:
     common = set.intersection(*(set(h) for h in held))
     if common:
         return JumpVerdict(REPORTING_LED, tuple(h[kind] for kind in sorted(common) for h in held))
+    # D134: "a cause shown in one year only reads 'undetermined'", so a reporting condition that
+    # holds in some comparisons but not all rules out "surge-consistent" as well.
+    partial = set().union(*(set(h) for h in held))
+    if partial:
+        return JumpVerdict(
+            UNDETERMINED,
+            tuple(
+                f"shown in one comparison only: {h[kind]}"
+                for kind in sorted(partial)
+                for h in held
+                if kind in h
+            ),
+        )
     doubled = all(t.rise_observers >= OBSERVER_FACTOR * t.baseline_observers for t in rises)
     rose = [sum(r >= GENUS_FACTOR for r in t.genus_ratio.values()) for t in rises]
     genera_ok = all(n >= GENERA_NEEDED for n in rose)
@@ -324,3 +341,15 @@ def read_jump(tallies: JumpTallies) -> JumpVerdict:
     if doubled and genera_ok:
         return JumpVerdict(SURGE_CONSISTENT, reasons)
     return JumpVerdict(UNDETERMINED, reasons)
+
+
+def read_each_comparison(tallies: JumpTallies) -> dict[int, JumpVerdict]:
+    """The rule applied to each rise year alone, reported beside the combined label (D134)."""
+    out = {}
+    for y in tallies.reading.rise_years:
+        alone = dataclasses.replace(tallies.reading, rise_years=(y,))
+        sub = dataclasses.replace(
+            tallies, reading=alone, per_rise_year={y: tallies.per_rise_year[y]}
+        )
+        out[y] = read_jump(sub)
+    return out

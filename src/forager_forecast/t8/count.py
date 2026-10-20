@@ -321,13 +321,16 @@ def run_count(
     survivors, t1 = headline
     records = jump_records(survivors, t1, genus_keys, box, species_rule)
     units_by_year = dict(Counter(t1.year.tolist()))
-    tallies = jp.tally(
-        records, units_by_year, CANTHARELLUS_GENUS_KEY, jp.proposed_reading(genus_keys)
-    )
+    tallies = jp.tally(records, units_by_year, CANTHARELLUS_GENUS_KEY, jp.ruled_reading(genus_keys))
     verdict = jp.read_jump(tallies)
+    each = jp.read_each_comparison(tallies)
     summary["jump"] = {
         "label": verdict.label,
         "reasons": list(verdict.reasons),
+        "per_comparison": {
+            str(y): {"label": v.label, "reasons": list(v.reasons), "label_kind": "beside"}
+            for y, v in each.items()
+        },
         "reading": dataclasses.asdict(tallies.reading),
         "tallies": _jsonable(
             {k: v for k, v in dataclasses.asdict(tallies).items() if k != "reading"}
