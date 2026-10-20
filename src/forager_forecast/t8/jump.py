@@ -186,8 +186,10 @@ def tally(
     for r in records:
         if r.genus_key == cantharellus_key:
             canth.append(r)
-        elif r.genus_key in key_to_genus:
-            genus_units[key_to_genus[r.genus_key]][r.year].add(r.unit)
+        elif r.genus_key in key_to_genus and r.unit_year is not None:
+            # J5's denominator is T1's units per ISO year, so the numerator is T1 units only,
+            # by the unit's ISO year (not the record's calendar year).
+            genus_units[key_to_genus[r.genus_key]][r.unit_year].add(r.unit)
     by_year: Counter[int] = Counter(r.year for r in canth)
     observers: dict[int, set[str]] = defaultdict(set)
     per_observer: dict[int, Counter[str]] = defaultdict(Counter)
