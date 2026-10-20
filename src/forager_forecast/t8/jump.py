@@ -65,7 +65,7 @@ class JumpReading:
     rise_years: tuple[int, ...]  # a condition must hold in every one of them
     new_observer: str
     concentration: str
-    genera: Mapping[str, int]  # J5: genus name -> GBIF genus key
+    genera: Mapping[str, int | tuple[int, ...]]  # J5: genus name -> its GBIF genus key(s)
 
     def __post_init__(self) -> None:
         if not self.rise_years or self.baseline_year in self.rise_years:
@@ -95,7 +95,7 @@ PROPOSED_GENERA: tuple[str, ...] = (
 )
 
 
-def ruled_reading(genus_keys: Mapping[str, int]) -> JumpReading:
+def ruled_reading(genus_keys: Mapping[str, int | tuple[int, ...]]) -> JumpReading:
     """D134: the rise taken twice, 2023 to 2024 and 2023 to 2025, each separately; the other
     readings as proposed (owner: "2024 and 2025 each (Recommended)", "Accept all 7
     (Recommended)")."""
@@ -171,6 +171,11 @@ class JumpTallies:
     per_rise_year: dict[int, RiseTally]
 
 
+def _keys(keys: int | tuple[int, ...]) -> tuple[int, ...]:
+    """A genus's key or keys (D135: Amanita carries three)."""
+    return (keys,) if isinstance(keys, int) else tuple(keys)
+
+
 def _top_sum(values: Iterable[int], k: int) -> int:
     return sum(sorted(values, reverse=True)[:k])
 
@@ -184,7 +189,7 @@ def tally(
     """The six counts. units_by_year is T1's unit count per year, the J5 denominator."""
     canth: list[JumpRecord] = []
     genus_units: dict[str, dict[int, set[str]]] = {g: defaultdict(set) for g in reading.genera}
-    key_to_genus = {k: g for g, k in reading.genera.items()}
+    key_to_genus = {k: g for g, ks in reading.genera.items() for k in _keys(ks)}
     if cantharellus_key in key_to_genus:
         raise ValueError("Cantharellus cannot be one of J5's other genera")
     for r in records:
@@ -286,7 +291,10 @@ def _reporting_conditions(t: RiseTally, concentration: str) -> dict[str, str]:
         )
     name, share = t.top_other_dataset
     if share > SHARE_OVER:
-        held["dataset"] = f"{t.rise_year}: dataset {name} (not the main one) carries {share:.3f}"
+        # D135: the same dataset must carry it in every comparison, so the kind names it.
+        held[f"dataset {name}"] = (
+            f"{t.rise_year}: dataset {name} (not the main one) carries {share:.3f}"
+        )
     weeks, cells = t.top_weeks_share > SHARE_OVER, t.top_cells_share > SHARE_OVER
     concentrated = {
         CONCENTRATION_BOTH: weeks and cells,

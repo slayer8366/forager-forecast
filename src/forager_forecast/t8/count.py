@@ -66,6 +66,15 @@ EXTRA_COLUMNS = ("classKey", "speciesKey", "taxonRank", "genus")
 SPECIES_OR_BELOW = frozenset({"SPECIES", "SUBSPECIES", "VARIETY", "SUBVARIETY", "FORM", "SUBFORM"})
 
 
+# D135: Amanita is counted under all three genus keys D26's zip carries for the name. All three are
+# kingdom Fungi, phylum Basidiomycota: 6005964 (Amanita Dill. ex Boehm., 1760, ACCEPTED), 2526057
+# (Amanita Pers., DOUBTFUL) and 7237597 (Amanita Adanson, 1763, DOUBTFUL), read by the forecast
+# planner from GBIF's species API on 2026-10-20 (species/match for Amanita, rank GENUS, kingdom
+# Fungi: 6005964 EXACT). Fixed here so the count makes no network call. The zip's keys for a pinned
+# name must equal its pinned set exactly; any other name must map to exactly one key.
+PINNED_GENUS_KEYS: dict[str, tuple[int, ...]] = {"Amanita": (2526057, 6005964, 7237597)}
+
+
 class CountRefused(RuntimeError):
     """The count cannot run as fixed: a checksum, a column, a genus key or T1's units differ."""
 
@@ -162,13 +171,20 @@ def read_box(zip_path: Path, genus_names: tuple[str, ...]) -> BoxRead:
     )
 
 
-def resolve_genus_keys(seen: Mapping[str, set[int]]) -> dict[str, int]:
-    """Each J5 name's one genus key, from the zip's own columns; refuses an ambiguous name."""
-    bad = {g: sorted(k) for g, k in seen.items() if len(k) != 1}
+def resolve_genus_keys(seen: Mapping[str, set[int]]) -> dict[str, tuple[int, ...]]:
+    """Each J5 name's genus keys from the zip's own columns: exactly one, or exactly its pinned set
+    (PINNED_GENUS_KEYS, D135). Refuses anything else."""
+    bad = {
+        g: sorted(k)
+        for g, k in seen.items()
+        if (set(k) != set(PINNED_GENUS_KEYS[g]) if g in PINNED_GENUS_KEYS else len(k) != 1)
+    }
     if bad:
-        raise CountRefused(f"J5 genus names without exactly one genusKey in the zip: {bad}")
-    keys = {g: next(iter(k)) for g, k in seen.items()}
-    if CANTHARELLUS_GENUS_KEY in keys.values():
+        raise CountRefused(
+            f"J5 genus names without exactly one genusKey, or their pinned set, in the zip: {bad}"
+        )
+    keys = {g: PINNED_GENUS_KEYS.get(g, tuple(sorted(k))) for g, k in seen.items()}
+    if any(CANTHARELLUS_GENUS_KEY in k for k in keys.values()):
         raise CountRefused("a J5 genus resolved to Cantharellus's key")
     return keys
 
@@ -193,12 +209,12 @@ def has_species(gbif_id: int, box: BoxRead, rule: str) -> bool:
 def jump_records(
     survivors: list[Record],
     t1: tu.T1Units,
-    genus_keys: Mapping[str, int],
+    genus_keys: Mapping[str, tuple[int, ...]],
     box: BoxRead,
     species_rule: str,
 ) -> list[jp.JumpRecord]:
     """J1 to J6's fields for Cantharellus and the six J5 genera among the survivors."""
-    wanted = set(genus_keys.values()) | {CANTHARELLUS_GENUS_KEY}
+    wanted = {k for keys in genus_keys.values() for k in keys} | {CANTHARELLUS_GENUS_KEY}
     year_of_unit = dict(zip(t1.unit.tolist(), t1.year.tolist(), strict=True))
     out = []
     for r in survivors:
