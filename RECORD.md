@@ -348,3 +348,27 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **Finish line:** the plan pushed, and its decisions put to the owner.
 **Abort conditions:** the owner withdrawing T8; a premise that needs a count or fit to settle, which becomes a decision instead.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2024.
+
+---
+
+**Kind:** decision
+**ID:** 2026-09-28-2024
+**Timestamp:** 2026-10-20T01:02:33Z
+**Continues:** 2026-09-28-2023
+**Title:** T8's plan accepted as written: all eight decisions as recommended (owner)
+**What the owner was told before answering:** the plan's eight decisions, each with its recommendation (docs/dispatch/2026-10-19-t8-plan.md, section 10, on t8-plan-alder 4cd0bd4), with decision 5, the turnout guard, named as the one real trade-off.
+**The owner, verbatim, 2026-10-19:** "All recommended".
+**What it sets:** decision row D133 (t8-plan-alder), quoting the eight rulings. It sets aside SPEC.md:44 and TASKS.md:89 for this test, and makes T9 depend on T8 alone for the PNW.
+**Not authorised by this:** the build. The go is asked separately, and so are the two points of no return: counting, and fitting.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2025.
+
+---
+
+**Kind:** terminal
+**ID:** 2026-09-28-2025
+**Timestamp:** 2026-10-20T01:02:33Z
+**Closes:** 2026-09-28-2023
+**Outcome:** done
+**Observed:** the plan was pushed (t8-plan-alder 4cd0bd4) with eight decisions, and the owner accepted all eight (-2024). The prediction held: about 8 decisions, with the turnout guard as the biggest choice. Juniper Sounding (Fable) checked the figures and found three citation errors, all fixed before the push: D121 gives about 1,200 records, not 1,100; T6's run time is at :174-175; the weather arrays carry _points and _values suffixes.
+**Deviations:** none.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2026.
