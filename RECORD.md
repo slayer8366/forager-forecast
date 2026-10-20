@@ -483,3 +483,14 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **Finish line:** Ash's count report.
 **Abort conditions:** any refusal; memory over the cap; any network call.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2034.
+
+---
+
+**Kind:** terminal
+**ID:** 2026-09-28-2034
+**Timestamp:** 2026-10-20T04:10:19Z
+**Closes:** 2026-09-28-2033
+**Outcome:** done
+**Observed:** the count ran once (04:04:18Z to 04:08:09Z, t8-build 0cb9566, 325.8 MB peak, no network). All three of T1's unit lists were reproduced exactly: 52,718, 56,927 and 9,640 units. 24.9% of headline units are lichen-positive. The jump check reads undetermined, overall and for 2024 and 2025 each. Observers rose from 73 to 241 and 230, no reporting-led condition holds, and only 1 of 6 genera (Hydnum) rose 1.5x. The outputs are read-only in ~/Zynergy/forecast-data/t8/count/ with SHA256SUMS, and the planner checked the sha256 values. The report is at docs/audits/2026-10-20-t8-step1/count-report.md. The "if it works" prediction held. The summary is not committed, because it holds per-cell rises and the repository is public.
+**Deviations:** none.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2035.
