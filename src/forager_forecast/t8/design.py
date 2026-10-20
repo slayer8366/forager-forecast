@@ -26,6 +26,17 @@ BESIDE_LINE_YEARS: tuple[int, ...] = tuple(range(2015, 2024))
 # Plan section 3 and T1 report :289: the headline unit count. The run refuses any other.
 T1_HEADLINE_UNITS = 52718
 
+# Plan section 3: T1's three step lists (scripts/pnw_t1_records.py), the T1 calendar file each one's
+# units are keyed by (in the pilot data folder's fits/), and the unit count each must hold. The
+# sensitivity runs use their own T1 units, with no verdict: D33 (3) (T1 report :400-401) and
+# D33 (4) (:364-365).
+T1_LISTS: dict[str, tuple[str, int]] = {
+    "t1_1000m": ("primary_t1_1000m_calendar", T1_HEADLINE_UNITS),
+    "t1_5000m": ("primary_t1_5000m_calendar", 56927),
+    "t1_1000m_cc": ("primary_t1_1000m_cc_calendar", 9640),
+}
+HEADLINE_LIST = "t1_1000m"
+
 # D103: lichens, GBIF class Lecanoromycetes (the same key effort.BENCHMARK_CLASS_KEY holds).
 LICHEN_CLASS_KEY = 180
 
