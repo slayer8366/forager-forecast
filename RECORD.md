@@ -372,3 +372,18 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **Observed:** the plan was pushed (t8-plan-alder 4cd0bd4) with eight decisions, and the owner accepted all eight (-2024). The prediction held: about 8 decisions, with the turnout guard as the biggest choice. Juniper Sounding (Fable) checked the figures and found three citation errors, all fixed before the push: D121 gives about 1,200 records, not 1,100; T6's run time is at :174-175; the weather arrays carry _points and _values suffixes.
 **Deviations:** none.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2026.
+
+---
+
+**Kind:** merge
+**ID:** 2026-09-28-2026
+**Timestamp:** 2026-10-20T02:14:47Z
+**PR:** 11
+**Head:** t8-plan-alder (a480374)
+**Base:** main
+**Merge-commit:** 82fa9e4f1903ad1431dfad2dd3601d0bc2ebc976
+**Pre-merge:** 80f61a8caca366685c4b3e4482a72e2d28e45edf
+**Backup:** ~/Zynergy/forager-repo-backups/forecast-main-20261020T021422Z-80f61a8c.bundle, `git bundle verify` okay, sha256 beside it, a line in INDEX.md.
+**Merged-by:** the forecast planner (Alder Bearing), on the owner's word in this window, 2026-10-19: "Merge the plan branch to main when ready". GitHub merged it at 2026-10-20T02:14:40Z, with its check SUCCESS.
+**Carries:** docs/dispatch/2026-10-19-t8-plan.md and decision row D133.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2027.
