@@ -339,5 +339,6 @@ def run_count(
     }
     summary["seconds"] = round(time.monotonic() - started, 1)
     summary["peak_rss_mb"] = round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024)
-    (out_dir / "count_summary.json").write_text(json.dumps(_jsonable(summary), indent=2) + "\n")
-    return summary
+    written = _jsonable(summary)
+    (out_dir / "count_summary.json").write_text(json.dumps(written, indent=2) + "\n")
+    return written
