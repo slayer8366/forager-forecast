@@ -444,3 +444,42 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **Finish line:** Ash's count report; the label goes to the owner.
 **Abort conditions:** any refusal; memory over the cap; any network call.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2031.
+
+---
+
+**Kind:** terminal
+**ID:** 2026-09-28-2031
+**Timestamp:** 2026-10-20T03:57:24Z
+**Closes:** 2026-09-28-2030
+**Outcome:** stopped
+**Observed:** the count ran once (03:46:58Z, t8-build 053c98c, 3 min 48 s, 1.4 GB peak, under the 3 GB cap). The zip's sha256 matched, and 252,818 of 2,493,578 rows fell in the box. It then refused with `CountRefused: J5 genus names without exactly one genusKey in the zip: {'Amanita': [2526057, 6005964, 7237597]}`. Nothing was written and no network call was made. The refusal came before T1's units, so neither prediction was tested. J-rise was built in first (e93177a), and its tests were seen failing first (1d1e1a7).
+**Deviations:** none. The refusal is the abort condition working.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2032.
+
+---
+
+**Kind:** decision
+**ID:** 2026-09-28-2032
+**Timestamp:** 2026-10-20T03:57:24Z
+**Continues:** 2026-09-28-2031
+**Title:** Amanita counted under all three keys; the same dataset in both comparisons (owner)
+**What the owner was told before answering:** that GBIF's taxonomy shows all three keys are the mushroom Amanita, one accepted and two doubtful duplicates. The alternatives were the accepted key only, or swapping the genus. Then the dataset reading: the same dataset in both years, or any in each year.
+**The owner, verbatim, 2026-10-20:** "Count all three (Recommended)"; "Same source both years (Recommended)"; "Yes, rerun", answering "With those settled, may Ash fix the code and rerun the count once? About 4 minutes, 1.4 GB."
+**What it sets:** D135 (t8-build).
+**Not authorised by this:** the fit.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2033.
+
+---
+
+**Kind:** intent
+**ID:** 2026-09-28-2033
+**Timestamp:** 2026-10-20T03:57:24Z
+**Title:** Build in D135, then rerun T8's count once
+**Change:** Amanita's three keys fixed in code; the same-dataset condition across both comparisons; tests seen failing first; then one run of scripts/t8_count.py under a 3 GB cap.
+**Scope boundary:** as in -2030: no fit, no weather, no network.
+**Baseline:** t8-build after D135.
+**Prediction if it works:** the count reproduces T1's three unit lists exactly, and the jump check returns a label for each comparison and overall.
+**Prediction if it fails:** an identity refusal, or another refusal at the genus step, which comes back as a stop.
+**Finish line:** Ash's count report.
+**Abort conditions:** any refusal; memory over the cap; any network call.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2034.
