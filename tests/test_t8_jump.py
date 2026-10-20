@@ -21,8 +21,11 @@ def reading(**kw):
     return jp.JumpReading(**base)
 
 
-def rec(year, observer, i, dataset=MAIN, week=None, cell=None, genus=CANTH, species=True):
-    """A record spread over 20 weeks and 40 cells unless pinned."""
+def rec(
+    year, observer, i, dataset=MAIN, week=None, cell=None, genus=CANTH, species=True, unit_year=0
+):
+    """A record spread over 20 weeks and 40 cells unless pinned; in a T1 unit of its own year
+    unless unit_year says otherwise (None: in no T1 unit)."""
     week = 30 + i % 20 if week is None else week
     cell = f"c{i % 40}" if cell is None else cell
     return jp.JumpRecord(
@@ -34,6 +37,7 @@ def rec(year, observer, i, dataset=MAIN, week=None, cell=None, genus=CANTH, spec
         unit=f"{cell}@{year}-{week}",
         genus_key=genus,
         has_species=species,
+        unit_year=year if unit_year == 0 else unit_year,
     )
 
 
@@ -193,6 +197,19 @@ def test_species_share_and_rates_by_year():
     t = jp.tally(records, {2023: 50, 2024: 10}, CANTH, reading())
     assert t.species_share_by_year[2023] == pytest.approx(0.75)
     assert t.genus_rate_by_year["Boletus"][2023] == pytest.approx(0.1)
+
+
+def test_j5_counts_genus_cell_weeks_by_the_units_iso_year_and_only_in_t1_units():
+    """J5's rate is T1-unit cell-weeks with the genus over T1's units of that ISO year, so its
+    numerator takes the unit's ISO year (a record of 2024-12-30 is in 2025-W01) and skips records
+    in no T1 unit (sea units), which the denominator does not hold."""
+    records = genus_records(2023, "Boletus", 5)
+    records.append(rec(2024, "late", 900, genus=GENERA["Boletus"], cell="x", unit_year=2025))
+    records.append(rec(2023, "sea", 901, genus=GENERA["Boletus"], cell="s", unit_year=None))
+    t = jp.tally(records, {2023: 50, 2024: 10, 2025: 20}, CANTH, reading())
+    assert t.genus_rate_by_year["Boletus"][2023] == pytest.approx(5 / 50)
+    assert t.genus_rate_by_year["Boletus"][2024] == 0.0
+    assert t.genus_rate_by_year["Boletus"][2025] == pytest.approx(1 / 20)
 
 
 def test_a_reading_must_name_six_genera_and_distinct_years():

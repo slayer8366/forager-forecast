@@ -55,6 +55,7 @@ class JumpRecord:
     unit: str  # the T1 unit id, cell@Monday
     genus_key: int | None
     has_species: bool
+    unit_year: int | None = None  # the ISO year of its T1 unit; None if it is in no T1 unit
 
 
 @dataclass(frozen=True)
