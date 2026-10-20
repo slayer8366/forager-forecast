@@ -171,12 +171,13 @@ def test_one_differing_outcome_in_t1s_file_refuses_the_count(world):
         tc.run_count(zip_path, sha, fits, out)
 
 
-def test_a_unit_t1_did_not_drop_for_weather_refuses_the_count(world):
+def test_a_unit_t1_did_not_drop_for_weather_refuses_the_count(world, monkeypatch):
     zip_path, sha, fits, out = world
     stem = design.T1_LISTS["t1_1000m"][0]
     units, y = _units(fits, stem)
     recounted = dict(zip(units[1:], y[1:], strict=True))  # one unit missing, no sea drop recorded
     write_t1(fits, stem, recounted)
+    monkeypatch.setitem(design.T1_LISTS, "t1_1000m", (stem, len(units) - 1))
     with pytest.raises(tu.UnitsDiffer, match="beyond T1's"):
         tc.run_count(zip_path, sha, fits, out)
 
