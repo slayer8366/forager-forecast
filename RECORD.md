@@ -387,3 +387,20 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **Merged-by:** the forecast planner (Alder Bearing), on the owner's word in this window, 2026-10-19: "Merge the plan branch to main when ready". GitHub merged it at 2026-10-20T02:14:40Z, with its check SUCCESS.
 **Carries:** docs/dispatch/2026-10-19-t8-plan.md and decision row D133.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2027.
+
+---
+
+**Kind:** intent
+**ID:** 2026-09-28-2027
+**Timestamp:** 2026-10-20T02:16:03Z
+**Title:** Build T8 up to the count: its rules, code and tests over synthetic data (step 1 of the plan's order)
+**Dispatch-file:** docs/dispatch/2026-10-20-t8-build.md (branch t8-build, f72dbc7)
+**The owner, verbatim, 2026-10-19:** "Yes, start it.", answering "Shall I write the dispatch and start Ash on step 1?".
+**Change:** code and tests for the jump check, the unit table, the weather measures, the models, the bar and the report-beside items, as the plan (docs/dispatch/2026-10-19-t8-plan.md) and D133 set them.
+**Scope boundary:** no real records, outcomes or weather read; no count; no fit; no decision rows; nothing on main.
+**Baseline:** the plan and D133 on main 82fa9e4. T6's counts copied out of scratch by the planner to ~/Zynergy/forecast-data/t6-counts/, read-only, with SHA256SUMS (5 files).
+**Prediction if it works:** every condition C1 to C4 shown to bite on synthetic data, by tests and by revert checks, with the count and fit commands ready.
+**Prediction if it fails:** a plan rule that can't be built as written, which comes back as a stop.
+**Finish line:** Ash's step-1 report, then a stop for the owner's word to count.
+**Abort conditions:** the dispatch's stops.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2028.
