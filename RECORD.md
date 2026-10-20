@@ -494,3 +494,31 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **Observed:** the count ran once (04:04:18Z to 04:08:09Z, t8-build 0cb9566, 325.8 MB peak, no network). All three of T1's unit lists were reproduced exactly: 52,718, 56,927 and 9,640 units. 24.9% of headline units are lichen-positive. The jump check reads undetermined, overall and for 2024 and 2025 each. Observers rose from 73 to 241 and 230, no reporting-led condition holds, and only 1 of 6 genera (Hydnum) rose 1.5x. The outputs are read-only in ~/Zynergy/forecast-data/t8/count/ with SHA256SUMS, and the planner checked the sha256 values. The report is at docs/audits/2026-10-20-t8-step1/count-report.md. The "if it works" prediction held. The summary is not committed, because it holds per-cell rises and the repository is public.
 **Deviations:** none.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2035.
+
+---
+
+**Kind:** decision
+**ID:** 2026-09-28-2035
+**Timestamp:** 2026-10-20T04:14:32Z
+**Continues:** 2026-09-28-2034
+**Title:** T8's eleven fit readings ruled, and the go to fit after t6b-night (owner)
+**What the owner was told before answering:** the nine routine settings, each stated in plain words. The challenger's shuffle check, named as the one trade-off: keep the tuning and say it is slightly generous, report it only, or re-tune every swap (days). When to fit: after t6b-night, pause t6b now, or not yet.
+**The owner, verbatim, 2026-10-20:** "Accept all nine (Recommended)"; "Keep tuning, say so (Recommended)"; "After t6b-night (Recommended)", answering "The fits are your second point of no return: about 5 to 10 hours of computing, run one at a time. When should they run?"
+**What it sets:** D136 (t8-build). The second point of no return is passed, with the fits to start only once t6b-night has finished.
+**Not authorised by this:** publishing anything; any third weather test.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2036.
+
+---
+
+**Kind:** intent
+**ID:** 2026-09-28-2036
+**Timestamp:** 2026-10-20T04:14:32Z
+**Title:** Build in D136, then, once t6b-night has finished, run T8's fits one at a time
+**Change:** Ash enters D136 in RULED and adds the challenger's "slightly generous" label, with tests, then stops. After t6b-night finishes, the fits run in the order of Ash's step-1 report: bar, forecast, alone, challenger and ecoregion on t1_1000m, then bar on t1_5000m and t1_1000m_cc. Each runs under a 3 GB cap.
+**Scope boundary:** nothing published; no change to any ruled reading; no fit beside t6b-night.
+**Baseline:** t8-build after D136; the count outputs in ~/Zynergy/forecast-data/t8/count/ (SHA256SUMS).
+**Prediction if it works:** a verdict from the bar on the headline list (pass, or fail with the failing condition named), and every report-beside item labelled no verdict.
+**Prediction if it fails:** an identity refusal, a hit on the cap, or tied spline knots in an ecoregion block, any of which comes back as a stop.
+**Finish line:** Ash's fit report, then the two independent reviews (Sorrel, on Fable and on Sonnet).
+**Abort conditions:** any refusal; memory over the cap; t6b-night running at the same time.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2037.
