@@ -19,6 +19,7 @@ from forager_forecast.t8 import units as tu
 
 COLUMNS = list(COLUMNS_READ) + ["classKey", "speciesKey", "taxonRank", "genus", "kingdom"]
 GENUS_KEY = {name: 1000 + i for i, name in enumerate(jp.PROPOSED_GENERA)}
+AMANITA = (2526057, 6005964, 7237597)  # D135: the three keys D26's zip carries for Amanita
 
 
 def row(gid, lat, lon, day, genus_key="", genus="", class_key="", species_key="", rank="",
@@ -64,9 +65,14 @@ def rows():
         # Not CC: the commercial-safe list drops it.
         row(9, 43.0, -123.5, "2018-10-01", 77, "Mycena", 50, license="CC_BY_NC_4_0"),
     ]
-    # The rest of J5's names appear once each, outside the box, so each resolves to one key.
+    # The rest of J5's names appear once each, outside the box, so each resolves to one key;
+    # Amanita under each of its three keys (D135), one of them in a T1 unit in the box.
     for i, name in enumerate(jp.PROPOSED_GENERA[1:]):
-        out.append(row(100 + i, 40.0, -80.0, "2020-09-14", GENUS_KEY[name], name, 50))
+        if name != "Amanita":
+            out.append(row(100 + i, 40.0, -80.0, "2020-09-14", GENUS_KEY[name], name, 50))
+    out.append(row(200, 40.0, -80.0, "2020-09-14", AMANITA[0], "Amanita", 50))
+    out.append(row(201, 40.0, -80.0, "2020-09-14", AMANITA[1], "Amanita", 50))
+    out.append(row(202, 47.0, -123.0, "2020-09-15", AMANITA[2], "Amanita", 50))
     return out
 
 
@@ -129,7 +135,7 @@ def world(tmp_path, monkeypatch):
 def test_the_count_reproduces_t1s_units_and_attaches_lichens(world):
     zip_path, sha, fits, out = world
     summary = tc.run_count(zip_path, sha, fits, out)
-    assert summary["records_in_pnw_box"] == 8
+    assert summary["records_in_pnw_box"] == 9
     assert {n: s["units"] for n, s in summary["lists"].items()} == {
         "t1_1000m": 4,
         "t1_5000m": 5,
@@ -146,7 +152,9 @@ def test_the_count_reproduces_t1s_units_and_attaches_lichens(world):
     }
     outings = dict(zip(lichen["unit"].tolist(), lichen["lichen_outings"].tolist(), strict=True))
     assert outings["470_-1230@2020-09-14"] == 2
-    assert summary["j5_genus_keys"] == GENUS_KEY
+    assert summary["j5_genus_keys"] == {
+        n: list(AMANITA) if n == "Amanita" else [GENUS_KEY[n]] for n in jp.PROPOSED_GENERA
+    }
 
 
 def test_the_jump_check_reads_j5_by_unit_year_and_j6_by_the_rule(world):
@@ -157,6 +165,9 @@ def test_the_jump_check_reads_j5_by_unit_year_and_j6_by_the_rule(world):
     assert tallies["species_share_by_year"] == {"2018": "nan", "2020": 1.0, "2021": 0.0}
     # The Boletus record is in T1 unit 455_-1220@2021-01-04, 2021's only unit.
     assert tallies["genus_rate_by_year"]["Boletus"] == {"2018": 0.0, "2020": 0.0, "2021": 1.0}
+    # The Amanita record under its doubtful key 7237597 is in 470_-1230@2020-09-14, one of 2020's
+    # two units (D135: all three keys count).
+    assert tallies["genus_rate_by_year"]["Amanita"]["2020"] == pytest.approx(0.5)
     assert summary["jump"]["label"] in (jp.REPORTING_LED, jp.SURGE_CONSISTENT, jp.UNDETERMINED)
     # D134: the rise is taken twice, 2023 to 2024 and 2023 to 2025, and each is also read alone.
     assert summary["jump"]["reading"]["rise_years"] == [2024, 2025]
@@ -204,6 +215,15 @@ def test_a_j5_name_with_two_genus_keys_is_refused():
     seen["Boletus"] = {1000, 2000}
     with pytest.raises(tc.CountRefused, match="Boletus"):
         tc.resolve_genus_keys(seen)
+
+
+def test_d135_amanita_resolves_to_its_three_pinned_keys_and_nothing_else():
+    seen = {name: {GENUS_KEY[name]} for name in jp.PROPOSED_GENERA} | {"Amanita": set(AMANITA)}
+    assert tc.resolve_genus_keys(seen)["Amanita"] == AMANITA
+    with pytest.raises(tc.CountRefused, match="Amanita"):
+        tc.resolve_genus_keys(seen | {"Amanita": set(AMANITA) | {12345}})
+    with pytest.raises(tc.CountRefused, match="Amanita"):
+        tc.resolve_genus_keys(seen | {"Amanita": {6005964}})
 
 
 def test_a_zip_without_species_columns_is_refused(tmp_path):

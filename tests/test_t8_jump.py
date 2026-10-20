@@ -252,3 +252,33 @@ def test_d134_each_comparison_is_also_read_alone_and_reported():
         2024: jp.REPORTING_LED,
         2025: jp.SURGE_CONSISTENT,
     }
+
+
+
+def test_d135_two_different_datasets_carrying_each_rise_are_two_causes_and_read_undetermined():
+    records = baseline()
+    records += [rec(2024, f"a{i}", 3000 + i, dataset="club") for i in range(150)]
+    records += [rec(2025, f"b{i}", 4000 + i, dataset="atlas") for i in range(150)]
+    t = jp.tally(records, D134_UNITS, CANTH, jp.ruled_reading(GENERA))
+    assert t.per_rise_year[2024].top_other_dataset[0] == "club"
+    assert t.per_rise_year[2025].top_other_dataset[0] == "atlas"
+    v = jp.read_jump(t)
+    assert v.label == jp.UNDETERMINED
+    assert any("one comparison only" in r for r in v.reasons)
+
+
+def test_d135_the_same_dataset_carrying_both_rises_is_reporting_led():
+    records = baseline()
+    records += [rec(2024, f"a{i}", 3000 + i, dataset="club") for i in range(150)]
+    records += [rec(2025, f"b{i}", 4000 + i, dataset="club") for i in range(150)]
+    v = jp.read_jump(jp.tally(records, D134_UNITS, CANTH, jp.ruled_reading(GENERA)))
+    assert v.label == jp.REPORTING_LED
+    assert any("dataset club" in r for r in v.reasons)
+
+
+def test_d135_a_genus_with_several_keys_counts_a_record_under_any_of_them():
+    genera = dict(GENERA) | {"Amanita": (6, 60, 600)}
+    records = [rec(2023, "x", 1, genus=60, cell="m", week=40), rec(2023, "y", 2, genus=600,
+               cell="n", week=40)]  # fmt: skip
+    t = jp.tally(records, {2023: 10}, CANTH, reading(genera=genera))
+    assert t.genus_rate_by_year["Amanita"][2023] == pytest.approx(2 / 10)
