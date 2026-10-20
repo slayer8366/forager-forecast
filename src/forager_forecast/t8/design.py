@@ -241,6 +241,22 @@ PENDING: dict[str, Pending] = {
             ("another minimum", "leave one ecoregion and one year out together"),
             "fit",
         ),
+        Pending(
+            "M-sensitivity",
+            "What the D33 (3) and D33 (4) sensitivity runs compute (plan section 3, 'no verdict').",
+            "the main model's C1 to C4 on their own T1 units at the headline timing, with their "
+            "own 199 swaps, all labelled no verdict",
+            ("C1, C2 and C4 only, no swaps", "C1 only, against their own stored calendar"),
+            "fit",
+        ),
+        Pending(
+            "M-sensitivity-effort",
+            "Which of T6's two tracks gives the sensitivity runs their effort.",
+            "the 'all' track for D33 (3) (5,000 m); the 'cc' track (counts cc_*.npz, folds from "
+            "cc_results.json) for D33 (4), the commercial-safe track (D29)",
+            ("the 'all' track for both",),
+            "fit",
+        ),
     )
 }
 

@@ -28,6 +28,18 @@ from forager_forecast.daily_grid import DailyGrid
 from forager_forecast.t8.design import MEASURES, SEED, Measure
 
 LAND_VARIABLES = ("temperature", "soil_temperature", "soil_moisture")
+VARIABLES = (*LAND_VARIABLES, "precipitation")
+
+
+def read_grids(npz) -> dict[str, DailyGrid]:
+    """t1_pnw.npz's daily grids, as scripts/pnw_weather.py `load` reads them."""
+    z = np.load(npz, allow_pickle=False)
+    start = date.fromisoformat(str(z["start"]))
+    grids = {}
+    for v in VARIABLES:
+        pts = [tuple(int(a) for a in p) for p in z[f"{v}_points"]]
+        grids[v] = DailyGrid(start, {p: i for i, p in enumerate(pts)}, z[f"{v}_values"])
+    return grids
 
 
 class MissingWeather(LookupError):

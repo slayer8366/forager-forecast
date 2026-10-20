@@ -169,3 +169,22 @@ def all_folds(
     years: Sequence[int] = ef.YEARS,
 ) -> dict[int, FoldEffort]:
     return {h: fold_effort(fungi, lichen, h, configs[h], cells, mondays) for h in years}
+
+
+def all_years_effort(
+    fungi: ef.OutingCounts,
+    lichen: ef.OutingCounts,
+    config: ef.Config,
+    cells: Sequence[Cell],
+    mondays: Sequence[date],
+) -> np.ndarray:
+    """The log of expected outings from one surface fitted on all years, each unit at its own
+    year's fitted level: the ecoregion run's effort (design.PENDING M-ecoregion, proposed reading),
+    where no year is held out."""
+    years = list(ef.YEARS)
+    surface = ef.combine(ef.fit(fungi, years, config), ef.fit(lichen, years, config), fungi, years)
+    levels = {y: float(surface.year_level[ef.YEARS.index(y)]) for y in years}
+    values = surface_values(surface, fungi, cells, mondays, levels)
+    if not (np.isfinite(values).all() and (values > 0).all()):
+        raise FloatingPointError("an expected outings value is not finite and positive")
+    return np.log(values)
