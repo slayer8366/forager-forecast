@@ -6,6 +6,8 @@
 # Each part is the dispatch's command (docs/dispatch/2026-10-20-t8-fit.md), with --wait added so
 # the runner blocks until that part's unit ends. Stops the chain on any failed check, any non-zero
 # exit, or a cap hit. Logs to /mnt/work/scratch/t8-fit/runner.log.
+# With arguments (design:part ...), it runs those parts instead, in that order, without waiting
+# for the forecast unit (the second runner, after D137).
 set -u
 
 LOG_DIR=/mnt/work/scratch/t8-fit
@@ -23,6 +25,12 @@ PARTS=(
     "t1_5000m bar"
     "t1_1000m_cc bar"
 )
+
+if [ "$#" -gt 0 ]; then
+    WAIT_FOR=""
+    PARTS=()
+    for arg in "$@"; do PARTS+=("${arg/:/ }"); done
+fi
 
 mkdir -p "$LOG_DIR"
 log() { echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) $*" >>"$LOG"; }
@@ -48,16 +56,20 @@ mem_ok() {
     stop "MemAvailable still under $MIN_KB kB after 2 hours"
 }
 
-log "runner started, waiting for $WAIT_FOR to end"
-while systemctl --user is-active -q "$WAIT_FOR"; do
-    no_t6b
-    sleep 60
-done
-if systemctl --user is-failed -q "$WAIT_FOR"; then
-    stop "$WAIT_FOR failed: $(systemctl --user show "$WAIT_FOR" -p Result --value)"
+if [ -n "$WAIT_FOR" ]; then
+    log "runner started, waiting for $WAIT_FOR to end"
+    while systemctl --user is-active -q "$WAIT_FOR"; do
+        no_t6b
+        sleep 60
+    done
+    if systemctl --user is-failed -q "$WAIT_FOR"; then
+        stop "$WAIT_FOR failed: $(systemctl --user show "$WAIT_FOR" -p Result --value)"
+    fi
+    [ -f "$OUT/t1_1000m_forecast.json" ] || stop "$WAIT_FOR ended without t1_1000m_forecast.json"
+    log "$WAIT_FOR ended, t1_1000m_forecast.json present"
+else
+    log "runner started at $(git rev-parse --short HEAD) for: ${PARTS[*]}"
 fi
-[ -f "$OUT/t1_1000m_forecast.json" ] || stop "$WAIT_FOR ended without t1_1000m_forecast.json"
-log "$WAIT_FOR ended, t1_1000m_forecast.json present"
 
 for entry in "${PARTS[@]}"; do
     read -r design part <<<"$entry"
