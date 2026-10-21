@@ -558,3 +558,16 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **Deviations:** the 5,000 m run stopped once on NoEffortValue, settled by the owner (-2038, D137). The fit sessions were forced to hand back several times, so the chain was finished by a session-independent runner (scripts/t8_fit_runner.sh, 88fac57 and c48be9f). 19% of ecoregion units fall in no CEC polygon; not yet explained.
 **What follows (D133 (7)):** this is the second "no" for the PNW, and it is the PNW finding. Nothing weather-based is published for the PNW, and there is no third weather test on these records without new data and the owner's word. Next are the two independent Sorrel reviews.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2040.
+
+---
+
+**Kind:** decision
+**ID:** 2026-09-28-2040
+**Timestamp:** 2026-10-21T21:17:30Z
+**Continues:** 2026-09-28-2039
+**Title:** T8's two reviews started, t6b resumed, and the rest of the US first in t6b's tree stage (owner)
+**What the owner was told before answering:** (1) the reviews (Sorrel on Fable and on Sonnet, read-only) and t6b's resume, with both recommended. (2) After Juniper Sounding's read-only check, which found only the trees stage has work, 3,775 of 4,058 tiles (2,033 Canadian never built whole, 1,742 US tiles of the old band layout, rebuilt with the old ones moved aside and kept), about 1.5 to 3 days: the order, rest of US first, the code's north-first order, or Canada first. The planner said its earlier "about two more nights" was the layer stage only; the trees stage was not measured then.
+**The owner, verbatim, 2026-10-21:** "Start both (Recommended)"; "Rest of US first (Recommended)".
+**What it sets:** the reviews' dispatch is docs/dispatch/2026-10-21-t8-review.md (t8-build fb14478). t6b-night was restarted at 21:15Z from host-genera-build 83bd659 as `t6b_run.py --until 07:00 --stages trees --workers 2 --box 24,49,-125,-66` under the handoff's unit properties (5G, swap off, Nice 10). The box is the lower 48. Alaska and Hawaii can't be in one box with it without taking in Canada, so they run in the sections after, together with Canada, by the code's order; the planner's call within the owner's "rest of the US first".
+**Review outcome:** both reviews confirm the headline FAIL by recomputation, and neither finds a departure from the plan or a leak (review-fable.md, review-sonnet.md, t8-build 80efc95, 54b745a). Both find C2's loss carried by the 2021 fold's spline extrapolation, and C1's gap mostly model form. Both found that the per-year table, AUC and reliability were missing from results.md; they were appended at a8c2c49.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2041.
