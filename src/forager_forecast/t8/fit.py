@@ -33,6 +33,7 @@ from pathlib import Path
 
 import numpy as np
 
+from forager_forecast import effort as ef
 from forager_forecast import t1_model as tm
 from forager_forecast.t8 import design
 from forager_forecast.t8 import ecoregions as eco
@@ -70,6 +71,7 @@ class Prepared:
     table_forecast: dict[int, np.ndarray]
     effort_configs: dict[int, str]
     interpolated_levels: dict[int, float]
+    dropped: dict | None = None  # D137: units dropped outside T6's frame, t1_5000m only
 
     @property
     def is_headline(self) -> bool:
@@ -89,6 +91,24 @@ def read_lichen(path: Path, t1: tu.T1Units) -> np.ndarray:
     if not np.isin(y, (0.0, 1.0)).all():
         raise InputsDiffer(f"{path.name} lichen outcomes are not all 0 or 1")
     return y
+
+
+def drop_outside_frame(
+    t1: tu.T1Units, lichen_y: np.ndarray, frame: ef.OutingCounts
+) -> tuple[tu.T1Units, np.ndarray, dict]:
+    """D137: T1's units without those whose cell is not in T6's frame, and what went."""
+    inside = set(frame.cells)
+    keep = np.array([c in inside for c in t1.cells])
+    gone = ~keep
+    dropped = {
+        "rule": "D137",
+        "cells": len(set(t1.cell[gone].tolist())),
+        "units": int(gone.sum()),
+        "positives": int(t1.y[gone].sum()),
+        "lichen_positives": int(lichen_y[gone].sum()),
+    }
+    kept = tu.T1Units(**{f.name: getattr(t1, f.name)[keep] for f in dataclasses.fields(t1)})
+    return kept, lichen_y[keep], dropped
 
 
 def weather_inputs(
@@ -134,11 +154,18 @@ def prepare(
         raise tu.UnitsDiffer(f"{units_npz.name} holds {len(t1)} units, expected {expected}")
     lichen_y = read_lichen(lichen_npz, t1)
     log(f"{design_name}: {len(t1)} units, {int(t1.y.sum())} positive")
+    fungi = et.read_counts(counts_dir, f"{track}_fungi.npz")
+    dropped = None
+    if design_name in design.DROP_CELLS_OUTSIDE_T6_FRAME:
+        t1, lichen_y, dropped = drop_outside_frame(t1, lichen_y, fungi)
+        log(
+            f"D137: dropped {dropped['units']} units ({dropped['positives']} positive) in "
+            f"{dropped['cells']} cells outside T6's frame; {len(t1)} units left"
+        )
     grids = tw.read_grids(weather_npz)
     xh, xf, th, tf = weather_inputs(grids, t1)
     del grids
     log("weather: W1 to W4 at both timings, swap tables checked")
-    fungi = et.read_counts(counts_dir, f"{track}_fungi.npz")
     lichen_counts = et.read_counts(counts_dir, f"{track}_lichen.npz")
     configs = et.chosen_per_fold(t6_results)
     folds = et.all_folds(fungi, lichen_counts, configs, t1.cells, t1.mondays, design.YEARS)
@@ -158,6 +185,7 @@ def prepare(
         table_forecast=tf,
         effort_configs={h: c.id for h, c in configs.items()},
         interpolated_levels={h: f.interpolated_level for h, f in folds.items()},
+        dropped=dropped,
     )
 
 
@@ -246,6 +274,8 @@ def run_part(
             raise ValueError("the ecoregion part needs each unit's block and its effort")
         result["ecoregion"] = tr.ecoregion_report(prep.headline, spec, blocks, block_effort, cells)
         arrays |= {"block": blocks}
+    if prep.dropped is not None:
+        result["dropped_outside_t6_frame"] = prep.dropped
     result["effort_configs"] = prep.effort_configs
     result["interpolated_levels"] = prep.interpolated_levels
     result["seconds"] = round(time.monotonic() - started, 1)

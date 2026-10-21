@@ -252,8 +252,9 @@ def _counts_without_first_cell(folder):
     return counts
 
 
-def test_the_5000m_list_drops_units_outside_t6s_frame_and_records_them(files, ruled, tmp_path,
-                                                                       monkeypatch):  # fmt: skip
+def test_the_5000m_list_drops_units_outside_t6s_frame_and_records_them(
+    files, ruled, tmp_path, monkeypatch
+):
     # D137: for t1_5000m only, units in cells outside T6's frame are dropped, counted, and no
     # effort value is made up for them.
     _folder, paths, n = files
@@ -284,8 +285,9 @@ def test_the_5000m_list_drops_units_outside_t6s_frame_and_records_them(files, ru
 
 
 @pytest.mark.parametrize("name", ["t1_1000m", "t1_1000m_cc"])
-def test_the_headline_and_cc_lists_still_refuse_a_cell_outside_t6s_frame(files, ruled, tmp_path,
-                                                                         monkeypatch, name):  # fmt: skip
+def test_the_headline_and_cc_lists_still_refuse_a_cell_outside_t6s_frame(
+    files, ruled, tmp_path, monkeypatch, name
+):
     # D137 leaves the headline and cc paths unchanged: the refusal stays in force for them.
     _folder, paths, n = files
     monkeypatch.setitem(design.T1_LISTS, name, (design.T1_LISTS[name][0], n))

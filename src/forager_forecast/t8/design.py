@@ -36,6 +36,10 @@ T1_LISTS: dict[str, tuple[str, int]] = {
     "t1_1000m_cc": ("primary_t1_1000m_cc_calendar", 9640),
 }
 HEADLINE_LIST = "t1_1000m"
+# D137: the 5,000 m sensitivity list (no verdict) drops its units in cells outside T6's frame and
+# reports how many units and positives went; no effort value is made up. Every other list keeps
+# effort_term's refusal (NoEffortValue).
+DROP_CELLS_OUTSIDE_T6_FRAME = frozenset({"t1_5000m"})
 
 # D103: lichens, GBIF class Lecanoromycetes (the same key effort.BENCHMARK_CLASS_KEY holds).
 LICHEN_CLASS_KEY = 180
