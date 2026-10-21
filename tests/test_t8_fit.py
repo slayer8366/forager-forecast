@@ -227,3 +227,68 @@ _CONFIGS = [{"id": "c00"}]
 
 def _stub(_config, _train_x, train_y, test_x):
     return np.full(len(test_x), float(train_y.mean()))
+
+
+def _counts_without_first_cell(folder):
+    """T6's counts with CELLS[0] left out of the frame, as the 5,000 m list met on real data."""
+    counts = folder / "t6-counts-short"
+    counts.mkdir()
+    sums = []
+    for name, seed in (("all_fungi.npz", 1), ("all_lichen.npz", 2)):
+        entries = [(c - 1, w, d, n) for c, w, d, n in counts_entries(np.random.default_rng(seed))
+                   if c != 0]  # fmt: skip
+        cell, week, day, count = (np.array(x) for x in zip(*entries, strict=True))
+        np.savez(
+            counts / name,
+            lat_tenths=np.array([c.lat_tenths for c in CELLS[1:]], dtype=np.int64),
+            lon_tenths=np.array([c.lon_tenths for c in CELLS[1:]], dtype=np.int64),
+            cell=cell.astype(np.int64),
+            week=week.astype(np.int64),
+            day=day.astype(np.int64),
+            count=count.astype(np.float64),
+        )
+        sums.append(f"{hashlib.sha256((counts / name).read_bytes()).hexdigest()}  {name}")
+    (counts / "SHA256SUMS").write_text("\n".join(sums) + "\n")
+    return counts
+
+
+def test_the_5000m_list_drops_units_outside_t6s_frame_and_records_them(files, ruled, tmp_path,
+                                                                       monkeypatch):  # fmt: skip
+    # D137: for t1_5000m only, units in cells outside T6's frame are dropped, counted, and no
+    # effort value is made up for them.
+    _folder, paths, n = files
+    monkeypatch.setitem(design.T1_LISTS, "t1_5000m", ("primary_t1_5000m_calendar", n))
+    short = _counts_without_first_cell(tmp_path)
+    z = np.load(paths["units_npz"])
+    out_cell = z["cell"] == CELLS[0].id
+    lichen = np.load(paths["lichen_npz"])["lichen_y"]
+    assert out_cell.sum() > 0 and z["y"][out_cell].sum() > 0
+    prep = tf.prepare("t1_5000m", **(paths | {"counts_dir": short}))
+    assert prep.dropped == {
+        "rule": "D137",
+        "cells": 1,
+        "units": int(out_cell.sum()),
+        "positives": int(z["y"][out_cell].sum()),
+        "lichen_positives": int(lichen[out_cell].sum()),
+    }
+    assert len(prep.t1) == n - int(out_cell.sum())
+    assert CELLS[0].id not in set(prep.cells.tolist())
+    assert np.array_equal(prep.t1.unit, z["unit"][~out_cell])
+    assert np.array_equal(prep.lichen_y, lichen[~out_cell])
+    blocks = np.where(prep.headline.latitude > 46, "north", "south")
+    tf.run_part("ecoregion", prep, tmp_path, blocks=blocks,
+                block_effort=prep.headline.log_effort[2015])  # fmt: skip
+    written = json.loads((tmp_path / "t1_5000m_ecoregion.json").read_text())
+    assert written["dropped_outside_t6_frame"] == prep.dropped
+    assert np.array_equal(np.load(tmp_path / "t1_5000m_ecoregion.npz")["unit"], prep.t1.unit)
+
+
+@pytest.mark.parametrize("name", ["t1_1000m", "t1_1000m_cc"])
+def test_the_headline_and_cc_lists_still_refuse_a_cell_outside_t6s_frame(files, ruled, tmp_path,
+                                                                         monkeypatch, name):  # fmt: skip
+    # D137 leaves the headline and cc paths unchanged: the refusal stays in force for them.
+    _folder, paths, n = files
+    monkeypatch.setitem(design.T1_LISTS, name, (design.T1_LISTS[name][0], n))
+    short = _counts_without_first_cell(tmp_path)
+    with pytest.raises(ef.NoEffortValue, match="1 unit cell"):
+        tf.prepare(name, **(paths | {"counts_dir": short}))
