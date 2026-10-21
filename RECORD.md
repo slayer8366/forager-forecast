@@ -534,3 +534,15 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **The owner, verbatim, 2026-10-21:** "T8 fits now, t6b after (Recommended)".
 **What it sets:** -2036's start condition ("once t6b-night has finished") now reads: the fits start now, one at a time, and t6b's next stage resumes only after them. Nothing runs side by side.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2038.
+
+---
+
+**Kind:** decision
+**ID:** 2026-09-28-2038
+**Timestamp:** 2026-10-21T19:31:43Z
+**Continues:** 2026-09-28-2036
+**Title:** The 5,000 m side run drops its 33 cells outside T6's frame (owner)
+**What the owner was told before answering:** the fit runner stopped at 17:54Z on t1_5000m bar with NoEffortValue (33 cells not in T6's frame). The headline bar and the forecast, alone, challenger and ecoregion parts on t1_1000m had finished, and their outputs were locked read-only with SHA256SUMS. The options: drop the 33 cells, skip the run, or stop both remaining side runs.
+**The owner, verbatim, 2026-10-21:** "Drop those 33 cells (Recommended)".
+**What it sets:** D137 (t8-build).
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2039.
