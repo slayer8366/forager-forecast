@@ -546,3 +546,15 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **The owner, verbatim, 2026-10-21:** "Drop those 33 cells (Recommended)".
 **What it sets:** D137 (t8-build).
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2039.
+
+---
+
+**Kind:** terminal
+**ID:** 2026-09-28-2039
+**Timestamp:** 2026-10-21T21:01:46Z
+**Closes:** 2026-09-28-2036
+**Outcome:** done
+**Observed:** all seven fit parts ran, one at a time, each under a 3 GB cap (peaks 862 to 915 MB). The headline bar on t1_1000m FAILS all of C1 to C4. C1 −0.01108 [−0.01762, −0.00503]; C2 −0.00138 [−0.00405, +0.00086]; C3 p = 0.870; C4 +0.00215 [+0.00027, +0.00394], so weather "predicts" lichen reports. Every no-verdict part points the same way. The forecast timing fails C1 to C4. The challenger fails C1 to C3 with C3 labelled generous, and passes C4. The 5,000 m list fails C1 to C4 after D137's drop of 34 units. The cc list fails C1 to C3. The "if it works" prediction held: a verdict with the failing conditions named. Results are at docs/audits/2026-10-21-t8-fit/results.md (t8-build); the outputs are read-only, with SHA256SUMS for all 14 files.
+**Deviations:** the 5,000 m run stopped once on NoEffortValue, settled by the owner (-2038, D137). The fit sessions were forced to hand back several times, so the chain was finished by a session-independent runner (scripts/t8_fit_runner.sh, 88fac57 and c48be9f). 19% of ecoregion units fall in no CEC polygon; not yet explained.
+**What follows (D133 (7)):** this is the second "no" for the PNW, and it is the PNW finding. Nothing weather-based is published for the PNW, and there is no third weather test on these records without new data and the owner's word. Next are the two independent Sorrel reviews.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2040.
