@@ -522,3 +522,15 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **Finish line:** Ash's fit report, then the two independent reviews (Sorrel, on Fable and on Sonnet).
 **Abort conditions:** any refusal; memory over the cap; t6b-night running at the same time.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2037.
+
+---
+
+**Kind:** decision
+**ID:** 2026-09-28-2037
+**Timestamp:** 2026-10-21T14:24:07Z
+**Continues:** 2026-09-28-2036
+**Title:** T8's fits start now, before t6b's remaining stages (owner)
+**What the owner was told before answering:** t6b-night's scanfi-layers stage finished at 2026-10-21T12:57Z ("4092 ok, 0 failed, 0 left, all units done", host-genera-build 83bd659), and the unit is no longer running. The trees stage probably still has Canadian work left, inferred from tree_unit in scripts/t6b_run.py and not measured. The options: fits now and t6b after, t6b first, or hold both.
+**The owner, verbatim, 2026-10-21:** "T8 fits now, t6b after (Recommended)".
+**What it sets:** -2036's start condition ("once t6b-night has finished") now reads: the fits start now, one at a time, and t6b's next stage resumes only after them. Nothing runs side by side.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2038.
