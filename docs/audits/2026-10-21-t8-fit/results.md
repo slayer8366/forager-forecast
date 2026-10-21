@@ -114,3 +114,48 @@ c710b14df394cd6adffe65fa6ff5189d32b9a3564a8e71e0bd28e1373799d779  t1_1000m_forec
 bd41e68ee3a27e8b1ffcd6124bf95f76dd10f0834b6e8e40669af59790e5b829  t1_1000m_cc_bar.json
 019a08033cda5cc21ec3bf91b6a761893d58c78b0c09d96b2b12707833bb2562  t1_1000m_cc_bar.npz
 ```
+
+## Added 2026-10-21 after both reviews: items plan §7 lists that this file had omitted
+
+Both reviewers found that the per-year table, AUC and reliability were missing (review-fable.md finding 1; review-sonnet.md finding 3). They were added by script from `t1_1000m_bar.json`, and nothing above was edited.
+
+**Per year** (headline; every row is no verdict):
+
+| Year | Units | Positives | Informative | Skill vs T1 calendar | Skill vs no-weather |
+|---|---|---|---|---|---|
+| 2015 | 391 | 3 | no | +0.0646 | -0.0047 |
+| 2016 | 580 | 7 | no | +0.0304 | +0.0089 |
+| 2017 | 842 | 12 | no | -0.0491 | -0.0056 |
+| 2018 | 1,670 | 27 | no | -0.0187 | -0.0030 |
+| 2019 | 2,965 | 72 | yes | -0.0205 | +0.0038 |
+| 2020 | 5,329 | 107 | yes | -0.0015 | -0.0009 |
+| 2021 | 6,315 | 115 | yes | -0.0345 | -0.0318 |
+| 2022 | 6,482 | 89 | yes | -0.0093 | +0.0005 |
+| 2023 | 8,297 | 97 | yes | +0.0030 | +0.0037 |
+| 2024 | 9,342 | 300 | yes | -0.0082 | +0.0035 |
+| 2025 | 10,505 | 309 | yes | -0.0111 | +0.0019 |
+
+**AUC:** main 0.751 (Brier 0.020838); no_weather 0.743 (Brier 0.020809); t1_calendar 0.792 (Brier 0.020609).
+
+**Reliability by decile** (mean predicted / observed rate):
+
+| Decile | main | no_weather | t1_calendar |
+|---|---|---|---|
+| 1 | 0.0000 / 0.0000 | 0.0000 / 0.0000 | 0.0009 / 0.0004 |
+| 2 | 0.0001 / 0.0002 | 0.0001 / 0.0002 | 0.0031 / 0.0015 |
+| 3 | 0.0011 / 0.0023 | 0.0012 / 0.0015 | 0.0036 / 0.0000 |
+| 4 | 0.0070 / 0.0083 | 0.0077 / 0.0087 | 0.0065 / 0.0044 |
+| 5 | 0.0140 / 0.0154 | 0.0155 / 0.0193 | 0.0112 / 0.0125 |
+| 6 | 0.0199 / 0.0269 | 0.0213 / 0.0245 | 0.0157 / 0.0182 |
+| 7 | 0.0258 / 0.0303 | 0.0267 / 0.0300 | 0.0207 / 0.0233 |
+| 8 | 0.0325 / 0.0321 | 0.0331 / 0.0364 | 0.0286 / 0.0345 |
+| 9 | 0.0424 / 0.0419 | 0.0412 / 0.0414 | 0.0422 / 0.0484 |
+| 10 | 0.0701 / 0.0584 | 0.0629 / 0.0539 | 0.0774 / 0.0727 |
+
+**The better model by Brier** (plan §6): the challenger, at 0.020561. The main model is 0.020838 and T1's calendar 0.020609. The challenger's C1 interval still includes zero.
+
+**What both reviews add to the reading** (verdict unchanged; see the two review files):
+- C2's loss is carried by the 2021 fold. Its 56-day rain on the NW Olympic coast in weeks 45 to 49 exceeded every training year's, and the fixed natural splines extrapolated linearly. Every other fold nets in weather's favour. Write-up wording: "this fixed additive design showed no weather gain", not "weather has no effect".
+- C1's gap is mostly model form: no-weather alone scores −0.00969 against T1's tree calendar.
+- 132 of 199 swapped years beat no-weather, so what the measures add is climatology, not the year's own weather.
+- The ecoregion "none" block is shoreline cells whose centres are in water (inferred by both reviewers; not checked against a coastline file).
