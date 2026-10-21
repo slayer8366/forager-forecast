@@ -1,19 +1,19 @@
 {
- "sha256": "ca6862db93294af6c2938872e5d938e181b89c0b25dcbe852affa84a456f99b8",
- "bytes": 8128389,
- "lines": 21266,
+ "sha256": "2ca3242443dd993c4a957f61cfc818477a2c929e8d5d20a8dae435bf790a3510",
+ "bytes": 9538712,
+ "lines": 25365,
  "lines_by_kind": {
   "before_unit": 296,
-  "cleanup": 8,
-  "prepare": 35,
-  "section": 41,
+  "cleanup": 11,
+  "prepare": 38,
+  "section": 42,
   "stage": 3,
-  "unit": 20883
+  "unit": 24975
  },
- "units": 20587,
+ "units": 24679,
  "units_by_layer_and_status": {
   "att_closure": {
-   "ok": 10
+   "ok": 2043
   },
   "balsamFir": {
    "ok": 2043
@@ -43,7 +43,7 @@
    "ok": 89
   },
   "tamarack": {
-   "ok": 2017
+   "ok": 2043
   },
   "trees": {
    "ok": 2025
@@ -52,7 +52,7 @@
    "ok": 92
   },
   "whiteRedPine": {
-   "ok": 10
+   "ok": 2043
   }
  },
  "manifest": "/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/manifest.jsonl",
