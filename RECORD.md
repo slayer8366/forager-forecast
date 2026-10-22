@@ -612,3 +612,33 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **Finish line:** the draft committed and pushed to pnw-finding-writeup, and put to the owner to read.
 **Abort conditions:** a source contradicts another on a figure the write-up needs; that goes to the owner first.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2044.
+
+---
+
+**Kind:** merge
+**ID:** 2026-09-28-2044
+**Timestamp:** 2026-10-22T04:19:11Z
+**PR:** 12
+**Head:** t8-build (a8c2c49)
+**Base:** main
+**Merge-commit:** 7c11635690c371cfb14b7a0a7924fa18616978d7
+**Pre-merge:** 82fa9e4f1903ad1431dfad2dd3601d0bc2ebc976
+**Backup:** ~/Zynergy/forager-repo-backups/forecast-main-20261022T041209Z-82fa9e4f.bundle, `git bundle verify` okay, sha256 beside it, a line in INDEX.md.
+**Merged-by:** the forecast planner (Alder Bearing), on the owner's word in this window, 2026-10-21: "merge t8-build and forecast-record to main". GitHub merged it at 2026-10-22T04:18:27Z, with its check SUCCESS (4m47s).
+**Carries:** T8's code (src/forager_forecast/t8/, its scripts and tests), D134 to D137, the T8 dispatches, docs/audits/2026-10-20-t8-step1/ and docs/audits/2026-10-21-t8-fit/ (results and both reviews).
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2045.
+
+---
+
+**Kind:** merge
+**ID:** 2026-09-28-2045
+**Timestamp:** 2026-10-22T04:19:11Z
+**PR:** 13
+**Head:** forecast-record (0e16249)
+**Base:** main
+**Merge-commit:** 02756bb77417d3bfd684aae09f5e46068cde3d3a
+**Pre-merge:** 7c11635690c371cfb14b7a0a7924fa18616978d7
+**Backup:** the same bundle as -2044 (main before both merges).
+**Merged-by:** the forecast planner (Alder Bearing), on the same word as -2044. GitHub merged it at 2026-10-22T04:18:41Z, with its check SUCCESS (2m52s, run against the pre-#12 base; the two branches touch no file in common).
+**Carries:** RECORD.md through 2026-09-28-2043 and docs/planning/handoffs/2026-10-21-planner-handoff.md. This entry and later ones stay on forecast-record until its next merge.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2046.
