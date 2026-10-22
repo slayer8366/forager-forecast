@@ -662,3 +662,16 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **Corrects:** 2026-09-28-2046
 **What was wrong:** -2046 carries "Kind: note", which is not one of RECORDING.md's twelve types (E-GD Test-1 RECORDING.md:224-225). Its content is an observation. Read -2046 as "Kind: observation"; nothing else in it changes.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2048.
+
+---
+
+**Kind:** terminal
+**ID:** 2026-09-28-2048
+**Timestamp:** 2026-10-22T19:09:03Z
+**Closes:** 2026-09-28-2043
+**Outcome:** done
+**Observed:** the draft `docs/audits/2026-10-21-pnw-finding.md` was committed and pushed to branch pnw-finding-writeup (1c1e09f, cut from t8-build a8c2c49) and put to the owner. Every figure is cited to results.md, headline-bar.md, the two reviews, count-report.md, the T1 report or DECISIONS.md. The reviews' wording holds, and a check found none of D58's forbidden terms. One claim the planner could not cite (that T1's two models were the same kind) was removed before commit. T7's stop is cited from Forager RECORD -1247 and says it was not re-read. The "if it works" prediction held.
+**The owner, verbatim, 2026-10-22:** "I read the PNW write-up, looks right".
+**Deviations:** the branch is on a public repository, so the draft has been visible there since it was pushed, though not merged, linked or announced. The owner was told.
+**What follows:** merging pnw-finding-writeup to main, and publishing or linking the write-up anywhere, each need the owner's word (D40; -1030). Neither is given.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2049.
