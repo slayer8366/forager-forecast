@@ -653,3 +653,12 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **Observed:** the section run from -2041 ended at its stop time, 2026-10-22T07:00 PDT: "trees: 478 ok, 0 deferred, 0 failed, 1409 left" (host-genera-build a237798, its own progress-save commit). About 50 tiles an hour, so the 1,409 left in the lower-48 box take about 28 more running hours (inferred from that rate).
 **What it sets:** t6b-night restarted at 2026-10-22T14:01Z from host-genera-build a237798, no PAUSE file present, with -2041's command and unit properties (one worker). It is under the standing restart permission (-2003), which keeps the owner's one-worker choice of -2041; the owner was told.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2047.
+
+---
+
+**Kind:** correction
+**ID:** 2026-09-28-2047
+**Timestamp:** 2026-10-22T14:02:20Z
+**Corrects:** 2026-09-28-2046
+**What was wrong:** -2046 carries "Kind: note", which is not one of RECORDING.md's twelve types (E-GD Test-1 RECORDING.md:224-225). Its content is an observation. Read -2046 as "Kind: observation"; nothing else in it changes.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2048.
