@@ -597,3 +597,18 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **The owner, verbatim, 2026-10-21:** "(a) Write-up first (Recommended)".
 **What it sets:** the planner drafts the write-up next, under its own intent, using the wording both T8 reviews required ("this fixed additive design showed no weather gain", not "weather has no effect"). Publishing it anywhere is a point of no return (-1030) and needs the owner's word, asked then. (b) and (c) are neither taken nor ruled out.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2043.
+
+---
+
+**Kind:** intent
+**ID:** 2026-09-28-2043
+**Timestamp:** 2026-10-22T04:10:23Z
+**Continues:** 2026-09-28-2042
+**Title:** Draft the plain write-up of the PNW finding
+**Scope boundary:** one Markdown file, `docs/audits/2026-10-21-pnw-finding.md`, on a new branch `pnw-finding-writeup` cut from t8-build a8c2c49, because every figure it cites lives there. Prose only, written by the planner: no code, no script, nothing re-run or re-computed, no output file read beyond what results.md, headline-bar.md, the two reviews, count-report.md, the T1 report and DECISIONS.md already state. Not merged, not published, not linked from the site or Forager; each of those is a point of no return (-1030) for the owner's word.
+**Baseline:** no write-up exists. The finding is spread across T1's report (pnw-pilot-t1-report.md:288-298), T8's results.md and its two reviews, count-report.md, and D133 (7).
+**Prediction if it works:** a file a non-specialist can read in a few minutes: what was asked, what was tested, what came out, what it does and does not mean, and what could change it. Every figure is cited to its file. The reviews' wording holds ("this fixed additive design showed no weather gain", not "weather has no effect"), and none of D58's forbidden terms appear.
+**Prediction if it fails:** a claim that can't be cited from the files above, which is then marked as not checked or dropped, not stated.
+**Finish line:** the draft committed and pushed to pnw-finding-writeup, and put to the owner to read.
+**Abort conditions:** a source contradicts another on a figure the write-up needs; that goes to the owner first.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2044.
