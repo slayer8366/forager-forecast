@@ -1,0 +1,14 @@
+"""Scratch: RSS growth per loyo_additive call on test_t8_run's world (synthetic only)."""
+import resource, sys
+sys.path.insert(0, sys.argv[1])
+import test_t8_run as t
+from forager_forecast.t8 import models as md
+
+def rss_mb():
+    return resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024
+
+inputs, t1_p, cells, ly, table = t.world(weather_effect=1.2)
+print("units", len(inputs.y), "start MB", round(rss_mb()))
+for k in range(int(sys.argv[2])):
+    md.loyo_additive(inputs, md.PROPOSED_SPEC, True)
+    print("call", k + 1, "max RSS MB", round(rss_mb()), flush=True)

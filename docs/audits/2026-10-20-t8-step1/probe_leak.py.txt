@@ -1,0 +1,32 @@
+"""Scratch: which part of fit_predict_logistic retains memory (synthetic only)."""
+import gc, resource, sys, tracemalloc, warnings
+import numpy as np
+import statsmodels.api as sm
+
+def rss():
+    return round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024)
+
+rng = np.random.default_rng(0)
+x = np.column_stack([np.ones(1600), rng.normal(size=(1600, 16))])
+y = (rng.random(1600) < 0.1).astype(float)
+
+def plain():
+    return sm.GLM(y, x, family=sm.families.Binomial()).fit(maxiter=100, tol=1e-10).params
+
+def guarded():
+    with warnings.catch_warnings():
+        warnings.simplefilter("error", category=sm.tools.sm_exceptions.PerfectSeparationWarning)
+        warnings.simplefilter("error", category=sm.tools.sm_exceptions.ConvergenceWarning)
+        return sm.GLM(y, x, family=sm.families.Binomial()).fit(maxiter=100, tol=1e-10).params
+
+for name, f in (("plain", plain), ("guarded", guarded)):
+    f(); gc.collect(); start = rss()
+    tracemalloc.start()
+    for _ in range(40):
+        f()
+    gc.collect()
+    snap = tracemalloc.take_snapshot()
+    tracemalloc.stop()
+    print(name, "RSS growth over 40 fits MB", rss() - start)
+    for s in snap.statistics("lineno")[:4]:
+        print("   ", s)

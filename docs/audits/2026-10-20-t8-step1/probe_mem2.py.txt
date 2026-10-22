@@ -1,0 +1,26 @@
+"""Scratch: current RSS and Python-tracked memory over loyo_additive calls (synthetic only)."""
+import gc, os, sys, tracemalloc, warnings
+sys.path.insert(0, sys.argv[1])
+import test_t8_run as t
+from forager_forecast.t8 import models as md
+
+def cur_mb():
+    return round(int(open("/proc/self/statm").read().split()[1]) * os.sysconf("SC_PAGE_SIZE") / 2**20)
+
+inputs, *_ = t.world(weather_effect=1.2)
+caught = []
+orig = warnings.showwarning
+warnings.showwarning = lambda *a, **k: caught.append(str(a[0])[:80])
+tracemalloc.start(25)
+md.loyo_additive(inputs, md.PROPOSED_SPEC, True)
+gc.collect(); s0 = tracemalloc.take_snapshot(); print("after 1", cur_mb(), "MB")
+for k in range(4):
+    md.loyo_additive(inputs, md.PROPOSED_SPEC, True)
+gc.collect(); s1 = tracemalloc.take_snapshot(); print("after 5", cur_mb(), "MB")
+print("traced now MB", round(tracemalloc.get_traced_memory()[0] / 2**20, 1))
+for st in s1.compare_to(s0, "traceback")[:3]:
+    print(st)
+    for line in st.traceback.format()[-12:]:
+        print("   ", line)
+print("warnings shown", len(caught), set(caught[:5]))
+print("gc garbage", len(gc.garbage), "objects", len(gc.get_objects()))
