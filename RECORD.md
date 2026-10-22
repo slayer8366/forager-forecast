@@ -571,3 +571,29 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **What it sets:** the reviews' dispatch is docs/dispatch/2026-10-21-t8-review.md (t8-build fb14478). t6b-night was restarted at 21:15Z from host-genera-build 83bd659 as `t6b_run.py --until 07:00 --stages trees --workers 2 --box 24,49,-125,-66` under the handoff's unit properties (5G, swap off, Nice 10). The box is the lower 48. Alaska and Hawaii can't be in one box with it without taking in Canada, so they run in the sections after, together with Canada, by the code's order; the planner's call within the owner's "rest of the US first".
 **Review outcome:** both reviews confirm the headline FAIL by recomputation, and neither finds a departure from the plan or a leak (review-fable.md, review-sonnet.md, t8-build 80efc95, 54b745a). Both find C2's loss carried by the 2021 fold's spline extrapolation, and C1's gap mostly model form. Both found that the per-year table, AUC and reliability were missing from results.md; they were appended at a8c2c49.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2041.
+
+---
+
+**Kind:** decision
+**ID:** 2026-09-28-2041
+**Timestamp:** 2026-10-22T04:03:11Z
+**Continues:** 2026-09-28-2040
+**Title:** t6b-night was killed out of memory 23 minutes after -2040's restart; restarted with one worker (owner)
+**Corrects:** the 2026-10-21 handoff (77ad3b2), which says t6b-night "is running" until 07:00 PDT. It was not: `systemctl --user status t6b-night` read "failed (Result: oom-kill) since Wed 2026-10-21 14:38:56 PDT", duration 23 min 28 s, memory peak 4.3G, about an hour before the handoff was written. How far it got in the box was not measured.
+**What the owner was told before answering:** the kill above; that the handoff's standing permission to restart covers only after 07:00 PDT; that memory was tight (`free -h`: 8.1Gi available, swap 2.3 of 4.0Gi used). The options: restart with one worker (half the memory, about half the speed, still stopping at 07:00), restart as before with two, or leave it off tonight.
+**The owner, verbatim, 2026-10-21:** "Restart, 1 worker (Recommended)".
+**What it sets:** t6b-night was restarted at 2026-10-22T04:02Z from host-genera-build 83bd659, no PAUSE file present, as `t6b_run.py --until 07:00 --stages trees --workers 1 --box 24,49,-125,-66` under the same unit properties (MemoryMax=5G, MemorySwapMax=0, Nice=10). Active 20 s after start.
+**Also observed:** `/` showed 6.1G free and `/mnt/work` 2.2G at 2026-10-22T04:00Z (`df -h`), against the handoff's 0 and 1.7 GB; who freed it was not asked. The handoff file the full disk left as deleted in the forecast-record worktree was restored with `git checkout -- docs/planning/handoffs/`, as the handoff said to.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2042.
+
+---
+
+**Kind:** decision
+**ID:** 2026-09-28-2042
+**Timestamp:** 2026-10-22T04:03:11Z
+**Continues:** 2026-09-28-2039
+**Title:** The PNW answer goes forward as a plain write-up of the finding first (owner)
+**What the owner was told before answering:** the handoff's answer to "Can the PNW be published?": not as a forecast (SPEC R2, D133 (7)). The options: (a) a plain write-up of what the PNW test found, no map, needing no new product decision; (b) a "usual season" map with no forecast claim, a new product decision with a plan first; (c) new data, then a third test, needing the owner's word before anything is pulled; or hold.
+**The owner, verbatim, 2026-10-21:** "(a) Write-up first (Recommended)".
+**What it sets:** the planner drafts the write-up next, under its own intent, using the wording both T8 reviews required ("this fixed additive design showed no weather gain", not "weather has no effect"). Publishing it anywhere is a point of no return (-1030) and needs the owner's word, asked then. (b) and (c) are neither taken nor ruled out.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2043.
