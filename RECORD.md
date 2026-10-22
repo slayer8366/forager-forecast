@@ -675,3 +675,18 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **Deviations:** the branch is on a public repository, so the draft has been visible there since it was pushed, though not merged, linked or announced. The owner was told.
 **What follows:** merging pnw-finding-writeup to main, and publishing or linking the write-up anywhere, each need the owner's word (D40; -1030). Neither is given.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2049.
+
+---
+
+**Kind:** merge
+**ID:** 2026-09-28-2049
+**Timestamp:** 2026-10-22T19:29:22Z
+**PR:** 14
+**Head:** pnw-finding-writeup (cd587c4)
+**Base:** main
+**Merge-commit:** 98d4b33a6f34985732aecf9a6b35dae28545db44
+**Pre-merge:** 02756bb77417d3bfd684aae09f5e46068cde3d3a
+**Backup:** ~/Zynergy/forager-repo-backups/forecast-main-20261022T192437Z-02756bb7.bundle, `git bundle verify` okay, sha256 beside it, a line in INDEX.md.
+**Merged-by:** the forecast planner (Alder Bearing), on the owner's word in this window, 2026-10-22, answering "The PNW write-up is done. What should happen to it next?": "Merge to main only (Recommended)". GitHub merged it at 2026-10-22T19:29:13Z, with its check SUCCESS (3m49s).
+**Carries:** docs/audits/2026-10-21-pnw-finding.md, with its status line updated at cd587c4 to say the owner read it and it is merged only. Not published or linked; that needs the owner's word (-1030).
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2050.
