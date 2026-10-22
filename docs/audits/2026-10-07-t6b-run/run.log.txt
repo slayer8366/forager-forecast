@@ -227,3 +227,15 @@
 2026-10-21T05:57:03-07:00 scanfi-layers: ok
 2026-10-21T05:57:04-07:00 section end: 24975 unit lines in the manifest
 2026-10-21T05:57:04-07:00 progress save: manifest 9538712 bytes, 25365 lines, sha256 2ca3242443dd993c4a957f61cfc818477a2c929e8d5d20a8dae435bf790a3510, copy /mnt/work/Zynergy/forecast-data/t6b/manifest.jsonl.gz
+2026-10-21T05:57:09-07:00 progress save: committed and pushed 83bd659
+2026-10-21T14:15:28-07:00 section start, until 2026-10-22T07:00, stages trees, workers 2, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE
+2026-10-21T14:18:26-07:00 --box 24,49,-125,-66: 2289 tree tiles
+2026-10-21T14:18:27-07:00 trees: 4058 tiles, 2043 with Canadian cells; 0 wait for the SCANFI layers (D118)
+2026-10-21T14:18:27-07:00 trees: --box, 2289 tiles offered
+2026-10-21T21:02:25-07:00 section start, until 2026-10-22T07:00, stages trees, workers 1, pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE
+2026-10-21T21:06:17-07:00 --box 24,49,-125,-66: 2289 tree tiles
+2026-10-21T21:06:17-07:00 trees: 4058 tiles, 2043 with Canadian cells; 0 wait for the SCANFI layers (D118)
+2026-10-21T21:06:17-07:00 trees: --box, 2289 tiles offered
+2026-10-22T07:00:19-07:00 trees: {'kind': 'section', 'layer': 'trees', 'started_at': '2026-10-21T21:06:17-07:00', 'ended_at': '2026-10-22T07:00:19-07:00', 'seconds': 35641.7, 'units_total': 2289, 'units_done_before': 402, 'units_done_now': 478, 'units_ok': 478, 'units_deferred': 0, 'units_failed': 0, 'units_remaining': 1409, 'stopped': 'stop time 2026-10-22T07:00 reached'}
+2026-10-22T07:00:19-07:00 section end: 25572 unit lines in the manifest
+2026-10-22T07:00:20-07:00 progress save: manifest 10162499 bytes, 26372 lines, sha256 5aa6b13d3a3676917ef496ab8d87e207db2a2ad02de7ea901ae505d0b1073d7b, copy /mnt/work/Zynergy/forecast-data/t6b/manifest.jsonl.gz

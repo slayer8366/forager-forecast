@@ -1,16 +1,16 @@
 {
- "sha256": "2ca3242443dd993c4a957f61cfc818477a2c929e8d5d20a8dae435bf790a3510",
- "bytes": 9538712,
- "lines": 25365,
+ "sha256": "5aa6b13d3a3676917ef496ab8d87e207db2a2ad02de7ea901ae505d0b1073d7b",
+ "bytes": 10162499,
+ "lines": 26372,
  "lines_by_kind": {
-  "before_unit": 296,
+  "before_unit": 705,
   "cleanup": 11,
   "prepare": 38,
-  "section": 42,
+  "section": 43,
   "stage": 3,
-  "unit": 24975
+  "unit": 25572
  },
- "units": 24679,
+ "units": 24929,
  "units_by_layer_and_status": {
   "att_closure": {
    "ok": 2043
@@ -46,7 +46,7 @@
    "ok": 2043
   },
   "trees": {
-   "ok": 2025
+   "ok": 2275
   },
   "trees-us-half": {
    "ok": 92
