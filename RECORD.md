@@ -642,3 +642,14 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **Merged-by:** the forecast planner (Alder Bearing), on the same word as -2044. GitHub merged it at 2026-10-22T04:18:41Z, with its check SUCCESS (2m52s, run against the pre-#12 base; the two branches touch no file in common).
 **Carries:** RECORD.md through 2026-09-28-2043 and docs/planning/handoffs/2026-10-21-planner-handoff.md. This entry and later ones stay on forecast-record until its next merge.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2046.
+
+---
+
+**Kind:** note
+**ID:** 2026-09-28-2046
+**Timestamp:** 2026-10-22T14:01:41Z
+**Continues:** 2026-09-28-2041
+**Title:** t6b-night's one-worker night: 478 tiles, none failed; restarted for the day with one worker
+**Observed:** the section run from -2041 ended at its stop time, 2026-10-22T07:00 PDT: "trees: 478 ok, 0 deferred, 0 failed, 1409 left" (host-genera-build a237798, its own progress-save commit). About 50 tiles an hour, so the 1,409 left in the lower-48 box take about 28 more running hours (inferred from that rate).
+**What it sets:** t6b-night restarted at 2026-10-22T14:01Z from host-genera-build a237798, no PAUSE file present, with -2041's command and unit properties (one worker). It is under the standing restart permission (-2003), which keeps the owner's one-worker choice of -2041; the owner was told.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2047.
