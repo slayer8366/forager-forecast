@@ -1,7 +1,8 @@
 # Does the weather tell us when chanterelles turn up in the Pacific Northwest? What two tests found
 
-**Status: DRAFT for the owner to read.** It isn't published, merged or linked from anywhere. Publishing it is
-a point of no return and needs the owner's word (Forager RECORD -1030).
+**Status: read by the owner, 2026-10-22: "I read the PNW write-up, looks right"** (forecast RECORD
+2026-09-28-2048). Merged to main on the owner's "Merge to main only (Recommended)". It isn't published or
+linked from anywhere. Publishing it is a point of no return and needs the owner's word (Forager RECORD -1030).
 **Written by:** the forecast planner (Alder Bearing), 2026-10-21 (Pacific). Intent: forecast RECORD
 2026-09-28-2043, which follows the owner's "(a) Write-up first (Recommended)" (-2042).
 **Branch:** `pnw-finding-writeup`, cut from `t8-build` at a8c2c49, where every T8 figure below lives.
