@@ -736,3 +736,15 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **Inferred, not checked by running anything:** nothing on the current path reads the lost files. T8 used T6's surface and T1's units, both on /mnt/work. The lost tiles fed T7 (stopped, -1247) and continental work behind the PNW (TASKS.md:82).
 **What it sets:** t6b-night is not restarted under -2003. Its store no longer exists, and the new filesystem is exFAT, which the old store was not shown to be. Whether to rebuild, and where, is the owner's.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2054.
+
+---
+
+**Kind:** decision
+**ID:** 2026-09-28-2054
+**Timestamp:** 2026-10-26T03:00:24Z
+**Continues:** 2026-09-28-2053
+**Title:** T6b is rebuilt from scratch on the reformatted flash drive (owner)
+**What the owner was told before answering:** the lost tiles matter only for the continental rollout, which waits behind the PNW retest. Options: hold until needed (recommended: no cost now, weeks of nights later); rebuild on the drive (one drive just failed under this kind of steady writing, and it is now exFAT, so a helper would check it works for T6b before any run); or rebuild on other storage the owner chooses.
+**The owner, verbatim, 2026-10-25:** "Rebuild on the drive".
+**What it sets:** T6b is rebuilt on the drive now at /run/media/zynergy-labs/007B-F71E. First a check that the store, its manifest and its pause file work on exFAT, and what must be fetched again. Each data pull and the first run still need the owner's word (-1030 for pulls, D40 for merges). -2003's standing restart permission applies again only once a rebuilt run has been started on the owner's word.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2055.
