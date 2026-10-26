@@ -2,7 +2,7 @@
 GBIF total is queried anywhere in this step."""
 
 import pytest
-from t8b_files import rule_all
+from t8b_files import rule_all, unrule_all
 
 from forager_forecast.t8b import design
 from forager_forecast.t8b import jump_reporting as jr
@@ -30,7 +30,8 @@ def test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself(before, af
     assert jr.share_moved(before, after) is moved
 
 
-def test_the_rule_refuses_while_its_readings_are_open():
+def test_the_rule_refuses_while_its_readings_are_open(monkeypatch):
+    unrule_all(monkeypatch)
     with pytest.raises(design.NotRuled):
         jr.read_rule(steady(), steady())
 

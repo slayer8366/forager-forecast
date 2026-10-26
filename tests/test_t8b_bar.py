@@ -4,7 +4,7 @@ cheap stand-in fitter only; t8's own tests cover bar.py's conditions."""
 
 import numpy as np
 import pytest
-from t8b_files import rule_all
+from t8b_files import rule_all, unrule_all
 from test_t8b_models import world
 
 from forager_forecast.t8 import weather as tw
@@ -40,7 +40,8 @@ class Recorder:
 CONFIGS = [{"id": "a"}, {"id": "b"}]
 
 
-def test_the_tree_bar_refuses_while_the_fit_readings_are_open():
+def test_the_tree_bar_refuses_while_the_fit_readings_are_open(monkeypatch):
+    unrule_all(monkeypatch)
     inputs, table, cells, lichen_y, t1_p, swaps = setup(per_year=3)
     with pytest.raises(design.NotRuled):
         br.tree_bar(inputs, t1_p, cells, lichen_y, CONFIGS, Recorder(), table, swaps)

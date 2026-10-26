@@ -1,0 +1,13 @@
+imported /mnt/work/scratch/pulls/revert-ruled/src/forager_forecast/t8b/design.py 0
+E       AssertionError: assert {} == {'B-forecast-...160 (4)', ...}
+tests/test_t8b_design.py:69: AssertionError
+tests/test_t8b_design.py:74: AssertionError
+tests/test_t8b_design.py:74: AssertionError
+tests/test_t8b_design.py:74: AssertionError
+tests/test_t8b_design.py:74: AssertionError
+FAILED tests/test_t8b_design.py::test_d160_rules_all_twenty_readings_each_citing_its_row
+FAILED tests/test_t8b_design.py::test_every_step_runs_its_gate_once_ruled[fit]
+FAILED tests/test_t8b_design.py::test_every_step_runs_its_gate_once_ruled[c5]
+FAILED tests/test_t8b_design.py::test_every_step_runs_its_gate_once_ruled[count]
+FAILED tests/test_t8b_design.py::test_every_step_runs_its_gate_once_ruled[pull]
+5 failed, 10 passed in 0.16s

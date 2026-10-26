@@ -6,7 +6,7 @@ from datetime import UTC, datetime
 
 import numpy as np
 import pytest
-from t8b_files import rule_all
+from t8b_files import rule_all, unrule_all
 
 from forager_forecast import t1_model as tm
 from forager_forecast.t8b import c5, design
@@ -112,7 +112,8 @@ def calendar_model():
 AFTER = datetime(2027, 3, 1, tzinfo=UTC)
 
 
-def test_c5_refuses_while_its_readings_are_open(main_model, calendar_model):
+def test_c5_refuses_while_its_readings_are_open(main_model, calendar_model, monkeypatch):
+    unrule_all(monkeypatch)
     with pytest.raises(design.NotRuled):
         c5.score_c5(main_model, calendar_model, units_2026(), AFTER)
 

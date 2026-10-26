@@ -7,7 +7,8 @@ cannot drift apart: the seed, the years, the units, the bar's numbers and the ti
 Where the plan or D159 leaves a choice open that changes a result, the code is built on a proposed
 reading and the reading is listed in PENDING below, as T8's design.py did. `require_ruled` refuses a
 step until every reading it depends on has a decision row in RULED. Nothing here may be ruled by a
-coder: RULED is empty.
+coder: RULED holds only the owner's rulings, each with its decision row (D160 (4), 2026-10-25,
+moved in by dispatch 2026-10-26-pulls, Part B item 1).
 """
 
 from datetime import date
@@ -262,8 +263,38 @@ PENDING: dict[str, Pending] = {
     )
 }
 
-# Readings the owner has ruled, as reading id -> decision row. None yet.
-RULED: dict[str, str] = {}
+# Readings the owner has ruled, as reading id -> decision row. D160 (4): "All twenty PENDING
+# readings take Ash's proposals as written", the owner's answer "Yes, all of it (Recommended)".
+# D159 left no reading open; each of the twenty was raised while building on it.
+RULED: dict[str, str] = {
+    "B-daymet-cell": "D160 (4)",
+    "B-daymet-no-land": "D160 (4)",
+    "B-daymet-leap": "D160 (4)",
+    "B-daymet-day": "D160 (4)",
+    "B-pull-start": "D160 (4)",
+    "B-clamp-range": "D160 (4)",
+    "B-forecast-bar": "D160 (4)",
+    "B-measure-shuffle": "D160 (4)",
+    "B-ecoregion": "D160 (4)",
+    "C5-beats": "D160 (4)",
+    "C5-frozen-fit": "D160 (4)",
+    "C5-calendar": "D160 (4)",
+    "C5-effort": "D160 (4)",
+    "C5-units": "D160 (4)",
+    "C5-after": "D160 (4)",
+    "R-share-move": "D160 (4)",
+    "R-years": "D160 (4)",
+    "R-accuracy": "D160 (4)",
+    "R-licence": "D160 (4)",
+    "R-grade": "D160 (4)",
+}
+
+# D160 (4), added by the owner's ruling: "a US-cells-only line reported beside, with no verdict,
+# because Daymet's Canadian inputs changed in 2024 and 2025" ("GHCNd station data labeled with the
+# prefix CA0 were not included"). Line -> decision row. Which cells count as US is not fixed here:
+# no code builds the line yet.
+US_CELLS_ONLY_LINE = "us-cells-only"
+BESIDE_LINES: dict[str, str] = {US_CELLS_ONLY_LINE: "D160 (4)"}
 
 
 def open_readings(step: str) -> list[Pending]:

@@ -6,7 +6,7 @@ from datetime import date, timedelta
 
 import numpy as np
 import pytest
-from t8b_files import rule_all
+from t8b_files import rule_all, unrule_all
 
 from forager_forecast.cells import Cell
 from forager_forecast.daily_grid import DailyGrid
@@ -90,7 +90,8 @@ def test_a_unit_with_a_missing_window_is_refused_and_counted(monkeypatch):
         ms.measures_for_units(daymet, g, p, mondays, 1)
 
 
-def test_building_the_fit_inputs_refuses_while_the_readings_are_open():
+def test_building_the_fit_inputs_refuses_while_the_readings_are_open(monkeypatch):
+    unrule_all(monkeypatch)
     daymet = rain_series([(450, -1230)])
     g = grids()
     p = ms.unit_points([Cell(450, -1230)], daymet, g)

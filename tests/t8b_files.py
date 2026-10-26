@@ -63,8 +63,16 @@ def write_era5_hourly(path, epoch_seconds, lats, lons, fields):
 
 def rule_all(monkeypatch, step=None):
     """Stands in for the owner's rulings in a test only: marks every T8b reading (or one step's)
-    as ruled, so the code's own logic can be exercised. The real RULED stays empty."""
+    as ruled, so the code's own logic can be exercised."""
     from forager_forecast.t8b import design
 
     ids = {p.id: "test" for p in design.PENDING.values() if step is None or p.step == step}
     monkeypatch.setattr(design, "RULED", ids)
+
+
+def unrule_all(monkeypatch):
+    """Stands in for the state before D160 in a test only: empties RULED, so each step's refusal
+    while its readings are open can still be exercised now that the owner has ruled them."""
+    from forager_forecast.t8b import design
+
+    monkeypatch.setattr(design, "RULED", {})

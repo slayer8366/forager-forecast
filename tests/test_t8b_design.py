@@ -3,6 +3,7 @@
 from datetime import date
 
 import pytest
+from t8b_files import unrule_all
 
 from forager_forecast.t8 import design as t8d
 from forager_forecast.t8b import design
@@ -45,10 +46,40 @@ def test_c5_is_weeks_27_to_52_of_2026_after_mid_february_2027():
 
 
 @pytest.mark.parametrize("step", ["fit", "c5", "count", "pull"])
-def test_every_step_refuses_while_its_readings_are_open(step):
-    assert design.RULED == {}
+def test_every_step_refuses_while_its_readings_are_open(step, monkeypatch):
+    unrule_all(monkeypatch)
     with pytest.raises(design.NotRuled, match=f"for the {step} are not ruled"):
         design.require_ruled(step)
+
+
+# D160 (4): "All twenty PENDING readings take Ash's proposals as written", the owner's answer
+# "Yes, all of it (Recommended)". D159 itself left no reading open: each of the twenty was raised
+# while building on D159 and is ruled by D160 (4).
+D160_4_READINGS = {
+    "B-daymet-cell", "B-daymet-no-land", "B-daymet-leap", "B-daymet-day", "B-pull-start",
+    "B-clamp-range", "B-forecast-bar", "B-measure-shuffle", "B-ecoregion", "C5-beats",
+    "C5-frozen-fit", "C5-calendar", "C5-effort", "C5-units", "C5-after", "R-share-move",
+    "R-years", "R-accuracy", "R-licence", "R-grade",
+}  # fmt: skip
+
+
+def test_d160_rules_all_twenty_readings_each_citing_its_row():
+    assert len(D160_4_READINGS) == 20
+    assert set(design.PENDING) == D160_4_READINGS
+    assert design.RULED == {r: "D160 (4)" for r in D160_4_READINGS}
+
+
+@pytest.mark.parametrize("step", ["fit", "c5", "count", "pull"])
+def test_every_step_runs_its_gate_once_ruled(step):
+    assert design.open_readings(step) == []
+    design.require_ruled(step)
+
+
+def test_the_us_cells_only_line_is_reported_beside_with_no_verdict():
+    # D160 (4): "a US-cells-only line reported beside, with no verdict, because Daymet's Canadian
+    # inputs changed in 2024 and 2025".
+    assert design.BESIDE_LINES == {design.US_CELLS_ONLY_LINE: "D160 (4)"}
+    assert design.US_CELLS_ONLY_LINE == "us-cells-only"
 
 
 def test_every_pending_reading_has_a_proposal_and_at_least_one_alternative():
