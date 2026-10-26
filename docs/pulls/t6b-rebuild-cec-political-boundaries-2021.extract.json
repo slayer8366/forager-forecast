@@ -1,0 +1,249 @@
+{
+  "zip": "cec_political.zip",
+  "target": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.shp",
+  "target_member": "politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.shp",
+  "root": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources",
+  "listing": [
+    {
+      "name": "politicalboundaries_shapefile/HowToCite_ComoCitar_CommentCiter.txt",
+      "file_size": 1309,
+      "compress_size": 532,
+      "crc32": "0f25265d"
+    },
+    {
+      "name": "politicalboundaries_shapefile/NA_boundaries_2021_metadata.html",
+      "file_size": 195200,
+      "compress_size": 19271,
+      "crc32": "3b28d149"
+    },
+    {
+      "name": "politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.CPG",
+      "file_size": 5,
+      "compress_size": 5,
+      "crc32": "0e813c50"
+    },
+    {
+      "name": "politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.dbf",
+      "file_size": 103812,
+      "compress_size": 2968,
+      "crc32": "bda72e1c"
+    },
+    {
+      "name": "politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.prj",
+      "file_size": 409,
+      "compress_size": 239,
+      "crc32": "21aa1761"
+    },
+    {
+      "name": "politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.sbn",
+      "file_size": 1036,
+      "compress_size": 753,
+      "crc32": "a0dbb6f3"
+    },
+    {
+      "name": "politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.sbx",
+      "file_size": 164,
+      "compress_size": 113,
+      "crc32": "9a95c325"
+    },
+    {
+      "name": "politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.shp",
+      "file_size": 252226992,
+      "compress_size": 184691027,
+      "crc32": "04ff726c"
+    },
+    {
+      "name": "politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.shp.xml",
+      "file_size": 46607,
+      "compress_size": 10401,
+      "crc32": "13155711"
+    },
+    {
+      "name": "politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.shx",
+      "file_size": 884,
+      "compress_size": 769,
+      "crc32": "6da302a4"
+    },
+    {
+      "name": "politicalboundaries_shapefile/NA_PoliticalDivisions/NA_PoliticalDivisions_en.lyrx",
+      "file_size": 14095,
+      "compress_size": 3311,
+      "crc32": "8eea7551"
+    },
+    {
+      "name": "politicalboundaries_shapefile/NA_PoliticalDivisions/NA_PoliticalDivisions_en.qlr",
+      "file_size": 41842,
+      "compress_size": 8305,
+      "crc32": "3edba7a2"
+    },
+    {
+      "name": "politicalboundaries_shapefile/NA_PoliticalDivisions/NA_PoliticalDivisions_es.lyrx",
+      "file_size": 14100,
+      "compress_size": 3333,
+      "crc32": "cdc57b3c"
+    },
+    {
+      "name": "politicalboundaries_shapefile/NA_PoliticalDivisions/NA_PoliticalDivisions_es.qlr",
+      "file_size": 41858,
+      "compress_size": 8323,
+      "crc32": "794016af"
+    },
+    {
+      "name": "politicalboundaries_shapefile/NA_PoliticalDivisions/NA_PoliticalDivisions_fr.lyrx",
+      "file_size": 14098,
+      "compress_size": 3325,
+      "crc32": "3a07d823"
+    },
+    {
+      "name": "politicalboundaries_shapefile/NA_PoliticalDivisions/NA_PoliticalDivisions_fr.qlr",
+      "file_size": 41854,
+      "compress_size": 8310,
+      "crc32": "c12419cc"
+    },
+    {
+      "name": "politicalboundaries_shapefile/Terms of use.doc",
+      "file_size": 31232,
+      "compress_size": 8450,
+      "crc32": "03e140a1"
+    }
+  ],
+  "files": [
+    {
+      "member": "politicalboundaries_shapefile/HowToCite_ComoCitar_CommentCiter.txt",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/politicalboundaries_shapefile/HowToCite_ComoCitar_CommentCiter.txt",
+      "bytes": 1309,
+      "crc32": "0f25265d",
+      "crc32_ok": true,
+      "sha256": "782219e1f13da3b35830cedcb79d4b9bce0dcbdf37640d5ac6615e5571c84b7f"
+    },
+    {
+      "member": "politicalboundaries_shapefile/NA_boundaries_2021_metadata.html",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/politicalboundaries_shapefile/NA_boundaries_2021_metadata.html",
+      "bytes": 195200,
+      "crc32": "3b28d149",
+      "crc32_ok": true,
+      "sha256": "f2dfb068180e95ec9710e9ceecbfe1038715b05cfd9222ab94c8da3e853b0455"
+    },
+    {
+      "member": "politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.CPG",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.CPG",
+      "bytes": 5,
+      "crc32": "0e813c50",
+      "crc32_ok": true,
+      "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"
+    },
+    {
+      "member": "politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.dbf",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.dbf",
+      "bytes": 103812,
+      "crc32": "bda72e1c",
+      "crc32_ok": true,
+      "sha256": "438e7c1eeb431ec1fb4238a7c9cbf3f6bb630cf4aa8c40b18d803a3617c88ecd"
+    },
+    {
+      "member": "politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.prj",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.prj",
+      "bytes": 409,
+      "crc32": "21aa1761",
+      "crc32_ok": true,
+      "sha256": "4e4b0c11739d2229cd5c58c2fd16d6552331c08b3eda7e9143aa5600c6b9df93"
+    },
+    {
+      "member": "politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.sbn",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.sbn",
+      "bytes": 1036,
+      "crc32": "a0dbb6f3",
+      "crc32_ok": true,
+      "sha256": "36b776e4b1dd239c1ffa3411da55c190b0c3aeefd63f1ffb2c5c8a058af7de1c"
+    },
+    {
+      "member": "politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.sbx",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.sbx",
+      "bytes": 164,
+      "crc32": "9a95c325",
+      "crc32_ok": true,
+      "sha256": "6036fb20db57fbea8e17dd29cf8c9653fb003531cc3a2b27ffc236373f409624"
+    },
+    {
+      "member": "politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.shp",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.shp",
+      "bytes": 252226992,
+      "crc32": "04ff726c",
+      "crc32_ok": true,
+      "sha256": "cc56d5a71a52df51bbe6a7080bcc94c4964fd3cef67ff8cf1d4be6ec551b81b1"
+    },
+    {
+      "member": "politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.shp.xml",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.shp.xml",
+      "bytes": 46607,
+      "crc32": "13155711",
+      "crc32_ok": true,
+      "sha256": "a252500b60208fe11d79fb94fa6db535228a53847c790336d648002859c71b5a"
+    },
+    {
+      "member": "politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.shx",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/politicalboundaries_shapefile/NA_PoliticalDivisions/data/boundaries_p_2021_v3.shx",
+      "bytes": 884,
+      "crc32": "6da302a4",
+      "crc32_ok": true,
+      "sha256": "7c117ba0c78afea4bd3d82c23d15c06c70abf9e2b90755f82e726990c090bf06"
+    },
+    {
+      "member": "politicalboundaries_shapefile/NA_PoliticalDivisions/NA_PoliticalDivisions_en.lyrx",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/politicalboundaries_shapefile/NA_PoliticalDivisions/NA_PoliticalDivisions_en.lyrx",
+      "bytes": 14095,
+      "crc32": "8eea7551",
+      "crc32_ok": true,
+      "sha256": "110271a2247b0afeb871e2b19c0118fb6fcd148814253c863838e3a62d442741"
+    },
+    {
+      "member": "politicalboundaries_shapefile/NA_PoliticalDivisions/NA_PoliticalDivisions_en.qlr",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/politicalboundaries_shapefile/NA_PoliticalDivisions/NA_PoliticalDivisions_en.qlr",
+      "bytes": 41842,
+      "crc32": "3edba7a2",
+      "crc32_ok": true,
+      "sha256": "b247cea3eb338a8860d62f11b2b75f89b047ac340120a8612aa0caed268d2935"
+    },
+    {
+      "member": "politicalboundaries_shapefile/NA_PoliticalDivisions/NA_PoliticalDivisions_es.lyrx",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/politicalboundaries_shapefile/NA_PoliticalDivisions/NA_PoliticalDivisions_es.lyrx",
+      "bytes": 14100,
+      "crc32": "cdc57b3c",
+      "crc32_ok": true,
+      "sha256": "37cc99658706dc9a0931677debaccf005b0c4d2f0902818d5521e1eb90a9ad6f"
+    },
+    {
+      "member": "politicalboundaries_shapefile/NA_PoliticalDivisions/NA_PoliticalDivisions_es.qlr",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/politicalboundaries_shapefile/NA_PoliticalDivisions/NA_PoliticalDivisions_es.qlr",
+      "bytes": 41858,
+      "crc32": "794016af",
+      "crc32_ok": true,
+      "sha256": "5b91155bfdc39a4c2ce888d1d8690f854c51d65831f48051bb3c5227c1b23014"
+    },
+    {
+      "member": "politicalboundaries_shapefile/NA_PoliticalDivisions/NA_PoliticalDivisions_fr.lyrx",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/politicalboundaries_shapefile/NA_PoliticalDivisions/NA_PoliticalDivisions_fr.lyrx",
+      "bytes": 14098,
+      "crc32": "3a07d823",
+      "crc32_ok": true,
+      "sha256": "a1408669169a0e6eb591954cfc496dd53271206b275a6983e6924ad61feaa9ce"
+    },
+    {
+      "member": "politicalboundaries_shapefile/NA_PoliticalDivisions/NA_PoliticalDivisions_fr.qlr",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/politicalboundaries_shapefile/NA_PoliticalDivisions/NA_PoliticalDivisions_fr.qlr",
+      "bytes": 41854,
+      "crc32": "c12419cc",
+      "crc32_ok": true,
+      "sha256": "ab8a8c03f23dcabcc48950e76f2a323ff2aa04a2b22979f655b03d43a2086864"
+    },
+    {
+      "member": "politicalboundaries_shapefile/Terms of use.doc",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/politicalboundaries_shapefile/Terms of use.doc",
+      "bytes": 31232,
+      "crc32": "03e140a1",
+      "crc32_ok": true,
+      "sha256": "c5e66a78b75ac12bd4f2d5f334c3b644ad9394588adc4762f2a0d92a01b7a4b9"
+    }
+  ],
+  "zip_sha256": "29f3aec70604ed5be9e18c22e2d504da883fedd6d81aff27156456b4899a0c28"
+}

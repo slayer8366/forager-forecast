@@ -1,0 +1,24 @@
+{
+  "source": "https://www.cec.org/files/atlas_layers/0_reference/0_01_political_boundaries/politicalboundaries_shapefile.zip",
+  "final_url_without_query": "https://www.cec.org/files/atlas_layers/0_reference/0_01_political_boundaries/politicalboundaries_shapefile.zip",
+  "requested_at": "2026-10-26T13:10:40+00:00",
+  "finished_at": "2026-10-26T13:10:52+00:00",
+  "seconds": 12.3,
+  "account": "anonymous",
+  "http": {
+    "status": 200,
+    "content_type": "application/zip",
+    "content_length": 184774593,
+    "etag": "\"b036fc1-65b8a5e998dc0\"",
+    "last_modified": "Tue, 15 Sep 2026 19:15:11 GMT"
+  },
+  "file": "cec_political.zip",
+  "bytes": 184774593,
+  "sha256": "29f3aec70604ed5be9e18c22e2d504da883fedd6d81aff27156456b4899a0c28",
+  "expected_sha256": "29f3aec70604ed5be9e18c22e2d504da883fedd6d81aff27156456b4899a0c28",
+  "sha256_ok": true,
+  "dispatch": "docs/dispatch/2026-10-26-pulls.md (t8b-build), Part A",
+  "rulings": [
+    "D113"
+  ]
+}

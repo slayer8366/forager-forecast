@@ -1,0 +1,249 @@
+{
+  "zip": "cec_ecoregions_l3.zip",
+  "target": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.shp",
+  "target_member": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.shp",
+  "root": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources",
+  "listing": [
+    {
+      "name": "terr_ecoregions_v2_level_iii_shapefile/HowToCite_ComoCitar_CommentCiter.txt",
+      "file_size": 1466,
+      "compress_size": 564,
+      "crc32": "57067ba7"
+    },
+    {
+      "name": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.cpg",
+      "file_size": 5,
+      "compress_size": 5,
+      "crc32": "0e813c50"
+    },
+    {
+      "name": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.dbf",
+      "file_size": 11211069,
+      "compress_size": 127192,
+      "crc32": "408a0b1d"
+    },
+    {
+      "name": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.prj",
+      "file_size": 409,
+      "compress_size": 239,
+      "crc32": "21aa1761"
+    },
+    {
+      "name": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.sbn",
+      "file_size": 28796,
+      "compress_size": 14164,
+      "crc32": "7d7dc9e1"
+    },
+    {
+      "name": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.sbx",
+      "file_size": 1780,
+      "compress_size": 832,
+      "crc32": "e3e554c3"
+    },
+    {
+      "name": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.shp",
+      "file_size": 53534148,
+      "compress_size": 34878758,
+      "crc32": "bd9a949c"
+    },
+    {
+      "name": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.shp.xml",
+      "file_size": 149152,
+      "compress_size": 27748,
+      "crc32": "4e7ee267"
+    },
+    {
+      "name": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.shx",
+      "file_size": 23340,
+      "compress_size": 15191,
+      "crc32": "5d16658b"
+    },
+    {
+      "name": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/northamerica_ecoregions_L3_legend_en.lyrx",
+      "file_size": 358543,
+      "compress_size": 15430,
+      "crc32": "48dd2ef7"
+    },
+    {
+      "name": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/northamerica_ecoregions_L3_legend_en.qlr",
+      "file_size": 417341,
+      "compress_size": 22652,
+      "crc32": "67be1e34"
+    },
+    {
+      "name": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/northamerica_ecoregions_L3_legend_es.lyrx",
+      "file_size": 363249,
+      "compress_size": 16445,
+      "crc32": "81c5b2a3"
+    },
+    {
+      "name": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/northamerica_ecoregions_L3_legend_es.qlr",
+      "file_size": 420869,
+      "compress_size": 23187,
+      "crc32": "8a0dd32a"
+    },
+    {
+      "name": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/northamerica_ecoregions_L3_legend_fr.lyrx",
+      "file_size": 365063,
+      "compress_size": 16634,
+      "crc32": "0af2fb9c"
+    },
+    {
+      "name": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/northamerica_ecoregions_L3_legend_fr.qlr",
+      "file_size": 422308,
+      "compress_size": 23400,
+      "crc32": "68a73713"
+    },
+    {
+      "name": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrestrialEcoregions_L3_2021_metadata.html",
+      "file_size": 448172,
+      "compress_size": 38659,
+      "crc32": "bf496e27"
+    },
+    {
+      "name": "terr_ecoregions_v2_level_iii_shapefile/Terms of use.doc",
+      "file_size": 32768,
+      "compress_size": 9016,
+      "crc32": "8a9e4ab9"
+    }
+  ],
+  "files": [
+    {
+      "member": "terr_ecoregions_v2_level_iii_shapefile/HowToCite_ComoCitar_CommentCiter.txt",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/terr_ecoregions_v2_level_iii_shapefile/HowToCite_ComoCitar_CommentCiter.txt",
+      "bytes": 1466,
+      "crc32": "57067ba7",
+      "crc32_ok": true,
+      "sha256": "422561a163da46ee896afddb8c88638264e1f4e03c9db019ad842c0db275d618"
+    },
+    {
+      "member": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.cpg",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.cpg",
+      "bytes": 5,
+      "crc32": "0e813c50",
+      "crc32_ok": true,
+      "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"
+    },
+    {
+      "member": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.dbf",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.dbf",
+      "bytes": 11211069,
+      "crc32": "408a0b1d",
+      "crc32_ok": true,
+      "sha256": "4594230ea0e6ea168343d0a1ac92a427532813a9206c7fe4a15d5c4a40026744"
+    },
+    {
+      "member": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.prj",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.prj",
+      "bytes": 409,
+      "crc32": "21aa1761",
+      "crc32_ok": true,
+      "sha256": "4e4b0c11739d2229cd5c58c2fd16d6552331c08b3eda7e9143aa5600c6b9df93"
+    },
+    {
+      "member": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.sbn",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.sbn",
+      "bytes": 28796,
+      "crc32": "7d7dc9e1",
+      "crc32_ok": true,
+      "sha256": "7e99dcb5e719e09fa0670a922147e85f71b095a7192fe4f19fc642cdbbb35097"
+    },
+    {
+      "member": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.sbx",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.sbx",
+      "bytes": 1780,
+      "crc32": "e3e554c3",
+      "crc32_ok": true,
+      "sha256": "1aa439125a56917870e58f870330f27d364fbfa1e6b7fda1ab54fadca3657961"
+    },
+    {
+      "member": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.shp",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.shp",
+      "bytes": 53534148,
+      "crc32": "bd9a949c",
+      "crc32_ok": true,
+      "sha256": "10c9139578611f05ac0ccc71ad9d624b99d06b3ffdc4783903594ff976613c68"
+    },
+    {
+      "member": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.shp.xml",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.shp.xml",
+      "bytes": 149152,
+      "crc32": "4e7ee267",
+      "crc32_ok": true,
+      "sha256": "edc1f05231cae178c6253f4e82d7a222c3904eb6b3a91c688172a643990e92b1"
+    },
+    {
+      "member": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.shx",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/data/NA_Terrestrial_Ecoregions_v2_level3.shx",
+      "bytes": 23340,
+      "crc32": "5d16658b",
+      "crc32_ok": true,
+      "sha256": "a21aca765c9a4ecc71ec3b4402b741274ccd8efde8c79e75902538a3a3ae420d"
+    },
+    {
+      "member": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/northamerica_ecoregions_L3_legend_en.lyrx",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/northamerica_ecoregions_L3_legend_en.lyrx",
+      "bytes": 358543,
+      "crc32": "48dd2ef7",
+      "crc32_ok": true,
+      "sha256": "427afb6ddb1f12c1e3e539b3a0acc0c1704cd699267498a1c1f096d8fa447c8b"
+    },
+    {
+      "member": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/northamerica_ecoregions_L3_legend_en.qlr",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/northamerica_ecoregions_L3_legend_en.qlr",
+      "bytes": 417341,
+      "crc32": "67be1e34",
+      "crc32_ok": true,
+      "sha256": "2f176bdba053bbe3745da8ff4680dd6bc4f8889b56039665160f05a6a5ca8385"
+    },
+    {
+      "member": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/northamerica_ecoregions_L3_legend_es.lyrx",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/northamerica_ecoregions_L3_legend_es.lyrx",
+      "bytes": 363249,
+      "crc32": "81c5b2a3",
+      "crc32_ok": true,
+      "sha256": "773d3c351eda700bf492cda02ee932646df422a152989d2a5d36c1307c11a61f"
+    },
+    {
+      "member": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/northamerica_ecoregions_L3_legend_es.qlr",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/northamerica_ecoregions_L3_legend_es.qlr",
+      "bytes": 420869,
+      "crc32": "8a0dd32a",
+      "crc32_ok": true,
+      "sha256": "fa710cee0426d6cd5ffdd7558ba21ed1f16391ae17a9cc103d918d8c7661f2d6"
+    },
+    {
+      "member": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/northamerica_ecoregions_L3_legend_fr.lyrx",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/northamerica_ecoregions_L3_legend_fr.lyrx",
+      "bytes": 365063,
+      "crc32": "0af2fb9c",
+      "crc32_ok": true,
+      "sha256": "0088d86d602a7fd6050c02469142ab8e24b5415b0d0bd9843827370c3e69a8dc"
+    },
+    {
+      "member": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/northamerica_ecoregions_L3_legend_fr.qlr",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/terr_ecoregions_v2_level_iii_shapefile/NA_TerrEcoregions_III/northamerica_ecoregions_L3_legend_fr.qlr",
+      "bytes": 422308,
+      "crc32": "68a73713",
+      "crc32_ok": true,
+      "sha256": "2fc892fd031e79ad4b2074d69b13fae2bb569644c29af6eed92df7fe29ab5218"
+    },
+    {
+      "member": "terr_ecoregions_v2_level_iii_shapefile/NA_TerrestrialEcoregions_L3_2021_metadata.html",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/terr_ecoregions_v2_level_iii_shapefile/NA_TerrestrialEcoregions_L3_2021_metadata.html",
+      "bytes": 448172,
+      "crc32": "bf496e27",
+      "crc32_ok": true,
+      "sha256": "aeb668fad9641aae8d7ae3108e0153e15032603ad7e713ae3d504b7f39db8fbf"
+    },
+    {
+      "member": "terr_ecoregions_v2_level_iii_shapefile/Terms of use.doc",
+      "path": "/run/media/zynergy-labs/forager-storage/forecast-data/t6b/sources/terr_ecoregions_v2_level_iii_shapefile/Terms of use.doc",
+      "bytes": 32768,
+      "crc32": "8a9e4ab9",
+      "crc32_ok": true,
+      "sha256": "f56f8af7bc32a18400491458fc90bc31afc7385797364a3dc76cffd8b384ba67"
+    }
+  ],
+  "zip_sha256": "a99b4967e37b309651dfe117435573542d31576dafd779826f80874e015b3338"
+}

@@ -1,0 +1,24 @@
+{
+  "source": "https://www.cec.org/files/atlas_layers/1_terrestrial_ecosystems/1_06_3_terr_ecoregions_iii/terr_ecoregions_v2_level_iii_shapefile.zip",
+  "final_url_without_query": "https://www.cec.org/files/atlas_layers/1_terrestrial_ecosystems/1_06_3_terr_ecoregions_iii/terr_ecoregions_v2_level_iii_shapefile.zip",
+  "requested_at": "2026-10-26T13:10:54+00:00",
+  "finished_at": "2026-10-26T13:10:57+00:00",
+  "seconds": 3.6,
+  "account": "anonymous",
+  "http": {
+    "status": 200,
+    "content_type": "application/zip",
+    "content_length": 35236046,
+    "etag": "\"219a8ce-65b8da8b1b9c0\"",
+    "last_modified": "Tue, 15 Sep 2026 23:10:39 GMT"
+  },
+  "file": "cec_ecoregions_l3.zip",
+  "bytes": 35236046,
+  "sha256": "a99b4967e37b309651dfe117435573542d31576dafd779826f80874e015b3338",
+  "expected_sha256": "a99b4967e37b309651dfe117435573542d31576dafd779826f80874e015b3338",
+  "sha256_ok": true,
+  "dispatch": "docs/dispatch/2026-10-26-pulls.md (t8b-build), Part A",
+  "rulings": [
+    "D113"
+  ]
+}
