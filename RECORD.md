@@ -690,3 +690,15 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **Merged-by:** the forecast planner (Alder Bearing), on the owner's word in this window, 2026-10-22, answering "The PNW write-up is done. What should happen to it next?": "Merge to main only (Recommended)". GitHub merged it at 2026-10-22T19:29:13Z, with its check SUCCESS (3m49s).
 **Carries:** docs/audits/2026-10-21-pnw-finding.md, with its status line updated at cd587c4 to say the owner read it and it is merged only. Not published or linked; that needs the owner's word (-1030).
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2050.
+
+---
+
+**Kind:** decision
+**ID:** 2026-09-28-2050
+**Timestamp:** 2026-10-26T02:42:12Z
+**Continues:** 2026-09-28-2049
+**Title:** The PNW write-up is not published; it stays as a record only (owner)
+**What the owner was told before answering:** a check on 2026-10-25 (Pacific) found it not published: no page or text from it on zynergy-site main (1e37879), none of its wording on the live zynergy-labs.com, /Forager/ or /Forager/forecast/, and no site branch for it. It is visible only as a file on this public repository's main (98d4b33). The planner asked where to publish it (its own site page, a section on the forecast page, or GitHub only) and whether to publish it as is or as a public edition without internal references.
+**The owner, verbatim, 2026-10-25:** "Do not publish it. I don't care for it. Keep it for your records".
+**What it sets:** docs/audits/2026-10-21-pnw-finding.md stays on main as it is, as a record. It is not published, linked from the site, or turned into a public edition. This settles the publishing question -2048 and -2049 left open.
+**Notes:** Written by the forecast planner by hand, on branch forecast-record. Next free ID 2026-09-28-2051.
