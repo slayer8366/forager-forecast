@@ -8,8 +8,8 @@ Usage (repository root):
         [--box S,N,W,E]  (trees and trees-us-half only: tiles with a study cell centre in the box)
 
 - ``--until HH:MM`` is local time, the next occurrence of it. No new tile starts after it; tiles in
-  hand finish. ``touch <drive>/forecast-data/t6b/PAUSE`` does the same at once (delete the file
-  before the next section). Nothing restarts on its own.
+  hand finish. ``touch <drive>/t6b/PAUSE`` (the drive is ``forager_forecast.drive.DRIVE``) does
+  the same at once (delete the file before the next section). Nothing restarts on its own.
 - Stages run in the order given and each resumes from the manifest. ``mask`` and ``plots`` run once.
 - Tree tiles carry their band layout (t6b_hosts). A tree or US-half unit counts as done only under
   the current layout; a file of an older layout is moved aside, kept, just before its unit is
@@ -32,6 +32,7 @@ from pathlib import Path
 
 import numpy as np
 
+from forager_forecast.drive import DRIVE
 from forager_forecast.grid import CELL_SIZE_M, GridWindow
 from forager_forecast.t4_layer import LonLatBox, box_mask, master_window
 from forager_forecast.t5_layer import scanfi_url
@@ -75,7 +76,6 @@ from forager_forecast.t6b_run import (
 )
 
 REPO = Path(__file__).resolve().parent.parent
-DRIVE = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data")
 T6B = DRIVE / "t6b"
 SOURCES = T6B / "sources"
 POLITICAL = (

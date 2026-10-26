@@ -25,6 +25,7 @@ import rasterio
 from pyproj import Transformer
 from rasterio.transform import from_origin
 
+from forager_forecast.drive import DRIVE
 from forager_forecast.grid import CELL_SIZE_M, GEOGRAPHIC_CRS, GRID_CRS, GridWindow
 from forager_forecast.pnw import (
     DATA_LICENCE,
@@ -61,7 +62,6 @@ from forager_forecast.tiles import (
     write_archive,
 )
 
-DRIVE = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data")
 T6B = DRIVE / "t6b"
 MASK = T6B / "mask.tif"
 TILES = T6B / "tiles"

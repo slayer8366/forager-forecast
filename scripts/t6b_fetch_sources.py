@@ -10,6 +10,7 @@ import sys
 import time
 from pathlib import Path
 
+from forager_forecast.drive import DRIVE
 from forager_forecast.t6b_sources import (
     CEC_ECOREGIONS_URL,
     CEC_POLITICAL_URL,
@@ -22,7 +23,6 @@ from forager_forecast.t6b_sources import (
     http_range_reader,
 )
 
-DRIVE = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data")
 OUT = DRIVE / "t6b" / "sources"
 
 

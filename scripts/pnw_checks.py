@@ -9,7 +9,8 @@ under forecast-data/pnw/checks/ and the --out file; never into t6b/.
 
 ``ten-cells`` is independent of the pipeline on purpose (ten-cell rule): it imports nothing from
 forager_forecast except the published Bechtold 2004 tables and T5's genus lists
-(crown_cover), parses the TreeMap attribute table and tree table itself, clips each native pixel
+(crown_cover), and the flash drive's path (``forager_forecast.drive``, a path, no logic). It
+parses the TreeMap attribute table and tree table itself, clips each native pixel
 against the master cell's quad itself, and samples soil itself as scripts/t4_ten_cells.py does.
 """
 
@@ -31,7 +32,8 @@ import numpy as np
 import rasterio
 from pyproj import Transformer
 
-DRIVE = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data")
+from forager_forecast.drive import DRIVE
+
 T6B = DRIVE / "t6b"
 MASK = T6B / "mask.tif"
 TILES = T6B / "tiles"

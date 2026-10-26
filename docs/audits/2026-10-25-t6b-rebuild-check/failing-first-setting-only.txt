@@ -1,0 +1,13 @@
+E       AssertionError: assert ['scripts/pnw...s/t6b_run.py'] == []
+E       AssertionError: assert PosixPath('/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data') == PosixPath('/run/media/zynergy-labs/forecast-data')
+E       AssertionError: assert PosixPath('/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data') == PosixPath('/run/media/zynergy-labs/forecast-data')
+E       AssertionError: assert PosixPath('/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data') == PosixPath('/run/media/zynergy-labs/forecast-data')
+E       AssertionError: assert PosixPath('/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data') == PosixPath('/run/media/zynergy-labs/forecast-data')
+E       AssertionError: assert PosixPath('/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data') == PosixPath('/run/media/zynergy-labs/forecast-data')
+FAILED tests/test_t6b_drive.py::test_no_code_that_runs_names_the_old_drive_or_any_mount_but_the_setting
+FAILED tests/test_t6b_drive.py::test_each_script_takes_the_drive_from_the_setting[t6b_run]
+FAILED tests/test_t6b_drive.py::test_each_script_takes_the_drive_from_the_setting[t6b_fetch_sources]
+FAILED tests/test_t6b_drive.py::test_each_script_takes_the_drive_from_the_setting[t6b_fetch_scanfi_layers]
+FAILED tests/test_t6b_drive.py::test_each_script_takes_the_drive_from_the_setting[pnw_build]
+FAILED tests/test_t6b_drive.py::test_each_script_takes_the_drive_from_the_setting[pnw_checks]
+6 failed, 1 passed in 0.22s

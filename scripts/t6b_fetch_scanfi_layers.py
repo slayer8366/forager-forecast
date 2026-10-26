@@ -12,14 +12,13 @@ stops there otherwise. The scanfi-layers stage of scripts/t6b_run.py regrids and
 import argparse
 import sys
 from datetime import datetime
-from pathlib import Path
 
+from forager_forecast.drive import DRIVE
 from forager_forecast.t5_layer import scanfi_url
 from forager_forecast.t6b_layers import SCANFI_LAYERS
 from forager_forecast.t6b_run import next_stop
 from forager_forecast.t6b_sources import download_layers
 
-DRIVE = Path("/run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data")
 T6B = DRIVE / "t6b"
 LOG = T6B / "scanfi_download.log"
 
