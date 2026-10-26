@@ -723,3 +723,16 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **The owner, verbatim, 2026-10-25:** "New data, then retest".
 **What it sets:** option (c) of -2042 is taken; (b), the usual-season map, is neither taken nor ruled out. The planner writes the plan. No data is pulled, and no test is designed or run, until the owner approves that plan. Each step that pulls data or runs a fit still needs the owner's word.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2053.
+
+---
+
+**Kind:** observation
+**ID:** 2026-09-28-2053
+**Timestamp:** 2026-10-26T02:59:26Z
+**Title:** The flash drive holding T6b's tiles was corrupted and reformatted; everything on it is gone (owner)
+**The owner, verbatim, 2026-10-25:** "The T6b data drive got corrupted, I had to reformat".
+**Observed:** the old drive (UUID 2ebd084f-5fdd-4730-8cef-96b267723190) is no longer present. The same 57.6 GB stick (sda1) is now exFAT, UUID 007B-F71E, at /run/media/zynergy-labs/007B-F71E, about 900 KB used, none of it forecast data. By the repository's own references (git grep for that UUID on main, t6b-progress-save and forecast-record), the drive held: forecast-data/t6b (the tile store and its manifest.jsonl, 24,943 units ok by t6b-progress-save 621421b's manifest_summary.json, including all 2,289 lower-48 trees tiles finished 2026-10-23; plus trial, superseded, plots.npz, mask.tif, sources and the PAUSE files); forecast-data/t5 (TreeMap 2023 CONUS, 9.9 GB by -2040's predecessor note at RECORD.md:266); and forecast-data/pnw (mosaic and images from the 2026-10-09 PNW Monday report).
+**Survives:** the manifest copy /mnt/work/Zynergy/forecast-data/t6b/manifest.jsonl.gz (sha256 9cf29560..., matches the summary); t6b's run log and summary on branch t6b-progress-save; T4, T6, T6-counts, T7, T8, GBIF and access data under ~/Zynergy/forecast-data on /mnt/work; the site's pilot data in zynergy-site. TreeMap 2023 is public at its DOI (DATA_REGISTER.md:27, sha256 348264eb...abb7 on file).
+**Inferred, not checked by running anything:** nothing on the current path reads the lost files. T8 used T6's surface and T1's units, both on /mnt/work. The lost tiles fed T7 (stopped, -1247) and continental work behind the PNW (TASKS.md:82).
+**What it sets:** t6b-night is not restarted under -2003. Its store no longer exists, and the new filesystem is exFAT, which the old store was not shown to be. Whether to rebuild, and where, is the owner's.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2054.
