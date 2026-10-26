@@ -748,3 +748,12 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **The owner, verbatim, 2026-10-25:** "Rebuild on the drive".
 **What it sets:** T6b is rebuilt on the drive now at /run/media/zynergy-labs/007B-F71E. First a check that the store, its manifest and its pause file work on exFAT, and what must be fetched again. Each data pull and the first run still need the owner's word (-1030 for pulls, D40 for merges). -2003's standing restart permission applies again only once a rebuilt run has been started on the owner's word.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2055.
+
+---
+
+**Kind:** correction
+**ID:** 2026-09-28-2055
+**Timestamp:** 2026-10-26T03:00:38Z
+**Corrects:** 2026-09-28-2054
+**What was wrong:** -2054 cites -1030 for data pulls. -1030's three points of no return are counting presences under a rule, a full fit, and showing or publishing anything (docs/process/planner-profile.md, "The three points of no return"); pulls are not among them. Read -2054's sentence as "Each data pull and the first run still need the owner's word, asked at that point"; nothing else in it changes.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2056.
