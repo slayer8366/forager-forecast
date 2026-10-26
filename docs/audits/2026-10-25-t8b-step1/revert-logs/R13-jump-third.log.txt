@@ -1,0 +1,77 @@
+imported /mnt/work/scratch/t8b-step1/revert/R13-jump-third/src/forager_forecast/__init__.py
+....FFF.......                                                           [100%]
+=================================== FAILURES ===================================
+_ test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself[before4-after4-False] _
+
+before = (30, 100), after = (40, 100), moved = False
+
+    @pytest.mark.parametrize(
+        "before, after, moved",
+        [
+            ((30, 100), (41, 100), True),
+            ((30, 100), (39, 100), False),
+            ((30, 100), (19, 100), True),
+            ((30, 100), (21, 100), False),
+            ((30, 100), (40, 100), False),  # exactly a third up is not "more than a third"
+            ((30, 100), (20, 100), False),  # nor exactly a third down
+            ((3, 10), (400, 1000), False),  # shares are compared exactly, not as floats
+        ],
+    )
+    def test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself(before, after, moved):
+>       assert jr.share_moved(before, after) is moved
+E       assert True is False
+E        +  where True = <function share_moved at 0x7ea7d902b3d0>((30, 100), (40, 100))
+E        +    where <function share_moved at 0x7ea7d902b3d0> = jr.share_moved
+
+/home/zynergy-labs/.cache/forager-wt/t8b-build/tests/test_t8b_jump.py:30: AssertionError
+_ test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself[before5-after5-False] _
+
+before = (30, 100), after = (20, 100), moved = False
+
+    @pytest.mark.parametrize(
+        "before, after, moved",
+        [
+            ((30, 100), (41, 100), True),
+            ((30, 100), (39, 100), False),
+            ((30, 100), (19, 100), True),
+            ((30, 100), (21, 100), False),
+            ((30, 100), (40, 100), False),  # exactly a third up is not "more than a third"
+            ((30, 100), (20, 100), False),  # nor exactly a third down
+            ((3, 10), (400, 1000), False),  # shares are compared exactly, not as floats
+        ],
+    )
+    def test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself(before, after, moved):
+>       assert jr.share_moved(before, after) is moved
+E       assert True is False
+E        +  where True = <function share_moved at 0x7ea7d902b3d0>((30, 100), (20, 100))
+E        +    where <function share_moved at 0x7ea7d902b3d0> = jr.share_moved
+
+/home/zynergy-labs/.cache/forager-wt/t8b-build/tests/test_t8b_jump.py:30: AssertionError
+_ test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself[before6-after6-False] _
+
+before = (3, 10), after = (400, 1000), moved = False
+
+    @pytest.mark.parametrize(
+        "before, after, moved",
+        [
+            ((30, 100), (41, 100), True),
+            ((30, 100), (39, 100), False),
+            ((30, 100), (19, 100), True),
+            ((30, 100), (21, 100), False),
+            ((30, 100), (40, 100), False),  # exactly a third up is not "more than a third"
+            ((30, 100), (20, 100), False),  # nor exactly a third down
+            ((3, 10), (400, 1000), False),  # shares are compared exactly, not as floats
+        ],
+    )
+    def test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself(before, after, moved):
+>       assert jr.share_moved(before, after) is moved
+E       assert True is False
+E        +  where True = <function share_moved at 0x7ea7d902b3d0>((3, 10), (400, 1000))
+E        +    where <function share_moved at 0x7ea7d902b3d0> = jr.share_moved
+
+/home/zynergy-labs/.cache/forager-wt/t8b-build/tests/test_t8b_jump.py:30: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_t8b_jump.py::test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself[before4-after4-False]
+FAILED tests/test_t8b_jump.py::test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself[before5-after5-False]
+FAILED tests/test_t8b_jump.py::test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself[before6-after6-False]
+3 failed, 11 passed in 0.16s

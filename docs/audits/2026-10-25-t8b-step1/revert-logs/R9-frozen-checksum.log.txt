@@ -1,0 +1,19 @@
+imported /mnt/work/scratch/t8b-step1/revert/R9-frozen-checksum/src/forager_forecast/__init__.py
+...F.......                                                              [100%]
+=================================== FAILURES ===================================
+____________ test_a_different_checksum_or_an_edited_file_is_refused ____________
+
+main_model = FrozenModel(name='main', config={'id': 'c1', 'num_leaves': 7, 'learning_rate': 0.1, 'num_boost_round': 10, 'min_data_i...-1]\n[gpu_device_id_list: ]\n[gpu_use_dp: 0]\n[num_gpu: 1]\n\nend of parameters\n\npandas_categorical:null\n', meta={})
+tmp_path = PosixPath('/tmp/pytest-of-zynergy-labs/pytest-11/test_a_different_checksum_or_a0')
+
+    def test_a_different_checksum_or_an_edited_file_is_refused(main_model, tmp_path):
+        path = tmp_path / "main.frozen.json"
+        digest = fz.save(main_model, path)
+>       with pytest.raises(fz.ChecksumDiffers):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ChecksumDiffers
+
+/home/zynergy-labs/.cache/forager-wt/t8b-build/tests/test_t8b_frozen_c5.py:69: Failed
+=========================== short test summary info ============================
+FAILED tests/test_t8b_frozen_c5.py::test_a_different_checksum_or_an_edited_file_is_refused
+1 failed, 10 passed in 0.62s

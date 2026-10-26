@@ -1,0 +1,56 @@
+imported /mnt/work/scratch/t8b-step1/revert/R6-m5-depression/src/forager_forecast/__init__.py
+F...F                                                                    [100%]
+=================================== FAILURES ===================================
+________ test_daily_statistics_give_layer_2_and_the_dewpoint_depression ________
+
+tmp_path = PosixPath('/tmp/pytest-of-zynergy-labs/pytest-10/test_daily_statistics_give_lay0')
+
+    def test_daily_statistics_give_layer_2_and_the_dewpoint_depression(tmp_path):
+        f = fields(len(DAYS), water=(0, 2))
+        path = tmp_path / "era5land-2017-06.nc"
+        write_era5_daily(path, DAYS, LATS, LONS, f)
+        grids = el.land_grids(el.read_daily_statistics([path]))
+        assert set(grids) == {"soil_moisture_l2", "soil_temperature_l2", "dewpoint_depression"}
+        g = grids["dewpoint_depression"]
+        assert g.start == DAYS[0]
+        i = g.index[(450, -1230)]
+        want = f["t2m"][:, 1, 1].astype(np.float64) - f["d2m"][:, 1, 1].astype(np.float64)
+>       assert g.values[i, :5] == pytest.approx(want, abs=1e-4)
+E       AssertionError: assert array([292.20...284.37750244]) == approx([18.26...03 ± 1.0e-04])
+E         
+E         comparison failed. Mismatched elements: 5 / 5:
+E         Max absolute difference: 279.97476719639275
+E         Max relative difference: 0.9973234430548191
+E         Index | Obtained           | Expected                    
+E         (0,)  | 292.2046813964844  | 18.267255989253158 ± 1.0e-04
+E         (1,)  | 280.5589294433594  | 0.7509319511341346 ± 1.0e-04...
+E         
+E         ...Full output truncated (3 lines hidden), use '-vv' to show
+
+/home/zynergy-labs/.cache/forager-wt/t8b-build/tests/test_t8b_era5land.py:42: AssertionError
+_ test_hourly_files_become_24_hour_utc_means_and_an_incomplete_day_stays_missing _
+
+tmp_path = PosixPath('/tmp/pytest-of-zynergy-labs/pytest-10/test_hourly_files_become_24_ho0')
+
+    def test_hourly_files_become_24_hour_utc_means_and_an_incomplete_day_stays_missing(tmp_path):
+        start = int(datetime(2017, 6, 1, tzinfo=UTC).timestamp())
+        stamps = np.array([start + 3600 * h for h in range(48 + 23)])  # day 3 lacks 23:00
+        f = fields(len(stamps))
+        path = tmp_path / "hourly-era5land-2017-06.nc"
+        write_era5_hourly(path, stamps, LATS, LONS, f)
+        grids = el.land_grids(el.read_hourly([path]))
+        g = grids["dewpoint_depression"]
+        i = g.index[(450, -1230)]
+        diff = f["t2m"][:, 1, 1].astype(np.float64) - f["d2m"][:, 1, 1].astype(np.float64)
+>       assert g.values[i, 0] == pytest.approx(diff[:24].mean(), abs=1e-4)
+E       assert np.float64(287.57362874348956) == 9.80491015892295 ± 1.0e-04
+E         
+E         comparison failed
+E         Obtained: 287.57362874348956
+E         Expected: 9.80491015892295 ± 1.0e-04
+
+/home/zynergy-labs/.cache/forager-wt/t8b-build/tests/test_t8b_era5land.py:88: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_t8b_era5land.py::test_daily_statistics_give_layer_2_and_the_dewpoint_depression
+FAILED tests/test_t8b_era5land.py::test_hourly_files_become_24_hour_utc_means_and_an_incomplete_day_stays_missing
+2 failed, 3 passed in 0.18s

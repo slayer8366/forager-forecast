@@ -1,0 +1,46 @@
+imported /mnt/work/scratch/t8b-step1/revert/R8-swaps-hold-tuning/src/forager_forecast/__init__.py
+.FF..                                                                    [100%]
+=================================== FAILURES ===================================
+__________ test_tuning_runs_once_per_fold_and_the_199_swaps_reuse_it ___________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7835984509d0>
+
+    def test_tuning_runs_once_per_fold_and_the_199_swaps_reuse_it(monkeypatch):
+        rule_all(monkeypatch, "fit")
+        inputs, table, cells, lichen_y, t1_p, swaps = setup()
+        rec = Recorder()
+        run = br.tree_bar(inputs, t1_p, cells, lichen_y, CONFIGS, rec, table, swaps)
+        tuned = 11 * (2 * 10 + 1)  # one model family, tuned in each of 11 folds
+        # weather, no-weather, lichen weather and lichen no-weather are tuned; each swap only refits.
+>       assert len(rec.calls) == 4 * tuned + design.N_SWAPS * 11
+E       AssertionError: assert 46893 == ((4 * 231) + (199 * 11))
+E        +  where 46893 = len([('a', array([[ 1.72133562e-02,  9.99851839e-01,  4.71315391e+01,\n        -1.24077404e+02, -3.79811815e-01, -6.0410198...3923e-01, -1.45335473e+00,\n        -7.03177845e-03, -5.22639853e-01, -1.19419611e+00,\n        -1.81717538e-01]])), ...])
+E        +    where [('a', array([[ 1.72133562e-02,  9.99851839e-01,  4.71315391e+01,\n        -1.24077404e+02, -3.79811815e-01, -6.0410198...3923e-01, -1.45335473e+00,\n        -7.03177845e-03, -5.22639853e-01, -1.19419611e+00,\n        -1.81717538e-01]])), ...] = <test_t8b_bar.Recorder object at 0x7835af7a91d0>.calls
+E        +  and   199 = design.N_SWAPS
+
+/home/zynergy-labs/.cache/forager-wt/t8b-build/tests/test_t8b_bar.py:56: AssertionError
+_______________ test_each_swap_fits_on_the_swapped_years_weather _______________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x783598453e10>
+
+    def test_each_swap_fits_on_the_swapped_years_weather(monkeypatch):
+        rule_all(monkeypatch, "fit")
+        inputs, table, cells, lichen_y, t1_p, swaps = setup()
+        rec = Recorder()
+        br.tree_bar(inputs, t1_p, cells, lichen_y, CONFIGS, rec, table, swaps)
+        widths = {c[1].shape[1] for c in rec.calls}
+        assert widths == {5, 10}
+        first_swap = rec.calls[2 * 11 * 21 : 2 * 11 * 21 + 11]
+        w = tw.swapped_matrix(table, inputs.years, swaps[0])
+        held = inputs.years == 2015
+        _id, train_x, _test_x = first_swap[0]
+>       assert np.array_equal(train_x[:, 5:], w[~held])
+E       assert False
+E        +  where False = <function array_equal at 0x7835aebd7c70>(array([[ 5.65542716e-01, -2.80040948e-01,  1.87933581e+00,\n         1.70066164e+00,  1.18617041e+00],\n       [-8.73895...6.32692542e-01],\n       [-5.70619556e-02, -4.27042447e-01,  2.80861066e-01,\n         1.34859263e+00,  3.99304433e-01]]), array([[ 1.40209771e+00,  1.68469842e+00, -1.74767836e-01,\n        -6.38809524e-01,  4.64056120e-01],\n       [-4.26729...6.32692542e-01],\n       [-5.70619556e-02, -4.27042447e-01,  2.80861066e-01,\n         1.34859263e+00,  3.99304433e-01]]))
+E        +    where <function array_equal at 0x7835aebd7c70> = np.array_equal
+
+/home/zynergy-labs/.cache/forager-wt/t8b-build/tests/test_t8b_bar.py:72: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_t8b_bar.py::test_tuning_runs_once_per_fold_and_the_199_swaps_reuse_it
+FAILED tests/test_t8b_bar.py::test_each_swap_fits_on_the_swapped_years_weather
+2 failed, 3 passed in 5.32s

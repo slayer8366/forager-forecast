@@ -1,0 +1,32 @@
+imported /mnt/work/scratch/t8b-step1/revert/R2-readable-clamp/src/forager_forecast/__init__.py
+.......F.                                                                [100%]
+=================================== FAILURES ===================================
+___ test_the_readable_model_does_not_extrapolate_past_a_folds_training_range ___
+
+    def test_the_readable_model_does_not_extrapolate_past_a_folds_training_range():
+        inputs = world()
+        held = inputs.years == 2021
+        top = inputs.weather[~held, 1].max()
+        extreme = inputs.weather.copy()
+        extreme[held, 1] = 5 * abs(top) + 10
+        at_top = inputs.weather.copy()
+        at_top[held, 1] = top
+        spec = md.PROPOSED_SPEC
+        p_extreme = bm.loyo_readable(inputs, spec, weather=extreme)
+        p_top = bm.loyo_readable(inputs, spec, weather=at_top)
+>       assert p_extreme[held] == pytest.approx(p_top[held], rel=1e-9, abs=1e-12)
+E       AssertionError: assert array([0.0539..., 0.02578223]) == approx([0.374...88 ± 2.2e-10])
+E         
+E         comparison failed. Mismatched elements: 300 / 300:
+E         Max absolute difference: 0.4713679328095804
+E         Max relative difference: 9.369538950318931
+E         Index  | Obtained              | Expected                      
+E         (0,)   | 0.05398065035133669   | 0.37452320839313546 ± 3.7e-10 
+E         (1,)   | 0.03931736759328299   | 0.3004405572723507 ± 3.0e-10  ...
+E         
+E         ...Full output truncated (298 lines hidden), use '-vv' to show
+
+/home/zynergy-labs/.cache/forager-wt/t8b-build/tests/test_t8b_models.py:137: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_t8b_models.py::test_the_readable_model_does_not_extrapolate_past_a_folds_training_range
+1 failed, 8 passed in 3.34s

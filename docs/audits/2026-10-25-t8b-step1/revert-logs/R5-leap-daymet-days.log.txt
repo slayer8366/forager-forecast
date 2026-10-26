@@ -1,0 +1,27 @@
+imported /mnt/work/scratch/t8b-step1/revert/R5-leap-daymet-days/src/forager_forecast/__init__.py
+..........F..                                                            [100%]
+=================================== FAILURES ===================================
+________ test_a_window_over_a_dropped_31_december_counts_w_daymet_days _________
+
+tmp_path = PosixPath('/tmp/pytest-of-zynergy-labs/pytest-9/test_a_window_over_a_dropped_30')
+
+    def test_a_window_over_a_dropped_31_december_counts_w_daymet_days(tmp_path):
+        # PENDING B-daymet-leap, proposed reading: 14 delivered days, reaching one calendar day further
+        # back, here 2016-12-17 to 2017-01-01 less 2016-12-31.
+        s = dm.read_daymet([year_file(tmp_path, 2016), year_file(tmp_path, 2017)])
+        monday = date(2017, 1, 2)
+        calendar = [monday - timedelta(days=i) for i in range(1, 16)]
+        used = [d for d in calendar if d != date(2016, 12, 31)]
+        assert len(used) == 14
+        want = sum(day_value(d) + 1.5 for d in used)
+>       assert window(s, A, monday, 14) == pytest.approx(want)
+E       assert np.float64(nan) == 1026.0 ± 0.001026
+E         
+E         comparison failed
+E         Obtained: nan
+E         Expected: 1026.0 ± 0.001026
+
+/home/zynergy-labs/.cache/forager-wt/t8b-build/tests/test_t8b_daymet.py:126: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_t8b_daymet.py::test_a_window_over_a_dropped_31_december_counts_w_daymet_days
+1 failed, 12 passed in 0.25s

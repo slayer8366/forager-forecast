@@ -1,0 +1,48 @@
+imported /mnt/work/scratch/t8b-step1/revert/R7-m3-window/src/forager_forecast/__init__.py
+F.........F....                                                          [100%]
+=================================== FAILURES ===================================
+______________ test_the_five_measures_are_d159s_and_nothing_else _______________
+
+    def test_the_five_measures_are_d159s_and_nothing_else():
+        got = [(m.name, m.variable, m.reduction, m.days) for m in design.MEASURES]
+>       assert got == [
+            ("M1", "rain", "sum", 14),
+            ("M2", "rain", "sum", 56),
+            ("M3", "soil_moisture_l2", "mean", 14),
+            ("M4", "soil_temperature_l2", "mean", 14),
+            ("M5", "dewpoint_depression", "mean", 7),
+        ]
+E       AssertionError: assert [('M1', 'rain...', 'mean', 7)] == [('M1', 'rain...', 'mean', 7)]
+E         
+E         At index 2 diff: ('M3', 'soil_moisture_l2', 'mean', 7) != ('M3', 'soil_moisture_l2', 'mean', 14)
+E         Use -v to get more diff
+
+/home/zynergy-labs/.cache/forager-wt/t8b-build/tests/test_t8b_design.py:13: AssertionError
+______ test_the_measures_are_d159s_windows_ending_the_day_before_the_week ______
+
+    def test_the_measures_are_d159s_windows_ending_the_day_before_the_week():
+        daymet = rain_series([(450, -1230)])
+        g = grids()
+        cells = [Cell(450, -1230)]
+        monday = date(2016, 3, 7)
+        p = ms.unit_points(cells, daymet, g)
+        x = ms.measure_matrix(daymet, g, p, [monday], design.HEADLINE_END_GAP)
+        d0 = (monday - START).days
+        rain = daymet.values[0]
+        assert x[0, 0] == pytest.approx(rain[d0 - 14 : d0].sum())
+        assert x[0, 1] == pytest.approx(rain[d0 - 56 : d0].sum())
+        for j, (v, w) in enumerate(
+            [("soil_moisture_l2", 14), ("soil_temperature_l2", 14), ("dewpoint_depression", 7)], 2
+        ):
+>           assert x[0, j] == pytest.approx(g[v].values[0, d0 - w : d0].mean())
+E           assert np.float64(2.04) == 2.005 ± 2.0e-06
+E             
+E             comparison failed
+E             Obtained: 2.04
+E             Expected: 2.005 ± 2.0e-06
+
+/home/zynergy-labs/.cache/forager-wt/t8b-build/tests/test_t8b_measures.py:68: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_t8b_design.py::test_the_five_measures_are_d159s_and_nothing_else
+FAILED tests/test_t8b_measures.py::test_the_measures_are_d159s_windows_ending_the_day_before_the_week
+2 failed, 13 passed in 0.18s

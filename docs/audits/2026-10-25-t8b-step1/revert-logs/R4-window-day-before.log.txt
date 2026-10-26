@@ -1,0 +1,61 @@
+imported /mnt/work/scratch/t8b-step1/revert/R4-window-day-before/src/forager_forecast/__init__.py
+........FFF..                                                            [100%]
+=================================== FAILURES ===================================
+_________________ test_the_window_ends_the_day_before_the_week _________________
+
+tmp_path = PosixPath('/tmp/pytest-of-zynergy-labs/pytest-8/test_the_window_ends_the_day_b0')
+
+    def test_the_window_ends_the_day_before_the_week(tmp_path):
+        s = dm.read_daymet([year_file(tmp_path, 2017)])
+        monday = date(2017, 6, 5)
+        want = sum(day_value(monday - timedelta(days=i)) + 1.5 for i in range(1, 15))
+>       assert window(s, A, monday, 14) == pytest.approx(want)
+E       assert np.float64(784.0) == 770.0 ± 7.7e-04
+E         
+E         comparison failed
+E         Obtained: 784.0
+E         Expected: 770.0 ± 7.7e-04
+
+/home/zynergy-labs/.cache/forager-wt/t8b-build/tests/test_t8b_daymet.py:107: AssertionError
+____________ test_the_week_late_window_ends_8_days_before_the_week _____________
+
+tmp_path = PosixPath('/tmp/pytest-of-zynergy-labs/pytest-8/test_the_week_late_window_ends0')
+
+    def test_the_week_late_window_ends_8_days_before_the_week(tmp_path):
+        s = dm.read_daymet([year_file(tmp_path, 2017)])
+        monday = date(2017, 6, 5)
+        want = sum(day_value(monday - timedelta(days=i)) + 1.5 for i in range(8, 22))
+>       assert window(s, A, monday, 14, gap=8) == pytest.approx(want)
+E       assert np.float64(686.0) == 672.0 ± 6.7e-04
+E         
+E         comparison failed
+E         Obtained: 686.0
+E         Expected: 672.0 ± 6.7e-04
+
+/home/zynergy-labs/.cache/forager-wt/t8b-build/tests/test_t8b_daymet.py:114: AssertionError
+________ test_a_window_over_a_dropped_31_december_counts_w_daymet_days _________
+
+tmp_path = PosixPath('/tmp/pytest-of-zynergy-labs/pytest-8/test_a_window_over_a_dropped_30')
+
+    def test_a_window_over_a_dropped_31_december_counts_w_daymet_days(tmp_path):
+        # PENDING B-daymet-leap, proposed reading: 14 delivered days, reaching one calendar day further
+        # back, here 2016-12-17 to 2017-01-01 less 2016-12-31.
+        s = dm.read_daymet([year_file(tmp_path, 2016), year_file(tmp_path, 2017)])
+        monday = date(2017, 1, 2)
+        calendar = [monday - timedelta(days=i) for i in range(1, 16)]
+        used = [d for d in calendar if d != date(2016, 12, 31)]
+        assert len(used) == 14
+        want = sum(day_value(d) + 1.5 for d in used)
+>       assert window(s, A, monday, 14) == pytest.approx(want)
+E       assert np.float64(944.0) == 1026.0 ± 0.001026
+E         
+E         comparison failed
+E         Obtained: 944.0
+E         Expected: 1026.0 ± 0.001026
+
+/home/zynergy-labs/.cache/forager-wt/t8b-build/tests/test_t8b_daymet.py:126: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_t8b_daymet.py::test_the_window_ends_the_day_before_the_week
+FAILED tests/test_t8b_daymet.py::test_the_week_late_window_ends_8_days_before_the_week
+FAILED tests/test_t8b_daymet.py::test_a_window_over_a_dropped_31_december_counts_w_daymet_days
+3 failed, 10 passed in 0.26s

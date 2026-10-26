@@ -1,0 +1,14 @@
+imported /mnt/work/scratch/t8b-step1/revert/R11-c5-after/src/forager_forecast/__init__.py
+.....F.....                                                              [100%]
+=================================== FAILURES ===================================
+____________ test_the_download_must_be_taken_after_15_february_2027 ____________
+
+    def test_the_download_must_be_taken_after_15_february_2027():
+>       with pytest.raises(c5.C5Refused, match="2027-02-16"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE C5Refused
+
+/home/zynergy-labs/.cache/forager-wt/t8b-build/tests/test_t8b_frozen_c5.py:84: Failed
+=========================== short test summary info ============================
+FAILED tests/test_t8b_frozen_c5.py::test_the_download_must_be_taken_after_15_february_2027
+1 failed, 10 passed in 0.61s

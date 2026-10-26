@@ -1,0 +1,21 @@
+imported /mnt/work/scratch/t8b-step1/revert/R14-jump-fungi/src/forager_forecast/__init__.py
+..........F...                                                           [100%]
+=================================== FAILURES ===================================
+______________ test_a_move_shared_by_all_fungi_stays_undetermined ______________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7702ca105130>
+
+    def test_a_move_shared_by_all_fungi_stays_undetermined(monkeypatch):
+        rule_all(monkeypatch, "count")
+        ch = {2023: T(100, 90, 50, 70), 2024: T(300, 280, 250, 210)}
+        fungi = {2023: T(1000, 900, 500, 700), 2024: T(2000, 1800, 1700, 1400)}  # 0.50 -> 0.85
+>       assert jr.read_rule(ch, fungi)["label"] == design.UNDETERMINED
+E       AssertionError: assert 'partly reporting' == 'undetermined'
+E         
+E         - undetermined
+E         + partly reporting
+
+/home/zynergy-labs/.cache/forager-wt/t8b-build/tests/test_t8b_jump.py:58: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_t8b_jump.py::test_a_move_shared_by_all_fungi_stays_undetermined
+1 failed, 13 passed in 0.15s

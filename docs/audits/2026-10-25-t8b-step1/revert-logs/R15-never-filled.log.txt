@@ -1,0 +1,22 @@
+imported /mnt/work/scratch/t8b-step1/revert/R15-never-filled/src/forager_forecast/__init__.py
+...F..                                                                   [100%]
+=================================== FAILURES ===================================
+___________ test_a_unit_with_a_missing_window_is_refused_and_counted ___________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x71cdc3238510>
+
+    def test_a_unit_with_a_missing_window_is_refused_and_counted(monkeypatch):
+        rule_all(monkeypatch, "fit")
+        daymet = rain_series([(450, -1230)])
+        g = grids()
+        cells = [Cell(450, -1230), Cell(455, -1240)]
+        p = ms.unit_points(cells, daymet, g)
+        mondays = [date(2016, 3, 7)] * 2
+>       with pytest.raises(ms.MissingWeather, match="1 of 2 units"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE MissingWeather
+
+/home/zynergy-labs/.cache/forager-wt/t8b-build/tests/test_t8b_measures.py:89: Failed
+=========================== short test summary info ============================
+FAILED tests/test_t8b_measures.py::test_a_unit_with_a_missing_window_is_refused_and_counted
+1 failed, 5 passed in 0.17s

@@ -1,0 +1,33 @@
+imported /mnt/work/scratch/t8b-step1/revert/R1-tree-clamp/src/forager_forecast/__init__.py
+....F....                                                                [100%]
+=================================== FAILURES ===================================
+_ test_the_held_out_year_reaches_the_trees_clamped_to_its_folds_training_range _
+
+    def test_the_held_out_year_reaches_the_trees_clamped_to_its_folds_training_range():
+        inputs = world(per_year=20)
+        w = inputs.weather.copy()
+        held = inputs.years == 2021
+        w[held, 1] = 1e6
+        inputs = md.Inputs(inputs.y, inputs.years, inputs.mondays, inputs.latitude,
+                           inputs.longitude, inputs.log_effort, w)  # fmt: skip
+        finals = []
+    
+        def fitter(config, train_x, train_y, test_x):
+            if len(train_x) + len(test_x) == len(inputs.y):
+                finals.append((train_x[:, 5:], test_x[:, 5:]))
+            return np.full(len(test_x), train_y.mean())
+    
+        bm.loyo_trees(inputs, True, [{"id": "a"}], fitter)
+        assert len(finals) == 11
+        for train, test in finals:
+>           assert (test <= train.max(axis=0)).all() and (test >= train.min(axis=0)).all()
+E           assert (np.False_)
+E            +  where np.False_ = <built-in method all of numpy.ndarray object at 0x72953a504ff0>()
+E            +    where <built-in method all of numpy.ndarray object at 0x72953a504ff0> = array([[-0.60248605,  0.84364127, -2.01796404,  0.28045258,  0.89530216],\n       [ 0.41629401,  0.07274019,  1.0863400...384,  0.55446754,  0.61385014,  0.38203007],\n       [-1.05212683, -0.31422686, -1.62545921, -1.56688977, -0.63479335]]) <= array([2.74259126e+00, 1.00000000e+06, 2.96623821e+00, 2.46724640e+00,\n       2.48287782e+00]).all
+E            +      where array([2.74259126e+00, 1.00000000e+06, 2.96623821e+00, 2.46724640e+00,\n       2.48287782e+00]) = <built-in method max of numpy.ndarray object at 0x72953a505110>(axis=0)
+E            +        where <built-in method max of numpy.ndarray object at 0x72953a505110> = array([[-1.13258145e+00, -4.95610287e-01,  2.39277222e+00,\n         4.02542637e-01, -9.80901438e-01],\n       [-2.26145...2.74516280e-01],\n       [ 1.46098887e-01, -3.65705472e-01, -8.64695403e-01,\n        -6.85220916e-01,  6.52910311e-01]]).max
+
+/home/zynergy-labs/.cache/forager-wt/t8b-build/tests/test_t8b_models.py:90: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_t8b_models.py::test_the_held_out_year_reaches_the_trees_clamped_to_its_folds_training_range
+1 failed, 8 passed in 3.57s
