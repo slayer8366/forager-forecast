@@ -9,8 +9,7 @@ import pytest
 from t8b_files import rule_all
 
 from forager_forecast import t1_model as tm
-from forager_forecast.t8b import c5
-from forager_forecast.t8b import design
+from forager_forecast.t8b import c5, design
 from forager_forecast.t8b import frozen as fz
 
 TINY = [

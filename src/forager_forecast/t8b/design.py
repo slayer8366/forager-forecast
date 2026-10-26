@@ -11,6 +11,7 @@ coder: RULED is empty.
 """
 
 from datetime import date
+from fractions import Fraction
 
 from forager_forecast.t8.design import (  # noqa: F401  (re-exported: D159 (1), (6))
     BOOTSTRAP_RESAMPLES,
@@ -65,7 +66,7 @@ C5_DOWNLOAD_AFTER = date(2027, 2, 15)
 # Plan section 3: the jump check's numbers.
 JUMP_BASELINE_YEAR = 2023
 JUMP_RISE_YEAR = 2024
-JUMP_SHARE_MOVE = 1 / 3
+JUMP_SHARE_MOVE = Fraction(1, 3)  # exact, so a share moving by exactly a third does not count
 PARTLY_REPORTING = "partly reporting"
 UNDETERMINED = "undetermined"
 
@@ -101,11 +102,12 @@ PENDING: dict[str, Pending] = {
         Pending(
             "B-daymet-leap",
             "Daymet drops 31 December in leap years (V4 R1 user guide, 'The Daymet Calendar'). "
-            "A window touching 2016-12-31, 2020-12-31 or 2024-12-31 has no value for that day, and "
-            "T8's rule refuses a window touching a missing day; the units cannot change (D159 (1)).",
-            "count Daymet days: a w-day window is the w Daymet days ending the day before the week, "
-            "so it reaches one calendar day further back when it spans a dropped 31 December; "
-            "every total is a sum of w delivered values, none filled",
+            "A window touching 2016-12-31, 2020-12-31 or 2024-12-31 has no value for that day, "
+            "and T8's rule refuses a window touching a missing day; the units cannot change "
+            "(D159 (1)).",
+            "count Daymet days: a w-day window is the w Daymet days ending the day before the "
+            "week, so it reaches one calendar day further back when it spans a dropped "
+            "31 December; every total is a sum of w delivered values, none filled",
             (
                 "the sum over the w - 1 delivered days, scaled by w / (w - 1)",
                 "31 December given 30 December's value (a fill, which T8 never does)",
@@ -158,8 +160,8 @@ PENDING: dict[str, Pending] = {
         ),  # fmt: skip
         Pending(
             "B-ecoregion",
-            "Leave-one-ecoregion-out with the tree model (plan section 6, no verdict). Not built in "
-            "step 1.",
+            "Leave-one-ecoregion-out with the tree model (plan section 6, no verdict). Not built "
+            "in step 1.",
             "as D136's M-ecoregion, with the tree model tuned by inner leave-one-block-out on the "
             "training blocks",
             ("the tuning chosen on true weather for the pooled years", "the additive model only"),
