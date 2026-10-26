@@ -1,0 +1,42 @@
+FAILED tests/test_pulls_queue.py::test_a_pause_file_stops_the_queue - NotImpl...
+FAILED tests/test_pulls_queue.py::test_under_20_gib_free_after_the_file_stops_the_queue
+FAILED tests/test_pulls_queue.py::test_a_login_wall_is_recognised[200-https://data.example/f.zip-application/zip-False]
+FAILED tests/test_pulls_queue.py::test_a_login_wall_is_recognised[200-https://dl.boxcloud.example/d/1/abc/download-application/octet-stream-False]
+FAILED tests/test_pulls_queue.py::test_a_login_wall_is_recognised[401-https://data.example/f.nc-text/plain-True]
+FAILED tests/test_pulls_queue.py::test_a_login_wall_is_recognised[403-https://data.example/f.nc-application/json-True]
+FAILED tests/test_pulls_queue.py::test_a_login_wall_is_recognised[200-https://urs.example.gov/oauth/authorize?client_id=x-application/zip-True]
+FAILED tests/test_pulls_queue.py::test_a_login_wall_is_recognised[200-https://data.example/f.zip-text/html; charset=utf-8-True]
+FAILED tests/test_pulls_queue.py::test_a_file_whose_checksum_matches_is_kept_and_its_partial_deleted
+FAILED tests/test_pulls_queue.py::test_a_fetch_writes_the_file_only_when_its_sha256_matches
+FAILED tests/test_pulls_queue.py::test_a_mismatch_is_set_aside_and_stops_the_queue
+FAILED tests/test_pulls_queue.py::test_a_stale_partial_is_never_resumed - Not...
+FAILED tests/test_pulls_queue.py::test_a_login_page_is_refused_and_nothing_is_kept
+FAILED tests/test_pulls_queue.py::test_a_short_body_is_not_kept - NotImplemen...
+FAILED tests/test_pulls_queue.py::test_a_size_other_than_the_one_on_file_is_refused_before_reading
+FAILED tests/test_pulls_queue.py::test_a_pause_mid_file_stops_and_leaves_no_file
+FAILED tests/test_zip_extract.py::test_the_listing_names_every_member_with_its_size_and_crc
+FAILED tests/test_zip_extract.py::test_the_root_puts_the_target_member_at_the_target
+FAILED tests/test_zip_extract.py::test_no_member_or_two_members_at_the_target_is_refused
+FAILED tests/test_zip_extract.py::test_extracting_beside_the_target_writes_every_file_and_records_it
+FAILED tests/test_zip_extract.py::test_a_member_path_leaving_the_root_is_refused
+FAILED tests/test_zip_extract.py::test_a_damaged_member_is_refused_and_not_left_behind
+FAILED tests/test_zip_extract.py::test_named_members_come_out_flat_by_file_name
+FAILED tests/test_zip_extract.py::test_a_name_with_no_member_or_two_is_refused
+FAILED tests/test_zip_extract.py::test_a_stop_between_members_leaves_no_partial
+25 failed in 0.23s
+FAILED tests/test_t6b_pulls.py::test_the_cec_checksums_are_the_ones_on_file
+FAILED tests/test_t6b_pulls.py::test_the_nalcms_and_treemap_checksums_are_the_ones_on_file
+FAILED tests/test_t6b_pulls.py::test_the_scanfi_checksums_are_the_five_on_file
+FAILED tests/test_t6b_pulls.py::test_a_verified_file_is_skipped_without_a_request
+FAILED tests/test_t6b_pulls.py::test_a_pull_is_recorded_beside_its_file - Not...
+FAILED tests/test_t6b_pulls.py::test_a_network_error_is_retried_then_stops_the_queue
+FAILED tests/test_t6b_pulls.py::test_a_mismatch_is_not_retried - NotImplement...
+FAILED tests/test_t6b_pulls.py::test_low_space_stops_before_any_request - Not...
+FAILED tests/test_t6b_pulls.py::test_a_scanfi_layer_off_its_checksum_is_set_aside
+FAILED tests/test_t6b_pulls.py::test_the_queue_logs_why_it_stopped_and_runs_nothing_after
+10 failed in 0.08s
+E       AttributeError: module 'forager_forecast.t6b_pulls' has no attribute 'POLITICAL'
+E           AttributeError: module 'forager_forecast.t6b_pulls' has no attribute 'retrying'
+FAILED tests/test_t6b_pulls.py::test_the_targets_are_where_the_runner_reads_them
+FAILED tests/test_t6b_pulls.py::test_retrying_gives_up_with_a_stop_after_the_last_delay
+2 failed, 10 passed in 0.31s
