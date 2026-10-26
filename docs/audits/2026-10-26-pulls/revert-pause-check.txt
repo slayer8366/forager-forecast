@@ -1,0 +1,6 @@
+revert pause: 'if (root / "PAUSE").exists():' -> 'if False:' in src/forager_forecast/pulls_queue.py
+imported /mnt/work/scratch/pulls/revert-pause/src/forager_forecast/pulls_queue.py
+E       TypeError: argument of type 'NoneType' is not a container or iterable
+tests/test_pulls_queue.py:36: TypeError
+FAILED tests/test_pulls_queue.py::test_a_pause_file_stops_the_queue - TypeErr...
+1 failed, 27 passed in 0.37s

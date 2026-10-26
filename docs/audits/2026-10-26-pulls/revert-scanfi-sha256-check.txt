@@ -1,0 +1,4 @@
+revert vat: '    if got != want:' -> '    if False:' in src/forager_forecast/t6b_pulls.py
+imported /mnt/work/scratch/pulls/revert-vat/src/forager_forecast/t6b_pulls.py
+FAILED tests/test_t6b_pulls.py::test_a_scanfi_layer_off_its_checksum_is_set_aside
+1 failed, 11 passed in 0.27s
