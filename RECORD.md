@@ -816,3 +816,15 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **The owner, verbatim, 2026-10-25/26:** "Forecast data: use it"; "done" (the folder); "Yes, go" (the pulls).
 **What it sets:** dispatch docs/dispatch/2026-10-26-pulls.md (t8b-build a506590) to Ash: one detached download queue, which stops itself on a checksum mismatch, a login wall, under 20 GB free, or a PAUSE file. D159's and D160's readings move into RULED. No T6b run, count or fit under it.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2061.
+
+---
+
+**Kind:** decision
+**ID:** 2026-09-28-2061
+**Timestamp:** 2026-10-26T17:22:58Z
+**Continues:** 2026-09-28-2060
+**Title:** Pulls queue running; Daymet needs a login, so the owner makes an account; linger on; US cells by centre (owner), recorded as D161
+**What the owner was told before answering:** forecast-pulls is active. The two CEC zips verified against their earlier sha256 and are extracted; NALCMS is downloading. Ash's hand-back is saved at t8b-build 6a0d9e1. Three stops: a Daymet full-file GET also needs an Earthdata Login (302 then 401, no data byte); the unit stops at logout because Linger=no; and the US-only line needs a definition.
+**The owner, verbatim, 2026-10-26:** "I'll make an account (Recommended)"; "Yes, I'll run it (Recommended)"; "Centre in the US (Recommended)".
+**What it sets:** D161 on t8b-build (6fa3cbf), replacing D160 (1). Daymet comes as box subsets once the owner's login is stored in ~/.netrc by the owner, never through the planner or the conversation. Linger is the owner's command to run. Daymet joins the queue only after the planner confirms both.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2062.
