@@ -702,3 +702,12 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **The owner, verbatim, 2026-10-25:** "Do not publish it. I don't care for it. Keep it for your records".
 **What it sets:** docs/audits/2026-10-21-pnw-finding.md stays on main as it is, as a record. It is not published, linked from the site, or turned into a public edition. This settles the publishing question -2048 and -2049 left open.
 **Notes:** Written by the forecast planner by hand, on branch forecast-record. Next free ID 2026-09-28-2051.
+
+---
+
+**Kind:** correction
+**ID:** 2026-09-28-2051
+**Timestamp:** 2026-10-26T02:49:37Z
+**Corrects:** 2026-09-28-2050
+**What was wrong:** -2050's Notes line names its writer only as "the forecast planner". The owner, verbatim, 2026-10-25: "Have it say Alder." Read -2050's Notes as "Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record"; nothing else in it changes.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2052.
