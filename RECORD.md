@@ -780,3 +780,15 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **The owner, verbatim, 2026-10-25:** disk: "Rowan clears worktrees (Recommended)"; old list: "Copy it aside (Recommended)"; report: "Yes, save it as Ash's (Recommended)"; downloads: "Not yet (Recommended)".
 **What it sets and what was done:** /mnt/work/Zynergy/forecast-data/t6b/manifest-before-loss-2026-10-23.jsonl.gz is a read-only copy of manifest.jsonl.gz (gzip sha256 69ed1674..., decompressed 9cf29560..., both equal to the original). Ash's hand-back is saved word for word as docs/audits/2026-10-25-t6b-rebuild-check/report.md, with an index row (t6b-rebuild 7700fcc). A message went to the only live local peer session (mellow-swan, not confirmed to be Rowan), asking Rowan to remove finished worktrees and leave the forecast ones. No downloads until the disk has room; the planner asks again with the final list. The first run still needs the owner's word, and it needs a new --evidence folder.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2058.
+
+---
+
+**Kind:** decision
+**ID:** 2026-09-28-2058
+**Timestamp:** 2026-10-26T04:02:14Z
+**Continues:** 2026-09-28-2052
+**Title:** T8b's plan ruled, all recommended; recorded as D159 (owner)
+**What the owner was told before answering:** the plan docs/dispatch/2026-10-25-t8b-plan.md (t8b-plan 06595b0) changes the three things the T8 reviews named (2021 extrapolation, model form, coarse and shallow weather) and keeps the box, units, bar and seed. It adds C5, the frozen model beating the calendar on the unseen 2026 season, before anything is shown. Asked as four questions: the deciding model, the 2026 check, the five measures, and the rest as recommended.
+**The owner, verbatim, 2026-10-25:** "Tree model (Recommended)"; "Yes, require it (Recommended)"; "Yes, these five (Recommended)"; "All as recommended".
+**What it sets:** D159 on branch t8b-plan (5569780). D138 to D158 are already taken on the unmerged T7 branches, so this row is D159; the gap on main is theirs, not a missing row. The next step is the plan's step 1 (rules, code and tests, pull pricing, licence re-reads, confirming no 2026 outcome was read), which needs the owner's go for a coder. Pulls, counts, fits and C5 each need their own word.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2059.
