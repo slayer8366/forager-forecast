@@ -1,0 +1,4 @@
+revert md5: 'if written != size or h5.hexdigest() != md5:' -> 'if written != size:' in src/forager_forecast/t8b/cds_pull.py
+imported /mnt/work/scratch/pulls/revert-md5/src/forager_forecast/t8b/cds_pull.py
+FAILED tests/test_t8b_cds_pull.py::test_an_md5_off_the_stores_stops_the_queue_and_sets_the_file_aside
+1 failed, 16 passed in 0.06s

@@ -1,0 +1,37 @@
+_ test_a_refusal_is_classed_as_login_licence_or_neither[401-Authentication failed-LoginWall] _
+status = 401, text = 'Authentication failed'
+            (401, "Authentication failed", cp.LoginWall),
+status = 401, text = 'Authentication failed'
+            (401, "Authentication failed", cp.LoginWall),
+            (401, "Authentication failed", cp.LoginWall),
+            (401, "Authentication failed", cp.LoginWall),
+________ test_a_failed_job_raises_and_a_successful_one_gives_its_asset _________
+    def test_a_failed_job_raises_and_a_successful_one_gives_its_asset():
+___________________ test_a_failed_job_is_retried_then_stops ____________________
+tmp_path = PosixPath('/tmp/pytest-of-zynergy-labs/pytest-30/test_a_failed_job_is_retried_t0')
+    def test_a_failed_job_is_retried_then_stops(tmp_path):
+        s = Store(statuses=("failed",))
+out = PosixPath('/tmp/pytest-of-zynergy-labs/pytest-30/test_a_failed_job_is_retried_t0')
+root = PosixPath('/tmp/pytest-of-zynergy-labs/pytest-30/test_a_failed_job_is_retried_t0')
+log = <function test_a_failed_job_is_retried_then_stops.<locals>.<lambda> at 0x7f129fbc8880>
+sleep = <function test_a_failed_job_is_retried_then_stops.<locals>.<lambda> at 0x7f129fbc87d0>
+free_bytes = <function test_a_failed_job_is_retried_then_stops.<locals>.<lambda> at 0x7f129fbc85c0>
+FAILED tests/test_t8b_cds_pull.py::test_the_months_run_from_2014_10_to_2025_12
+FAILED tests/test_t8b_cds_pull.py::test_a_month_asks_for_the_four_fields_on_t1s_box_as_daily_utc_means
+FAILED tests/test_t8b_cds_pull.py::test_the_key_is_read_from_cdsapirc - NotIm...
+FAILED tests/test_t8b_cds_pull.py::test_the_stops_pause_and_space - NotImplem...
+FAILED tests/test_t8b_cds_pull.py::test_a_refusal_is_classed_as_login_licence_or_neither[401-Authentication failed-LoginWall]
+FAILED tests/test_t8b_cds_pull.py::test_a_refusal_is_classed_as_login_licence_or_neither[403-required licences not accepted: licence-to-use-copernicus-products-QueueStop]
+FAILED tests/test_t8b_cds_pull.py::test_a_refusal_is_classed_as_login_licence_or_neither[400-invalid request-None]
+FAILED tests/test_t8b_cds_pull.py::test_a_refusal_is_classed_as_login_licence_or_neither[202--None]
+FAILED tests/test_t8b_cds_pull.py::test_requests_compare_after_every_value_is_made_text
+FAILED tests/test_t8b_cds_pull.py::test_a_job_already_held_by_the_store_is_adopted_not_resubmitted
+FAILED tests/test_t8b_cds_pull.py::test_a_failed_job_raises_and_a_successful_one_gives_its_asset
+FAILED tests/test_t8b_cds_pull.py::test_a_month_is_downloaded_checked_and_recorded
+FAILED tests/test_t8b_cds_pull.py::test_an_md5_off_the_stores_stops_the_queue_and_sets_the_file_aside
+FAILED tests/test_t8b_cds_pull.py::test_a_size_off_the_stores_stops_the_queue
+FAILED tests/test_t8b_cds_pull.py::test_a_stale_partial_or_unrecorded_file_is_fetched_again
+FAILED tests/test_t8b_cds_pull.py::test_a_failed_job_is_retried_then_stops - ...
+FAILED tests/test_t8b_cds_pull.py::test_a_pause_stops_before_any_request - No...
+17 failed in 0.13s
+     17 E       NotImplementedError

@@ -1,0 +1,12 @@
+Daymet V4 R1 prcp, full North America file: does a GET need a login? (dispatch 2026-10-26-pulls, Part B item 2)
+Run from /mnt/work/scratch/pulls/probe with curl; tokens in redirect URLs replaced by X.
+
+2026-10-26T12:40:57Z  GET (Range: bytes=0-1023, -L) https://data.ornldaac.earthdata.nasa.gov/protected/daymet/Daymet_Daily_V4R1/data/daymet_v4_daily_na_prcp_2014.nc
+  HTTP/2 302, location: https://urs.earthdata.nasa.gov/oauth/authorize?client_id=eszUe9OMxRl3-290KmSzxA&response_type=code&redirect_uri=https://data.ornldaac.earthdata.nasa.gov/login&state=...
+  then HTTP/1.1 401 Unauthorized, body (27 B): "HTTP Basic: Access denied."
+  No data byte was received.
+2026-10-26T12:41:07Z  HEAD https://data.ornldaac.earthdata.nasa.gov/protected/daymet/Daymet_Daily_V4R1/data/daymet_v4_daily_na_prcp_2014.nc
+  HTTP/2 303 to a CloudFront "head-..." URL (as step 1 saw: HEAD is answered without a login; GET is not).
+
+Result: a GET needs an Earthdata Login. The dispatch: "If a GET needs a login, stop. Don't make an account; report back."
+Daymet is therefore not in the queue. No account was made and no terms were accepted.
