@@ -1,0 +1,1718 @@
+FFFFFFFFFFFFFFFFFF.........FFFFFEEEEEFEEEEEFFFFFFFFFFFFFFFFFFFFFFFFFFFFF [100%]
+==================================== ERRORS ====================================
+_ ERROR at setup of test_the_frozen_configuration_is_t1s_inner_choice_over_all_eleven_years _
+
+    @pytest.fixture(scope="module")
+    def main_model():
+        x, y, years = data()
+>       return fz.fit_frozen("main", x, y, years, TINY, FEATURES, (5,))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_frozen_c5.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'main'
+x = array([[ 0.18905338, -0.52274844, -0.41306354, -2.44146738,  1.79970738,
+         1.14416587],
+       [-0.32542284,  0...13015],
+       [-1.30432975,  0.46247063, -0.10927121,  0.07361458, -0.92497076,
+        -0.61632708]], shape=(660, 6))
+y = array([1., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 1., 0., 0., 0., 1.,
+       0., 0., 0., 0., 1., 0., 0., 0., 0., ...1., 1., 0., 0., 1., 1., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])
+years = array([2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015,
+       2015, 2015, 2015, 2015, 2015, 2015, 20...25, 2025, 2025, 2025, 2025, 2025, 2025, 2025,
+       2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025])
+configs = [{'id': 'c0', 'num_leaves': 3, 'learning_rate': 0.1, 'num_boost_round': 5, ...}, {'id': 'c1', 'num_leaves': 7, 'learning_rate': 0.1, 'num_boost_round': 10, ...}]
+features = ('doy_sin', 'doy_cos', 'latitude', 'longitude', 'effort', 'M1')
+weather_columns = (5,), threads = 1, meta = None
+
+    def fit_frozen(name, x, y, years, configs, features, weather_columns, threads=1, meta=None):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/frozen.py:22: NotImplementedError
+_____ ERROR at setup of test_the_clamp_range_frozen_is_the_training_range ______
+
+    @pytest.fixture(scope="module")
+    def main_model():
+        x, y, years = data()
+>       return fz.fit_frozen("main", x, y, years, TINY, FEATURES, (5,))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_frozen_c5.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'main'
+x = array([[ 0.18905338, -0.52274844, -0.41306354, -2.44146738,  1.79970738,
+         1.14416587],
+       [-0.32542284,  0...13015],
+       [-1.30432975,  0.46247063, -0.10927121,  0.07361458, -0.92497076,
+        -0.61632708]], shape=(660, 6))
+y = array([1., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 1., 0., 0., 0., 1.,
+       0., 0., 0., 0., 1., 0., 0., 0., 0., ...1., 1., 0., 0., 1., 1., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])
+years = array([2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015,
+       2015, 2015, 2015, 2015, 2015, 2015, 20...25, 2025, 2025, 2025, 2025, 2025, 2025, 2025,
+       2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025])
+configs = [{'id': 'c0', 'num_leaves': 3, 'learning_rate': 0.1, 'num_boost_round': 5, ...}, {'id': 'c1', 'num_leaves': 7, 'learning_rate': 0.1, 'num_boost_round': 10, ...}]
+features = ('doy_sin', 'doy_cos', 'latitude', 'longitude', 'effort', 'M1')
+weather_columns = (5,), threads = 1, meta = None
+
+    def fit_frozen(name, x, y, years, configs, features, weather_columns, threads=1, meta=None):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/frozen.py:22: NotImplementedError
+_ ERROR at setup of test_save_records_the_files_sha256_and_load_gives_the_same_predictions _
+
+    @pytest.fixture(scope="module")
+    def main_model():
+        x, y, years = data()
+>       return fz.fit_frozen("main", x, y, years, TINY, FEATURES, (5,))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_frozen_c5.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'main'
+x = array([[ 0.18905338, -0.52274844, -0.41306354, -2.44146738,  1.79970738,
+         1.14416587],
+       [-0.32542284,  0...13015],
+       [-1.30432975,  0.46247063, -0.10927121,  0.07361458, -0.92497076,
+        -0.61632708]], shape=(660, 6))
+y = array([1., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 1., 0., 0., 0., 1.,
+       0., 0., 0., 0., 1., 0., 0., 0., 0., ...1., 1., 0., 0., 1., 1., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])
+years = array([2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015,
+       2015, 2015, 2015, 2015, 2015, 2015, 20...25, 2025, 2025, 2025, 2025, 2025, 2025, 2025,
+       2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025])
+configs = [{'id': 'c0', 'num_leaves': 3, 'learning_rate': 0.1, 'num_boost_round': 5, ...}, {'id': 'c1', 'num_leaves': 7, 'learning_rate': 0.1, 'num_boost_round': 10, ...}]
+features = ('doy_sin', 'doy_cos', 'latitude', 'longitude', 'effort', 'M1')
+weather_columns = (5,), threads = 1, meta = None
+
+    def fit_frozen(name, x, y, years, configs, features, weather_columns, threads=1, meta=None):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/frozen.py:22: NotImplementedError
+___ ERROR at setup of test_a_different_checksum_or_an_edited_file_is_refused ___
+
+    @pytest.fixture(scope="module")
+    def main_model():
+        x, y, years = data()
+>       return fz.fit_frozen("main", x, y, years, TINY, FEATURES, (5,))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_frozen_c5.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'main'
+x = array([[ 0.18905338, -0.52274844, -0.41306354, -2.44146738,  1.79970738,
+         1.14416587],
+       [-0.32542284,  0...13015],
+       [-1.30432975,  0.46247063, -0.10927121,  0.07361458, -0.92497076,
+        -0.61632708]], shape=(660, 6))
+y = array([1., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 1., 0., 0., 0., 1.,
+       0., 0., 0., 0., 1., 0., 0., 0., 0., ...1., 1., 0., 0., 1., 1., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])
+years = array([2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015,
+       2015, 2015, 2015, 2015, 2015, 2015, 20...25, 2025, 2025, 2025, 2025, 2025, 2025, 2025,
+       2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025])
+configs = [{'id': 'c0', 'num_leaves': 3, 'learning_rate': 0.1, 'num_boost_round': 5, ...}, {'id': 'c1', 'num_leaves': 7, 'learning_rate': 0.1, 'num_boost_round': 10, ...}]
+features = ('doy_sin', 'doy_cos', 'latitude', 'longitude', 'effort', 'M1')
+weather_columns = (5,), threads = 1, meta = None
+
+    def fit_frozen(name, x, y, years, configs, features, weather_columns, threads=1, meta=None):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/frozen.py:22: NotImplementedError
+_________ ERROR at setup of test_saving_twice_gives_the_same_checksum __________
+
+    @pytest.fixture(scope="module")
+    def main_model():
+        x, y, years = data()
+>       return fz.fit_frozen("main", x, y, years, TINY, FEATURES, (5,))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_frozen_c5.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'main'
+x = array([[ 0.18905338, -0.52274844, -0.41306354, -2.44146738,  1.79970738,
+         1.14416587],
+       [-0.32542284,  0...13015],
+       [-1.30432975,  0.46247063, -0.10927121,  0.07361458, -0.92497076,
+        -0.61632708]], shape=(660, 6))
+y = array([1., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 1., 0., 0., 0., 1.,
+       0., 0., 0., 0., 1., 0., 0., 0., 0., ...1., 1., 0., 0., 1., 1., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])
+years = array([2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015,
+       2015, 2015, 2015, 2015, 2015, 2015, 20...25, 2025, 2025, 2025, 2025, 2025, 2025, 2025,
+       2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025])
+configs = [{'id': 'c0', 'num_leaves': 3, 'learning_rate': 0.1, 'num_boost_round': 5, ...}, {'id': 'c1', 'num_leaves': 7, 'learning_rate': 0.1, 'num_boost_round': 10, ...}]
+features = ('doy_sin', 'doy_cos', 'latitude', 'longitude', 'effort', 'M1')
+weather_columns = (5,), threads = 1, meta = None
+
+    def fit_frozen(name, x, y, years, configs, features, weather_columns, threads=1, meta=None):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/frozen.py:22: NotImplementedError
+________ ERROR at setup of test_c5_refuses_while_its_readings_are_open _________
+
+    @pytest.fixture(scope="module")
+    def main_model():
+        x, y, years = data()
+>       return fz.fit_frozen("main", x, y, years, TINY, FEATURES, (5,))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_frozen_c5.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'main'
+x = array([[ 0.18905338, -0.52274844, -0.41306354, -2.44146738,  1.79970738,
+         1.14416587],
+       [-0.32542284,  0...13015],
+       [-1.30432975,  0.46247063, -0.10927121,  0.07361458, -0.92497076,
+        -0.61632708]], shape=(660, 6))
+y = array([1., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 1., 0., 0., 0., 1.,
+       0., 0., 0., 0., 1., 0., 0., 0., 0., ...1., 1., 0., 0., 1., 1., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])
+years = array([2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015,
+       2015, 2015, 2015, 2015, 2015, 2015, 20...25, 2025, 2025, 2025, 2025, 2025, 2025, 2025,
+       2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025])
+configs = [{'id': 'c0', 'num_leaves': 3, 'learning_rate': 0.1, 'num_boost_round': 5, ...}, {'id': 'c1', 'num_leaves': 7, 'learning_rate': 0.1, 'num_boost_round': 10, ...}]
+features = ('doy_sin', 'doy_cos', 'latitude', 'longitude', 'effort', 'M1')
+weather_columns = (5,), threads = 1, meta = None
+
+    def fit_frozen(name, x, y, years, configs, features, weather_columns, threads=1, meta=None):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/frozen.py:22: NotImplementedError
+_ ERROR at setup of test_c5_scores_the_frozen_model_against_the_calendar_on_2026 _
+
+    @pytest.fixture(scope="module")
+    def main_model():
+        x, y, years = data()
+>       return fz.fit_frozen("main", x, y, years, TINY, FEATURES, (5,))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_frozen_c5.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'main'
+x = array([[ 0.18905338, -0.52274844, -0.41306354, -2.44146738,  1.79970738,
+         1.14416587],
+       [-0.32542284,  0...13015],
+       [-1.30432975,  0.46247063, -0.10927121,  0.07361458, -0.92497076,
+        -0.61632708]], shape=(660, 6))
+y = array([1., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 1., 0., 0., 0., 1.,
+       0., 0., 0., 0., 1., 0., 0., 0., 0., ...1., 1., 0., 0., 1., 1., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])
+years = array([2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015,
+       2015, 2015, 2015, 2015, 2015, 2015, 20...25, 2025, 2025, 2025, 2025, 2025, 2025, 2025,
+       2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025])
+configs = [{'id': 'c0', 'num_leaves': 3, 'learning_rate': 0.1, 'num_boost_round': 5, ...}, {'id': 'c1', 'num_leaves': 7, 'learning_rate': 0.1, 'num_boost_round': 10, ...}]
+features = ('doy_sin', 'doy_cos', 'latitude', 'longitude', 'effort', 'M1')
+weather_columns = (5,), threads = 1, meta = None
+
+    def fit_frozen(name, x, y, years, configs, features, weather_columns, threads=1, meta=None):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/frozen.py:22: NotImplementedError
+_____ ERROR at setup of test_c5_refuses_a_unit_outside_2026_weeks_27_to_52 _____
+
+    @pytest.fixture(scope="module")
+    def main_model():
+        x, y, years = data()
+>       return fz.fit_frozen("main", x, y, years, TINY, FEATURES, (5,))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_frozen_c5.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'main'
+x = array([[ 0.18905338, -0.52274844, -0.41306354, -2.44146738,  1.79970738,
+         1.14416587],
+       [-0.32542284,  0...13015],
+       [-1.30432975,  0.46247063, -0.10927121,  0.07361458, -0.92497076,
+        -0.61632708]], shape=(660, 6))
+y = array([1., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 1., 0., 0., 0., 1.,
+       0., 0., 0., 0., 1., 0., 0., 0., 0., ...1., 1., 0., 0., 1., 1., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])
+years = array([2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015,
+       2015, 2015, 2015, 2015, 2015, 2015, 20...25, 2025, 2025, 2025, 2025, 2025, 2025, 2025,
+       2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025])
+configs = [{'id': 'c0', 'num_leaves': 3, 'learning_rate': 0.1, 'num_boost_round': 5, ...}, {'id': 'c1', 'num_leaves': 7, 'learning_rate': 0.1, 'num_boost_round': 10, ...}]
+features = ('doy_sin', 'doy_cos', 'latitude', 'longitude', 'effort', 'M1')
+weather_columns = (5,), threads = 1, meta = None
+
+    def fit_frozen(name, x, y, years, configs, features, weather_columns, threads=1, meta=None):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/frozen.py:22: NotImplementedError
+_____________ ERROR at setup of test_c5_refuses_an_early_download ______________
+
+    @pytest.fixture(scope="module")
+    def main_model():
+        x, y, years = data()
+>       return fz.fit_frozen("main", x, y, years, TINY, FEATURES, (5,))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_frozen_c5.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'main'
+x = array([[ 0.18905338, -0.52274844, -0.41306354, -2.44146738,  1.79970738,
+         1.14416587],
+       [-0.32542284,  0...13015],
+       [-1.30432975,  0.46247063, -0.10927121,  0.07361458, -0.92497076,
+        -0.61632708]], shape=(660, 6))
+y = array([1., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 1., 0., 0., 0., 1.,
+       0., 0., 0., 0., 1., 0., 0., 0., 0., ...1., 1., 0., 0., 1., 1., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])
+years = array([2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015,
+       2015, 2015, 2015, 2015, 2015, 2015, 20...25, 2025, 2025, 2025, 2025, 2025, 2025, 2025,
+       2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025])
+configs = [{'id': 'c0', 'num_leaves': 3, 'learning_rate': 0.1, 'num_boost_round': 5, ...}, {'id': 'c1', 'num_leaves': 7, 'learning_rate': 0.1, 'num_boost_round': 10, ...}]
+features = ('doy_sin', 'doy_cos', 'latitude', 'longitude', 'effort', 'M1')
+weather_columns = (5,), threads = 1, meta = None
+
+    def fit_frozen(name, x, y, years, configs, features, weather_columns, threads=1, meta=None):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/frozen.py:22: NotImplementedError
+_ ERROR at setup of test_weeks_whose_outcome_was_already_read_are_left_out_and_named _
+
+    @pytest.fixture(scope="module")
+    def main_model():
+        x, y, years = data()
+>       return fz.fit_frozen("main", x, y, years, TINY, FEATURES, (5,))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_frozen_c5.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'main'
+x = array([[ 0.18905338, -0.52274844, -0.41306354, -2.44146738,  1.79970738,
+         1.14416587],
+       [-0.32542284,  0...13015],
+       [-1.30432975,  0.46247063, -0.10927121,  0.07361458, -0.92497076,
+        -0.61632708]], shape=(660, 6))
+y = array([1., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 1., 0., 0., 0., 1.,
+       0., 0., 0., 0., 1., 0., 0., 0., 0., ...1., 1., 0., 0., 1., 1., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])
+years = array([2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015,
+       2015, 2015, 2015, 2015, 2015, 2015, 20...25, 2025, 2025, 2025, 2025, 2025, 2025, 2025,
+       2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025, 2025])
+configs = [{'id': 'c0', 'num_leaves': 3, 'learning_rate': 0.1, 'num_boost_round': 5, ...}, {'id': 'c1', 'num_leaves': 7, 'learning_rate': 0.1, 'num_boost_round': 10, ...}]
+features = ('doy_sin', 'doy_cos', 'latitude', 'longitude', 'effort', 'M1')
+weather_columns = (5,), threads = 1, meta = None
+
+    def fit_frozen(name, x, y, years, configs, features, weather_columns, threads=1, meta=None):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/frozen.py:22: NotImplementedError
+=================================== FAILURES ===================================
+__________ test_the_tree_bar_refuses_while_the_fit_readings_are_open ___________
+
+    def test_the_tree_bar_refuses_while_the_fit_readings_are_open():
+        inputs, table, cells, lichen_y, t1_p, swaps = setup(per_year=3)
+        with pytest.raises(design.NotRuled):
+>           br.tree_bar(inputs, t1_p, cells, lichen_y, CONFIGS, Recorder(), table, swaps)
+
+tests/test_t8b_bar.py:46: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+inputs = Inputs(y=array([0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 1., 0., 0., 1., 0.,...38,  1.18722652,  0.14583904,  0.69057602],
+       [ 0.50142247,  0.57778221, -0.534902  ,  1.16349781, -1.26387884]]))
+t1_p = array([0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2,
+       0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2,
+       0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2])
+cells = array(['c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c0', 'c1', 'c2', 'c3',
+       'c4', 'c5', 'c6', 'c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c0',
+       'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c0', 'c1', 'c2', 'c3', 'c4'],
+      dtype='<U2')
+lichen_y = array([1., 1., 0., 0., 1., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1.,
+       0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 1., 1., 0., 0.])
+configs = [{'id': 'a'}, {'id': 'b'}]
+fitter = <test_t8b_bar.Recorder object at 0x734efb7f0d70>
+table = {2015: array([[-8.02836936e-01,  2.42849907e-01, -1.65634543e+00,
+         6.56104878e-01,  1.14345302e+00],
+       [-...0.6200114 , -0.42148755,  0.65700213],
+       [-0.24726414,  1.28891055, -0.42099558,  1.43901744, -1.0637653 ]]), ...}
+swaps = [{2015: 2025, 2016: 2023, 2017: 2024, 2018: 2022, ...}, {2015: 2018, 2016: 2021, 2017: 2022, 2018: 2025, ...}, {2015: .....}, {2015: 2018, 2016: 2025, 2017: 2024, 2018: 2015, ...}, {2015: 2022, 2016: 2025, 2017: 2021, 2018: 2020, ...}, ...]
+log = None
+
+    def tree_bar(inputs, t1_p, cells, lichen_y, configs, fitter, table, swaps, log=None):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/bar_run.py:5: NotImplementedError
+__________ test_tuning_runs_once_per_fold_and_the_199_swaps_reuse_it ___________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x734f12b88c30>
+
+    def test_tuning_runs_once_per_fold_and_the_199_swaps_reuse_it(monkeypatch):
+        rule_all(monkeypatch, "fit")
+        inputs, table, cells, lichen_y, t1_p, swaps = setup()
+        rec = Recorder()
+>       run = br.tree_bar(inputs, t1_p, cells, lichen_y, CONFIGS, rec, table, swaps)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_bar.py:53: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+inputs = Inputs(y=array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 1., 0.,....38865422e+00],
+       [-2.53128718e+00, -1.21402139e+00,  6.05294643e-01,
+        -2.03978416e+00, -1.50654873e-01]]))
+t1_p = array([0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2,
+       0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2,..., 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2,
+       0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2])
+cells = array(['c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c0', 'c1', 'c2', 'c3',
+       'c4', 'c5', 'c6', 'c0', 'c1', 'c2', 'c...', 'c3', 'c4', 'c5', 'c6',
+       'c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c0', 'c1', 'c2', 'c3'],
+      dtype='<U2')
+lichen_y = array([0., 0., 1., 0., 0., 0., 1., 1., 0., 1., 0., 0., 0., 1., 0., 0., 0.,
+       0., 1., 0., 0., 0., 1., 0., 0., 0., ... 0., 0., 0., 0., 0., 1.,
+       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 1., 0., 0., 1., 1.,
+       0., 0., 0.])
+configs = [{'id': 'a'}, {'id': 'b'}]
+fitter = <test_t8b_bar.Recorder object at 0x734f12bb0b90>
+table = {2015: array([[-8.02836936e-01,  2.42849907e-01, -1.65634543e+00,
+         6.56104878e-01,  1.14345302e+00],
+       [-...1.60911366, -0.62614163, -0.44043633],
+       [ 0.77876048,  0.4174582 ,  0.3208346 ,  0.22142766,  0.96790033]]), ...}
+swaps = [{2015: 2025, 2016: 2023, 2017: 2024, 2018: 2022, ...}, {2015: 2018, 2016: 2021, 2017: 2022, 2018: 2025, ...}, {2015: .....}, {2015: 2018, 2016: 2025, 2017: 2024, 2018: 2015, ...}, {2015: 2022, 2016: 2025, 2017: 2021, 2018: 2020, ...}, ...]
+log = None
+
+    def tree_bar(inputs, t1_p, cells, lichen_y, configs, fitter, table, swaps, log=None):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/bar_run.py:5: NotImplementedError
+_______________ test_each_swap_fits_on_the_swapped_years_weather _______________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x734efb7f50f0>
+
+    def test_each_swap_fits_on_the_swapped_years_weather(monkeypatch):
+        rule_all(monkeypatch, "fit")
+        inputs, table, cells, lichen_y, t1_p, swaps = setup()
+        rec = Recorder()
+>       br.tree_bar(inputs, t1_p, cells, lichen_y, CONFIGS, rec, table, swaps)
+
+tests/test_t8b_bar.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+inputs = Inputs(y=array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 1., 0.,....38865422e+00],
+       [-2.53128718e+00, -1.21402139e+00,  6.05294643e-01,
+        -2.03978416e+00, -1.50654873e-01]]))
+t1_p = array([0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2,
+       0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2,..., 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2,
+       0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2])
+cells = array(['c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c0', 'c1', 'c2', 'c3',
+       'c4', 'c5', 'c6', 'c0', 'c1', 'c2', 'c...', 'c3', 'c4', 'c5', 'c6',
+       'c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c0', 'c1', 'c2', 'c3'],
+      dtype='<U2')
+lichen_y = array([0., 0., 1., 0., 0., 0., 1., 1., 0., 1., 0., 0., 0., 1., 0., 0., 0.,
+       0., 1., 0., 0., 0., 1., 0., 0., 0., ... 0., 0., 0., 0., 0., 1.,
+       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 1., 0., 0., 1., 1.,
+       0., 0., 0.])
+configs = [{'id': 'a'}, {'id': 'b'}]
+fitter = <test_t8b_bar.Recorder object at 0x734efb3a4410>
+table = {2015: array([[-8.02836936e-01,  2.42849907e-01, -1.65634543e+00,
+         6.56104878e-01,  1.14345302e+00],
+       [-...1.60911366, -0.62614163, -0.44043633],
+       [ 0.77876048,  0.4174582 ,  0.3208346 ,  0.22142766,  0.96790033]]), ...}
+swaps = [{2015: 2025, 2016: 2023, 2017: 2024, 2018: 2022, ...}, {2015: 2018, 2016: 2021, 2017: 2022, 2018: 2025, ...}, {2015: .....}, {2015: 2018, 2016: 2025, 2017: 2024, 2018: 2015, ...}, {2015: 2022, 2016: 2025, 2017: 2021, 2018: 2020, ...}, ...]
+log = None
+
+    def tree_bar(inputs, t1_p, cells, lichen_y, configs, fitter, table, swaps, log=None):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/bar_run.py:5: NotImplementedError
+__________ test_the_conditions_carry_1000_resamples_and_seed_20260918 __________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x734efb8bc050>
+
+    def test_the_conditions_carry_1000_resamples_and_seed_20260918(monkeypatch):
+        rule_all(monkeypatch, "fit")
+        inputs, table, cells, lichen_y, t1_p, swaps = setup()
+>       run = br.tree_bar(inputs, t1_p, cells, lichen_y, CONFIGS, Recorder(), table, swaps)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_bar.py:78: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+inputs = Inputs(y=array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 1., 0.,....38865422e+00],
+       [-2.53128718e+00, -1.21402139e+00,  6.05294643e-01,
+        -2.03978416e+00, -1.50654873e-01]]))
+t1_p = array([0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2,
+       0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2,..., 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2,
+       0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2])
+cells = array(['c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c0', 'c1', 'c2', 'c3',
+       'c4', 'c5', 'c6', 'c0', 'c1', 'c2', 'c...', 'c3', 'c4', 'c5', 'c6',
+       'c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c0', 'c1', 'c2', 'c3'],
+      dtype='<U2')
+lichen_y = array([0., 0., 1., 0., 0., 0., 1., 1., 0., 1., 0., 0., 0., 1., 0., 0., 0.,
+       0., 1., 0., 0., 0., 1., 0., 0., 0., ... 0., 0., 0., 0., 0., 1.,
+       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 1., 0., 0., 1., 1.,
+       0., 0., 0.])
+configs = [{'id': 'a'}, {'id': 'b'}]
+fitter = <test_t8b_bar.Recorder object at 0x734efb7f5940>
+table = {2015: array([[-8.02836936e-01,  2.42849907e-01, -1.65634543e+00,
+         6.56104878e-01,  1.14345302e+00],
+       [-...1.60911366, -0.62614163, -0.44043633],
+       [ 0.77876048,  0.4174582 ,  0.3208346 ,  0.22142766,  0.96790033]]), ...}
+swaps = [{2015: 2025, 2016: 2023, 2017: 2024, 2018: 2022, ...}, {2015: 2018, 2016: 2021, 2017: 2022, 2018: 2025, ...}, {2015: .....}, {2015: 2018, 2016: 2025, 2017: 2024, 2018: 2015, ...}, {2015: 2022, 2016: 2025, 2017: 2021, 2018: 2020, ...}, ...]
+log = None
+
+    def tree_bar(inputs, t1_p, cells, lichen_y, configs, fitter, table, swaps, log=None):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/bar_run.py:5: NotImplementedError
+______________ test_a_measures_own_shuffle_swaps_only_that_column ______________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x734efb7f9bf0>
+
+    def test_a_measures_own_shuffle_swaps_only_that_column(monkeypatch):
+        rule_all(monkeypatch, "fit")
+        inputs, table, cells, _lichen_y, _t1_p, swaps = setup()
+        chosen = {y: "a" for y in design.YEARS}
+        rec = Recorder()
+>       out = br.measure_shuffle(
+            inputs, CONFIGS, rec, chosen, np.full(len(inputs.y), 0.2), cells, table, swaps, 3
+        )
+
+tests/test_t8b_bar.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+inputs = Inputs(y=array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 1., 0.,....38865422e+00],
+       [-2.53128718e+00, -1.21402139e+00,  6.05294643e-01,
+        -2.03978416e+00, -1.50654873e-01]]))
+configs = [{'id': 'a'}, {'id': 'b'}]
+fitter = <test_t8b_bar.Recorder object at 0x734efb7f6190>
+chosen = {2015: 'a', 2016: 'a', 2017: 'a', 2018: 'a', ...}
+p_no_weather = array([0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2,
+       0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2,..., 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2,
+       0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2])
+cells = array(['c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c0', 'c1', 'c2', 'c3',
+       'c4', 'c5', 'c6', 'c0', 'c1', 'c2', 'c...', 'c3', 'c4', 'c5', 'c6',
+       'c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c0', 'c1', 'c2', 'c3'],
+      dtype='<U2')
+table = {2015: array([[-8.02836936e-01,  2.42849907e-01, -1.65634543e+00,
+         6.56104878e-01,  1.14345302e+00],
+       [-...1.60911366, -0.62614163, -0.44043633],
+       [ 0.77876048,  0.4174582 ,  0.3208346 ,  0.22142766,  0.96790033]]), ...}
+swaps = [{2015: 2025, 2016: 2023, 2017: 2024, 2018: 2022, ...}, {2015: 2018, 2016: 2021, 2017: 2022, 2018: 2025, ...}, {2015: .....}, {2015: 2018, 2016: 2025, 2017: 2024, 2018: 2015, ...}, {2015: 2022, 2016: 2025, 2017: 2021, 2018: 2020, ...}, ...]
+j = 3
+
+    def measure_shuffle(inputs, configs, fitter, chosen, p_no_weather, cells, table, swaps, j):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/bar_run.py:8: NotImplementedError
+_________ test_pixels_are_averaged_into_the_cell_their_centre_falls_in _________
+
+tmp_path = PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_pixels_are_averaged_into_0')
+
+    def test_pixels_are_averaged_into_the_cell_their_centre_falls_in(tmp_path):
+>       s = dm.read_daymet([year_file(tmp_path, 2017)])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_daymet.py:35: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+paths = [PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_pixels_are_averaged_into_0/daymet_v4_daily_na_prcp_2017.nc')]
+chunk_days = 31
+
+    def read_daymet(paths, chunk_days: int = 31) -> DaymetCells:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/daymet.py:21: NotImplementedError
+______________ test_a_cell_of_fill_pixels_only_carries_no_series _______________
+
+tmp_path = PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_a_cell_of_fill_pixels_onl0')
+
+    def test_a_cell_of_fill_pixels_only_carries_no_series(tmp_path):
+>       s = dm.read_daymet([year_file(tmp_path, 2017)])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_daymet.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+paths = [PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_a_cell_of_fill_pixels_onl0/daymet_v4_daily_na_prcp_2017.nc')]
+chunk_days = 31
+
+    def read_daymet(paths, chunk_days: int = 31) -> DaymetCells:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/daymet.py:21: NotImplementedError
+___________ test_a_pixel_missing_on_some_days_but_not_all_is_refused ___________
+
+tmp_path = PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_a_pixel_missing_on_some_d0')
+
+    def test_a_pixel_missing_on_some_days_but_not_all_is_refused(tmp_path):
+        days = daymet_days(2017)
+        prcp = np.array([day_value(d) + OFFSET for d in days])
+        prcp[:, :, 4] = np.nan
+        prcp[10, 0, 0] = np.nan
+        path = tmp_path / "p.nc"
+        write_daymet(path, LAT, LON, days, prcp)
+        with pytest.raises(dm.DaymetDiffers, match="some days but not all"):
+>           dm.read_daymet([path])
+
+tests/test_t8b_daymet.py:57: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+paths = [PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_a_pixel_missing_on_some_d0/p.nc')]
+chunk_days = 31
+
+    def read_daymet(paths, chunk_days: int = 31) -> DaymetCells:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/daymet.py:21: NotImplementedError
+______________ test_reading_in_small_chunks_gives_the_same_series ______________
+
+tmp_path = PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_reading_in_small_chunks_g0')
+
+    def test_reading_in_small_chunks_gives_the_same_series(tmp_path):
+        paths = [year_file(tmp_path, 2016), year_file(tmp_path, 2017)]
+>       a = dm.read_daymet(paths, chunk_days=31)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_daymet.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+paths = [PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_reading_in_small_chunks_g0/daymet_v4_...cratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_reading_in_small_chunks_g0/daymet_v4_daily_na_prcp_2017.nc')]
+chunk_days = 31
+
+    def read_daymet(paths, chunk_days: int = 31) -> DaymetCells:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/daymet.py:21: NotImplementedError
+____________ test_files_with_different_pixel_positions_are_refused _____________
+
+tmp_path = PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_files_with_different_pixe0')
+
+    def test_files_with_different_pixel_positions_are_refused(tmp_path):
+        other = tmp_path / "other"
+        other.mkdir()
+        with pytest.raises(dm.DaymetDiffers, match="lat and lon"):
+>           dm.read_daymet([year_file(tmp_path, 2016), year_file(other, 2017, lon=LON + 0.001)])
+
+tests/test_t8b_daymet.py:72: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+paths = [PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_files_with_different_pixe0/daymet_v4_.../t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_files_with_different_pixe0/other/daymet_v4_daily_na_prcp_2017.nc')]
+chunk_days = 31
+
+    def read_daymet(paths, chunk_days: int = 31) -> DaymetCells:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/daymet.py:21: NotImplementedError
+______________ test_time_must_be_daymets_days_since_1950_at_noon _______________
+
+tmp_path = PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_time_must_be_daymets_days0')
+
+    def test_time_must_be_daymets_days_since_1950_at_noon(tmp_path):
+        days = daymet_days(2017)
+        prcp = np.array([day_value(d) + OFFSET for d in days])
+        path = tmp_path / "p.nc"
+        write_daymet(path, LAT, LON, days, prcp, time_units="hours since 1950-01-01 00:00:00")
+        with pytest.raises(dm.DaymetDiffers, match="time units"):
+>           dm.read_daymet([path])
+
+tests/test_t8b_daymet.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+paths = [PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_time_must_be_daymets_days0/p.nc')]
+chunk_days = 31
+
+    def read_daymet(paths, chunk_days: int = 31) -> DaymetCells:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/daymet.py:21: NotImplementedError
+___________ test_the_dropped_days_are_31_december_of_each_leap_year ____________
+
+    def test_the_dropped_days_are_31_december_of_each_leap_year():
+>       assert dm.dropped_days(date(2014, 10, 1), date(2025, 12, 31)) == [
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            date(2016, 12, 31),
+            date(2020, 12, 31),
+            date(2024, 12, 31),
+        ]
+
+tests/test_t8b_daymet.py:85: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+first = datetime.date(2014, 10, 1), last = datetime.date(2025, 12, 31)
+
+    def dropped_days(first: date, last: date) -> list[date]:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/daymet.py:18: NotImplementedError
+_________________ test_the_delivered_days_are_daymets_calendar _________________
+
+tmp_path = PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_the_delivered_days_are_da0')
+
+    def test_the_delivered_days_are_daymets_calendar(tmp_path):
+>       s = dm.read_daymet([year_file(tmp_path, 2016), year_file(tmp_path, 2017)])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_daymet.py:93: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+paths = [PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_the_delivered_days_are_da0/daymet_v4_...cratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_the_delivered_days_are_da0/daymet_v4_daily_na_prcp_2017.nc')]
+chunk_days = 31
+
+    def read_daymet(paths, chunk_days: int = 31) -> DaymetCells:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/daymet.py:21: NotImplementedError
+_________________ test_the_window_ends_the_day_before_the_week _________________
+
+tmp_path = PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_the_window_ends_the_day_b0')
+
+    def test_the_window_ends_the_day_before_the_week(tmp_path):
+>       s = dm.read_daymet([year_file(tmp_path, 2017)])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_daymet.py:104: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+paths = [PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_the_window_ends_the_day_b0/daymet_v4_daily_na_prcp_2017.nc')]
+chunk_days = 31
+
+    def read_daymet(paths, chunk_days: int = 31) -> DaymetCells:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/daymet.py:21: NotImplementedError
+____________ test_the_week_late_window_ends_8_days_before_the_week _____________
+
+tmp_path = PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_the_week_late_window_ends0')
+
+    def test_the_week_late_window_ends_8_days_before_the_week(tmp_path):
+>       s = dm.read_daymet([year_file(tmp_path, 2017)])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_daymet.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+paths = [PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_the_week_late_window_ends0/daymet_v4_daily_na_prcp_2017.nc')]
+chunk_days = 31
+
+    def read_daymet(paths, chunk_days: int = 31) -> DaymetCells:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/daymet.py:21: NotImplementedError
+________ test_a_window_over_a_dropped_31_december_counts_w_daymet_days _________
+
+tmp_path = PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_a_window_over_a_dropped_30')
+
+    def test_a_window_over_a_dropped_31_december_counts_w_daymet_days(tmp_path):
+        # PENDING B-daymet-leap, proposed reading: 14 delivered days, reaching one calendar day further
+        # back, here 2016-12-17 to 2017-01-01 less 2016-12-31.
+>       s = dm.read_daymet([year_file(tmp_path, 2016), year_file(tmp_path, 2017)])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_daymet.py:120: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+paths = [PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_a_window_over_a_dropped_30/daymet_v4_...cratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_a_window_over_a_dropped_30/daymet_v4_daily_na_prcp_2017.nc')]
+chunk_days = 31
+
+    def read_daymet(paths, chunk_days: int = 31) -> DaymetCells:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/daymet.py:21: NotImplementedError
+___________ test_a_day_that_was_not_pulled_makes_the_window_missing ____________
+
+tmp_path = PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_a_day_that_was_not_pulled0')
+
+    def test_a_day_that_was_not_pulled_makes_the_window_missing(tmp_path):
+>       s = dm.read_daymet([year_file(tmp_path, 2017, skip={date(2017, 6, 1)})])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_daymet.py:130: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+paths = [PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_a_day_that_was_not_pulled0/daymet_v4_daily_na_prcp_2017.nc')]
+chunk_days = 31
+
+    def read_daymet(paths, chunk_days: int = 31) -> DaymetCells:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/daymet.py:21: NotImplementedError
+____________ test_a_window_reaching_before_the_first_day_is_missing ____________
+
+tmp_path = PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_a_window_reaching_before_0')
+
+    def test_a_window_reaching_before_the_first_day_is_missing(tmp_path):
+>       s = dm.read_daymet([year_file(tmp_path, 2017)])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_daymet.py:136: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+paths = [PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_a_window_reaching_before_0/daymet_v4_daily_na_prcp_2017.nc')]
+chunk_days = 31
+
+    def read_daymet(paths, chunk_days: int = 31) -> DaymetCells:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/daymet.py:21: NotImplementedError
+________ test_daily_statistics_give_layer_2_and_the_dewpoint_depression ________
+
+tmp_path = PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_daily_statistics_give_lay0')
+
+    def test_daily_statistics_give_layer_2_and_the_dewpoint_depression(tmp_path):
+        f = fields(len(DAYS), water=(0, 2))
+        path = tmp_path / "era5land-2017-06.nc"
+        write_era5_daily(path, DAYS, LATS, LONS, f)
+>       grids = el.land_grids(el.read_daily_statistics([path]))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_era5land.py:36: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+paths = [PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_daily_statistics_give_lay0/era5land-2017-06.nc')]
+
+    def read_daily_statistics(paths) -> dict[str, dict[tuple[int, int], dict]]:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/era5land.py:10: NotImplementedError
+__________ test_a_file_carrying_layer_1_instead_of_layer_2_is_refused __________
+
+tmp_path = PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_a_file_carrying_layer_1_i0')
+
+    def test_a_file_carrying_layer_1_instead_of_layer_2_is_refused(tmp_path):
+        f = fields(len(DAYS))
+        f["stl1"] = f.pop("stl2")
+        path = tmp_path / "era5land-2017-06.nc"
+        write_era5_daily(path, DAYS, LATS, LONS, f)
+        with pytest.raises(el.Era5Differs, match="stl2"):
+>           el.read_daily_statistics([path])
+
+tests/test_t8b_era5land.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+paths = [PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_a_file_carrying_layer_1_i0/era5land-2017-06.nc')]
+
+    def read_daily_statistics(paths) -> dict[str, dict[tuple[int, int], dict]]:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/era5land.py:10: NotImplementedError
+____________ test_coordinates_off_the_tenth_degree_grid_are_refused ____________
+
+tmp_path = PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_coordinates_off_the_tenth0')
+
+    def test_coordinates_off_the_tenth_degree_grid_are_refused(tmp_path):
+        path = tmp_path / "era5land-2017-06.nc"
+        write_era5_daily(path, DAYS, [45.05, 45.0], LONS, fields(len(DAYS)))
+        with pytest.raises(el.Era5Differs, match="multiples of 0.1"):
+>           el.read_daily_statistics([path])
+
+tests/test_t8b_era5land.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+paths = [PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_coordinates_off_the_tenth0/era5land-2017-06.nc')]
+
+    def read_daily_statistics(paths) -> dict[str, dict[tuple[int, int], dict]]:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/era5land.py:10: NotImplementedError
+_________ test_a_day_delivered_twice_with_different_values_is_refused __________
+
+tmp_path = PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_a_day_delivered_twice_wit0')
+
+    def test_a_day_delivered_twice_with_different_values_is_refused(tmp_path):
+        a, b = tmp_path / "a.nc", tmp_path / "b.nc"
+        write_era5_daily(a, DAYS, LATS, LONS, fields(len(DAYS)))
+        f = fields(len(DAYS))
+        f["t2m"] = f["t2m"] + 1.0
+        write_era5_daily(b, DAYS, LATS, LONS, f)
+        with pytest.raises(el.Era5Differs, match="twice"):
+>           el.read_daily_statistics([a, b])
+
+tests/test_t8b_era5land.py:75: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+paths = [PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_a_day_delivered_twice_wit0/a.nc'), PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_a_day_delivered_twice_wit0/b.nc')]
+
+    def read_daily_statistics(paths) -> dict[str, dict[tuple[int, int], dict]]:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/era5land.py:10: NotImplementedError
+_ test_hourly_files_become_24_hour_utc_means_and_an_incomplete_day_stays_missing _
+
+tmp_path = PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_hourly_files_become_24_ho0')
+
+    def test_hourly_files_become_24_hour_utc_means_and_an_incomplete_day_stays_missing(tmp_path):
+        start = int(datetime(2017, 6, 1, tzinfo=UTC).timestamp())
+        stamps = np.array([start + 3600 * h for h in range(48 + 23)])  # day 3 lacks 23:00
+        f = fields(len(stamps))
+        path = tmp_path / "hourly-era5land-2017-06.nc"
+        write_era5_hourly(path, stamps, LATS, LONS, f)
+>       grids = el.land_grids(el.read_hourly([path]))
+                              ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_era5land.py:84: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+paths = [PosixPath('/mnt/work/scratch/t8b-step1/tmp/pytest-of-zynergy-labs/pytest-0/test_hourly_files_become_24_ho0/hourly-era5land-2017-06.nc')]
+
+    def read_hourly(paths) -> dict[str, dict[tuple[int, int], dict]]:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/era5land.py:13: NotImplementedError
+____________ test_the_download_must_be_taken_after_15_february_2027 ____________
+
+    def test_the_download_must_be_taken_after_15_february_2027():
+        with pytest.raises(c5.C5Refused, match="2027-02-16"):
+>           c5.check_download(datetime(2027, 2, 15, 23, 59, tzinfo=UTC))
+
+tests/test_t8b_frozen_c5.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+created = datetime.datetime(2027, 2, 15, 23, 59, tzinfo=datetime.timezone.utc)
+
+    def check_download(created) -> None:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/c5.py:20: NotImplementedError
+_ test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself[before0-after0-True] _
+
+before = (30, 100), after = (41, 100), moved = True
+
+    @pytest.mark.parametrize(
+        "before, after, moved",
+        [
+            ((30, 100), (41, 100), True),
+            ((30, 100), (39, 100), False),
+            ((30, 100), (19, 100), True),
+            ((30, 100), (21, 100), False),
+            ((30, 100), (40, 100), False),  # exactly a third up is not "more than a third"
+            ((30, 100), (20, 100), False),  # nor exactly a third down
+            ((3, 10), (400, 1000), False),  # shares are compared exactly, not as floats
+        ],
+    )
+    def test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself(before, after, moved):
+>       assert jr.share_moved(before, after) is moved
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_jump.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+before = (30, 100), after = (41, 100)
+
+    def share_moved(before: tuple[int, int], after: tuple[int, int]) -> bool:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/jump_reporting.py:13: NotImplementedError
+_ test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself[before1-after1-False] _
+
+before = (30, 100), after = (39, 100), moved = False
+
+    @pytest.mark.parametrize(
+        "before, after, moved",
+        [
+            ((30, 100), (41, 100), True),
+            ((30, 100), (39, 100), False),
+            ((30, 100), (19, 100), True),
+            ((30, 100), (21, 100), False),
+            ((30, 100), (40, 100), False),  # exactly a third up is not "more than a third"
+            ((30, 100), (20, 100), False),  # nor exactly a third down
+            ((3, 10), (400, 1000), False),  # shares are compared exactly, not as floats
+        ],
+    )
+    def test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself(before, after, moved):
+>       assert jr.share_moved(before, after) is moved
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_jump.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+before = (30, 100), after = (39, 100)
+
+    def share_moved(before: tuple[int, int], after: tuple[int, int]) -> bool:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/jump_reporting.py:13: NotImplementedError
+_ test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself[before2-after2-True] _
+
+before = (30, 100), after = (19, 100), moved = True
+
+    @pytest.mark.parametrize(
+        "before, after, moved",
+        [
+            ((30, 100), (41, 100), True),
+            ((30, 100), (39, 100), False),
+            ((30, 100), (19, 100), True),
+            ((30, 100), (21, 100), False),
+            ((30, 100), (40, 100), False),  # exactly a third up is not "more than a third"
+            ((30, 100), (20, 100), False),  # nor exactly a third down
+            ((3, 10), (400, 1000), False),  # shares are compared exactly, not as floats
+        ],
+    )
+    def test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself(before, after, moved):
+>       assert jr.share_moved(before, after) is moved
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_jump.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+before = (30, 100), after = (19, 100)
+
+    def share_moved(before: tuple[int, int], after: tuple[int, int]) -> bool:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/jump_reporting.py:13: NotImplementedError
+_ test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself[before3-after3-False] _
+
+before = (30, 100), after = (21, 100), moved = False
+
+    @pytest.mark.parametrize(
+        "before, after, moved",
+        [
+            ((30, 100), (41, 100), True),
+            ((30, 100), (39, 100), False),
+            ((30, 100), (19, 100), True),
+            ((30, 100), (21, 100), False),
+            ((30, 100), (40, 100), False),  # exactly a third up is not "more than a third"
+            ((30, 100), (20, 100), False),  # nor exactly a third down
+            ((3, 10), (400, 1000), False),  # shares are compared exactly, not as floats
+        ],
+    )
+    def test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself(before, after, moved):
+>       assert jr.share_moved(before, after) is moved
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_jump.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+before = (30, 100), after = (21, 100)
+
+    def share_moved(before: tuple[int, int], after: tuple[int, int]) -> bool:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/jump_reporting.py:13: NotImplementedError
+_ test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself[before4-after4-False] _
+
+before = (30, 100), after = (40, 100), moved = False
+
+    @pytest.mark.parametrize(
+        "before, after, moved",
+        [
+            ((30, 100), (41, 100), True),
+            ((30, 100), (39, 100), False),
+            ((30, 100), (19, 100), True),
+            ((30, 100), (21, 100), False),
+            ((30, 100), (40, 100), False),  # exactly a third up is not "more than a third"
+            ((30, 100), (20, 100), False),  # nor exactly a third down
+            ((3, 10), (400, 1000), False),  # shares are compared exactly, not as floats
+        ],
+    )
+    def test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself(before, after, moved):
+>       assert jr.share_moved(before, after) is moved
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_jump.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+before = (30, 100), after = (40, 100)
+
+    def share_moved(before: tuple[int, int], after: tuple[int, int]) -> bool:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/jump_reporting.py:13: NotImplementedError
+_ test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself[before5-after5-False] _
+
+before = (30, 100), after = (20, 100), moved = False
+
+    @pytest.mark.parametrize(
+        "before, after, moved",
+        [
+            ((30, 100), (41, 100), True),
+            ((30, 100), (39, 100), False),
+            ((30, 100), (19, 100), True),
+            ((30, 100), (21, 100), False),
+            ((30, 100), (40, 100), False),  # exactly a third up is not "more than a third"
+            ((30, 100), (20, 100), False),  # nor exactly a third down
+            ((3, 10), (400, 1000), False),  # shares are compared exactly, not as floats
+        ],
+    )
+    def test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself(before, after, moved):
+>       assert jr.share_moved(before, after) is moved
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_jump.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+before = (30, 100), after = (20, 100)
+
+    def share_moved(before: tuple[int, int], after: tuple[int, int]) -> bool:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/jump_reporting.py:13: NotImplementedError
+_ test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself[before6-after6-False] _
+
+before = (3, 10), after = (400, 1000), moved = False
+
+    @pytest.mark.parametrize(
+        "before, after, moved",
+        [
+            ((30, 100), (41, 100), True),
+            ((30, 100), (39, 100), False),
+            ((30, 100), (19, 100), True),
+            ((30, 100), (21, 100), False),
+            ((30, 100), (40, 100), False),  # exactly a third up is not "more than a third"
+            ((30, 100), (20, 100), False),  # nor exactly a third down
+            ((3, 10), (400, 1000), False),  # shares are compared exactly, not as floats
+        ],
+    )
+    def test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself(before, after, moved):
+>       assert jr.share_moved(before, after) is moved
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_jump.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+before = (3, 10), after = (400, 1000)
+
+    def share_moved(before: tuple[int, int], after: tuple[int, int]) -> bool:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/jump_reporting.py:13: NotImplementedError
+______________ test_the_rule_refuses_while_its_readings_are_open _______________
+
+    def test_the_rule_refuses_while_its_readings_are_open():
+        with pytest.raises(design.NotRuled):
+>           jr.read_rule(steady(), steady())
+
+tests/test_t8b_jump.py:35: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+chanterelle = {2023: Totals(records=1000, with_accuracy=900, accuracy_ok=800, eligible_licence=700), 2024: Totals(records=2000, with_accuracy=1800, accuracy_ok=1600, eligible_licence=1400)}
+fungi = {2023: Totals(records=1000, with_accuracy=900, accuracy_ok=800, eligible_licence=700), 2024: Totals(records=2000, with_accuracy=1800, accuracy_ok=1600, eligible_licence=1400)}
+
+    def read_rule(chanterelle, fungi):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/jump_reporting.py:16: NotImplementedError
+_____ test_chanterelle_accuracy_share_moving_alone_reads_partly_reporting ______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x734efb7fae00>
+
+    def test_chanterelle_accuracy_share_moving_alone_reads_partly_reporting(monkeypatch):
+        rule_all(monkeypatch, "count")
+        ch = {2023: T(100, 90, 50, 70), 2024: T(300, 280, 250, 210)}  # 0.50 -> 0.83
+>       out = jr.read_rule(ch, steady())
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_jump.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+chanterelle = {2023: Totals(records=100, with_accuracy=90, accuracy_ok=50, eligible_licence=70), 2024: Totals(records=300, with_accuracy=280, accuracy_ok=250, eligible_licence=210)}
+fungi = {2023: Totals(records=1000, with_accuracy=900, accuracy_ok=800, eligible_licence=700), 2024: Totals(records=2000, with_accuracy=1800, accuracy_ok=1600, eligible_licence=1400)}
+
+    def read_rule(chanterelle, fungi):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/jump_reporting.py:16: NotImplementedError
+______ test_chanterelle_licence_share_moving_alone_reads_partly_reporting ______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x734efb38e850>
+
+    def test_chanterelle_licence_share_moving_alone_reads_partly_reporting(monkeypatch):
+        rule_all(monkeypatch, "count")
+        ch = {2023: T(100, 90, 80, 70), 2024: T(300, 280, 240, 90)}  # licence 0.70 -> 0.30
+>       out = jr.read_rule(ch, steady())
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_jump.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+chanterelle = {2023: Totals(records=100, with_accuracy=90, accuracy_ok=80, eligible_licence=70), 2024: Totals(records=300, with_accuracy=280, accuracy_ok=240, eligible_licence=90)}
+fungi = {2023: Totals(records=1000, with_accuracy=900, accuracy_ok=800, eligible_licence=700), 2024: Totals(records=2000, with_accuracy=1800, accuracy_ok=1600, eligible_licence=1400)}
+
+    def read_rule(chanterelle, fungi):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/jump_reporting.py:16: NotImplementedError
+______________ test_a_move_shared_by_all_fungi_stays_undetermined ______________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x734efb38df50>
+
+    def test_a_move_shared_by_all_fungi_stays_undetermined(monkeypatch):
+        rule_all(monkeypatch, "count")
+        ch = {2023: T(100, 90, 50, 70), 2024: T(300, 280, 250, 210)}
+        fungi = {2023: T(1000, 900, 500, 700), 2024: T(2000, 1800, 1700, 1400)}  # 0.50 -> 0.85
+>       assert jr.read_rule(ch, fungi)["label"] == design.UNDETERMINED
+               ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_jump.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+chanterelle = {2023: Totals(records=100, with_accuracy=90, accuracy_ok=50, eligible_licence=70), 2024: Totals(records=300, with_accuracy=280, accuracy_ok=250, eligible_licence=210)}
+fungi = {2023: Totals(records=1000, with_accuracy=900, accuracy_ok=500, eligible_licence=700), 2024: Totals(records=2000, with_accuracy=1800, accuracy_ok=1700, eligible_licence=1400)}
+
+    def read_rule(chanterelle, fungi):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/jump_reporting.py:16: NotImplementedError
+____________________ test_nothing_moving_stays_undetermined ____________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x734efb399400>
+
+    def test_nothing_moving_stays_undetermined(monkeypatch):
+        rule_all(monkeypatch, "count")
+>       assert jr.read_rule(steady(), steady())["label"] == design.UNDETERMINED
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_jump.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+chanterelle = {2023: Totals(records=1000, with_accuracy=900, accuracy_ok=800, eligible_licence=700), 2024: Totals(records=2000, with_accuracy=1800, accuracy_ok=1600, eligible_licence=1400)}
+fungi = {2023: Totals(records=1000, with_accuracy=900, accuracy_ok=800, eligible_licence=700), 2024: Totals(records=2000, with_accuracy=1800, accuracy_ok=1600, eligible_licence=1400)}
+
+    def read_rule(chanterelle, fungi):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/jump_reporting.py:16: NotImplementedError
+_______ test_a_year_with_no_records_has_no_share_and_stays_undetermined ________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x734efb4086e0>
+
+    def test_a_year_with_no_records_has_no_share_and_stays_undetermined(monkeypatch):
+        rule_all(monkeypatch, "count")
+        ch = {2023: T(0, 0, 0, 0), 2024: T(300, 280, 250, 210)}
+>       out = jr.read_rule(ch, steady())
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_jump.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+chanterelle = {2023: Totals(records=0, with_accuracy=0, accuracy_ok=0, eligible_licence=0), 2024: Totals(records=300, with_accuracy=280, accuracy_ok=250, eligible_licence=210)}
+fungi = {2023: Totals(records=1000, with_accuracy=900, accuracy_ok=800, eligible_licence=700), 2024: Totals(records=2000, with_accuracy=1800, accuracy_ok=1600, eligible_licence=1400)}
+
+    def read_rule(chanterelle, fungi):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/jump_reporting.py:16: NotImplementedError
+___________________ test_totals_that_do_not_nest_are_refused ___________________
+
+    def test_totals_that_do_not_nest_are_refused():
+>       with pytest.raises(ValueError, match="nest"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/test_t8b_jump.py:75: Failed
+_ test_each_unit_reads_its_own_cell_or_its_nearest_neighbour_and_none_is_marked _
+
+    def test_each_unit_reads_its_own_cell_or_its_nearest_neighbour_and_none_is_marked():
+        daymet = rain_series([(450, -1230), (451, -1229)])
+        cells = [Cell(450, -1230), Cell(450, -1229), Cell(455, -1240)]
+>       p = ms.unit_points(cells, daymet, grids())
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_measures.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cells = [Cell(lat_tenths=450, lon_tenths=-1230), Cell(lat_tenths=450, lon_tenths=-1229), Cell(lat_tenths=455, lon_tenths=-1240)]
+daymet = DaymetCells(days=[datetime.date(2015, 9, 1), datetime.date(2015, 9, 2), datetime.date(2015, 9, 3), datetime.date(2015,...239., 240., 241., 242., 243., 244.,
+        245., 246., 247., 248., 249.]]), pixels={(450, -1230): 1, (451, -1229): 1})
+grids = {'soil_moisture_l2': DailyGrid(start=datetime.date(2015, 9, 1), index={(450, -1230): 0, (450, -1229): 1, (451, -1230):...
+       [4.  , 4.01, 4.02, ..., 8.97, 8.98, 8.99],
+       [5.  , 5.01, 5.02, ..., 9.97, 9.98, 9.99]], shape=(3, 500)))}
+
+    def unit_points(cells, daymet, grids) -> UnitPoints:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/measures.py:17: NotImplementedError
+______ test_the_measures_are_d159s_windows_ending_the_day_before_the_week ______
+
+    def test_the_measures_are_d159s_windows_ending_the_day_before_the_week():
+        daymet = rain_series([(450, -1230)])
+        g = grids()
+        cells = [Cell(450, -1230)]
+        monday = date(2016, 3, 7)
+>       p = ms.unit_points(cells, daymet, g)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_measures.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cells = [Cell(lat_tenths=450, lon_tenths=-1230)]
+daymet = DaymetCells(days=[datetime.date(2015, 9, 1), datetime.date(2015, 9, 2), datetime.date(2015, 9, 3), datetime.date(2015,...36., 137., 138., 139., 140., 141., 142., 143., 144.,
+        145., 146., 147., 148., 149.]]), pixels={(450, -1230): 1})
+grids = {'soil_moisture_l2': DailyGrid(start=datetime.date(2015, 9, 1), index={(450, -1230): 0, (450, -1229): 1, (451, -1230):...
+       [4.  , 4.01, 4.02, ..., 8.97, 8.98, 8.99],
+       [5.  , 5.01, 5.02, ..., 9.97, 9.98, 9.99]], shape=(3, 500)))}
+
+    def unit_points(cells, daymet, grids) -> UnitPoints:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/measures.py:17: NotImplementedError
+_________ test_the_week_late_timing_moves_every_window_7_days_earlier __________
+
+    def test_the_week_late_timing_moves_every_window_7_days_earlier():
+        daymet = rain_series([(450, -1230)])
+        g = grids()
+        cells = [Cell(450, -1230)]
+        monday = date(2016, 3, 7)
+>       p = ms.unit_points(cells, daymet, g)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_measures.py:76: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cells = [Cell(lat_tenths=450, lon_tenths=-1230)]
+daymet = DaymetCells(days=[datetime.date(2015, 9, 1), datetime.date(2015, 9, 2), datetime.date(2015, 9, 3), datetime.date(2015,...36., 137., 138., 139., 140., 141., 142., 143., 144.,
+        145., 146., 147., 148., 149.]]), pixels={(450, -1230): 1})
+grids = {'soil_moisture_l2': DailyGrid(start=datetime.date(2015, 9, 1), index={(450, -1230): 0, (450, -1229): 1, (451, -1230):...
+       [4.  , 4.01, 4.02, ..., 8.97, 8.98, 8.99],
+       [5.  , 5.01, 5.02, ..., 9.97, 9.98, 9.99]], shape=(3, 500)))}
+
+    def unit_points(cells, daymet, grids) -> UnitPoints:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/measures.py:17: NotImplementedError
+___________ test_a_unit_with_a_missing_window_is_refused_and_counted ___________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x734f11d11010>
+
+    def test_a_unit_with_a_missing_window_is_refused_and_counted(monkeypatch):
+        rule_all(monkeypatch, "fit")
+        daymet = rain_series([(450, -1230)])
+        g = grids()
+        cells = [Cell(450, -1230), Cell(455, -1240)]
+>       p = ms.unit_points(cells, daymet, g)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_measures.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cells = [Cell(lat_tenths=450, lon_tenths=-1230), Cell(lat_tenths=455, lon_tenths=-1240)]
+daymet = DaymetCells(days=[datetime.date(2015, 9, 1), datetime.date(2015, 9, 2), datetime.date(2015, 9, 3), datetime.date(2015,...36., 137., 138., 139., 140., 141., 142., 143., 144.,
+        145., 146., 147., 148., 149.]]), pixels={(450, -1230): 1})
+grids = {'soil_moisture_l2': DailyGrid(start=datetime.date(2015, 9, 1), index={(450, -1230): 0, (450, -1229): 1, (451, -1230):...
+       [4.  , 4.01, 4.02, ..., 8.97, 8.98, 8.99],
+       [5.  , 5.01, 5.02, ..., 9.97, 9.98, 9.99]], shape=(3, 500)))}
+
+    def unit_points(cells, daymet, grids) -> UnitPoints:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/measures.py:17: NotImplementedError
+_______ test_building_the_fit_inputs_refuses_while_the_readings_are_open _______
+
+    def test_building_the_fit_inputs_refuses_while_the_readings_are_open():
+        daymet = rain_series([(450, -1230)])
+        g = grids()
+>       p = ms.unit_points([Cell(450, -1230)], daymet, g)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_measures.py:96: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cells = [Cell(lat_tenths=450, lon_tenths=-1230)]
+daymet = DaymetCells(days=[datetime.date(2015, 9, 1), datetime.date(2015, 9, 2), datetime.date(2015, 9, 3), datetime.date(2015,...36., 137., 138., 139., 140., 141., 142., 143., 144.,
+        145., 146., 147., 148., 149.]]), pixels={(450, -1230): 1})
+grids = {'soil_moisture_l2': DailyGrid(start=datetime.date(2015, 9, 1), index={(450, -1230): 0, (450, -1229): 1, (451, -1230):...
+       [4.  , 4.01, 4.02, ..., 8.97, 8.98, 8.99],
+       [5.  , 5.01, 5.02, ..., 9.97, 9.98, 9.99]], shape=(3, 500)))}
+
+    def unit_points(cells, daymet, grids) -> UnitPoints:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/measures.py:17: NotImplementedError
+_____ test_the_swap_table_under_the_identity_reproduces_the_true_measures ______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x734f11d12cf0>
+
+    def test_the_swap_table_under_the_identity_reproduces_the_true_measures(monkeypatch):
+        rule_all(monkeypatch, "fit")
+        daymet = rain_series([(450, -1230)])
+        g = grids()
+        cells = [Cell(450, -1230)] * 2
+        mondays = [date(2016, 3, 7), date(2016, 3, 14)]
+>       p = ms.unit_points(cells, daymet, g)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_measures.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cells = [Cell(lat_tenths=450, lon_tenths=-1230), Cell(lat_tenths=450, lon_tenths=-1230)]
+daymet = DaymetCells(days=[datetime.date(2015, 9, 1), datetime.date(2015, 9, 2), datetime.date(2015, 9, 3), datetime.date(2015,...36., 137., 138., 139., 140., 141., 142., 143., 144.,
+        145., 146., 147., 148., 149.]]), pixels={(450, -1230): 1})
+grids = {'soil_moisture_l2': DailyGrid(start=datetime.date(2015, 9, 1), index={(450, -1230): 0, (450, -1229): 1, (451, -1230):...
+       [4.  , 4.01, 4.02, ..., 8.97, 8.98, 8.99],
+       [5.  , 5.01, 5.02, ..., 9.97, 9.98, 9.99]], shape=(3, 500)))}
+
+    def unit_points(cells, daymet, grids) -> UnitPoints:
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/measures.py:17: NotImplementedError
+_______________ test_the_range_comes_from_the_training_rows_only _______________
+
+    def test_the_range_comes_from_the_training_rows_only():
+        w = np.array([[1.0, 5.0], [3.0, -2.0], [100.0, 50.0]])
+        train = np.array([True, True, False])
+>       low, high = cl.training_range(w, train)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_models.py:37: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+weather = array([[  1.,   5.],
+       [  3.,  -2.],
+       [100.,  50.]])
+train = array([ True,  True, False])
+
+    def training_range(weather, train):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/clamp.py:6: NotImplementedError
+_ test_values_outside_the_range_take_its_nearest_end_and_inside_stay_as_they_are _
+
+    def test_values_outside_the_range_take_its_nearest_end_and_inside_stay_as_they_are():
+        w = np.array([[0.0, 6.0], [2.0, 0.0], [100.0, -50.0]])
+>       out = cl.clamp(w, np.array([1.0, -2.0]), np.array([3.0, 5.0]))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_models.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+weather = array([[  0.,   6.],
+       [  2.,   0.],
+       [100., -50.]])
+low = array([ 1., -2.]), high = array([3., 5.])
+
+    def clamp(weather, low, high):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/clamp.py:9: NotImplementedError
+______ test_clamp_to_training_clamps_held_out_rows_to_the_training_range _______
+
+    def test_clamp_to_training_clamps_held_out_rows_to_the_training_range():
+        w = np.array([[1.0], [3.0], [1279.0], [-4.0]])
+        train = np.array([True, True, False, False])
+>       assert cl.clamp_to_training(w, train)[:, 0].tolist() == [1.0, 3.0, 3.0, 1.0]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_models.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+weather = array([[ 1.000e+00],
+       [ 3.000e+00],
+       [ 1.279e+03],
+       [-4.000e+00]])
+train = array([ True,  True, False, False])
+
+    def clamp_to_training(weather, train):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/clamp.py:12: NotImplementedError
+______ test_the_tree_inputs_are_t1s_calendar_effort_and_the_five_measures ______
+
+    def test_the_tree_inputs_are_t1s_calendar_effort_and_the_five_measures():
+        inputs = world(per_year=20)
+        seen = []
+    
+        def fitter(config, train_x, train_y, test_x):
+            seen.append(train_x.shape[1])
+            return np.full(len(test_x), train_y.mean())
+    
+        configs = [{"id": "a"}]
+>       bm.loyo_trees(inputs, True, configs, fitter)
+
+tests/test_t8b_models.py:66: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+inputs = Inputs(y=array([1., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 1., 0.,...890148,  0.27451628],
+       [ 0.14609889, -0.36570547, -0.8646954 , -0.68522092,  0.65291031]],
+      shape=(220, 5)))
+use_weather = True, configs = [{'id': 'a'}]
+fitter = <function test_the_tree_inputs_are_t1s_calendar_effort_and_the_five_measures.<locals>.fitter at 0x734efb40e6c0>
+weather = None, fixed_choice = None
+
+    def loyo_trees(inputs, use_weather, configs, fitter, weather=None, fixed_choice=None):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/models.py:6: NotImplementedError
+_ test_the_held_out_year_reaches_the_trees_clamped_to_its_folds_training_range _
+
+    def test_the_held_out_year_reaches_the_trees_clamped_to_its_folds_training_range():
+        inputs = world(per_year=20)
+        w = inputs.weather.copy()
+        held = inputs.years == 2021
+        w[held, 1] = 1e6
+        inputs = md.Inputs(inputs.y, inputs.years, inputs.mondays, inputs.latitude,
+                           inputs.longitude, inputs.log_effort, w)  # fmt: skip
+        finals = []
+    
+        def fitter(config, train_x, train_y, test_x):
+            if len(train_x) + len(test_x) == len(inputs.y):
+                finals.append((train_x[:, 5:], test_x[:, 5:]))
+            return np.full(len(test_x), train_y.mean())
+    
+>       bm.loyo_trees(inputs, True, [{"id": "a"}], fitter)
+
+tests/test_t8b_models.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+inputs = Inputs(y=array([1., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 1., 0.,...890148,  0.27451628],
+       [ 0.14609889, -0.36570547, -0.8646954 , -0.68522092,  0.65291031]],
+      shape=(220, 5)))
+use_weather = True, configs = [{'id': 'a'}]
+fitter = <function test_the_held_out_year_reaches_the_trees_clamped_to_its_folds_training_range.<locals>.fitter at 0x734efb40f480>
+weather = None, fixed_choice = None
+
+    def loyo_trees(inputs, use_weather, configs, fitter, weather=None, fixed_choice=None):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/models.py:6: NotImplementedError
+______ test_tuning_is_on_training_years_only_and_a_fixed_choice_skips_it _______
+
+    def test_tuning_is_on_training_years_only_and_a_fixed_choice_skips_it():
+        inputs = world(per_year=20)
+        calls = {"n": 0}
+    
+        def fitter(config, train_x, train_y, test_x):
+            calls["n"] += 1
+            return np.full(len(test_x), train_y.mean() + (0.01 if config["id"] == "b" else 0.0))
+    
+        configs = [{"id": "a"}, {"id": "b"}]
+>       _p, chosen = bm.loyo_trees(inputs, True, configs, fitter)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_models.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+inputs = Inputs(y=array([1., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 1., 0.,...890148,  0.27451628],
+       [ 0.14609889, -0.36570547, -0.8646954 , -0.68522092,  0.65291031]],
+      shape=(220, 5)))
+use_weather = True, configs = [{'id': 'a'}, {'id': 'b'}]
+fitter = <function test_tuning_is_on_training_years_only_and_a_fixed_choice_skips_it.<locals>.fitter at 0x734efb40f7f0>
+weather = None, fixed_choice = None
+
+    def loyo_trees(inputs, use_weather, configs, fitter, weather=None, fixed_choice=None):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/models.py:6: NotImplementedError
+__ test_the_tree_model_predicts_every_unit_from_a_fit_that_never_saw_its_year __
+
+    def test_the_tree_model_predicts_every_unit_from_a_fit_that_never_saw_its_year():
+        inputs = world(per_year=20)
+    
+        def fitter(config, train_x, train_y, test_x):
+            return np.full(len(test_x), train_y.mean())
+    
+>       p, _ = bm.loyo_trees(inputs, True, [{"id": "a"}], fitter)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_models.py:117: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+inputs = Inputs(y=array([1., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 1., 0.,...890148,  0.27451628],
+       [ 0.14609889, -0.36570547, -0.8646954 , -0.68522092,  0.65291031]],
+      shape=(220, 5)))
+use_weather = True, configs = [{'id': 'a'}]
+fitter = <function test_the_tree_model_predicts_every_unit_from_a_fit_that_never_saw_its_year.<locals>.fitter at 0x734efb3b71c0>
+weather = None, fixed_choice = None
+
+    def loyo_trees(inputs, use_weather, configs, fitter, weather=None, fixed_choice=None):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/models.py:6: NotImplementedError
+___ test_the_readable_model_does_not_extrapolate_past_a_folds_training_range ___
+
+    def test_the_readable_model_does_not_extrapolate_past_a_folds_training_range():
+        inputs = world()
+        held = inputs.years == 2021
+        top = inputs.weather[~held, 1].max()
+        extreme = inputs.weather.copy()
+        extreme[held, 1] = 5 * abs(top) + 10
+        at_top = inputs.weather.copy()
+        at_top[held, 1] = top
+        spec = md.PROPOSED_SPEC
+>       p_extreme = bm.loyo_readable(inputs, spec, weather=extreme)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_t8b_models.py:135: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+inputs = Inputs(y=array([0., 1., 0., ..., 0., 0., 0.], shape=(3300,)), years=array([2015, 2015, 2015, ..., 2025, 2025, 2025], s...38533,  0.57472804],
+       [ 1.31939139, -1.24281308,  0.95982428, -0.67107343, -1.22650517]],
+      shape=(3300, 5)))
+spec = ModelSpec(harmonics=3, place_df=3, effort='linear', measure_df=3)
+weather = array([[ 1.08473596, -0.28669816,  0.93779654,  0.1671569 , -1.28117514],
+       [-1.12244418,  0.75407028, -1.3864832...838533,  0.57472804],
+       [ 1.31939139, -1.24281308,  0.95982428, -0.67107343, -1.22650517]],
+      shape=(3300, 5))
+
+    def loyo_readable(inputs, spec, weather=None):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/models.py:9: NotImplementedError
+_ test_the_readable_model_matches_t8s_additive_model_when_nothing_is_out_of_range _
+
+    def test_the_readable_model_matches_t8s_additive_model_when_nothing_is_out_of_range():
+        inputs = world()
+        w = inputs.weather.copy()
+        # Every held-out value inside its fold's training range: the clamp changes nothing.
+        for h in range(2015, 2026):
+            held = inputs.years == h
+            lo, hi = w[~held].min(axis=0), w[~held].max(axis=0)
+            w[held] = np.clip(w[held], lo, hi)
+        inputs = md.Inputs(inputs.y, inputs.years, inputs.mondays, inputs.latitude,
+                           inputs.longitude, inputs.log_effort, w)  # fmt: skip
+        spec = md.PROPOSED_SPEC
+>       assert bm.loyo_readable(inputs, spec) == pytest.approx(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            md.loyo_additive(inputs, spec, True), rel=1e-9
+        )
+
+tests/test_t8b_models.py:151: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+inputs = Inputs(y=array([0., 1., 0., ..., 0., 0., 0.], shape=(3300,)), years=array([2015, 2015, 2015, ..., 2025, 2025, 2025], s...38533,  0.57472804],
+       [ 1.31939139, -1.24281308,  0.95982428, -0.67107343, -1.22650517]],
+      shape=(3300, 5)))
+spec = ModelSpec(harmonics=3, place_df=3, effort='linear', measure_df=3)
+weather = None
+
+    def loyo_readable(inputs, spec, weather=None):
+>       raise NotImplementedError
+E       NotImplementedError
+
+src/forager_forecast/t8b/models.py:9: NotImplementedError
+=========================== short test summary info ============================
+FAILED tests/test_t8b_bar.py::test_the_tree_bar_refuses_while_the_fit_readings_are_open
+FAILED tests/test_t8b_bar.py::test_tuning_runs_once_per_fold_and_the_199_swaps_reuse_it
+FAILED tests/test_t8b_bar.py::test_each_swap_fits_on_the_swapped_years_weather
+FAILED tests/test_t8b_bar.py::test_the_conditions_carry_1000_resamples_and_seed_20260918
+FAILED tests/test_t8b_bar.py::test_a_measures_own_shuffle_swaps_only_that_column
+FAILED tests/test_t8b_daymet.py::test_pixels_are_averaged_into_the_cell_their_centre_falls_in
+FAILED tests/test_t8b_daymet.py::test_a_cell_of_fill_pixels_only_carries_no_series
+FAILED tests/test_t8b_daymet.py::test_a_pixel_missing_on_some_days_but_not_all_is_refused
+FAILED tests/test_t8b_daymet.py::test_reading_in_small_chunks_gives_the_same_series
+FAILED tests/test_t8b_daymet.py::test_files_with_different_pixel_positions_are_refused
+FAILED tests/test_t8b_daymet.py::test_time_must_be_daymets_days_since_1950_at_noon
+FAILED tests/test_t8b_daymet.py::test_the_dropped_days_are_31_december_of_each_leap_year
+FAILED tests/test_t8b_daymet.py::test_the_delivered_days_are_daymets_calendar
+FAILED tests/test_t8b_daymet.py::test_the_window_ends_the_day_before_the_week
+FAILED tests/test_t8b_daymet.py::test_the_week_late_window_ends_8_days_before_the_week
+FAILED tests/test_t8b_daymet.py::test_a_window_over_a_dropped_31_december_counts_w_daymet_days
+FAILED tests/test_t8b_daymet.py::test_a_day_that_was_not_pulled_makes_the_window_missing
+FAILED tests/test_t8b_daymet.py::test_a_window_reaching_before_the_first_day_is_missing
+FAILED tests/test_t8b_era5land.py::test_daily_statistics_give_layer_2_and_the_dewpoint_depression
+FAILED tests/test_t8b_era5land.py::test_a_file_carrying_layer_1_instead_of_layer_2_is_refused
+FAILED tests/test_t8b_era5land.py::test_coordinates_off_the_tenth_degree_grid_are_refused
+FAILED tests/test_t8b_era5land.py::test_a_day_delivered_twice_with_different_values_is_refused
+FAILED tests/test_t8b_era5land.py::test_hourly_files_become_24_hour_utc_means_and_an_incomplete_day_stays_missing
+FAILED tests/test_t8b_frozen_c5.py::test_the_download_must_be_taken_after_15_february_2027
+FAILED tests/test_t8b_jump.py::test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself[before0-after0-True]
+FAILED tests/test_t8b_jump.py::test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself[before1-after1-False]
+FAILED tests/test_t8b_jump.py::test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself[before2-after2-True]
+FAILED tests/test_t8b_jump.py::test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself[before3-after3-False]
+FAILED tests/test_t8b_jump.py::test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself[before4-after4-False]
+FAILED tests/test_t8b_jump.py::test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself[before5-after5-False]
+FAILED tests/test_t8b_jump.py::test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself[before6-after6-False]
+FAILED tests/test_t8b_jump.py::test_the_rule_refuses_while_its_readings_are_open
+FAILED tests/test_t8b_jump.py::test_chanterelle_accuracy_share_moving_alone_reads_partly_reporting
+FAILED tests/test_t8b_jump.py::test_chanterelle_licence_share_moving_alone_reads_partly_reporting
+FAILED tests/test_t8b_jump.py::test_a_move_shared_by_all_fungi_stays_undetermined
+FAILED tests/test_t8b_jump.py::test_nothing_moving_stays_undetermined - NotIm...
+FAILED tests/test_t8b_jump.py::test_a_year_with_no_records_has_no_share_and_stays_undetermined
+FAILED tests/test_t8b_jump.py::test_totals_that_do_not_nest_are_refused - Fai...
+FAILED tests/test_t8b_measures.py::test_each_unit_reads_its_own_cell_or_its_nearest_neighbour_and_none_is_marked
+FAILED tests/test_t8b_measures.py::test_the_measures_are_d159s_windows_ending_the_day_before_the_week
+FAILED tests/test_t8b_measures.py::test_the_week_late_timing_moves_every_window_7_days_earlier
+FAILED tests/test_t8b_measures.py::test_a_unit_with_a_missing_window_is_refused_and_counted
+FAILED tests/test_t8b_measures.py::test_building_the_fit_inputs_refuses_while_the_readings_are_open
+FAILED tests/test_t8b_measures.py::test_the_swap_table_under_the_identity_reproduces_the_true_measures
+FAILED tests/test_t8b_models.py::test_the_range_comes_from_the_training_rows_only
+FAILED tests/test_t8b_models.py::test_values_outside_the_range_take_its_nearest_end_and_inside_stay_as_they_are
+FAILED tests/test_t8b_models.py::test_clamp_to_training_clamps_held_out_rows_to_the_training_range
+FAILED tests/test_t8b_models.py::test_the_tree_inputs_are_t1s_calendar_effort_and_the_five_measures
+FAILED tests/test_t8b_models.py::test_the_held_out_year_reaches_the_trees_clamped_to_its_folds_training_range
+FAILED tests/test_t8b_models.py::test_tuning_is_on_training_years_only_and_a_fixed_choice_skips_it
+FAILED tests/test_t8b_models.py::test_the_tree_model_predicts_every_unit_from_a_fit_that_never_saw_its_year
+FAILED tests/test_t8b_models.py::test_the_readable_model_does_not_extrapolate_past_a_folds_training_range
+FAILED tests/test_t8b_models.py::test_the_readable_model_matches_t8s_additive_model_when_nothing_is_out_of_range
+ERROR tests/test_t8b_frozen_c5.py::test_the_frozen_configuration_is_t1s_inner_choice_over_all_eleven_years
+ERROR tests/test_t8b_frozen_c5.py::test_the_clamp_range_frozen_is_the_training_range
+ERROR tests/test_t8b_frozen_c5.py::test_save_records_the_files_sha256_and_load_gives_the_same_predictions
+ERROR tests/test_t8b_frozen_c5.py::test_a_different_checksum_or_an_edited_file_is_refused
+ERROR tests/test_t8b_frozen_c5.py::test_saving_twice_gives_the_same_checksum
+ERROR tests/test_t8b_frozen_c5.py::test_c5_refuses_while_its_readings_are_open
+ERROR tests/test_t8b_frozen_c5.py::test_c5_scores_the_frozen_model_against_the_calendar_on_2026
+ERROR tests/test_t8b_frozen_c5.py::test_c5_refuses_a_unit_outside_2026_weeks_27_to_52
+ERROR tests/test_t8b_frozen_c5.py::test_c5_refuses_an_early_download - NotImp...
+ERROR tests/test_t8b_frozen_c5.py::test_weeks_whose_outcome_was_already_read_are_left_out_and_named
+53 failed, 9 passed, 10 errors in 1.54s

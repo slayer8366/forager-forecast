@@ -1,0 +1,1 @@
+Baseline before any change, at fa1a063 (2026-10-25): uv run --frozen pytest -q -> 695 passed, 18369 warnings in 376.14s
