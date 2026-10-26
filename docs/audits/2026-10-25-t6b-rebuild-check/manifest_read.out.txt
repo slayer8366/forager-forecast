@@ -1,0 +1,627 @@
+{
+ "copy_sha256_of_gzip": "69ed167413bab16dfc9b6a03f82ffd57f73ae05fdbea1b559da6e13935de0a7d",
+ "decompressed_sha256": "9cf295600b79d847ade3a616127c31f6c7bb4a80dcdd15854369ede8e5d3401d",
+ "matches_summary": true,
+ "band_layout_in_code": "t6b-bands-f4e9b848ba51",
+ "band_layout_constant_matches": true,
+ "stages": [
+  {
+   "kind": "stage",
+   "seconds": 440.6,
+   "sha256": "2a71f873cf2f10393a9d1b3e71a1e0291cd4f616b232fbd63214f8fc6c9dacfc",
+   "stage": "mask",
+   "version": "D111 D113 D117",
+   "window": [
+    -2560000,
+    -2048000,
+    3072000,
+    4608000
+   ]
+  },
+  {
+   "capped_trees": 13364,
+   "file": "plots.npz",
+   "kind": "stage",
+   "nonpositive_width_trees": 0,
+   "plots": 65814,
+   "plots_without_canopypct": 459,
+   "plots_without_tree_rows": 771,
+   "seconds": 18.1,
+   "sha256": "e42ae8c194d4f304a8a5561001282ce88fdd0e46de0f79f35c189a6a985fadd9",
+   "stage": "plots",
+   "surrogate_trees": 1074858,
+   "unlisted_genus_trees_classed_by_fia_code": 190829
+  },
+  {
+   "band_layout": "t6b-bands-f4e9b848ba51",
+   "bands": [
+    "Pseudotsuga",
+    "Tsuga",
+    "Picea",
+    "Abies",
+    "Pinus",
+    "Quercus",
+    "conifer",
+    "broadleaf",
+    "Larix",
+    "Betula",
+    "Populus",
+    "Alnus",
+    "Lithocarpus",
+    "Chrysolepis",
+    "Arbutus",
+    "Fagus",
+    "Carya",
+    "Tilia",
+    "Ostrya",
+    "Carpinus",
+    "ecm_hosts"
+   ],
+   "capped_trees": 13364,
+   "ecm_hosts_members": [
+    "Pseudotsuga",
+    "Tsuga",
+    "Picea",
+    "Abies",
+    "Pinus",
+    "Quercus",
+    "Larix",
+    "Betula",
+    "Populus",
+    "Alnus",
+    "Lithocarpus",
+    "Chrysolepis",
+    "Arbutus",
+    "Fagus",
+    "Carya",
+    "Tilia",
+    "Ostrya",
+    "Carpinus"
+   ],
+   "file": "plots.npz",
+   "kind": "stage",
+   "nonpositive_width_trees": 0,
+   "plots": 65814,
+   "plots_without_canopypct": 459,
+   "plots_without_tree_rows": 771,
+   "seconds": 17.3,
+   "sha256": "6cc68b026dc596acbcb00ac9496020d6b52df6b5143c765871b6d070fb2e6d11",
+   "stage": "plots",
+   "surrogate_trees": 1074858,
+   "unlisted_genus_trees_classed_by_fia_code": 190829
+  }
+ ],
+ "scanfi_prepare": [
+  {
+   "group": "otherConiferous",
+   "kind": "prepare",
+   "layer": "scanfi-layers",
+   "rate_bytes_per_s": 2715791,
+   "scanfi_whole": "downloaded",
+   "seconds": 952.8,
+   "sha256": "164e925087b1b18710998793feff9b40eb54d1d75e22f48e7c30b6ea334a61fe"
+  },
+  {
+   "group": "ponderosaPine",
+   "kind": "prepare",
+   "layer": "scanfi-layers",
+   "rate_bytes_per_s": 12080488,
+   "scanfi_whole": "downloaded",
+   "seconds": 8.2,
+   "sha256": "1d5d289e175c9bec6bbe5f88e45370c421ea752b2fbae9d5a6295a5b6e294b5c"
+  },
+  {
+   "group": "tamarack",
+   "kind": "prepare",
+   "layer": "scanfi-layers",
+   "rate_bytes_per_s": 3829333,
+   "scanfi_whole": "downloaded",
+   "seconds": 489.4,
+   "sha256": "dfcfc8ad751b0621b646afde00c3c4729cc0dd22646b3f297487926b13db061e"
+  },
+  {
+   "group": "whiteRedPine",
+   "kind": "prepare",
+   "layer": "scanfi-layers",
+   "rate_bytes_per_s": 4874581,
+   "scanfi_whole": "downloaded",
+   "seconds": 58.2,
+   "sha256": "cc5598a63b28ce7d3fa9840293f706680d0516f3e0147b1261ee621ff915f50b"
+  },
+  {
+   "group": "att_closure",
+   "kind": "prepare",
+   "layer": "scanfi-layers",
+   "rate_bytes_per_s": 4621319,
+   "scanfi_whole": "downloaded",
+   "seconds": 910.6,
+   "sha256": "84e7490d97cf72d22949843ffb7935f4fa4a453da44901f4ce88b67d021d1a94"
+  }
+ ],
+ "sections": [
+  {
+   "layer": "soil",
+   "started_at": "2026-10-08T05:03:55-07:00",
+   "seconds": 578.9,
+   "units_done_now": 3,
+   "stopped": "pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE",
+   "workers": 2,
+   "stages": "mask,plots,soil,trees",
+   "units_per_hour": 18.7
+  },
+  {
+   "layer": "soil",
+   "started_at": "2026-10-08T11:23:00-07:00",
+   "seconds": 1282.3,
+   "units_done_now": 6,
+   "stopped": "pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE",
+   "workers": 2,
+   "stages": "mask,plots,soil,trees",
+   "units_per_hour": 16.8
+  },
+  {
+   "layer": "soil",
+   "started_at": "2026-10-08T13:26:43-07:00",
+   "seconds": 1624.4,
+   "units_done_now": 9,
+   "stopped": "pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE",
+   "workers": 2,
+   "stages": "mask,plots,soil,trees",
+   "units_per_hour": 19.9
+  },
+  {
+   "layer": "soil",
+   "started_at": "2026-10-08T15:07:33-07:00",
+   "seconds": 894.6,
+   "units_done_now": 4,
+   "stopped": "pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE",
+   "workers": 2,
+   "stages": "mask,plots,soil,trees",
+   "units_per_hour": 16.1
+  },
+  {
+   "layer": "soil",
+   "started_at": "2026-10-08T16:47:30-07:00",
+   "seconds": 4796.7,
+   "units_done_now": 30,
+   "stopped": "all units done",
+   "workers": 2,
+   "stages": "mask,plots,soil,trees",
+   "units_per_hour": 22.5
+  },
+  {
+   "layer": "trees",
+   "started_at": "2026-10-08T18:15:53-07:00",
+   "seconds": 3904.0,
+   "units_done_now": 106,
+   "stopped": "pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE",
+   "workers": 2,
+   "stages": "mask,plots,soil,trees",
+   "units_per_hour": 97.7
+  },
+  {
+   "layer": "soil",
+   "started_at": "2026-10-08T19:37:43-07:00",
+   "seconds": 79.2,
+   "units_done_now": 0,
+   "stopped": "all units done",
+   "workers": 2,
+   "stages": "mask,plots,soil,trees",
+   "units_per_hour": 0.0
+  },
+  {
+   "layer": "trees",
+   "started_at": "2026-10-08T19:39:02-07:00",
+   "seconds": 1713.4,
+   "units_done_now": 49,
+   "stopped": "pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE",
+   "workers": 2,
+   "stages": "mask,plots,soil,trees",
+   "units_per_hour": 103.0
+  },
+  {
+   "layer": "soil",
+   "started_at": "2026-10-08T21:43:34-07:00",
+   "seconds": 74.6,
+   "units_done_now": 0,
+   "stopped": "all units done",
+   "workers": 2,
+   "stages": "mask,plots,soil,trees",
+   "units_per_hour": 0.0
+  },
+  {
+   "layer": "trees",
+   "started_at": "2026-10-08T21:44:49-07:00",
+   "seconds": 21580.0,
+   "units_done_now": 615,
+   "stopped": "pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE",
+   "workers": 2,
+   "stages": "mask,plots,soil,trees",
+   "units_per_hour": 102.6
+  },
+  {
+   "layer": "trees-us-half",
+   "started_at": "2026-10-09T03:47:54-07:00",
+   "seconds": 680.6,
+   "units_done_now": 17,
+   "stopped": "all units done",
+   "workers": 2,
+   "stages": "trees-us-half",
+   "units_per_hour": 89.9
+  },
+  {
+   "layer": "soil",
+   "started_at": "2026-10-09T04:34:57-07:00",
+   "seconds": 73.2,
+   "units_done_now": 0,
+   "stopped": "all units done",
+   "workers": 2,
+   "stages": "mask,plots,soil,trees",
+   "units_per_hour": 0.0
+  },
+  {
+   "layer": "trees",
+   "started_at": "2026-10-09T04:36:11-07:00",
+   "seconds": 2767.0,
+   "units_done_now": 80,
+   "stopped": "pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE",
+   "workers": 2,
+   "stages": "mask,plots,soil,trees",
+   "units_per_hour": 104.1
+  },
+  {
+   "layer": "trees-us-half",
+   "started_at": "2026-10-09T05:28:14-07:00",
+   "seconds": 137.9,
+   "units_done_now": 3,
+   "stopped": "all units done",
+   "workers": 2,
+   "stages": "trees-us-half",
+   "units_per_hour": 78.3
+  },
+  {
+   "layer": "soil",
+   "started_at": "2026-10-09T05:45:45-07:00",
+   "seconds": 72.2,
+   "units_done_now": 0,
+   "stopped": "all units done",
+   "workers": 2,
+   "stages": "mask,plots,soil,trees",
+   "units_per_hour": 0.0
+  },
+  {
+   "layer": "trees",
+   "started_at": "2026-10-09T05:46:57-07:00",
+   "seconds": 15468.4,
+   "units_done_now": 436,
+   "stopped": "pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE",
+   "workers": 2,
+   "stages": "mask,plots,soil,trees",
+   "units_per_hour": 101.5
+  },
+  {
+   "layer": "soil",
+   "started_at": "2026-10-09T10:07:33-07:00",
+   "seconds": 74.6,
+   "units_done_now": 0,
+   "stopped": "all units done",
+   "workers": 2,
+   "stages": "mask,plots,soil,trees-us-half,trees",
+   "units_per_hour": 0.0
+  },
+  {
+   "layer": "trees-us-half",
+   "started_at": "2026-10-09T10:11:19-07:00",
+   "seconds": 2598.9,
+   "units_done_now": 72,
+   "stopped": "all units done",
+   "workers": 2,
+   "stages": "mask,plots,soil,trees-us-half,trees",
+   "units_per_hour": 99.7
+  },
+  {
+   "layer": "trees",
+   "started_at": "2026-10-09T10:54:39-07:00",
+   "seconds": 15274.9,
+   "units_done_now": 428,
+   "stopped": "pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE",
+   "workers": 2,
+   "stages": "mask,plots,soil,trees-us-half,trees",
+   "units_per_hour": 100.9
+  },
+  {
+   "layer": "soil",
+   "started_at": "2026-10-09T16:33:04-07:00",
+   "seconds": 75.5,
+   "units_done_now": 0,
+   "stopped": "all units done",
+   "workers": 2,
+   "stages": "mask,plots,soil,trees-us-half,trees",
+   "units_per_hour": 0.0
+  },
+  {
+   "layer": "trees-us-half",
+   "started_at": "2026-10-09T16:37:00-07:00",
+   "seconds": 1.7,
+   "units_done_now": 0,
+   "stopped": "all units done",
+   "workers": 2,
+   "stages": "mask,plots,soil,trees-us-half,trees",
+   "units_per_hour": 0.0
+  },
+  {
+   "layer": "trees",
+   "started_at": "2026-10-09T16:37:02-07:00",
+   "seconds": 13288.7,
+   "units_done_now": 301,
+   "stopped": "all units done",
+   "workers": 2,
+   "stages": "mask,plots,soil,trees-us-half,trees",
+   "units_per_hour": 81.5
+  },
+  {
+   "layer": "soil",
+   "started_at": "2026-10-09T21:32:22-07:00",
+   "seconds": 66.5,
+   "units_done_now": 0,
+   "stopped": "all units done",
+   "workers": 2,
+   "stages": "mask,plots,soil,trees-us-half,trees",
+   "units_per_hour": 0.0
+  },
+  {
+   "layer": "trees-us-half",
+   "started_at": "2026-10-09T21:36:43-07:00",
+   "seconds": 1.5,
+   "units_done_now": 0,
+   "stopped": "all units done",
+   "workers": 2,
+   "stages": "mask,plots,soil,trees-us-half,trees",
+   "units_per_hour": 0.0
+  },
+  {
+   "layer": "trees",
+   "started_at": "2026-10-09T21:36:45-07:00",
+   "seconds": 3.3,
+   "units_done_now": 0,
+   "stopped": "all units done",
+   "workers": 2,
+   "stages": "mask,plots,soil,trees-us-half,trees",
+   "units_per_hour": 0.0
+  },
+  {
+   "layer": "scanfi-layers",
+   "started_at": "2026-10-10T13:11:54-07:00",
+   "seconds": 662.7,
+   "units_done_now": 26,
+   "stopped": "pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE",
+   "workers": 2,
+   "stages": "scanfi-layers,trees",
+   "units_per_hour": 141.2
+  },
+  {
+   "layer": "scanfi-layers",
+   "started_at": "2026-10-10T13:57:01-07:00",
+   "seconds": 4275.2,
+   "units_done_now": 84,
+   "stopped": "all units done",
+   "workers": 2,
+   "stages": "scanfi-layers,trees",
+   "units_per_hour": 70.7
+  },
+  {
+   "layer": "trees",
+   "started_at": "2026-10-10T15:08:17-07:00",
+   "seconds": 24.7,
+   "units_done_now": 10,
+   "stopped": "all units done",
+   "workers": 2,
+   "stages": "scanfi-layers,trees",
+   "units_per_hour": 1457.5
+  },
+  {
+   "layer": "scanfi-layers",
+   "started_at": "2026-10-14T21:11:08-07:00",
+   "seconds": 6036.5,
+   "units_done_now": 322,
+   "stopped": "pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE",
+   "workers": 2,
+   "stages": "scanfi-layers,trees",
+   "units_per_hour": 192.0
+  },
+  {
+   "layer": "trees",
+   "started_at": "2026-10-15T06:31:45-07:00",
+   "seconds": 15898.4,
+   "units_done_now": 270,
+   "stopped": "all units done",
+   "workers": 1,
+   "stages": "plots,trees,trees-us-half",
+   "units_per_hour": 61.1
+  },
+  {
+   "layer": "trees-us-half",
+   "started_at": "2026-10-15T10:58:40-07:00",
+   "seconds": 766.0,
+   "units_done_now": 13,
+   "stopped": "all units done",
+   "workers": 1,
+   "stages": "plots,trees,trees-us-half",
+   "units_per_hour": 61.1
+  },
+  {
+   "layer": "scanfi-layers",
+   "started_at": "2026-10-15T12:01:54-07:00",
+   "seconds": 92.4,
+   "units_done_now": 3,
+   "stopped": "pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE",
+   "workers": 1,
+   "stages": "scanfi-layers",
+   "units_per_hour": 116.9
+  },
+  {
+   "layer": "scanfi-layers",
+   "started_at": "2026-10-15T12:03:36-07:00",
+   "seconds": 879.4,
+   "units_done_now": 46,
+   "stopped": "pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE",
+   "workers": 2,
+   "stages": "scanfi-layers",
+   "units_per_hour": 188.3
+  },
+  {
+   "layer": "scanfi-layers",
+   "started_at": "2026-10-15T12:18:36-07:00",
+   "seconds": 67300.2,
+   "units_done_now": 3262,
+   "stopped": "stop time 2026-10-16T07:00 reached",
+   "workers": 2,
+   "stages": "scanfi-layers",
+   "units_per_hour": 174.5
+  },
+  {
+   "layer": "scanfi-layers",
+   "started_at": "2026-10-16T07:03:42-07:00",
+   "seconds": 86188.9,
+   "units_done_now": 3093,
+   "stopped": "stop time 2026-10-17T07:00 reached",
+   "workers": 2,
+   "stages": "scanfi-layers",
+   "units_per_hour": 129.2
+  },
+  {
+   "layer": "scanfi-layers",
+   "started_at": "2026-10-17T08:45:50-07:00",
+   "seconds": 80082.2,
+   "units_done_now": 3245,
+   "stopped": "stop time 2026-10-18T07:00 reached",
+   "workers": 2,
+   "stages": "scanfi-layers",
+   "units_per_hour": 145.9
+  },
+  {
+   "layer": "scanfi-layers",
+   "started_at": "2026-10-18T07:06:38-07:00",
+   "seconds": 54373.4,
+   "units_done_now": 2814,
+   "stopped": "pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE",
+   "workers": 2,
+   "stages": "scanfi-layers",
+   "units_per_hour": 186.3
+  },
+  {
+   "layer": "scanfi-layers",
+   "started_at": "2026-10-19T04:12:28-07:00",
+   "seconds": 581.8,
+   "units_done_now": 30,
+   "stopped": "stop time 2026-10-19T04:22 reached",
+   "workers": 2,
+   "stages": "scanfi-layers",
+   "units_per_hour": 185.6
+  },
+  {
+   "layer": "scanfi-layers",
+   "started_at": "2026-10-19T04:24:02-07:00",
+   "seconds": 9396.1,
+   "units_done_now": 503,
+   "stopped": "stop time 2026-10-19T07:00 reached",
+   "workers": 2,
+   "stages": "scanfi-layers",
+   "units_per_hour": 192.7
+  },
+  {
+   "layer": "scanfi-layers",
+   "started_at": "2026-10-19T07:11:56-07:00",
+   "seconds": 26740.7,
+   "units_done_now": 1409,
+   "stopped": "pause file /run/media/zynergy-labs/2ebd084f-5fdd-4730-8cef-96b267723190/forecast-data/t6b/PAUSE",
+   "workers": 2,
+   "stages": "scanfi-layers",
+   "units_per_hour": 189.7
+  },
+  {
+   "layer": "scanfi-layers",
+   "started_at": "2026-10-19T15:04:46-07:00",
+   "seconds": 57351.0,
+   "units_done_now": 2835,
+   "stopped": "stop time 2026-10-20T07:00 reached",
+   "workers": 2,
+   "stages": "scanfi-layers",
+   "units_per_hour": 178.0
+  },
+  {
+   "layer": "scanfi-layers",
+   "started_at": "2026-10-20T07:11:24-07:00",
+   "seconds": 81939.3,
+   "units_done_now": 4092,
+   "stopped": "all units done",
+   "workers": 2,
+   "stages": "scanfi-layers",
+   "units_per_hour": 179.8
+  },
+  {
+   "layer": "trees",
+   "started_at": "2026-10-21T21:06:17-07:00",
+   "seconds": 35641.7,
+   "units_done_now": 478,
+   "stopped": "stop time 2026-10-22T07:00 reached",
+   "workers": 1,
+   "stages": "trees",
+   "units_per_hour": 48.3
+  },
+  {
+   "layer": "trees",
+   "started_at": "2026-10-22T07:03:59-07:00",
+   "seconds": 79537.1,
+   "units_done_now": 1409,
+   "stopped": "all units done",
+   "workers": 1,
+   "stages": "trees",
+   "units_per_hour": 63.8
+  }
+ ],
+ "store_at_loss_latest_line_per_unit": {
+  "scanfi-layers": {
+   "ok": 22473
+  },
+  "soil": {
+   "ok": 89
+  },
+  "trees": {
+   "ok layout=t6b-bands-f4e9b848ba51": 2289
+  },
+  "trees-us-half": {
+   "ok layout=None": 79,
+   "ok layout=t6b-bands-f4e9b848ba51": 13
+  }
+ },
+ "tree_tiles": {
+  "listed": 4058,
+  "with_canadian_cells": 2043,
+  "ok_current_layout": 2289,
+  "not_ok_current_layout": 1769,
+  "of_which_canadian": 1769
+ },
+ "unit_seconds": {
+  "scanfi-layers": {
+   "lines": 22473,
+   "mean": 43.4,
+   "total_h": 270.8
+  },
+  "soil": {
+   "lines": 89,
+   "mean": 330.8,
+   "total_h": 8.2
+  },
+  "trees": {
+   "lines": 2289,
+   "mean": 58.6,
+   "total_h": 37.2
+  },
+  "trees-us-half": {
+   "lines": 13,
+   "mean": 58.9,
+   "total_h": 0.2
+  }
+ }
+}

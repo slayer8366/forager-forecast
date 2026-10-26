@@ -1,0 +1,39 @@
+== https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/SCANFI/v2/SCANFI_att_closure_2025_v2_20260119.tif
+curl_exit_http=000
+exit 0
+== https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/SCANFI/v2/SCANFI_spsCC_blackSpruce_2025_v2_20260119.tif
+curl_exit_http=000
+exit 0
+== https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/SCANFI/v2/SCANFI_spsCC_broadleaf_2025_v2_20260119.tif
+HTTP/1.1 200 OK
+Last-Modified: Wed, 04 Feb 2026 17:27:48 GMT
+ETag: "9fc297f2-64a02dff48d00"
+Content-Length: 2680330226
+curl_exit_http=200
+exit 0
+== https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/SCANFI/v2/SCANFI_spsCC_douglasFir_2025_v2_20260119.tif
+curl_exit_http=000
+exit 0
+== https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/SCANFI/v2/SCANFI_spsCC_jackPine_2025_v2_20260119.tif
+HTTP/1.1 200 OK
+Last-Modified: Wed, 04 Feb 2026 17:31:09 GMT
+ETag: "6046e60e-64a02ebef9140"
+Content-Length: 1615259150
+curl_exit_http=200
+exit 0
+== https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/SCANFI/v2/SCANFI_spsCC_lodgepolePine_2025_v2_20260119.tif
+curl_exit_http=000
+exit 0
+== https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/SCANFI/v2/SCANFI_spsCC_otherConiferous_2025_v2_20260119.tif
+curl_exit_http=000
+exit 0
+== https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/SCANFI/v2/SCANFI_spsCC_ponderosaPine_2025_v2_20260119.tif
+curl_exit_http=000
+exit 0
+== https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/SCANFI/v2/SCANFI_spsCC_tamarack_2025_v2_20260119.tif
+curl_exit_http=000
+exit 0
+== https://ftp.maps.canada.ca/pub/nrcan_rncan/Forests_Foret/SCANFI/v2/SCANFI_spsCC_whiteRedPine_2025_v2_20260119.tif
+curl_exit_http=000
+exit 0
+Mon Oct 26 03:38:39 AM UTC 2026
