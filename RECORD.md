@@ -757,3 +757,14 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **Corrects:** 2026-09-28-2054
 **What was wrong:** -2054 cites -1030 for data pulls. -1030's three points of no return are counting presences under a rule, a full fit, and showing or publishing anything (docs/process/planner-profile.md, "The three points of no return"); pulls are not among them. Read -2054's sentence as "Each data pull and the first run still need the owner's word, asked at that point"; nothing else in it changes.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2056.
+
+---
+
+**Kind:** observation
+**ID:** 2026-09-28-2056
+**Timestamp:** 2026-10-26T03:03:53Z
+**Title:** The flash drive is reformatted ext4, label forecast-data, on the owner's word; Ash's rebuild check dispatched (owner)
+**The owner, verbatim, 2026-10-25:** "Yes. And reformat the flash drive", answering whether to start Ash on the step-1 check, after being told exFAT might not suit T6b.
+**Observed:** before the reformat the drive held one file, "Growing_Gourmet_Mushrooms_at_Home (1).pptx" (47,084 bytes, sha256 04a988e1…), plus "System Volume Information". The file was copied to /mnt/work/Zynergy/flash-backup-2026-10-25/ and the copy's sha256 matched. The planner then unmounted /dev/sda1 (USB Flash Drive, 57.6 GB, serial 5958542622954178) and formatted it through udisks as ext4, label forecast-data, take-ownership, UUID e4918208-9d78-4126-aa96-728ebf200edc. Mounted at /run/media/zynergy-labs/forecast-data, owned by zynergy-labs, 54 GB free, writable.
+**What it sets:** dispatch docs/dispatch/2026-10-25-t6b-rebuild-check.md on branch t6b-rebuild (cut from t6b-progress-save 621421b) goes to Ash Transect: repoint T6b at the new drive, check it there, list what must be fetched again and estimate nights. No pulls and no run under it.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2057.
