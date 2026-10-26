@@ -804,3 +804,15 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **The owner, verbatim, 2026-10-25:** "Download full files"; "Wait for final data (Recommended)"; "Accept as open (Recommended)"; "Yes, all of it (Recommended)".
 **What it sets:** D160 on t8b-build (3f650ec). The owner chose against the recommendation on (1). Next: the pull, which needs the owner's word and a storage plan, since the full files and the T6b rebuild together exceed the flash drive.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2060.
+
+---
+
+**Kind:** decision
+**ID:** 2026-09-28-2060
+**Timestamp:** 2026-10-26T12:38:57Z
+**Continues:** 2026-09-28-2059
+**Title:** New 231 GB drive for forecast data; the T6b and T8b pulls start (owner)
+**What the owner was told before answering:** the 57 GB stick is gone. A 231 GB ext4 drive labelled forager-storage is plugged in, holding 34 GB of map rollback files (not ours). The planner couldn't create a folder at its root, so the owner ran a sudo mkdir and chown for forecast-data. Ash pointed T6b's DRIVE at that folder (t6b-rebuild d0e1bc0): 616 tests pass, and the drive check passed 14 of 16; the two that fail assume DRIVE is a mount, and findmnt shows the drive ext4 rw. The pulls: about 29 GB for T6b, about 50 GB for T8b, one at a time, each checked.
+**The owner, verbatim, 2026-10-25/26:** "Forecast data: use it"; "done" (the folder); "Yes, go" (the pulls).
+**What it sets:** dispatch docs/dispatch/2026-10-26-pulls.md (t8b-build a506590) to Ash: one detached download queue, which stops itself on a checksum mismatch, a login wall, under 20 GB free, or a PAUSE file. D159's and D160's readings move into RULED. No T6b run, count or fit under it.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2061.
