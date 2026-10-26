@@ -1,0 +1,33 @@
+R1-tree-clamp: bites; 1 failed, 8 passed in 3.57s; failed: test_the_held_out_year_reaches_the_trees_clamped_to_its_folds_training_range
+    E           assert (np.False_)
+R2-readable-clamp: bites; 1 failed, 8 passed in 3.34s; failed: test_the_readable_model_does_not_extrapolate_past_a_folds_training_range
+    E       AssertionError: assert array([0.0539..., 0.02578223]) == approx([0.374...88 ± 2.2e-10])
+R3-clamp-function: bites; 4 failed, 5 passed in 3.28s; failed: test_clamp_to_training_clamps_held_out_rows_to_the_training_range, test_the_held_out_year_reaches_the_trees_clamped_to_its_folds_training_range, test_the_readable_model_does_not_extrapolate_past_a_folds_training_range, test_values_outside_the_range_take_its_nearest_end_and_inside_stay_as_they_are
+    E       assert [[0.0, 6.0], ...100.0, -50.0]] == [[1.0, 5.0], ..., [3.0, -2.0]]
+R4-window-day-before: bites; 3 failed, 10 passed in 0.26s; failed: test_a_window_over_a_dropped_31_december_counts_w_daymet_days, test_the_week_late_window_ends_8_days_before_the_week, test_the_window_ends_the_day_before_the_week
+    E       assert np.float64(784.0) == 770.0 ± 7.7e-04
+R5-leap-daymet-days: bites; 1 failed, 12 passed in 0.25s; failed: test_a_window_over_a_dropped_31_december_counts_w_daymet_days
+    E       assert np.float64(nan) == 1026.0 ± 0.001026
+R6-m5-depression: bites; 2 failed, 3 passed in 0.18s; failed: test_daily_statistics_give_layer_2_and_the_dewpoint_depression, test_hourly_files_become_24_hour_utc_means_and_an_incomplete_day_stays_missing
+    E       AssertionError: assert array([292.20...284.37750244]) == approx([18.26...03 ± 1.0e-04])
+R7-m3-window: bites; 2 failed, 13 passed in 0.18s; failed: test_the_five_measures_are_d159s_and_nothing_else, test_the_measures_are_d159s_windows_ending_the_day_before_the_week
+    E       AssertionError: assert [('M1', 'rain...', 'mean', 7)] == [('M1', 'rain...', 'mean', 7)]
+R8-swaps-hold-tuning: bites; 2 failed, 3 passed in 5.32s; failed: test_each_swap_fits_on_the_swapped_years_weather, test_tuning_runs_once_per_fold_and_the_199_swaps_reuse_it
+    E       AssertionError: assert 46893 == ((4 * 231) + (199 * 11))
+R9-frozen-checksum: bites; 1 failed, 10 passed in 0.62s; failed: test_a_different_checksum_or_an_edited_file_is_refused
+    E       Failed: DID NOT RAISE ChecksumDiffers
+R10-c5-weeks: bites; 1 failed, 10 passed in 0.64s; failed: test_c5_refuses_a_unit_outside_2026_weeks_27_to_52
+    E       Failed: DID NOT RAISE C5Refused
+R11-c5-after: bites; 1 failed, 10 passed in 0.61s; failed: test_the_download_must_be_taken_after_15_february_2027
+    E       Failed: DID NOT RAISE C5Refused
+R12-c5-ruled: bites; 1 failed, 10 passed in 0.67s; failed: test_c5_refuses_while_its_readings_are_open
+    E       Failed: DID NOT RAISE NotRuled
+R13-jump-third: bites; 3 failed, 11 passed in 0.16s; failed: test_a_share_moves_when_it_changes_by_more_than_a_third_of_itself
+    E       assert True is False
+R14-jump-fungi: bites; 1 failed, 13 passed in 0.15s; failed: test_a_move_shared_by_all_fungi_stays_undetermined
+    E       AssertionError: assert 'partly reporting' == 'undetermined'
+R15-never-filled: bites; 1 failed, 5 passed in 0.17s; failed: test_a_unit_with_a_missing_window_is_refused_and_counted
+    E       Failed: DID NOT RAISE MissingWeather
+R16-partial-pixel: bites; 1 failed, 12 passed in 0.44s; failed: test_a_pixel_missing_on_some_days_but_not_all_is_refused
+    E       Failed: DID NOT RAISE DaymetDiffers
+worktree unchanged: True (137 files hashed)

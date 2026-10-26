@@ -1,0 +1,22 @@
+# The Daymet subset size for T1's box, exactly as run on 2026-10-26 (uv run --frozen python -I -c).
+# The projection is the Daymet V4 R1 user guide's PROJ.4 string; 1 km pixels; no data is read.
+import numpy as np
+from pyproj import Transformer
+t=Transformer.from_crs('EPSG:4326','+proj=lcc +lat_1=25 +lat_2=60 +lat_0=42.5 +lon_0=-100 +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs',always_xy=True)
+s=np.linspace(0,1,2001)
+lon=np.concatenate([-125+4*s,-125+4*s,np.full_like(s,-125),np.full_like(s,-121)])
+lat=np.concatenate([np.full_like(s,42),np.full_like(s,49.5),42+7.5*s,42+7.5*s])
+x,y=t.transform(lon,lat)
+nx=int(np.ceil((x.max()-x.min())/1000))+1; ny=int(np.ceil((y.max()-y.min())/1000))+1
+print('x km',x.min()/1e3,x.max()/1e3,'y km',y.min()/1e3,y.max()/1e3,'nx',nx,'ny',ny,'pixels',nx*ny)
+# pixels inside the box itself
+gx=np.arange(x.min(),x.max()+1,1000); gy=np.arange(y.min(),y.max()+1,1000)
+X,Y=np.meshgrid(gx,gy); inv=Transformer.from_crs(t.target_crs,'EPSG:4326',always_xy=True)
+lo,la=inv.transform(X,Y); inside=((lo>=-125)&(lo<=-121)&(la>=42)&(la<=49.5)).sum(); print('inside box',inside)
+days=365*11+1*0+ (365-273)  # rough
+for name,d in [('2014-10-01..2025-12-31',(np.datetime64('2025-12-31')-np.datetime64('2014-10-01')).astype(int)+1)]:
+  print(name,'days',d,'float32 bytes',nx*ny*d*4,'+lat/lon',nx*ny*8*2)
+# Output, 2026-10-26:
+# x km -1945.9729658565261 -1443.5702584914554 y km 154.81025306055332 1001.4343033782783 nx 504 ny 848 pixels 427392
+# inside box 236415
+# 2014-10-01..2025-12-31 days 4110 float32 bytes 7026324480 +lat/lon 6838272
