@@ -792,3 +792,15 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **The owner, verbatim, 2026-10-25:** "Tree model (Recommended)"; "Yes, require it (Recommended)"; "Yes, these five (Recommended)"; "All as recommended".
 **What it sets:** D159 on branch t8b-plan (5569780). D138 to D158 are already taken on the unmerged T7 branches, so this row is D159; the gap on main is theirs, not a missing row. The next step is the plan's step 1 (rules, code and tests, pull pricing, licence re-reads, confirming no 2026 outcome was read), which needs the owner's go for a coder. Pulls, counts, fits and C5 each need their own word.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2059.
+
+---
+
+**Kind:** decision
+**ID:** 2026-09-28-2059
+**Timestamp:** 2026-10-26T06:01:17Z
+**Continues:** 2026-09-28-2058
+**Title:** T8b step 1 done; the owner's rulings on its four stops, recorded as D160 (owner)
+**What the owner was told before answering:** step 1 is pushed (t8b-build f949a05; report saved at 3744366): 695 to 767 tests, 16 of 16 revert checks bite, no 2026 outcome read on any pilot branch. Four stops: Daymet box subsets need an Earthdata Login (or 49.6 GB of full files, which won't fit beside the T6b rebuild); Daymet's final 2026 data comes March to September 2027; Daymet's licence reads as CC0, with ECCC inputs for 2024-25; and 20 PENDING readings, plus a proposed US-only line because Daymet's Canadian inputs changed in 2024-25.
+**The owner, verbatim, 2026-10-25:** "Download full files"; "Wait for final data (Recommended)"; "Accept as open (Recommended)"; "Yes, all of it (Recommended)".
+**What it sets:** D160 on t8b-build (3f650ec). The owner chose against the recommendation on (1). Next: the pull, which needs the owner's word and a storage plan, since the full files and the T6b rebuild together exceed the flash drive.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2060.
