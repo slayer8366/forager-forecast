@@ -1,8 +1,9 @@
 """The flash drive's path is one setting (dispatch 2026-10-25-t6b-rebuild-check, item 1).
 
-The drive holding T6b's store was reformatted (forecast RECORD 2026-09-28-2053, -2056) and now
-mounts by its label at /run/media/zynergy-labs/forecast-data. Every script that runs reads the
-drive's path from ``forager_forecast.drive``; no script or module under src/ names a mount itself.
+T6b's store is now the ``forecast-data`` folder on the drive labelled ``forager-storage``, at
+/run/media/zynergy-labs/forager-storage/forecast-data (dispatch 2026-10-26-t6b-drive-move; the
+57 GB flash drive is gone). Every script that runs reads the drive's path from
+``forager_forecast.drive``; no script or module under src/ names a mount itself.
 """
 
 import importlib.util
@@ -17,10 +18,10 @@ SETTING = ROOT / "src" / "forager_forecast" / "drive.py"
 SCRIPTS = ("t6b_run", "t6b_fetch_sources", "t6b_fetch_scanfi_layers", "pnw_build", "pnw_checks")
 
 
-def test_the_setting_is_the_new_drive_mount():
+def test_the_setting_is_the_forecast_folder_on_the_new_drive():
     from forager_forecast.drive import DRIVE
 
-    assert DRIVE == Path("/run/media/zynergy-labs/forecast-data")
+    assert DRIVE == Path("/run/media/zynergy-labs/forager-storage/forecast-data")
 
 
 def test_no_code_that_runs_names_the_old_drive_or_any_mount_but_the_setting():

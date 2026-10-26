@@ -1,0 +1,15 @@
+F......                                                                  [100%]
+=================================== FAILURES ===================================
+___________ test_the_setting_is_the_forecast_folder_on_the_new_drive ___________
+
+    def test_the_setting_is_the_forecast_folder_on_the_new_drive():
+        from forager_forecast.drive import DRIVE
+    
+>       assert DRIVE == Path("/run/media/zynergy-labs/forager-storage/forecast-data")
+E       AssertionError: assert PosixPath('/run/media/zynergy-labs/forecast-data') == PosixPath('/run/media/zynergy-labs/forager-storage/forecast-data')
+E        +  where PosixPath('/run/media/zynergy-labs/forager-storage/forecast-data') = Path('/run/media/zynergy-labs/forager-storage/forecast-data')
+
+tests/test_t6b_drive.py:24: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_t6b_drive.py::test_the_setting_is_the_forecast_folder_on_the_new_drive
+1 failed, 6 passed in 0.49s
