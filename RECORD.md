@@ -768,3 +768,15 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **Observed:** before the reformat the drive held one file, "Growing_Gourmet_Mushrooms_at_Home (1).pptx" (47,084 bytes, sha256 04a988e1…), plus "System Volume Information". The file was copied to /mnt/work/Zynergy/flash-backup-2026-10-25/ and the copy's sha256 matched. The planner then unmounted /dev/sda1 (USB Flash Drive, 57.6 GB, serial 5958542622954178) and formatted it through udisks as ext4, label forecast-data, take-ownership, UUID e4918208-9d78-4126-aa96-728ebf200edc. Mounted at /run/media/zynergy-labs/forecast-data, owned by zynergy-labs, 54 GB free, writable.
 **What it sets:** dispatch docs/dispatch/2026-10-25-t6b-rebuild-check.md on branch t6b-rebuild (cut from t6b-progress-save 621421b) goes to Ash Transect: repoint T6b at the new drive, check it there, list what must be fetched again and estimate nights. No pulls and no run under it.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2057.
+
+---
+
+**Kind:** decision
+**ID:** 2026-09-28-2057
+**Timestamp:** 2026-10-26T03:51:52Z
+**Continues:** 2026-09-28-2056
+**Title:** After Ash's T6b check: old manifest copied aside, Ash's report saved, worktrees to Rowan, no downloads yet (owner)
+**What the owner was told before answering:** Ash's check is pushed (t6b-rebuild 54a6f6d): the new drive passed 16 of 16 checks, tests went from 609 to 616, about 30 GB to re-fetch, about 7.5 nights at two workers (trees at one). The first progress save would overwrite the only copy of the old manifest. Ash's tool refused to write report.md. Several sources have no checksum on file, and the SCANFI server timed out on 8 of 11 HEAD requests. The root disk had 25 MB free (forager-wt worktrees 19 GB, ~/from-flash 13 GB).
+**The owner, verbatim, 2026-10-25:** disk: "Rowan clears worktrees (Recommended)"; old list: "Copy it aside (Recommended)"; report: "Yes, save it as Ash's (Recommended)"; downloads: "Not yet (Recommended)".
+**What it sets and what was done:** /mnt/work/Zynergy/forecast-data/t6b/manifest-before-loss-2026-10-23.jsonl.gz is a read-only copy of manifest.jsonl.gz (gzip sha256 69ed1674..., decompressed 9cf29560..., both equal to the original). Ash's hand-back is saved word for word as docs/audits/2026-10-25-t6b-rebuild-check/report.md, with an index row (t6b-rebuild 7700fcc). A message went to the only live local peer session (mellow-swan, not confirmed to be Rowan), asking Rowan to remove finished worktrees and leave the forecast ones. No downloads until the disk has room; the planner asks again with the final list. The first run still needs the owner's word, and it needs a new --evidence folder.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2058.
