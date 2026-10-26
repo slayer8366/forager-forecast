@@ -711,3 +711,15 @@ Written by the forecast planner (Alder Bearing) by hand, on branch forecast-reco
 **Corrects:** 2026-09-28-2050
 **What was wrong:** -2050's Notes line names its writer only as "the forecast planner". The owner, verbatim, 2026-10-25: "Have it say Alder." Read -2050's Notes as "Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record"; nothing else in it changes.
 **Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2052.
+
+---
+
+**Kind:** decision
+**ID:** 2026-09-28-2052
+**Timestamp:** 2026-10-26T02:52:20Z
+**Continues:** 2026-09-28-2042
+**Title:** After the PNW "no", the forecast work goes to new data and then a third test (owner)
+**What the owner was told before answering:** under D133 (7) there is no third weather test on these records without new data and the owner's word. Options offered: a usual-season map with no forecast claim (a new product decision, plan first); new data then a third, different test (nothing downloaded until the owner approves the plan); the same test in another region first; or pause, with T6b continuing in downtime.
+**The owner, verbatim, 2026-10-25:** "New data, then retest".
+**What it sets:** option (c) of -2042 is taken; (b), the usual-season map, is neither taken nor ruled out. The planner writes the plan. No data is pulled, and no test is designed or run, until the owner approves that plan. Each step that pulls data or runs a fit still needs the owner's word.
+**Notes:** Written by the forecast planner (Alder Bearing) by hand, on branch forecast-record. Next free ID 2026-09-28-2053.
