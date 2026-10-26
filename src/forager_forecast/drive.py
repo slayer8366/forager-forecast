@@ -1,13 +1,16 @@
-"""Where the flash drive holding T6b's store is mounted: the one setting every script reads.
+"""Where T6b's store lives: the one setting every script reads.
 
-The drive was reformatted ext4 with the label ``forecast-data`` (forecast RECORD 2026-09-28-2056),
-so it mounts at a path named by its label, which survives a reformat, where the old one was named
-by its filesystem UUID and broke when the drive was lost (-2053). The mount itself takes the place
-of the old drive's ``forecast-data`` folder: T6b's store is ``DRIVE / "t6b"``, TreeMap 2023 is
-``DRIVE / "t5" / "treemap2023"`` and the PNW render is ``DRIVE / "pnw"``, as before below that
-folder (dispatch 2026-10-25-t6b-rebuild-check, item 1).
+Since 2026-10-26 it is the ``forecast-data`` folder on the drive labelled ``forager-storage``
+(ext4, 231 GB), which mounts at a path named by its label. The 57 GB flash drive labelled
+``forecast-data`` (forecast RECORD 2026-09-28-2056), whose mount was the setting before, is gone.
+The owner gave the new drive to forecast data ("Forecast data: use it") and made the folder
+(dispatch 2026-10-26-t6b-drive-move). The setting is the folder, not the mount, because the drive
+also holds ``rollback/`` from the map work, which isn't ours: nothing here writes outside
+``DRIVE``. Below it the layout is as before: T6b's store is ``DRIVE / "t6b"``, TreeMap 2023 is
+``DRIVE / "t5" / "treemap2023"`` and the PNW render is ``DRIVE / "pnw"`` (dispatch
+2026-10-25-t6b-rebuild-check, item 1).
 """
 
 from pathlib import Path
 
-DRIVE = Path("/run/media/zynergy-labs/forecast-data")
+DRIVE = Path("/run/media/zynergy-labs/forager-storage/forecast-data")
